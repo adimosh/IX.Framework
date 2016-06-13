@@ -1,5 +1,5 @@
 {
-  "title": "IX.Framework.Repositories",
+  "title": "IX.Framework.Extensions",
   "version": "0.1.0-rc1",
   
   "buildOptions": {
@@ -80,7 +80,7 @@
   
   "authors": [ "Adrian Mos" ],
   "copyright": "Adrian Mos, 2016",
-  "description": "A library for correctly implementing the repository pattern when handling data. Supports both synchronous and asynchronous operations.",
+  "description": "A library with a set of common extensions that we wish .NET Framework would have, to make our life a lot easier. They may not be the prettiest patterns, but they serve a functional purpose.",
   "packOptions": {
     "licenseUrl": "https://github.com/adimosh/IX.Framework/blob/master/LICENSE.md",
     "owners": [ "Adrian Mos" ],
