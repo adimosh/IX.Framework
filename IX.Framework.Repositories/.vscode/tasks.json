@@ -8,14 +8,19 @@
     "tasks": [
         {
             "taskName": "build",
-            "args": [ ],
+            "args": [],
             "isBuildCommand": true,
-            "showOutput": "silent",
             "problemMatcher": "$msCompile"
         },
         {
             "taskName": "restore",
             "args": [ ],
+            "isBuildCommand": false,
+            "showOutput": "silent"
+        },
+        {
+            "taskName": "pack",
+            "args": [ "--output", "..\\Packages" ],
             "isBuildCommand": false,
             "showOutput": "silent"
         }
