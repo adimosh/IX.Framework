@@ -1,0 +1,766 @@
+﻿// <copyright file="ArraySequenceCompareExtensions.StandardTypes.cs" company="Adrian Mos">
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
+// </copyright>
+
+using System;
+
+namespace IX.StandardExtensions
+{
+    /// <summary>
+    /// Extensions for array types.
+    /// </summary>
+    public static partial class ArraySequenceCompareExtensions
+    {
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this byte[] left, byte[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(byte);
+                var c2 = b2 ? right[i] : default(byte);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this sbyte[] left, sbyte[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(sbyte);
+                var c2 = b2 ? right[i] : default(sbyte);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this short[] left, short[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(short);
+                var c2 = b2 ? right[i] : default(short);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this ushort[] left, ushort[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(ushort);
+                var c2 = b2 ? right[i] : default(ushort);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this char[] left, char[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(char);
+                var c2 = b2 ? right[i] : default(char);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this int[] left, int[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(int);
+                var c2 = b2 ? right[i] : default(int);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this uint[] left, uint[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(uint);
+                var c2 = b2 ? right[i] : default(uint);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this long[] left, long[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(long);
+                var c2 = b2 ? right[i] : default(long);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this ulong[] left, ulong[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(ulong);
+                var c2 = b2 ? right[i] : default(ulong);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this float[] left, float[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(float);
+                var c2 = b2 ? right[i] : default(float);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this double[] left, double[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(double);
+                var c2 = b2 ? right[i] : default(double);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this decimal[] left, decimal[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(decimal);
+                var c2 = b2 ? right[i] : default(decimal);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this DateTime[] left, DateTime[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(DateTime);
+                var c2 = b2 ? right[i] : default(DateTime);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this bool[] left, bool[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(bool);
+                var c2 = b2 ? right[i] : default(bool);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this TimeSpan[] left, TimeSpan[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(TimeSpan);
+                var c2 = b2 ? right[i] : default(TimeSpan);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares two arrays to one another sequentially.
+        /// </summary>
+        /// <param name="left">The left operand array.</param>
+        /// <param name="right">The right operand array.</param>
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this string[] left, string[] right)
+        {
+            if (left == null)
+            {
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
+            }
+
+            var i = 0;
+            while (true)
+            {
+                var b1 = i < left.Length;
+                var b2 = i < right.Length;
+
+                if (!b1 && !b2)
+                {
+                    return 0;
+                }
+
+                var c1 = b1 ? left[i] : default(string);
+                var c2 = b2 ? right[i] : default(string);
+
+                var cr = c1.CompareTo(c2);
+                if (cr != 0)
+                {
+                    return cr;
+                }
+            }
+        }
+    }
+}

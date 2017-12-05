@@ -1,0 +1,244 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ include file="StandardTypes.tt" #><#@ include file="Fixture.tt" #>
+<#@ output extension=".cs" #>
+// <copyright file="Variable.StandardTypes.cs" company="Adrian Mos">
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
+// </copyright>
+
+using System;
+using System.Text;
+using System.Threading;
+using IX.Abstractions.Memory;
+using IX.StandardExtensions;
+
+namespace IX.MemorySandbox
+{
+#pragma warning disable SA1402 // File may only contain a single type
+#pragma warning disable SA1649 // File name should match first type name<#
+List<string> code = new List<string>();
+
+foreach (var typ in types)
+{
+    string typeName = GetTypeDisplayName(typ);
+    string fullTypeName = GetTypeUsableName(typ);
+#>
+
+    /// <summary>
+    /// A variable of discreet type <see cref="T:<#= fullTypeName #>" />.
+    /// </summary>
+    public class <#= typeName #>Variable : VariableBase<<#= fullTypeName #>>
+    {
+<#
+if (typ == typeof(byte[]))
+{
+#>
+        private Encoding encoding;
+
+<#
+}
+#>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        public <#= typeName #>Variable(string name)
+            : base(name)
+        {
+<#
+if (typ == typeof(byte[]))
+{
+#>
+            this.encoding = Encoding.UTF8;
+<#
+}
+#>
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public <#= typeName #>Variable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+<#
+if (typ == typeof(byte[]))
+{
+#>
+            this.encoding = Encoding.UTF8;
+<#
+}
+#>
+        }
+<#
+if (typ == typeof(byte[]))
+{
+#>
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="encoding">The enoding to use when converting to/from strings.</param>
+        public <#= typeName #>Variable(string name, Encoding encoding)
+            : base(name)
+        {
+            this.encoding = encoding;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="encoding">The enoding to use when converting to/from strings.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public <#= typeName #>Variable(string name, Encoding encoding, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.encoding = encoding;
+        }
+<#
+}
+#>
+
+        /// <summary>
+        /// Gets or sets the debugger value.
+        /// </summary>
+        /// <value>The debugger value.</value>
+        public override string DebuggerValue
+        {
+            get => this.Value.ToString();
+
+            set
+            {
+                this.Value =<#
+if (typ == typeof(string))
+{
+#> value;<#
+}
+else if (typ == typeof(char))
+{
+#>
+
+#if NETSTANDARD1_1
+                    string.IsNullOrEmpty(value) ? default : value.ToCharArray(0, 1)[0];
+#else
+                    <#= fullTypeName #>.Parse(value);
+#endif<#
+}
+else if (typ == typeof(byte[]))
+{
+#> this.encoding.GetBytes(value);<#
+}
+else
+{
+#> <#= fullTypeName #>.Parse(value);<#
+}
+#>
+
+                this.RaisePropertyChangedWithValidation(nameof(this.Value));
+                this.RaisePropertyChanged(nameof(this.DebuggerValue));
+                this.RaisePropertyChanged(nameof(this.RawDebuggerValue));
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is default.
+        /// </summary>
+        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+<#
+if (typ == typeof(byte[]))
+{
+#>        public override bool IsDefault => (this.Value?.Length ?? 0) == 0;
+<#
+}
+else
+{
+#>        public override bool IsDefault => this.Value == default;
+<#
+}
+#>
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="<#= typeName #>Variable" /> to <see cref="T:<#= fullTypeName #>" />.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator <#= fullTypeName #>(<#= typeName #>Variable value) => value?.RawDebuggerValue ?? default;
+
+<#
+if (typ != typeof(string))
+{
+#>        /// <summary>
+        /// Performs an implicit conversion from <see cref="<#= typeName #>Variable" /> to <see cref="string" />.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator string(<#= typeName #>Variable value) => value?.DebuggerValue ?? default;
+
+<#
+}
+#>        /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        public override int CompareTo(IVariable<<#= fullTypeName #>> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            <#
+if (typ == typeof(byte[]))
+{
+#>return other.RawDebuggerValue.SequenceCompare(this.RawDebuggerValue);
+<#
+}
+else
+{
+#>return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+<#
+}
+#>
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(IVariable<<#= fullTypeName #>> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+    }
+<#
+}
+#>
+#pragma warning restore SA1649 // File name should match first type name
+#pragma warning restore SA1402 // File may only contain a single type
+}

@@ -1,0 +1,53 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ include file="StandardTypes.tt" #><#@ include file="Fixture.tt" #>
+<#@ output extension=".cs" #>
+// <copyright file="IDictionaryExtensions.StandardTypes.cs" company="Adrian Mos">
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
+// </copyright>
+
+using System;
+using System.Collections.Generic;
+
+namespace IX.StandardExtensions
+{
+    /// <summary>
+    /// Extensions for IDictionary.
+    /// </summary>
+    public static partial class IDictionaryExtensions
+    {<#
+List<string> code = new List<string>();
+
+foreach (var typ in types.Where(p => p != typeof(byte[])))
+{
+    string fullTypeName = GetTypeUsableName(typ);
+#>
+
+        /// <summary>
+        /// Creates a deep clone of a dictionary, with deep clones of its values.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <param name="source">The source.</param>
+        /// <returns>A deeply-cloned dictionary.</returns>
+        /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        public static Dictionary<TKey, <#= fullTypeName #>> DeepClone<TKey>(this Dictionary<TKey, <#= fullTypeName #>> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            var destination = new Dictionary<TKey, <#= fullTypeName #>>();
+
+            source.ForEach(p => destination.Add(p.Key, p.Value));
+
+            return destination;
+        }
+<#
+}
+#>
+    }
+}

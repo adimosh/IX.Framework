@@ -16,7 +16,11 @@ Until further notice, all versions of this repository will be distributed under 
 
 ## Components
 
-
+| Library | Description | Build | NuGet | Work items |
+|:-------:|:-----------:|:-----:|:-----:|:----------:|
+| IX.StandardExtensions | Extensions aiming at standardizing various operations in the .NET Framework. | ![IX.StandardExtensions AppVeyor CI](https://img.shields.io/appveyor/ci/adimosh/ix-StandardExtensions/master.svg) | Base: [![IX.StandardExtensions NuGet](https://img.shields.io/nuget/v/IX.StandardExtensions.svg)](https://www.nuget.org/packages/IX.StandardExtensions/) Component Model: [![IX.StandardExtensions Component Model NuGet](https://img.shields.io/nuget/v/IX.StandardExtensions.ComponentModel.svg)](https://www.nuget.org/packages/IX.StandardExtensions.ComponentModel/) Test Utils: [![IX.StandardExtensions Test Utils NuGet](https://img.shields.io/nuget/v/IX.StandardExtensions.TestUtils.svg)](https://www.nuget.org/packages/IX.StandardExtensions.TestUtils/) Threading: [![IX.StandardExtensions Threading NuGet](https://img.shields.io/nuget/v/IX.StandardExtensions.Threading.svg)](https://www.nuget.org/packages/IX.StandardExtensions.Threading/) | [![IX.StandardExtensions GitHub issues](https://img.shields.io/github/issues/adimosh/IX.StandardExtensions.svg)]() |
+| IX.Abstractions | A set of libraries for abstracting away things that are not abstracted by default (e.g. file storage) | - | - | - |
+| IX.Math | A library that interprets mathematical expressions into executable .NET code | - | - | - |
 
 ## Contributing
 
@@ -31,6 +35,9 @@ structure also follows the .NET Core CSPROJ standard.
 
 Since the tooling is very difficult to work with and mostly unavailable, Visual Studio 2017 has been chosen as a suitable IDE with a good-enough
 project structure for the purposes of this project. There are no plans to port this to earlier editions of Visual Studio.
+
+There is also the matter of text template files, which are a must in order to avoid dreary development tasks, and they are currently only supported
+as a tool in the full edition of Visual Studio.
 
 Visual Studio Code should, to the extent of the author's knowledge, also work (at least for vanilla code changes), but that IDE is not going to
 be supported as the de-facto tooling, instead focusing on development with the familiar IDE that is used in commercial development. OF course,
