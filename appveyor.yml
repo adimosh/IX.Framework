@@ -17,7 +17,7 @@ install:
     nuget restore src\IX.Framework.sln
 build_script:
 - cmd: >-
-    dotnet csprojVersioning src\IX.StandardExtensions\IX.StandardExtensions.csproj %APPVEYOR_BUILD_VERSION%
+    src\IX.StandardExtensions\dotnet csprojVersioning IX.StandardExtensions.csproj %APPVEYOR_BUILD_VERSION%
 
     dotnet csprojVersioning src\IX.StandardExtensions.ComponentModel\IX.StandardExtensions.ComponentModel.csproj %APPVEYOR_BUILD_VERSION%
 
