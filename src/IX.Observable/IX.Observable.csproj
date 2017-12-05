@@ -106,7 +106,7 @@
     <ProjectReference Include="..\IX.Abstractions.Threading\IX.Abstractions.Threading.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions.ComponentModel\IX.StandardExtensions.ComponentModel.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions.Threading\IX.StandardExtensions.Threading.csproj" />
-    <PackageReference Include="IX.Undoable" Version="0.1.1.13" />
+    <ProjectReference Include="..\IX.Undoable\IX.Undoable.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -39,6 +39,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.Observable", "IX.Observa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.Observable.UnitTests", "IX.Observable.UnitTests\IX.Observable.UnitTests.csproj", "{4188C3CA-4487-44F8-B258-CF7C7ABBCE2C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.Undoable", "IX.Undoable\IX.Undoable.csproj", "{B1B35F4A-031F-477E-8061-290C5C6F55D2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.Undoable.WPF", "IX.Undoable.WPF\IX.Undoable.WPF.csproj", "{34562286-322A-4F6D-9502-9807D32E63FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +108,14 @@ Global
 		{4188C3CA-4487-44F8-B258-CF7C7ABBCE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4188C3CA-4487-44F8-B258-CF7C7ABBCE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4188C3CA-4487-44F8-B258-CF7C7ABBCE2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1B35F4A-031F-477E-8061-290C5C6F55D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1B35F4A-031F-477E-8061-290C5C6F55D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1B35F4A-031F-477E-8061-290C5C6F55D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1B35F4A-031F-477E-8061-290C5C6F55D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34562286-322A-4F6D-9502-9807D32E63FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34562286-322A-4F6D-9502-9807D32E63FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34562286-322A-4F6D-9502-9807D32E63FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34562286-322A-4F6D-9502-9807D32E63FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

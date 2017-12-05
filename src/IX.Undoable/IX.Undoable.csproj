@@ -1,0 +1,100 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net45;netstandard1.1;netstandard2.0</TargetFrameworks>
+    <Version>0.1.0.1</Version>
+    <FileVersion>0.1.0.1</FileVersion>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>Adrian Mos</Authors>
+    <Company />
+    <Product>IX Framework</Product>
+    <Title>IX Undoable</Title>
+    <Description>A library for a standard undo/redo implementation.</Description>
+    <Copyright>Adrian Mos, 2017</Copyright>
+    <PackageProjectUrl>https://github.com/adimosh/IX.Undoable/</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/adimosh/IX.Undoable/blob/master/LICENSE.md</PackageLicenseUrl>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
+    <DefineConstants>NET45</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.1'">
+    <DefineConstants>NETSTANDARD1_1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <DefineConstants>NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net45'">
+    <DocumentationFile>bin\Debug\net45\IX.Undoable.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net45'">
+    <DocumentationFile>bin\Release\net45\IX.Undoable.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netstandard1.1'">
+    <DocumentationFile>bin\Debug\netstandard1.1\IX.Undoable.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netstandard1.1'">
+    <DocumentationFile>bin\Release\netstandard1.1\IX.Undoable.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netstandard2.0'">
+    <DocumentationFile>bin\Debug\netstandard2.0\IX.Undoable.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netstandard2.0'">
+    <DocumentationFile>bin\Release\netstandard2.0\IX.Undoable.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DefineConstants>RELEASE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IX.Abstractions.Collections\IX.Abstractions.Collections.csproj" />
+    <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
+    <ProjectReference Include="..\IX.StandardExtensions.ComponentModel\IX.StandardExtensions.ComponentModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'!='net45'">
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="dotnet-csprojVersioning" Version="1.0.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net45</TargetFramework>
+    <Version>0.1.0.1</Version>
+    <FileVersion>0.1.0.1</FileVersion>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>Adrian Mos</Authors>
+    <Company />
+    <Product>IX Framework</Product>
+    <Title>IX Undoable for WPF</Title>
+    <Description>A library for a standard undo/redo implementation for WPF.</Description>
+    <Copyright>Adrian Mos, 2017</Copyright>
+    <PackageProjectUrl>https://github.com/adimosh/IX.Undoable/</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/adimosh/IX.Undoable/blob/master/LICENSE.md</PackageLicenseUrl>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DocumentationFile>bin\Debug\netstandard1.0\IX.Undoable.WPF.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DefineConstants>RELEASE</DefineConstants>
+    <DocumentationFile>bin\Release\netstandard1.0\IX.Undoable.WPF.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" Type="build" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="dotnet-csprojVersioning" Version="1.0.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IX.Undoable\IX.Undoable.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+
+</Project>
