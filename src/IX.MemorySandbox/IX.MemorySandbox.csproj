@@ -96,14 +96,11 @@
     <ProjectReference Include="..\IX.Abstractions\IX.Abstractions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions.ComponentModel\IX.StandardExtensions.ComponentModel.csproj" />
+    <ProjectReference Include="..\IX.Observable\IX.Observable.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <DotNetCliToolReference Include="dotnet-csprojVersioning" Version="1.0.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="IX.Observable" Version="0.4.1.27" />
   </ItemGroup>
 
   <ItemGroup>
