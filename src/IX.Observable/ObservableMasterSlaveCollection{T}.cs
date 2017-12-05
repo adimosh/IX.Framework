@@ -1,5 +1,5 @@
 ﻿// <copyright file="ObservableMasterSlaveCollection{T}.cs" company="Adrian Mos">
-// Copyright (c) Adrian Mos with all rights reserved.
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System.Collections;
