@@ -46,6 +46,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5E05B9C5-6765-44FC-8A6E-BEE018BDEA9B}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		..\appveyor.yml = ..\appveyor.yml
 		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject

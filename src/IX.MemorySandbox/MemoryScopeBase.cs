@@ -87,7 +87,7 @@ namespace IX.MemorySandbox
         /// <summary>
         /// Gets the variables contained in this space.
         /// </summary>
-        /// <value>The variables.</value>
+        /// <value>The variables contained in this scope.</value>
         public ObservableDictionary<string, IVariable> Variables => this.variables;
 
         /// <summary>
