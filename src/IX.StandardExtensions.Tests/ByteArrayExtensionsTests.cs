@@ -1,14 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="ByteArrayExtensionsTests.cs" company="Adrian Mos">
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
+// </copyright>
+
 using Xunit;
 
 namespace IX.StandardExtensions.Tests
 {
+    /// <summary>
+    /// Unit tests for ByteArrayExtensions.
+    /// </summary>
     public class ByteArrayExtensionsTests
     {
+        /// <summary>
+        /// Generates data for tests.
+        /// </summary>
+        /// <returns>The data, as a jagged array.</returns>
         public static object[][] TestDataGenerator() => new object[][]
             {
                 new object[]
@@ -30,7 +36,7 @@ namespace IX.StandardExtensions.Tests
                         15,
                         177,
                     },
-                    0
+                    0,
                 },
                 new object[]
                 {
@@ -50,7 +56,7 @@ namespace IX.StandardExtensions.Tests
                         15,
                         177,
                     },
-                    0
+                    0,
                 },
                 new object[]
                 {
@@ -71,7 +77,7 @@ namespace IX.StandardExtensions.Tests
                         15,
                         177,
                     },
-                    1
+                    1,
                 },
                 new object[]
                 {
@@ -92,16 +98,28 @@ namespace IX.StandardExtensions.Tests
                         255,
                         177,
                     },
-                    1
+                    1,
                 },
             };
 
+        /// <summary>
+        /// Tests the byte array comparison with MSB.
+        /// </summary>
+        /// <param name="b1">Left-side array to compare.</param>
+        /// <param name="b2">Right-side array to compare.</param>
+        /// <param name="expectedResult">The expected result.</param>
         [Theory(DisplayName = "Comparison with MSB test")]
         [MemberData(nameof(TestDataGenerator))]
         public void TestByteArrayComparisonWithMsb(byte[] b1, byte[] b2, int expectedResult) => Assert.Equal(expectedResult, b1.SequenceCompareWithMsb(b2));
 
+        /// <summary>
+        /// Tests the byte array equality with MSB.
+        /// </summary>
+        /// <param name="b1">Left-side array to compare.</param>
+        /// <param name="b2">Right-side array to compare.</param>
+        /// <param name="expectedResult">The expected result.</param>
         [Theory(DisplayName = "Equality with MSB test")]
         [MemberData(nameof(TestDataGenerator))]
-        public void TestByteArrayEqualityWithMsb(byte[] b1, byte[] b2, int expectedResult) => Assert.Equal((expectedResult == 0), b1.SequenceEqualsWithMsb(b2));
+        public void TestByteArrayEqualityWithMsb(byte[] b1, byte[] b2, int expectedResult) => Assert.Equal(expectedResult == 0, b1.SequenceEqualsWithMsb(b2));
     }
 }

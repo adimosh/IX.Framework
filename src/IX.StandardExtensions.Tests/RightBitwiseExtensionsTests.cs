@@ -1,9 +1,20 @@
-﻿using Xunit;
+﻿// <copyright file="RightBitwiseExtensionsTests.cs" company="Adrian Mos">
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
+// </copyright>
+
+using Xunit;
 
 namespace IX.StandardExtensions.Tests
 {
+    /// <summary>
+    /// Unit tet for right bitwise extensions.
+    /// </summary>
     public class RightBitwiseExtensionsTests
     {
+        /// <summary>
+        /// Generates data for tests.
+        /// </summary>
+        /// <returns>The data, as a jagged array.</returns>
         public static object[][] TestDataGenerator() => new object[][]
         {
             new object[]
@@ -32,6 +43,12 @@ namespace IX.StandardExtensions.Tests
             },
         };
 
+        /// <summary>
+        /// Tests the bitwise extensions.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="howManyBits">How many bits.</param>
+        /// <param name="expectedResult">The expected result.</param>
         [Theory(DisplayName = "Left bitwise extension test")]
         [MemberData(nameof(TestDataGenerator))]
         public void TestBitwiseExtensions(byte[] data, int howManyBits, byte[] expectedResult)
