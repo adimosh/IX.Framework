@@ -9,16 +9,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Authors>Adrian Mos</Authors>
-    <Company />
-    <Product>IX Framework</Product>
     <Title>IX Component Model Extensions</Title>
     <Description>A library containing several extensions that aim to standardize and extend the .NET Framework component model functionality.</Description>
-    <Copyright>Adrian Mos, 2016</Copyright>
-    <PackageProjectUrl>https://github.com/adimosh/IX.StandardExtensions/</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/adimosh/IX.StandardExtensions/blob/master/LICENSE.md</PackageLicenseUrl>
-    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
+
+  <Import Project="..\Branding.props" />
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
     <DefineConstants>NET45</DefineConstants>

@@ -9,16 +9,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Authors>Adrian Mos</Authors>
-    <Company />
-    <Product>IX Framework</Product>
     <Title>IX Observable</Title>
     <Description>A library with several collection types (dictionary, stack, etc.) that have been made observable.</Description>
-    <Copyright>Adrian Mos, 2016</Copyright>
-    <PackageProjectUrl>https://github.com/adimosh/IX.Observable/</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/adimosh/IX.Observable/blob/master/LICENSE.md</PackageLicenseUrl>
-    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
+
+  <Import Project="..\Branding.props" />
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
     <DefineConstants>NET45</DefineConstants>

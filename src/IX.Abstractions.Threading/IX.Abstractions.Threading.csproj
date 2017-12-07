@@ -10,17 +10,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Authors>Adrian Mos</Authors>
-    <Company />
-    <Product>IX Framework</Product>
     <Title>IX Threading Abstractions</Title>
     <Description>A library for abstracting away some threading and thread synchronization classes in the .NET Framework.</Description>
-    <Copyright>Adrian Mos, 2016</Copyright>
-    <PackageProjectUrl>https://github.com/adimosh/IX.Abstractions/</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/adimosh/IX.Abstractions/blob/master/LICENSE.md</PackageLicenseUrl>
-    <NeutralLanguage>en</NeutralLanguage>
     <RootNamespace>IX</RootNamespace>
   </PropertyGroup>
+
+  <Import Project="..\Branding.props" />
 
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.0'">
     <DefineConstants>NETSTANDARD1_0</DefineConstants>

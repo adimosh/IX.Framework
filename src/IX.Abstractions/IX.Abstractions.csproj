@@ -10,17 +10,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Authors>Adrian Mos</Authors>
-    <Company />
-    <Product>IX Framework</Product>
     <Title>IX Abstractions</Title>
     <Description>A library for abstracting away the common classes that have originally been implemented as static or non-abstractable classes in the .NET Framework.</Description>
-    <Copyright>Adrian Mos, 2016</Copyright>
-    <PackageProjectUrl>https://github.com/adimosh/IX.Abstractions/</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/adimosh/IX.Abstractions/blob/master/LICENSE.md</PackageLicenseUrl>
-    <NeutralLanguage>en</NeutralLanguage>
     <RootNamespace>IX</RootNamespace>
   </PropertyGroup>
+
+  <Import Project="..\Branding.props" />
 
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.0'">
     <DefineConstants>NETSTANDARD1_0</DefineConstants>

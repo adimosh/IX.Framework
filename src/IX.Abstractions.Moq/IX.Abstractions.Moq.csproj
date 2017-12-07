@@ -11,15 +11,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Authors>Adrian Mos</Authors>
-    <Company />
-    <Product>IX Framework</Product>
+    <Title>IX Moq Abstraction</Title>
     <Description>A Moq implementation of IX.Abstractions.</Description>
-    <Copyright>Adrian Mos, 2017</Copyright>
-    <PackageProjectUrl>https://github.com/adimosh/IX.Abstractions/</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/adimosh/IX.Abstractions/blob/master/LICENSE.md</PackageLicenseUrl>
-    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
+
+  <Import Project="..\Branding.props" />
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
     <DefineConstants>NET4_5</DefineConstants>

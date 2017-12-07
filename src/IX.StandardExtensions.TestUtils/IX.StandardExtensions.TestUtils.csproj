@@ -9,16 +9,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Authors>Adrian Mos</Authors>
-    <Company />
-    <Product>IX Framework</Product>
     <Title>IX Test Utilities</Title>
     <Description>A library containing several extensions and utilities for making unit testing less dreary.</Description>
-    <Copyright>Adrian Mos, 2016</Copyright>
-    <PackageProjectUrl>https://github.com/adimosh/IX.StandardExtensions/</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/adimosh/IX.StandardExtensions/blob/master/LICENSE.md</PackageLicenseUrl>
-    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
+
+  <Import Project="..\Branding.props" />
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
     <DefineConstants>NET45</DefineConstants>
@@ -63,7 +58,7 @@
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
-  
+
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
     <Reference Include="System.Core" />
   </ItemGroup>

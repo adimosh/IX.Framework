@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <Authors>Adrian Mos</Authors>
+    <Company />
+    <Product>IX Framework</Product>
+    <Copyright>Adrian Mos, 2016</Copyright>
+    <PackageProjectUrl>https://github.com/adimosh/IX.Framework/</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/adimosh/IX.Framework/blob/master/LICENSE.md</PackageLicenseUrl>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+</Project>

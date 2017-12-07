@@ -10,17 +10,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Authors>Adrian Mos</Authors>
-    <Company />
-    <Product>IX Framework</Product>
     <Title>IX File System Abstractions</Title>
     <Description>A library for implementing I/O operation abstractizations in the .NET Framework using the existing filesystem implementation.</Description>
-    <Copyright>Adrian Mos, 2017</Copyright>
-    <PackageProjectUrl>https://github.com/adimosh/IX.Abstractions/</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/adimosh/IX.Abstractions/blob/master/LICENSE.md</PackageLicenseUrl>
-    <NeutralLanguage>en</NeutralLanguage>
-    <RootNamespace>IX</RootNamespace>
   </PropertyGroup>
+
+  <Import Project="..\Branding.props" />
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
     <DefineConstants>NET4_5</DefineConstants>
