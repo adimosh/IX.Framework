@@ -3,12 +3,9 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.0;net45;netstandard2.0</TargetFrameworks>
     <RootNamespace>IX</RootNamespace>
-    <Version>0.1.0.1</Version>
-    <FileVersion>0.1.0.1</FileVersion>
-    <AssemblyVersion>0.1.0.0</AssemblyVersion>
-    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
+
+  <Import Project="..\DefaultPackageVersionSystem.props" />
 
   <PropertyGroup>
     <Title>IX Collection Abstractions</Title>
