@@ -1,14 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
-    <TargetFrameworks>net452;net46;netcoreapp1.0;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
+  <Import Project="..\UnitTestStandard.props" />
 
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />

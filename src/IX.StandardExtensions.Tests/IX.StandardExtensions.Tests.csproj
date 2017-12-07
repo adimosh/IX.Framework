@@ -1,14 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
-    <TargetFrameworks>net452;net46;netcoreapp1.0;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
+  <Import Project="..\UnitTestStandard.props" />
 
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
@@ -16,9 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.console" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="Microsoft.CodeCoverage" Version="1.0.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" PrivateAssets="all" />
   </ItemGroup>
 

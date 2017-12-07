@@ -73,6 +73,10 @@ build_script:
 
     dotnet csprojVersioning IX.Retry.csproj %APPVEYOR_BUILD_VERSION%
 
+    cd ..\IX.Math\
+
+    dotnet csprojVersioning IX.Math.csproj %APPVEYOR_BUILD_VERSION%
+
     cd ..\..\
 
     msbuild src\IX.Framework.sln /p:Configuration=Release /t:Clean
@@ -89,6 +93,10 @@ test_script:
     dotnet xunit
 
     cd ..\IX.Retry.Tests\
+
+    dotnet xunit
+
+    cd ..\IX.Math.UnitTests\
 
     dotnet xunit
 
@@ -150,3 +158,7 @@ deploy_script:
     dotnet pack src\IX.Retry\IX.Retry.csproj -c Release --no-build
 
     nuget push src\IX.Retry\bin\Release\IX.Retry.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+
+    dotnet pack src\IX.Math\IX.Math.csproj -c Release --no-build
+
+    nuget push src\IX.Math\bin\Release\IX.Math.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package

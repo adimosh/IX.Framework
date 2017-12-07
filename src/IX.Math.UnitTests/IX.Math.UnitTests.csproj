@@ -21,8 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IX.StandardExtensions.TestUtils\IX.StandardExtensions.TestUtils.csproj" />
-    <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
+    <ProjectReference Include="..\IX.Math\IX.Math.csproj" />
   </ItemGroup>
 
   <ItemGroup>
