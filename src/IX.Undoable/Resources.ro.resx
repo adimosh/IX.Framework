@@ -117,16 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DictionaryItemAlreadyExists" xml:space="preserve">
-    <value>An item with the same key already exists in this dictionary.</value>
+  <data name="ItemNotInEditModeExceptionDefaultMessage" xml:space="preserve">
+    <value>Operațiunea nu a putut fi executată deoarece elementul nu este în modul de editare.</value>
   </data>
-  <data name="OperationItemTypeError" xml:space="preserve">
-    <value>The type of the argument is not a compatible type to the list.</value>
+  <data name="ItemNotCapturedIntoUndoContextException" xml:space="preserve">
+    <value>Operațiunea nu a putut fi executată deoarece elementul curent nu este parte al unui context de reversie.</value>
   </data>
-  <data name="ArgumentOfWrongTypeException" xml:space="preserve">
-    <value>A boxed argument is of the wrong type.</value>
+  <data name="ItemIsInEditModeExceptionDefaultMessage" xml:space="preserve">
+    <value>Operațiunea nu a putut fi executată deoarece elementul este în modul de editare.</value>
   </data>
-  <data name="ArgumentOfWrongTypeExceptionWithParameter" xml:space="preserve">
-    <value>The boxed argument {0} is of the wrong type.</value>
+  <data name="ItemAlreadyCapturedIntoUndoContextException" xml:space="preserve">
+    <value>Operațiunea nu a putut fi executată deoarece elementul curent este prins într-un context de reversie.</value>
   </data>
 </root>

@@ -99,6 +99,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources.ro.resx">
+      <Generator></Generator>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

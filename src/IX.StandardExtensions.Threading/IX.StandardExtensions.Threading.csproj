@@ -94,21 +94,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources.en-029.resx">
-      <Generator></Generator>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources.en-AU.resx">
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources.en-BZ.resx">
-      <DependentUpon>Resources.resx</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources.en-CA.resx">
-      <Generator></Generator>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources.en-GB.resx">
       <Generator></Generator>
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
@@ -116,15 +105,7 @@
       <Generator></Generator>
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources.en-IN.resx">
-      <Generator></Generator>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources.en-JM.resx">
-      <Generator></Generator>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources.en-MY.resx">
       <Generator></Generator>
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
@@ -132,15 +113,7 @@
       <Generator></Generator>
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources.en-PH.resx">
-      <Generator></Generator>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources.en-SG.resx">
-      <Generator></Generator>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources.en-TT.resx">
       <Generator></Generator>
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
@@ -148,24 +121,13 @@
       <Generator></Generator>
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources.en-ZA.resx">
-      <Generator></Generator>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources.en-ZW.resx">
       <Generator></Generator>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources.en.resx">
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources.ro-RO.resx">
-      <Generator></Generator>
-      <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources.ro.resx">
       <Generator></Generator>
