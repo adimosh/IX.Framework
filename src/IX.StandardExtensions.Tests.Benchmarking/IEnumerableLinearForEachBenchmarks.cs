@@ -1,4 +1,7 @@
-using System;
+// <copyright file="IEnumerableLinearForEachBenchmarks.cs" company="Adrian Mos">
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
+// </copyright>
+
 using System.Diagnostics;
 using IX.StandardExtensions.TestUtils;
 using Xunit;
@@ -6,15 +9,25 @@ using Xunit.Abstractions;
 
 namespace IX.StandardExtensions.Tests.Benchmarking
 {
+    /// <summary>
+    /// Linear ForEach benchmarks.
+    /// </summary>
     public class IEnumerableLinearForEachBenchmarks
     {
         private readonly ITestOutputHelper output;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IEnumerableLinearForEachBenchmarks"/> class.
+        /// </summary>
+        /// <param name="output">The output.</param>
         public IEnumerableLinearForEachBenchmarks(ITestOutputHelper output)
         {
             this.output = output;
         }
 
+        /// <summary>
+        /// Benchmarks for each on array with insignificant load.
+        /// </summary>
         [Fact(DisplayName = "ForEach on array, insignificant load.")]
         public void BenchmarkForEachOnArrayWithInsignificantLoad()
         {
@@ -29,11 +42,11 @@ namespace IX.StandardExtensions.Tests.Benchmarking
 
             sw.Start();
 
-            Action act = () => k++;
+            void Act() => k++;
 
             foreach (var i in array)
             {
-                act();
+                Act();
             }
 
             sw.Stop();
@@ -57,6 +70,9 @@ namespace IX.StandardExtensions.Tests.Benchmarking
             Assert.True(foreachTime * 2.5 > newTime);
         }
 
+        /// <summary>
+        /// Benchmarks for each on array with light load.
+        /// </summary>
         [Fact(DisplayName = "ForEach on array, light load.")]
         public void BenchmarkForEachOnArrayWithLightLoad()
         {
@@ -94,6 +110,9 @@ namespace IX.StandardExtensions.Tests.Benchmarking
             Assert.True(foreachTime * 1.1 > newTime);
         }
 
+        /// <summary>
+        /// Benchmarks for each on array with medium load.
+        /// </summary>
         [Fact(DisplayName = "ForEach on array, medium load.")]
         public void BenchmarkForEachOnArrayWithMediumLoad()
         {
@@ -131,6 +150,9 @@ namespace IX.StandardExtensions.Tests.Benchmarking
             Assert.True(foreachTime * 1.1 > newTime);
         }
 
+        /// <summary>
+        /// Benchmarks for each on array with heavy load.
+        /// </summary>
         [Fact(DisplayName = "ForEach on array, heavy load.")]
         public void BenchmarkForEachOnArrayWithHeavyLoad()
         {

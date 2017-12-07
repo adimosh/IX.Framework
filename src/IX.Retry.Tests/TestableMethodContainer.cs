@@ -1,5 +1,5 @@
 // <copyright file="TestableMethodContainer.cs" company="Adrian Mos">
-// Copyright (c) Adrian Mos with all rights reserved. Unit tests framework.
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
