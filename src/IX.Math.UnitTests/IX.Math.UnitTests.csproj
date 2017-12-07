@@ -21,7 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Moq" Version="4.7.145" />
     <ProjectReference Include="..\IX.Math\IX.Math.csproj" />
+    <ProjectReference Include="..\IX.StandardExtensions.TestUtils\IX.StandardExtensions.TestUtils.csproj" />
   </ItemGroup>
 
   <ItemGroup>
