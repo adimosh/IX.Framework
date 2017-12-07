@@ -114,6 +114,9 @@
       <Generator></Generator>
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources.es.resx">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources.fr.resx">
       <Generator></Generator>
       <DependentUpon>Resources.resx</DependentUpon>
