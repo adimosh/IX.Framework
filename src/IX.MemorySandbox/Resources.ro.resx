@@ -117,16 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DictionaryItemAlreadyExists" xml:space="preserve">
-    <value>Ein Element mit demselben Schlüssel bereits vorhanden ist, in diesem Wörterbuch.</value>
+  <data name="VariableNotFound" xml:space="preserve">
+    <value>Variabila nu a fost găsită.</value>
   </data>
-  <data name="OperationItemTypeError" xml:space="preserve">
-    <value>Der Typ des Arguments ist keinen kompatiblen Typ hinzu.</value>
+  <data name="VariableDifferentThanStored" xml:space="preserve">
+    <value>Variabila este diferită de ce a fost deja stocat în acest spațiu.</value>
   </data>
-  <data name="ArgumentOfWrongTypeException" xml:space="preserve">
-    <value>Ein Boxed-Argument ist vom falschen Typ.</value>
+  <data name="SubScopeNotFound" xml:space="preserve">
+    <value>Sub-spațiul nu a fost găsit.</value>
   </data>
-  <data name="ArgumentOfWrongTypeExceptionWithParameter" xml:space="preserve">
-    <value>Das Boxed-Argument {0} ist vom falschen Typ.</value>
+  <data name="SubScopeDifferentThanStored" xml:space="preserve">
+    <value>Sub-spațiul este diferit față de ce a fost deja stocat în acest spațiu.</value>
   </data>
 </root>

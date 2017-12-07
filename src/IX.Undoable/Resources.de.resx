@@ -117,16 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DictionaryItemAlreadyExists" xml:space="preserve">
-    <value>Ein Element mit demselben Schlüssel bereits vorhanden ist, in diesem Wörterbuch.</value>
+  <data name="ItemAlreadyCapturedIntoUndoContextException" xml:space="preserve">
+    <value>Die Operation konnte nicht abgeschlossen werden, da das aktuelle Objekt von einem vorhandenen Rückgängig-Kontext gefangen wird.</value>
   </data>
-  <data name="OperationItemTypeError" xml:space="preserve">
-    <value>Der Typ des Arguments ist keinen kompatiblen Typ hinzu.</value>
+  <data name="ItemIsInEditModeExceptionDefaultMessage" xml:space="preserve">
+    <value>Der Vorgang konnte nicht abgeschlossen werden, da sich das aktuelle Element im Bearbeitungsmodus befindet.</value>
   </data>
-  <data name="ArgumentOfWrongTypeException" xml:space="preserve">
-    <value>Ein Boxed-Argument ist vom falschen Typ.</value>
+  <data name="ItemNotCapturedIntoUndoContextException" xml:space="preserve">
+    <value>Die Operation konnte nicht abgeschlossen werden, da das aktuelle Element nicht in einem vorhandenen Rückgängig-Kontext gefangen ist.</value>
   </data>
-  <data name="ArgumentOfWrongTypeExceptionWithParameter" xml:space="preserve">
-    <value>Das Boxed-Argument {0} ist vom falschen Typ.</value>
+  <data name="ItemNotInEditModeExceptionDefaultMessage" xml:space="preserve">
+    <value>Der Vorgang konnte nicht abgeschlossen werden, da sich das aktuelle Element nicht im Bearbeitungsmodus befindet.</value>
   </data>
 </root>

@@ -117,16 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DictionaryItemAlreadyExists" xml:space="preserve">
-    <value>Ein Element mit demselben Schlüssel bereits vorhanden ist, in diesem Wörterbuch.</value>
+  <data name="ErrorLengthGoesPastArrayLimits" xml:space="preserve">
+    <value>La longueur devrait être suffisamment petite pour ne pas aboutir à une opération en dehors des limites du tableau.</value>
   </data>
-  <data name="OperationItemTypeError" xml:space="preserve">
-    <value>Der Typ des Arguments ist keinen kompatiblen Typ hinzu.</value>
+  <data name="ErrorLengthMustBeAPositiveInteger" xml:space="preserve">
+    <value>La longueur devrait être un entier positif.</value>
   </data>
-  <data name="ArgumentOfWrongTypeException" xml:space="preserve">
-    <value>Ein Boxed-Argument ist vom falschen Typ.</value>
+  <data name="ErrorNotImplementedByDesign" xml:space="preserve">
+    <value>Ce membre n'est pas implémenté par conception.!</value>
   </data>
-  <data name="ArgumentOfWrongTypeExceptionWithParameter" xml:space="preserve">
-    <value>Das Boxed-Argument {0} ist vom falschen Typ.</value>
+  <data name="ErrorSourceIndexMustPointToALocationWithinTheArray" xml:space="preserve">
+    <value>L'index source doit pointer vers un emplacement dans le tableau.!</value>
   </data>
 </root>
