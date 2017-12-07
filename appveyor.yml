@@ -88,6 +88,10 @@ test_script:
 
     dotnet xunit
 
+    cd ..\IX.Retry.Tests\
+
+    dotnet xunit
+
     cd ..\..\
 deploy_script:
 - cmd: >-
