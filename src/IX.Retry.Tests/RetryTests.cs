@@ -1,5 +1,5 @@
 // <copyright file="RetryTests.cs" company="Adrian Mos">
-// Copyright (c) Adrian Mos with all rights reserved. Unit tests framework.
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
@@ -10,15 +10,26 @@ using IX.Retry;
 using Xunit;
 using Xunit.Abstractions;
 
+/// <summary>
+/// Unit tests for the retry system.
+/// </summary>
 public class RetryTests
 {
     private readonly ITestOutputHelper output;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RetryTests"/> class.
+    /// </summary>
+    /// <param name="output">The output.</param>
     public RetryTests(ITestOutputHelper output)
     {
         this.output = output;
     }
 
+    /// <summary>
+    /// Generates the failure the test data.
+    /// </summary>
+    /// <returns>A set of objects that represent the data.</returns>
     public static IEnumerable<object[]> FailureTestData() => new object[][]
         {
             new object[]
@@ -61,15 +72,21 @@ public class RetryTests
             },
         };
 
-    [Theory]
-    [MemberData("FailureTestData")]
+    /// <summary>
+    /// Tests failure and retry with specific options.
+    /// </summary>
+    /// <param name="options">The options.</param>
+    /// <param name="exceptions">The exceptions.</param>
+    /// <param name="exceptionEvaluator">The exception evaluator.</param>
+    [Theory(DisplayName = "Retry on failure")]
+    [MemberData(nameof(FailureTestData))]
     public void Failure(RetryOptions options, List<Exception> exceptions, Func<ReadOnlyCollection<Exception>, bool> exceptionEvaluator)
     {
         this.output.WriteLine("Beginning test run...");
 
         // Arrange
         var times = 0;
-        Action act = () => TestableMethodContainer.AlwaysFails(exceptions, ref times);
+        void Act() => TestableMethodContainer.AlwaysFails(exceptions, ref times);
 
         options.ThrowException();
 
@@ -80,7 +97,7 @@ public class RetryTests
         // Act
         try
         {
-            Retry.Now(act, options);
+            Retry.Now(Act, options);
 
             this.output.WriteLine("Retrying has completed successfully, even though an exception was expected.");
 
@@ -99,13 +116,13 @@ public class RetryTests
                 }
             }
 
-            this.output.WriteLine("Inner exceptions: {0}.", ex.InnerExceptions.Count);
+            this.output.WriteLine($"Inner exceptions: {ex.InnerExceptions.Count}.");
             this.output.WriteLine(string.Join(", ", ex.InnerExceptions.Select(p => p.GetType().Name)));
             exes = ex.InnerExceptions;
         }
         catch (Exception ex)
         {
-            this.output.WriteLine("Exception has been caught: {0}, with message {1}.", ex.GetType(), ex.Message);
+            this.output.WriteLine($"Exception has been caught: {ex.GetType()}, with message {ex.Message}.");
             throw;
         }
 
