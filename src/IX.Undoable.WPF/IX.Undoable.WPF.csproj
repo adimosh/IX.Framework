@@ -15,13 +15,9 @@
 
   <Import Project="..\Branding.props" />
 
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DocumentationFile>bin\Debug\netstandard1.0\IX.Undoable.WPF.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DefineConstants>RELEASE</DefineConstants>
-    <DocumentationFile>bin\Release\netstandard1.0\IX.Undoable.WPF.xml</DocumentationFile>
-  </PropertyGroup>
+  <Import Project="..\TargetSymbols.props" />
+
+  <Import Project="..\DocumentationFile.props" />
 
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />

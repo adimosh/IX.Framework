@@ -16,45 +16,9 @@
 
   <Import Project="..\Branding.props" />
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
-    <DefineConstants>NET4_5</DefineConstants>
-  </PropertyGroup>
+  <Import Project="..\TargetSymbols.props" />
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
-    <DefineConstants>NETSTANDARD1_3</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-    <DefineConstants>NETSTANDARD2_0</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|net45'">
-    <DocumentationFile>bin\Debug\net45\IX.Abstractions.FileSystem.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net45'">
-    <DocumentationFile>bin\Release\net45\IX.Abstractions.FileSystem.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netstandard1.3'">
-    <DocumentationFile>bin\Debug\netstandard1.3\IX.Abstractions.FileSystem.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netstandard1.3'">
-    <DocumentationFile>bin\Release\netstandard1.3\IX.Abstractions.FileSystem.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Debug|netstandard2.0'">
-    <DocumentationFile>bin\Debug\netstandard2.0\IX.Abstractions.FileSystem.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|netstandard2.0'">
-    <DocumentationFile>bin\Release\netstandard2.0\IX.Abstractions.FileSystem.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <DefineConstants>RELEASE</DefineConstants>
-  </PropertyGroup>
+  <Import Project="..\DocumentationFile.props" />
 
   <ItemGroup>
     <Compile Remove=".vscode\**" />
