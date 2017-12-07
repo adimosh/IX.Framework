@@ -102,39 +102,39 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ArrayExtensions.StandardTypes.tt">
+    <None Include="ArrayExtensions.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ArrayExtensions.StandardTypes.cs</LastGenOutput>
-    </Content>
-    <Content Include="Variable.StandardTypes.tt">
+    </None>
+    <None Include="Variable.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Variable.StandardTypes.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Fixture.tt" />
-    <Content Include="ArraySequenceCompareExtensions.StandardTypes.tt">
+    <None Include="ArraySequenceCompareExtensions.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ArraySequenceCompareExtensions.StandardTypes.cs</LastGenOutput>
-    </Content>
-    <Content Include="IDictionaryExtensions.StandardTypes.tt">
+    </None>
+    <None Include="IDictionaryExtensions.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IDictionaryExtensions.StandardTypes.cs</LastGenOutput>
-    </Content>
-    <Content Include="IEnumerableSequenceCompareExtensions.StandardTypes.tt">
+    </None>
+    <None Include="IEnumerableSequenceCompareExtensions.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IEnumerableSequenceCompareExtensions.StandardTypes.cs</LastGenOutput>
-    </Content>
-    <Content Include="IEnumerableSequenceEqualsExtensions.StandardTypes.tt">
+    </None>
+    <None Include="IEnumerableSequenceEqualsExtensions.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IEnumerableSequenceEqualsExtensions.StandardTypes.cs</LastGenOutput>
-    </Content>
-    <Content Include="IEnumerateEquateSequentiallyExtensions.StandardTypes.tt">
+    </None>
+    <None Include="IEnumerateEquateSequentiallyExtensions.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IEnumerateEquateSequentiallyExtensions.StandardTypes.cs</LastGenOutput>
-    </Content>
-    <Content Include="IListCloneExtensions.StandardTypes.tt">
+    </None>
+    <None Include="IListCloneExtensions.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IListCloneExtensions.StandardTypes.cs</LastGenOutput>
-    </Content>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Clarius.TransformOnBuild.1.1.12\build\Clarius.TransformOnBuild.targets" Condition="Exists('..\packages\Clarius.TransformOnBuild.1.1.12\build\Clarius.TransformOnBuild.targets')" />

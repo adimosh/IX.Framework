@@ -104,14 +104,12 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Resources.de.resx">
-      <Generator></Generator>
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources.es.resx">
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources.fr.resx">
-      <Generator></Generator>
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources.resx">
@@ -120,7 +118,6 @@
       <CustomToolNamespace>IX.Abstractions.Collections</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources.ro.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
