@@ -17,40 +17,73 @@ install:
     nuget restore src\IX.Framework.sln
 build_script:
 - cmd: >-
-    src\IX.StandardExtensions\dotnet csprojVersioning IX.StandardExtensions.csproj %APPVEYOR_BUILD_VERSION%
+    cd src\IX.StandardExtensions\
 
-    dotnet csprojVersioning src\IX.StandardExtensions.ComponentModel\IX.StandardExtensions.ComponentModel.csproj %APPVEYOR_BUILD_VERSION%
+    dotnet csprojVersioning IX.StandardExtensions.csproj %APPVEYOR_BUILD_VERSION%
 
-    dotnet csprojVersioning src\IX.StandardExtensions.TestUtils\IX.StandardExtensions.TestUtils.csproj %APPVEYOR_BUILD_VERSION%
+    cd ..\src\IX.StandardExtensions.ComponentModel\
 
-    dotnet csprojVersioning src\IX.StandardExtensions.Threading\IX.StandardExtensions.Threading.csproj %APPVEYOR_BUILD_VERSION%
+    dotnet csprojVersioning IX.StandardExtensions.ComponentModel.csproj %APPVEYOR_BUILD_VERSION%
 
-    dotnet csprojVersioning src\IX.Abstractions\IX.Abstractions.csproj %APPVEYOR_BUILD_VERSION%
+    cd ..\src\IX.StandardExtensions.TestUtils\
 
-    dotnet csprojVersioning src\IX.Abstractions.Collections\IX.Abstractions.Collections.csproj %APPVEYOR_BUILD_VERSION%
+    dotnet csprojVersioning IX.StandardExtensions.TestUtils.csproj %APPVEYOR_BUILD_VERSION%
 
-    dotnet csprojVersioning src\IX.Abstractions.FileSystem\IX.Abstractions.FileSystem.csproj %APPVEYOR_BUILD_VERSION%
+    cd ..\src\IX.StandardExtensions.Threading\
 
-    dotnet csprojVersioning src\IX.Abstractions.Moq\IX.Abstractions.Moq.csproj %APPVEYOR_BUILD_VERSION%
+    dotnet csprojVersioning IX.StandardExtensions.Threading.csproj %APPVEYOR_BUILD_VERSION%
 
-    dotnet csprojVersioning src\IX.Abstractions.Threading\IX.Abstractions.Threading.csproj %APPVEYOR_BUILD_VERSION%
+    cd ..\src\IX.Abstractions\
 
-    dotnet csprojVersioning src\IX.Undoable\IX.Undoable.csproj %APPVEYOR_BUILD_VERSION%
+    dotnet csprojVersioning IX.Abstractions.csproj %APPVEYOR_BUILD_VERSION%
 
-    dotnet csprojVersioning src\IX.Undoable.WPF\IX.Undoable.WPF.csproj %APPVEYOR_BUILD_VERSION%
+    cd ..\src\IX.Abstractions.Collections\
 
-    dotnet csprojVersioning src\IX.Observable\IX.Observable.csproj %APPVEYOR_BUILD_VERSION%
+    dotnet csprojVersioning IX.Abstractions.Collections.csproj %APPVEYOR_BUILD_VERSION%
 
-    dotnet csprojVersioning src\IX.MemorySandbox\IX.MemorySandbox.csproj %APPVEYOR_BUILD_VERSION%
+    cd ..\src\IX.Abstractions.FileSystem\
+
+    dotnet csprojVersioning IX.Abstractions.FileSystem.csproj %APPVEYOR_BUILD_VERSION%
+
+    cd ..\src\IX.Abstractions.Moq\
+
+    dotnet csprojVersioning IX.Abstractions.Moq.csproj %APPVEYOR_BUILD_VERSION%
+
+    cd ..\src\IX.Abstractions.Threading\
+
+    dotnet csprojVersioning IX.Abstractions.Threading.csproj %APPVEYOR_BUILD_VERSION%
+
+    cd ..\src\IX.Undoable\
+
+    dotnet csprojVersioning IX.Undoable.csproj %APPVEYOR_BUILD_VERSION%
+
+    cd ..\src\IX.Undoable.WPF\
+
+    dotnet csprojVersioning IX.Undoable.WPF.csproj %APPVEYOR_BUILD_VERSION%
+
+    cd ..\src\IX.Observable\
+
+    dotnet csprojVersioning IX.Observable.csproj %APPVEYOR_BUILD_VERSION%
+
+    cd ..\src\IX.MemorySandbox\
+
+    dotnet csprojVersioning IX.MemorySandbox.csproj %APPVEYOR_BUILD_VERSION%
+
+    cd ..\
 
     msbuild src\IX.Framework.sln /p:Configuration=Release /t:Clean
 
     msbuild src\IX.Framework.sln /p:Configuration=Release
 test_script:
 - cmd: >-
-    dotnet xunit src\IX.Observable.UnitTests\IX.Observable.UnitTests.csproj
+    cd src\IX.Observable.UnitTests\
 
-    dotnet xunit src\IX.StandardExtensions.Tests\IX.StandardExtensions.Tests.csproj
+    dotnet xunit IX.Observable.UnitTests.csproj
+
+    cd ..\src\IX.StandardExtensions.Tests\
+
+    dotnet xunit IX.StandardExtensions.Tests.csproj
+    cd ..\
 deploy_script:
 - cmd: >-
     dotnet pack src\IX.StandardExtensions\IX.StandardExtensions.csproj -c Release --no-build
@@ -104,4 +137,3 @@ deploy_script:
     dotnet pack src\IX.MemorySandbox\IX.MemorySandbox.csproj -c Release --no-build
 
     nuget push src\IX.MemorySandbox\bin\Release\IX.MemorySandbox.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-
