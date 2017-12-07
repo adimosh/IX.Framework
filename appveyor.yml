@@ -21,55 +21,55 @@ build_script:
 
     dotnet csprojVersioning IX.StandardExtensions.csproj %APPVEYOR_BUILD_VERSION%
 
-    cd ..\src\IX.StandardExtensions.ComponentModel\
+    cd ..\IX.StandardExtensions.ComponentModel\
 
     dotnet csprojVersioning IX.StandardExtensions.ComponentModel.csproj %APPVEYOR_BUILD_VERSION%
 
-    cd ..\src\IX.StandardExtensions.TestUtils\
+    cd ..\IX.StandardExtensions.TestUtils\
 
     dotnet csprojVersioning IX.StandardExtensions.TestUtils.csproj %APPVEYOR_BUILD_VERSION%
 
-    cd ..\src\IX.StandardExtensions.Threading\
+    cd ..\IX.StandardExtensions.Threading\
 
     dotnet csprojVersioning IX.StandardExtensions.Threading.csproj %APPVEYOR_BUILD_VERSION%
 
-    cd ..\src\IX.Abstractions\
+    cd ..\IX.Abstractions\
 
     dotnet csprojVersioning IX.Abstractions.csproj %APPVEYOR_BUILD_VERSION%
 
-    cd ..\src\IX.Abstractions.Collections\
+    cd ..\IX.Abstractions.Collections\
 
     dotnet csprojVersioning IX.Abstractions.Collections.csproj %APPVEYOR_BUILD_VERSION%
 
-    cd ..\src\IX.Abstractions.FileSystem\
+    cd ..\IX.Abstractions.FileSystem\
 
     dotnet csprojVersioning IX.Abstractions.FileSystem.csproj %APPVEYOR_BUILD_VERSION%
 
-    cd ..\src\IX.Abstractions.Moq\
+    cd ..\IX.Abstractions.Moq\
 
     dotnet csprojVersioning IX.Abstractions.Moq.csproj %APPVEYOR_BUILD_VERSION%
 
-    cd ..\src\IX.Abstractions.Threading\
+    cd ..\IX.Abstractions.Threading\
 
     dotnet csprojVersioning IX.Abstractions.Threading.csproj %APPVEYOR_BUILD_VERSION%
 
-    cd ..\src\IX.Undoable\
+    cd ..\IX.Undoable\
 
     dotnet csprojVersioning IX.Undoable.csproj %APPVEYOR_BUILD_VERSION%
 
-    cd ..\src\IX.Undoable.WPF\
+    cd ..\IX.Undoable.WPF\
 
     dotnet csprojVersioning IX.Undoable.WPF.csproj %APPVEYOR_BUILD_VERSION%
 
-    cd ..\src\IX.Observable\
+    cd ..\IX.Observable\
 
     dotnet csprojVersioning IX.Observable.csproj %APPVEYOR_BUILD_VERSION%
 
-    cd ..\src\IX.MemorySandbox\
+    cd ..\IX.MemorySandbox\
 
     dotnet csprojVersioning IX.MemorySandbox.csproj %APPVEYOR_BUILD_VERSION%
 
-    cd ..\
+    cd ..\..\
 
     msbuild src\IX.Framework.sln /p:Configuration=Release /t:Clean
 
@@ -80,10 +80,11 @@ test_script:
 
     dotnet xunit IX.Observable.UnitTests.csproj
 
-    cd ..\src\IX.StandardExtensions.Tests\
+    cd ..\IX.StandardExtensions.Tests\
 
     dotnet xunit IX.StandardExtensions.Tests.csproj
-    cd ..\
+
+    cd ..\..\
 deploy_script:
 - cmd: >-
     dotnet pack src\IX.StandardExtensions\IX.StandardExtensions.csproj -c Release --no-build
