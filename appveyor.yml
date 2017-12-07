@@ -78,11 +78,11 @@ test_script:
 - cmd: >-
     cd src\IX.Observable.UnitTests\
 
-    dotnet xunit IX.Observable.UnitTests.csproj
+    dotnet xunit
 
     cd ..\IX.StandardExtensions.Tests\
 
-    dotnet xunit IX.StandardExtensions.Tests.csproj
+    dotnet xunit
 
     cd ..\..\
 deploy_script:
