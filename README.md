@@ -14,19 +14,38 @@ Standard below 2.0 as a minimal supported version.
 
 Until further notice, all versions of this repository will be distributed under the MIT License, which is available [here](LICENSE.md).
 
-## Components
+## Components and how to get them
 
-| Library | Description | Build | NuGet | Work items |
-|:-------:|:-----------:|:-----:|:-----:|:----------:|
-| IX.StandardExtensions | Extensions aiming at standardizing various operations in the .NET Framework. | ![IX.StandardExtensions AppVeyor CI](https://img.shields.io/appveyor/ci/adimosh/ix-StandardExtensions/master.svg) | Base: [![IX.StandardExtensions NuGet](https://img.shields.io/nuget/v/IX.StandardExtensions.svg)](https://www.nuget.org/packages/IX.StandardExtensions/) Component Model: [![IX.StandardExtensions Component Model NuGet](https://img.shields.io/nuget/v/IX.StandardExtensions.ComponentModel.svg)](https://www.nuget.org/packages/IX.StandardExtensions.ComponentModel/) Test Utils: [![IX.StandardExtensions Test Utils NuGet](https://img.shields.io/nuget/v/IX.StandardExtensions.TestUtils.svg)](https://www.nuget.org/packages/IX.StandardExtensions.TestUtils/) Threading: [![IX.StandardExtensions Threading NuGet](https://img.shields.io/nuget/v/IX.StandardExtensions.Threading.svg)](https://www.nuget.org/packages/IX.StandardExtensions.Threading/) | [![IX.StandardExtensions GitHub issues](https://img.shields.io/github/issues/adimosh/IX.StandardExtensions.svg)]() |
-| IX.Abstractions | A set of libraries for abstracting away things that are not abstracted by default (e.g. file storage) | - | - | - |
-| IX.Math | A library that interprets mathematical expressions into executable .NET code | - | - | - |
+| Library | Description | Location |
+|:-------:|:-----------:|:--------:|
+| IX.StandardExtensions | Extensions aiming at standardizing various operations in the .NET Framework. | [Project page](IX.StandardExtensions.md) |
+| IX.Abstractions | A set of libraries for abstracting away things that are not abstracted by default (e.g. file storage) | - |
+| IX.Math | A library that interprets mathematical expressions into executable .NET code | - |
 
 ## Contributing
 
 Contributing can be done by anyone, at any time and in any form, as long as the contributor
 has read the [contributing guidelines](https://adimosh.github.io/contributingguidelines)
 beforehand and tries their best to abide by them.
+
+### Localization
+
+Localization is important, and we strive to have resources localized in an effective way across languages.
+
+Currently, main languages (first component of a language group) are supported, with plans to add later.
+
+Targeted languages:
+- English (also neutral language)
+- Romanian - developer's native language
+- French - translator available
+- German - contributions welcome
+- Spanish - contributions welcome
+- Japanese - contributions welcome
+- A proper variant for China - contributions and ideas welcome
+- A proper variant for India - contributions and ideas welcome
+- Italian - contributions welcome
+- Swedish - contributions welcome
+- Russian - contributions welcome
 
 ## Developer guidelines
 
