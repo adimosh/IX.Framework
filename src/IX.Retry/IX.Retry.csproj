@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.0;net45;netstandard2.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <Import Project="..\DefaultPackageVersionSystem.props" />
+
+  <PropertyGroup>
+    <Title>IX Retry</Title>
+    <Description>A library for providing ways to retry operations for reasons of disaster recovery.</Description>
+  </PropertyGroup>
+
+  <Import Project="..\Branding.props" />
+
+  <Import Project="..\TargetSymbols.props" />
+
+  <Import Project="..\DocumentationFile.props" />
+
+  <ItemGroup>
+    <Compile Remove=".vscode\**" />
+    <EmbeddedResource Remove=".vscode\**" />
+    <None Remove=".vscode\**" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Linq" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'!='net45'">
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
+    <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
+    <PackageReference Include="System.Runtime" Version="4.3.0" />
+    <PackageReference Include="System.Threading" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="dotnet-csprojVersioning" Version="1.0.0.4" />
+  </ItemGroup>
+
+</Project>
