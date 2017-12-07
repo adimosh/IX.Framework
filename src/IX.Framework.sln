@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.27130.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.StandardExtensions", "IX.StandardExtensions\IX.StandardExtensions.csproj", "{A3D15D3A-BD82-4D19-BC32-56148D879FF4}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -30,7 +30,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.StandardExtensions.Threa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.Abstractions", "IX.Abstractions\IX.Abstractions.csproj", "{8CFFDFA8-C702-482D-B396-1212ECBF377B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.MemorySandbox", "IX.MemorySandbox\IX.MemorySandbox.csproj", "{F68D2194-36EE-45E3-824A-62EAD623BB33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.Sandbox.Memory", "IX.Sandbox.Memory\IX.Sandbox.Memory.csproj", "{F68D2194-36EE-45E3-824A-62EAD623BB33}"
 	ProjectSection(ProjectDependencies) = postProject
 		{98AF7216-D401-44A4-A5DA-F55535868971} = {98AF7216-D401-44A4-A5DA-F55535868971}
 	EndProjectSection
@@ -58,7 +58,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Undoable", "Undoable", "{05
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Observable", "Observable", "{3FC2BB77-E3F8-4A2C-B481-92E317747B3D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MemorySandbox", "MemorySandbox", "{F93C1294-50E1-4A21-8554-AD759470B021}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sandbox", "Sandbox", "{F93C1294-50E1-4A21-8554-AD759470B021}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

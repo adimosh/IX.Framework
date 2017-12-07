@@ -10,7 +10,7 @@ using IX.Observable;
 using IX.StandardExtensions;
 using IX.StandardExtensions.ComponentModel;
 
-namespace IX.MemorySandbox
+namespace IX.Sandbox.Memory
 {
     /// <summary>
     /// A memory scope.

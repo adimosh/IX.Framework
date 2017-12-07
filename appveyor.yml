@@ -65,9 +65,9 @@ build_script:
 
     dotnet csprojVersioning IX.Observable.csproj %APPVEYOR_BUILD_VERSION%
 
-    cd ..\IX.MemorySandbox\
+    cd ..\IX.Sandbox.Memory\
 
-    dotnet csprojVersioning IX.MemorySandbox.csproj %APPVEYOR_BUILD_VERSION%
+    dotnet csprojVersioning IX.Sandbox.Memory.csproj %APPVEYOR_BUILD_VERSION%
 
     cd ..\..\
 
@@ -135,6 +135,6 @@ deploy_script:
 
     nuget push src\IX.Observable\bin\Release\IX.Observable.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
 
-    dotnet pack src\IX.MemorySandbox\IX.MemorySandbox.csproj -c Release --no-build
+    dotnet pack src\IX.Sandbox.Memory\IX.Sandbox.Memory.csproj -c Release --no-build
 
-    nuget push src\IX.MemorySandbox\bin\Release\IX.MemorySandbox.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    nuget push src\IX.Sandbox.Memory\bin\Release\IX.Sandbox.Memory.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package

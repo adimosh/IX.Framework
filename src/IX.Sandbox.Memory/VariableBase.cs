@@ -7,7 +7,7 @@ using System.Threading;
 using IX.Abstractions.Memory;
 using IX.StandardExtensions.ComponentModel;
 
-namespace IX.MemorySandbox
+namespace IX.Sandbox.Memory
 {
     /// <summary>
     /// A base class for variable containers.
