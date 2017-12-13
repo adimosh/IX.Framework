@@ -47,8 +47,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(byte);
-                var c2 = b2 ? right[i] : default(byte);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)
@@ -94,8 +94,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(sbyte);
-                var c2 = b2 ? right[i] : default(sbyte);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)
@@ -141,8 +141,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(short);
-                var c2 = b2 ? right[i] : default(short);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)
@@ -188,8 +188,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(ushort);
-                var c2 = b2 ? right[i] : default(ushort);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)
@@ -235,8 +235,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(char);
-                var c2 = b2 ? right[i] : default(char);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)
@@ -282,8 +282,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(int);
-                var c2 = b2 ? right[i] : default(int);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)
@@ -329,8 +329,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(uint);
-                var c2 = b2 ? right[i] : default(uint);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)
@@ -376,8 +376,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(long);
-                var c2 = b2 ? right[i] : default(long);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)
@@ -423,8 +423,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(ulong);
-                var c2 = b2 ? right[i] : default(ulong);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)
@@ -470,8 +470,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(float);
-                var c2 = b2 ? right[i] : default(float);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)
@@ -517,8 +517,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(double);
-                var c2 = b2 ? right[i] : default(double);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)
@@ -564,8 +564,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(decimal);
-                var c2 = b2 ? right[i] : default(decimal);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)
@@ -611,8 +611,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(DateTime);
-                var c2 = b2 ? right[i] : default(DateTime);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)
@@ -658,8 +658,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(bool);
-                var c2 = b2 ? right[i] : default(bool);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)
@@ -705,8 +705,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(TimeSpan);
-                var c2 = b2 ? right[i] : default(TimeSpan);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)
@@ -752,8 +752,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(string);
-                var c2 = b2 ? right[i] : default(string);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)

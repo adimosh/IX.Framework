@@ -41,7 +41,7 @@ namespace IX.Observable.Adapters
                     return list.ElementAt(idx);
                 }
 
-                return default(T);
+                return default;
             }
 
             set => throw new InvalidOperationException();

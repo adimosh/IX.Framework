@@ -94,8 +94,8 @@ namespace IX.StandardExtensions
                     return 0;
                 }
 
-                T c1 = b1 ? left[i] : default(T);
-                T c2 = b2 ? right[i] : default(T);
+                T c1 = b1 ? left[i] : default;
+                T c2 = b2 ? right[i] : default;
 
                 var cr = comparer(c1, c2);
                 if (cr != 0)

@@ -76,7 +76,7 @@ namespace IX.Observable.Adapters
                     return slave.ElementAt(idx);
                 }
 
-                return default(T);
+                return default;
             }
 
             set

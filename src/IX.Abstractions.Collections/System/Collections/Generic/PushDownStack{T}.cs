@@ -123,7 +123,7 @@ namespace IX.System.Collections.Generic
         /// Peeks in the stack to view the topmost item, without removing it.
         /// </summary>
         /// <returns>The topmost element in the stack, if any.</returns>
-        public T Peek() => this.ReadLock(() => (this.internalContainer.Count > 0) ? this.internalContainer[this.internalContainer.Count - 1] : default(T));
+        public T Peek() => this.ReadLock(() => (this.internalContainer.Count > 0) ? this.internalContainer[this.internalContainer.Count - 1] : default);
 
         /// <summary>
         /// Pops the topmost element from the stack, removing it.
@@ -135,7 +135,7 @@ namespace IX.System.Collections.Generic
 
             if (index < 0)
             {
-                return default(T);
+                return default;
             }
 
             T item = this.internalContainer[index];

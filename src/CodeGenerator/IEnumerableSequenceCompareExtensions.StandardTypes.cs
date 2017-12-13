@@ -51,8 +51,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(byte);
-                        var c2 = b2 ? e2.Current : default(byte);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -103,8 +103,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(sbyte);
-                        var c2 = b2 ? e2.Current : default(sbyte);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -155,8 +155,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(short);
-                        var c2 = b2 ? e2.Current : default(short);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -207,8 +207,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(ushort);
-                        var c2 = b2 ? e2.Current : default(ushort);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -259,8 +259,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(char);
-                        var c2 = b2 ? e2.Current : default(char);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -311,8 +311,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(int);
-                        var c2 = b2 ? e2.Current : default(int);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -363,8 +363,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(uint);
-                        var c2 = b2 ? e2.Current : default(uint);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -415,8 +415,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(long);
-                        var c2 = b2 ? e2.Current : default(long);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -467,8 +467,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(ulong);
-                        var c2 = b2 ? e2.Current : default(ulong);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -519,8 +519,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(float);
-                        var c2 = b2 ? e2.Current : default(float);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -571,8 +571,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(double);
-                        var c2 = b2 ? e2.Current : default(double);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -623,8 +623,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(decimal);
-                        var c2 = b2 ? e2.Current : default(decimal);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -675,8 +675,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(DateTime);
-                        var c2 = b2 ? e2.Current : default(DateTime);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -727,8 +727,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(bool);
-                        var c2 = b2 ? e2.Current : default(bool);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -779,8 +779,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(TimeSpan);
-                        var c2 = b2 ? e2.Current : default(TimeSpan);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -831,8 +831,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default(string);
-                        var c2 = b2 ? e2.Current : default(string);
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)

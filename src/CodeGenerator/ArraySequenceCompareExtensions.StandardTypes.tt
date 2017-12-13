@@ -61,8 +61,8 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
                     return 0;
                 }
 
-                var c1 = b1 ? left[i] : default(<#= fullTypeName #>);
-                var c2 = b2 ? right[i] : default(<#= fullTypeName #>);
+                var c1 = b1 ? left[i] : default;
+                var c2 = b2 ? right[i] : default;
 
                 var cr = c1.CompareTo(c2);
                 if (cr != 0)

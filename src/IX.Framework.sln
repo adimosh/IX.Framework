@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.0
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.StandardExtensions", "IX.StandardExtensions\IX.StandardExtensions.csproj", "{A3D15D3A-BD82-4D19-BC32-56148D879FF4}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -62,7 +62,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sandbox", "Sandbox", "{F93C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Recovery", "Recovery", "{8AE64D45-7D3E-42A3-92B0-CACFA2FDF925}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IX.Retry", "IX.Retry\IX.Retry.csproj", "{3D2BD0C4-807F-4F30-8EB4-911584DAB9B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.Retry", "IX.Retry\IX.Retry.csproj", "{3D2BD0C4-807F-4F30-8EB4-911584DAB9B2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.Retry.Tests", "IX.Retry.Tests\IX.Retry.Tests.csproj", "{93E46B8E-E6DE-44A7-A43A-7D3717C2A485}"
 EndProject

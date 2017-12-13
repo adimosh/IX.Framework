@@ -62,8 +62,8 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(<#= fullTypeName #>);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(<#= fullTypeName #>);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -115,8 +115,8 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(<#= fullTypeName #>);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(<#= fullTypeName #>);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 

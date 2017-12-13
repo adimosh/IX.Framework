@@ -48,8 +48,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(byte);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(byte);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -101,8 +101,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(byte);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(byte);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -166,8 +166,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(sbyte);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(sbyte);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -219,8 +219,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(sbyte);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(sbyte);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -284,8 +284,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(short);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(short);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -337,8 +337,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(short);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(short);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -402,8 +402,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(ushort);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(ushort);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -455,8 +455,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(ushort);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(ushort);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -520,8 +520,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(char);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(char);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -573,8 +573,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(char);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(char);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -638,8 +638,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(int);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(int);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -691,8 +691,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(int);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(int);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -756,8 +756,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(uint);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(uint);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -809,8 +809,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(uint);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(uint);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -874,8 +874,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(long);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(long);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -927,8 +927,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(long);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(long);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -992,8 +992,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(ulong);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(ulong);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1045,8 +1045,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(ulong);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(ulong);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1110,8 +1110,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(float);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(float);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1163,8 +1163,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(float);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(float);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1228,8 +1228,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(double);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(double);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1281,8 +1281,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(double);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(double);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1346,8 +1346,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(decimal);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(decimal);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1399,8 +1399,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(decimal);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(decimal);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1464,8 +1464,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(DateTime);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(DateTime);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1517,8 +1517,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(DateTime);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(DateTime);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1582,8 +1582,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(bool);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(bool);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1635,8 +1635,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(bool);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(bool);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1700,8 +1700,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(TimeSpan);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(TimeSpan);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1753,8 +1753,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(TimeSpan);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(TimeSpan);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1818,8 +1818,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(string);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(string);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1871,8 +1871,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default(string);
-                        var rightCompare = rightBool ? rightEnumerator.Current : default(string);
+                        var leftCompare = leftBool ? leftEnumerator.Current : default;
+                        var rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 

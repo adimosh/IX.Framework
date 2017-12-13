@@ -220,6 +220,6 @@ namespace IX.Observable
             }
         }
 
-        private bool IsFilter() => !EqualityComparer<TFilter>.Default.Equals(this.Filter, default(TFilter));
+        private bool IsFilter() => !EqualityComparer<TFilter>.Default.Equals(this.Filter, default);
     }
 }

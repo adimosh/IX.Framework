@@ -117,7 +117,7 @@ namespace IX.StandardExtensions.Threading
             }
 
             this.existingEnumerator.Reset();
-            this.current = default(T);
+            this.current = default;
         }
 
         /// <summary>

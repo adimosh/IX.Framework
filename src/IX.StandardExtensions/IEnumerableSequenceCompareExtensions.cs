@@ -97,8 +97,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        T c1 = b1 ? e1.Current : default(T);
-                        T c2 = b2 ? e2.Current : default(T);
+                        T c1 = b1 ? e1.Current : default;
+                        T c2 = b2 ? e2.Current : default;
 
                         var cr = comparer(c1, c2);
                         if (cr != 0)

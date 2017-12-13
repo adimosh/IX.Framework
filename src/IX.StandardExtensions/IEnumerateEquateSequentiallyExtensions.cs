@@ -131,8 +131,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        T leftCompare = leftBool ? leftEnumerator.Current : default(T);
-                        T rightCompare = rightBool ? rightEnumerator.Current : default(T);
+                        T leftCompare = leftBool ? leftEnumerator.Current : default;
+                        T rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return comparer(leftCompare, rightCompare);
 
