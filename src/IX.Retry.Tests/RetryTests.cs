@@ -135,4 +135,22 @@ public class RetryTests
         Assert.True(hasThrown);
         Assert.True(exceptionEvaluator(exes));
     }
+
+    /// <summary>
+    /// Checks whether there is a rtetry on success.
+    /// </summary>
+    [Fact(DisplayName = "No retry on a success")]
+    public void Success()
+    {
+        // Arrange
+        var i = 0;
+
+        // Act
+        Retry.Now(
+            () => i++,
+            (options) => options.FiveTimes());
+
+        // Assert
+        Assert.True(i == 1);
+    }
 }

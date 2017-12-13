@@ -7,13 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using IX.StandardExtensions.ComponentModel;
 
 namespace IX.Retry
 {
-    internal class RetryContext : IDisposable
+    internal class RetryContext : DisposableBase, IDisposable
     {
-        private bool disposedValue;
-
         private RetryOptions options;
         private Action actionToRetry;
 
@@ -23,14 +22,14 @@ namespace IX.Retry
             this.actionToRetry = actionToRetry;
         }
 
-        ~RetryContext()
-        {
-            this.Dispose(false);
-        }
-
+        /// <summary>
+        /// Begins the retry process asynchronously.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>System.Threading.Tasks.Task.</returns>
         public async Task BeginRetryProcessAsync(CancellationToken cancellationToken = default)
         {
-            this.CheckDisposed();
+            this.ThrowIfCurrentObjectDisposed();
 
             DateTime now = DateTime.UtcNow;
             var retries = 0;
@@ -52,15 +51,12 @@ namespace IX.Retry
             this.ThrowExceptions(shouldRetry, exceptions);
         }
 
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
+        /// <summary>
+        /// Begins the retry process.
+        /// </summary>
         public void BeginRetryProcess()
         {
-            this.CheckDisposed();
+            this.ThrowIfCurrentObjectDisposed();
 
             DateTime now = DateTime.UtcNow;
             var retries = 0;
@@ -82,21 +78,15 @@ namespace IX.Retry
             this.ThrowExceptions(shouldRetry, exceptions);
         }
 
-        protected virtual void Dispose(bool disposing)
+        /// <summary>
+        /// Disposes in the general (managed and unmanaged) context.
+        /// </summary>
+        protected override void DisposeGeneralContext()
         {
-            if (!this.disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects).
-                }
+            this.options = null;
+            this.actionToRetry = null;
 
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                this.options = null;
-                this.actionToRetry = null;
-
-                this.disposedValue = true;
-            }
+            base.DisposeGeneralContext();
         }
 
         private bool RunOnce(IList<Exception> exceptions, DateTime now, ref int retries)
@@ -106,6 +96,8 @@ namespace IX.Retry
             try
             {
                 this.actionToRetry();
+
+                shouldRetry = false;
             }
             catch (Exception ex)
             {
@@ -162,14 +154,6 @@ namespace IX.Retry
             if (!shouldRetry && this.options.ThrowExceptionOnLastRetry)
             {
                 throw new AggregateException(exceptions);
-            }
-        }
-
-        private void CheckDisposed()
-        {
-            if (this.disposedValue)
-            {
-                throw new ObjectDisposedException(typeof(RetryContext).FullName);
             }
         }
     }
