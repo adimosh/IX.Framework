@@ -1,12 +1,23 @@
-﻿using IX.StandardExtensions.TestUtils;
+﻿// <copyright file="BasicExpressionsTests.cs" company="Adrian Mos">
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
+using IX.StandardExtensions.TestUtils;
 using Xunit;
 
 namespace IX.Math.UnitTests
 {
+    /// <summary>
+    /// Tests for basic expressions.
+    /// </summary>
     public class BasicExpressionsTests
     {
+        /// <summary>
+        /// Provides the data for theory.
+        /// </summary>
+        /// <returns>System.Object[][].</returns>
         public static object[][] ProvideDataForTheory()
         {
             var tests = new List<object[]>();
@@ -25,28 +36,28 @@ namespace IX.Math.UnitTests
                     {
                         $"{leftOperand}+{rightOperand}",
                         new object[0],
-                        (long)expectedResult
+                        (long)expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         "leftOperand+rightOperand",
                         new object[2] { leftOperand, rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"leftOperand+{rightOperand}",
                         new object[1] { leftOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"{leftOperand}+rightOperand",
                         new object[1] { rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
             }
 
@@ -61,28 +72,28 @@ namespace IX.Math.UnitTests
                     {
                         $"{leftOperand}-{rightOperand}",
                         new object[0],
-                        (long)expectedResult
+                        (long)expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         "leftOperand-rightOperand",
                         new object[2] { leftOperand, rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"{leftOperand}-rightOperand",
                         new object[1] { rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"leftOperand-{rightOperand}",
                         new object[1] { leftOperand },
-                        expectedResult
+                        expectedResult,
                     });
             }
 
@@ -98,28 +109,28 @@ namespace IX.Math.UnitTests
                     {
                         $"{leftOperand}*{rightOperand}",
                         new object[0],
-                        (long)expectedResult
+                        (long)expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         "leftOperand*rightOperand",
                         new object[2] { leftOperand, rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"{leftOperand}*rightOperand",
                         new object[1] { rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"leftOperand*{rightOperand}",
                         new object[1] { leftOperand },
-                        expectedResult
+                        expectedResult,
                     });
             }
 
@@ -134,28 +145,28 @@ namespace IX.Math.UnitTests
                     {
                         $"{leftOperand}/{rightOperand}",
                         new object[0],
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         "leftOperand/rightOperand",
                         new object[2] { leftOperand, rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"leftOperand/{rightOperand}",
                         new object[1] { leftOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"{leftOperand}/rightOperand",
                         new object[1] { rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
             }
             #endregion
@@ -174,28 +185,28 @@ namespace IX.Math.UnitTests
                     {
                         $"{leftOperand}+{rightOperand}",
                         new object[0],
-                        (long)expectedResult
+                        (long)expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         "leftOperand+rightOperand",
                         new object[2] { leftOperand, rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"leftOperand+{rightOperand}",
                         new object[1] { leftOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"{leftOperand}+rightOperand",
                         new object[1] { rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
             }
 
@@ -210,34 +221,34 @@ namespace IX.Math.UnitTests
                     {
                         $"{leftOperand}-{rightOperand}",
                         new object[0],
-                        (long)expectedResult
+                        (long)expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         "leftOperand-rightOperand",
                         new object[2] { leftOperand, rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"{leftOperand}-rightOperand",
                         new object[1] { rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"leftOperand-{rightOperand}",
                         new object[1] { leftOperand },
-                        expectedResult
+                        expectedResult,
                     });
             }
 
             // *
             {
-                var limit = 0-(int)System.Math.Sqrt(int.MaxValue);
+                var limit = 0 - (int)System.Math.Sqrt(int.MaxValue);
                 double leftOperand = DataGenerator.RandomInteger(limit, 1);
                 double rightOperand = DataGenerator.RandomInteger(limit, 1);
                 var expectedResult = leftOperand * rightOperand;
@@ -247,28 +258,28 @@ namespace IX.Math.UnitTests
                     {
                         $"{leftOperand}*{rightOperand}",
                         new object[0],
-                        (long)expectedResult
+                        (long)expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         "leftOperand*rightOperand",
                         new object[2] { leftOperand, rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"{leftOperand}*rightOperand",
                         new object[1] { rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"leftOperand*{rightOperand}",
                         new object[1] { leftOperand },
-                        expectedResult
+                        expectedResult,
                     });
             }
 
@@ -283,28 +294,28 @@ namespace IX.Math.UnitTests
                     {
                         $"{leftOperand}/{rightOperand}",
                         new object[0],
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         "leftOperand/rightOperand",
                         new object[2] { leftOperand, rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"leftOperand/{rightOperand}",
                         new object[1] { leftOperand },
-                        expectedResult
+                        expectedResult,
                     });
                 tests.Add(
                     new object[]
                     {
                         $"{leftOperand}/rightOperand",
                         new object[1] { rightOperand },
-                        expectedResult
+                        expectedResult,
                     });
             }
             #endregion
@@ -312,6 +323,16 @@ namespace IX.Math.UnitTests
             return tests.ToArray();
         }
 
+        /// <summary>
+        /// Tests computed expression with parameters.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="expectedResult">The expected result.</param>
+        /// <exception cref="InvalidOperationException">
+        /// No computed expression was generated!
+        /// or
+        /// </exception>
         [Theory(DisplayName = "Basic expressions with random data")]
         [MemberData(nameof(ProvideDataForTheory), DisableDiscoveryEnumeration = true)]
         public void ComputedExpressionWithParameters(string expression, object[] parameters, object expectedResult)

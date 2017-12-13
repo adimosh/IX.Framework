@@ -8,8 +8,15 @@ using Xunit;
 
 namespace IX.Math.UnitTests
 {
+    /// <summary>
+    /// Tests computed expressions.
+    /// </summary>
     public class ComputedExpressionTests
     {
+        /// <summary>
+        /// Provides the data for theory.
+        /// </summary>
+        /// <returns>System.Object[][].</returns>
         public static object[][] ProvideDataForTheory() => new object[][]
             {
                 new object[]
@@ -736,40 +743,50 @@ namespace IX.Math.UnitTests
                 {
                     "0b1001010111010110110010000000010010101110101=0b1001010111010110110010000000010010101110101",
                     new object[0],
-                    true
+                    true,
                 },
                 new object[]
                 {
                     "0b1001010111010110110011111000010010101110101=0b1001010111010110110010000000011111101110101",
                     new object[0],
-                    false
+                    false,
                 },
                 new object[]
                 {
                     "x=0b1001010111010110110010000000010010101110101",
                     new object[1] { BitConverter.GetBytes(0b1001010111010110110010000000010010101110101) },
-                    true
+                    true,
                 },
                 new object[]
                 {
                     "0b1001010111010110110010000000010010101110101!=0b1001010111010110110010000000010010101110101",
                     new object[0],
-                    false
+                    false,
                 },
                 new object[]
                 {
                     "0b1001010111010110110011111000010010101110101!=0b1001010111010110110010000000011111101110101",
                     new object[0],
-                    true
+                    true,
                 },
                 new object[]
                 {
                     "x!=0b1001010111010110110010000000010010101110101",
                     new object[1] { BitConverter.GetBytes(0b1001010111010110110010000000010010101110101) },
-                    false
+                    false,
                 },
             };
 
+        /// <summary>
+        /// Tests the computed expression with parameters.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="expectedResult">The expected result.</param>
+        /// <exception cref="InvalidOperationException">
+        /// No computed expression was generated!
+        /// or
+        /// </exception>
         [Theory(DisplayName = "Para")]
         [MemberData(nameof(ProvideDataForTheory))]
         public void ComputedExpressionWithParameters(string expression, object[] parameters, object expectedResult)
@@ -805,6 +822,16 @@ namespace IX.Math.UnitTests
             }
         }
 
+        /// <summary>
+        /// Tests a computed expression with finder.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="expectedResult">The expected result.</param>
+        /// <exception cref="InvalidOperationException">
+        /// No computed expression was generated!
+        /// or
+        /// </exception>
         [Theory(DisplayName = "Findr")]
         [MemberData(nameof(ProvideDataForTheory))]
         public void ComputedExpressionWithFinder(string expression, object[] parameters, object expectedResult)
