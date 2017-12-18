@@ -3,12 +3,18 @@
 // </copyright>
 
 using System;
+#if NET45
+using System.Runtime.Serialization;
+#endif
 
 namespace IX.Math
 {
     /// <summary>
     /// Thrown when an expression is not internally logical or consistent.
     /// </summary>
+#if NET45
+    [Serializable]
+#endif
     public class ExpressionNotValidLogicallyException : Exception
     {
         /// <summary>
@@ -46,5 +52,17 @@ namespace IX.Math
             : base(message, internalException)
         {
         }
+
+#if NET45
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpressionNotValidLogicallyException"/> class.
+        /// </summary>
+        /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object data about the exception being thrown.</param>
+        /// <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination.</param>
+        protected ExpressionNotValidLogicallyException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+#endif
     }
 }
