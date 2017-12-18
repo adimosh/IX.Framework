@@ -2,6 +2,7 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -59,9 +60,17 @@ namespace IX.StandardExtensions.ComponentModel
                 (state) =>
                 {
                     var arguments = ((NotifyCollectionChangedInvokerBase, int, T))state;
-                    arguments.Item1.CollectionChanged?.Invoke(
-                        arguments.Item1,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, arguments.Item3, arguments.Item2));
+
+                    try
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(
+                            arguments.Item1,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, arguments.Item3, arguments.Item2));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    }
                 },
                 (this, index, item));
 
@@ -75,9 +84,17 @@ namespace IX.StandardExtensions.ComponentModel
                 (state) =>
                 {
                     var arguments = ((NotifyCollectionChangedInvokerBase, int, IEnumerable<T>))state;
-                    arguments.Item1.CollectionChanged?.Invoke(
-                        arguments.Item1,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, arguments.Item3.ToList(), arguments.Item2));
+
+                    try
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(
+                            arguments.Item1,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, arguments.Item3.ToList(), arguments.Item2));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    }
                 },
                 (this, index, items));
 
@@ -91,9 +108,17 @@ namespace IX.StandardExtensions.ComponentModel
                 (state) =>
                 {
                     var arguments = ((NotifyCollectionChangedInvokerBase, int, T))state;
-                    arguments.Item1.CollectionChanged?.Invoke(
-                        arguments.Item1,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, arguments.Item3, arguments.Item2));
+
+                    try
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(
+                            arguments.Item1,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, arguments.Item3, arguments.Item2));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    }
                 },
                 (this, index, item));
 
@@ -107,9 +132,17 @@ namespace IX.StandardExtensions.ComponentModel
                 (state) =>
                 {
                     var arguments = ((NotifyCollectionChangedInvokerBase, int, IEnumerable<T>))state;
-                    arguments.Item1.CollectionChanged?.Invoke(
-                        arguments.Item1,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, arguments.Item3.ToList(), arguments.Item2));
+
+                    try
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(
+                            arguments.Item1,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, arguments.Item3.ToList(), arguments.Item2));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    }
                 },
                 (this, index, items));
 
@@ -124,9 +157,17 @@ namespace IX.StandardExtensions.ComponentModel
                 (state) =>
                 {
                     var arguments = ((NotifyCollectionChangedInvokerBase, int, int, T))state;
-                    arguments.Item1.CollectionChanged?.Invoke(
-                        arguments.Item1,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, arguments.Item4, arguments.Item3, arguments.Item2));
+
+                    try
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(
+                            arguments.Item1,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, arguments.Item4, arguments.Item3, arguments.Item2));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    }
                 },
                 (this, oldIndex, newIndex, item));
 
@@ -141,9 +182,17 @@ namespace IX.StandardExtensions.ComponentModel
                 (state) =>
                 {
                     var arguments = ((NotifyCollectionChangedInvokerBase, int, int, IEnumerable<T>))state;
-                    arguments.Item1.CollectionChanged?.Invoke(
-                        arguments.Item1,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, arguments.Item4.ToList(), arguments.Item3, arguments.Item2));
+
+                    try
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(
+                            arguments.Item1,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, arguments.Item4.ToList(), arguments.Item3, arguments.Item2));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    }
                 },
                 (this, oldIndex, newIndex, items));
 
@@ -158,9 +207,17 @@ namespace IX.StandardExtensions.ComponentModel
                 (state) =>
                 {
                     var arguments = ((NotifyCollectionChangedInvokerBase, int, T, T))state;
-                    arguments.Item1.CollectionChanged?.Invoke(
-                        arguments.Item1,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, arguments.Item4, arguments.Item3, arguments.Item2));
+
+                    try
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(
+                            arguments.Item1,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, arguments.Item4, arguments.Item3, arguments.Item2));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    }
                 },
                 (this, index, oldItem, newItem));
 
@@ -175,9 +232,17 @@ namespace IX.StandardExtensions.ComponentModel
                 (state) =>
                 {
                     var arguments = ((NotifyCollectionChangedInvokerBase, int, IEnumerable<T>, IEnumerable<T>))state;
-                    arguments.Item1.CollectionChanged?.Invoke(
-                        arguments.Item1,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, arguments.Item4.ToList(), arguments.Item3.ToList(), arguments.Item2));
+
+                    try
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(
+                            arguments.Item1,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, arguments.Item4.ToList(), arguments.Item3.ToList(), arguments.Item2));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    }
                 },
                 (this, index, oldItems, newItems));
     }

@@ -12,7 +12,7 @@ namespace IX.StandardExtensions.ComponentModel
     public static class EnvironmentSettings
     {
         /// <summary>
-        /// Gets or sets the backup synchronization context.
+        /// Gets or sets the backup synchronization context. the default is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </summary>
         /// <value>The backup synchronization context.</value>
         /// <remarks>
@@ -34,7 +34,7 @@ namespace IX.StandardExtensions.ComponentModel
         public static SynchronizationContext BackupSynchronizationContext { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to always suppress the current synchronization context.
+        /// Gets or sets a value indicating whether to always suppress the current synchronization context. The default is false.
         /// </summary>
         /// <value><c>true</c> in order to always suppress the current synchronization context; otherwise, <c>false</c>.</value>
         /// <remarks>
@@ -44,10 +44,16 @@ namespace IX.StandardExtensions.ComponentModel
         public static bool AlwaysSuppressCurrentSynchronizationContext { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to invoke synchronously on the synchronization context.
+        /// Gets or sets a value indicating whether to invoke synchronously on the synchronization context. The default is false.
         /// </summary>
         /// <value><c>true</c> if invocations should be done synchronously; otherwise, <c>false</c>.</value>
         public static bool InvokeSynchronously { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to send a notification of reset if there is an exception on collection change notification. The default is false.
+        /// </summary>
+        /// <value><c>true</c> if a reset on collection change notification exception should be sent; otherwise, <c>false</c>.</value>
+        public static bool ResetOnCollectionChangeNotificationException { get; set; }
 
         /// <summary>
         /// Gets the currently usable synchronization context, according to the framework rules, except for the explicit synchronization context.
