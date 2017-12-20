@@ -2,6 +2,7 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using System;
 using System.Linq.Expressions;
 using IX.Math.PlatformMitigation;
 
@@ -55,7 +56,13 @@ namespace IX.Math.Nodes
         /// </summary>
         /// <returns>System.Linq.Expressions.Expression.</returns>
         /// <remarks>Since it is not possible for this node to be a constant node, the function <see cref="object.ToString"/> is called in whatever the node outputs.</remarks>
-        public override Expression GenerateCachedStringExpression() => Expression.Call(this.GenerateExpression(), typeof(object).GetTypeMethod(nameof(object.ToString)));
+        public override Expression GenerateCachedStringExpression() => Expression.Call(this.GenerateExpression(), typeof(object).GetTypeMethod(
+            nameof(object.ToString),
+#if NETSTANDARD2_0
+            Array.Empty<Type>()));
+#else
+            new Type[0]));
+#endif
 
         /// <summary>
         /// Generates the expression that will be compiled into code.

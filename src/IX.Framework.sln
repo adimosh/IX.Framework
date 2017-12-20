@@ -74,6 +74,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.Math.UnitTests", "IX.Mat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IX.StandardExtensions.WPF", "IX.StandardExtensions.WPF\IX.StandardExtensions.WPF.csproj", "{5847915C-3A4F-4327-821C-D775EDAF99D1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{6AE6F3F7-FE0A-4CC0-AD3A-948D6764E9C1}"
+	ProjectSection(SolutionItems) = preProject
+		Branding.props = Branding.props
+		DefaultPackageVersionSystem.props = DefaultPackageVersionSystem.props
+		DocumentationFile.props = DocumentationFile.props
+		TargetSymbols.props = TargetSymbols.props
+		UnitTestStandard.props = UnitTestStandard.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -194,6 +203,7 @@ Global
 		{74ED720B-9C04-4407-8A1D-1A7871FDB888} = {2D9F59CE-ED13-4F54-995D-3269A92D14BF}
 		{C94A9369-9C68-4CCE-B046-CA3E2A047C71} = {2D9F59CE-ED13-4F54-995D-3269A92D14BF}
 		{5847915C-3A4F-4327-821C-D775EDAF99D1} = {9141E8DC-E552-4591-883D-3BF52099F6ED}
+		{6AE6F3F7-FE0A-4CC0-AD3A-948D6764E9C1} = {5E05B9C5-6765-44FC-8A6E-BEE018BDEA9B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E982D088-16DA-46BF-A043-B1326577DB77}

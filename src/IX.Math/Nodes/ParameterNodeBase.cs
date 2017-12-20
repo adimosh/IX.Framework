@@ -58,6 +58,12 @@ namespace IX.Math.Nodes
         /// Generates a string expression that will be cached before being compiled.
         /// </summary>
         /// <returns>The generated <see cref="Expression" /> to be cached.</returns>
-        public override Expression GenerateCachedStringExpression() => Expression.Call(this.GenerateExpression(), typeof(object).GetTypeMethod(nameof(object.ToString)));
+        public override Expression GenerateCachedStringExpression() => Expression.Call(this.GenerateExpression(), typeof(object).GetTypeMethod(
+            nameof(object.ToString),
+#if NETSTANDARD2_0
+            Array.Empty<Type>()));
+#else
+            new Type[0]));
+#endif
     }
 }

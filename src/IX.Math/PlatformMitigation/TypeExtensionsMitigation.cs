@@ -10,62 +10,7 @@ namespace IX.Math.PlatformMitigation
 {
     internal static class TypeExtensionsMitigation
     {
-        internal static MethodInfo GetTypeMethod(this Type type, string name) =>
-            type.GetRuntimeMethods()
-                .Where(p => p.Name == name)
-                .OrderBy(p => p.GetParameters().Length)
-                .FirstOrDefault();
-
         internal static MethodInfo GetTypeMethod(this Type type, string name, params Type[] parameters) =>
-            type.GetRuntimeMethods().SingleOrDefault(p =>
-            {
-                if (p.Name != name)
-                {
-                    return false;
-                }
-
-                ParameterInfo[] pars = p.GetParameters();
-
-                if (pars.Length != parameters.Length)
-                {
-                    return false;
-                }
-
-                for (var i = 0; i < parameters.Length; i++)
-                {
-                    if (pars[i].ParameterType != parameters[i])
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            });
-
-        internal static MethodInfo GetTypeMethod(this Type type, string name, Type returnType, Type[] parameters) =>
-            type.GetRuntimeMethods().SingleOrDefault(p =>
-            {
-                if (p.Name != name || p.ReturnType != returnType)
-                {
-                    return false;
-                }
-
-                ParameterInfo[] pars = p.GetParameters();
-
-                if (pars.Length != parameters.Length)
-                {
-                    return false;
-                }
-
-                for (var i = 0; i < parameters.Length; i++)
-                {
-                    if (pars[i].ParameterType != parameters[i])
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            });
+            type.GetRuntimeMethod(name, parameters);
     }
 }

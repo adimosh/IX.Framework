@@ -53,8 +53,14 @@ namespace IX.Math.Nodes
                 throw new ArgumentException(string.Format(Resources.FunctionCouldNotBeFound, functionName), nameof(functionName));
             }
 
-            MethodInfo mi = t.GetTypeMethod(functionName) ??
-                throw new ArgumentException(string.Format(Resources.FunctionCouldNotBeFound, functionName), nameof(functionName));
+            MethodInfo mi = t.GetTypeMethod(
+                functionName,
+#if NETSTANDARD2_0
+                Array.Empty<Type>())
+#else
+                new Type[0])
+#endif
+                ?? throw new ArgumentException(string.Format(Resources.FunctionCouldNotBeFound, functionName), nameof(functionName));
 
             return Expression.Call(mi);
         }
