@@ -19,6 +19,7 @@ namespace IX.StandardExtensions.WPF.Extensions
         /// <param name="dataGrid">The data grid to operate on.</param>
         /// <param name="index">The index of the row to be retrieved.</param>
         /// <returns>The data grid row, if one exists and the containers have been successfully built. Otherwise, <c>null</c> (<c>Nothing</c> in Visual Basic).</returns>
+        /// <exception cref="System.ArgumentNullException"><paramref name="dataGrid"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
         public static DataGridRow GetRowFromIndex(this DataGrid dataGrid, int index)
         {
             if (dataGrid == null)
@@ -40,7 +41,7 @@ namespace IX.StandardExtensions.WPF.Extensions
         /// <param name="dataGrid">The data grid to operate on.</param>
         /// <param name="item">The item contained in the row to be retrieved.</param>
         /// <returns>The data grid row, if one exists and the containers have been successfully built. Otherwise, <c>null</c> (<c>Nothing</c> in Visual Basic).</returns>
-        /// <exception cref="System.ArgumentNullException">dataGrid</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="dataGrid"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
         public static DataGridRow GetRowFromItem(this DataGrid dataGrid, object item)
         {
             if (dataGrid == null)
@@ -55,5 +56,21 @@ namespace IX.StandardExtensions.WPF.Extensions
 
             return dataGrid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
         }
+
+        /// <summary>
+        /// Gets the elected data grid row.
+        /// </summary>
+        /// <param name="dataGrid">The data grid to operate on.</param>
+        /// <returns>The data grid row, if one exists and the containers have been successfully built. Otherwise, <c>null</c> (<c>Nothing</c> in Visual Basic).</returns>
+        /// <exception cref="System.ArgumentNullException"><paramref name="dataGrid"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        public static DataGridRow GetSelectedRow(this DataGrid dataGrid) => GetRowFromItem(dataGrid, dataGrid?.SelectedItem);
+
+        /// <summary>
+        /// Scrolls the item at a specific index into view.
+        /// </summary>
+        /// <param name="dataGrid">The data grid.</param>
+        /// <param name="index">The item index.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="dataGrid"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        public static void ScrollIntoView(this DataGrid dataGrid, int index) => (dataGrid ?? throw new ArgumentNullException(nameof(dataGrid))).ScrollIntoView(dataGrid.Items[index]);
     }
 }
