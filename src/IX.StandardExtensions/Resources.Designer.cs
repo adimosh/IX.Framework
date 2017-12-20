@@ -9,8 +9,8 @@
 //------------------------------------------------------------------------------
 
 namespace IX.StandardExtensions {
-    using global::System;
-    using global::System.Reflection;
+    using System;
+    using System.Reflection;
     
     
     /// <summary>
@@ -94,6 +94,15 @@ namespace IX.StandardExtensions {
         internal static string ErrorSourceIndexMustPointToALocationWithinTheArray {
             get {
                 return ResourceManager.GetString("ErrorSourceIndexMustPointToALocationWithinTheArray", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The operation that has made a call to this method should stop retrying, as a critical error, a state change or unrecoverable environment conditions guarantee failure on subsequent retries..
+        /// </summary>
+        internal static string ErrorStopRetrying {
+            get {
+                return ResourceManager.GetString("ErrorStopRetrying", resourceCulture);
             }
         }
         

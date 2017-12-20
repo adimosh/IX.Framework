@@ -22,7 +22,7 @@ namespace IX.StandardExtensions
         /// Initializes a new instance of the <see cref="StopRetryingException"/> class.
         /// </summary>
         public StopRetryingException()
-            : base()
+            : base(Resources.ErrorStopRetrying)
         {
         }
 

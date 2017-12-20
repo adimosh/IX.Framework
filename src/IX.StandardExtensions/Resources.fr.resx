@@ -132,4 +132,7 @@
   <data name="ErrorWrongArgumentType" xml:space="preserve">
     <value>L'argument encadré fourni est de type incorrect.</value>
   </data>
+  <data name="ErrorStopRetrying" xml:space="preserve">
+    <value>L'opération qui a effectué un appel à cette méthode doit cesser de réessayer, car une erreur critique, une modification d'état ou des conditions d'environnement irrécupérables garantissent l'échec lors des tentatives suivantes.</value>
+  </data>
 </root>

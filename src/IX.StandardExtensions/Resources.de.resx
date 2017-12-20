@@ -132,4 +132,7 @@
   <data name="ErrorWrongArgumentType" xml:space="preserve">
     <value>Das angegebene Boxed-Argument hat einen falschen Typ.</value>
   </data>
+  <data name="ErrorStopRetrying" xml:space="preserve">
+    <value>Die Operation, die diese Methode aufgerufen hat, sollte die erneute Ausführung stoppen, da ein kritischer Fehler, eine Statusänderung oder nicht behebbare Umgebungsbedingungen einen Fehler bei nachfolgenden Wiederholungen garantieren.</value>
+  </data>
 </root>

@@ -132,4 +132,7 @@
   <data name="ErrorWrongArgumentType" xml:space="preserve">
     <value>El argumento en caja suministrado es de un tipo incorrecto.</value>
   </data>
+  <data name="ErrorStopRetrying" xml:space="preserve">
+    <value>La operación que ha realizado una llamada a este método debe detener la reintentación, ya que un error crítico, un cambio de estado o condiciones irrecuperables del entorno garantizan fallas en los intentos posteriores.</value>
+  </data>
 </root>

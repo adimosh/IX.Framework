@@ -132,4 +132,7 @@
   <data name="ErrorWrongArgumentType" xml:space="preserve">
     <value>The supplied boxed or polymorphic argument is of a wrong type.</value>
   </data>
+  <data name="ErrorStopRetrying" xml:space="preserve">
+    <value>The operation that has made a call to this method should stop retrying, as a critical error, a state change or unrecoverable environment conditions guarantee failure on subsequent retries.</value>
+  </data>
 </root>
