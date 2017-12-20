@@ -116,7 +116,7 @@ namespace IX.Math.Nodes
                 throw new ArgumentException(string.Format(Resources.FunctionCouldNotBeFound, propertyName), nameof(propertyName));
             }
 
-            PropertyInfo pi = typeof(T).GetTypeProperty(propertyName) ??
+            PropertyInfo pi = typeof(T).GetRuntimeProperty(propertyName) ??
                 throw new ArgumentException(string.Format(Resources.FunctionCouldNotBeFound, propertyName), nameof(propertyName));
 
             return Expression.Property(this.Parameter.GenerateExpression(), pi);

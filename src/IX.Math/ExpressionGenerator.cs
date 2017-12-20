@@ -46,8 +46,8 @@ namespace IX.Math
 
             // Break expression based on function calls
             FunctionsExtractor.ReplaceFunctions(
-                workingSet.Definition.Parantheses.Item1,
-                workingSet.Definition.Parantheses.Item2,
+                workingSet.Definition.Parentheses.Item1,
+                workingSet.Definition.Parentheses.Item2,
                 workingSet.Definition.ParameterSeparator,
                 workingSet.ConstantsTable,
                 workingSet.ReverseConstantsTable,
@@ -62,8 +62,8 @@ namespace IX.Math
 
             // Break by parentheses
             ParenthesesExpressionGenerator.FormatParentheses(
-                workingSet.Definition.Parantheses.Item1,
-                workingSet.Definition.Parantheses.Item2,
+                workingSet.Definition.Parentheses.Item1,
+                workingSet.Definition.Parentheses.Item2,
                 workingSet.Definition.ParameterSeparator,
                 workingSet.AllOperatorsInOrder,
                 workingSet.SymbolTable,
@@ -82,7 +82,7 @@ namespace IX.Math
                     workingSet.ReverseSymbolTable,
                     workingSet.ParametersTable,
                     workingSet.Expression,
-                    workingSet.Definition.Parantheses.Item1,
+                    workingSet.Definition.Parentheses.Item1,
                     workingSet.AllOperatorsInOrder);
             }
 
@@ -172,7 +172,7 @@ namespace IX.Math
             }
 
             // Check whether the expression is a function call
-            if (s.Contains(workingSet.Definition.Parantheses.Item1) && s.Contains(workingSet.Definition.Parantheses.Item2))
+            if (s.Contains(workingSet.Definition.Parentheses.Item1) && s.Contains(workingSet.Definition.Parentheses.Item2))
             {
                 return GenerateFunctionCallExpression(s);
             }

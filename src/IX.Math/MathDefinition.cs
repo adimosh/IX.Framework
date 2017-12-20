@@ -26,7 +26,7 @@ namespace IX.Math
         /// <param name="definition">The definition to use.</param>
         public MathDefinition(MathDefinition definition)
         {
-            this.Parantheses = new Tuple<string, string>(definition.Parantheses.Item1, definition.Parantheses.Item2);
+            this.Parentheses = new Tuple<string, string>(definition.Parentheses.Item1, definition.Parentheses.Item2);
             this.SpecialSymbolIndicators = new Tuple<string, string>(definition.SpecialSymbolIndicators.Item1, definition.SpecialSymbolIndicators.Item2);
             this.StringIndicator = definition.StringIndicator;
             this.ParameterSeparator = definition.ParameterSeparator;
@@ -50,13 +50,13 @@ namespace IX.Math
         }
 
         /// <summary>
-        /// Gets or sets what should be interpreted as parantheses.
+        /// Gets or sets what should be interpreted as parentheses.
         /// </summary>
         /// <remarks>
-        /// <para>The first item in the tuple represents the opening paranthesis, whereas the second represents the closing paranthesis.</para>
+        /// <para>The first item in the tuple represents the opening parenthesis, whereas the second represents the closing parenthesis.</para>
         /// </remarks>
         [DataMember]
-        public Tuple<string, string> Parantheses { get; set; }
+        public Tuple<string, string> Parentheses { get; set; }
 
         /// <summary>
         /// Gets or sets what should be interpreted as special symbols.

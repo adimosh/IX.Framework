@@ -2,10 +2,10 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
-using System;
 using System.Collections.Concurrent;
 using System.Reflection;
 using System.Threading;
+using IX.StandardExtensions.ComponentModel;
 
 namespace IX.Math
 {
@@ -15,11 +15,10 @@ namespace IX.Math
     /// <remarks>
     /// <para>This service also caches expressions so that they can be garbage-collected after a specific time period with no use.</para>
     /// </remarks>
-    public class CachedExpressionParsingService : IExpressionParsingService, IDisposable
+    public class CachedExpressionParsingService : DisposableBase, IExpressionParsingService
     {
         private ExpressionParsingService eps;
         private ConcurrentDictionary<string, ComputedExpression> cachedComputedExpressions;
-        private bool disposedValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CachedExpressionParsingService"/> class.
@@ -41,15 +40,6 @@ namespace IX.Math
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="CachedExpressionParsingService"/> class.
-        /// </summary>
-        ~CachedExpressionParsingService()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            this.Dispose(false);
-        }
-
-        /// <summary>
         /// Interprets the mathematical expression and returns a container that can be invoked for solving using specific mathematical types.
         /// </summary>
         /// <param name="expression">The expression to interpret.</param>
@@ -57,16 +47,6 @@ namespace IX.Math
         /// <returns>A <see cref="ComputedExpression"/> that represents the interpreted expression.</returns>
         public ComputedExpression Interpret(string expression, CancellationToken cancellationToken = default) =>
             this.cachedComputedExpressions.GetOrAdd(expression, expr => this.eps.Interpret(expr, cancellationToken));
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
 
         /// <summary>
         /// Registers an assembly to extract compatible functions from.
@@ -81,24 +61,25 @@ namespace IX.Math
         public string[] GetRegisteredFunctions() => this.eps.GetRegisteredFunctions();
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
+        /// Disposes in the managed context.
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-        protected virtual void Dispose(bool disposing)
+        protected override void DisposeManagedContext()
         {
-            if (!this.disposedValue)
-            {
-                if (disposing)
-                {
-                    this.cachedComputedExpressions.Clear();
-                    this.eps.Dispose();
-                }
+            this.cachedComputedExpressions.Clear();
+            this.eps.Dispose();
 
-                this.cachedComputedExpressions = null;
-                this.eps = null;
+            base.DisposeManagedContext();
+        }
 
-                this.disposedValue = true;
-            }
+        /// <summary>
+        /// Disposes in the general (managed and unmanaged) context.
+        /// </summary>
+        protected override void DisposeGeneralContext()
+        {
+            base.DisposeGeneralContext();
+
+            this.cachedComputedExpressions = null;
+            this.eps = null;
         }
     }
 }

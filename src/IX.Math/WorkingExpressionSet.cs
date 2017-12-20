@@ -107,7 +107,7 @@ namespace IX.Math
             this.BinaryFunctions = binaryFunctions;
             this.TernaryFunctions = ternaryFunctions;
 
-            this.FunctionRegex = new Regex($@"(?'functionName'.*?){Regex.Escape(this.Definition.Parantheses.Item1)}(?'expression'.*?){Regex.Escape(this.Definition.Parantheses.Item2)}");
+            this.FunctionRegex = new Regex($@"(?'functionName'.*?){Regex.Escape(this.Definition.Parentheses.Item1)}(?'expression'.*?){Regex.Escape(this.Definition.Parentheses.Item2)}");
         }
 
         internal void Initialize()
@@ -248,8 +248,8 @@ namespace IX.Math
                 .Union(new[]
                 {
                     this.Definition.ParameterSeparator,
-                    this.Definition.Parantheses.Item1,
-                    this.Definition.Parantheses.Item2,
+                    this.Definition.Parentheses.Item1,
+                    this.Definition.Parentheses.Item2,
                 })
                 .ToArray();
 

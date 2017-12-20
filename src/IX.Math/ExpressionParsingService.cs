@@ -10,14 +10,14 @@ using System.Threading;
 using IX.Math.Generators;
 using IX.Math.Nodes.Constants;
 using IX.Math.Nodes.Parameters;
-using IX.Math.PlatformMitigation;
+using IX.StandardExtensions.ComponentModel;
 
 namespace IX.Math
 {
     /// <summary>
     /// A service that is able to parse strings containing mathematical expressions and solve them.
     /// </summary>
-    public sealed class ExpressionParsingService : IExpressionParsingService
+    public sealed class ExpressionParsingService : DisposableBase, IExpressionParsingService
     {
         private MathDefinition workingDefinition;
 
@@ -28,15 +28,13 @@ namespace IX.Math
         private Dictionary<string, Type> binaryFunctions;
         private Dictionary<string, Type> ternaryFunctions;
 
-        private bool disposed;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionParsingService"/> class with a standard math definition object.
         /// </summary>
         public ExpressionParsingService()
             : this(new MathDefinition
             {
-                Parantheses = new Tuple<string, string>("(", ")"),
+                Parentheses = new Tuple<string, string>("(", ")"),
                 SpecialSymbolIndicators = new Tuple<string, string>("[", "]"),
                 StringIndicator = "\"",
                 ParameterSeparator = ",",
@@ -76,14 +74,6 @@ namespace IX.Math
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="ExpressionParsingService"/> class.
-        /// </summary>
-        ~ExpressionParsingService()
-        {
-            this.Dispose(false);
-        }
-
-        /// <summary>
         /// Interprets the mathematical expression and returns a container that can be invoked for solving using specific mathematical types.
         /// </summary>
         /// <param name="expression">The expression to interpret.</param>
@@ -97,7 +87,7 @@ namespace IX.Math
                 throw new ArgumentNullException(nameof(expression));
             }
 
-            this.ThrowIfDisposed();
+            this.ThrowIfCurrentObjectDisposed();
 
             if (this.nonaryFunctions == null ||
                 this.unaryFunctions == null ||
@@ -135,7 +125,7 @@ namespace IX.Math
         /// <returns>All function names, with all possible combinations of input and output data.</returns>
         public string[] GetRegisteredFunctions()
         {
-            this.ThrowIfDisposed();
+            this.ThrowIfCurrentObjectDisposed();
 
             if (this.nonaryFunctions == null ||
                 this.unaryFunctions == null ||
@@ -154,7 +144,7 @@ namespace IX.Math
 
             foreach (KeyValuePair<string, Type> function in this.unaryFunctions)
             {
-                foreach (ConstructorInfo constructor in function.Value.GetTypeConstructors())
+                foreach (ConstructorInfo constructor in GetTypeConstructors(function.Value))
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
 
@@ -176,7 +166,7 @@ namespace IX.Math
 
             foreach (KeyValuePair<string, Type> function in this.binaryFunctions)
             {
-                foreach (ConstructorInfo constructor in function.Value.GetTypeConstructors())
+                foreach (ConstructorInfo constructor in GetTypeConstructors(function.Value))
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
 
@@ -199,7 +189,7 @@ namespace IX.Math
 
             foreach (KeyValuePair<string, Type> function in this.ternaryFunctions)
             {
-                foreach (ConstructorInfo constructor in function.Value.GetTypeConstructors())
+                foreach (ConstructorInfo constructor in GetTypeConstructors(function.Value))
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
 
@@ -221,6 +211,11 @@ namespace IX.Math
                 }
             }
 
+            IEnumerable<ConstructorInfo> GetTypeConstructors(Type type)
+            {
+                return type.GetTypeInfo().DeclaredConstructors;
+            }
+
             return bldr.ToArray();
         }
 
@@ -235,7 +230,7 @@ namespace IX.Math
                 throw new ArgumentNullException(nameof(assembly));
             }
 
-            this.ThrowIfDisposed();
+            this.ThrowIfCurrentObjectDisposed();
 
             if (this.assembliesToRegister.Contains(assembly))
             {
@@ -251,33 +246,25 @@ namespace IX.Math
         }
 
         /// <summary>
-        /// Disposes of this instance of the <see cref="ExpressionParsingService"/> class.
+        /// Disposes in the managed context.
         /// </summary>
-        public void Dispose()
+        protected override void DisposeManagedContext()
         {
-            if (this.disposed)
-            {
-                return;
-            }
+            this.nonaryFunctions?.Clear();
+            this.unaryFunctions?.Clear();
+            this.binaryFunctions?.Clear();
+            this.ternaryFunctions?.Clear();
+            this.assembliesToRegister?.Clear();
 
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
+            base.DisposeManagedContext();
         }
 
         /// <summary>
-        /// Disposes of this instance of the <see cref="ExpressionParsingService"/> class.
+        /// Disposes in the general (managed and unmanaged) context.
         /// </summary>
-        /// <param name="isManaged">Indicates whether or not this came from a <see cref="M:Dispose"/> call, or the destructor.</param>
-        private void Dispose(bool isManaged)
+        protected override void DisposeGeneralContext()
         {
-            if (isManaged)
-            {
-                this.nonaryFunctions?.Clear();
-                this.unaryFunctions?.Clear();
-                this.binaryFunctions?.Clear();
-                this.ternaryFunctions?.Clear();
-                this.assembliesToRegister?.Clear();
-            }
+            base.DisposeGeneralContext();
 
             this.nonaryFunctions = null;
             this.unaryFunctions = null;
@@ -286,19 +273,6 @@ namespace IX.Math
             this.assembliesToRegister = null;
 
             this.workingDefinition = null;
-
-            this.disposed = true;
-        }
-
-        /// <summary>
-        /// Checks whether this instance of the <see cref="ExpressionParsingService"/> is disposed, and throws an exception if so.
-        /// </summary>
-        private void ThrowIfDisposed()
-        {
-            if (this.disposed)
-            {
-                throw new ObjectDisposedException(typeof(ExpressionParsingService).FullName);
-            }
         }
 
         private void InitializeFunctionsDictionary()

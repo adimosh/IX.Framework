@@ -10,9 +10,6 @@ namespace IX.Math.PlatformMitigation
 {
     internal static class TypeExtensionsMitigation
     {
-        internal static PropertyInfo GetTypeProperty(this Type type, string name) =>
-            type.GetRuntimeProperty(name);
-
         internal static MethodInfo GetTypeMethod(this Type type, string name) =>
             type.GetRuntimeMethods()
                 .Where(p => p.Name == name)
@@ -70,7 +67,5 @@ namespace IX.Math.PlatformMitigation
 
                 return true;
             });
-
-        internal static ConstructorInfo[] GetTypeConstructors(this Type type) => type.GetTypeInfo().DeclaredConstructors.ToArray();
     }
 }
