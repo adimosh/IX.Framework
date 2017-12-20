@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using IX.StandardExtensions;
 using IX.StandardExtensions.ComponentModel;
 
 namespace IX.Retry
@@ -99,6 +100,10 @@ namespace IX.Retry
 
                 shouldRetry = false;
             }
+            catch (StopRetryingException)
+            {
+                shouldRetry = false;
+            }
             catch (Exception ex)
             {
                 if (this.options.RetryOnExceptions.Count > 0 &&
@@ -124,7 +129,10 @@ namespace IX.Retry
                     shouldRetry = false;
                 }
 
-                retries++;
+                if (shouldRetry)
+                {
+                    retries++;
+                }
             }
 
             return shouldRetry;
