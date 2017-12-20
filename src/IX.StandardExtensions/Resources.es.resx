@@ -129,4 +129,7 @@
   <data name="ErrorSourceIndexMustPointToALocationWithinTheArray" xml:space="preserve">
     <value>Arrastra y suéltalo en una ubicación específica dentro de la línea de tiempo</value>
   </data>
+  <data name="ErrorWrongArgumentType" xml:space="preserve">
+    <value>El argumento en caja suministrado es de un tipo incorrecto.</value>
+  </data>
 </root>

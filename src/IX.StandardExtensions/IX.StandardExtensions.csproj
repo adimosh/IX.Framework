@@ -69,6 +69,10 @@
     <EmbeddedResource Update="Resources.de.resx">
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources.en.resx">
+      <Generator></Generator>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources.es.resx">
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>

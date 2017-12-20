@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net45</TargetFramework>
+  </PropertyGroup>
+
+  <Import Project="..\DefaultPackageVersionSystem.props" />
+
+  <PropertyGroup>
+    <Title>IX Standard Extensions for WPF</Title>
+    <Description>A library containing several extensions for WPF that provide useful classes and aim to standardize app implementations.</Description>
+  </PropertyGroup>
+
+  <Import Project="..\Branding.props" />
+
+  <Import Project="..\TargetSymbols.props" />
+
+  <Import Project="..\DocumentationFile.props" />
+
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="dotnet-csprojVersioning" Version="1.0.0.4" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
+  </ItemGroup>
+
+</Project>

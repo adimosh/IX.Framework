@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.StandardExtensions", "IX.StandardExtensions\IX.StandardExtensions.csproj", "{A3D15D3A-BD82-4D19-BC32-56148D879FF4}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -71,6 +71,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.Math", "IX.Math\IX.Math.csproj", "{74ED720B-9C04-4407-8A1D-1A7871FDB888}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.Math.UnitTests", "IX.Math.UnitTests\IX.Math.UnitTests.csproj", "{C94A9369-9C68-4CCE-B046-CA3E2A047C71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IX.StandardExtensions.WPF", "IX.StandardExtensions.WPF\IX.StandardExtensions.WPF.csproj", "{5847915C-3A4F-4327-821C-D775EDAF99D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -162,6 +164,10 @@ Global
 		{C94A9369-9C68-4CCE-B046-CA3E2A047C71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C94A9369-9C68-4CCE-B046-CA3E2A047C71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C94A9369-9C68-4CCE-B046-CA3E2A047C71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5847915C-3A4F-4327-821C-D775EDAF99D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5847915C-3A4F-4327-821C-D775EDAF99D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5847915C-3A4F-4327-821C-D775EDAF99D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5847915C-3A4F-4327-821C-D775EDAF99D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -187,6 +193,7 @@ Global
 		{93E46B8E-E6DE-44A7-A43A-7D3717C2A485} = {8AE64D45-7D3E-42A3-92B0-CACFA2FDF925}
 		{74ED720B-9C04-4407-8A1D-1A7871FDB888} = {2D9F59CE-ED13-4F54-995D-3269A92D14BF}
 		{C94A9369-9C68-4CCE-B046-CA3E2A047C71} = {2D9F59CE-ED13-4F54-995D-3269A92D14BF}
+		{5847915C-3A4F-4327-821C-D775EDAF99D1} = {9141E8DC-E552-4591-883D-3BF52099F6ED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E982D088-16DA-46BF-A043-B1326577DB77}

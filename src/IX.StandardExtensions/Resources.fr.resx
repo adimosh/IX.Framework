@@ -129,4 +129,7 @@
   <data name="ErrorSourceIndexMustPointToALocationWithinTheArray" xml:space="preserve">
     <value>L'index source doit pointer vers un emplacement dans le tableau.!</value>
   </data>
+  <data name="ErrorWrongArgumentType" xml:space="preserve">
+    <value>L'argument encadré fourni est de type incorrect.</value>
+  </data>
 </root>

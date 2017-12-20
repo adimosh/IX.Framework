@@ -96,5 +96,14 @@ namespace IX.StandardExtensions {
                 return ResourceManager.GetString("ErrorSourceIndexMustPointToALocationWithinTheArray", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The supplied boxed or polymorphic argument is of a wrong type..
+        /// </summary>
+        internal static string ErrorWrongArgumentType {
+            get {
+                return ResourceManager.GetString("ErrorWrongArgumentType", resourceCulture);
+            }
+        }
     }
 }

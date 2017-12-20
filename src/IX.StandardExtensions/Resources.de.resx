@@ -129,4 +129,7 @@
   <data name="ErrorSourceIndexMustPointToALocationWithinTheArray" xml:space="preserve">
     <value>Der Quellindex muss auf eine Position innerhalb des Arrays zeigen.</value>
   </data>
+  <data name="ErrorWrongArgumentType" xml:space="preserve">
+    <value>Das angegebene Boxed-Argument hat einen falschen Typ.</value>
+  </data>
 </root>

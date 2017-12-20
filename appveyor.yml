@@ -80,6 +80,10 @@ build_script:
 
     dotnet csprojVersioning IX.Math.csproj %APPVEYOR_BUILD_VERSION%
 
+    cd ..\IX.StandardExtensions.WPF\
+
+    dotnet csprojVersioning IX.StandardExtensions.WPF.csproj %APPVEYOR_BUILD_VERSION%
+
     cd ..\..\
 
     msbuild src\IX.Framework.sln /p:Configuration=Release /t:Clean
@@ -165,3 +169,7 @@ deploy_script:
     dotnet pack src\IX.Math\IX.Math.csproj -c Release --no-build
 
     nuget push src\IX.Math\bin\Release\IX.Math.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    
+    dotnet pack src\IX.StandardExtensions.WPF\IX.StandardExtensions.WPF.csproj -c Release --no-build
+
+    nuget push src\IX.StandardExtensions.WPF\bin\Release\IX.StandardExtensions.WPF.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package

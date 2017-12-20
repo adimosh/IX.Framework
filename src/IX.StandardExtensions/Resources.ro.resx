@@ -129,4 +129,7 @@
   <data name="ErrorSourceIndexMustPointToALocationWithinTheArray" xml:space="preserve">
     <value>Indicele sursă trebuie să indice o locație din interiorul șirului.</value>
   </data>
+  <data name="ErrorWrongArgumentType" xml:space="preserve">
+    <value>Argumentul furnizat incapsulat sau polimorfic este de un tip greșit.</value>
+  </data>
 </root>
