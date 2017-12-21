@@ -120,10 +120,13 @@
   <data name="LimitArgumentNegativeExceptionDefaultTextNoArgument" xml:space="preserve">
     <value>Límite el argumento debe ser un entero no negativo.!</value>
   </data>
-  <data name="LimitArgumentNegativeExceptionDefaultTextWithArgument" xml:space="preserve">
-    <value>Edad de la historia debe ser un entero no negativo</value>
-  </data>
   <data name="MoveNextNotInvoked" xml:space="preserve">
     <value>En primer lugar se debe invocar el método MoveNext antes de llamar a actual.!</value>
+  </data>
+  <data name="LimitArgumentNegativeExceptionDefaultTextWithArgument" xml:space="preserve">
+    <value>Argumento de límite debe ser un entero no negativo. Nombre de argumento: {0}!</value>
+  </data>
+  <data name="ErrorKeyFoundInDictionary" xml:space="preserve">
+    <value>La clave dada ya estaba presente en el diccionario.!</value>
   </data>
 </root>

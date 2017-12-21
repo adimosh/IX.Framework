@@ -126,4 +126,7 @@
   <data name="MoveNextNotInvoked" xml:space="preserve">
     <value>Sie müssen zuerst die MoveNext-Methode aufrufen, bevor Sie Current aufrufen können.</value>
   </data>
+  <data name="ErrorKeyFoundInDictionary" xml:space="preserve">
+    <value>Der angegebene Schlüssel war bereits im Wörterbuch vorhanden.!</value>
+  </data>
 </root>

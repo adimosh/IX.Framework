@@ -126,4 +126,7 @@
   <data name="LimitArgumentNegativeExceptionDefaultTextWithArgument" xml:space="preserve">
     <value>Parametrul limită trebuie să fie un întreg non-negativ. Numele parametrului: {0}</value>
   </data>
+  <data name="ErrorKeyFoundInDictionary" xml:space="preserve">
+    <value>Cheia introdusă este deja prezentă în dicționar.</value>
+  </data>
 </root>

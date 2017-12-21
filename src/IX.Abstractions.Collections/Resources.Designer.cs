@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 namespace IX.Abstractions.Collections {
-    using System;
+    using global::System;
     using global::System.Reflection;
     
     
@@ -58,6 +58,15 @@ namespace IX.Abstractions.Collections {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The given key was already present in the dictionary..
+        /// </summary>
+        internal static string ErrorKeyFoundInDictionary {
+            get {
+                return ResourceManager.GetString("ErrorKeyFoundInDictionary", resourceCulture);
             }
         }
         

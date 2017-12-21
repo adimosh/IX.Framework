@@ -126,4 +126,7 @@
   <data name="MoveNextNotInvoked" xml:space="preserve">
     <value>Vous devez d'abord appeler la méthode MoveNext avant de pouvoir appeler Current.</value>
   </data>
+  <data name="ErrorKeyFoundInDictionary" xml:space="preserve">
+    <value>La clé donnée était déjà présente dans le dictionnaire. !</value>
+  </data>
 </root>
