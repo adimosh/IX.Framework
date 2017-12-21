@@ -9,10 +9,9 @@
 //------------------------------------------------------------------------------
 
 namespace IX.Sandbox.Memory {
-    using global::System;
-    using global::System.Reflection;
-
-
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -40,7 +39,7 @@ namespace IX.Sandbox.Memory {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IX.Sandbox.Memory.Resources", typeof(Resources).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IX.Sandbox.Memory.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
