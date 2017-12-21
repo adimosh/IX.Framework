@@ -43,8 +43,7 @@ namespace IX.Math.Nodes.Operations.Function.Unary
 
         public override NodeBase Simplify()
         {
-            StringNode stringParam;
-            if ((stringParam = this.Parameter as StringNode) != null)
+            if (this.Parameter is StringNode stringParam)
             {
                 return new NumericNode(Convert.ToInt64(stringParam.Value.Length));
             }

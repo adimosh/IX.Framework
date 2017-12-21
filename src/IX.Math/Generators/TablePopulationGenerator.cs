@@ -24,18 +24,18 @@ namespace IX.Math.Generators
         /// <param name="reverseSymbolTable">The reverse-lookup symbols table.</param>
         /// <param name="parametersTable">The parameters table.</param>
         /// <param name="expression">The expression before processing.</param>
-        /// <param name="openParanthesis">The symbol of an open paranthesis.</param>
+        /// <param name="openParenthesis">The symbol of an open parenthesis.</param>
         /// <param name="allOperatorsInOrder">All operators, in order.</param>
         internal static void PopulateTables(
-            string processedExpression,
-            Dictionary<string, ConstantNodeBase> constantsTable,
-            Dictionary<string, string> reverseConstantsTable,
-            Dictionary<string, ExpressionSymbol> symbolTable,
-            Dictionary<string, string> reverseSymbolTable,
-            Dictionary<string, ParameterNodeBase> parametersTable,
-            string expression,
-            string openParanthesis,
-            string[] allOperatorsInOrder)
+            in string processedExpression,
+            in Dictionary<string, ConstantNodeBase> constantsTable,
+            in Dictionary<string, string> reverseConstantsTable,
+            in Dictionary<string, ExpressionSymbol> symbolTable,
+            in Dictionary<string, string> reverseSymbolTable,
+            in Dictionary<string, ParameterNodeBase> parametersTable,
+            in string expression,
+            in string openParenthesis,
+            in string[] allOperatorsInOrder)
         {
             string[] expressions = processedExpression.Split(allOperatorsInOrder, StringSplitOptions.RemoveEmptyEntries);
 
@@ -66,7 +66,7 @@ namespace IX.Math.Generators
                     continue;
                 }
 
-                if (exp.Contains(openParanthesis))
+                if (exp.Contains(openParenthesis))
                 {
                     continue;
                 }

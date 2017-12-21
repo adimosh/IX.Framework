@@ -23,7 +23,7 @@ namespace IX.Math
         private Dictionary<int, Delegate> computedBodies;
         private bool disposedValue;
 
-        internal ComputedExpression(string initialExpression, NodeBase body, ParameterNodeBase[] parameters, bool isRecognized)
+        internal ComputedExpression(in string initialExpression, in NodeBase body, in ParameterNodeBase[] parameters, in bool isRecognized)
         {
             this.initialExpression = initialExpression;
             this.body = body;

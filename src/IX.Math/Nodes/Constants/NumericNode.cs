@@ -52,7 +52,7 @@ namespace IX.Math.Nodes.Constants
         /// Initializes a new instance of the <see cref="NumericNode"/> class.
         /// </summary>
         /// <param name="value">The undefined value.</param>
-        /// <exception cref="System.ArgumentException">The value is not in an expected format.</exception>
+        /// <exception cref="global::System.ArgumentException">The value is not in an expected format.</exception>
         public NumericNode(object value)
         {
             switch (value)
@@ -179,7 +179,7 @@ namespace IX.Math.Nodes.Constants
         public static NumericNode Power(NumericNode left, NumericNode right)
         {
             Tuple<double, double> floats = ExtractFloats(left, right);
-            return new NumericNode(System.Math.Pow(floats.Item1, floats.Item2));
+            return new NumericNode(global::System.Math.Pow(floats.Item1, floats.Item2));
         }
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace IX.Math.Nodes.Constants
         /// Generates an integer expression.
         /// </summary>
         /// <returns>The expression.</returns>
-        /// <exception cref="System.InvalidCastException">The node is floating-point and cannot be transformed.</exception>
+        /// <exception cref="global::System.InvalidCastException">The node is floating-point and cannot be transformed.</exception>
         public Expression GenerateLongExpression()
         {
             if (!this.isFloat)
@@ -273,7 +273,7 @@ namespace IX.Math.Nodes.Constants
             }
             else
             {
-                if (System.Math.Floor(this.floatValue) != this.floatValue)
+                if (global::System.Math.Floor(this.floatValue) != this.floatValue)
                 {
                     throw new InvalidCastException();
                 }
@@ -286,12 +286,12 @@ namespace IX.Math.Nodes.Constants
         /// Extracts an integer.
         /// </summary>
         /// <returns>An integer value.</returns>
-        /// <exception cref="System.InvalidCastException">The current value is floating-point and cannot be transformed.</exception>
+        /// <exception cref="global::System.InvalidCastException">The current value is floating-point and cannot be transformed.</exception>
         public long ExtractInteger()
         {
             if (this.isFloat)
             {
-                if (System.Math.Floor(this.floatValue) != this.floatValue)
+                if (global::System.Math.Floor(this.floatValue) != this.floatValue)
                 {
                     throw new InvalidCastException();
                 }
@@ -320,12 +320,12 @@ namespace IX.Math.Nodes.Constants
         /// Extracts a 32-bit integer value.
         /// </summary>
         /// <returns>A 32-bit integer value.</returns>
-        /// <exception cref="System.InvalidCastException">The value is either floating-point or larger than 32-bit.</exception>
+        /// <exception cref="global::System.InvalidCastException">The value is either floating-point or larger than 32-bit.</exception>
         public int ExtractInt()
         {
             if (this.isFloat)
             {
-                if (System.Math.Floor(this.floatValue) != this.floatValue)
+                if (global::System.Math.Floor(this.floatValue) != this.floatValue)
                 {
                     throw new InvalidCastException();
                 }
@@ -364,7 +364,7 @@ namespace IX.Math.Nodes.Constants
         /// <param name="value">The value.</param>
         private void Initialize(double value)
         {
-            if (System.Math.Floor(value) == value)
+            if (global::System.Math.Floor(value) == value)
             {
                 this.integerValue = Convert.ToInt64(value);
                 this.isFloat = false;

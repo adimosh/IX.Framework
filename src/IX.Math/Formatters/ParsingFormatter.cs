@@ -21,7 +21,9 @@ namespace IX.Math.Formatters
 
         private const NumberStyles HexNumberStyle = NumberStyles.AllowHexSpecifier;
 
-        internal static bool ParseNumeric(string expression, out object result)
+        internal static bool ParseNumeric(
+            in string expression,
+            out object result)
         {
             if (string.IsNullOrWhiteSpace(expression))
             {
@@ -45,7 +47,9 @@ namespace IX.Math.Formatters
                 return ParseSpecific(expression, out result);
             }
 
-            bool ParseHexSpecific(string hexExpression, out object hexResult)
+            bool ParseHexSpecific(
+                in string hexExpression,
+                out object hexResult)
             {
                 if (long.TryParse(hexExpression, HexNumberStyle, CultureInfo.CurrentCulture, out long intVal))
                 {
@@ -57,7 +61,9 @@ namespace IX.Math.Formatters
                 return false;
             }
 
-            bool ParseSpecific(string specificExpression, out object specificResult)
+            bool ParseSpecific(
+                in string specificExpression,
+                out object specificResult)
             {
                 IFormatProvider formatProvider = CultureInfo.CurrentCulture;
 
@@ -77,7 +83,9 @@ namespace IX.Math.Formatters
             }
         }
 
-        internal static bool ParseByteArray(string expression, out byte[] result)
+        internal static bool ParseByteArray(
+            in string expression,
+            out byte[] result)
         {
             if (string.IsNullOrWhiteSpace(expression))
             {
@@ -100,7 +108,9 @@ namespace IX.Math.Formatters
             result = null;
             return false;
 
-            bool ParseByteArray(string byteArrayExpression, out byte[] byteArrayResult)
+            bool ParseByteArray(
+                in string byteArrayExpression,
+                out byte[] byteArrayResult)
             {
                 var stringLength = byteArrayExpression.Length;
                 var byteLength = stringLength / 8;

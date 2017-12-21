@@ -173,7 +173,7 @@ namespace IX.Math.Nodes.Operations.Binary
 
             if (this.ReturnType == SupportedValueType.String)
             {
-                System.Reflection.MethodInfo mi = typeof(string).GetTypeMethod(nameof(string.Concat), typeof(string), typeof(string));
+                global::System.Reflection.MethodInfo mi = typeof(string).GetTypeMethod(nameof(string.Concat), typeof(string), typeof(string));
                 return Expression.Call(mi, pars.Item1, pars.Item2);
             }
             else

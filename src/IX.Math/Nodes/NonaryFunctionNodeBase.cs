@@ -35,7 +35,7 @@ namespace IX.Math.Nodes
         /// <typeparam name="T">The type to call the function on.</typeparam>
         /// <param name="functionName">Name of the function.</param>
         /// <returns>An expression representing the function call.</returns>
-        /// <exception cref="System.ArgumentException">The function name is invalid.</exception>
+        /// <exception cref="global::System.ArgumentException">The function name is invalid.</exception>
         protected Expression GenerateStaticNonaryFunctionCall<T>(string functionName) =>
             this.GenerateStaticNonaryFunctionCall(typeof(T), functionName);
 
@@ -45,7 +45,7 @@ namespace IX.Math.Nodes
         /// <param name="t">The type to call the function on.</param>
         /// <param name="functionName">Name of the function.</param>
         /// <returns>An expression representing the function call.</returns>
-        /// <exception cref="System.ArgumentException">The function name is invalid.</exception>
+        /// <exception cref="global::System.ArgumentException">The function name is invalid.</exception>
         protected Expression GenerateStaticNonaryFunctionCall(Type t, string functionName)
         {
             if (string.IsNullOrWhiteSpace(functionName))

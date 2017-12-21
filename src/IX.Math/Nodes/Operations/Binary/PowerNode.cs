@@ -27,8 +27,8 @@ namespace IX.Math.Nodes.Operations.Binary
         }
 
         protected override Expression GenerateExpressionInternal() => Expression.Call(
-                typeof(System.Math),
-                nameof(System.Math.Pow),
+                typeof(global::System.Math),
+                nameof(global::System.Math.Pow),
                 null,
                 Expression.Convert(this.Left.GenerateExpression(), typeof(double)),
                 Expression.Convert(this.Right.GenerateExpression(), typeof(double)));

@@ -1,4 +1,4 @@
-﻿// <copyright file="FunctionNodeCeiling.cs" company="Adrian Mos">
+﻿// <copyright file="FunctionNodeceiling.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -42,15 +42,14 @@ namespace IX.Math.Nodes.Operations.Function.Unary
 
         public override NodeBase Simplify()
         {
-            NumericNode stringParam;
-            if ((stringParam = this.Parameter as NumericNode) != null)
+            if (this.Parameter is NumericNode stringParam)
             {
-                return new NumericNode(System.Math.Ceiling(stringParam.ExtractFloat()));
+                return new NumericNode(global::System.Math.Ceiling(stringParam.ExtractFloat()));
             }
 
             return this;
         }
 
-        protected override Expression GenerateExpressionInternal() => this.GenerateStaticUnaryFunctionCall(typeof(System.Math), nameof(System.Math.Ceiling));
+        protected override Expression GenerateExpressionInternal() => this.GenerateStaticUnaryFunctionCall(typeof(global::System.Math), nameof(global::System.Math.Ceiling));
     }
 }

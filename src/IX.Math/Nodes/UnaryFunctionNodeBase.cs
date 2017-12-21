@@ -19,7 +19,7 @@ namespace IX.Math.Nodes
         /// Initializes a new instance of the <see cref="UnaryFunctionNodeBase"/> class.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
-        /// <exception cref="System.ArgumentNullException">parameter</exception>
+        /// <exception cref="global::System.ArgumentNullException">parameter</exception>
         protected UnaryFunctionNodeBase(NodeBase parameter)
         {
             this.Parameter = parameter ?? throw new ArgumentNullException(nameof(parameter));
@@ -48,7 +48,7 @@ namespace IX.Math.Nodes
         /// <typeparam name="T">The type to call the method from.</typeparam>
         /// <param name="functionName">Name of the function.</param>
         /// <returns>An expression representing the static function call.</returns>
-        /// <exception cref="System.ArgumentException"><paramref name="functionName"/> represents a function that cannot be found.</exception>
+        /// <exception cref="global::System.ArgumentException"><paramref name="functionName"/> represents a function that cannot be found.</exception>
         protected Expression GenerateStaticUnaryFunctionCall<T>(string functionName) =>
             this.GenerateStaticUnaryFunctionCall(typeof(T), functionName);
 
@@ -58,7 +58,7 @@ namespace IX.Math.Nodes
         /// <param name="t">The type to call the method from.</param>
         /// <param name="functionName">Name of the function.</param>
         /// <returns>An expression representing the static function call.</returns>
-        /// <exception cref="System.ArgumentException"><paramref name="functionName"/> represents a function that cannot be found.</exception>
+        /// <exception cref="global::System.ArgumentException"><paramref name="functionName"/> represents a function that cannot be found.</exception>
         protected Expression GenerateStaticUnaryFunctionCall(Type t, string functionName)
         {
             if (string.IsNullOrWhiteSpace(functionName))
@@ -108,7 +108,7 @@ namespace IX.Math.Nodes
         /// <typeparam name="T">The type to call the property from.</typeparam>
         /// <param name="propertyName">Name of the parameter.</param>
         /// <returns>An expression representing a property call.</returns>
-        /// <exception cref="System.ArgumentException"><paramref name="propertyName"/> represents a property that cannot be found.</exception>
+        /// <exception cref="global::System.ArgumentException"><paramref name="propertyName"/> represents a property that cannot be found.</exception>
         protected Expression GenerateParameterPropertyCall<T>(string propertyName)
         {
             if (string.IsNullOrWhiteSpace(propertyName))

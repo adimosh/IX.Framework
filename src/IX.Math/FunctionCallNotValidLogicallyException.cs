@@ -12,7 +12,7 @@ namespace IX.Math
     /// <summary>
     /// Thrown when an expression is not internally logical or consistent.
     /// </summary>
-    /// <seealso cref="System.Exception" />
+    /// <seealso cref="global::System.Exception" />
 #if NET45
     [Serializable]
 #endif

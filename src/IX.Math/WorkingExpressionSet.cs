@@ -11,6 +11,7 @@ using System.Threading;
 using IX.Math.ExpressionState;
 using IX.Math.Generators;
 using IX.Math.Nodes;
+using IX.System.Collections.Generic;
 
 namespace IX.Math
 {
@@ -20,8 +21,6 @@ namespace IX.Math
 #pragma warning disable SA1401 // Fields must be private
         internal MathDefinition Definition;
 
-        internal string[] BinaryOperatorsInOrder;
-        internal string[] UnaryOperatorsInOrder;
         internal string[] AllOperatorsInOrder;
         internal string[] AllSymbols;
         internal Regex FunctionRegex;
@@ -40,8 +39,8 @@ namespace IX.Math
         internal NodeBase Body;
 
         // Scrap
-        internal Dictionary<string, Type> UnaryOperators;
-        internal Dictionary<string, Type> BinaryOperators;
+        internal LevelDictionary<string, Type> UnaryOperators;
+        internal LevelDictionary<string, Type> BinaryOperators;
 
         internal Dictionary<string, Type> NonaryFunctions;
         internal Dictionary<string, Type> UnaryFunctions;
@@ -218,32 +217,53 @@ namespace IX.Math
             }
 
             // Operator string interpretation support
-            this.BinaryOperatorsInOrder = new[]
+            // ======================================
+
+            // Binary operators
+            var binaryOperators = new LevelDictionary<string, Type>
             {
-                this.Definition.GreaterThanOrEqualSymbol,
-                this.Definition.LessThanOrEqualSymbol,
-                this.Definition.GreaterThanSymbol,
-                this.Definition.LessThanSymbol,
-                this.Definition.NotEqualsSymbol,
-                this.Definition.EqualsSymbol,
-                this.Definition.XorSymbol,
-                this.Definition.OrSymbol,
-                this.Definition.AndSymbol,
-                this.Definition.AddSymbol,
-                this.Definition.SubtractSymbol,
-                this.Definition.DivideSymbol,
-                this.Definition.MultiplySymbol,
-                this.Definition.PowerSymbol,
-                this.Definition.LeftShiftSymbol,
-                this.Definition.RightShiftSymbol,
+                // First tier - Comparison and equation operators
+                { this.Definition.GreaterThanOrEqualSymbol, typeof(Nodes.Operations.Binary.GreaterThanOrEqualNode), 1 },
+                { this.Definition.LessThanOrEqualSymbol, typeof(Nodes.Operations.Binary.LessThanOrEqualNode), 1 },
+                { this.Definition.GreaterThanSymbol, typeof(Nodes.Operations.Binary.GreaterThanNode), 1 },
+                { this.Definition.LessThanSymbol, typeof(Nodes.Operations.Binary.LessThanNode), 1 },
+                { this.Definition.NotEqualsSymbol, typeof(Nodes.Operations.Binary.NotEqualsNode), 1 },
+                { this.Definition.EqualsSymbol, typeof(Nodes.Operations.Binary.EqualsNode), 1 },
+
+                // Second tier - Logical operators
+                { this.Definition.XorSymbol, typeof(Nodes.Operations.Binary.XorNode), 2 },
+                { this.Definition.OrSymbol, typeof(Nodes.Operations.Binary.OrNode), 2 },
+                { this.Definition.AndSymbol, typeof(Nodes.Operations.Binary.AndNode), 2 },
+
+                // Third tier - Arithmetic second-rank operators
+                { this.Definition.AddSymbol, typeof(Nodes.Operations.Binary.AddNode), 3 },
+                { this.Definition.SubtractSymbol, typeof(Nodes.Operations.Binary.SubtractNode), 3 },
+
+                // Fourth tier - Arithmetic second-rank operators
+                { this.Definition.DivideSymbol, typeof(Nodes.Operations.Binary.DivideNode), 4 },
+                { this.Definition.MultiplySymbol, typeof(Nodes.Operations.Binary.MultiplyNode), 4 },
+
+                // Fifth tier - Power operator
+                { this.Definition.PowerSymbol, typeof(Nodes.Operations.Binary.PowerNode), 5 },
+
+                // Sixth tier - Bitwise shift operators
+                { this.Definition.LeftShiftSymbol, typeof(Nodes.Operations.Binary.LeftShiftNode), 6 },
+                { this.Definition.RightShiftSymbol, typeof(Nodes.Operations.Binary.RightShiftNode), 6 },
             };
 
-            this.UnaryOperatorsInOrder = new[]
+            this.BinaryOperators = binaryOperators;
+
+            // Unary operators
+            var unaryOperators = new LevelDictionary<string, Type>
             {
-                this.Definition.SubtractSymbol,
-                this.Definition.NotSymbol,
+                // First tier - Negation and inversion
+                { this.Definition.SubtractSymbol, typeof(Nodes.Operations.Unary.SubtractNode), 1 },
+                { this.Definition.NotSymbol, typeof(Nodes.Operations.Unary.NotNode), 1 },
             };
 
+            this.UnaryOperators = unaryOperators;
+
+            // All symbols
             this.AllSymbols = this.AllOperatorsInOrder
                 .Union(new[]
                 {
@@ -260,14 +280,14 @@ namespace IX.Math
                 this.ConstantsTable,
                 this.ReverseConstantsTable,
                 "e",
-                System.Math.E);
+                global::System.Math.E);
 
             // Archimedes-Ludolph constant (pi)
             ConstantsGenerator.GenerateNamedNumericSymbol(
                 this.ConstantsTable,
                 this.ReverseConstantsTable,
                 "π",
-                System.Math.PI,
+                global::System.Math.PI,
                 $"{this.Definition.SpecialSymbolIndicators.Item1}pi{this.Definition.SpecialSymbolIndicators.Item2}");
 
             // Golden ratio
@@ -301,22 +321,6 @@ namespace IX.Math
                 "λ",
                 0.3036630028987326,
                 $"{this.Definition.SpecialSymbolIndicators.Item1}lambda{this.Definition.SpecialSymbolIndicators.Item2}");
-
-            this.UnaryOperators = typeof(MathDefinition)
-                .GetRuntimeProperties()
-                .Where(p => p.Name.EndsWith("Symbol"))
-                .Select(p => new { Name = p.Name.Substring(0, p.Name.Length - 6), Value = (string)p.GetValue(this.Definition) })
-                .Select(p => new { Name = p.Name, Type = Type.GetType($"IX.Math.Nodes.Operations.Unary.{p.Name}Node", false), Value = p.Value })
-                .Where(p => p.Type != null)
-                .ToDictionary(p => p.Value, p => p.Type);
-
-            this.BinaryOperators = typeof(MathDefinition)
-                .GetRuntimeProperties()
-                .Where(p => p.Name.EndsWith("Symbol"))
-                .Select(p => new { Name = p.Name.Substring(0, p.Name.Length - 6), Value = (string)p.GetValue(this.Definition) })
-                .Select(p => new { Name = p.Name, Type = Type.GetType($"IX.Math.Nodes.Operations.Binary.{p.Name}Node", false), Value = p.Value })
-                .Where(p => p.Type != null)
-                .ToDictionary(p => p.Value, p => p.Type);
         }
     }
 }

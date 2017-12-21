@@ -13,11 +13,11 @@ namespace IX.Math.Generators
     internal static class ConstantsGenerator
     {
         public static string GenerateStringConstant(
-            IDictionary<string, ConstantNodeBase> constantsTable,
-            IDictionary<string, string> reverseConstantsTable,
-            string originalExpression,
-            string stringIndicator,
-            string content)
+            in IDictionary<string, ConstantNodeBase> constantsTable,
+            in IDictionary<string, string> reverseConstantsTable,
+            in string originalExpression,
+            in string stringIndicator,
+            in string content)
         {
             if (reverseConstantsTable.TryGetValue(content, out string key))
             {
@@ -33,10 +33,10 @@ namespace IX.Math.Generators
         }
 
         public static string CheckAndAdd(
-            IDictionary<string, ConstantNodeBase> constantsTable,
-            IDictionary<string, string> reverseConstantsTable,
-            string originalExpression,
-            string content)
+            in IDictionary<string, ConstantNodeBase> constantsTable,
+            in IDictionary<string, string> reverseConstantsTable,
+            in string originalExpression,
+            in string content)
         {
             if (string.IsNullOrWhiteSpace(content))
             {
@@ -78,10 +78,10 @@ namespace IX.Math.Generators
         }
 
         public static void GenerateNamedNumericSymbol(
-            IDictionary<string, ConstantNodeBase> constantsTable,
-            IDictionary<string, string> reverseConstantsTable,
-            string name,
-            double value,
+            in IDictionary<string, ConstantNodeBase> constantsTable,
+            in IDictionary<string, string> reverseConstantsTable,
+            in string name,
+            in double value,
             params string[] alternateNames)
         {
             if (reverseConstantsTable.TryGetValue(name, out string key))
@@ -100,7 +100,9 @@ namespace IX.Math.Generators
             }
         }
 
-        private static string GenerateName(IEnumerable<string> keys, string originalExpression)
+        private static string GenerateName(
+            in IEnumerable<string> keys,
+            in string originalExpression)
         {
             var index = int.Parse(keys.Where(p => p.StartsWith("Const") && p.Length > 5).LastOrDefault()?.Substring(5) ?? "0");
 

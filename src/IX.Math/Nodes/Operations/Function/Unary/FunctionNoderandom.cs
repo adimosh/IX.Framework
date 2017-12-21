@@ -45,8 +45,7 @@ namespace IX.Math.Nodes.Operations.Function.Unary
 
         public override NodeBase Simplify()
         {
-            NumericNode stringParam;
-            if ((stringParam = this.Parameter as NumericNode) != null)
+            if (this.Parameter is NumericNode stringParam)
             {
                 return new NumericNode(GenerateRandom(stringParam.ExtractFloat()));
             }

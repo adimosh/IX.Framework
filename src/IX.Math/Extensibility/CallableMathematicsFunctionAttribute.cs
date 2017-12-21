@@ -9,7 +9,7 @@ namespace IX.Math.Extensibility
     /// <summary>
     /// An attribute that will signal a specific class as being a callable function.
     /// </summary>
-    /// <seealso cref="System.Attribute" />
+    /// <seealso cref="global::System.Attribute" />
     public class CallableMathematicsFunctionAttribute : Attribute
     {
         /// <summary>

@@ -10,7 +10,9 @@ namespace IX.Math.Formatters
 {
     internal static class ParameterFormatter
     {
-        internal static object[] FormatArgumentsAccordingToParameters(object[] parameterValues, ParameterNodeBase[] parameters)
+        internal static object[] FormatArgumentsAccordingToParameters(
+            in object[] parameterValues,
+            in ParameterNodeBase[] parameters)
         {
             if (parameterValues.Length != parameterValues.Length)
             {

@@ -14,19 +14,19 @@ namespace IX.Math.Generators
 {
     internal static class FunctionsDictionaryGenerator
     {
-        internal static Dictionary<string, Type> GenerateInternalNonaryFunctionsDictionary(IEnumerable<Assembly> assemblies)
+        internal static Dictionary<string, Type> GenerateInternalNonaryFunctionsDictionary(in IEnumerable<Assembly> assemblies)
             => GenerateTypeAssignableFrom<NonaryFunctionNodeBase>(assemblies);
 
-        internal static Dictionary<string, Type> GenerateInternalUnaryFunctionsDictionary(IEnumerable<Assembly> assemblies)
+        internal static Dictionary<string, Type> GenerateInternalUnaryFunctionsDictionary(in IEnumerable<Assembly> assemblies)
             => GenerateTypeAssignableFrom<UnaryFunctionNodeBase>(assemblies);
 
-        internal static Dictionary<string, Type> GenerateInternalBinaryFunctionsDictionary(IEnumerable<Assembly> assemblies)
+        internal static Dictionary<string, Type> GenerateInternalBinaryFunctionsDictionary(in IEnumerable<Assembly> assemblies)
             => GenerateTypeAssignableFrom<BinaryFunctionNodeBase>(assemblies);
 
-        internal static Dictionary<string, Type> GenerateInternalTernaryFunctionsDictionary(IEnumerable<Assembly> assemblies)
+        internal static Dictionary<string, Type> GenerateInternalTernaryFunctionsDictionary(in IEnumerable<Assembly> assemblies)
             => GenerateTypeAssignableFrom<TernaryFunctionNodeBase>(assemblies);
 
-        internal static Dictionary<string, Type> GenerateTypeAssignableFrom<T>(IEnumerable<Assembly> assemblies)
+        private static Dictionary<string, Type> GenerateTypeAssignableFrom<T>(in IEnumerable<Assembly> assemblies)
             where T : FunctionNodeBase
         {
             var typeDictionary = new Dictionary<string, Type>();
@@ -35,8 +35,8 @@ namespace IX.Math.Generators
 
             void InterpretAssembly(Assembly assembly)
             {
-                assembly.DefinedTypes
-                    .Where(p => typeof(T).GetTypeInfo().IsAssignableFrom(p))
+                assembly?.DefinedTypes
+                    ?.Where(p => typeof(T).GetTypeInfo().IsAssignableFrom(p))
                     .ForEach(AddToTypeDictionary);
 
                 void AddToTypeDictionary(TypeInfo p)

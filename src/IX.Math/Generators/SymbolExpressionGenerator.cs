@@ -10,10 +10,10 @@ namespace IX.Math.Generators
     internal static class SymbolExpressionGenerator
     {
         internal static string GenerateSymbolExpression(
-            Dictionary<string, ExpressionSymbol> symbolTable,
-            Dictionary<string, string> reverseSymbolTable,
-            string expression,
-            bool isFunction = false)
+            in Dictionary<string, ExpressionSymbol> symbolTable,
+            in Dictionary<string, string> reverseSymbolTable,
+            in string expression,
+            in bool isFunction)
         {
             if (!reverseSymbolTable.TryGetValue(expression, out string itemName))
             {

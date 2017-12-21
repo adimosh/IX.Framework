@@ -9,8 +9,8 @@
 //------------------------------------------------------------------------------
 
 namespace IX.Math {
-    using System;
-    using System.Reflection;
+    using global::System;
+    using global::System.Reflection;
     
     
     /// <summary>

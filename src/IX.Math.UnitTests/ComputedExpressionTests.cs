@@ -449,19 +449,19 @@ namespace IX.Math.UnitTests
                 {
                     "e",
                     new object[0],
-                    System.Math.E,
+                    global::System.Math.E,
                 },
                 new object[]
                 {
                     "[pi]",
                     new object[0],
-                    System.Math.PI,
+                    global::System.Math.PI,
                 },
                 new object[]
                 {
                     "e*[pi]",
                     new object[0],
-                    System.Math.E * System.Math.PI,
+                    global::System.Math.E * global::System.Math.PI,
                 },
                 new object[]
                 {
@@ -741,6 +741,12 @@ namespace IX.Math.UnitTests
                 },
                 new object[]
                 {
+                    "6/2*3",
+                    new object[0],
+                    9L,
+                },
+                new object[]
+                {
                     "0b1001010111010110110010000000010010101110101=0b1001010111010110110010000000010010101110101",
                     new object[0],
                     true,
@@ -793,30 +799,14 @@ namespace IX.Math.UnitTests
         {
             using (var service = new ExpressionParsingService())
             {
-                ComputedExpression del;
-                try
-                {
-                    del = service.Interpret(expression);
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidOperationException($"The generation process should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
-                }
+                ComputedExpression del = service.Interpret(expression);
 
                 if (del == null)
                 {
                     throw new InvalidOperationException("No computed expression was generated!");
                 }
 
-                object result;
-                try
-                {
-                    result = del.Compute(parameters);
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidOperationException($"The method should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
-                }
+                var result = del.Compute(parameters);
 
                 Assert.Equal(expectedResult, result);
             }
@@ -840,22 +830,14 @@ namespace IX.Math.UnitTests
             {
                 var finder = new Mock<IDataFinder>(MockBehavior.Loose);
 
-                ComputedExpression del;
-                try
-                {
-                    del = service.Interpret(expression);
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidOperationException($"The generation process should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
-                }
+                ComputedExpression del = service.Interpret(expression);
 
                 if (del == null)
                 {
                     throw new InvalidOperationException("No computed expression was generated!");
                 }
 
-                for (var i = 0; i < System.Math.Min(del.ParameterNames.Length, parameters.Length); i++)
+                for (var i = 0; i < global::System.Math.Min(del.ParameterNames.Length, parameters.Length); i++)
                 {
                     var valueName = del.ParameterNames[i];
                     var outValue = parameters[i];
@@ -863,15 +845,7 @@ namespace IX.Math.UnitTests
                     finder.Setup(p => p.TryGetData(valueName, out outValue)).Returns(true);
                 }
 
-                object result;
-                try
-                {
-                    result = del.Compute(finder.Object);
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidOperationException($"The method should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
-                }
+                var result = del.Compute(finder.Object);
 
                 Assert.Equal(expectedResult, result);
             }

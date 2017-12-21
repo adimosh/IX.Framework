@@ -11,7 +11,9 @@ namespace IX.Math.Generators
 {
     internal static class ParametersGenerator
     {
-        public static void GenerateParameter(IDictionary<string, ParameterNodeBase> parameters, string name)
+        public static void GenerateParameter(
+            in IDictionary<string, ParameterNodeBase> parameters,
+            in string name)
         {
             if (!parameters.ContainsKey(name))
             {
@@ -19,9 +21,12 @@ namespace IX.Math.Generators
             }
         }
 
-        public static NumericParameterNode DetermineNumeric(IDictionary<string, ParameterNodeBase> parameters, string name, bool? determineFloat)
+        public static NumericParameterNode DetermineNumeric(
+            in IDictionary<string, ParameterNodeBase> parameters,
+            in string name,
+            in bool? determineFloat)
         {
-            if (parameters.TryGetValue(name, out var p))
+            if (parameters.TryGetValue(name, out ParameterNodeBase p))
             {
                 if (p is UndefinedParameterNode)
                 {
@@ -59,9 +64,11 @@ namespace IX.Math.Generators
             }
         }
 
-        public static BoolParameterNode DetermineBool(IDictionary<string, ParameterNodeBase> parameters, string name)
+        public static BoolParameterNode DetermineBool(
+            in IDictionary<string, ParameterNodeBase> parameters,
+            in string name)
         {
-            if (parameters.TryGetValue(name, out var p))
+            if (parameters.TryGetValue(name, out ParameterNodeBase p))
             {
                 if (p is UndefinedParameterNode)
                 {
@@ -86,11 +93,13 @@ namespace IX.Math.Generators
             }
         }
 
-        public static ByteArrayParameterNode DetermineByteArray(IDictionary<string, ParameterNodeBase> parameters, string name)
+        public static ByteArrayParameterNode DetermineByteArray(
+            in IDictionary<string, ParameterNodeBase> parameters,
+            in string name)
         {
             var trueName = name.ToLower();
 
-            if (parameters.TryGetValue(trueName, out var p))
+            if (parameters.TryGetValue(trueName, out ParameterNodeBase p))
             {
                 if (p is UndefinedParameterNode)
                 {
@@ -115,9 +124,11 @@ namespace IX.Math.Generators
             }
         }
 
-        public static StringParameterNode DetermineString(IDictionary<string, ParameterNodeBase> parameters, string name)
+        public static StringParameterNode DetermineString(
+            in IDictionary<string, ParameterNodeBase> parameters,
+            in string name)
         {
-            if (parameters.TryGetValue(name, out var p))
+            if (parameters.TryGetValue(name, out ParameterNodeBase p))
             {
                 if (p is UndefinedParameterNode)
                 {

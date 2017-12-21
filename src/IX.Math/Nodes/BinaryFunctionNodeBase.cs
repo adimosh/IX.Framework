@@ -20,7 +20,7 @@ namespace IX.Math.Nodes
         /// </summary>
         /// <param name="firstParameter">The first parameter.</param>
         /// <param name="secondParameter">The second parameter.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="global::System.ArgumentNullException">
         /// <paramref name="firstParameter"/>
         /// or
         /// <paramref name="secondParameter"/>
@@ -70,7 +70,7 @@ namespace IX.Math.Nodes
         /// <param name="t">The type to call on.</param>
         /// <param name="functionName">Name of the function.</param>
         /// <returns>Expression.</returns>
-        /// <exception cref="System.ArgumentException">The function name is invalid.</exception>
+        /// <exception cref="global::System.ArgumentException">The function name is invalid.</exception>
         protected Expression GenerateStaticBinaryFunctionCall(Type t, string functionName)
         {
             if (string.IsNullOrWhiteSpace(functionName))
@@ -146,7 +146,7 @@ namespace IX.Math.Nodes
         /// <param name="t">The type to call on.</param>
         /// <param name="functionName">Name of the function.</param>
         /// <returns>Expression.</returns>
-        /// <exception cref="System.ArgumentException">The function name is invalid.</exception>
+        /// <exception cref="global::System.ArgumentException">The function name is invalid.</exception>
         protected Expression GenerateBinaryFunctionCallFirstParameterInstance(Type t, string functionName)
         {
             if (string.IsNullOrWhiteSpace(functionName))

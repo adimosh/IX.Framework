@@ -22,6 +22,7 @@ namespace IX.Math.UnitTests
         {
             var tests = new List<object[]>();
 
+#pragma warning disable SA1123 // Do not place regions within elements
             #region STAGE 1: Positive integers
 
             // +
@@ -99,7 +100,7 @@ namespace IX.Math.UnitTests
 
             // *
             {
-                var limit = (int)System.Math.Sqrt(int.MaxValue);
+                var limit = (int)global::System.Math.Sqrt(int.MaxValue);
                 double leftOperand = DataGenerator.RandomNonNegativeInteger(limit);
                 double rightOperand = DataGenerator.RandomNonNegativeInteger(limit);
                 var expectedResult = leftOperand * rightOperand;
@@ -248,7 +249,7 @@ namespace IX.Math.UnitTests
 
             // *
             {
-                var limit = 0 - (int)System.Math.Sqrt(int.MaxValue);
+                var limit = 0 - (int)global::System.Math.Sqrt(int.MaxValue);
                 double leftOperand = DataGenerator.RandomInteger(limit, 1);
                 double rightOperand = DataGenerator.RandomInteger(limit, 1);
                 var expectedResult = leftOperand * rightOperand;
@@ -319,6 +320,7 @@ namespace IX.Math.UnitTests
                     });
             }
             #endregion
+#pragma warning restore SA1123 // Do not place regions within elements
 
             return tests.ToArray();
         }

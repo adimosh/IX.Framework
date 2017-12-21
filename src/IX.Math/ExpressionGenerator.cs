@@ -18,8 +18,15 @@ namespace IX.Math
     internal static class ExpressionGenerator
     {
         internal static void CreateBody(
-            WorkingExpressionSet workingSet)
+            in WorkingExpressionSet workingSet)
         {
+#if DEBUG
+            if (workingSet == null)
+            {
+                throw new ArgumentNullException(nameof(workingSet));
+            }
+#endif
+
             workingSet.CancellationToken.ThrowIfCancellationRequested();
 
             // Strings
@@ -129,42 +136,52 @@ namespace IX.Math
         }
 
         private static NodeBase GenerateExpression(
-            string expression,
-            WorkingExpressionSet workingSet)
+            in string expression,
+            in WorkingExpressionSet workingSet)
         {
-            var s = expression;
+#if DEBUG
+            if (string.IsNullOrWhiteSpace(expression))
+            {
+                throw new ArgumentNullException(nameof(expression));
+            }
+
+            if (workingSet == null)
+            {
+                throw new ArgumentNullException(nameof(expression));
+            }
+#endif
 
             // Expression might be an already-defined constant
-            if (workingSet.ConstantsTable.TryGetValue(s, out var c1))
+            if (workingSet.ConstantsTable.TryGetValue(expression, out ConstantNodeBase c1))
             {
                 return c1;
             }
 
-            if (workingSet.ReverseConstantsTable.TryGetValue(s, out var c2))
+            if (workingSet.ReverseConstantsTable.TryGetValue(expression, out string c2))
             {
-                if (workingSet.ConstantsTable.TryGetValue(c2, out var c3))
+                if (workingSet.ConstantsTable.TryGetValue(c2, out ConstantNodeBase c3))
                 {
                     return c3;
                 }
             }
 
             // Check whether expression is an external parameter
-            if (workingSet.ParametersTable.TryGetValue(s, out var parameterResult))
+            if (workingSet.ParametersTable.TryGetValue(expression, out ParameterNodeBase parameterResult))
             {
                 return parameterResult;
             }
 
             // Check whether the expression already exists in the symbols table
-            if (workingSet.SymbolTable.TryGetValue(s, out var e1))
+            if (workingSet.SymbolTable.TryGetValue(expression, out ExpressionSymbol e1))
             {
                 return GenerateExpression(e1.Expression, workingSet);
             }
 
-            if (workingSet.ReverseSymbolTable.TryGetValue(s, out var e2))
+            if (workingSet.ReverseSymbolTable.TryGetValue(expression, out string e2))
             {
-                if (workingSet.SymbolTable.TryGetValue(e2, out var e3))
+                if (workingSet.SymbolTable.TryGetValue(e2, out ExpressionSymbol e3))
                 {
-                    if (e3.Expression != s)
+                    if (e3.Expression != expression)
                     {
                         return GenerateExpression(e3.Expression, workingSet);
                     }
@@ -172,108 +189,124 @@ namespace IX.Math
             }
 
             // Check whether the expression is a function call
-            if (s.Contains(workingSet.Definition.Parentheses.Item1) && s.Contains(workingSet.Definition.Parentheses.Item2))
+            if (expression.Contains(workingSet.Definition.Parentheses.Item1) && expression.Contains(workingSet.Definition.Parentheses.Item2))
             {
-                return GenerateFunctionCallExpression(s);
+                return GenerateFunctionCallExpression(expression, workingSet);
             }
 
             // Check whether the expression is a binary operator
-            foreach (var op in workingSet.BinaryOperatorsInOrder.Where(p => s.Contains(p)))
+            foreach (Tuple<int, int, string> operatorPosition in OperatorSequenceGenerator.GetOperatorsInOrderInExpression(expression, workingSet.BinaryOperators).OrderBy(p => p.Item1).ThenByDescending(p => p.Item2))
             {
-                NodeBase exp = ExpressionByBinaryOperator();
+                NodeBase exp = ExpressionByBinaryOperator(workingSet, expression, operatorPosition.Item2, operatorPosition.Item3);
 
-                NodeBase ExpressionByBinaryOperator()
+                NodeBase ExpressionByBinaryOperator(
+                    in WorkingExpressionSet innerWorkingSet,
+                    in string s,
+                    in int position,
+                    in string op)
                 {
-                    workingSet.CancellationToken.ThrowIfCancellationRequested();
-
-                    var index = s.Length;
-                    while (true)
+#if DEBUG
+                    if (innerWorkingSet == null)
                     {
-                        index = s.LastIndexOf(op, index - 1);
+                        throw new ArgumentNullException(nameof(workingSet));
+                    }
 
-                        if (index < 1)
+                    if (string.IsNullOrWhiteSpace(s))
+                    {
+                        throw new ArgumentNullException(nameof(s));
+                    }
+#endif
+
+                    innerWorkingSet.CancellationToken.ThrowIfCancellationRequested();
+
+                    try
+                    {
+                        NodeBase left;
+                        NodeBase right;
+
+                        // We have a normal, regular binary
+                        var eee = s.Substring(0, position);
+                        if (string.IsNullOrWhiteSpace(eee))
                         {
-                            // We are having a unary operator - until this is treated differently, let's simply return null
-                            // Or, at this point, no expression makes sense with this split
+                            eee = null;
+                        }
+
+                        left = GenerateExpression(eee, innerWorkingSet);
+                        if (left == null)
+                        {
                             return null;
+                        }
+
+                        eee = s.Substring(position + op.Length);
+                        if (string.IsNullOrWhiteSpace(eee))
+                        {
+                            eee = null;
+                        }
+
+                        right = GenerateExpression(eee, innerWorkingSet);
+                        if (right == null)
+                        {
+                            return null;
+                        }
+
+                        if (innerWorkingSet.BinaryOperators.TryGetValue(op, out Type t))
+                        {
+                            return ((BinaryOperationNodeBase)Activator.CreateInstance(t, left, right))?.Simplify();
                         }
                         else
                         {
-                            // We are having a binary operator
-                            try
-                            {
-                                NodeBase left;
-                                NodeBase right;
-
-                                // We have a normal, regular binary
-                                var eee = s.Substring(0, index);
-                                if (string.IsNullOrWhiteSpace(eee))
-                                {
-                                    eee = null;
-                                }
-
-                                left = GenerateExpression(eee, workingSet);
-                                if (left == null)
-                                {
-                                    continue;
-                                }
-
-                                eee = s.Substring(index + op.Length);
-                                if (string.IsNullOrWhiteSpace(eee))
-                                {
-                                    eee = null;
-                                }
-
-                                right = GenerateExpression(eee, workingSet);
-                                if (right == null)
-                                {
-                                    continue;
-                                }
-
-                                if (workingSet.BinaryOperators.TryGetValue(op, out Type t))
-                                {
-                                    return ((BinaryOperationNodeBase)Activator.CreateInstance(t, left, right))?.Simplify();
-                                }
-                                else
-                                {
-                                    continue;
-                                }
-                            }
-                            catch
-                            {
-                                continue;
-                            }
+                            return null;
                         }
+                    }
+                    catch
+                    {
+                        return null;
                     }
                 }
 
                 if (exp != null)
                 {
+                    // We have found a valid binary operator expression
                     return exp;
                 }
             }
 
             // Check whether the expression is a unary operator
-            foreach (var op in workingSet.UnaryOperatorsInOrder.Where(p => s.Contains(p)))
+            foreach (Tuple<int, int, string> operatorPosition in OperatorSequenceGenerator.GetOperatorsInOrderInExpression(expression, workingSet.UnaryOperators).OrderBy(p => p.Item1).ThenByDescending(p => p.Item2))
             {
-                NodeBase exp = ExpressionByUnaryOperator();
+                NodeBase exp = ExpressionByUnaryOperator(workingSet, expression, operatorPosition.Item3);
 
-                NodeBase ExpressionByUnaryOperator()
+                NodeBase ExpressionByUnaryOperator(
+                    in WorkingExpressionSet innerWorkingSet,
+                    in string s,
+                    in string op)
                 {
-                    workingSet.CancellationToken.ThrowIfCancellationRequested();
+#if DEBUG
+                    if (innerWorkingSet == null)
+                    {
+                        throw new ArgumentNullException(nameof(workingSet));
+                    }
+
+                    if (string.IsNullOrWhiteSpace(s))
+                    {
+                        throw new ArgumentNullException(nameof(s));
+                    }
+#endif
+
+                    innerWorkingSet.CancellationToken.ThrowIfCancellationRequested();
 
                     if (s.StartsWith(op))
                     {
                         try
                         {
                             var eee = s.Substring(op.Length);
-                            NodeBase expr = GenerateExpression(string.IsNullOrWhiteSpace(eee) ? null : eee, workingSet);
+                            NodeBase expr = GenerateExpression(string.IsNullOrWhiteSpace(eee) ? null : eee, innerWorkingSet);
                             if (expr == null)
                             {
                                 return null;
                             }
 
-                            if (workingSet.UnaryOperators.TryGetValue(op, out Type t))
+                            if (innerWorkingSet.UnaryOperators.TryGetValue(op, out Type t))
                             {
                                 return ((UnaryOperatorNodeBase)Activator.CreateInstance(t, expr))?.Simplify();
                             }
@@ -293,15 +326,28 @@ namespace IX.Math
 
                 if (exp != null)
                 {
+                    // We have found a valid unary operator expression
                     return exp;
                 }
             }
 
             return null;
 
-            NodeBase GenerateFunctionCallExpression(string possibleFunctionCallExpression)
+            NodeBase GenerateFunctionCallExpression(in string possibleFunctionCallExpression, in WorkingExpressionSet innerWorkingSet)
             {
-                Match match = workingSet.FunctionRegex.Match(possibleFunctionCallExpression);
+#if DEBUG
+                if (innerWorkingSet == null)
+                {
+                    throw new ArgumentNullException(nameof(workingSet));
+                }
+
+                if (string.IsNullOrWhiteSpace(possibleFunctionCallExpression))
+                {
+                    throw new ArgumentNullException(nameof(possibleFunctionCallExpression));
+                }
+#endif
+
+                Match match = innerWorkingSet.FunctionRegex.Match(possibleFunctionCallExpression);
 
                 try
                 {
@@ -319,7 +365,7 @@ namespace IX.Math
                         else
                         {
                             parameterExpressions = match.Groups["expression"].Value
-                                .Split(new[] { workingSet.Definition.ParameterSeparator }, StringSplitOptions.None)
+                                .Split(new[] { innerWorkingSet.Definition.ParameterSeparator }, StringSplitOptions.None)
                                 .Select(p => string.IsNullOrWhiteSpace(p) ? null : p)
                                 .ToArray();
                         }
@@ -327,39 +373,39 @@ namespace IX.Math
                         switch (parameterExpressions.Length)
                         {
                             case 0:
-                                if (workingSet.NonaryFunctions.TryGetValue(functionName, out Type t))
+                                if (innerWorkingSet.NonaryFunctions.TryGetValue(functionName, out Type t))
                                 {
                                     return ((NonaryFunctionNodeBase)Activator.CreateInstance(t))?.Simplify();
                                 }
 
                                 return null;
                             case 1:
-                                if (workingSet.UnaryFunctions.TryGetValue(functionName, out Type t1))
+                                if (innerWorkingSet.UnaryFunctions.TryGetValue(functionName, out Type t1))
                                 {
                                     return ((UnaryFunctionNodeBase)Activator.CreateInstance(
                                         t1,
-                                        GenerateExpression(parameterExpressions[0], workingSet)))?.Simplify();
+                                        GenerateExpression(parameterExpressions[0], innerWorkingSet)))?.Simplify();
                                 }
 
                                 return null;
                             case 2:
-                                if (workingSet.BinaryFunctions.TryGetValue(functionName, out Type t2))
+                                if (innerWorkingSet.BinaryFunctions.TryGetValue(functionName, out Type t2))
                                 {
                                     return ((BinaryFunctionNodeBase)Activator.CreateInstance(
                                         t2,
-                                        GenerateExpression(parameterExpressions[0], workingSet),
-                                        GenerateExpression(parameterExpressions[1], workingSet)))?.Simplify();
+                                        GenerateExpression(parameterExpressions[0], innerWorkingSet),
+                                        GenerateExpression(parameterExpressions[1], innerWorkingSet)))?.Simplify();
                                 }
 
                                 return null;
                             case 3:
-                                if (workingSet.TernaryFunctions.TryGetValue(functionName, out Type t3))
+                                if (innerWorkingSet.TernaryFunctions.TryGetValue(functionName, out Type t3))
                                 {
                                     return ((TernaryFunctionNodeBase)Activator.CreateInstance(
                                         t3,
-                                        GenerateExpression(parameterExpressions[0], workingSet),
-                                        GenerateExpression(parameterExpressions[1], workingSet),
-                                        GenerateExpression(parameterExpressions[2], workingSet)))?.Simplify();
+                                        GenerateExpression(parameterExpressions[0], innerWorkingSet),
+                                        GenerateExpression(parameterExpressions[1], innerWorkingSet),
+                                        GenerateExpression(parameterExpressions[2], innerWorkingSet)))?.Simplify();
                                 }
 
                                 return null;

@@ -26,7 +26,7 @@ namespace IX.Math.Nodes
         /// </summary>
         /// <param name="parameter">The parameter.</param>
         /// <returns>The parameter type.</returns>
-        /// <exception cref="System.InvalidOperationException">The parameter could not be correctly recognized, or is undefined.</exception>
+        /// <exception cref="global::System.InvalidOperationException">The parameter could not be correctly recognized, or is undefined.</exception>
         protected static Type ParameterTypeFromParameter(NodeBase parameter)
         {
             Type parameterType;

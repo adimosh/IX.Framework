@@ -7,8 +7,18 @@ using Xunit;
 
 namespace IX.Math.UnitTests
 {
+    /// <summary>
+    /// Class ComputedExpressionRandomTests.
+    /// </summary>
     public class ComputedExpressionRandomTests
     {
+        /// <summary>
+        /// Computes the unary random function call expression, for testing.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// No computed expression was generated!
+        /// or
+        /// </exception>
         [Fact(DisplayName = "Tests the unary function \"random\".")]
         public void ComputedUnaryRandomFunctionCallExpression()
         {
@@ -45,6 +55,13 @@ namespace IX.Math.UnitTests
             }
         }
 
+        /// <summary>
+        /// Computes the random nonary function call expression, for testing.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// No computed expression was generated!
+        /// or
+        /// </exception>
         [Fact(DisplayName = "Tests the nonary function \"random\".")]
         public void ComputedRandomNonaryFunctionCallExpression()
         {

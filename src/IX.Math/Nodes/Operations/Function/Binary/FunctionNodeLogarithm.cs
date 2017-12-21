@@ -123,12 +123,12 @@ namespace IX.Math.Nodes.Operations.Function.Binary
             if ((firstParam = this.FirstParameter as NumericNode) != null &&
                 (secondParam = this.SecondParameter as NumericNode) != null)
             {
-                return new NumericNode(System.Math.Log(firstParam.ExtractFloat(), secondParam.ExtractFloat()));
+                return new NumericNode(global::System.Math.Log(firstParam.ExtractFloat(), secondParam.ExtractFloat()));
             }
 
             return this;
         }
 
-        protected override Expression GenerateExpressionInternal() => this.GenerateStaticBinaryFunctionCall(typeof(System.Math), nameof(System.Math.Log));
+        protected override Expression GenerateExpressionInternal() => this.GenerateStaticBinaryFunctionCall(typeof(global::System.Math), nameof(global::System.Math.Log));
     }
 }

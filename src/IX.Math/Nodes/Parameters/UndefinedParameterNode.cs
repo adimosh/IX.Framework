@@ -92,7 +92,7 @@ namespace IX.Math.Nodes.Parameters
         /// Generates the expression that will be compiled into code as a string expression.
         /// </summary>
         /// <returns>Nothing, as this method always throws an exception.</returns>
-        /// <exception cref="System.InvalidOperationException">This node cannot be compiled, as it's supposed to be determined beforehand.</exception>
+        /// <exception cref="global::System.InvalidOperationException">This node cannot be compiled, as it's supposed to be determined beforehand.</exception>
         public override Expression GenerateCachedStringExpression() => throw new InvalidOperationException();
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace IX.Math.Nodes.Parameters
         /// Generates the expression that will be compiled into code.
         /// </summary>
         /// <returns>Nothing, as this method always throws an exception.</returns>
-        /// <exception cref="System.InvalidOperationException">This node cannot be compiled, as it's supposed to be determined beforehand.</exception>
+        /// <exception cref="global::System.InvalidOperationException">This node cannot be compiled, as it's supposed to be determined beforehand.</exception>
         public override Expression GenerateCachedExpression() => throw new InvalidOperationException();
     }
 }

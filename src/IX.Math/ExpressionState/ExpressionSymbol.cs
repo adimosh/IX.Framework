@@ -49,13 +49,13 @@ namespace IX.Math.ExpressionState
         /// <value>The number of contained symbols.</value>
         public int Contains { get; set; }
 
-        internal static ExpressionSymbol GenerateSymbol(string name, string expression) => new ExpressionSymbol
+        internal static ExpressionSymbol GenerateSymbol(in string name, in string expression) => new ExpressionSymbol
         {
             Name = name,
             Expression = expression,
         };
 
-        internal static ExpressionSymbol GenerateFunctionCall(string name, string expression)
+        internal static ExpressionSymbol GenerateFunctionCall(in string name, in string expression)
         {
             ExpressionSymbol generatedExpression = GenerateSymbol(name, expression);
             generatedExpression.IsFunctionCall = true;

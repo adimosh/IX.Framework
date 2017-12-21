@@ -15,7 +15,7 @@ namespace IX.Math.Generators
 
         public static double Generate() => RandomGenerator.NextDouble();
 
-        public static double Generate(double max)
+        public static double Generate(in double max)
         {
             var result = RandomGenerator.NextDouble();
 
@@ -27,7 +27,7 @@ namespace IX.Math.Generators
             return result;
         }
 
-        public static double Generate(double min, double max)
+        public static double Generate(in double min, in double max)
         {
             var result = RandomGenerator.NextDouble();
 

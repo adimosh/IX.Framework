@@ -22,10 +22,10 @@ namespace IX.Math.Extraction
         /// <param name="stringIndicator">The string indicator.</param>
         /// <returns>The new expression.</returns>
         internal static string ExtractStringConstants(
-            IDictionary<string, ConstantNodeBase> constantsTable,
-            IDictionary<string, string> reverseConstantsTable,
-            string originalExpression,
-            string stringIndicator)
+            in IDictionary<string, ConstantNodeBase> constantsTable,
+            in IDictionary<string, string> reverseConstantsTable,
+            in string originalExpression,
+            in string stringIndicator)
         {
             var process = originalExpression;
 
