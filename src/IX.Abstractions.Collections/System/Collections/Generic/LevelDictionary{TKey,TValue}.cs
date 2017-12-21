@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using IX.Abstractions.Collections;
 using IX.StandardExtensions;
 using IX.StandardExtensions.ComponentModel;
@@ -57,6 +58,20 @@ namespace IX.System.Collections.Generic
                 this.ThrowIfCurrentObjectDisposed();
 
                 return this.internalDictionary.Values;
+            }
+        }
+
+        /// <summary>
+        /// Gets the keys by level.
+        /// </summary>
+        /// <value>The keys by level.</value>
+        public IEnumerable<KeyValuePair<int, IEnumerable<TKey>>> KeysByLevel
+        {
+            get
+            {
+                this.ThrowIfCurrentObjectDisposed();
+
+                return this.keyLevels.OrderBy(p => p.Key).Select(p => new KeyValuePair<int, IEnumerable<TKey>>(p.Key, p.Value));
             }
         }
 
@@ -126,6 +141,11 @@ namespace IX.System.Collections.Generic
         /// <exception cref="InvalidOperationException">The key was already present in the dictionary.</exception>
         public void Add(TKey key, TValue value, int level)
         {
+            if (level < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(level));
+            }
+
             if (this.internalDictionary.ContainsKey(key))
             {
                 throw new InvalidOperationException(Resources.ErrorKeyFoundInDictionary);
@@ -133,7 +153,7 @@ namespace IX.System.Collections.Generic
 
             this.internalDictionary.Add(key, value);
 
-            if (this.keyLevels.TryGetValue(level, out var list))
+            if (this.keyLevels.TryGetValue(level, out List<TKey> list))
             {
                 list.Add(key);
             }
