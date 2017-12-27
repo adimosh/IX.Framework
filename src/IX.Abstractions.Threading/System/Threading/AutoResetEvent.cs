@@ -40,6 +40,16 @@ namespace IX.System.Threading
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="AutoResetEvent" /> class.
+        /// </summary>
+        /// <param name="autoResetEvent">The automatic reset event to wrap around.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="autoResetEvent"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        public AutoResetEvent(global::System.Threading.AutoResetEvent autoResetEvent)
+        {
+            this.sre = autoResetEvent ?? throw new ArgumentNullException(nameof(autoResetEvent));
+        }
+
+        /// <summary>
         /// Finalizes an instance of the <see cref="AutoResetEvent"/> class.
         /// </summary>
         ~AutoResetEvent()
@@ -47,6 +57,20 @@ namespace IX.System.Threading
             // Do not change this code. Put cleanup code in Dispose(bool disposing).
             this.Dispose(false);
         }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="global::System.Threading.AutoResetEvent"/> to <see cref="AutoResetEvent"/>.
+        /// </summary>
+        /// <param name="autoResetEvent">The automatic reset event.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator AutoResetEvent(global::System.Threading.AutoResetEvent autoResetEvent) => new AutoResetEvent(autoResetEvent);
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="AutoResetEvent"/> to <see cref="global::System.Threading.AutoResetEvent"/>.
+        /// </summary>
+        /// <param name="autoResetEvent">The automatic reset event.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator global::System.Threading.AutoResetEvent(AutoResetEvent autoResetEvent) => autoResetEvent.sre;
 
         /// <summary>
         /// Sets the state of this event instance to non-signaled. Any thread entering a wait from this point will block.
