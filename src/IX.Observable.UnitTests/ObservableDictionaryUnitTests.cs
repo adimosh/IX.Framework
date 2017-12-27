@@ -18,6 +18,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryCount()
         {
             // Arrange
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var numberOfItems = UnitTestsUtils.Random.Next(UnitTestConstants.TestsGeneralMagnitude);
             int[] items = new int[numberOfItems];
 
@@ -58,6 +60,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryUndoAtAdd()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableDictionary<int, int>
             {
                 [1] = 1,
@@ -85,6 +89,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryRedoAtAdd()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableDictionary<int, int>
             {
                 [1] = 1,
@@ -113,6 +119,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryUndoAtClear()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableDictionary<int, int>
             {
                 [1] = 1,
@@ -148,6 +156,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryRedoAtClear()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableDictionary<int, int>
             {
                 [1] = 1,
@@ -185,6 +195,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryUndoAtRemove()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableDictionary<int, int>
             {
                 [1] = 1,
@@ -212,6 +224,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryRedoAtRemove()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableDictionary<int, int>
             {
                 [1] = 1,
@@ -240,6 +254,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryUndoMultipleOperations()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableDictionary<int, int>
             {
                 [1] = 1,
@@ -298,6 +314,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryMultipleUndoOperations()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableDictionary<int, int>
             {
                 [1] = 1,
@@ -337,6 +355,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryMultipleRedoCutoff()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableDictionary<int, int>
             {
                 [1] = 1,
