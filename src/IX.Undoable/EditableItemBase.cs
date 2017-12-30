@@ -402,6 +402,20 @@ namespace IX.Undoable
         }
 
         /// <summary>
+        /// Advertises a property change.
+        /// </summary>
+        /// <typeparam name="T">The type of the property.</typeparam>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="oldValue">The old value.</param>
+        /// <param name="newValue">The new value.</param>
+        protected void AdvertisePropertyChange<T>(string propertyName, T oldValue, T newValue) => this.AdvertiseStateChange(new PropertyStateChange<T>
+        {
+            PropertyName = propertyName,
+            OldValue = oldValue,
+            NewValue = newValue,
+        });
+
+        /// <summary>
         /// Called when a list of state changes are canceled and must be reverted.
         /// </summary>
         /// <param name="stateChanges">The state changes to revert.</param>
