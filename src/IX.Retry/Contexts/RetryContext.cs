@@ -10,17 +10,15 @@ using System.Threading.Tasks;
 using IX.StandardExtensions;
 using IX.StandardExtensions.ComponentModel;
 
-namespace IX.Retry
+namespace IX.Retry.Contexts
 {
-    internal class RetryContext : DisposableBase, IDisposable
+    internal abstract class RetryContext : DisposableBase
     {
         private RetryOptions options;
-        private Action actionToRetry;
 
-        public RetryContext(RetryOptions options, Action actionToRetry)
+        internal RetryContext(RetryOptions options)
         {
             this.options = options;
-            this.actionToRetry = actionToRetry;
         }
 
         /// <summary>
@@ -28,7 +26,7 @@ namespace IX.Retry
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>System.Threading.Tasks.Task.</returns>
-        public async Task BeginRetryProcessAsync(CancellationToken cancellationToken = default)
+        internal async Task BeginRetryProcessAsync(CancellationToken cancellationToken = default)
         {
             this.ThrowIfCurrentObjectDisposed();
 
@@ -55,7 +53,7 @@ namespace IX.Retry
         /// <summary>
         /// Begins the retry process.
         /// </summary>
-        public void BeginRetryProcess()
+        internal void BeginRetryProcess()
         {
             this.ThrowIfCurrentObjectDisposed();
 
@@ -85,10 +83,14 @@ namespace IX.Retry
         protected override void DisposeGeneralContext()
         {
             this.options = null;
-            this.actionToRetry = null;
 
             base.DisposeGeneralContext();
         }
+
+        /// <summary>
+        /// Invokes the method that needs retrying.
+        /// </summary>
+        private protected abstract void Invoke();
 
         private bool RunOnce(IList<Exception> exceptions, DateTime now, ref int retries)
         {
@@ -96,7 +98,7 @@ namespace IX.Retry
 
             try
             {
-                this.actionToRetry();
+                this.Invoke();
 
                 shouldRetry = false;
             }

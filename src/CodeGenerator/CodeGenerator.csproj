@@ -149,6 +149,32 @@
       <DependentUpon>DisposableBase.InvokeIfNotDisposed.tt</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Retry.NowAndLaterExtended.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Retry.NowAndLaterExtended.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Retry.NowAndLaterExtended.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Retry.NowAndLaterExtended.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RetryContext.ActionsAndFuncs.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RetryContext.ActionsAndFuncs.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RetryContext.ActionsAndFuncs.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RetryContext.ActionsAndFuncs.tt</DependentUpon>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Clarius.TransformOnBuild.1.1.12\build\Clarius.TransformOnBuild.targets" Condition="Exists('..\packages\Clarius.TransformOnBuild.1.1.12\build\Clarius.TransformOnBuild.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
