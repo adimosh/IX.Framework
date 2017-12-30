@@ -15,8 +15,7 @@ using System.Threading.Tasks;
 namespace IX.Retry.Contexts
 {
 #pragma warning disable SA1402 // File may only contain a single type
-#pragma warning disable SA1649 // File name should match first type name
-<#
+#pragma warning disable SA1649 // File name should match first type name<#
 for (int i = 1; i <= 8; i++)
 {
     string[] types = new string[i];
@@ -34,6 +33,7 @@ for (int i = 1; i <= 8; i++)
     string paramNames = string.Join(", ", names.Select(p => $"this.{p}"));
     string paramNameTypes = string.Join(", ", nameTypes);
 #>
+
     internal sealed class ActionWith<#= i #>ParamRetryContext<<#= paramTypes #>> : RetryContext
     {
         private Action<<#= paramTypes #>> action;
@@ -90,11 +90,10 @@ for (int i = 1; i <= 8; i++)
 #>
         }
 
+        internal override TReturn GetReturnValue() => this.returnValue;
+
         private protected override void Invoke() => this.returnValue = this.func(<#= paramNames #>);
-
-        private protected override TReturn GetReturnValue() => this.returnValue;
     }
-
 <#
 }
 #>

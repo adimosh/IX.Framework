@@ -11,6 +11,6 @@ namespace IX.Retry.Contexts
         {
         }
 
-        private protected abstract TReturn GetReturnValue();
+        internal abstract TReturn GetReturnValue();
     }
 }

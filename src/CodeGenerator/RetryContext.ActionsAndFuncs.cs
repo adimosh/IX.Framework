@@ -38,9 +38,9 @@ namespace IX.Retry.Contexts
             this.param1 = param1;
         }
 
-        private protected override void Invoke() => this.returnValue = this.func(this.param1);
+        internal override TReturn GetReturnValue() => this.returnValue;
 
-        private protected override TReturn GetReturnValue() => this.returnValue;
+        private protected override void Invoke() => this.returnValue = this.func(this.param1);
     }
 
     internal sealed class ActionWith2ParamRetryContext<TParam1, TParam2> : RetryContext
@@ -75,9 +75,9 @@ namespace IX.Retry.Contexts
             this.param2 = param2;
         }
 
-        private protected override void Invoke() => this.returnValue = this.func(this.param1, this.param2);
+        internal override TReturn GetReturnValue() => this.returnValue;
 
-        private protected override TReturn GetReturnValue() => this.returnValue;
+        private protected override void Invoke() => this.returnValue = this.func(this.param1, this.param2);
     }
 
     internal sealed class ActionWith3ParamRetryContext<TParam1, TParam2, TParam3> : RetryContext
@@ -116,9 +116,9 @@ namespace IX.Retry.Contexts
             this.param3 = param3;
         }
 
-        private protected override void Invoke() => this.returnValue = this.func(this.param1, this.param2, this.param3);
+        internal override TReturn GetReturnValue() => this.returnValue;
 
-        private protected override TReturn GetReturnValue() => this.returnValue;
+        private protected override void Invoke() => this.returnValue = this.func(this.param1, this.param2, this.param3);
     }
 
     internal sealed class ActionWith4ParamRetryContext<TParam1, TParam2, TParam3, TParam4> : RetryContext
@@ -161,9 +161,9 @@ namespace IX.Retry.Contexts
             this.param4 = param4;
         }
 
-        private protected override void Invoke() => this.returnValue = this.func(this.param1, this.param2, this.param3, this.param4);
+        internal override TReturn GetReturnValue() => this.returnValue;
 
-        private protected override TReturn GetReturnValue() => this.returnValue;
+        private protected override void Invoke() => this.returnValue = this.func(this.param1, this.param2, this.param3, this.param4);
     }
 
     internal sealed class ActionWith5ParamRetryContext<TParam1, TParam2, TParam3, TParam4, TParam5> : RetryContext
@@ -210,9 +210,9 @@ namespace IX.Retry.Contexts
             this.param5 = param5;
         }
 
-        private protected override void Invoke() => this.returnValue = this.func(this.param1, this.param2, this.param3, this.param4, this.param5);
+        internal override TReturn GetReturnValue() => this.returnValue;
 
-        private protected override TReturn GetReturnValue() => this.returnValue;
+        private protected override void Invoke() => this.returnValue = this.func(this.param1, this.param2, this.param3, this.param4, this.param5);
     }
 
     internal sealed class ActionWith6ParamRetryContext<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> : RetryContext
@@ -263,9 +263,9 @@ namespace IX.Retry.Contexts
             this.param6 = param6;
         }
 
-        private protected override void Invoke() => this.returnValue = this.func(this.param1, this.param2, this.param3, this.param4, this.param5, this.param6);
+        internal override TReturn GetReturnValue() => this.returnValue;
 
-        private protected override TReturn GetReturnValue() => this.returnValue;
+        private protected override void Invoke() => this.returnValue = this.func(this.param1, this.param2, this.param3, this.param4, this.param5, this.param6);
     }
 
     internal sealed class ActionWith7ParamRetryContext<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> : RetryContext
@@ -320,9 +320,9 @@ namespace IX.Retry.Contexts
             this.param7 = param7;
         }
 
-        private protected override void Invoke() => this.returnValue = this.func(this.param1, this.param2, this.param3, this.param4, this.param5, this.param6, this.param7);
+        internal override TReturn GetReturnValue() => this.returnValue;
 
-        private protected override TReturn GetReturnValue() => this.returnValue;
+        private protected override void Invoke() => this.returnValue = this.func(this.param1, this.param2, this.param3, this.param4, this.param5, this.param6, this.param7);
     }
 
     internal sealed class ActionWith8ParamRetryContext<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> : RetryContext
@@ -381,11 +381,10 @@ namespace IX.Retry.Contexts
             this.param8 = param8;
         }
 
+        internal override TReturn GetReturnValue() => this.returnValue;
+
         private protected override void Invoke() => this.returnValue = this.func(this.param1, this.param2, this.param3, this.param4, this.param5, this.param6, this.param7, this.param8);
-
-        private protected override TReturn GetReturnValue() => this.returnValue;
     }
-
 #pragma warning restore SA1649 // File name should match first type name
 #pragma warning restore SA1402 // File may only contain a single type
 }
