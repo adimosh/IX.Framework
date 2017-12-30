@@ -354,7 +354,7 @@ namespace IX.Retry
             }
         }
 
-        private static void ValidateRunning(in Action action, in RetryOptions options, in CancellationToken cancellationToken)
+        private static void ValidateRunning(in Delegate action, in RetryOptions options, in CancellationToken cancellationToken)
         {
             if (action == null)
             {

@@ -46,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\CodeGenerator\Retry.NowAndLaterExtended.cs" Link="Retry.NowAndLaterExtended.cs" />
     <Compile Include="..\CodeGenerator\RetryContext.ActionsAndFuncs.cs" Link="Contexts\RetryContext.ActionsAndFuncs.cs" />
   </ItemGroup>
 
