@@ -23,13 +23,12 @@ namespace IX.Observable
     /// <seealso cref="global::System.Collections.Generic.IEnumerable{T}" />
     public abstract class ObservableCollectionBase<T> : ObservableReadOnlyCollectionBase<T>, ICollection<T>, IUndoableItem
     {
-        private object resetCountLocker;
-
         private PushDownStack<UndoRedoLevel> undoStack;
         private PushDownStack<UndoRedoLevel> redoStack;
 
         private bool isCapturedIntoUndoContext;
         private IUndoableItem parentUndoableContext;
+        private bool automaticallyCaptureSubItems;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableCollectionBase{T}"/> class.
@@ -39,7 +38,6 @@ namespace IX.Observable
             : base(internalContainer)
         {
             this.InternalContainer = internalContainer;
-            this.resetCountLocker = new object();
 
             this.undoStack = new PushDownStack<UndoRedoLevel>(Constants.StandardUndoRedoLevels);
             this.redoStack = new PushDownStack<UndoRedoLevel>(Constants.StandardUndoRedoLevels);
@@ -54,7 +52,6 @@ namespace IX.Observable
             : base(internalContainer, context)
         {
             this.InternalContainer = internalContainer;
-            this.resetCountLocker = new object();
 
             this.undoStack = new PushDownStack<UndoRedoLevel>(Constants.StandardUndoRedoLevels);
             this.redoStack = new PushDownStack<UndoRedoLevel>(Constants.StandardUndoRedoLevels);
@@ -117,7 +114,7 @@ namespace IX.Observable
         /// <para>The concept of the undo/redo context is incompatible with serialization. Any collection that is serialized will be free of any original context
         /// when deserialized.</para>
         /// </remarks>
-        protected IUndoableItem ParentUndoContext => this.parentUndoableContext;
+        public IUndoableItem ParentUndoContext => this.parentUndoableContext;
 
         /// <summary>
         /// Adds an item to the <see cref="ObservableCollectionBase{T}" />.
@@ -135,6 +132,11 @@ namespace IX.Observable
             {
                 newIndex = this.InternalContainer.Add(item);
                 this.PushUndoLevel(new AddUndoLevel<T> { AddedItem = item, Index = newIndex });
+
+                if (this.automaticallyCaptureSubItems && item is IUndoableItem ui && !ui.IsCapturedIntoUndoContext)
+                {
+                    ui.CaptureIntoUndoContext(this);
+                }
             }
 
             if (newIndex == -1)
@@ -224,8 +226,17 @@ namespace IX.Observable
         /// can be coordinated across a larger scope.
         /// </summary>
         /// <param name="parent">The parent undo and redo context.</param>
-        public void CaptureIntoUndoContext(IUndoableItem parent) => this.CheckDisposed(() => this.WriteLock(() =>
+        public void CaptureIntoUndoContext(IUndoableItem parent) => this.CaptureIntoUndoContext(parent, false);
+
+        /// <summary>
+        /// Allows the implementer to be captured by a containing undo-/redo-capable object so that undo and redo operations
+        /// can be coordinated across a larger scope.
+        /// </summary>
+        /// <param name="parent">The parent undo and redo context.</param>
+        /// <param name="automaticallyCaptureSubItems">if set to <c>true</c>, the collection automatically captures sub-items into its undo/redo context.</param>
+        public void CaptureIntoUndoContext(IUndoableItem parent, bool automaticallyCaptureSubItems) => this.CheckDisposed(() => this.WriteLock(() =>
         {
+            this.automaticallyCaptureSubItems = automaticallyCaptureSubItems;
             this.isCapturedIntoUndoContext = true;
             this.parentUndoableContext = parent ?? throw new ArgumentNullException(nameof(parent));
         }));
@@ -235,7 +246,9 @@ namespace IX.Observable
         /// </summary>
         public void ReleaseFromUndoContext() => this.CheckDisposed(() => this.WriteLock(() =>
         {
+            this.automaticallyCaptureSubItems = false;
             this.isCapturedIntoUndoContext = false;
+            this.parentUndoableContext = null;
         }));
 
         /// <summary>

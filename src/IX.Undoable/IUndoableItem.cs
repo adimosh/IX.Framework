@@ -33,6 +33,18 @@ namespace IX.Undoable
         bool CanRedo { get; }
 
         /// <summary>
+        /// Gets a value indicating whether this instance is captured into an undo/redo context.
+        /// </summary>
+        /// <value><c>true</c> if this instance is captured into an undo/redo context; otherwise, <c>false</c>.</value>
+        bool IsCapturedIntoUndoContext { get; }
+
+        /// <summary>
+        /// Gets the parent undo context.
+        /// </summary>
+        /// <value>The parent undo context.</value>
+        IUndoableItem ParentUndoContext { get; }
+
+        /// <summary>
         /// Has the last operation performed on the implementing instance undone.
         /// </summary>
         /// <remarks>
