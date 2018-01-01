@@ -43,11 +43,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// Triggers the <see cref="CollectionChanged" /> event as a collection reset event.
         /// </summary>
         protected void RaiseCollectionReset() => this.Invoke(
-                (state) =>
-                {
-                    var argument = (NotifyCollectionChangedInvokerBase)state;
-                    argument.CollectionChanged?.Invoke(argument, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-                },
+                (invoker) => invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)),
                 this);
 
         /// <summary>
@@ -57,22 +53,22 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="index">The index at which the item was added.</param>
         /// <param name="item">The item that was added.</param>
         protected void RaiseCollectionAdd<T>(int index, T item) => this.Invoke(
-                (state) =>
+                (invoker, internalIndex, internalItem) =>
                 {
-                    var arguments = ((NotifyCollectionChangedInvokerBase, int, T))state;
-
                     try
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(
-                            arguments.Item1,
-                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, arguments.Item3, arguments.Item2));
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, internalItem, internalIndex));
                     }
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                        invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
                     }
                 },
-                (this, index, item));
+                this,
+                index,
+                item);
 
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection addition event of multiple elements.
@@ -81,22 +77,22 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="index">The index at which the items were added.</param>
         /// <param name="items">The items that were added.</param>
         protected void RaiseCollectionAdd<T>(int index, IEnumerable<T> items) => this.Invoke(
-                (state) =>
+                (invoker, internalIndex, internalItems) =>
                 {
-                    var arguments = ((NotifyCollectionChangedInvokerBase, int, IEnumerable<T>))state;
-
                     try
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(
-                            arguments.Item1,
-                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, arguments.Item3.ToList(), arguments.Item2));
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, internalItems.ToList(), internalIndex));
                     }
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                        invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
                     }
                 },
-                (this, index, items));
+                this,
+                index,
+                items);
 
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection removal event of one element.
@@ -105,22 +101,22 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="index">The index at which the item was removed.</param>
         /// <param name="item">The item that was added.</param>
         protected void RaiseCollectionRemove<T>(int index, T item) => this.Invoke(
-                (state) =>
+                (invoker, internalIndex, internalItem) =>
                 {
-                    var arguments = ((NotifyCollectionChangedInvokerBase, int, T))state;
-
                     try
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(
-                            arguments.Item1,
-                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, arguments.Item3, arguments.Item2));
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, internalItem, internalIndex));
                     }
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                        invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
                     }
                 },
-                (this, index, item));
+                this,
+                index,
+                item);
 
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection removal event of multiple elements.
@@ -129,22 +125,22 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="index">The index at which the items were removed.</param>
         /// <param name="items">The items that were removed.</param>
         protected void RaiseCollectionRemove<T>(int index, IEnumerable<T> items) => this.Invoke(
-                (state) =>
+                (invoker, internalIndex, internalItems) =>
                 {
-                    var arguments = ((NotifyCollectionChangedInvokerBase, int, IEnumerable<T>))state;
-
                     try
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(
-                            arguments.Item1,
-                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, arguments.Item3.ToList(), arguments.Item2));
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, internalItems.ToList(), internalIndex));
                     }
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                        invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
                     }
                 },
-                (this, index, items));
+                this,
+                index,
+                items);
 
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection move event of one element.
@@ -154,22 +150,23 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="newIndex">The index at which the item was moved.</param>
         /// <param name="item">The item that was added.</param>
         protected void RaiseCollectionMove<T>(int oldIndex, int newIndex, T item) => this.Invoke(
-                (state) =>
+                (invoker, internalOldIndex, internalNewIndex, internalItem) =>
                 {
-                    var arguments = ((NotifyCollectionChangedInvokerBase, int, int, T))state;
-
                     try
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(
-                            arguments.Item1,
-                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, arguments.Item4, arguments.Item3, arguments.Item2));
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, internalItem, internalNewIndex, internalOldIndex));
                     }
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                        invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
                     }
                 },
-                (this, oldIndex, newIndex, item));
+                this,
+                oldIndex,
+                newIndex,
+                item);
 
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection move event of multiple elements.
@@ -179,22 +176,23 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="newIndex">The index at which the items were moved.</param>
         /// <param name="items">The items that were added.</param>
         protected void RaiseCollectionMove<T>(int oldIndex, int newIndex, IEnumerable<T> items) => this.Invoke(
-                (state) =>
+                (invoker, internalOldIndex, internalNewIndex, internalItems) =>
                 {
-                    var arguments = ((NotifyCollectionChangedInvokerBase, int, int, IEnumerable<T>))state;
-
                     try
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(
-                            arguments.Item1,
-                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, arguments.Item4.ToList(), arguments.Item3, arguments.Item2));
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, internalItems.ToList(), internalNewIndex, internalOldIndex));
                     }
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                        invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
                     }
                 },
-                (this, oldIndex, newIndex, items));
+                this,
+                oldIndex,
+                newIndex,
+                items);
 
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection replacement event of one element.
@@ -204,22 +202,23 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="oldItem">The original item.</param>
         /// <param name="newItem">The new item.</param>
         protected void RaiseCollectionReplace<T>(int index, T oldItem, T newItem) => this.Invoke(
-                (state) =>
+                (invoker, internalIndex, internalOldItem, internalNewItem) =>
                 {
-                    var arguments = ((NotifyCollectionChangedInvokerBase, int, T, T))state;
-
                     try
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(
-                            arguments.Item1,
-                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, arguments.Item4, arguments.Item3, arguments.Item2));
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, internalNewItem, internalOldItem, internalIndex));
                     }
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                        invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
                     }
                 },
-                (this, index, oldItem, newItem));
+                this,
+                index,
+                oldItem,
+                newItem);
 
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection replacement event of multiple elements.
@@ -229,21 +228,22 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="oldItems">The original items.</param>
         /// <param name="newItems">The new items.</param>
         protected void RaiseCollectionReplace<T>(int index, IEnumerable<T> oldItems, IEnumerable<T> newItems) => this.Invoke(
-                (state) =>
+                (invoker, internalIndex, internalOldItems, internalNewItems) =>
                 {
-                    var arguments = ((NotifyCollectionChangedInvokerBase, int, IEnumerable<T>, IEnumerable<T>))state;
-
                     try
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(
-                            arguments.Item1,
-                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, arguments.Item4.ToList(), arguments.Item3.ToList(), arguments.Item2));
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, internalNewItems.ToList(), internalOldItems.ToList(), internalIndex));
                     }
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
-                        arguments.Item1.CollectionChanged?.Invoke(arguments.Item1, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                        invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
                     }
                 },
-                (this, index, oldItems, newItems));
+                this,
+                index,
+                oldItems,
+                newItems);
     }
 }

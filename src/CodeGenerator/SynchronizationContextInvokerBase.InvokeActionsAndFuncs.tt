@@ -147,7 +147,7 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         protected void FireAndForget<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>)
-            => Fire.AndForget<<#= paramTypes #>>(action, <#= paramNames #>, this.InvokeExceptionOccurredOnSeparateThread);
+            => Fire.AndForget(action, <#= paramNames #>, this.InvokeExceptionOccurredOnSeparateThread);
 <#
 }
 #>

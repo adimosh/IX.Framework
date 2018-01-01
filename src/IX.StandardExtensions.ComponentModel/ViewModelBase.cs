@@ -144,11 +144,8 @@ namespace IX.StandardExtensions.ComponentModel
         /// </summary>
         /// <param name="propertyName">Name of the property for which the errors have been changed.</param>
         protected void RaiseErrorsChanged(string propertyName) => this.Invoke(
-                (state) =>
-                {
-                    var arguments = ((ViewModelBase, string))state;
-                    arguments.Item1.ErrorsChanged?.Invoke(arguments.Item1, new DataErrorsChangedEventArgs(arguments.Item2));
-                },
-                (this, propertyName));
+                (invoker, internalPropertyName) => invoker.ErrorsChanged?.Invoke(invoker, new DataErrorsChangedEventArgs(internalPropertyName)),
+                this,
+                propertyName);
     }
 }

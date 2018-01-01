@@ -40,11 +40,8 @@ namespace IX.StandardExtensions.ComponentModel
         /// </summary>
         /// <param name="changedPropertyName">The name of the changed property.</param>
         protected void RaisePropertyChanged(string changedPropertyName) => this.Invoke(
-                (state) =>
-                {
-                    var arguments = ((NotifyPropertyChangedBase, string))state;
-                    arguments.Item1.PropertyChanged?.Invoke(arguments.Item1, new PropertyChangedEventArgs(arguments.Item2));
-                },
-                (this, changedPropertyName));
+                (invoker, propertyName) => invoker.PropertyChanged?.Invoke(invoker, new PropertyChangedEventArgs(propertyName)),
+                this,
+                changedPropertyName);
     }
 }

@@ -84,7 +84,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="action">The action to invoke.</param>
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0.</param>
         protected void FireAndForget<TParam1>(Action<TParam1> action, TParam1 param1)
-            => Fire.AndForget<TParam1>(action, param1, this.InvokeExceptionOccurredOnSeparateThread);
+            => Fire.AndForget(action, param1, this.InvokeExceptionOccurredOnSeparateThread);
 
         /// <summary>
         /// Invokes the specified action using the synchronization context asynchronously, or as fire-and-forget if there is no synchronization context available.
@@ -160,7 +160,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0.</param>
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1.</param>
         protected void FireAndForget<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2)
-            => Fire.AndForget<TParam1, TParam2>(action, param1, param2, this.InvokeExceptionOccurredOnSeparateThread);
+            => Fire.AndForget(action, param1, param2, this.InvokeExceptionOccurredOnSeparateThread);
 
         /// <summary>
         /// Invokes the specified action using the synchronization context asynchronously, or as fire-and-forget if there is no synchronization context available.
@@ -240,7 +240,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1.</param>
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2.</param>
         protected void FireAndForget<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3)
-            => Fire.AndForget<TParam1, TParam2, TParam3>(action, param1, param2, param3, this.InvokeExceptionOccurredOnSeparateThread);
+            => Fire.AndForget(action, param1, param2, param3, this.InvokeExceptionOccurredOnSeparateThread);
 
         /// <summary>
         /// Invokes the specified action using the synchronization context asynchronously, or as fire-and-forget if there is no synchronization context available.
@@ -324,7 +324,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2.</param>
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3.</param>
         protected void FireAndForget<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
-            => Fire.AndForget<TParam1, TParam2, TParam3, TParam4>(action, param1, param2, param3, param4, this.InvokeExceptionOccurredOnSeparateThread);
+            => Fire.AndForget(action, param1, param2, param3, param4, this.InvokeExceptionOccurredOnSeparateThread);
 
         /// <summary>
         /// Invokes the specified action using the synchronization context asynchronously, or as fire-and-forget if there is no synchronization context available.
@@ -412,7 +412,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3.</param>
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4.</param>
         protected void FireAndForget<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
-            => Fire.AndForget<TParam1, TParam2, TParam3, TParam4, TParam5>(action, param1, param2, param3, param4, param5, this.InvokeExceptionOccurredOnSeparateThread);
+            => Fire.AndForget(action, param1, param2, param3, param4, param5, this.InvokeExceptionOccurredOnSeparateThread);
 
         /// <summary>
         /// Invokes the specified action using the synchronization context asynchronously, or as fire-and-forget if there is no synchronization context available.
@@ -504,7 +504,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4.</param>
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
         protected void FireAndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6)
-            => Fire.AndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(action, param1, param2, param3, param4, param5, param6, this.InvokeExceptionOccurredOnSeparateThread);
+            => Fire.AndForget(action, param1, param2, param3, param4, param5, param6, this.InvokeExceptionOccurredOnSeparateThread);
 
         /// <summary>
         /// Invokes the specified action using the synchronization context asynchronously, or as fire-and-forget if there is no synchronization context available.
@@ -600,7 +600,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
         protected void FireAndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7)
-            => Fire.AndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(action, param1, param2, param3, param4, param5, param6, param7, this.InvokeExceptionOccurredOnSeparateThread);
+            => Fire.AndForget(action, param1, param2, param3, param4, param5, param6, param7, this.InvokeExceptionOccurredOnSeparateThread);
 
         /// <summary>
         /// Invokes the specified action using the synchronization context asynchronously, or as fire-and-forget if there is no synchronization context available.
@@ -700,6 +700,6 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked method at index 7.</param>
         protected void FireAndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8)
-            => Fire.AndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(action, param1, param2, param3, param4, param5, param6, param7, param8, this.InvokeExceptionOccurredOnSeparateThread);
+            => Fire.AndForget(action, param1, param2, param3, param4, param5, param6, param7, param8, this.InvokeExceptionOccurredOnSeparateThread);
     }
 }
