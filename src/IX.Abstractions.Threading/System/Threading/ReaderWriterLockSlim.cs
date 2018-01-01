@@ -2,10 +2,8 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
-using IX.StandardExtensions.ComponentModel;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using IX.StandardExtensions.ComponentModel;
 
 namespace IX.System.Threading
 {
@@ -46,19 +44,82 @@ namespace IX.System.Threading
         /// <value><c>true</c> if the current thread has an upgradeable lock held; otherwise, <c>false</c>.</value>
         public bool IsUpgradeableReadLockHeld => this.InvokeIfNotDisposed((lck) => lck.IsUpgradeableReadLockHeld, this.locker);
 
-        public bool IsReadLockHeld => throw new NotImplementedException();
+        /// <summary>
+        /// Gets a value indicating whether the current thread has a read lock held.
+        /// </summary>
+        /// <value><c>true</c> if the current thread has a read lock held; otherwise, <c>false</c>.</value>
+        public bool IsReadLockHeld => this.InvokeIfNotDisposed((lck) => lck.IsReadLockHeld, this.locker);
 
-        public void EnterReadLock() => throw new NotImplementedException();
-        public void EnterUpgradeableReadLock() => throw new NotImplementedException();
-        public void EnterWriteLock() => throw new NotImplementedException();
-        public void ExitReadLock() => throw new NotImplementedException();
-        public void ExitUpgradeableReadLock() => throw new NotImplementedException();
-        public void ExitWriteLock() => throw new NotImplementedException();
-        public bool TryEnterReadLock(int millisecondsTimeout) => throw new NotImplementedException();
-        public bool TryEnterReadLock(TimeSpan timeout) => throw new NotImplementedException();
-        public bool TryEnterUpgradeableReadLock(int millisecondsTimeout) => throw new NotImplementedException();
-        public bool TryEnterUpgradeableReadLock(TimeSpan timeout) => throw new NotImplementedException();
-        public bool TryEnterWriteLock(int millisecondsTimeout) => throw new NotImplementedException();
-        public bool TryEnterWriteLock(TimeSpan timeout) => throw new NotImplementedException();
+        /// <summary>
+        /// Enters a read lock.
+        /// </summary>
+        public void EnterReadLock() => this.InvokeIfNotDisposed((lck) => lck.EnterReadLock(), this.locker);
+
+        /// <summary>
+        /// Enters an upgradeable read lock.
+        /// </summary>
+        public void EnterUpgradeableReadLock() => this.InvokeIfNotDisposed((lck) => lck.EnterUpgradeableReadLock(), this.locker);
+
+        /// <summary>
+        /// Enters the write lock.
+        /// </summary>
+        public void EnterWriteLock() => this.InvokeIfNotDisposed((lck) => lck.EnterWriteLock(), this.locker);
+
+        /// <summary>
+        /// Exits a read lock.
+        /// </summary>
+        public void ExitReadLock() => this.InvokeIfNotDisposed((lck) => lck.ExitReadLock(), this.locker);
+
+        /// <summary>
+        /// Exits an upgradeable read lock.
+        /// </summary>
+        public void ExitUpgradeableReadLock() => this.InvokeIfNotDisposed((lck) => lck.ExitUpgradeableReadLock(), this.locker);
+
+        /// <summary>
+        /// Exits a write lock.
+        /// </summary>
+        public void ExitWriteLock() => this.InvokeIfNotDisposed((lck) => lck.ExitReadLock(), this.locker);
+
+        /// <summary>
+        /// Tries to enter a read lock.
+        /// </summary>
+        /// <param name="millisecondsTimeout">The timeout, in milliseconds.</param>
+        /// <returns><c>true</c> if the lock has been acquired for the calling thread, <c>false</c> otherwise.</returns>
+        public bool TryEnterReadLock(int millisecondsTimeout) => this.InvokeIfNotDisposed((lck, timeout) => lck.TryEnterReadLock(timeout), this.locker, millisecondsTimeout);
+
+        /// <summary>
+        /// Tries to enter a read lock.
+        /// </summary>
+        /// <param name="timeout">The timeout.</param>
+        /// <returns><c>true</c> if the lock has been acquired for the calling thread, <c>false</c> otherwise.</returns>
+        public bool TryEnterReadLock(TimeSpan timeout) => this.InvokeIfNotDisposed((lck, timeoutInternal) => lck.TryEnterReadLock(timeoutInternal), this.locker, timeout);
+
+        /// <summary>
+        /// Tries to enter an upgradeable read lock.
+        /// </summary>
+        /// <param name="millisecondsTimeout">The timeout, in milliseconds.</param>
+        /// <returns><c>true</c> if the lock has been acquired for the calling thread, <c>false</c> otherwise.</returns>
+        public bool TryEnterUpgradeableReadLock(int millisecondsTimeout) => this.InvokeIfNotDisposed((lck, timeout) => lck.TryEnterUpgradeableReadLock(timeout), this.locker, millisecondsTimeout);
+
+        /// <summary>
+        /// Tries to enter an upgradeable read lock.
+        /// </summary>
+        /// <param name="timeout">The timeout.</param>
+        /// <returns><c>true</c> if the lock has been acquired for the calling thread, <c>false</c> otherwise.</returns>
+        public bool TryEnterUpgradeableReadLock(TimeSpan timeout) => this.InvokeIfNotDisposed((lck, timeoutInternal) => lck.TryEnterUpgradeableReadLock(timeoutInternal), this.locker, timeout);
+
+        /// <summary>
+        /// Tries to enter a write lock.
+        /// </summary>
+        /// <param name="millisecondsTimeout">The timeout, in milliseconds.</param>
+        /// <returns><c>true</c> if the lock has been acquired for the calling thread, <c>false</c> otherwise.</returns>
+        public bool TryEnterWriteLock(int millisecondsTimeout) => this.InvokeIfNotDisposed((lck, timeout) => lck.TryEnterWriteLock(timeout), this.locker, millisecondsTimeout);
+
+        /// <summary>
+        /// Tries to enter a write lock.
+        /// </summary>
+        /// <param name="timeout">The timeout.</param>
+        /// <returns><c>true</c> if the lock has been acquired for the calling thread, <c>false</c> otherwise.</returns>
+        public bool TryEnterWriteLock(TimeSpan timeout) => this.InvokeIfNotDisposed((lck, timeoutInternal) => lck.TryEnterWriteLock(timeoutInternal), this.locker, timeout);
     }
 }
