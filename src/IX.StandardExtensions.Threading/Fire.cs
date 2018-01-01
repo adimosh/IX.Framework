@@ -41,36 +41,5 @@ namespace IX.StandardExtensions.Threading
 
             runningTask.Start();
         }
-
-        /// <summary>
-        /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        /// <param name="state">The state to pass to the action.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget(Action<object> action, object state, CancellationToken cancellationToken = default) => AndForget(action, state, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
-
-        /// <summary>
-        /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        /// <param name="state">The state to pass to the action.</param>
-        /// <param name="exceptionHandler">The exception handler. This parameter can be null.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget(Action<object> action, object state, Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
-        {
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
-
-            var runningTask = new Task(action, state, cancellationToken);
-
-            runningTask.ContinueWith(
-                (task) => exceptionHandler?.Invoke(task.Exception.GetBaseException()),
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
-
-            runningTask.Start();
-        }
     }
 }
