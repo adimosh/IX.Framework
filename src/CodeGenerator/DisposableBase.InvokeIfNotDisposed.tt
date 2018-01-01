@@ -17,8 +17,7 @@ namespace IX.StandardExtensions.ComponentModel
     /// </summary>
     /// <seealso cref="System.IDisposable" />
     public abstract partial class DisposableBase : IDisposable
-    {
-<#
+    {<#
 for (int i = 1; i <= 8; i++)
 {
     string[] types = new string[i];
@@ -36,6 +35,7 @@ for (int i = 1; i <= 8; i++)
     string paramNames = string.Join(", ", names);
     string paramNameTypes = string.Join(", ", nameTypes);
 #>
+
         /// <summary>
         /// Invokes an action if the current instance is not disposed.
         /// </summary>
@@ -93,7 +93,6 @@ for (int i = 1; i <= 8; i++)
 
             return (action ?? throw new ArgumentNullException()).Invoke(<#= paramNames #>);
         }
-
 <#
 }
 #>

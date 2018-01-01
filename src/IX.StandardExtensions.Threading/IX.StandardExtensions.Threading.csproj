@@ -34,6 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\CodeGenerator\Fire.AndForgetActionsAndFuncs.cs" Link="Fire.AndForgetActionsAndFuncs.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" PrivateAssets="all" />
   </ItemGroup>
 

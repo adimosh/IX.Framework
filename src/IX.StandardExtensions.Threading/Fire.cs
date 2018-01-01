@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace IX.StandardExtensions.Threading
 {
     /// <summary>
-    /// A class that provides methods and extensions to fire events
+    /// A class that provides methods and extensions to fire events.
     /// </summary>
-    public static class Fire
+    public static partial class Fire
     {
         /// <summary>
         /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
