@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
 using IX.Observable.Adapters;
 using IX.Observable.UndoLevels;
@@ -130,12 +132,24 @@ namespace IX.Observable
             int newIndex;
             using (this.WriteLock())
             {
+                // Add the item
                 newIndex = this.InternalContainer.Add(item);
+
+                // Push the undo level
                 this.PushUndoLevel(new AddUndoLevel<T> { AddedItem = item, Index = newIndex });
 
-                if (this.automaticallyCaptureSubItems && item is IUndoableItem ui && !ui.IsCapturedIntoUndoContext)
+                // Capture items into undo/redo context, if set accordingly
+                if (this.automaticallyCaptureSubItems && item is IUndoableItem ui)
                 {
-                    ui.CaptureIntoUndoContext(this);
+                    if (ui.IsCapturedIntoUndoContext && ui.ParentUndoContext != this)
+                    {
+                        throw new ItemAlreadyCapturedIntoUndoContextException();
+                    }
+
+                    if (!ui.IsCapturedIntoUndoContext)
+                    {
+                        ui.CaptureIntoUndoContext(this);
+                    }
                 }
             }
 
@@ -164,12 +178,24 @@ namespace IX.Observable
 
             using (this.WriteLock())
             {
+                // Save existing items
                 T[] tempArray = new T[this.InternalContainer.Count];
                 this.InternalContainer.CopyTo(tempArray, 0);
 
+                // Do the actual clearing
                 this.InternalContainer.Clear();
 
+                // Push an undo level
                 this.PushUndoLevel(new ClearUndoLevel<T> { OriginalItems = tempArray });
+
+                // Release items from context, if they have been captured
+                if (this.automaticallyCaptureSubItems && typeof(IUndoableItem).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
+                {
+                    foreach (IUndoableItem tempItem in tempArray.Cast<IUndoableItem>())
+                    {
+                        tempItem.ReleaseFromUndoContext();
+                    }
+                }
             }
 
             this.RaiseCollectionReset();
@@ -195,8 +221,17 @@ namespace IX.Observable
             int oldIndex;
             using (this.WriteLock())
             {
+                // Remove the item
                 oldIndex = this.InternalContainer.Remove(item);
+
+                // Push an undo level
                 this.PushUndoLevel(new RemoveUndoLevel<T> { RemovedItem = item, Index = oldIndex });
+
+                // Release item from undo/redo context, if automatically captured
+                if (this.automaticallyCaptureSubItems && item is IUndoableItem ui)
+                {
+                    ui.ReleaseFromUndoContext();
+                }
             }
 
             if (oldIndex >= 0)
