@@ -36,6 +36,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\CodeGenerator\SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs" Link="SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.ValueTuple" Version="4.3.0" />
   </ItemGroup>
 
