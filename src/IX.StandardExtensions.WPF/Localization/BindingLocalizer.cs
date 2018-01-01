@@ -11,7 +11,7 @@ namespace IX.StandardExtensions.WPF.Localization
     /// <summary>
     /// A localizer converter.
     /// </summary>
-    /// <seealso cref="System.Windows.Data.IValueConverter" />
+    /// <seealso cref="IValueConverter" />
     public class BindingLocalizer : IValueConverter
     {
         /// <summary>
@@ -48,7 +48,7 @@ namespace IX.StandardExtensions.WPF.Localization
         /// <param name="parameter">The converter parameter to use.</param>
         /// <param name="culture">The culture to use in the converter.</param>
         /// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
-        /// <exception cref="System.InvalidOperationException">This method should NEVER be called.</exception>
+        /// <exception cref="global::System.InvalidOperationException">This method should NEVER be called.</exception>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedByDesignException();
     }
 }

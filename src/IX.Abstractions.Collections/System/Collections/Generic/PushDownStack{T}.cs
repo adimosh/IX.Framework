@@ -5,9 +5,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using IX.Abstractions.Collections;
 using IX.StandardExtensions.Threading;
+using IX.System.Threading;
 
 namespace IX.System.Collections.Generic
 {
@@ -26,7 +26,7 @@ namespace IX.System.Collections.Generic
         /// <summary>
         /// The locking object.
         /// </summary>
-        private ReaderWriterLockSlim locker;
+        private IReaderWriterLock locker;
 
         /// <summary>
         /// The internal container.
@@ -48,7 +48,7 @@ namespace IX.System.Collections.Generic
             this.limit = limit;
 
             this.internalContainer = new List<T>();
-            this.locker = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+            this.locker = new ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>

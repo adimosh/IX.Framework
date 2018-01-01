@@ -64,7 +64,7 @@ namespace IX.StandardExtensions.WPF.Localization
         /// </summary>
         /// <param name="assembly">The assembly.</param>
         /// <param name="resourcePath">The resource path.</param>
-        /// <exception cref="System.InvalidOperationException">
+        /// <exception cref="global::System.InvalidOperationException">
         /// Could not crete resource manager, or registration already exists.
         /// </exception>
         public void RegisterUsedResources(Assembly assembly, string resourcePath)
@@ -94,7 +94,7 @@ namespace IX.StandardExtensions.WPF.Localization
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="culture">The culture.</param>
-        /// <returns>System.String.</returns>
+        /// <returns>The localized resource value.</returns>
         public string GetLocalizedResource(string key, CultureInfo culture)
         {
             foreach (ResourceManager man in this.resourceManagers.Values)
@@ -114,7 +114,7 @@ namespace IX.StandardExtensions.WPF.Localization
         /// Gets the localized resource.
         /// </summary>
         /// <param name="key">The key.</param>
-        /// <returns>System.String.</returns>
+        /// <returns>The localized resource value.</returns>
         public string GetLocalizedResource(string key)
         {
             foreach (ResourceManager man in this.resourceManagers.Values)

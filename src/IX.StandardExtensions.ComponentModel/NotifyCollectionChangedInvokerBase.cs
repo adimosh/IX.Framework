@@ -14,7 +14,7 @@ namespace IX.StandardExtensions.ComponentModel
     /// A base class for collections that notify of changes.
     /// </summary>
     /// <seealso cref="IX.StandardExtensions.ComponentModel.NotifyPropertyChangedBase" />
-    /// <seealso cref="System.Collections.Specialized.INotifyCollectionChanged" />
+    /// <seealso cref="INotifyCollectionChanged" />
     public class NotifyCollectionChangedInvokerBase : NotifyPropertyChangedBase, INotifyCollectionChanged
     {
         /// <summary>

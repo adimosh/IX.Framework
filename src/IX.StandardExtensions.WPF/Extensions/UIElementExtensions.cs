@@ -44,7 +44,7 @@ namespace IX.StandardExtensions.WPF.Extensions
                 throw new ArgumentNullException(nameof(element));
             }
 
-            element.Measure(new System.Windows.Size(element.RenderSize.Width - 1, element.RenderSize.Height - 1));
+            element.Measure(new global::System.Windows.Size(element.RenderSize.Width - 1, element.RenderSize.Height - 1));
             element.Arrange(new Rect(default, element.DesiredSize));
 
             try
@@ -56,7 +56,7 @@ namespace IX.StandardExtensions.WPF.Extensions
 
                 encoder.Frames.Add(BitmapFrame.Create(rtb));
 
-                using (var memoryStream = new System.IO.MemoryStream())
+                using (var memoryStream = new global::System.IO.MemoryStream())
                 {
                     encoder.Save(memoryStream);
 

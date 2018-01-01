@@ -6,6 +6,7 @@ using System;
 using System.Threading;
 using IX.StandardExtensions.ComponentModel;
 using IX.StandardExtensions.Threading;
+using IX.System.Threading;
 
 namespace IX.Observable
 {
@@ -38,9 +39,9 @@ namespace IX.Observable
         /// <remarks>
         /// <para>On non-concurrent collections, this should be left <c>null</c> (<c>Nothing</c> in Visual Basic).</para>
         /// <para>On concurrent collections, this should be overridden to return an instance. All read/write operations on the underlying constructs should rely on
-        /// the same instance of <see cref="ReaderWriterLockSlim"/> that is returned here to synchronize.</para>
+        /// the same instance of <see cref="IReaderWriterLock"/> that is returned here to synchronize.</para>
         /// </remarks>
-        protected virtual ReaderWriterLockSlim SynchronizationLock => null;
+        protected virtual IReaderWriterLock SynchronizationLock => null;
 
         /// <summary>
         /// Produces a reader lock in concurrent collections.
