@@ -33,10 +33,19 @@ namespace IX.System.Threading
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ReaderWriterLockSlim"/> class.
+        /// </summary>
+        /// <param name="locker">The existing locker.</param>
+        public ReaderWriterLockSlim(global::System.Threading.ReaderWriterLockSlim locker)
+        {
+            this.locker = locker;
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the current thread has a write lock held.
         /// </summary>
         /// <value><c>true</c> if the current thread has a write lock held; otherwise, <c>false</c>.</value>
-        public bool IsWriteLockHeld => this.InvokeIfNotDisposed((lck) => lck.IsReadLockHeld, this.locker);
+        public bool IsWriteLockHeld => this.InvokeIfNotDisposed((lck) => lck.IsWriteLockHeld, this.locker);
 
         /// <summary>
         /// Gets a value indicating whether the current thread has an upgradeable lock held.
@@ -49,6 +58,20 @@ namespace IX.System.Threading
         /// </summary>
         /// <value><c>true</c> if the current thread has a read lock held; otherwise, <c>false</c>.</value>
         public bool IsReadLockHeld => this.InvokeIfNotDisposed((lck) => lck.IsReadLockHeld, this.locker);
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="global::System.Threading.ReaderWriterLockSlim"/> to <see cref="ReaderWriterLockSlim"/>.
+        /// </summary>
+        /// <param name="lock">The locker.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator ReaderWriterLockSlim(global::System.Threading.ReaderWriterLockSlim @lock) => new ReaderWriterLockSlim(@lock);
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="ReaderWriterLockSlim"/> to <see cref="global::System.Threading.ReaderWriterLockSlim"/>.
+        /// </summary>
+        /// <param name="lock">The locker.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator global::System.Threading.ReaderWriterLockSlim(ReaderWriterLockSlim @lock) => @lock.locker;
 
         /// <summary>
         /// Enters a read lock.
@@ -78,7 +101,7 @@ namespace IX.System.Threading
         /// <summary>
         /// Exits a write lock.
         /// </summary>
-        public void ExitWriteLock() => this.InvokeIfNotDisposed((lck) => lck.ExitReadLock(), this.locker);
+        public void ExitWriteLock() => this.InvokeIfNotDisposed((lck) => lck.ExitWriteLock(), this.locker);
 
         /// <summary>
         /// Tries to enter a read lock.
