@@ -30,7 +30,6 @@ namespace IX.Observable
 
         private bool isCapturedIntoUndoContext;
         private IUndoableItem parentUndoableContext;
-        private bool automaticallyCaptureSubItems;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableCollectionBase{T}"/> class.
@@ -43,6 +42,8 @@ namespace IX.Observable
 
             this.undoStack = new PushDownStack<UndoRedoLevel>(Constants.StandardUndoRedoLevels);
             this.redoStack = new PushDownStack<UndoRedoLevel>(Constants.StandardUndoRedoLevels);
+
+            this.ItemsAreUndoable = typeof(IUndoableItem).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo());
         }
 
         /// <summary>
@@ -57,6 +58,8 @@ namespace IX.Observable
 
             this.undoStack = new PushDownStack<UndoRedoLevel>(Constants.StandardUndoRedoLevels);
             this.redoStack = new PushDownStack<UndoRedoLevel>(Constants.StandardUndoRedoLevels);
+
+            this.ItemsAreUndoable = typeof(IUndoableItem).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo());
         }
 
         /// <summary>
@@ -119,6 +122,18 @@ namespace IX.Observable
         public IUndoableItem ParentUndoContext => this.parentUndoableContext;
 
         /// <summary>
+        /// Gets or sets a value indicating whether to automatically capture sub items in the current undo/redo context.
+        /// </summary>
+        /// <value><c>true</c> to automatically capture sub items; otherwise, <c>false</c>.</value>
+        public bool AutomaticallyCaptureSubItems { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether items are undoable.
+        /// </summary>
+        /// <value><c>true</c> if items are undoable; otherwise, <c>false</c>.</value>
+        public bool ItemsAreUndoable { get; }
+
+        /// <summary>
         /// Adds an item to the <see cref="ObservableCollectionBase{T}" />.
         /// </summary>
         /// <param name="item">The object to add to the <see cref="ObservableCollectionBase{T}" />.</param>
@@ -127,9 +142,25 @@ namespace IX.Observable
         /// </remarks>
         public virtual void Add(T item)
         {
+            // PRECONDITIONS
+
+            // Current object not disposed
             this.ThrowIfCurrentObjectDisposed();
 
+            // Automatic capture into undo/redo context is on, object must not already be captured by another undo/redo context
+            if (this.ItemsAreUndoable &&
+                this.AutomaticallyCaptureSubItems &&
+                item is IUndoableItem undoContextCheckItem &&
+                undoContextCheckItem.IsCapturedIntoUndoContext &&
+                undoContextCheckItem.ParentUndoContext != this)
+            {
+                throw new ItemAlreadyCapturedIntoUndoContextException();
+            }
+
+            // ACTION
             int newIndex;
+
+            // Under write lock
             using (this.WriteLock())
             {
                 // Add the item
@@ -139,30 +170,30 @@ namespace IX.Observable
                 this.PushUndoLevel(new AddUndoLevel<T> { AddedItem = item, Index = newIndex });
 
                 // Capture items into undo/redo context, if set accordingly
-                if (this.automaticallyCaptureSubItems && item is IUndoableItem ui)
+                if (this.ItemsAreUndoable && this.AutomaticallyCaptureSubItems && item is IUndoableItem ui && !ui.IsCapturedIntoUndoContext)
                 {
-                    if (ui.IsCapturedIntoUndoContext && ui.ParentUndoContext != this)
-                    {
-                        throw new ItemAlreadyCapturedIntoUndoContextException();
-                    }
-
-                    if (!ui.IsCapturedIntoUndoContext)
-                    {
-                        ui.CaptureIntoUndoContext(this);
-                    }
+                    ui.CaptureIntoUndoContext(this);
                 }
             }
 
+            // NOTIFICATIONS
+
+            // Collection changed
             if (newIndex == -1)
             {
+                // If no index could be found for an item (Dictionary add)
                 this.RaiseCollectionReset();
             }
             else
             {
+                // If index was added at a specific index
                 this.RaiseCollectionChangedAdd(item, newIndex);
             }
 
+            // Property changed
             this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
             this.ContentsMayHaveChanged();
         }
 
@@ -174,8 +205,14 @@ namespace IX.Observable
         /// </remarks>
         public virtual void Clear()
         {
+            // PRECONDITIONS
+
+            // Current object not disposed
             this.ThrowIfCurrentObjectDisposed();
 
+            // ACTION
+
+            // Under write lock
             using (this.WriteLock())
             {
                 // Save existing items
@@ -189,7 +226,7 @@ namespace IX.Observable
                 this.PushUndoLevel(new ClearUndoLevel<T> { OriginalItems = tempArray });
 
                 // Release items from context, if they have been captured
-                if (this.automaticallyCaptureSubItems && typeof(IUndoableItem).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
+                if (this.ItemsAreUndoable && this.AutomaticallyCaptureSubItems)
                 {
                     foreach (IUndoableItem tempItem in tempArray.Cast<IUndoableItem>())
                     {
@@ -198,8 +235,15 @@ namespace IX.Observable
                 }
             }
 
+            // NOTIFICATIONS
+
+            // Collection changed
             this.RaiseCollectionReset();
+
+            // Property changed
             this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
             this.ContentsMayHaveChanged();
         }
 
@@ -216,9 +260,15 @@ namespace IX.Observable
         /// </remarks>
         public virtual bool Remove(T item)
         {
+            // PRECONDITIONS
+
+            // Current object not disposed
             this.ThrowIfCurrentObjectDisposed();
 
+            // ACTION
             int oldIndex;
+
+            // Under write lock
             using (this.WriteLock())
             {
                 // Remove the item
@@ -228,30 +278,44 @@ namespace IX.Observable
                 this.PushUndoLevel(new RemoveUndoLevel<T> { RemovedItem = item, Index = oldIndex });
 
                 // Release item from undo/redo context, if automatically captured
-                if (this.automaticallyCaptureSubItems && item is IUndoableItem ui)
+                if (this.ItemsAreUndoable && this.AutomaticallyCaptureSubItems && item is IUndoableItem ui)
                 {
                     ui.ReleaseFromUndoContext();
                 }
             }
 
+            // NOTIFICATIONS AND RETURN
+
+            // Collection changed
             if (oldIndex >= 0)
             {
+                // Collection changed with a specific index
                 this.RaiseCollectionChangedRemove(item, oldIndex);
+
+                // Property changed
                 this.RaisePropertyChanged(nameof(this.Count));
+
+                // Contents may have changed
                 this.ContentsMayHaveChanged();
 
                 return true;
             }
             else if (oldIndex < -1)
             {
+                // Collection changed with no specific index (Dictionary remove)
                 this.RaiseCollectionReset();
+
+                // Property changed
                 this.RaisePropertyChanged(nameof(this.Count));
+
+                // Contents may have changed
                 this.ContentsMayHaveChanged();
 
                 return true;
             }
             else
             {
+                // Unsuccessful removal
                 return false;
             }
         }
@@ -271,7 +335,7 @@ namespace IX.Observable
         /// <param name="automaticallyCaptureSubItems">if set to <c>true</c>, the collection automatically captures sub-items into its undo/redo context.</param>
         public void CaptureIntoUndoContext(IUndoableItem parent, bool automaticallyCaptureSubItems) => this.CheckDisposed(() => this.WriteLock(() =>
         {
-            this.automaticallyCaptureSubItems = automaticallyCaptureSubItems;
+            this.AutomaticallyCaptureSubItems = automaticallyCaptureSubItems;
             this.isCapturedIntoUndoContext = true;
             this.parentUndoableContext = parent ?? throw new ArgumentNullException(nameof(parent));
         }));
@@ -281,7 +345,7 @@ namespace IX.Observable
         /// </summary>
         public void ReleaseFromUndoContext() => this.CheckDisposed(() => this.WriteLock(() =>
         {
-            this.automaticallyCaptureSubItems = false;
+            this.AutomaticallyCaptureSubItems = false;
             this.isCapturedIntoUndoContext = false;
             this.parentUndoableContext = null;
         }));
@@ -381,13 +445,18 @@ namespace IX.Observable
         /// <exception cref="ItemNotCapturedIntoUndoContextException">There is no capturing context.</exception>
         public void UndoStateChanges(StateChange[] stateChanges)
         {
+            // PRECONDITIONS
+
+            // Current object not disposed
             this.ThrowIfCurrentObjectDisposed();
 
+            // Current object captured in an undo/redo context
             if (!this.isCapturedIntoUndoContext)
             {
                 throw new ItemNotCapturedIntoUndoContextException();
             }
 
+            // ACTION
             foreach (StateChange sc in stateChanges)
             {
                 switch (sc)
@@ -433,13 +502,18 @@ namespace IX.Observable
         /// <exception cref="ItemNotCapturedIntoUndoContextException">There is no capturing context.</exception>
         public void RedoStateChanges(StateChange[] stateChanges)
         {
+            // PRECONDITIONS
+
+            // Current object not disposed
             this.ThrowIfCurrentObjectDisposed();
 
+            // Current object captured in an undo/redo context
             if (!this.isCapturedIntoUndoContext)
             {
                 throw new ItemNotCapturedIntoUndoContextException();
             }
 
+            // ACTION
             foreach (StateChange sc in stateChanges)
             {
                 switch (sc)

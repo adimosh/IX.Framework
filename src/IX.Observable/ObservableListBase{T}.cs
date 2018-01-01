@@ -11,6 +11,7 @@ using IX.Observable.Adapters;
 using IX.Observable.UndoLevels;
 using IX.StandardExtensions;
 using IX.StandardExtensions.Threading;
+using IX.Undoable;
 
 namespace IX.Observable
 {
@@ -78,26 +79,69 @@ namespace IX.Observable
 
             set
             {
+                // PRECONDITIONS
+
+                // Current object not disposed
                 this.ThrowIfCurrentObjectDisposed();
 
+                // Current item to be set is not part of a different undo/redo context
+                if (this.ItemsAreUndoable &&
+                    this.AutomaticallyCaptureSubItems &&
+                    value is IUndoableItem undoRedoContextCheckItem &&
+                    undoRedoContextCheckItem.IsCapturedIntoUndoContext &&
+                    undoRedoContextCheckItem.ParentUndoContext != this)
+                {
+                    throw new ItemAlreadyCapturedIntoUndoContextException();
+                }
+
+                // ACTION
                 T oldValue;
 
+                // Inside a read/write lock
                 using (ReadWriteSynchronizationLocker lockContext = this.ReadWriteLock())
                 {
+                    // Verify if we are within bounds in a read lock
                     if (index >= this.InternalContainer.Count)
                     {
                         throw new IndexOutOfRangeException();
                     }
 
+                    // Upgrade to a write lock
                     lockContext.Upgrade();
 
+                    // Get the old value
                     oldValue = this.InternalListContainer[index];
+
+                    // Replace with new value
                     this.InternalListContainer[index] = value;
+
+                    // Push the undo level
                     this.PushUndoLevel(new ChangeAtUndoLevel<T> { Index = index, OldValue = oldValue, NewValue = value });
+
+                    // Release old item and capture new item into undo/redo context, if capturing automatically
+                    if (this.ItemsAreUndoable && this.AutomaticallyCaptureSubItems)
+                    {
+                        if (oldValue is IUndoableItem ui)
+                        {
+                            ui.ReleaseFromUndoContext();
+                        }
+
+                        if (value is IUndoableItem ni)
+                        {
+                            ni.CaptureIntoUndoContext(this);
+                        }
+                    }
                 }
 
+                // NOTIFICATION
+
+                // Collection changed
                 this.RaiseCollectionChangedChanged(oldValue, value, index);
+
+                // Property changed
                 this.RaisePropertyChanged(nameof(this.Count));
+
+                // Contents may have changed
                 this.ContentsMayHaveChanged();
             }
         }
