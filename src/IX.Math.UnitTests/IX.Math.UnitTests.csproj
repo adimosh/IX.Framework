@@ -2,6 +2,8 @@
 
   <Import Project="..\UnitTestStandard.props" />
 
+  <Import Project="..\DocumentationFile.props" />
+
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
