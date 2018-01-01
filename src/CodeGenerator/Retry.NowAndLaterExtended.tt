@@ -28,9 +28,10 @@ for (int i = 1; i <= 8; i++)
 
     for (int j = 1; j <= i; j++)
     {
-        types[j - 1] = $"TParam{j}";
-        names[j - 1] = $"param{j}";
-        nameTypes[j - 1] = $"TParam{j} param{j}";
+        int idx = j - 1;
+        types[idx] = $"TParam{j}";
+        names[idx] = $"param{j}";
+        nameTypes[idx] = $"TParam{j} param{j}";
     }
 
     string paramTypes = string.Join(", ", types);
