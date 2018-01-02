@@ -175,7 +175,7 @@ namespace IX.Observable
 
                 using (this.WriteLock())
                 {
-                    if (dictionary.TryGetValue(key, out var val))
+                    if (dictionary.TryGetValue(key, out TValue val))
                     {
                         dictionary[key] = value;
                         this.PushUndoLevel(new DictionaryChangeUndoLevel<TKey, TValue> { Key = key, OldValue = val, NewValue = value });
@@ -203,8 +203,11 @@ namespace IX.Observable
         /// </summary>
         /// <param name="key">The key to look for.</param>
         /// <returns><c>true</c> whether a key has been found, <c>false</c> otherwise.</returns>
-        public bool ContainsKey(TKey key) => this.CheckDisposed(() => this.ReadLock(() =>
-            ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).dictionary.ContainsKey(key)));
+        public bool ContainsKey(TKey key) => this.CheckDisposed(
+            (keyL1) => this.ReadLock(
+                (keyL2) => ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).dictionary.ContainsKey(keyL2),
+                keyL1),
+            key);
 
         /// <summary>
         /// Attempts to remove all info related to a key from the dictionary.

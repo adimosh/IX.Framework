@@ -333,12 +333,18 @@ namespace IX.Observable
         /// </summary>
         /// <param name="parent">The parent undo and redo context.</param>
         /// <param name="automaticallyCaptureSubItems">if set to <c>true</c>, the collection automatically captures sub-items into its undo/redo context.</param>
-        public void CaptureIntoUndoContext(IUndoableItem parent, bool automaticallyCaptureSubItems) => this.CheckDisposed(() => this.WriteLock(() =>
-        {
-            this.AutomaticallyCaptureSubItems = automaticallyCaptureSubItems;
-            this.isCapturedIntoUndoContext = true;
-            this.parentUndoableContext = parent ?? throw new ArgumentNullException(nameof(parent));
-        }));
+        public void CaptureIntoUndoContext(IUndoableItem parent, bool automaticallyCaptureSubItems) => this.CheckDisposed(
+            (parentL1, automaticallyCaptureSubItemsL1) => this.WriteLock(
+                (parentL2, automaticallyCaptureSubItemsL2) =>
+                {
+                    this.AutomaticallyCaptureSubItems = automaticallyCaptureSubItemsL2;
+                    this.isCapturedIntoUndoContext = true;
+                    this.parentUndoableContext = parentL2 ?? throw new ArgumentNullException(nameof(parentL2));
+                },
+                parentL1,
+                automaticallyCaptureSubItemsL1),
+            parent,
+            automaticallyCaptureSubItems);
 
         /// <summary>
         /// Releases the implementer from being captured into an undo and redo context.

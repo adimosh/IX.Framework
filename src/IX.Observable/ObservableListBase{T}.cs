@@ -177,7 +177,11 @@ namespace IX.Observable
         /// </summary>
         /// <param name="item">The item.</param>
         /// <returns>The index of the item, or <c>-1</c> if not found.</returns>
-        public virtual int IndexOf(T item) => this.CheckDisposed(() => this.ReadLock(() => this.InternalListContainer.IndexOf(item)));
+        public virtual int IndexOf(T item) => this.CheckDisposed(
+            (itemL1) => this.ReadLock(
+                (itemL2) => this.InternalListContainer.IndexOf(itemL2),
+                itemL1),
+            item);
 
         /// <summary>
         /// Adds an item to the <see cref="ObservableCollectionBase{T}" />.
