@@ -1,4 +1,4 @@
-﻿// <copyright file="ObservableListBase{T}.cs" company="Adrian Mos">
+// <copyright file="ObservableListBase{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -167,7 +167,7 @@ namespace IX.Observable
                 }
                 else
                 {
-                    throw new ArgumentOfWrongTypeException();
+                    throw new ArgumentInvalidTypeException();
                 }
             }
         }
@@ -192,25 +192,53 @@ namespace IX.Observable
         /// </remarks>
         public virtual void AddRange(IEnumerable<T> items)
         {
+            // PRECONDITIONS
+
+            // Current object not disposed
             this.ThrowIfCurrentObjectDisposed();
 
-            int newIndex;
-            using (this.WriteLock())
+            T[] itemsList = items.ToArray();
+
+            // Items are not bound to a different context
+            if (this.ItemsAreUndoable &&
+                this.AutomaticallyCaptureSubItems &&
+                itemsList.Any(p =>
+                {
+                    var ui = (IUndoableItem)p;
+                    return ui.IsCapturedIntoUndoContext && ui.ParentUndoContext != this;
+                }))
             {
-                newIndex = ((ListAdapter<T>)this.InternalContainer).AddRange(items);
-                this.PushUndoLevel(new AddMultipleUndoLevel<T> { AddedItems = items.ToArray(), Index = newIndex });
+                throw new ItemAlreadyCapturedIntoUndoContextException();
             }
 
+            // ACTION
+            int newIndex;
+
+            // Inside a write lock
+            using (this.WriteLock())
+            {
+                newIndex = ((ListAdapter<T>)this.InternalContainer).AddRange(itemsList);
+                this.PushUndoLevel(new AddMultipleUndoLevel<T> { AddedItems = itemsList, Index = newIndex });
+
+                itemsList.Cast<IUndoableItem>().ForEach(p => p.CaptureIntoUndoContext(this));
+            }
+
+            // NOTIFICATION
+
+            // Collection changed
             if (newIndex == -1)
             {
                 this.RaiseCollectionReset();
             }
             else
             {
-                this.RaiseCollectionChangedAddMultiple(items, newIndex);
+                this.RaiseCollectionChangedAddMultiple(itemsList, newIndex);
             }
 
+            // Property changed
             this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
             this.ContentsMayHaveChanged();
         }
 
@@ -221,16 +249,51 @@ namespace IX.Observable
         /// <param name="item">The item.</param>
         public virtual void Insert(int index, T item)
         {
+            // PRECONDITIONS
+
+            // Current object not disposed
             this.ThrowIfCurrentObjectDisposed();
 
-            using (this.WriteLock())
+            // Items aren't caught in a different undo context
+            if (this.ItemsAreUndoable &&
+                this.AutomaticallyCaptureSubItems &&
+                item is IUndoableItem uiTest &&
+                uiTest.IsCapturedIntoUndoContext &&
+                uiTest.ParentUndoContext != this)
             {
-                this.InternalListContainer.Insert(index, item);
-                this.PushUndoLevel(new AddUndoLevel<T> { AddedItem = item, Index = index });
+                throw new ItemAlreadyCapturedIntoUndoContextException();
             }
 
+            // ACTION
+
+            // Inside a write lock
+            using (this.WriteLock())
+            {
+                // Actually insert
+                this.InternalListContainer.Insert(index, item);
+
+                // Push undo level
+                this.PushUndoLevel(new AddUndoLevel<T> { AddedItem = item, Index = index });
+
+                // Capture sub-item, if configured
+                if (this.ItemsAreUndoable &&
+                    this.AutomaticallyCaptureSubItems &&
+                    item is IUndoableItem ui &&
+                    !ui.IsCapturedIntoUndoContext)
+                {
+                    ui.CaptureIntoUndoContext(this);
+                }
+            }
+
+            // NOTIFICATION
+
+            // Collection changed
             this.RaiseCollectionChangedAdd(item, index);
+
+            // Property changed
             this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
             this.ContentsMayHaveChanged();
         }
 
@@ -240,26 +303,52 @@ namespace IX.Observable
         /// <param name="index">The index at which to remove an item from.</param>
         public virtual void RemoveAt(int index)
         {
+            // PRECONDITIONS
+
+            // Current object not disposed
             this.ThrowIfCurrentObjectDisposed();
 
+            // ACTION
             T item;
 
+            // Inside a read/write lock
             using (ReadWriteSynchronizationLocker lockContext = this.ReadWriteLock())
             {
+                // Check to see if we are in range
                 if (index >= this.InternalContainer.Count)
                 {
                     return;
                 }
 
+                // Upgrade the lock to a write lock
                 lockContext.Upgrade();
 
+                // Actually do the removal
                 item = this.InternalListContainer[index];
                 this.InternalListContainer.RemoveAt(index);
+
+                // Push an undo level
                 this.PushUndoLevel(new RemoveUndoLevel<T> { Index = index, RemovedItem = item });
+
+                // If configured, release the item from the undo/redo context
+                if (this.ItemsAreUndoable &&
+                    this.AutomaticallyCaptureSubItems &&
+                    item is IUndoableItem ui &&
+                    ui.IsCapturedIntoUndoContext)
+                {
+                    ui.ReleaseFromUndoContext();
+                }
             }
 
+            // NOTIFICATION
+
+            // Collection changed
             this.RaiseCollectionChangedRemove(item, index);
+
+            // Property changed
             this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
             this.ContentsMayHaveChanged();
         }
 
@@ -277,7 +366,7 @@ namespace IX.Observable
                 return this.CountAfterAdd - 1;
             }
 
-            throw new ArgumentOfWrongTypeException(nameof(value));
+            throw new ArgumentInvalidTypeException(nameof(value));
         }
 
         /// <summary>
@@ -326,7 +415,7 @@ namespace IX.Observable
                 return;
             }
 
-            throw new ArgumentOfWrongTypeException(nameof(value));
+            throw new ArgumentInvalidTypeException(nameof(value));
         }
 
         /// <summary>
