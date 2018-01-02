@@ -1,0 +1,38 @@
+﻿// <copyright file="SetResetEventsExtensions.cs" company="Adrian Mos">
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
+// </copyright>
+
+using System;
+
+namespace IX.System.Threading
+{
+    /// <summary>
+    /// Extension methods for set/reset event classes.
+    /// </summary>
+    public static class SetResetEventsExtensions
+    {
+        /// <summary>
+        /// Converts the source <see cref="global::System.Threading.AutoResetEvent"/> to a <see cref="ISetResetEvent"/> abstraction.
+        /// </summary>
+        /// <param name="source">The source event.</param>
+        /// <returns>The abstracted version of the same event.</returns>
+        /// <exception cref="global::System.ArgumentNullException"><paramref name="source"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        public static ISetResetEvent AsAbstraction(this global::System.Threading.AutoResetEvent source) => new AutoResetEvent(source ?? throw new ArgumentNullException(nameof(source)));
+
+        /// <summary>
+        /// Converts the source <see cref="global::System.Threading.ManualResetEvent"/> to a <see cref="ISetResetEvent"/> abstraction.
+        /// </summary>
+        /// <param name="source">The source event.</param>
+        /// <returns>The abstracted version of the same event.</returns>
+        /// <exception cref="global::System.ArgumentNullException"><paramref name="source"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        public static ISetResetEvent AsAbstraction(this global::System.Threading.ManualResetEvent source) => new ManualResetEvent(source ?? throw new ArgumentNullException(nameof(source)));
+
+        /// <summary>
+        /// Converts the source <see cref="global::System.Threading.ManualResetEventSlim"/> to a <see cref="ISetResetEvent"/> abstraction.
+        /// </summary>
+        /// <param name="source">The source event.</param>
+        /// <returns>The abstracted version of the same event.</returns>
+        /// <exception cref="global::System.ArgumentNullException"><paramref name="source"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        public static ISetResetEvent AsAbstraction(this global::System.Threading.ManualResetEventSlim source) => new ManualResetEventSlim(source ?? throw new ArgumentNullException(nameof(source)));
+    }
+}
