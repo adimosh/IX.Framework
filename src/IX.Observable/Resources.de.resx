@@ -123,10 +123,4 @@
   <data name="OperationItemTypeError" xml:space="preserve">
     <value>Der Typ des Arguments ist keinen kompatiblen Typ hinzu.</value>
   </data>
-  <data name="ArgumentOfWrongTypeException" xml:space="preserve">
-    <value>Ein Boxed-Argument ist vom falschen Typ.</value>
-  </data>
-  <data name="ArgumentOfWrongTypeExceptionWithParameter" xml:space="preserve">
-    <value>Das Boxed-Argument {0} ist vom falschen Typ.</value>
-  </data>
 </root>

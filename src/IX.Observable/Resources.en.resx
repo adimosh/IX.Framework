@@ -117,12 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ArgumentOfWrongTypeException" xml:space="preserve">
-    <value>A boxed argument is of the wrong type.</value>
-  </data>
-  <data name="ArgumentOfWrongTypeExceptionWithParameter" xml:space="preserve">
-    <value>The boxed argument {0} is of the wrong type.</value>
-  </data>
   <data name="DictionaryItemAlreadyExists" xml:space="preserve">
     <value>An item with the same key already exists in this dictionary.</value>
   </data>

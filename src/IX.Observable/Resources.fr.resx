@@ -123,10 +123,4 @@
   <data name="OperationItemTypeError" xml:space="preserve">
     <value>Le type de l’argument n’est pas un type compatible à la liste.</value>
   </data>
-  <data name="ArgumentOfWrongTypeException" xml:space="preserve">
-    <value>Un argument encadré est du mauvais type.!</value>
-  </data>
-  <data name="ArgumentOfWrongTypeExceptionWithParameter" xml:space="preserve">
-    <value>L'argument encadré {0} est du mauvais type.!</value>
-  </data>
 </root>

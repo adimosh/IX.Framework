@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -127,7 +127,7 @@
     <value>La función solicitada no se puede llamar con los operandos especificados, ya que su número no coincide con el número de operandos, o porque han unida mal tipos.!</value>
   </data>
   <data name="FunctionCouldNotBeFound" xml:space="preserve">
-    <value>La función &amp;quot;{0}&amp;quot; no se puede encontrar.</value>
+    <value>La función "{0}" no se puede encontrar.</value>
   </data>
   <data name="ParameterMustBeFloatButAlreadyRequiredToBeInteger" xml:space="preserve">
     <value>El parámetro {0} debe ser un valor flotante no sea que la expresión no tiene sentido, pero ya se define como número entero obligatoria.</value>

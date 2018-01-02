@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -127,7 +127,7 @@
     <value>Funcția solicitată nu poate fi invocată cu operanzii specificați, fie pentru că numărul lor nu se potrivește cu numărul necesar de operanzi, sau pentru că au tipuri nepotrivite.</value>
   </data>
   <data name="FunctionCouldNotBeFound" xml:space="preserve">
-    <value>Funcția &amp;quot;{0}&amp;quot; nu poate fi găsită.</value>
+    <value>Funcția "{0}" nu poate fi găsită.</value>
   </data>
   <data name="ParameterMustBeFloatButAlreadyRequiredToBeInteger" xml:space="preserve">
     <value>Parametrul {0} ar trebui să fie un număr real, altfel expresia nu are sens, dar este deja definit ca număr întreg obligatoriu.</value>

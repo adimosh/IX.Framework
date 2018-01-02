@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -127,7 +127,7 @@
     <value>Die angeforderte Funktion kann nicht mit der angegebenen Operanden aufgerufen werden, weil ihre Zahl nicht die erforderliche Anzahl von Operanden übereinstimmt, oder weil sie Typen falsch zugeordnet haben.!</value>
   </data>
   <data name="FunctionCouldNotBeFound" xml:space="preserve">
-    <value>Die Funktion &amp;quot;{0}&amp;quot; kann nicht gefunden werden.</value>
+    <value>Die Funktion "{0}" kann nicht gefunden werden.</value>
   </data>
   <data name="ParameterMustBeFloatButAlreadyRequiredToBeInteger" xml:space="preserve">
     <value>Der Parameter {0} sollte ein Float-Wert, damit der Ausdruck sein macht keinen Sinn, aber es ist bereits als obligatorisch ganze Zahl definiert.</value>

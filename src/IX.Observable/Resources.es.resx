@@ -117,12 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ArgumentOfWrongTypeException" xml:space="preserve">
-    <value>Un argumento en caja es de tipo incorrecto.!</value>
-  </data>
-  <data name="ArgumentOfWrongTypeExceptionWithParameter" xml:space="preserve">
-    <value>El argumento en caja {0} es del tipo incorrecto.!</value>
-  </data>
   <data name="DictionaryItemAlreadyExists" xml:space="preserve">
     <value>Ya existe un objeto con el mismo nombre en este directorio.</value>
   </data>
