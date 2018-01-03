@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IX.Observable\IX.Observable.csproj" />
+    <ProjectReference Include="..\IX.StandardExtensions.TestUtils\IX.StandardExtensions.TestUtils.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,7 +1,8 @@
-﻿// <copyright file="ObservableDictionaryUnitTests.cs" company="Adrian Mos">
+// <copyright file="ObservableDictionaryUnitTests.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using IX.StandardExtensions.TestUtils;
 using Xunit;
 
 namespace IX.Observable.UnitTests
@@ -20,20 +21,20 @@ namespace IX.Observable.UnitTests
             // Arrange
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
 
-            var numberOfItems = UnitTestsUtils.Random.Next(UnitTestConstants.TestsGeneralMagnitude);
+            var numberOfItems = DataGenerator.RandomInteger(UnitTestConstants.TestsGeneralMagnitude);
             int[] items = new int[numberOfItems];
 
             for (var i = 0; i < numberOfItems; i++)
             {
-                items[i] = UnitTestsUtils.Random.Next(numberOfItems);
+                items[i] = DataGenerator.RandomInteger(numberOfItems);
             }
 
-            var numberOfItemsToCheck = UnitTestsUtils.Random.Next(numberOfItems);
+            var numberOfItemsToCheck = DataGenerator.RandomInteger(numberOfItems);
             int[] itemsToCheck = new int[numberOfItemsToCheck];
 
             for (var i = 0; i < numberOfItemsToCheck; i++)
             {
-                itemsToCheck[i] = UnitTestsUtils.Random.Next(numberOfItems);
+                itemsToCheck[i] = DataGenerator.RandomInteger(numberOfItems);
             }
 
             // Act
