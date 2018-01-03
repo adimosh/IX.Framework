@@ -468,6 +468,16 @@ namespace IX.Observable
                         this.InternalListContainer.RemoveAt(index);
 
                         T item = aul.AddedItem;
+
+                        if (this.ItemsAreUndoable &&
+                            this.AutomaticallyCaptureSubItems &&
+                            item is IUndoableItem ul &&
+                            ul.IsCapturedIntoUndoContext &&
+                            ul.ParentUndoContext == this)
+                        {
+                            ul.ReleaseFromUndoContext();
+                        }
+
                         toInvokeOutsideLock = () =>
                         {
                             this.RaiseCollectionChangedRemove(item, index);
@@ -488,6 +498,16 @@ namespace IX.Observable
                         }
 
                         IEnumerable<T> items = amul.AddedItems;
+
+                        if (this.ItemsAreUndoable &&
+                            this.AutomaticallyCaptureSubItems)
+                        {
+                            foreach (IUndoableItem ul in items.Cast<IUndoableItem>().Where(p => p.IsCapturedIntoUndoContext && p.ParentUndoContext == this))
+                            {
+                                ul.ReleaseFromUndoContext();
+                            }
+                        }
+
                         toInvokeOutsideLock = () =>
                         {
                             this.RaiseCollectionChangedRemoveMultiple(items, index);
@@ -505,6 +525,14 @@ namespace IX.Observable
 
                         this.InternalListContainer.Insert(index, item);
 
+                        if (this.ItemsAreUndoable &&
+                            this.AutomaticallyCaptureSubItems &&
+                            item is IUndoableItem ul &&
+                            !ul.IsCapturedIntoUndoContext)
+                        {
+                            ul.CaptureIntoUndoContext(this);
+                        }
+
                         toInvokeOutsideLock = () =>
                         {
                             this.RaiseCollectionChangedAdd(item, index);
@@ -520,6 +548,15 @@ namespace IX.Observable
                         foreach (T t in cul.OriginalItems)
                         {
                             this.InternalListContainer.Add(t);
+                        }
+
+                        if (this.ItemsAreUndoable &&
+                            this.AutomaticallyCaptureSubItems)
+                        {
+                            foreach (IUndoableItem ul in cul.OriginalItems.Cast<IUndoableItem>().Where(p => !p.IsCapturedIntoUndoContext))
+                            {
+                                ul.CaptureIntoUndoContext(this);
+                            }
                         }
 
                         toInvokeOutsideLock = () =>
@@ -539,6 +576,23 @@ namespace IX.Observable
                         var index = caul.Index;
 
                         this.InternalListContainer[index] = newItem;
+
+                        if (this.ItemsAreUndoable &&
+                            this.AutomaticallyCaptureSubItems)
+                        {
+                            if (newItem is IUndoableItem ul &&
+                                !ul.IsCapturedIntoUndoContext)
+                            {
+                                ul.CaptureIntoUndoContext(this);
+                            }
+
+                            if (oldItem is IUndoableItem ol &&
+                                ol.IsCapturedIntoUndoContext &&
+                                ol.ParentUndoContext == this)
+                            {
+                                ol.ReleaseFromUndoContext();
+                            }
+                        }
 
                         toInvokeOutsideLock = () =>
                         {
@@ -583,6 +637,14 @@ namespace IX.Observable
 
                         this.InternalListContainer.Insert(index, item);
 
+                        if (this.ItemsAreUndoable &&
+                            this.AutomaticallyCaptureSubItems &&
+                            item is IUndoableItem ul &&
+                            !ul.IsCapturedIntoUndoContext)
+                        {
+                            ul.CaptureIntoUndoContext(this);
+                        }
+
                         toInvokeOutsideLock = () =>
                         {
                             this.RaiseCollectionChangedAdd(item, index);
@@ -599,6 +661,15 @@ namespace IX.Observable
                         IEnumerable<T> items = amul.AddedItems;
 
                         items.Reverse().ForEach(p => this.InternalListContainer.Insert(index, p));
+
+                        if (this.ItemsAreUndoable &&
+                            this.AutomaticallyCaptureSubItems)
+                        {
+                            foreach (IUndoableItem ul in amul.AddedItems.Cast<IUndoableItem>().Where(p => !p.IsCapturedIntoUndoContext))
+                            {
+                                ul.CaptureIntoUndoContext(this);
+                            }
+                        }
 
                         toInvokeOutsideLock = () =>
                         {
@@ -617,6 +688,15 @@ namespace IX.Observable
 
                         this.InternalListContainer.RemoveAt(index);
 
+                        if (this.ItemsAreUndoable &&
+                            this.AutomaticallyCaptureSubItems &&
+                            item is IUndoableItem ul &&
+                            ul.IsCapturedIntoUndoContext &&
+                            ul.ParentUndoContext == this)
+                        {
+                            ul.ReleaseFromUndoContext();
+                        }
+
                         toInvokeOutsideLock = () =>
                         {
                             this.RaiseCollectionChangedRemove(item, index);
@@ -630,6 +710,15 @@ namespace IX.Observable
                 case ClearUndoLevel<T> cul:
                     {
                         this.InternalContainer.Clear();
+
+                        if (this.ItemsAreUndoable &&
+                            this.AutomaticallyCaptureSubItems)
+                        {
+                            foreach (IUndoableItem ul in cul.OriginalItems.Cast<IUndoableItem>().Where(p => p.IsCapturedIntoUndoContext && p.ParentUndoContext == this))
+                            {
+                                ul.ReleaseFromUndoContext();
+                            }
+                        }
 
                         toInvokeOutsideLock = () =>
                         {
@@ -648,6 +737,23 @@ namespace IX.Observable
                         var index = caul.Index;
 
                         this.InternalListContainer[index] = newItem;
+
+                        if (this.ItemsAreUndoable &&
+                            this.AutomaticallyCaptureSubItems)
+                        {
+                            if (newItem is IUndoableItem ul &&
+                                !ul.IsCapturedIntoUndoContext)
+                            {
+                                ul.CaptureIntoUndoContext(this);
+                            }
+
+                            if (oldItem is IUndoableItem ol &&
+                                ol.IsCapturedIntoUndoContext &&
+                                ol.ParentUndoContext == this)
+                            {
+                                ol.ReleaseFromUndoContext();
+                            }
+                        }
 
                         toInvokeOutsideLock = () =>
                         {
