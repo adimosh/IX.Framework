@@ -1,4 +1,4 @@
-﻿// <copyright file="ObservableCollectionBase{T}.cs" company="Adrian Mos">
+// <copyright file="ObservableCollectionBase{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -132,6 +132,12 @@ namespace IX.Observable
         /// </summary>
         /// <value><c>true</c> if items are undoable; otherwise, <c>false</c>.</value>
         public bool ItemsAreUndoable { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether items are key/value pairs.
+        /// </summary>
+        /// <value><c>true</c> if items are key/value pairs; otherwise, <c>false</c>.</value>
+        public bool ItemsAreKeyValuePairs { get; }
 
         /// <summary>
         /// Adds an item to the <see cref="ObservableCollectionBase{T}" />.
@@ -647,5 +653,38 @@ namespace IX.Observable
         /// <param name="index">The index.</param>
         protected virtual void RaiseCollectionChangedRemove(T removedItem, int index)
             => this.RaiseCollectionRemove(index, removedItem);
+
+        /// <summary>
+        /// Checks and automatically captures an item in a capturing transaction.
+        /// </summary>
+        /// <param name="item">The item to capture.</param>
+        /// <returns>An auto-capture transaction context that reverts the capture if things go wrong.</returns>
+        protected virtual AutoCaptureTransactionContext CheckItemAutoCapture(T item)
+        {
+            if (this.AutomaticallyCaptureSubItems && this.ItemsAreUndoable)
+            {
+                if (item is IUndoableItem ui)
+                {
+                    return new AutoCaptureTransactionContext(ui, this);
+                }
+            }
+
+            return new AutoCaptureTransactionContext();
+        }
+
+        /// <summary>
+        /// Checks and automatically captures items in a capturing transaction.
+        /// </summary>
+        /// <param name="items">The items to capture.</param>
+        /// <returns>An auto-capture transaction context that reverts the capture if things go wrong.</returns>
+        protected virtual AutoCaptureTransactionContext CheckItemAutoCapture(IEnumerable<T> items)
+        {
+            if (this.AutomaticallyCaptureSubItems && this.ItemsAreUndoable)
+            {
+                return new AutoCaptureTransactionContext(items.Cast<IUndoableItem>(), this);
+            }
+
+            return new AutoCaptureTransactionContext();
+        }
     }
 }
