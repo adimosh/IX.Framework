@@ -21,20 +21,20 @@ namespace IX.Observable.UnitTests
             // Arrange
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
 
-            var numberOfItems = DataGenerator.RandomInteger(UnitTestConstants.TestsGeneralMagnitude);
+            var numberOfItems = DataGenerator.RandomNonNegativeInteger(UnitTestConstants.TestsGeneralMagnitude);
             int[] items = new int[numberOfItems];
 
             for (var i = 0; i < numberOfItems; i++)
             {
-                items[i] = DataGenerator.RandomInteger(numberOfItems);
+                items[i] = DataGenerator.RandomNonNegativeInteger(numberOfItems);
             }
 
-            var numberOfItemsToCheck = DataGenerator.RandomInteger(numberOfItems);
+            var numberOfItemsToCheck = DataGenerator.RandomNonNegativeInteger(numberOfItems);
             int[] itemsToCheck = new int[numberOfItemsToCheck];
 
             for (var i = 0; i < numberOfItemsToCheck; i++)
             {
-                itemsToCheck[i] = DataGenerator.RandomInteger(numberOfItems);
+                itemsToCheck[i] = DataGenerator.RandomNonNegativeInteger(numberOfItems);
             }
 
             // Act

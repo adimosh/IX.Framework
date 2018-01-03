@@ -169,7 +169,11 @@ namespace IX.Observable
         /// <returns>The value associated with the specified key.</returns>
         public TValue this[TKey key]
         {
-            get => this.CheckDisposed(() => this.ReadLock(() => ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).dictionary[key]));
+            get => this.CheckDisposed(
+                (keyL1) => this.ReadLock(
+                    (keyL2) => ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).dictionary[keyL2],
+                    keyL1),
+                key);
 
             set
             {

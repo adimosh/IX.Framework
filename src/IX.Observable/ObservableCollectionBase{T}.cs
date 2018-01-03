@@ -125,7 +125,14 @@ namespace IX.Observable
         /// Gets or sets a value indicating whether to automatically capture sub items in the current undo/redo context.
         /// </summary>
         /// <value><c>true</c> to automatically capture sub items; otherwise, <c>false</c>.</value>
-        public bool AutomaticallyCaptureSubItems { get; set; }
+        public bool AutomaticallyCaptureSubItems
+        {
+            get => false;
+
+            set
+            {
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether items are undoable.

@@ -220,7 +220,11 @@ namespace IX.Observable
                 newIndex = ((ListAdapter<T>)this.InternalContainer).AddRange(itemsList);
                 this.PushUndoLevel(new AddMultipleUndoLevel<T> { AddedItems = itemsList, Index = newIndex });
 
-                itemsList.Cast<IUndoableItem>().ForEach(p => p.CaptureIntoUndoContext(this));
+                if (this.ItemsAreUndoable &&
+                    this.AutomaticallyCaptureSubItems)
+                {
+                    itemsList.Cast<IUndoableItem>().ForEach(p => p.CaptureIntoUndoContext(this));
+                }
             }
 
             // NOTIFICATION
