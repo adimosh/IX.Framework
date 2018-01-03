@@ -100,19 +100,25 @@ namespace IX.Undoable
         /// Gets a value indicating whether this instance is captured in undo context.
         /// </summary>
         /// <value><c>true</c> if this instance is captured in undo context; otherwise, <c>false</c>.</value>
-        public bool IsCapturedInUndoContext => this.parentContext != null;
+        public bool IsCapturedIntoUndoContext => this.parentContext != null;
 
         /// <summary>
         /// Gets a value indicating whether or not an undo can be performed on this item.
         /// </summary>
         /// <value><c>true</c> if the call to the <see cref="Undo" /> method would result in a state change, <c>false</c> otherwise.</value>
-        public bool CanUndo => this.IsCapturedInUndoContext || this.undoStack.Count > 0;
+        public bool CanUndo => this.IsCapturedIntoUndoContext || this.undoStack.Count > 0;
 
         /// <summary>
         /// Gets a value indicating whether or not a redo can be performed on this item.
         /// </summary>
         /// <value><c>true</c> if the call to the <see cref="Redo" /> method would result in a state change, <c>false</c> otherwise.</value>
-        public bool CanRedo => this.IsCapturedInUndoContext || this.redoStack.Count > 0;
+        public bool CanRedo => this.IsCapturedIntoUndoContext || this.redoStack.Count > 0;
+
+        /// <summary>
+        /// Gets the parent undo context.
+        /// </summary>
+        /// <value>The parent undo context.</value>
+        public IUndoableItem ParentUndoContext => this.parentContext;
 
         /// <summary>
         /// Begins the editing of an item.
@@ -219,7 +225,7 @@ namespace IX.Undoable
             this.undoStack.Clear();
             this.redoStack.Clear();
 
-            this.RaisePropertyChanged(nameof(this.IsCapturedInUndoContext));
+            this.RaisePropertyChanged(nameof(this.IsCapturedIntoUndoContext));
         }
 
         /// <summary>
@@ -235,7 +241,7 @@ namespace IX.Undoable
 
             this.parentContext = null;
 
-            this.RaisePropertyChanged(nameof(this.IsCapturedInUndoContext));
+            this.RaisePropertyChanged(nameof(this.IsCapturedIntoUndoContext));
         }
 
         /// <summary>
@@ -315,7 +321,7 @@ namespace IX.Undoable
                 throw new ArgumentNullException(nameof(stateChanges));
             }
 
-            if (!this.IsCapturedInUndoContext)
+            if (!this.IsCapturedIntoUndoContext)
             {
                 throw new ItemNotCapturedIntoUndoContextException();
             }
@@ -336,7 +342,7 @@ namespace IX.Undoable
                 throw new ArgumentNullException(nameof(stateChanges));
             }
 
-            if (!this.IsCapturedInUndoContext)
+            if (!this.IsCapturedIntoUndoContext)
             {
                 throw new ItemNotCapturedIntoUndoContextException();
             }
@@ -400,6 +406,20 @@ namespace IX.Undoable
                 this.CommitEditInternal(new StateChange[1] { stateChange });
             }
         }
+
+        /// <summary>
+        /// Advertises a property change.
+        /// </summary>
+        /// <typeparam name="T">The type of the property.</typeparam>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="oldValue">The old value.</param>
+        /// <param name="newValue">The new value.</param>
+        protected void AdvertisePropertyChange<T>(string propertyName, T oldValue, T newValue) => this.AdvertiseStateChange(new PropertyStateChange<T>
+        {
+            PropertyName = propertyName,
+            OldValue = oldValue,
+            NewValue = newValue,
+        });
 
         /// <summary>
         /// Called when a list of state changes are canceled and must be reverted.

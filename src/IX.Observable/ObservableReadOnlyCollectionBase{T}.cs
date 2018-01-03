@@ -133,7 +133,11 @@ namespace IX.Observable
         /// <remarks>
         /// <para>On concurrent collections, this method is read-synchronized.</para>
         /// </remarks>
-        public bool Contains(T item) => this.CheckDisposed(() => this.ReadLock(() => this.InternalContainer.Contains(item)));
+        public bool Contains(T item) => this.CheckDisposed(
+            (itemL1) => this.ReadLock(
+                (itemL2) => this.InternalContainer.Contains(itemL2),
+                itemL1),
+            item);
 
         /// <summary>
         /// Copies the elements of the <see cref="ObservableCollectionBase{T}" /> to an <see cref="Array" />, starting at a particular <see cref="Array" /> index.
@@ -143,7 +147,13 @@ namespace IX.Observable
         /// <remarks>
         /// <para>On concurrent collections, this method is read-synchronized.</para>
         /// </remarks>
-        public void CopyTo(T[] array, int arrayIndex) => this.CheckDisposed(() => this.ReadLock(() => this.InternalContainer.CopyTo(array, arrayIndex)));
+        public void CopyTo(T[] array, int arrayIndex) => this.CheckDisposed(
+            (arrayL1, arrayIndexL1) => this.ReadLock(
+                (arrayL2, arrayIndexL2) => this.InternalContainer.CopyTo(arrayL2, arrayIndexL2),
+                arrayL1,
+                arrayIndexL1),
+            array,
+            arrayIndex);
 
         /// <summary>
         /// Returns a locking enumerator that iterates through the collection.

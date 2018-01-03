@@ -28,7 +28,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// Initializes a new instance of the <see cref="BusyScope"/> class.
         /// </summary>
         /// <param name="description">The scope description.</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="description"/> is <c>null</c>.</exception>
+        /// <exception cref="global::System.ArgumentNullException"><paramref name="description"/> is <c>null</c>.</exception>
         public BusyScope(string description)
         {
             this.initialDescription = description ?? throw new ArgumentNullException(nameof(description));
@@ -38,7 +38,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// Initializes a new instance of the <see cref="BusyScope"/> class.
         /// </summary>
         /// <param name="initialBusyCount">The initial busy count.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="initialBusyCount"/> is an integer value less than 0.</exception>
+        /// <exception cref="global::System.ArgumentOutOfRangeException"><paramref name="initialBusyCount"/> is an integer value less than 0.</exception>
         public BusyScope(int initialBusyCount)
         {
             if (initialBusyCount < 0)
@@ -54,8 +54,8 @@ namespace IX.StandardExtensions.ComponentModel
         /// </summary>
         /// <param name="initialBusyCount">The initial busy count.</param>
         /// <param name="description">The scope description.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException"><paramref name="initialBusyCount"/> is an integer value less than 0.</exception>
-        /// <exception cref="System.ArgumentNullException"><paramref name="description"/> is <c>null</c>.</exception>
+        /// <exception cref="global::System.ArgumentOutOfRangeException"><paramref name="initialBusyCount"/> is an integer value less than 0.</exception>
+        /// <exception cref="global::System.ArgumentNullException"><paramref name="description"/> is <c>null</c>.</exception>
         public BusyScope(int initialBusyCount, string description)
         {
             if (initialBusyCount < 0)
@@ -102,7 +102,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// <summary>
         /// Decrements the busy scope.
         /// </summary>
-        /// <exception cref="System.InvalidOperationException">The scope is idle.</exception>
+        /// <exception cref="global::System.InvalidOperationException">The scope is idle.</exception>
         public void DecrementBusyScope()
         {
             if (this.BusyCount == 0)

@@ -5,9 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 using IX.Observable.DebugAide;
 using IX.StandardExtensions.Threading;
+using IX.System.Threading;
+using GlobalThreading = System.Threading;
 
 namespace IX.Observable
 {
@@ -24,7 +25,7 @@ namespace IX.Observable
         private TFilter filter;
         private Func<TItem, TFilter, bool> filteringPredicate;
         private IList<TItem> cachedFilteredElements;
-        private ReaderWriterLockSlim cacheLocker;
+        private IReaderWriterLock cacheLocker;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConcurrentFilterableObservableMasterSlaveCollection{TItem, TFilter}" /> class.
@@ -35,7 +36,7 @@ namespace IX.Observable
             : base()
         {
             this.filteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
-            this.cacheLocker = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+            this.cacheLocker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -44,11 +45,11 @@ namespace IX.Observable
         /// <param name="filteringPredicate">The filtering predicate.</param>
         /// <param name="context">The synchronization context to use, if any.</param>
         /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <c>null</c> (<c>Nothing</c>) in Visual Basic.</exception>
-        public ConcurrentFilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate, SynchronizationContext context)
+        public ConcurrentFilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate, GlobalThreading.SynchronizationContext context)
             : base(context)
         {
             this.filteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
-            this.cacheLocker = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+            this.cacheLocker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>

@@ -46,6 +46,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\CodeGenerator\Retry.NowAndLaterExtended.cs" Link="Retry.NowAndLaterExtended.cs" />
+    <Compile Include="..\CodeGenerator\RetryContext.ActionsAndFuncs.cs" Link="Contexts\RetryContext.ActionsAndFuncs.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" PrivateAssets="all" />
   </ItemGroup>
 

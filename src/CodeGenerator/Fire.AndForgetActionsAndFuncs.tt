@@ -1,0 +1,125 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+// <copyright file="Fire.AndForgetActionsAndFuncs.cs" company="Adrian Mos">
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
+// </copyright>
+
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace IX.StandardExtensions.Threading
+{
+    /// <summary>
+    /// A class that provides methods and extensions to fire events.
+    /// </summary>
+    public static partial class Fire
+    {<#
+for (int i = 1; i <= 8; i++)
+{
+    string[] types = new string[i];
+    string[] names = new string[i];
+    string[] nameTypes = new string[i];
+    string[] parameters = new string[i];
+
+    for (int j = 1; j <= i; j++)
+    {
+        int idx = j - 1;
+        types[idx] = $"TParam{j}";
+        names[idx] = $"param{j}";
+        nameTypes[idx] = $"TParam{j} param{j}";
+        if (idx != 7)
+        {
+            parameters[idx] = $"unpackedParameters.Item{j}";
+        }
+        else
+        {
+            parameters[idx] = "unpackedParameters.Rest";
+        }
+    }
+
+    string paramTypes = string.Join(", ", types);
+    string paramNames = string.Join(", ", names);
+    string paramNameTypes = string.Join(", ", nameTypes);
+    string paramParameters = string.Join(", ", parameters);
+#>
+
+        /// <summary>
+        /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        public static void AndForget<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+            => AndForget(action, <#= paramNames #>, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
+
+        /// <summary>
+        /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="exceptionHandler">The exception handler. This parameter can be null.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        public static void AndForget<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
+        {
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            var state = new Tuple<Action<<#= paramTypes #>>, Tuple<<#= paramTypes #>>>(action, new Tuple<<#= paramTypes #>>(<#= paramNames #>));
+            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+
+            void ExecuteAction(object innerState)
+            {
+                var unpackedState = (Tuple<Action<<#= paramTypes #>>, Tuple<<#= paramTypes #>>>)innerState;
+                Tuple<<#= paramTypes #>> unpackedParameters = unpackedState.Item2;
+
+                unpackedState.Item1(<#= paramParameters #>);
+            }
+
+            runningTask.ContinueWith(
+                (task) => exceptionHandler?.Invoke(task.Exception.GetBaseException()),
+                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
+
+            runningTask.Start();
+        }
+<#
+}
+#>
+    }
+}

@@ -123,10 +123,4 @@
   <data name="OperationItemTypeError" xml:space="preserve">
     <value>Tipul de argument nu este un tip compatibil cu lista.</value>
   </data>
-  <data name="ArgumentOfWrongTypeException" xml:space="preserve">
-    <value>Parametrul este de tipul greșit.</value>
-  </data>
-  <data name="ArgumentOfWrongTypeExceptionWithParameter" xml:space="preserve">
-    <value>Parametrul {0} este de tipul greșit.</value>
-  </data>
 </root>

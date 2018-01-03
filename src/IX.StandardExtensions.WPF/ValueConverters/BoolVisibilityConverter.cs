@@ -12,7 +12,7 @@ namespace IX.StandardExtensions.WPF.ValueConverters
     /// <summary>
     /// A value converter between <see cref="bool"/> and <see cref="Visibility"/>.
     /// </summary>
-    /// <seealso cref="System.Windows.Data.IValueConverter" />
+    /// <seealso cref="IValueConverter" />
     public class BoolVisibilityConverter : IValueConverter
     {
         /// <summary>

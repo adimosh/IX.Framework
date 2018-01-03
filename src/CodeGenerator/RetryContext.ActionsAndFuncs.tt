@@ -1,0 +1,103 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+// <copyright file="RetryContext.ActionsAndFuncs.cs" company="Adrian Mos">
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
+// </copyright>
+
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace IX.Retry.Contexts
+{
+#pragma warning disable SA1402 // File may only contain a single type
+#pragma warning disable SA1649 // File name should match first type name<#
+for (int i = 1; i <= 8; i++)
+{
+    string[] types = new string[i];
+    string[] names = new string[i];
+    string[] nameTypes = new string[i];
+
+    for (int j = 1; j <= i; j++)
+    {
+        int idx = j - 1;
+        types[idx] = $"TParam{j}";
+        names[idx] = $"param{j}";
+        nameTypes[idx] = $"TParam{j} param{j}";
+    }
+
+    string paramTypes = string.Join(", ", types);
+    string paramNames = string.Join(", ", names.Select(p => $"this.{p}"));
+    string paramNameTypes = string.Join(", ", nameTypes);
+#>
+
+    internal sealed class ActionWith<#= i #>ParamRetryContext<<#= paramTypes #>> : RetryContext
+    {
+        private Action<<#= paramTypes #>> action;
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        private TParam<#= j #> param<#= j #>;
+<#
+    }
+#>
+
+        internal ActionWith<#= i #>ParamRetryContext(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions retryOptions)
+            : base(retryOptions)
+        {
+            this.action = action;
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+            this.param<#= j #> = param<#= j #>;
+<#
+    }
+#>
+        }
+
+        private protected override void Invoke() => this.action(<#= paramNames #>);
+    }
+
+    internal sealed class FuncWith<#= i #>ParamRetryContext<<#= paramTypes #>, TReturn> : RetryContextWithReturnValue<TReturn>
+    {
+        private Func<<#= paramTypes #>, TReturn> func;
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        private TParam<#= j #> param<#= j #>;
+<#
+    }
+#>
+        private TReturn returnValue;
+
+        internal FuncWith<#= i #>ParamRetryContext(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions retryOptions)
+            : base(retryOptions)
+        {
+            this.func = func;
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+            this.param<#= j #> = param<#= j #>;
+<#
+    }
+#>
+        }
+
+        internal override TReturn GetReturnValue() => this.returnValue;
+
+        private protected override void Invoke() => this.returnValue = this.func(<#= paramNames #>);
+    }
+<#
+}
+#>
+#pragma warning restore SA1649 // File name should match first type name
+#pragma warning restore SA1402 // File may only contain a single type
+}

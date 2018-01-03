@@ -2,6 +2,8 @@
 
   <Import Project="..\UnitTestStandard.props" />
 
+  <Import Project="..\DocumentationFile.props" />
+
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
@@ -22,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IX.Observable\IX.Observable.csproj" />
+    <ProjectReference Include="..\IX.StandardExtensions.TestUtils\IX.StandardExtensions.TestUtils.csproj" />
   </ItemGroup>
 
   <ItemGroup>

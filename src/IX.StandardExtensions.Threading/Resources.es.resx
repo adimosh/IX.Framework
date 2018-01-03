@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="MoveNextNotInvoked" xml:space="preserve">
-    <value>Debes &lt;a href="%1$s"&gt;ingresar&lt;/a&gt; antes de que puedas publicar un anuncio o evento.</value>
+    <value>Debes ingresar antes de que puedas publicar un anuncio o evento.</value>
   </data>
 </root>

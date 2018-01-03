@@ -3,7 +3,7 @@
 // </copyright>
 
 using System;
-using System.Threading;
+using IX.System.Threading;
 
 namespace IX.StandardExtensions.Threading
 {
@@ -17,7 +17,7 @@ namespace IX.StandardExtensions.Threading
         /// Initializes a new instance of the <see cref="SynchronizationLocker"/> class.
         /// </summary>
         /// <param name="locker">The locker.</param>
-        internal SynchronizationLocker(ReaderWriterLockSlim locker)
+        internal SynchronizationLocker(IReaderWriterLock locker)
         {
             this.Locker = locker;
         }
@@ -25,7 +25,7 @@ namespace IX.StandardExtensions.Threading
         /// <summary>
         /// Gets the reader/writer lock to use. This property can be <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </summary>
-        protected ReaderWriterLockSlim Locker { get; private set; }
+        protected IReaderWriterLock Locker { get; private set; }
 
         /// <summary>
         /// Releases the currently-held lock.

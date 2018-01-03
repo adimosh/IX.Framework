@@ -3,7 +3,7 @@
 // </copyright>
 
 using System;
-using System.Threading;
+using IX.System.Threading;
 
 namespace IX.StandardExtensions.Threading
 {
@@ -18,7 +18,7 @@ namespace IX.StandardExtensions.Threading
         /// </summary>
         /// <param name="locker">The locker.</param>
         /// <exception cref="TimeoutException">The lock could not be acquired in time.</exception>
-        public ReadOnlySynchronizationLocker(ReaderWriterLockSlim locker)
+        public ReadOnlySynchronizationLocker(IReaderWriterLock locker)
             : this(locker, EnvironmentSettings.LockAcquisitionTimeout)
         {
         }
@@ -29,7 +29,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="locker">The locker.</param>
         /// <param name="lockAcquisitionTimeout">The express lock acquisition timeout.</param>
         /// <exception cref="TimeoutException">The lock could not be acquired in time.</exception>
-        public ReadOnlySynchronizationLocker(ReaderWriterLockSlim locker, int lockAcquisitionTimeout)
+        public ReadOnlySynchronizationLocker(IReaderWriterLock locker, int lockAcquisitionTimeout)
             : this(locker, TimeSpan.FromMilliseconds(lockAcquisitionTimeout))
         {
         }
@@ -40,7 +40,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="locker">The locker.</param>
         /// <param name="lockAcquisitionTimeoutMilliseconds">The express lock acquisition timeout.</param>
         /// <exception cref="TimeoutException">The lock could not be acquired in time.</exception>
-        public ReadOnlySynchronizationLocker(ReaderWriterLockSlim locker, double lockAcquisitionTimeoutMilliseconds)
+        public ReadOnlySynchronizationLocker(IReaderWriterLock locker, double lockAcquisitionTimeoutMilliseconds)
             : this(locker, TimeSpan.FromMilliseconds(lockAcquisitionTimeoutMilliseconds))
         {
         }
@@ -51,7 +51,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="locker">The locker.</param>
         /// <param name="lockAcquisitionTimespan">The lock acquisition timespan.</param>
         /// <exception cref="TimeoutException">The lock could not be acquired in time.</exception>
-        public ReadOnlySynchronizationLocker(ReaderWriterLockSlim locker, TimeSpan lockAcquisitionTimespan)
+        public ReadOnlySynchronizationLocker(IReaderWriterLock locker, TimeSpan lockAcquisitionTimespan)
             : base(locker)
         {
             if (!locker?.TryEnterReadLock(lockAcquisitionTimespan) ?? false)

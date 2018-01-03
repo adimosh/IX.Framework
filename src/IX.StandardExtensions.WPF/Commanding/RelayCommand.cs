@@ -80,7 +80,7 @@ namespace IX.StandardExtensions.WPF.Commanding
             {
                 this.isWaitingForAction = false;
 
-                (Dispatcher.CurrentDispatcher ?? System.Windows.Application.Current.Dispatcher).Invoke(this.TriggerCanExecuteChanged, DispatcherPriority.ApplicationIdle);
+                (Dispatcher.CurrentDispatcher ?? global::System.Windows.Application.Current.Dispatcher).Invoke(this.TriggerCanExecuteChanged, DispatcherPriority.ApplicationIdle);
             }
         }
 

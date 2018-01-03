@@ -25,6 +25,7 @@
     <Compile Include="..\CodeGenerator\ArrayExtensions.StandardTypes.cs" Link="ArrayExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\ArraySequenceCompareExtensions.StandardTypes.cs" Link="ArraySequenceCompareExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\ArraySequenceEqualsExtensions.StandardTypes.cs" Link="ArraySequenceEqualsExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\DisposableBase.InvokeIfNotDisposed.cs" Link="ComponentModel\DisposableBase.InvokeIfNotDisposed.cs" />
     <Compile Include="..\CodeGenerator\IDictionaryExtensions.StandardTypes.cs" Link="IDictionaryExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\IEnumerableSequenceCompareExtensions.StandardTypes.cs" Link="IEnumerableSequenceCompareExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\IEnumerableSequenceEqualsExtensions.StandardTypes.cs" Link="IEnumerableSequenceEqualsExtensions.StandardTypes.cs" />

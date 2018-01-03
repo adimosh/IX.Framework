@@ -40,6 +40,16 @@ namespace IX.System.Threading
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ManualResetEventSlim"/> class.
+        /// </summary>
+        /// <param name="manualResetEvent">The manual reset event.</param>
+        /// <exception cref="ArgumentNullException">manualResetEvent</exception>
+        public ManualResetEventSlim(global::System.Threading.ManualResetEventSlim manualResetEvent)
+        {
+            this.sre = manualResetEvent ?? throw new ArgumentNullException(nameof(manualResetEvent));
+        }
+
+        /// <summary>
         /// Finalizes an instance of the <see cref="ManualResetEventSlim"/> class.
         /// </summary>
         ~ManualResetEventSlim()
@@ -47,6 +57,20 @@ namespace IX.System.Threading
             // Do not change this code. Put cleanup code in Dispose(bool disposing).
             this.Dispose(false);
         }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="ManualResetEventSlim"/> to <see cref="global::System.Threading.ManualResetEventSlim"/>.
+        /// </summary>
+        /// <param name="manualResetEvent">The manual reset event.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator global::System.Threading.ManualResetEventSlim(ManualResetEventSlim manualResetEvent) => manualResetEvent.sre;
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="global::System.Threading.ManualResetEventSlim"/> to <see cref="ManualResetEventSlim"/>.
+        /// </summary>
+        /// <param name="manualResetEvent">The manual reset event.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator ManualResetEventSlim(global::System.Threading.ManualResetEventSlim manualResetEvent) => new ManualResetEventSlim(manualResetEvent);
 
         /// <summary>
         /// Sets the state of this event instance to non-signaled. Any thread entering a wait from this point will block.

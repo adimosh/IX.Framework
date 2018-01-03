@@ -6,6 +6,7 @@ using System;
 using System.Threading;
 using IX.StandardExtensions.ComponentModel;
 using IX.StandardExtensions.Threading;
+using IX.System.Threading;
 
 namespace IX.Observable
 {
@@ -13,7 +14,7 @@ namespace IX.Observable
     /// A base class for collections that are observable.
     /// </summary>
     /// <seealso cref="NotifyCollectionChangedInvokerBase" />
-    public abstract class ObservableBase : NotifyCollectionChangedInvokerBase
+    public abstract partial class ObservableBase : NotifyCollectionChangedInvokerBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableBase"/> class.
@@ -38,9 +39,9 @@ namespace IX.Observable
         /// <remarks>
         /// <para>On non-concurrent collections, this should be left <c>null</c> (<c>Nothing</c> in Visual Basic).</para>
         /// <para>On concurrent collections, this should be overridden to return an instance. All read/write operations on the underlying constructs should rely on
-        /// the same instance of <see cref="ReaderWriterLockSlim"/> that is returned here to synchronize.</para>
+        /// the same instance of <see cref="IReaderWriterLock"/> that is returned here to synchronize.</para>
         /// </remarks>
-        protected virtual ReaderWriterLockSlim SynchronizationLock => null;
+        protected virtual IReaderWriterLock SynchronizationLock => null;
 
         /// <summary>
         /// Produces a reader lock in concurrent collections.
@@ -51,26 +52,26 @@ namespace IX.Observable
         /// <summary>
         /// Invokes using a reader lock.
         /// </summary>
-        /// <param name="invoker">An invoker that is called.</param>
-        protected void ReadLock(Action invoker)
+        /// <param name="action">An action that is called.</param>
+        protected void ReadLock(Action action)
         {
             using (new ReadOnlySynchronizationLocker(this.SynchronizationLock))
             {
-                invoker();
+                action();
             }
         }
 
         /// <summary>
         /// Gets a result from an invoker using a reader lock.
         /// </summary>
-        /// <param name="invoker">An invoker that is called to get the result.</param>
+        /// <param name="action">An action that is called to get the result.</param>
         /// <typeparam name="T">The type of the object to return.</typeparam>
         /// <returns>A disposable object representing the lock.</returns>
-        protected T ReadLock<T>(Func<T> invoker)
+        protected T ReadLock<T>(Func<T> action)
         {
             using (new ReadOnlySynchronizationLocker(this.SynchronizationLock))
             {
-                return invoker();
+                return action();
             }
         }
 
@@ -83,12 +84,12 @@ namespace IX.Observable
         /// <summary>
         /// Invokes using a writer lock.
         /// </summary>
-        /// <param name="invoker">An invoker that is called.</param>
-        protected void WriteLock(Action invoker)
+        /// <param name="action">An action that is called.</param>
+        protected void WriteLock(Action action)
         {
             using (new WriteOnlySynchronizationLocker(this.SynchronizationLock))
             {
-                invoker();
+                action();
             }
         }
 
@@ -113,11 +114,11 @@ namespace IX.Observable
         /// <summary>
         /// Checks whether or not this object is disposed and throws an <see cref="ObjectDisposedException" />, and, if not, invokes an action and returns its result.
         /// </summary>
-        /// <typeparam name="T">The return type of the action.</typeparam>
+        /// <typeparam name="TReturn">The return type of the action.</typeparam>
         /// <param name="action">The action to invoke.</param>
         /// <returns>The result from the action.</returns>
         /// <exception cref="ObjectDisposedException">This instance is disposed.</exception>
-        protected T CheckDisposed<T>(Func<T> action)
+        protected TReturn CheckDisposed<TReturn>(Func<TReturn> action)
         {
             this.ThrowIfCurrentObjectDisposed();
 

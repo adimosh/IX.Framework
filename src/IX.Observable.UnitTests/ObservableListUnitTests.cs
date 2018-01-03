@@ -18,6 +18,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListUndoAtAdd()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableList<int>
             {
                 1,
@@ -45,6 +47,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListRedoAtAdd()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableList<int>
             {
                 1,
@@ -73,6 +77,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListUndoAtAddRange()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableList<int>
             {
                 1,
@@ -105,6 +111,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListRedoAtAddRange()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableList<int>
             {
                 1,
@@ -141,6 +149,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListUndoAtClear()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableList<int>
             {
                 1,
@@ -176,6 +186,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListRedoAtClear()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableList<int>
             {
                 1,
@@ -213,6 +225,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListUndoAtInsert()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableList<int>
             {
                 1,
@@ -242,6 +256,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListRedoAtInsert()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableList<int>
             {
                 1,
@@ -271,6 +287,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListUndoAtRemoveAt()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableList<int>
             {
                 1,
@@ -300,6 +318,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListRedoAtRemoveAt()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableList<int>
             {
                 1,
@@ -328,6 +348,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListUndoMultipleOperations()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableList<int>
             {
                 1,
@@ -386,6 +408,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListMultipleUndoOperations()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableList<int>
             {
                 1,
@@ -425,6 +449,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListMultipleRedoCutoff()
         {
             // ARRANGE
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+
             var list = new ObservableList<int>
             {
                 1,

@@ -10,7 +10,7 @@ namespace IX.StandardExtensions.ComponentModel
     /// An abstract base class for correctly implementing the disposable pattern.
     /// </summary>
     /// <seealso cref="System.IDisposable" />
-    public abstract class DisposableBase : IDisposable
+    public abstract partial class DisposableBase : IDisposable
     {
         private bool disposedValue;
 
@@ -41,6 +41,18 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 throw new ObjectDisposedException(this.GetType().FullName);
             }
+        }
+
+        /// <summary>
+        /// Invokes an action if the current instance is not disposed.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        protected void InvokeIfNotDisposed(Action action)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            (action ?? throw new ArgumentNullException()).Invoke();
         }
 
         /// <summary>

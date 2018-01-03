@@ -1,0 +1,643 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+// <copyright file="Retry.NowAndLaterExtended.cs" company="Adrian Mos">
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
+// </copyright>
+
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using IX.Retry.Contexts;
+
+namespace IX.Retry
+{
+    /// <summary>
+    /// A class for containing retry operations.
+    /// </summary>
+    public static partial class Retry
+    {<#
+for (int i = 1; i <= 8; i++)
+{
+    string[] types = new string[i];
+    string[] names = new string[i];
+    string[] nameTypes = new string[i];
+
+    for (int j = 1; j <= i; j++)
+    {
+        int idx = j - 1;
+        types[idx] = $"TParam{j}";
+        names[idx] = $"param{j}";
+        nameTypes[idx] = $"TParam{j} param{j}";
+    }
+
+    string paramTypes = string.Join(", ", types);
+    string paramNames = string.Join(", ", names);
+    string paramNameTypes = string.Join(", ", nameTypes);
+#>
+
+        /// <summary>
+        /// Retry now, with a default set of options.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        public static void Now<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>) => Run(action, <#= paramNames #>, new RetryOptions());
+
+        /// <summary>
+        /// Retry now, asynchronously, with an optional cancellation token.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
+        /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
+        public static Task NowAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default) => RunAsync(action, <#= paramNames #>, new RetryOptions(), cancellationToken);
+
+        /// <summary>
+        /// Retry now, with specified options.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="options">The retry options.</param>
+        public static void Now<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options) => Run(action, <#= paramNames #>, options);
+
+        /// <summary>
+        /// Retry now, asynchronously, with specified options and an optional cancellation token.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="options">The retry options.</param>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
+        /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
+        public static Task NowAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default) => RunAsync(action, <#= paramNames #>, options, cancellationToken);
+
+        /// <summary>
+        /// Retry now, with a method to build up options.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="optionsSetter">A method to build up options on the fly.</param>
+        public static void Now<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter)
+        {
+            if (optionsSetter == null)
+            {
+                throw new ArgumentNullException(nameof(optionsSetter));
+            }
+
+            var options = new RetryOptions();
+            optionsSetter(options);
+
+            Run(action, <#= paramNames #>, options);
+        }
+
+        /// <summary>
+        /// Retry now, asynchronously, with a method to build up options and an optional cancellation token.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="optionsSetter">A method to build up options on the fly.</param>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
+        /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
+        public static async Task NowAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        {
+            if (optionsSetter == null)
+            {
+                throw new ArgumentNullException(nameof(optionsSetter));
+            }
+
+            var options = new RetryOptions();
+            optionsSetter(options);
+
+            await RunAsync(action, <#= paramNames #>, options, cancellationToken);
+        }
+
+        /// <summary>
+        /// Retry an action later.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <returns>An <see cref="System.Action" /> that can be executed whenever required.</returns>
+        /// <remarks>
+        /// <para>Please be advised that, in order to properly function, this method creates a closure.</para>
+        /// <para>For now, this is unavoidable.</para>
+        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>}(Action{<#= paramTypes #>}, <#= paramTypes #>)"/> method and implement the delay of action yourself.</para>
+        /// </remarks>
+        public static Action Later<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>) => () => Run(action, <#= paramNames #>, new RetryOptions());
+
+        /// <summary>
+        /// Retry an action later, with retry options.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="options">The retry options.</param>
+        /// <returns>An <see cref="System.Action" /> that can be executed whenever required.</returns>
+        /// <remarks>
+        /// <para>Please be advised that, in order to properly function, this method creates a closure.</para>
+        /// <para>For now, this is unavoidable.</para>
+        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>}(Action{<#= paramTypes #>}, <#= paramTypes #>, RetryOptions)"/> method and implement the delay of action yourself.</para>
+        /// </remarks>
+        public static Action Later<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options) => () => Run(action, <#= paramNames #>, options);
+
+        /// <summary>
+        /// Retry an action later, with a method to build up options.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="optionsSetter">A method to build up options on the fly.</param>
+        /// <returns>An <see cref="System.Action" /> that can be executed whenever required.</returns>
+        /// <remarks>
+        /// <para>Please be advised that, in order to properly function, this method creates a closure.</para>
+        /// <para>For now, this is unavoidable.</para>
+        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>}(Action{<#= paramTypes #>}, <#= paramTypes #>, Action{RetryOptions})"/> method and implement the delay of action yourself.</para>
+        /// </remarks>
+        public static Action Later<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter)
+        {
+            if (optionsSetter == null)
+            {
+                throw new ArgumentNullException(nameof(optionsSetter));
+            }
+
+            var options = new RetryOptions();
+            optionsSetter(options);
+
+            return () => Run(action, <#= paramNames #>, options);
+        }
+
+        /// <summary>
+        /// Retry now, with a default set of options.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <typeparam name="TReturn">The return type of the invoked method.</typeparam>
+        /// <param name="func">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <returns>A return value, as defined by the invoked method.</returns>
+        public static TReturn Now<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>) => Run(func, <#= paramNames #>, new RetryOptions());
+
+        /// <summary>
+        /// Retry now, asynchronously, with an optional cancellation token.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <typeparam name="TReturn">The return type of the invoked method.</typeparam>
+        /// <param name="func">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
+        /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
+        public static Task<TReturn> NowAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, CancellationToken cancellationToken = default) => RunAsync(func, <#= paramNames #>, new RetryOptions(), cancellationToken);
+
+        /// <summary>
+        /// Retry now, with specified options.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <typeparam name="TReturn">The return type of the invoked method.</typeparam>
+        /// <param name="func">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="options">The retry options.</param>
+        /// <returns>A return value, as defined by the invoked method.</returns>
+        public static TReturn Now<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options) => Run(func, <#= paramNames #>, options);
+
+        /// <summary>
+        /// Retry now, asynchronously, with specified options and an optional cancellation token.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <typeparam name="TReturn">The return type of the invoked method.</typeparam>
+        /// <param name="func">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="options">The retry options.</param>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
+        /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
+        public static Task<TReturn> NowAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default) => RunAsync(func, <#= paramNames #>, options, cancellationToken);
+
+        /// <summary>
+        /// Retry now, with a method to build up options.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <typeparam name="TReturn">The return type of the invoked method.</typeparam>
+        /// <param name="func">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="optionsSetter">A method to build up options on the fly.</param>
+        /// <returns>A return value, as defined by the invoked method.</returns>
+        public static TReturn Now<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter)
+        {
+            if (optionsSetter == null)
+            {
+                throw new ArgumentNullException(nameof(optionsSetter));
+            }
+
+            var options = new RetryOptions();
+            optionsSetter(options);
+
+            return Run(func, <#= paramNames #>, options);
+        }
+
+        /// <summary>
+        /// Retry now, asynchronously, with a method to build up options and an optional cancellation token.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <typeparam name="TReturn">The return type of the invoked method.</typeparam>
+        /// <param name="func">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="optionsSetter">A method to build up options on the fly.</param>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
+        /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
+        public static async Task<TReturn> NowAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        {
+            if (optionsSetter == null)
+            {
+                throw new ArgumentNullException(nameof(optionsSetter));
+            }
+
+            var options = new RetryOptions();
+            optionsSetter(options);
+
+            return await RunAsync(func, <#= paramNames #>, options, cancellationToken);
+        }
+
+        /// <summary>
+        /// Retry an action later.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <typeparam name="TReturn">The return type of the invoked method.</typeparam>
+        /// <param name="func">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <returns>An <see cref="System.Func{TResult}" /> that can be executed whenever required.</returns>
+        /// <remarks>
+        /// <para>Please be advised that, in order to properly function, this method creates a closure.</para>
+        /// <para>For now, this is unavoidable.</para>
+        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>, TReturn}(Func{<#= paramTypes #>, TReturn}, <#= paramTypes #>)"/> method and implement the delay of action yourself.</para>
+        /// </remarks>
+        public static Func<TReturn> Later<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>) => () => Run(func, <#= paramNames #>, new RetryOptions());
+
+        /// <summary>
+        /// Retry an action later, with retry options.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <typeparam name="TReturn">The return type of the invoked method.</typeparam>
+        /// <param name="func">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="options">The retry options.</param>
+        /// <returns>An <see cref="System.Func{TResult}" /> that can be executed whenever required.</returns>
+        /// <remarks>
+        /// <para>Please be advised that, in order to properly function, this method creates a closure.</para>
+        /// <para>For now, this is unavoidable.</para>
+        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>, TReturn}(Func{<#= paramTypes #>, TReturn}, <#= paramTypes #>, RetryOptions)"/> method and implement the delay of action yourself.</para>
+        /// </remarks>
+        public static Func<TReturn> Later<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options) => () => Run(func, <#= paramNames #>, options);
+
+        /// <summary>
+        /// Retry an action later, with a method to build up options.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the retried method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <typeparam name="TReturn">The return type of the invoked method.</typeparam>
+        /// <param name="func">The action to try and retry.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the retried method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="optionsSetter">A method to build up options on the fly.</param>
+        /// <returns>An <see cref="System.Func{TResult}" /> that can be executed whenever required.</returns>
+        /// <remarks>
+        /// <para>Please be advised that, in order to properly function, this method creates a closure.</para>
+        /// <para>For now, this is unavoidable.</para>
+        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>, TReturn}(Func{<#= paramTypes #>, TReturn}, <#= paramTypes #>, Action{RetryOptions})"/> method and implement the delay of action yourself.</para>
+        /// </remarks>
+        public static Func<TReturn> Later<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter)
+        {
+            if (optionsSetter == null)
+            {
+                throw new ArgumentNullException(nameof(optionsSetter));
+            }
+
+            var options = new RetryOptions();
+            optionsSetter(options);
+
+            return () => Run(func, <#= paramNames #>, options);
+        }
+<#
+}
+
+for (int i = 1; i <= 8; i++)
+{
+    string[] types = new string[i];
+    string[] names = new string[i];
+    string[] nameTypes = new string[i];
+
+    for (int j = 1; j <= i; j++)
+    {
+        types[j - 1] = $"TParam{j}";
+        names[j - 1] = $"param{j}";
+        nameTypes[j - 1] = $"TParam{j} param{j}";
+    }
+
+    string paramTypes = string.Join(", ", types);
+    string paramNames = string.Join(", ", names);
+    string paramNameTypes = string.Join(", ", nameTypes);
+#>
+
+        private static async Task RunAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken)
+        {
+            ValidateRunning(action, options, cancellationToken);
+
+            using (var context = new ActionWith<#= i #>ParamRetryContext<<#= paramTypes #>>(action, <#= paramNames #>, options))
+            {
+                await context.BeginRetryProcessAsync();
+            }
+        }
+
+        private static void Run<<#= paramTypes #>>(in Action<<#= paramTypes #>> action, <#= paramNameTypes #>, in RetryOptions options)
+        {
+            ValidateRunning(action, options, default);
+
+            using (var context = new ActionWith<#= i #>ParamRetryContext<<#= paramTypes #>>(action, <#= paramNames #>, options))
+            {
+                context.BeginRetryProcess();
+            }
+        }
+
+        private static async Task<TReturn> RunAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken)
+        {
+            ValidateRunning(func, options, cancellationToken);
+
+            using (var context = new FuncWith<#= i #>ParamRetryContext<<#= paramTypes #>, TReturn>(func, <#= paramNames #>, options))
+            {
+                await context.BeginRetryProcessAsync();
+
+                return context.GetReturnValue();
+            }
+        }
+
+        private static TReturn Run<<#= paramTypes #>, TReturn>(in Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, in RetryOptions options)
+        {
+            ValidateRunning(func, options, default);
+
+            using (var context = new FuncWith<#= i #>ParamRetryContext<<#= paramTypes #>, TReturn>(func, <#= paramNames #>, options))
+            {
+                context.BeginRetryProcess();
+
+                return context.GetReturnValue();
+            }
+        }
+<#
+}
+#>
+    }
+}

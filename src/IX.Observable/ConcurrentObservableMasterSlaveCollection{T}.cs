@@ -3,8 +3,9 @@
 // </copyright>
 
 using System.Diagnostics;
-using System.Threading;
 using IX.Observable.DebugAide;
+using IX.System.Threading;
+using GlobalThreading = System.Threading;
 
 namespace IX.Observable
 {
@@ -25,23 +26,23 @@ namespace IX.Observable
         public ConcurrentObservableMasterSlaveCollection()
             : base()
         {
-            this.locker = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConcurrentObservableMasterSlaveCollection{T}"/> class.
         /// </summary>
         /// <param name="context">The synchronization context to use, if any.</param>
-        public ConcurrentObservableMasterSlaveCollection(SynchronizationContext context)
+        public ConcurrentObservableMasterSlaveCollection(GlobalThreading.SynchronizationContext context)
             : base(context)
         {
-            this.locker = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
         /// Gets a synchronization lock item to be used when trying to synchronize read/write operations between threads.
         /// </summary>
-        protected override ReaderWriterLockSlim SynchronizationLock => this.locker;
+        protected override IReaderWriterLock SynchronizationLock => this.locker;
 
         /// <summary>
         /// Disposes the managed context.

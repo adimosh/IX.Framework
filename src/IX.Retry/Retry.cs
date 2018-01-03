@@ -5,13 +5,14 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using IX.Retry.Contexts;
 
 namespace IX.Retry
 {
     /// <summary>
     /// A class for containing retry operations.
     /// </summary>
-    public static class Retry
+    public static partial class Retry
     {
         /// <summary>
         /// Retry now, with a default set of options.
@@ -333,27 +334,27 @@ namespace IX.Retry
             };
         }
 
-        private static async Task RunAsync(Action action, RetryOptions options, CancellationToken cancellationToken = default)
+        private static async Task RunAsync(Action action, RetryOptions options, CancellationToken cancellationToken)
         {
             ValidateRunning(action, options, cancellationToken);
 
-            using (var context = new RetryContext(options, action))
+            using (var context = new ActionRetryContext(action, options))
             {
                 await context.BeginRetryProcessAsync();
             }
         }
 
-        private static void Run(Action action, RetryOptions options)
+        private static void Run(in Action action, in RetryOptions options)
         {
             ValidateRunning(action, options, default);
 
-            using (var context = new RetryContext(options, action))
+            using (var context = new ActionRetryContext(action, options))
             {
                 context.BeginRetryProcess();
             }
         }
 
-        private static void ValidateRunning(Action action, RetryOptions options, CancellationToken cancellationToken = default)
+        private static void ValidateRunning(in Delegate action, in RetryOptions options, in CancellationToken cancellationToken)
         {
             if (action == null)
             {

@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -89,9 +90,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="ArraySequenceEqualsExtensions.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ArraySequenceEqualsExtensions.StandardTypes.cs</LastGenOutput>
@@ -136,12 +134,83 @@
       <LastGenOutput>IListCloneExtensions.StandardTypes.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="DisposableBase.InvokeIfNotDisposed.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DisposableBase.InvokeIfNotDisposed.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DisposableBase.InvokeIfNotDisposed.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DisposableBase.InvokeIfNotDisposed.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Retry.NowAndLaterExtended.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Retry.NowAndLaterExtended.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Retry.NowAndLaterExtended.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Retry.NowAndLaterExtended.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RetryContext.ActionsAndFuncs.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RetryContext.ActionsAndFuncs.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RetryContext.ActionsAndFuncs.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RetryContext.ActionsAndFuncs.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Fire.AndForgetActionsAndFuncs.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Fire.AndForgetActionsAndFuncs.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Fire.AndForgetActionsAndFuncs.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Fire.AndForgetActionsAndFuncs.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SynchronizationContextInvokerBase.InvokeActionsAndFuncs.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SynchronizationContextInvokerBase.InvokeActionsAndFuncs.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ObservableBase.ActionsAndFuncs.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ObservableBase.ActionsAndFuncs.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ObservableBase.ActionsAndFuncs.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ObservableBase.ActionsAndFuncs.tt</DependentUpon>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Clarius.TransformOnBuild.1.1.12\build\Clarius.TransformOnBuild.targets" Condition="Exists('..\packages\Clarius.TransformOnBuild.1.1.12\build\Clarius.TransformOnBuild.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Clarius.TransformOnBuild.1.1.12\build\Clarius.TransformOnBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Clarius.TransformOnBuild.1.1.12\build\Clarius.TransformOnBuild.targets'))" />
-  </Target>
 </Project>

@@ -442,7 +442,7 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Class DummyDataContract.
         /// </summary>
-        /// <seealso cref="System.IEquatable{DummyDataContract}" />
+        /// <seealso cref="global::System.IEquatable{T}" />
         [DebuggerDisplay("DDC {RandomValue}")]
         [DataContract(Name = "DDC")]
         private class DummyDataContract : IEquatable<DummyDataContract>
