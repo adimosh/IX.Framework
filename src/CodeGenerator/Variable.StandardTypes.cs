@@ -142,13 +142,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<byte> DeepClone() => this.DeepClone();
+        public ByteVariable DeepClone() => new ByteVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        ByteVariable IDeepCloneable<ByteVariable>.DeepClone() => new ByteVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<byte> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -281,13 +281,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<sbyte> DeepClone() => this.DeepClone();
+        public SignedByteVariable DeepClone() => new SignedByteVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        SignedByteVariable IDeepCloneable<SignedByteVariable>.DeepClone() => new SignedByteVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<sbyte> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -420,13 +420,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<short> DeepClone() => this.DeepClone();
+        public ShortVariable DeepClone() => new ShortVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        ShortVariable IDeepCloneable<ShortVariable>.DeepClone() => new ShortVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<short> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -559,13 +559,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<ushort> DeepClone() => this.DeepClone();
+        public UnsignedShortVariable DeepClone() => new UnsignedShortVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        UnsignedShortVariable IDeepCloneable<UnsignedShortVariable>.DeepClone() => new UnsignedShortVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<ushort> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -703,13 +703,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<char> DeepClone() => this.DeepClone();
+        public CharVariable DeepClone() => new CharVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        CharVariable IDeepCloneable<CharVariable>.DeepClone() => new CharVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<char> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -842,13 +842,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<int> DeepClone() => this.DeepClone();
+        public IntVariable DeepClone() => new IntVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        IntVariable IDeepCloneable<IntVariable>.DeepClone() => new IntVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<int> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -981,13 +981,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<uint> DeepClone() => this.DeepClone();
+        public UnsignedIntVariable DeepClone() => new UnsignedIntVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        UnsignedIntVariable IDeepCloneable<UnsignedIntVariable>.DeepClone() => new UnsignedIntVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<uint> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -1120,13 +1120,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<long> DeepClone() => this.DeepClone();
+        public LongVariable DeepClone() => new LongVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        LongVariable IDeepCloneable<LongVariable>.DeepClone() => new LongVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<long> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -1259,13 +1259,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<ulong> DeepClone() => this.DeepClone();
+        public UnsignedLongVariable DeepClone() => new UnsignedLongVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        UnsignedLongVariable IDeepCloneable<UnsignedLongVariable>.DeepClone() => new UnsignedLongVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<ulong> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -1398,13 +1398,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<float> DeepClone() => this.DeepClone();
+        public FloatVariable DeepClone() => new FloatVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        FloatVariable IDeepCloneable<FloatVariable>.DeepClone() => new FloatVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<float> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -1537,13 +1537,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<double> DeepClone() => this.DeepClone();
+        public DoubleVariable DeepClone() => new DoubleVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        DoubleVariable IDeepCloneable<DoubleVariable>.DeepClone() => new DoubleVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<double> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -1676,13 +1676,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<decimal> DeepClone() => this.DeepClone();
+        public DecimalVariable DeepClone() => new DecimalVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        DecimalVariable IDeepCloneable<DecimalVariable>.DeepClone() => new DecimalVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<decimal> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -1815,13 +1815,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<DateTime> DeepClone() => this.DeepClone();
+        public DateTimeVariable DeepClone() => new DateTimeVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        DateTimeVariable IDeepCloneable<DateTimeVariable>.DeepClone() => new DateTimeVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<DateTime> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -1954,13 +1954,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<bool> DeepClone() => this.DeepClone();
+        public BooleanVariable DeepClone() => new BooleanVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        BooleanVariable IDeepCloneable<BooleanVariable>.DeepClone() => new BooleanVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<bool> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -2093,13 +2093,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<TimeSpan> DeepClone() => this.DeepClone();
+        public TimeSpanVariable DeepClone() => new TimeSpanVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        TimeSpanVariable IDeepCloneable<TimeSpanVariable>.DeepClone() => new TimeSpanVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<TimeSpan> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -2225,13 +2225,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<string> DeepClone() => this.DeepClone();
+        public StringVariable DeepClone() => new StringVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        StringVariable IDeepCloneable<StringVariable>.DeepClone() => new StringVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<string> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
@@ -2420,13 +2420,13 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<byte[]> DeepClone() => this.DeepClone();
+        public ByteArrayVariable DeepClone() => new ByteArrayVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        ByteArrayVariable IDeepCloneable<ByteArrayVariable>.DeepClone() => new ByteArrayVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<byte[]> DeepCloneImplementation() => this.DeepClone();
     }
 #pragma warning restore SA1649 // File name should match first type name
 #pragma warning restore SA1402 // File may only contain a single type

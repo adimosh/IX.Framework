@@ -306,13 +306,13 @@ else
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override VariableBase<<#= fullTypeName #>> DeepClone() => this.DeepClone();
+        public <#= typeName #>Variable DeepClone() => new <#= typeName #>Variable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
-        /// Creates a deep clone of the source object.
+        /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        <#= typeName #>Variable IDeepCloneable<<#= typeName #>Variable>.DeepClone() => new <#= typeName #>Variable(this.Name, this.InternalValue, this.SynchronizationContext);
+        protected sealed override VariableBase<<#= fullTypeName #>> DeepCloneImplementation() => this.DeepClone();
     }
 <#
 }

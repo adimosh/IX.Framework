@@ -98,6 +98,27 @@ namespace IX.Sandbox.Memory
         public abstract bool IsDefault { get; }
 
         /// <summary>
+        /// Gets or sets the boxed value contained within the variable.
+        /// </summary>
+        /// <value>The boxed value.</value>
+        /// <remarks><para>This property will box/unbox values as required by the caller, based on the abilities of the implementing class.</para>
+        /// <para>For this reason, please refrain from using this property if you don't absolutely have to.</para></remarks>
+        object IVariable.BoxedValue
+        {
+            get => this.value;
+
+            set
+            {
+                if (typeof(T) != value?.GetType())
+                {
+                    throw new ArgumentInvalidTypeException();
+                }
+
+                this.Value = (T)value;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the value, internally.
         /// </summary>
         /// <value>The value.</value>
@@ -119,7 +140,7 @@ namespace IX.Sandbox.Memory
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public abstract VariableBase<T> DeepClone();
+        VariableBase<T> IDeepCloneable<VariableBase<T>>.DeepClone() => this.DeepCloneImplementation();
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
@@ -133,6 +154,12 @@ namespace IX.Sandbox.Memory
         /// </summary>
         /// <returns>The data type.</returns>
         public Type GetDataType() => typeof(T);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected abstract VariableBase<T> DeepCloneImplementation();
 
         private void InitializeInternalContext(string name)
         {
