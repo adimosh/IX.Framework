@@ -1,10 +1,11 @@
-﻿// <copyright file="VariableBase.cs" company="Adrian Mos">
+// <copyright file="VariableBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
 using System.Threading;
 using IX.Abstractions.Memory;
+using IX.StandardExtensions;
 using IX.StandardExtensions.ComponentModel;
 
 namespace IX.Sandbox.Memory
@@ -15,7 +16,7 @@ namespace IX.Sandbox.Memory
     /// <typeparam name="T">The discreet type of data contained in the variable.</typeparam>
     /// <seealso cref="IX.StandardExtensions.ComponentModel.ViewModelBase" />
     /// <seealso cref="IX.Abstractions.Memory.IVariable{T}" />
-    public abstract class VariableBase<T> : ViewModelBase, IVariable<T>
+    public abstract class VariableBase<T> : ViewModelBase, IVariable<T>, IDeepCloneable<VariableBase<T>>
     {
         private T value;
 
@@ -97,11 +98,28 @@ namespace IX.Sandbox.Memory
         public abstract bool IsDefault { get; }
 
         /// <summary>
+        /// Gets or sets the value, internally.
+        /// </summary>
+        /// <value>The value.</value>
+        protected T InternalValue
+        {
+            get => this.value;
+
+            set => this.value = value;
+        }
+
+        /// <summary>
         /// Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
         /// </summary>
         /// <param name="other">An object to compare with this instance.</param>
         /// <returns>A value that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance precedes <paramref name="other" /> in the sort order.  Zero This instance occurs in the same position in the sort order as <paramref name="other" />. Greater than zero This instance follows <paramref name="other" /> in the sort order.</returns>
         public abstract int CompareTo(IVariable<T> other);
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public abstract VariableBase<T> DeepClone();
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.

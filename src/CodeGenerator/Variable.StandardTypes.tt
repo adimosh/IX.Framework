@@ -1,4 +1,4 @@
-﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
@@ -30,7 +30,7 @@ foreach (var typ in types)
     /// <summary>
     /// A variable of discreet type <see cref="T:<#= fullTypeName #>" />.
     /// </summary>
-    public class <#= typeName #>Variable : VariableBase<<#= fullTypeName #>>
+    public class <#= typeName #>Variable : VariableBase<<#= fullTypeName #>>, IDeepCloneable<<#= typeName #>Variable>
     {
 <#
 if (typ == typeof(byte[]))
@@ -75,6 +75,45 @@ if (typ == typeof(byte[]))
 }
 #>
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public <#= typeName #>Variable(string name, <#= fullTypeName #> value)
+            : base(name)
+        {
+<#
+if (typ == typeof(byte[]))
+{
+#>
+            this.encoding = Encoding.UTF8;
+<#
+}
+#>
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public <#= typeName #>Variable(string name, <#= fullTypeName #> value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+<#
+if (typ == typeof(byte[]))
+{
+#>
+            this.encoding = Encoding.UTF8;
+<#
+}
+#>
+            this.InternalValue = value;
+        }
 <#
 if (typ == typeof(byte[]))
 {
@@ -84,7 +123,7 @@ if (typ == typeof(byte[]))
         /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <param name="encoding">The enoding to use when converting to/from strings.</param>
+        /// <param name="encoding">The encoding to use when converting to/from strings.</param>
         public <#= typeName #>Variable(string name, Encoding encoding)
             : base(name)
         {
@@ -95,12 +134,39 @@ if (typ == typeof(byte[]))
         /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <param name="encoding">The enoding to use when converting to/from strings.</param>
+        /// <param name="encoding">The encoding to use when converting to/from strings.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
         public <#= typeName #>Variable(string name, Encoding encoding, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
             this.encoding = encoding;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="encoding">The encoding to use when converting to/from strings.</param>
+        public <#= typeName #>Variable(string name, <#= fullTypeName #> value, Encoding encoding)
+            : base(name)
+        {
+            this.encoding = encoding;
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="encoding">The encoding to use when converting to/from strings.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public <#= typeName #>Variable(string name, <#= fullTypeName #> value, Encoding encoding, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.encoding = encoding;
+            this.InternalValue = value;
         }
 <#
 }
@@ -187,7 +253,7 @@ if (typ != typeof(string))
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<<#= fullTypeName #>> other)
         {
             if (other == null)
@@ -235,6 +301,18 @@ else
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public override VariableBase<<#= fullTypeName #>> DeepClone() => this.DeepClone();
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        <#= typeName #>Variable IDeepCloneable<<#= typeName #>Variable>.DeepClone() => new <#= typeName #>Variable(this.Name, this.InternalValue, this.SynchronizationContext);
     }
 <#
 }
