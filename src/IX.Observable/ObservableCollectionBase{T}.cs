@@ -482,10 +482,7 @@ namespace IX.Observable
                 {
                     case SubItemStateChange sisc:
                         {
-                            if (sisc.SubObject is IUndoableItem iu)
-                            {
-                                iu.UndoStateChanges(sisc.StateChanges);
-                            }
+                            sisc.SubObject.UndoStateChanges(sisc.StateChanges);
 
                             break;
                         }
@@ -536,10 +533,7 @@ namespace IX.Observable
                 {
                     case SubItemStateChange sisc:
                         {
-                            if (sisc.SubObject is IUndoableItem iu)
-                            {
-                                iu.RedoStateChanges(sisc.StateChanges);
-                            }
+                            sisc.SubObject.RedoStateChanges(sisc.StateChanges);
 
                             break;
                         }
@@ -573,11 +567,11 @@ namespace IX.Observable
         /// <returns><c>true</c> if the undo was successful, <c>false</c> otherwise.</returns>
         protected virtual bool UndoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
         {
-            if (undoRedoLevel is ItemChangeUndoLevel)
+            if (undoRedoLevel is SubItemStateChange)
             {
-                var lvl = undoRedoLevel as ItemChangeUndoLevel;
+                var lvl = undoRedoLevel as SubItemStateChange;
 
-                lvl.Instance.UndoStateChanges(lvl.StateChanges);
+                lvl.SubObject.UndoStateChanges(lvl.StateChanges);
 
                 toInvokeOutsideLock = null;
 
@@ -599,11 +593,11 @@ namespace IX.Observable
         /// <returns><c>true</c> if the redo was successful, <c>false</c> otherwise.</returns>
         protected virtual bool RedoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
         {
-            if (undoRedoLevel is ItemChangeUndoLevel)
+            if (undoRedoLevel is SubItemStateChange)
             {
-                var lvl = undoRedoLevel as ItemChangeUndoLevel;
+                var lvl = undoRedoLevel as SubItemStateChange;
 
-                lvl.Instance.UndoStateChanges(lvl.StateChanges);
+                lvl.SubObject.UndoStateChanges(lvl.StateChanges);
 
                 toInvokeOutsideLock = null;
 

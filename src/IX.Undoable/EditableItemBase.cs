@@ -458,7 +458,7 @@ namespace IX.Undoable
         /// <param name="e">The <see cref="EditCommittedEventArgs"/> instance containing the event data.</param>
         private void Item_EditCommitted(object sender, EditCommittedEventArgs e)
         {
-            this.stateChanges.Add(new SubItemStateChange { StateChanges = e.StateChanges, SubObject = sender });
+            this.stateChanges.Add(new SubItemStateChange { StateChanges = e.StateChanges, SubObject = (IUndoableItem)sender });
 
             this.CommitEditInternal(this.stateChanges.ToArray());
         }

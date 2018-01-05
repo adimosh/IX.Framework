@@ -2,7 +2,6 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
-#if false
 using Xunit;
 
 namespace IX.Observable.UnitTests
@@ -40,4 +39,3 @@ namespace IX.Observable.UnitTests
         }
     }
 }
-#endif
