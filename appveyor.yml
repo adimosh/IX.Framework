@@ -10,9 +10,10 @@ clone_depth: 1
 environment:
   NUGET_SECURE_TOKEN:
     secure: eF0Mu+Ky+FtngFJN7u4unv9l2ebEvlvfim9hPpWkRAc=
-  NUGET_USER: adimosh@gmail.com
+  NUGET_USER:
+    secure: c/skObKITnzxdJ4ta4QP4SX6Jj/T5fPfFiVP5R7/asY=
   NUGET_PASSWORD:
-    secure: QzxGG+tm1H9IaA5tMZx2pA==
+    secure: BdS8oVx6MV3RM9JnT8jESw==
 install:
 - cmd: >-
     appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
