@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using IX.Undoable;
 
 namespace IX.Observable
@@ -55,6 +56,11 @@ namespace IX.Observable
             }
 #endif
 
+            if (!item.IsCapturedIntoUndoContext || item.ParentUndoContext != parentContext)
+            {
+                throw new ItemNotCapturedIntoUndoContextException();
+            }
+
             this.items = null;
             this.item = item;
             this.editableHandler = editableHandler;
@@ -62,7 +68,7 @@ namespace IX.Observable
 
             item.ReleaseFromUndoContext();
 
-            if (item is ITransactionEditableItem tei)
+            if (item is IEditCommittableItem tei)
             {
                 tei.EditCommitted -= editableHandler;
             }
@@ -93,6 +99,11 @@ namespace IX.Observable
             }
 #endif
 
+            if (items.Any(item => !item.IsCapturedIntoUndoContext || item.ParentUndoContext != parentContext))
+            {
+                throw new ItemNotCapturedIntoUndoContextException();
+            }
+
             this.items = items;
             this.item = null;
             this.editableHandler = editableHandler;
@@ -101,7 +112,7 @@ namespace IX.Observable
             {
                 item.ReleaseFromUndoContext();
 
-                if (item is ITransactionEditableItem tei)
+                if (item is IEditCommittableItem tei)
                 {
                     tei.EditCommitted -= editableHandler;
                 }
@@ -121,7 +132,7 @@ namespace IX.Observable
                 {
                     this.item.CaptureIntoUndoContext(this.parentContext);
 
-                    if (this.item is ITransactionEditableItem tei)
+                    if (this.item is IEditCommittableItem tei)
                     {
                         tei.EditCommitted += this.editableHandler;
                     }
@@ -133,7 +144,7 @@ namespace IX.Observable
                     {
                         item.CaptureIntoUndoContext(this.parentContext);
 
-                        if (this.item is ITransactionEditableItem tei)
+                        if (this.item is IEditCommittableItem tei)
                         {
                             tei.EditCommitted += this.editableHandler;
                         }

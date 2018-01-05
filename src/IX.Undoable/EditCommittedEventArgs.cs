@@ -1,4 +1,4 @@
-﻿// <copyright file="EditCommittedEventArgs.cs" company="Adrian Mos">
+// <copyright file="EditCommittedEventArgs.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -15,7 +15,7 @@ namespace IX.Undoable
         /// Initializes a new instance of the <see cref="EditCommittedEventArgs"/> class.
         /// </summary>
         /// <param name="stateChanges">The state changes that have been committed.</param>
-        public EditCommittedEventArgs(StateChange[] stateChanges)
+        public EditCommittedEventArgs(params StateChange[] stateChanges)
         {
             this.StateChanges = stateChanges;
         }
