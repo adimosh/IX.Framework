@@ -1,6 +1,8 @@
-﻿// <copyright file="AddMultipleUndoLevel{T}.cs" company="Adrian Mos">
+// <copyright file="AddMultipleUndoLevel{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
+
+using IX.Undoable;
 
 namespace IX.Observable.UndoLevels
 {
@@ -8,8 +10,8 @@ namespace IX.Observable.UndoLevels
     /// An undo step for when some items were added.
     /// </summary>
     /// <typeparam name="T">The type of items.</typeparam>
-    /// <seealso cref="UndoRedoLevel" />
-    public class AddMultipleUndoLevel<T> : UndoRedoLevel
+    /// <seealso cref="IX.Undoable.StateChange" />
+    public class AddMultipleUndoLevel<T> : StateChange
     {
         /// <summary>
         /// Gets or sets the added items.

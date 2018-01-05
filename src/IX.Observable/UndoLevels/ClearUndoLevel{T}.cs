@@ -1,6 +1,8 @@
-﻿// <copyright file="ClearUndoLevel{T}.cs" company="Adrian Mos">
+// <copyright file="ClearUndoLevel{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
+
+using IX.Undoable;
 
 namespace IX.Observable.UndoLevels
 {
@@ -8,8 +10,8 @@ namespace IX.Observable.UndoLevels
     /// An undo step for when a collection was cleared.
     /// </summary>
     /// <typeparam name="T">The type of item.</typeparam>
-    /// <seealso cref="IX.Observable.UndoRedoLevel" />
-    public class ClearUndoLevel<T> : UndoRedoLevel
+    /// <seealso cref="StateChange" />
+    public class ClearUndoLevel<T> : StateChange
     {
         /// <summary>
         /// Gets or sets the original items.

@@ -25,8 +25,8 @@ namespace IX.Observable
     /// <seealso cref="global::System.Collections.Generic.IEnumerable{T}" />
     public abstract class ObservableCollectionBase<T> : ObservableReadOnlyCollectionBase<T>, ICollection<T>, IUndoableItem
     {
-        private PushDownStack<UndoRedoLevel> undoStack;
-        private PushDownStack<UndoRedoLevel> redoStack;
+        private PushDownStack<StateChange> undoStack;
+        private PushDownStack<StateChange> redoStack;
 
         private bool isCapturedIntoUndoContext;
         private IUndoableItem parentUndoableContext;
@@ -40,8 +40,8 @@ namespace IX.Observable
         {
             this.InternalContainer = internalContainer;
 
-            this.undoStack = new PushDownStack<UndoRedoLevel>(Constants.StandardUndoRedoLevels);
-            this.redoStack = new PushDownStack<UndoRedoLevel>(Constants.StandardUndoRedoLevels);
+            this.undoStack = new PushDownStack<StateChange>(Constants.StandardUndoRedoLevels);
+            this.redoStack = new PushDownStack<StateChange>(Constants.StandardUndoRedoLevels);
 
             this.ItemsAreUndoable = typeof(IUndoableItem).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo());
         }
@@ -56,8 +56,8 @@ namespace IX.Observable
         {
             this.InternalContainer = internalContainer;
 
-            this.undoStack = new PushDownStack<UndoRedoLevel>(Constants.StandardUndoRedoLevels);
-            this.redoStack = new PushDownStack<UndoRedoLevel>(Constants.StandardUndoRedoLevels);
+            this.undoStack = new PushDownStack<StateChange>(Constants.StandardUndoRedoLevels);
+            this.redoStack = new PushDownStack<StateChange>(Constants.StandardUndoRedoLevels);
 
             this.ItemsAreUndoable = typeof(IUndoableItem).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo());
         }
@@ -396,7 +396,7 @@ namespace IX.Observable
 
                 locker.Upgrade();
 
-                UndoRedoLevel level = this.undoStack.Pop();
+                StateChange level = this.undoStack.Pop();
                 internalResult = this.UndoInternally(level, out toInvoke);
                 if (internalResult)
                 {
@@ -440,7 +440,7 @@ namespace IX.Observable
 
                 locker.Upgrade();
 
-                UndoRedoLevel level = this.redoStack.Pop();
+                StateChange level = this.redoStack.Pop();
                 internalResult = this.RedoInternally(level, out toInvoke);
                 if (internalResult)
                 {
@@ -490,22 +490,19 @@ namespace IX.Observable
                             break;
                         }
 
-                    case UndoLevelStateChange ulsc:
+                    case StateChange ulsc:
                         {
-                            foreach (UndoRedoLevel level in ulsc.Levels)
+                            Action act;
+                            bool internalResult;
+
+                            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
                             {
-                                Action act;
-                                bool internalResult;
+                                internalResult = this.UndoInternally(ulsc, out act);
+                            }
 
-                                using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
-                                {
-                                    internalResult = this.UndoInternally(level, out act);
-                                }
-
-                                if (internalResult)
-                                {
-                                    act?.Invoke();
-                                }
+                            if (internalResult)
+                            {
+                                act?.Invoke();
                             }
 
                             break;
@@ -547,22 +544,19 @@ namespace IX.Observable
                             break;
                         }
 
-                    case UndoLevelStateChange ulsc:
+                    case StateChange ulsc:
                         {
-                            foreach (UndoRedoLevel level in ulsc.Levels)
+                            Action act;
+                            bool internalResult;
+
+                            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
                             {
-                                Action act;
-                                bool internalResult;
+                                internalResult = this.RedoInternally(ulsc, out act);
+                            }
 
-                                using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
-                                {
-                                    internalResult = this.RedoInternally(level, out act);
-                                }
-
-                                if (internalResult)
-                                {
-                                    act?.Invoke();
-                                }
+                            if (internalResult)
+                            {
+                                act?.Invoke();
                             }
 
                             break;
@@ -577,7 +571,7 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <returns><c>true</c> if the undo was successful, <c>false</c> otherwise.</returns>
-        protected virtual bool UndoInternally(UndoRedoLevel undoRedoLevel, out Action toInvokeOutsideLock)
+        protected virtual bool UndoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
         {
             if (undoRedoLevel is ItemChangeUndoLevel)
             {
@@ -603,7 +597,7 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <returns><c>true</c> if the redo was successful, <c>false</c> otherwise.</returns>
-        protected virtual bool RedoInternally(UndoRedoLevel undoRedoLevel, out Action toInvokeOutsideLock)
+        protected virtual bool RedoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
         {
             if (undoRedoLevel is ItemChangeUndoLevel)
             {
@@ -627,8 +621,10 @@ namespace IX.Observable
         /// Push an undo level into the stack.
         /// </summary>
         /// <param name="undoRedoLevel">The undo level to push.</param>
-        protected void PushUndoLevel(UndoRedoLevel undoRedoLevel)
+        protected void PushUndoLevel(StateChange undoRedoLevel)
         {
+            //if ()
+
             this.undoStack.Push(undoRedoLevel);
             this.redoStack.Clear();
 
@@ -672,7 +668,7 @@ namespace IX.Observable
             {
                 if (item is IUndoableItem ui)
                 {
-                    return new AutoCaptureTransactionContext(ui, this);
+                    return new AutoCaptureTransactionContext(ui, this, this.Tei_EditCommitted);
                 }
             }
 
@@ -688,10 +684,12 @@ namespace IX.Observable
         {
             if (this.AutomaticallyCaptureSubItems && this.ItemsAreUndoable)
             {
-                return new AutoCaptureTransactionContext(items.Cast<IUndoableItem>(), this);
+                return new AutoCaptureTransactionContext(items.Cast<IUndoableItem>(), this, this.Tei_EditCommitted);
             }
 
             return new AutoCaptureTransactionContext();
         }
+
+        private void Tei_EditCommitted(object sender, EditCommittedEventArgs e) => this.PushUndoLevel(new SubItemStateChange { SubObject = sender as IUndoableItem, StateChanges = e.StateChanges });
     }
 }

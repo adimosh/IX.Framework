@@ -1,4 +1,4 @@
-﻿// <copyright file="ItemChangeUndoLevel.cs" company="Adrian Mos">
+// <copyright file="ItemChangeUndoLevel.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -9,8 +9,8 @@ namespace IX.Observable.UndoLevels
     /// <summary>
     /// An undo level related to changes in a sub-item.
     /// </summary>
-    /// <seealso cref="UndoRedoLevel" />
-    public class ItemChangeUndoLevel : UndoRedoLevel
+    /// <seealso cref="IX.Undoable.StateChange" />
+    public class ItemChangeUndoLevel : StateChange
     {
         /// <summary>
         /// Gets or sets the instance.
