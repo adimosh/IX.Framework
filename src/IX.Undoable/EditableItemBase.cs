@@ -1,4 +1,4 @@
-﻿// <copyright file="EditableItemBase.cs" company="Adrian Mos">
+// <copyright file="EditableItemBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -49,6 +49,24 @@ namespace IX.Undoable
         {
             this.undoStack = new PushDownStack<StateChange[]>(0);
             this.redoStack = new PushDownStack<StateChange[]>(0);
+
+            this.stateChanges = new global::System.Collections.Generic.List<StateChange>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EditableItemBase" /> class.
+        /// </summary>
+        /// <param name="limit">The limit.</param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="limit"/> is a negative number.</exception>
+        protected EditableItemBase(int limit)
+        {
+            if (limit < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(limit));
+            }
+
+            this.undoStack = new PushDownStack<StateChange[]>(limit);
+            this.redoStack = new PushDownStack<StateChange[]>(limit);
 
             this.stateChanges = new global::System.Collections.Generic.List<StateChange>();
         }
