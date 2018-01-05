@@ -2,7 +2,6 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
-#if false
 using Xunit;
 
 namespace IX.Observable.UnitTests
@@ -38,6 +37,33 @@ namespace IX.Observable.UnitTests
             // ASSERT
             Assert.Equal("bbb", item1.TestProperty);
         }
+
+        /// <summary>
+        /// The first test in the suite.
+        /// </summary>
+        [Fact(DisplayName = "ObservableList non-captured item undo/redo")]
+        public void Test2()
+        {
+            // ARRANGE
+            var item1 = new CapturedItem();
+
+            var list = new ObservableList<CapturedItem>
+            {
+                AutomaticallyCaptureSubItems = false,
+            };
+
+            // ACT
+            list.Add(item1);
+
+            item1.TestProperty = "aaa";
+            item1.TestProperty = "bbb";
+            item1.TestProperty = "ccc";
+
+            list.Undo();
+
+            // ASSERT
+            Assert.Equal("ccc", item1.TestProperty);
+            Assert.Empty(list);
+        }
     }
 }
-#endif

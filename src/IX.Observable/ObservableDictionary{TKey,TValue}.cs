@@ -342,7 +342,7 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <returns><c>true</c> if the undo was successful, <c>false</c> otherwise.</returns>
-        protected override bool UndoInternally(UndoRedoLevel undoRedoLevel, out Action toInvokeOutsideLock)
+        protected override bool UndoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
         {
             if (base.UndoInternally(undoRedoLevel, out toInvokeOutsideLock))
             {
@@ -437,7 +437,7 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <returns><c>true</c> if the redo was successful, <c>false</c> otherwise.</returns>
-        protected override bool RedoInternally(UndoRedoLevel undoRedoLevel, out Action toInvokeOutsideLock)
+        protected override bool RedoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
         {
             if (base.RedoInternally(undoRedoLevel, out toInvokeOutsideLock))
             {

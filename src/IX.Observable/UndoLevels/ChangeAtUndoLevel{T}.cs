@@ -1,6 +1,8 @@
-﻿// <copyright file="ChangeAtUndoLevel{T}.cs" company="Adrian Mos">
+// <copyright file="ChangeAtUndoLevel{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
+
+using IX.Undoable;
 
 namespace IX.Observable.UndoLevels
 {
@@ -8,8 +10,8 @@ namespace IX.Observable.UndoLevels
     /// A change at a specified index.
     /// </summary>
     /// <typeparam name="T">The type of the item changed.</typeparam>
-    /// <seealso cref="IX.Observable.UndoRedoLevel" />
-    public class ChangeAtUndoLevel<T> : UndoRedoLevel
+    /// <seealso cref="StateChange" />
+    public class ChangeAtUndoLevel<T> : StateChange
     {
         /// <summary>
         /// Gets or sets the old value.

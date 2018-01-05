@@ -84,16 +84,6 @@ namespace IX.Observable
                 // Current object not disposed
                 this.ThrowIfCurrentObjectDisposed();
 
-                // Current item to be set is not part of a different undo/redo context
-                if (this.ItemsAreUndoable &&
-                    this.AutomaticallyCaptureSubItems &&
-                    value is IUndoableItem undoRedoContextCheckItem &&
-                    undoRedoContextCheckItem.IsCapturedIntoUndoContext &&
-                    undoRedoContextCheckItem.ParentUndoContext != this)
-                {
-                    throw new ItemAlreadyCapturedIntoUndoContextException();
-                }
-
                 // ACTION
                 T oldValue;
 
@@ -112,24 +102,23 @@ namespace IX.Observable
                     // Get the old value
                     oldValue = this.InternalListContainer[index];
 
-                    // Replace with new value
-                    this.InternalListContainer[index] = value;
-
-                    // Push the undo level
-                    this.PushUndoLevel(new ChangeAtUndoLevel<T> { Index = index, OldValue = oldValue, NewValue = value });
-
-                    // Release old item and capture new item into undo/redo context, if capturing automatically
-                    if (this.ItemsAreUndoable && this.AutomaticallyCaptureSubItems)
+                    // Two undo/redo transactions
+                    using (AutoCaptureTransactionContext tc1 = this.CheckItemAutoCapture(value))
                     {
-                        if (oldValue is IUndoableItem ui)
+                        using (AutoReleaseTransactionContext tc2 = this.CheckItemAutoRelease(oldValue))
                         {
-                            ui.ReleaseFromUndoContext();
+                            // Replace with new value
+                            this.InternalListContainer[index] = value;
+
+                            // Push the undo level
+                            this.PushUndoLevel(new ChangeAtUndoLevel<T> { Index = index, OldValue = oldValue, NewValue = value });
+
+                            // Mark the second transaction as successful
+                            tc2.Success();
                         }
 
-                        if (value is IUndoableItem ni)
-                        {
-                            ni.CaptureIntoUndoContext(this);
-                        }
+                        // Mark the first transaction as successful
+                        tc1.Success();
                     }
                 }
 
@@ -199,31 +188,23 @@ namespace IX.Observable
 
             T[] itemsList = items.ToArray();
 
-            // Items are not bound to a different context
-            if (this.ItemsAreUndoable &&
-                this.AutomaticallyCaptureSubItems &&
-                itemsList.Any(p =>
-                {
-                    var ui = (IUndoableItem)p;
-                    return ui.IsCapturedIntoUndoContext && ui.ParentUndoContext != this;
-                }))
-            {
-                throw new ItemAlreadyCapturedIntoUndoContextException();
-            }
-
             // ACTION
             int newIndex;
 
             // Inside a write lock
             using (this.WriteLock())
             {
-                newIndex = ((ListAdapter<T>)this.InternalContainer).AddRange(itemsList);
-                this.PushUndoLevel(new AddMultipleUndoLevel<T> { AddedItems = itemsList, Index = newIndex });
-
-                if (this.ItemsAreUndoable &&
-                    this.AutomaticallyCaptureSubItems)
+                // Use an undo/redo transaction
+                using (AutoCaptureTransactionContext tc = this.CheckItemAutoCapture(itemsList))
                 {
-                    itemsList.Cast<IUndoableItem>().ForEach(p => p.CaptureIntoUndoContext(this));
+                    // Actually add the items
+                    newIndex = ((ListAdapter<T>)this.InternalContainer).AddRange(itemsList);
+
+                    // Push an undo level
+                    this.PushUndoLevel(new AddMultipleUndoLevel<T> { AddedItems = itemsList, Index = newIndex });
+
+                    // Mark the transaction as successful
+                    tc.Success();
                 }
             }
 
@@ -258,34 +239,22 @@ namespace IX.Observable
             // Current object not disposed
             this.ThrowIfCurrentObjectDisposed();
 
-            // Items aren't caught in a different undo context
-            if (this.ItemsAreUndoable &&
-                this.AutomaticallyCaptureSubItems &&
-                item is IUndoableItem uiTest &&
-                uiTest.IsCapturedIntoUndoContext &&
-                uiTest.ParentUndoContext != this)
-            {
-                throw new ItemAlreadyCapturedIntoUndoContextException();
-            }
-
             // ACTION
 
             // Inside a write lock
             using (this.WriteLock())
             {
-                // Actually insert
-                this.InternalListContainer.Insert(index, item);
-
-                // Push undo level
-                this.PushUndoLevel(new AddUndoLevel<T> { AddedItem = item, Index = index });
-
-                // Capture sub-item, if configured
-                if (this.ItemsAreUndoable &&
-                    this.AutomaticallyCaptureSubItems &&
-                    item is IUndoableItem ui &&
-                    !ui.IsCapturedIntoUndoContext)
+                // Inside an undo/redo transaction
+                using (AutoCaptureTransactionContext tc = this.CheckItemAutoCapture(item))
                 {
-                    ui.CaptureIntoUndoContext(this);
+                    // Actually insert
+                    this.InternalListContainer.Insert(index, item);
+
+                    // Push undo level
+                    this.PushUndoLevel(new AddUndoLevel<T> { AddedItem = item, Index = index });
+
+                    // Mark transaction as successful
+                    tc.Success();
                 }
             }
 
@@ -327,20 +296,19 @@ namespace IX.Observable
                 // Upgrade the lock to a write lock
                 lockContext.Upgrade();
 
-                // Actually do the removal
                 item = this.InternalListContainer[index];
-                this.InternalListContainer.RemoveAt(index);
 
-                // Push an undo level
-                this.PushUndoLevel(new RemoveUndoLevel<T> { Index = index, RemovedItem = item });
-
-                // If configured, release the item from the undo/redo context
-                if (this.ItemsAreUndoable &&
-                    this.AutomaticallyCaptureSubItems &&
-                    item is IUndoableItem ui &&
-                    ui.IsCapturedIntoUndoContext)
+                // Using an undo/redo transaction
+                using (AutoReleaseTransactionContext tc = this.CheckItemAutoRelease(item))
                 {
-                    ui.ReleaseFromUndoContext();
+                    // Actually do the removal
+                    this.InternalListContainer.RemoveAt(index);
+
+                    // Push an undo level
+                    this.PushUndoLevel(new RemoveUndoLevel<T> { Index = index, RemovedItem = item });
+
+                    // Mark the transaction as successful
+                    tc.Success();
                 }
             }
 
@@ -456,7 +424,7 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <returns><c>true</c> if the undo was successful, <c>false</c> otherwise.</returns>
-        protected override bool UndoInternally(UndoRedoLevel undoRedoLevel, out Action toInvokeOutsideLock)
+        protected override bool UndoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
         {
             if (base.UndoInternally(undoRedoLevel, out toInvokeOutsideLock))
             {
@@ -625,7 +593,7 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <returns><c>true</c> if the redo was successful, <c>false</c> otherwise.</returns>
-        protected override bool RedoInternally(UndoRedoLevel undoRedoLevel, out Action toInvokeOutsideLock)
+        protected override bool RedoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
         {
             if (base.RedoInternally(undoRedoLevel, out toInvokeOutsideLock))
             {

@@ -1,4 +1,4 @@
-﻿// <copyright file="SubItemStateChange.cs" company="Adrian Mos">
+// <copyright file="SubItemStateChange.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -12,7 +12,7 @@ namespace IX.Undoable
         /// <summary>
         /// Gets or sets the instance of the sub-object.
         /// </summary>
-        public object SubObject { get; set; }
+        public IUndoableItem SubObject { get; set; }
 
         /// <summary>
         /// Gets or sets the state changes belonging to the sub-object.

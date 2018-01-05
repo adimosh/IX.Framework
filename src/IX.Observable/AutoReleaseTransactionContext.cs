@@ -1,4 +1,4 @@
-// <copyright file="AutoCaptureTransactionContext.cs" company="Adrian Mos">
+// <copyright file="AutoReleaseTransactionContext.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -10,33 +10,34 @@ using IX.Undoable;
 namespace IX.Observable
 {
     /// <summary>
-    /// An auto-capturing class that captures in a transaction.
+    /// An auto-capture-releasing class that captures in a transaction.
     /// </summary>
     /// <seealso cref="IDisposable" />
-    public class AutoCaptureTransactionContext : IDisposable
+    public class AutoReleaseTransactionContext : IDisposable
     {
         private readonly IUndoableItem item;
         private readonly IEnumerable<IUndoableItem> items;
         private readonly EventHandler<EditCommittedEventArgs> editableHandler;
+        private readonly IUndoableItem parentContext;
 
         private bool success;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AutoCaptureTransactionContext"/> class.
+        /// Initializes a new instance of the <see cref="AutoReleaseTransactionContext"/> class.
         /// </summary>
-        public AutoCaptureTransactionContext()
+        public AutoReleaseTransactionContext()
         {
             this.success = true;
         }
 
 #pragma warning disable IDE0016 // Use 'throw' expression
         /// <summary>
-        /// Initializes a new instance of the <see cref="AutoCaptureTransactionContext" /> class.
+        /// Initializes a new instance of the <see cref="AutoReleaseTransactionContext" /> class.
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="parentContext">The parent context.</param>
         /// <param name="editableHandler">The editable handler.</param>
-        public AutoCaptureTransactionContext(IUndoableItem item, IUndoableItem parentContext, EventHandler<EditCommittedEventArgs> editableHandler)
+        public AutoReleaseTransactionContext(IUndoableItem item, IUndoableItem parentContext, EventHandler<EditCommittedEventArgs> editableHandler)
         {
 #if DEBUG
             if (item == null)
@@ -55,30 +56,31 @@ namespace IX.Observable
             }
 #endif
 
-            if (item.IsCapturedIntoUndoContext && item.ParentUndoContext != parentContext)
+            if (!item.IsCapturedIntoUndoContext || item.ParentUndoContext != parentContext)
             {
-                throw new ItemAlreadyCapturedIntoUndoContextException();
+                throw new ItemNotCapturedIntoUndoContextException();
             }
 
             this.items = null;
             this.item = item;
             this.editableHandler = editableHandler;
+            this.parentContext = parentContext;
 
-            item.CaptureIntoUndoContext(parentContext);
+            item.ReleaseFromUndoContext();
 
             if (item is IEditCommittableItem tei)
             {
-                tei.EditCommitted += editableHandler;
+                tei.EditCommitted -= editableHandler;
             }
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AutoCaptureTransactionContext" /> class.
+        /// Initializes a new instance of the <see cref="AutoReleaseTransactionContext" /> class.
         /// </summary>
         /// <param name="items">The items.</param>
         /// <param name="parentContext">The parent context.</param>
         /// <param name="editableHandler">The editable handler.</param>
-        public AutoCaptureTransactionContext(IEnumerable<IUndoableItem> items, IUndoableItem parentContext, EventHandler<EditCommittedEventArgs> editableHandler)
+        public AutoReleaseTransactionContext(IEnumerable<IUndoableItem> items, IUndoableItem parentContext, EventHandler<EditCommittedEventArgs> editableHandler)
         {
 #if DEBUG
             if (items == null)
@@ -97,9 +99,9 @@ namespace IX.Observable
             }
 #endif
 
-            if (items.Any(item => item.IsCapturedIntoUndoContext && item.ParentUndoContext != parentContext))
+            if (items.Any(item => !item.IsCapturedIntoUndoContext || item.ParentUndoContext != parentContext))
             {
-                throw new ItemAlreadyCapturedIntoUndoContextException();
+                throw new ItemNotCapturedIntoUndoContextException();
             }
 
             this.items = items;
@@ -108,11 +110,11 @@ namespace IX.Observable
 
             foreach (IUndoableItem item in items)
             {
-                item.CaptureIntoUndoContext(parentContext);
+                item.ReleaseFromUndoContext();
 
                 if (item is IEditCommittableItem tei)
                 {
-                    tei.EditCommitted += editableHandler;
+                    tei.EditCommitted -= editableHandler;
                 }
             }
         }
@@ -128,11 +130,11 @@ namespace IX.Observable
             {
                 if (this.item != null)
                 {
-                    this.item.ReleaseFromUndoContext();
+                    this.item.CaptureIntoUndoContext(this.parentContext);
 
                     if (this.item is IEditCommittableItem tei)
                     {
-                        tei.EditCommitted -= this.editableHandler;
+                        tei.EditCommitted += this.editableHandler;
                     }
                 }
 
@@ -140,11 +142,11 @@ namespace IX.Observable
                 {
                     foreach (IUndoableItem item in this.items)
                     {
-                        item.ReleaseFromUndoContext();
+                        item.CaptureIntoUndoContext(this.parentContext);
 
                         if (this.item is IEditCommittableItem tei)
                         {
-                            tei.EditCommitted -= this.editableHandler;
+                            tei.EditCommitted += this.editableHandler;
                         }
                     }
                 }

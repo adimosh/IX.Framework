@@ -1,4 +1,4 @@
-﻿// <copyright file="Constants.cs" company="Adrian Mos">
+// <copyright file="Constants.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -27,6 +27,6 @@ namespace IX.Observable
         /// <summary>
         /// The standard undo/redo levels.
         /// </summary>
-        internal const int StandardUndoRedoLevels = 10;
+        internal const int StandardUndoRedoLevels = 50;
     }
 }

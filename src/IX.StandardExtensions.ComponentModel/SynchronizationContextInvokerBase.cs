@@ -1,4 +1,4 @@
-﻿// <copyright file="SynchronizationContextInvokerBase.cs" company="Adrian Mos">
+// <copyright file="SynchronizationContextInvokerBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -37,6 +37,12 @@ namespace IX.StandardExtensions.ComponentModel
         /// Triggered when an exception has occurred on a different thread.
         /// </summary>
         public event EventHandler<ExceptionOccurredEventArgs> ExceptionOccurredOnSeparateThread;
+
+        /// <summary>
+        /// Gets the synchronization context used by this object, if any.
+        /// </summary>
+        /// <value>The synchronization context.</value>
+        public SynchronizationContext SynchronizationContext => this.synchronizationContext;
 
         /// <summary>
         /// Invokes the specified action using the synchronization context asynchronously, or synchronously on this thread if there is no synchronization context available.

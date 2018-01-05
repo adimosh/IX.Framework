@@ -1,4 +1,4 @@
-﻿// <copyright file="Variable.StandardTypes.cs" company="Adrian Mos">
+// <copyright file="Variable.StandardTypes.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -15,7 +15,7 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:byte" />.
     /// </summary>
-    public class ByteVariable : VariableBase<byte>
+    public class ByteVariable : VariableBase<byte>, IDeepCloneable<ByteVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ByteVariable"/> class.
@@ -34,6 +34,29 @@ namespace IX.Sandbox.Memory
         public ByteVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ByteVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public ByteVariable(string name, byte value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ByteVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public ByteVariable(string name, byte value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -77,7 +100,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<byte> other)
         {
             if (other == null)
@@ -114,12 +137,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public ByteVariable DeepClone() => new ByteVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<byte> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:sbyte" />.
     /// </summary>
-    public class SignedByteVariable : VariableBase<sbyte>
+    public class SignedByteVariable : VariableBase<sbyte>, IDeepCloneable<SignedByteVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SignedByteVariable"/> class.
@@ -138,6 +173,29 @@ namespace IX.Sandbox.Memory
         public SignedByteVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SignedByteVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public SignedByteVariable(string name, sbyte value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SignedByteVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public SignedByteVariable(string name, sbyte value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -181,7 +239,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<sbyte> other)
         {
             if (other == null)
@@ -218,12 +276,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public SignedByteVariable DeepClone() => new SignedByteVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<sbyte> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:short" />.
     /// </summary>
-    public class ShortVariable : VariableBase<short>
+    public class ShortVariable : VariableBase<short>, IDeepCloneable<ShortVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ShortVariable"/> class.
@@ -242,6 +312,29 @@ namespace IX.Sandbox.Memory
         public ShortVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShortVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public ShortVariable(string name, short value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShortVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public ShortVariable(string name, short value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -285,7 +378,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<short> other)
         {
             if (other == null)
@@ -322,12 +415,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public ShortVariable DeepClone() => new ShortVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<short> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:ushort" />.
     /// </summary>
-    public class UnsignedShortVariable : VariableBase<ushort>
+    public class UnsignedShortVariable : VariableBase<ushort>, IDeepCloneable<UnsignedShortVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnsignedShortVariable"/> class.
@@ -346,6 +451,29 @@ namespace IX.Sandbox.Memory
         public UnsignedShortVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnsignedShortVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public UnsignedShortVariable(string name, ushort value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnsignedShortVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public UnsignedShortVariable(string name, ushort value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -389,7 +517,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<ushort> other)
         {
             if (other == null)
@@ -426,12 +554,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public UnsignedShortVariable DeepClone() => new UnsignedShortVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<ushort> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:char" />.
     /// </summary>
-    public class CharVariable : VariableBase<char>
+    public class CharVariable : VariableBase<char>, IDeepCloneable<CharVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CharVariable"/> class.
@@ -450,6 +590,29 @@ namespace IX.Sandbox.Memory
         public CharVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CharVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public CharVariable(string name, char value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CharVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public CharVariable(string name, char value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -498,7 +661,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<char> other)
         {
             if (other == null)
@@ -535,12 +698,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public CharVariable DeepClone() => new CharVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<char> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:int" />.
     /// </summary>
-    public class IntVariable : VariableBase<int>
+    public class IntVariable : VariableBase<int>, IDeepCloneable<IntVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="IntVariable"/> class.
@@ -559,6 +734,29 @@ namespace IX.Sandbox.Memory
         public IntVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IntVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public IntVariable(string name, int value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IntVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public IntVariable(string name, int value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -602,7 +800,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<int> other)
         {
             if (other == null)
@@ -639,12 +837,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public IntVariable DeepClone() => new IntVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<int> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:uint" />.
     /// </summary>
-    public class UnsignedIntVariable : VariableBase<uint>
+    public class UnsignedIntVariable : VariableBase<uint>, IDeepCloneable<UnsignedIntVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnsignedIntVariable"/> class.
@@ -663,6 +873,29 @@ namespace IX.Sandbox.Memory
         public UnsignedIntVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnsignedIntVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public UnsignedIntVariable(string name, uint value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnsignedIntVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public UnsignedIntVariable(string name, uint value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -706,7 +939,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<uint> other)
         {
             if (other == null)
@@ -743,12 +976,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public UnsignedIntVariable DeepClone() => new UnsignedIntVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<uint> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:long" />.
     /// </summary>
-    public class LongVariable : VariableBase<long>
+    public class LongVariable : VariableBase<long>, IDeepCloneable<LongVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LongVariable"/> class.
@@ -767,6 +1012,29 @@ namespace IX.Sandbox.Memory
         public LongVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LongVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public LongVariable(string name, long value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LongVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public LongVariable(string name, long value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -810,7 +1078,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<long> other)
         {
             if (other == null)
@@ -847,12 +1115,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public LongVariable DeepClone() => new LongVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<long> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:ulong" />.
     /// </summary>
-    public class UnsignedLongVariable : VariableBase<ulong>
+    public class UnsignedLongVariable : VariableBase<ulong>, IDeepCloneable<UnsignedLongVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnsignedLongVariable"/> class.
@@ -871,6 +1151,29 @@ namespace IX.Sandbox.Memory
         public UnsignedLongVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnsignedLongVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public UnsignedLongVariable(string name, ulong value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnsignedLongVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public UnsignedLongVariable(string name, ulong value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -914,7 +1217,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<ulong> other)
         {
             if (other == null)
@@ -951,12 +1254,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public UnsignedLongVariable DeepClone() => new UnsignedLongVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<ulong> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:float" />.
     /// </summary>
-    public class FloatVariable : VariableBase<float>
+    public class FloatVariable : VariableBase<float>, IDeepCloneable<FloatVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FloatVariable"/> class.
@@ -975,6 +1290,29 @@ namespace IX.Sandbox.Memory
         public FloatVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FloatVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public FloatVariable(string name, float value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FloatVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public FloatVariable(string name, float value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -1018,7 +1356,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<float> other)
         {
             if (other == null)
@@ -1055,12 +1393,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public FloatVariable DeepClone() => new FloatVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<float> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:double" />.
     /// </summary>
-    public class DoubleVariable : VariableBase<double>
+    public class DoubleVariable : VariableBase<double>, IDeepCloneable<DoubleVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DoubleVariable"/> class.
@@ -1079,6 +1429,29 @@ namespace IX.Sandbox.Memory
         public DoubleVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DoubleVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public DoubleVariable(string name, double value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DoubleVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public DoubleVariable(string name, double value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -1122,7 +1495,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<double> other)
         {
             if (other == null)
@@ -1159,12 +1532,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public DoubleVariable DeepClone() => new DoubleVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<double> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:decimal" />.
     /// </summary>
-    public class DecimalVariable : VariableBase<decimal>
+    public class DecimalVariable : VariableBase<decimal>, IDeepCloneable<DecimalVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DecimalVariable"/> class.
@@ -1183,6 +1568,29 @@ namespace IX.Sandbox.Memory
         public DecimalVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DecimalVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public DecimalVariable(string name, decimal value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DecimalVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public DecimalVariable(string name, decimal value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -1226,7 +1634,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<decimal> other)
         {
             if (other == null)
@@ -1263,12 +1671,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public DecimalVariable DeepClone() => new DecimalVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<decimal> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:DateTime" />.
     /// </summary>
-    public class DateTimeVariable : VariableBase<DateTime>
+    public class DateTimeVariable : VariableBase<DateTime>, IDeepCloneable<DateTimeVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DateTimeVariable"/> class.
@@ -1287,6 +1707,29 @@ namespace IX.Sandbox.Memory
         public DateTimeVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateTimeVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public DateTimeVariable(string name, DateTime value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateTimeVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public DateTimeVariable(string name, DateTime value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -1330,7 +1773,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<DateTime> other)
         {
             if (other == null)
@@ -1367,12 +1810,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public DateTimeVariable DeepClone() => new DateTimeVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<DateTime> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:bool" />.
     /// </summary>
-    public class BooleanVariable : VariableBase<bool>
+    public class BooleanVariable : VariableBase<bool>, IDeepCloneable<BooleanVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BooleanVariable"/> class.
@@ -1391,6 +1846,29 @@ namespace IX.Sandbox.Memory
         public BooleanVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BooleanVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public BooleanVariable(string name, bool value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BooleanVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public BooleanVariable(string name, bool value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -1434,7 +1912,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<bool> other)
         {
             if (other == null)
@@ -1471,12 +1949,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public BooleanVariable DeepClone() => new BooleanVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<bool> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:TimeSpan" />.
     /// </summary>
-    public class TimeSpanVariable : VariableBase<TimeSpan>
+    public class TimeSpanVariable : VariableBase<TimeSpan>, IDeepCloneable<TimeSpanVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeSpanVariable"/> class.
@@ -1495,6 +1985,29 @@ namespace IX.Sandbox.Memory
         public TimeSpanVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TimeSpanVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public TimeSpanVariable(string name, TimeSpan value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TimeSpanVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public TimeSpanVariable(string name, TimeSpan value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -1538,7 +2051,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<TimeSpan> other)
         {
             if (other == null)
@@ -1575,12 +2088,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public TimeSpanVariable DeepClone() => new TimeSpanVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<TimeSpan> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:string" />.
     /// </summary>
-    public class StringVariable : VariableBase<string>
+    public class StringVariable : VariableBase<string>, IDeepCloneable<StringVariable>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StringVariable"/> class.
@@ -1599,6 +2124,29 @@ namespace IX.Sandbox.Memory
         public StringVariable(string name, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        public StringVariable(string name, string value)
+            : base(name)
+        {
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public StringVariable(string name, string value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -1635,7 +2183,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<string> other)
         {
             if (other == null)
@@ -1672,12 +2220,24 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public StringVariable DeepClone() => new StringVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<string> DeepCloneImplementation() => this.DeepClone();
     }
 
     /// <summary>
     /// A variable of discreet type <see cref="T:byte[]" />.
     /// </summary>
-    public class ByteArrayVariable : VariableBase<byte[]>
+    public class ByteArrayVariable : VariableBase<byte[]>, IDeepCloneable<ByteArrayVariable>
     {
         private Encoding encoding;
 
@@ -1706,7 +2266,32 @@ namespace IX.Sandbox.Memory
         /// Initializes a new instance of the <see cref="ByteArrayVariable"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <param name="encoding">The enoding to use when converting to/from strings.</param>
+        /// <param name="value">The value.</param>
+        public ByteArrayVariable(string name, byte[] value)
+            : base(name)
+        {
+            this.encoding = Encoding.UTF8;
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ByteArrayVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public ByteArrayVariable(string name, byte[] value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.encoding = Encoding.UTF8;
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ByteArrayVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="encoding">The encoding to use when converting to/from strings.</param>
         public ByteArrayVariable(string name, Encoding encoding)
             : base(name)
         {
@@ -1717,12 +2302,39 @@ namespace IX.Sandbox.Memory
         /// Initializes a new instance of the <see cref="ByteArrayVariable"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <param name="encoding">The enoding to use when converting to/from strings.</param>
+        /// <param name="encoding">The encoding to use when converting to/from strings.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
         public ByteArrayVariable(string name, Encoding encoding, SynchronizationContext synchronizationContext)
             : base(name, synchronizationContext)
         {
             this.encoding = encoding;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ByteArrayVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="encoding">The encoding to use when converting to/from strings.</param>
+        public ByteArrayVariable(string name, byte[] value, Encoding encoding)
+            : base(name)
+        {
+            this.encoding = encoding;
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ByteArrayVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="encoding">The encoding to use when converting to/from strings.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public ByteArrayVariable(string name, byte[] value, Encoding encoding, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.encoding = encoding;
+            this.InternalValue = value;
         }
 
         /// <summary>
@@ -1766,7 +2378,7 @@ namespace IX.Sandbox.Memory
         /// Compares this variable to another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>0</c> if the two are equal, a diffrent value if not.</returns>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
         public override int CompareTo(IVariable<byte[]> other)
         {
             if (other == null)
@@ -1803,6 +2415,18 @@ namespace IX.Sandbox.Memory
 
             return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public ByteArrayVariable DeepClone() => new ByteArrayVariable(this.Name, this.InternalValue, this.SynchronizationContext);
+
+        /// <summary>
+        /// Creates a deep clone of the source object. This method implements the actual operation.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected sealed override VariableBase<byte[]> DeepCloneImplementation() => this.DeepClone();
     }
 #pragma warning restore SA1649 // File name should match first type name
 #pragma warning restore SA1402 // File may only contain a single type
