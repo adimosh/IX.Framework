@@ -4,18 +4,20 @@ branches:
   - master
 skip_tags: true
 image: Visual Studio 2017
+build:
+  verbosity: minimal
 clone_depth: 1
 environment:
   NUGET_SECURE_TOKEN:
     secure: eF0Mu+Ky+FtngFJN7u4unv9l2ebEvlvfim9hPpWkRAc=
-  nuget_user: adimosh@gmail.com
-  nuget_password:
+  NUGET_USER: adimosh@gmail.com
+  NUGET_PASSWORD:
     secure: QzxGG+tm1H9IaA5tMZx2pA==
 install:
 - cmd: >-
     appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
 
-    nuget sources add -Name MyAccountFeed -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com -UserName %nuget_user% -Password %nuget_password%
+    nuget sources add -Name MyAccountFeed -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com -UserName %NUGET_USER% -Password %NUGET_PASSWORD%
 
     nuget restore src\IX.Framework.sln
 build_script:
