@@ -17,6 +17,12 @@
 
   <Import Project="..\DocumentationFile.props" />
 
+  <Import Project="..\PackageSettings.props" />
+
+  <Import Project="..\VsCodeRemove.targets" />
+
+  <Import Project="..\StyleCop.targets" />
+
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -25,18 +31,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
 
-  <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-csprojVersioning" Version="1.0.0.4" />
-  </ItemGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions.ComponentModel\IX.StandardExtensions.ComponentModel.csproj" />
@@ -76,5 +70,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+
+  <Import Project="..\CliToolsReference.Normal.targets" />
 
 </Project>

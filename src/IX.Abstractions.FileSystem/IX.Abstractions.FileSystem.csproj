@@ -17,26 +17,14 @@
 
   <Import Project="..\DocumentationFile.props" />
 
-  <ItemGroup>
-    <Compile Remove=".vscode\**" />
-    <EmbeddedResource Remove=".vscode\**" />
-    <None Remove=".vscode\**" />
-  </ItemGroup>
+  <Import Project="..\PackageSettings.props" />
 
-  <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
+  <Import Project="..\VsCodeRemove.targets" />
 
-  <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" PrivateAssets="all" />
-  </ItemGroup>
+  <Import Project="..\StyleCop.targets" />
 
   <ItemGroup>
     <ProjectReference Include="..\IX.Abstractions\IX.Abstractions.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-csprojVersioning" Version="1.0.0.4" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
@@ -47,5 +35,7 @@
     <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
   </ItemGroup>
+
+  <Import Project="..\CliToolsReference.Normal.targets" />
 
 </Project>

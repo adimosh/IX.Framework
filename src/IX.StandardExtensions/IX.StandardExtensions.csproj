@@ -17,9 +17,11 @@
 
   <Import Project="..\DocumentationFile.props" />
 
-  <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
+  <Import Project="..\PackageSettings.props" />
+
+  <Import Project="..\VsCodeRemove.targets" />
+
+  <Import Project="..\StyleCop.targets" />
 
   <ItemGroup>
     <Compile Include="..\CodeGenerator\ArrayExtensions.StandardTypes.cs" Link="ArrayExtensions.StandardTypes.cs" />
@@ -45,14 +47,6 @@
     <PackageReference Include="System.Linq" Version="4.3.0" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
     <PackageReference Include="System.Threading" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-csprojVersioning" Version="1.0.0.4" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'!='netstandard1.0' And '$(TargetFramework)'!='net45'">
@@ -88,5 +82,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+
+  <Import Project="..\CliToolsReference.Normal.targets" />
 
 </Project>

@@ -17,17 +17,11 @@
 
   <Import Project="..\DocumentationFile.props" />
 
-  <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
+  <Import Project="..\PackageSettings.props" />
 
-  <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" Type="build" PrivateAssets="all" />
-  </ItemGroup>
+  <Import Project="..\VsCodeRemove.targets" />
 
-  <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-csprojVersioning" Version="1.0.0.4" />
-  </ItemGroup>
+  <Import Project="..\StyleCop.targets" />
 
   <ItemGroup>
     <ProjectReference Include="..\IX.Undoable\IX.Undoable.csproj" />
@@ -36,5 +30,7 @@
   <ItemGroup>
     <Reference Include="WindowsBase" />
   </ItemGroup>
+
+  <Import Project="..\CliToolsReference.Normal.targets" />
 
 </Project>

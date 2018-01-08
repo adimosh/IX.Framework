@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.StandardExtensions", "IX.StandardExtensions\IX.StandardExtensions.csproj", "{A3D15D3A-BD82-4D19-BC32-56148D879FF4}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -77,10 +77,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{6AE6F3F7-FE0A-4CC0-AD3A-948D6764E9C1}"
 	ProjectSection(SolutionItems) = preProject
 		Branding.props = Branding.props
+		CliToolsReference.Normal.targets = CliToolsReference.Normal.targets
 		DefaultPackageVersionSystem.props = DefaultPackageVersionSystem.props
 		DocumentationFile.props = DocumentationFile.props
+		PackageSettings.props = PackageSettings.props
+		StyleCop.targets = StyleCop.targets
 		TargetSymbols.props = TargetSymbols.props
 		UnitTestStandard.props = UnitTestStandard.props
+		VsCodeRemove.targets = VsCodeRemove.targets
 	EndProjectSection
 EndProject
 Global
