@@ -17,11 +17,11 @@
 
   <Import Project="..\DocumentationFile.props" />
 
-  <ItemGroup>
-    <Compile Remove=".vscode\**" />
-    <EmbeddedResource Remove=".vscode\**" />
-    <None Remove=".vscode\**" />
-  </ItemGroup>
+  <Import Project="..\PackageSettings.props" />
+
+  <Import Project="..\VsCodeRemove.targets" />
+
+  <Import Project="..\StyleCop.targets" />
 
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
     <Reference Include="System" />
@@ -42,20 +42,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Include="..\CodeGenerator\Retry.NowAndLaterExtended.cs" Link="Retry.NowAndLaterExtended.cs" />
     <Compile Include="..\CodeGenerator\RetryContext.ActionsAndFuncs.cs" Link="Contexts\RetryContext.ActionsAndFuncs.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-csprojVersioning" Version="1.0.0.4" />
-  </ItemGroup>
+  <Import Project="..\CliToolsReference.Normal.targets" />
 
 </Project>

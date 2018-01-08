@@ -18,15 +18,11 @@
 
   <Import Project="..\DocumentationFile.props" />
 
-  <ItemGroup>
-    <Compile Remove=".vscode\**" />
-    <EmbeddedResource Remove=".vscode\**" />
-    <None Remove=".vscode\**" />
-  </ItemGroup>
+  <Import Project="..\PackageSettings.props" />
 
-  <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
+  <Import Project="..\VsCodeRemove.targets" />
+
+  <Import Project="..\StyleCop.targets" />
 
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
     <Reference Include="System" />
@@ -47,10 +43,6 @@
     <ProjectReference Include="..\IX.Abstractions.Threading\IX.Abstractions.Threading.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions.Threading\IX.StandardExtensions.Threading.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
@@ -88,5 +80,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+
+  <Import Project="..\CliToolsReference.Normal.targets" />
 
 </Project>
