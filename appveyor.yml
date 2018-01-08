@@ -6,9 +6,6 @@ skip_tags: true
 image: Visual Studio 2017
 configuration: Release
 clone_depth: 1
-environment:
-  NUGET_SECURE_TOKEN:
-    secure: h6maB3fFIf8BLMo7XceNcgu8h6OL79XzgS+2YxMZY8Qvkni0iJo5A6im7AILprC1
 nuget:
   disable_publish_on_pr: true
 before_build:
@@ -18,6 +15,7 @@ before_build:
     dotnet clean src\IX.Framework.sln -c Debug
 
     dotnet restore src/IX.Framework.sln
+
 
     cd src\IX.StandardExtensions\
 
@@ -92,36 +90,42 @@ test:
   categories:
     except:
     - BenchmarkTests
-deploy_script:
-- cmd: >-
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.StandardExtensions\bin\Release\IX.StandardExtensions.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.StandardExtensions.ComponentModel\bin\Release\IX.StandardExtensions.ComponentModel.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.StandardExtensions.TestUtils\bin\Release\IX.StandardExtensions.TestUtils.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.StandardExtensions.Threading\bin\Release\IX.StandardExtensions.Threading.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Abstractions\bin\Release\IX.Abstractions.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Abstractions.Collections\bin\Release\IX.Abstractions.Collections.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Abstractions.FileSystem\bin\Release\IX.Abstractions.FileSystem.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Abstractions.Moq\bin\Release\IX.Abstractions.Moq.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Abstractions.Threading\bin\Release\IX.Abstractions.Threading.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Undoable\bin\Release\IX.Undoable.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Undoable.WPF\bin\Release\IX.Undoable.WPF.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Observable\bin\Release\IX.Observable.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Sandbox.Memory\bin\Release\IX.Sandbox.Memory.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Retry\bin\Release\IX.Retry.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Math\bin\Release\IX.Math.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
-    
-    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.StandardExtensions.WPF\bin\Release\IX.StandardExtensions.WPF.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+artifacts:
+- path: src\IX.StandardExtensions\bin\Release\IX.StandardExtensions.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.StandardExtensions
+- path: src\IX.StandardExtensions.ComponentModel\bin\Release\IX.StandardExtensions.ComponentModel.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.StandardExtensions.ComponentModel
+- path: src\IX.StandardExtensions.TestUtils\bin\Release\IX.StandardExtensions.TestUtils.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.StandardExtensions.TestUtils
+- path: src\IX.StandardExtensions.Threading\bin\Release\IX.StandardExtensions.Threading.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.StandardExtensions.Threading
+- path: src\IX.Abstractions\bin\Release\IX.Abstractions.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.Abstractions
+- path: src\IX.Abstractions.Collections\bin\Release\IX.Abstractions.Collections.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.Abstractions.Collections
+- path: src\IX.Abstractions.FileSystem\bin\Release\IX.Abstractions.FileSystem.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.Abstractions.FileSystem
+- path: src\IX.Abstractions.Moq\bin\Release\IX.Abstractions.Moq.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.Abstractions.Moq
+- path: src\IX.Abstractions.Threading\bin\Release\IX.Abstractions.Threading.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.Abstractions.Threading
+- path: src\IX.Undoable\bin\Release\IX.Undoable.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.Undoable
+- path: src\IX.Undoable.WPF\bin\Release\IX.Undoable.WPF.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.Undoable.WPF
+- path: src\IX.Observable\bin\Release\IX.Observable.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.Observable
+- path: src\IX.Sandbox.Memory\bin\Release\IX.Sandbox.Memory.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.Sandbox.Memory
+- path: src\IX.Retry\bin\Release\IX.Retry.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.Retry
+- path: src\IX.Math\bin\Release\IX.Math.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.Math
+deploy:
+- provider: NuGet
+  server: https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+  api_key:
+    secure: eF0Mu+Ky+FtngFJN7u4unv9l2ebEvlvfim9hPpWkRAc=
+  skip_symbols: true
+  on:
+    branch: master
