@@ -13,9 +13,11 @@ nuget:
   disable_publish_on_pr: true
 before_build:
 - cmd: >-
-    msbuild src\IX.Framework.sln /p:Configuration=Release /t:Clean
+    dotnet clean src\IX.Framework.sln -c Release
 
-    msbuild src\IX.Framework.sln /p:Configuration=Debug /t:Clean
+    dotnet clean src\IX.Framework.sln -c Debug
+
+    dotnet restore src/IX.Framework.sln
 
     cd src\IX.StandardExtensions\
 
@@ -92,34 +94,34 @@ test:
     - BenchmarkTests
 deploy_script:
 - cmd: >-
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.StandardExtensions\bin\Release\IX.StandardExtensions.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.StandardExtensions\bin\Release\IX.StandardExtensions.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
 
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.StandardExtensions.ComponentModel\bin\Release\IX.StandardExtensions.ComponentModel.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.StandardExtensions.ComponentModel\bin\Release\IX.StandardExtensions.ComponentModel.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
 
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.StandardExtensions.TestUtils\bin\Release\IX.StandardExtensions.TestUtils.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.StandardExtensions.TestUtils\bin\Release\IX.StandardExtensions.TestUtils.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
 
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.StandardExtensions.Threading\bin\Release\IX.StandardExtensions.Threading.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.StandardExtensions.Threading\bin\Release\IX.StandardExtensions.Threading.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
 
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.Abstractions\bin\Release\IX.Abstractions.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Abstractions\bin\Release\IX.Abstractions.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
 
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.Abstractions.Collections\bin\Release\IX.Abstractions.Collections.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Abstractions.Collections\bin\Release\IX.Abstractions.Collections.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
 
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.Abstractions.FileSystem\bin\Release\IX.Abstractions.FileSystem.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Abstractions.FileSystem\bin\Release\IX.Abstractions.FileSystem.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
 
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.Abstractions.Moq\bin\Release\IX.Abstractions.Moq.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Abstractions.Moq\bin\Release\IX.Abstractions.Moq.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
 
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.Abstractions.Threading\bin\Release\IX.Abstractions.Threading.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Abstractions.Threading\bin\Release\IX.Abstractions.Threading.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
 
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.Undoable\bin\Release\IX.Undoable.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Undoable\bin\Release\IX.Undoable.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
 
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.Undoable.WPF\bin\Release\IX.Undoable.WPF.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Undoable.WPF\bin\Release\IX.Undoable.WPF.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
 
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.Observable\bin\Release\IX.Observable.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Observable\bin\Release\IX.Observable.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
 
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.Sandbox.Memory\bin\Release\IX.Sandbox.Memory.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Sandbox.Memory\bin\Release\IX.Sandbox.Memory.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
 
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.Retry\bin\Release\IX.Retry.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Retry\bin\Release\IX.Retry.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
 
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.Math\bin\Release\IX.Math.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.Math\bin\Release\IX.Math.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
     
-    if "%NUGET_SECURE_TOKEN%" neq "" nuget push src\IX.StandardExtensions.WPF\bin\Release\IX.StandardExtensions.WPF.%APPVEYOR_BUILD_VERSION%.nupkg -ApiKey %NUGET_SECURE_TOKEN% -Source https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
+    if "%NUGET_SECURE_TOKEN%" neq "" dotnet nuget push src\IX.StandardExtensions.WPF\bin\Release\IX.StandardExtensions.WPF.%APPVEYOR_BUILD_VERSION%.nupkg -k %NUGET_SECURE_TOKEN% -s https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
