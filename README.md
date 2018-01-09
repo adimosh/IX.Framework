@@ -20,7 +20,8 @@ Until further notice, all versions of this repository will be distributed under 
 |:-------:|:-----------:|:--------:|
 | IX.StandardExtensions | Extensions aiming at standardizing various operations in the .NET Framework. | [Project page](IX.StandardExtensions.md) |
 | IX.Abstractions | A set of libraries for abstracting away things that are not abstracted by default (e.g. file storage) | - |
-| IX.Math | A library that interprets mathematical expressions into executable .NET code | - |
+| IX.Math | A library that interprets mathematical expressions into executable .NET code | [Project page](IX.Math.md) |
+| IX.Retry | A library that allows error recovery by retrying a method call according to set rules | [Project page](IX.Retry.md) |
 
 ## Contributing
 

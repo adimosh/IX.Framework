@@ -87,6 +87,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{6AE6F3F7
 		VsCodeRemove.targets = VsCodeRemove.targets
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub Documentation", "GitHub Documentation", "{CF1DED9F-4975-4D48-91D3-0FA13BBC9EBD}"
+	ProjectSection(SolutionItems) = preProject
+		..\IX.Math.md = ..\IX.Math.md
+		..\IX.Retry.md = ..\IX.Retry.md
+		..\IX.StandardExtensions.md = ..\IX.StandardExtensions.md
+		..\LICENSE.md = ..\LICENSE.md
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
