@@ -1,4 +1,4 @@
-﻿// <copyright file="ObservableMasterSlaveCollectionUnitTests.cs" company="Adrian Mos">
+// <copyright file="ObservableMasterSlaveCollectionUnitTests.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -12,20 +12,44 @@ namespace IX.Observable.UnitTests
     public class ObservableMasterSlaveCollectionUnitTests
     {
         /// <summary>
+        /// Generates the test data.
+        /// </summary>
+        /// <returns>The test data.</returns>
+        public static object[][] GenerateData() => new object[][]
+                    {
+                        new object[]
+                        {
+                            new ObservableMasterSlaveCollection<int>
+                            {
+                                1,
+                                7,
+                                19,
+                                23,
+                                4,
+                            },
+                        },
+                        new object[]
+                        {
+                            new ConcurrentObservableMasterSlaveCollection<int>
+                            {
+                                1,
+                                7,
+                                19,
+                                23,
+                                4,
+                            },
+                        },
+                    };
+
+        /// <summary>
         /// Observables the master slave collection undo at add.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection, Undo with Add")]
-        public void ObservableMasterSlaveCollectionUndoAtAdd()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection, Undo with Add")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionUndoAtAdd(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
 
             // ACT
             list.Add(6);
@@ -41,19 +65,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection redo at add.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection, Redo with undone Add")]
-        public void ObservableMasterSlaveCollectionRedoAtAdd()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection, Redo with undone Add")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionRedoAtAdd(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             list.Add(6);
             Assert.True(list.Contains(6));
             list.Undo();
@@ -69,19 +86,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection undo at clear.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection, Undo with Clear")]
-        public void ObservableMasterSlaveCollectionUndoAtClear()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection, Undo with Clear")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionUndoAtClear(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             list.Clear();
 
             Assert.False(list.Contains(1));
@@ -104,19 +114,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection redo at clear.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection, Redo with undone Clear")]
-        public void ObservableMasterSlaveCollectionRedoAtClear()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection, Redo with undone Clear")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionRedoAtClear(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             list.Clear();
 
             list.Undo();
@@ -141,18 +144,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection undo at insert.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection, Undo with Insert")]
-        public void ObservableMasterSlaveCollectionUndoAtInsert()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection, Undo with Insert")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionUndoAtInsert(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
 
             // ACT
             list.Insert(2, 6);
@@ -170,19 +167,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection redo at insert.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection, Redo with undone Insert")]
-        public void ObservableMasterSlaveCollectionRedoAtInsert()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection, Redo with undone Insert")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionRedoAtInsert(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             list.Insert(2, 6);
             Assert.True(list.Contains(6));
             list.Undo();
@@ -199,18 +189,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection undo at remove at.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection, Undo with RemoveAt")]
-        public void ObservableMasterSlaveCollectionUndoAtRemoveAt()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection, Undo with RemoveAt")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionUndoAtRemoveAt(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
 
             // ACT
             list.RemoveAt(2);
@@ -228,19 +212,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection redo at remove at.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection, Redo with undone RemoveAt")]
-        public void ObservableMasterSlaveCollectionRedoAtRemoveAt()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection, Redo with undone RemoveAt")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionRedoAtRemoveAt(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             list.RemoveAt(2);
             Assert.True(list[2] == 23);
             list.Undo();
@@ -256,19 +233,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection undo multiple operations.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection, Undo with multiple operations")]
-        public void ObservableMasterSlaveCollectionUndoMultipleOperations()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection, Undo with multiple operations")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionUndoMultipleOperations(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             list.Add(18);
             list.RemoveAt(1);
             list.Insert(3, 5);
@@ -314,19 +284,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection multiple undo operations.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection, Undo with undo operations past the limit")]
-        public void ObservableMasterSlaveCollectionMultipleUndoOperations()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection, Undo with undo operations past the limit")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionMultipleUndoOperations(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             list.HistoryLevels = 3;
 
             list.Add(15);
@@ -353,19 +316,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection multiple redo cutoff.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection, Redo cut-off")]
-        public void ObservableMasterSlaveCollectionMultipleRedoCutoff()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection, Redo cut-off")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionMultipleRedoCutoff(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             list.Add(15);
             list.Add(89);
             list.Add(3);
@@ -394,19 +350,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection undo at add with slave.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with Add")]
-        public void ObservableMasterSlaveCollectionUndoAtAddWithSlave()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with Add")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionUndoAtAddWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             var slaveCollection = new ObservableList<int>
             {
                 -1,
@@ -432,19 +381,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection redo at add with slave.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection with a slave, Redo with undone Add")]
-        public void ObservableMasterSlaveCollectionRedoAtAddWithSlave()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Redo with undone Add")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionRedoAtAddWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             var slaveCollection = new ObservableList<int>
             {
                 -1,
@@ -471,19 +413,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection undo at clear with slave.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with Clear")]
-        public void ObservableMasterSlaveCollectionUndoAtClearWithSlave()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with Clear")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionUndoAtClearWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             var slaveCollection = new ObservableList<int>
             {
                 -1,
@@ -517,19 +452,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection redo at clear with slave.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection with a slave, Redo with undone Clear")]
-        public void ObservableMasterSlaveCollectionRedoAtClearWithSlave()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Redo with undone Clear")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionRedoAtClearWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             var slaveCollection = new ObservableList<int>
             {
                 -1,
@@ -565,19 +493,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection undo at insert with slave.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with Insert")]
-        public void ObservableMasterSlaveCollectionUndoAtInsertWithSlave()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with Insert")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionUndoAtInsertWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             var slaveCollection = new ObservableList<int>
             {
                 -1,
@@ -605,19 +526,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection redo at insert with slave.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection with a slave, Redo with undone Insert")]
-        public void ObservableMasterSlaveCollectionRedoAtInsertWithSlave()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Redo with undone Insert")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionRedoAtInsertWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             list.Insert(2, 6);
             Assert.True(list.Contains(6));
             list.Undo();
@@ -645,19 +559,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection undo at remove at with slave.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with RemoveAt")]
-        public void ObservableMasterSlaveCollectionUndoAtRemoveAtWithSlave()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with RemoveAt")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionUndoAtRemoveAtWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             var slaveCollection = new ObservableList<int>
             {
                 -1,
@@ -685,19 +592,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection redo at remove at with slave.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection with a slave, Redo with undone RemoveAt")]
-        public void ObservableMasterSlaveCollectionRedoAtRemoveAtWithSlave()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Redo with undone RemoveAt")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionRedoAtRemoveAtWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             var slaveCollection = new ObservableList<int>
             {
                 -1,
@@ -724,19 +624,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection undo multiple operations with slave.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with multiple operations")]
-        public void ObservableMasterSlaveCollectionUndoMultipleOperationsWithSlave()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with multiple operations")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionUndoMultipleOperationsWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             var slaveCollection = new ObservableList<int>
             {
                 -1,
@@ -793,19 +686,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection multiple undo operations with slave.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with undo operations past the limit")]
-        public void ObservableMasterSlaveCollectionMultipleUndoOperationsWithSlave()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with undo operations past the limit")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionMultipleUndoOperationsWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             var slaveCollection = new ObservableList<int>
             {
                 -1,
@@ -843,19 +729,12 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the master slave collection multiple redo cutoff with slave.
         /// </summary>
-        [Fact(DisplayName = "ObservableMasterSlaveCollection with a slave, Redo cut-off")]
-        public void ObservableMasterSlaveCollectionMultipleRedoCutoffWithSlave()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Redo cut-off")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableMasterSlaveCollectionMultipleRedoCutoffWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            var list = new ObservableMasterSlaveCollection<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             var slaveCollection = new ObservableList<int>
             {
                 -1,
