@@ -1,4 +1,4 @@
-﻿// <copyright file="ObservableListUnitTests.cs" company="Adrian Mos">
+// <copyright file="ObservableListUnitTests.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -12,22 +12,45 @@ namespace IX.Observable.UnitTests
     public class ObservableListUnitTests
     {
         /// <summary>
+        /// Generates the test data.
+        /// </summary>
+        /// <returns>The test data.</returns>
+        public static object[][] GenerateData() => new object[][]
+                    {
+                        new object[]
+                        {
+                            new ObservableList<int>
+                            {
+                                1,
+                                7,
+                                19,
+                                23,
+                                4,
+                            },
+                        },
+                        new object[]
+                        {
+                            new ConcurrentObservableList<int>
+                            {
+                                1,
+                                7,
+                                19,
+                                23,
+                                4,
+                            },
+                        },
+                    };
+
+        /// <summary>
         /// Observables the list undo at add.
         /// </summary>
-        [Fact(DisplayName = "ObservableList, Undo with Add")]
-        public void ObservableListUndoAtAdd()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Undo with Add")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableListUndoAtAdd(ObservableList<int> list)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
-
-            var list = new ObservableList<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
 
             // ACT
             list.Add(6);
@@ -43,20 +66,13 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the list redo at add.
         /// </summary>
-        [Fact(DisplayName = "ObservableList, Redo with undone Add")]
-        public void ObservableListRedoAtAdd()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Redo with undone Add")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableListRedoAtAdd(ObservableList<int> list)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
-
-            var list = new ObservableList<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
 
             list.Add(6);
             Assert.True(list.Contains(6));
@@ -73,20 +89,13 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the list undo at add.
         /// </summary>
-        [Fact(DisplayName = "ObservableList, Undo with AddRange")]
-        public void ObservableListUndoAtAddRange()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Undo with AddRange")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableListUndoAtAddRange(ObservableList<int> list)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
-
-            var list = new ObservableList<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
 
             list.AddRange(new int[] { 6, 5, 2 });
 
@@ -101,26 +110,19 @@ namespace IX.Observable.UnitTests
             Assert.False(list.Contains(6));
             Assert.False(list.Contains(5));
             Assert.False(list.Contains(2));
-            Assert.True(list.Count == 5);
+            Assert.Equal(5, list.Count);
         }
 
         /// <summary>
         /// Observables the list redo at add.
         /// </summary>
-        [Fact(DisplayName = "ObservableList, Redo with undone AddRange")]
-        public void ObservableListRedoAtAddRange()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Redo with undone AddRange")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableListRedoAtAddRange(ObservableList<int> list)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
-
-            var list = new ObservableList<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
 
             list.AddRange(new int[] { 6, 5, 2 });
             Assert.True(list.Contains(6));
@@ -130,7 +132,7 @@ namespace IX.Observable.UnitTests
             Assert.False(list.Contains(6));
             Assert.False(list.Contains(5));
             Assert.False(list.Contains(2));
-            Assert.True(list.Count == 5);
+            Assert.Equal(5, list.Count);
 
             // ACT
             list.Redo();
@@ -139,26 +141,19 @@ namespace IX.Observable.UnitTests
             Assert.True(list.Contains(6));
             Assert.True(list.Contains(5));
             Assert.True(list.Contains(2));
-            Assert.True(list.Count == 8);
+            Assert.Equal(8, list.Count);
         }
 
         /// <summary>
         /// Observables the list undo at clear.
         /// </summary>
-        [Fact(DisplayName = "ObservableList, Undo with Clear")]
-        public void ObservableListUndoAtClear()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Undo with Clear")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableListUndoAtClear(ObservableList<int> list)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
-
-            var list = new ObservableList<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
 
             list.Clear();
 
@@ -182,20 +177,13 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the list redo at clear.
         /// </summary>
-        [Fact(DisplayName = "ObservableList, Redo with undone Clear")]
-        public void ObservableListRedoAtClear()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Redo with undone Clear")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableListRedoAtClear(ObservableList<int> list)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
-
-            var list = new ObservableList<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
 
             list.Clear();
 
@@ -221,51 +209,37 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the list undo at insert.
         /// </summary>
-        [Fact(DisplayName = "ObservableList, Undo with Insert")]
-        public void ObservableListUndoAtInsert()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Undo with Insert")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableListUndoAtInsert(ObservableList<int> list)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
 
-            var list = new ObservableList<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             // ACT
             list.Insert(2, 6);
 
-            Assert.True(list[2] == 6);
-            Assert.True(list[3] == 19);
+            Assert.Equal(6, list[2]);
+            Assert.Equal(19, list[3]);
 
             list.Undo();
 
             // ASSERT
             Assert.False(list.Contains(6));
-            Assert.True(list[2] == 19);
+            Assert.Equal(19, list[2]);
         }
 
         /// <summary>
         /// Observables the list redo at insert.
         /// </summary>
-        [Fact(DisplayName = "ObservableList, Redo with undone Insert")]
-        public void ObservableListRedoAtInsert()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Redo with undone Insert")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableListRedoAtInsert(ObservableList<int> list)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
-
-            var list = new ObservableList<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
 
             list.Insert(2, 6);
             Assert.True(list.Contains(6));
@@ -276,88 +250,67 @@ namespace IX.Observable.UnitTests
             list.Redo();
 
             // ASSERT
-            Assert.True(list[2] == 6);
-            Assert.True(list[3] == 19);
+            Assert.Equal(6, list[2]);
+            Assert.Equal(19, list[3]);
         }
 
         /// <summary>
         /// Observables the list undo at remove at.
         /// </summary>
-        [Fact(DisplayName = "ObservableList, Undo with RemoveAt")]
-        public void ObservableListUndoAtRemoveAt()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Undo with RemoveAt")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableListUndoAtRemoveAt(ObservableList<int> list)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
 
-            var list = new ObservableList<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             // ACT
             list.RemoveAt(2);
 
-            Assert.True(list[2] == 23);
-            Assert.True(list[3] == 4);
+            Assert.Equal(23, list[2]);
+            Assert.Equal(4, list[3]);
 
             list.Undo();
 
             // ASSERT
-            Assert.True(list[2] == 19);
-            Assert.True(list[3] == 23);
+            Assert.Equal(19, list[2]);
+            Assert.Equal(23, list[3]);
         }
 
         /// <summary>
         /// Observables the list redo at remove at.
         /// </summary>
-        [Fact(DisplayName = "ObservableList, Redo with undone RemoveAt")]
-        public void ObservableListRedoAtRemoveAt()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Redo with undone RemoveAt")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableListRedoAtRemoveAt(ObservableList<int> list)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
 
-            var list = new ObservableList<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
-
             list.RemoveAt(2);
-            Assert.True(list[2] == 23);
+            Assert.Equal(23, list[2]);
             list.Undo();
-            Assert.True(list[2] == 19);
+            Assert.Equal(19, list[2]);
 
             // ACT
             list.Redo();
 
             // ASSERT
-            Assert.True(list[2] == 23);
+            Assert.Equal(23, list[2]);
         }
 
         /// <summary>
         /// Observables the list undo multiple operations.
         /// </summary>
-        [Fact(DisplayName = "ObservableList, Undo with multiple operations")]
-        public void ObservableListUndoMultipleOperations()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Undo with multiple operations")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableListUndoMultipleOperations(ObservableList<int> list)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
-
-            var list = new ObservableList<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
 
             list.Add(18);
             list.RemoveAt(1);
@@ -366,31 +319,31 @@ namespace IX.Observable.UnitTests
             list.Add(7);
 
             // Act & Assert groups
-            Assert.True(list.Count == 1);
-            Assert.True(list[0] == 7);
+            Assert.Single(list);
+            Assert.Equal(7, list[0]);
 
             // Level one
             list.Undo();
-            Assert.True(list.Count == 0);
+            Assert.Empty(list);
 
             // Level two
             list.Undo();
-            Assert.True(list.Count == 6);
-            Assert.True(list[3] == 5);
+            Assert.Equal(6, list.Count);
+            Assert.Equal(5, list[3]);
 
             // Level three
             list.Undo();
-            Assert.True(list.Count == 5);
-            Assert.True(list[3] == 4);
+            Assert.Equal(5, list.Count);
+            Assert.Equal(4, list[3]);
 
             // Level four
             list.Undo();
-            Assert.True(list.Count == 6);
-            Assert.True(list[1] == 7);
+            Assert.Equal(6, list.Count);
+            Assert.Equal(7, list[1]);
 
             // Level two
             list.Undo();
-            Assert.True(list.Count == 5);
+            Assert.Equal(5, list.Count);
             Assert.False(list.Contains(18));
 
             // Redo
@@ -398,26 +351,19 @@ namespace IX.Observable.UnitTests
             list.Redo();
             list.Redo();
             list.Redo();
-            Assert.True(list.Count == 0);
+            Assert.Empty(list);
         }
 
         /// <summary>
         /// Observables the list multiple undo operations.
         /// </summary>
-        [Fact(DisplayName = "ObservableList, Undo with undo operations past the limit")]
-        public void ObservableListMultipleUndoOperations()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Undo with undo operations past the limit")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableListMultipleUndoOperations(ObservableList<int> list)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
-
-            var list = new ObservableList<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
 
             list.HistoryLevels = 3;
 
@@ -445,20 +391,13 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the list multiple redo cutoff.
         /// </summary>
-        [Fact(DisplayName = "ObservableList, Redo cut-off")]
-        public void ObservableListMultipleRedoCutoff()
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Redo cut-off")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableListMultipleRedoCutoff(ObservableList<int> list)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
-
-            var list = new ObservableList<int>
-            {
-                1,
-                7,
-                19,
-                23,
-                4,
-            };
 
             list.Add(15);
             list.Add(89);
