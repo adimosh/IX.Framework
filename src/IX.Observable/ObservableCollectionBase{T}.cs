@@ -492,7 +492,7 @@ namespace IX.Observable
                             Action act;
                             bool internalResult;
 
-                            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+                            using (this.WriteLock())
                             {
                                 internalResult = this.UndoInternally(ulsc, out act);
                             }
@@ -543,7 +543,7 @@ namespace IX.Observable
                             Action act;
                             bool internalResult;
 
-                            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+                            using (this.WriteLock())
                             {
                                 internalResult = this.RedoInternally(ulsc, out act);
                             }
@@ -597,7 +597,7 @@ namespace IX.Observable
             {
                 var lvl = undoRedoLevel as SubItemStateChange;
 
-                lvl.SubObject.UndoStateChanges(lvl.StateChanges);
+                lvl.SubObject.RedoStateChanges(lvl.StateChanges);
 
                 toInvokeOutsideLock = null;
 
