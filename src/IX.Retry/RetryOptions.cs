@@ -15,7 +15,7 @@ namespace IX.Retry
         /// <summary>
         /// Gets the type of the retrying operation.
         /// </summary>
-        /// <returns>What type of retry porocedure to use.</returns>
+        /// <returns>What type of retry procedure to use.</returns>
         public RetryType Type { get; internal set; }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace IX.Retry
         /// <summary>
         /// Gets for how long to retry.
         /// </summary>
-        /// <returns>The maxiumum time span to retry.</returns>
+        /// <returns>The maximum time span to retry.</returns>
         public TimeSpan RetryFor { get; internal set; }
 
         /// <summary>
