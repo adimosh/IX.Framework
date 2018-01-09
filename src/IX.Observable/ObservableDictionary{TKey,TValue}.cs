@@ -182,15 +182,17 @@ namespace IX.Observable
                 // Current object not disposed
                 this.ThrowIfCurrentObjectDisposed();
 
+#if false
                 // Automatic capture into undo/redo context is on, object must not already be captured by another undo/redo context
-                //if (this.ItemsAreUndoable &&
-                //    this.AutomaticallyCaptureSubItems &&
-                //    value is IUndoableItem undoContextCheckItem &&
-                //    undoContextCheckItem.IsCapturedIntoUndoContext &&
-                //    undoContextCheckItem.ParentUndoContext != this)
-                //{
-                //    throw new ItemAlreadyCapturedIntoUndoContextException();
-                //}
+                if (this.ItemsAreUndoable &&
+                    this.AutomaticallyCaptureSubItems &&
+                    value is IUndoableItem undoContextCheckItem &&
+                    undoContextCheckItem.IsCapturedIntoUndoContext &&
+                    undoContextCheckItem.ParentUndoContext != this)
+                {
+                    throw new ItemAlreadyCapturedIntoUndoContextException();
+                }
+#endif
 
                 // ACTION
                 Dictionary<TKey, TValue> dictionary = ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).dictionary;
@@ -200,13 +202,15 @@ namespace IX.Observable
                 {
                     if (dictionary.TryGetValue(key, out TValue val))
                     {
+#if false
                         // Release old item from undo context
-                        //if (this.ItemsAreUndoable &&
-                        //    this.AutomaticallyCaptureSubItems &&
-                        //    val is IUndoableItem ul)
-                        //{
-                        //    ul.ReleaseFromUndoContext();
-                        //}
+                        if (this.ItemsAreUndoable &&
+                            this.AutomaticallyCaptureSubItems &&
+                            val is IUndoableItem ul)
+                        {
+                            ul.ReleaseFromUndoContext();
+                        }
+#endif
 
                         // Set the new item
                         dictionary[key] = value;
@@ -223,13 +227,15 @@ namespace IX.Observable
                         this.PushUndoLevel(new DictionaryAddUndoLevel<TKey, TValue> { Key = key, Value = value });
                     }
 
+#if false
                     // Capture new item into context
-                    //if (this.ItemsAreUndoable &&
-                    //    this.AutomaticallyCaptureSubItems &&
-                    //    value is IUndoableItem nl)
-                    //{
-                    //    nl.CaptureIntoUndoContext(this);
-                    //}
+                    if (this.ItemsAreUndoable &&
+                        this.AutomaticallyCaptureSubItems &&
+                        value is IUndoableItem nl)
+                    {
+                        nl.CaptureIntoUndoContext(this);
+                    }
+#endif
                 }
 
                 // NOTIFICATION
@@ -286,13 +292,15 @@ namespace IX.Observable
                 // Do the actual removal
                 result = container.Remove(key);
 
+#if false
                 // Release from undo context
-                //if (this.ItemsAreUndoable &&
-                //    this.AutomaticallyCaptureSubItems &&
-                //    value is IUndoableItem ul)
-                //{
-                //    ul.ReleaseFromUndoContext();
-                //}
+                if (this.ItemsAreUndoable &&
+                    this.AutomaticallyCaptureSubItems &&
+                    value is IUndoableItem ul)
+                {
+                    ul.ReleaseFromUndoContext();
+                }
+#endif
 
                 // Push undo level
                 if (result)

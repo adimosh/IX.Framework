@@ -172,21 +172,21 @@ namespace IX.Observable.UnitTests
 
             list.Undo();
 
-            Assert.True(list.ContainsKey(1));
-            Assert.True(list.ContainsKey(7));
-            Assert.True(list.ContainsKey(19));
-            Assert.True(list.ContainsKey(23));
-            Assert.True(list.ContainsKey(4));
+            Assert.True(list.ContainsKey(1), "Element not found: 1");
+            Assert.True(list.ContainsKey(7), "Element not found: 7");
+            Assert.True(list.ContainsKey(19), "Element not found: 19");
+            Assert.True(list.ContainsKey(23), "Element not found: 23");
+            Assert.True(list.ContainsKey(4), "Element not found: 4");
 
             // ACT
             list.Redo();
 
             // ASSERT
-            Assert.False(list.ContainsKey(1));
-            Assert.False(list.ContainsKey(7));
-            Assert.False(list.ContainsKey(19));
-            Assert.False(list.ContainsKey(23));
-            Assert.False(list.ContainsKey(4));
+            Assert.False(list.ContainsKey(1), "Element found: 1");
+            Assert.False(list.ContainsKey(7), "Element found: 7");
+            Assert.False(list.ContainsKey(19), "Element found: 19");
+            Assert.False(list.ContainsKey(23), "Element found: 23");
+            Assert.False(list.ContainsKey(4), "Element found: 4");
         }
 
         /// <summary>
