@@ -1,4 +1,4 @@
-﻿// <copyright file="ObservableReadOnlyCollectionBase{T}.cs" company="Adrian Mos">
+// <copyright file="ObservableReadOnlyCollectionBase{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -55,7 +55,7 @@ namespace IX.Observable
         /// <remarks>
         /// <para>On concurrent collections, this property is read-synchronized.</para>
         /// </remarks>
-        public virtual int Count => this.CheckDisposed(() => this.ReadLock(() => ((IReadOnlyCollection<T>)this.InternalContainer).Count));
+        public virtual int Count => this.CheckDisposed(() => this.ReadLock(() => this.InternalContainer.Count));
 
         /// <summary>
         /// Gets a value indicating whether the <see cref="ObservableCollectionBase{T}" /> is read-only.
@@ -170,7 +170,14 @@ namespace IX.Observable
         {
             this.ThrowIfCurrentObjectDisposed();
 
-            return new StandardExtensions.Threading.AtomicEnumerator<T>(this.InternalContainer.GetEnumerator(), () => this.ReadLock());
+            if (this.SynchronizationLock == null)
+            {
+                return this.InternalContainer.GetEnumerator();
+            }
+            else
+            {
+                return new StandardExtensions.Threading.AtomicEnumerator<T>(this.InternalContainer.GetEnumerator(), () => this.ReadLock());
+            }
         }
 
         /// <summary>

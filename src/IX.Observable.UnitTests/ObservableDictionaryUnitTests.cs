@@ -2,8 +2,10 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using System;
 using IX.StandardExtensions.TestUtils;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace IX.Observable.UnitTests
 {
@@ -12,6 +14,36 @@ namespace IX.Observable.UnitTests
     /// </summary>
     public class ObservableDictionaryUnitTests
     {
+        /// <summary>
+        /// Generates the test data.
+        /// </summary>
+        /// <returns>The test data.</returns>
+        public static object[][] GenerateData() => new object[][]
+                    {
+                        new object[]
+                        {
+                            new ObservableDictionary<int, int>
+                            {
+                                [1] = 1,
+                                [7] = 7,
+                                [19] = 19,
+                                [23] = 23,
+                                [4] = 4,
+                            },
+                        },
+                        new object[]
+                        {
+                            new ConcurrentObservableDictionary<int, int>
+                            {
+                                [1] = 1,
+                                [7] = 7,
+                                [19] = 19,
+                                [23] = 23,
+                                [4] = 4,
+                            },
+                        },
+                    };
+
         /// <summary>
         /// Observables the dictionary count.
         /// </summary>
@@ -57,339 +89,276 @@ namespace IX.Observable.UnitTests
         /// <summary>
         /// Observables the dictionary undo at add.
         /// </summary>
-        [Fact(DisplayName = "ObservableDictionary, Undo with Add")]
-        public void ObservableDictionaryUndoAtAdd()
+        /// <param name="dict">The dictionary.</param>
+        [Theory(DisplayName = "ObservableDictionary, Undo with Add")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableDictionaryUndoAtAdd(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
 
-            var list = new ObservableDictionary<int, int>
-            {
-                [1] = 1,
-                [7] = 7,
-                [19] = 19,
-                [23] = 23,
-                [4] = 4,
-            };
-
             // ACT
-            list.Add(6, 6);
+            dict.Add(6, 6);
 
-            Assert.True(list.ContainsKey(6));
+            Assert.True(dict.ContainsKey(6), "Element not found: 6");
 
-            list.Undo();
+            dict.Undo();
 
             // ASSERT
-            Assert.False(list.ContainsKey(6));
+            Assert.False(dict.ContainsKey(6), "Element found: 6");
         }
 
         /// <summary>
         /// Observables the dictionary redo at add.
         /// </summary>
-        [Fact(DisplayName = "ObservableDictionary, Redo with undone Add")]
-        public void ObservableDictionaryRedoAtAdd()
+        /// <param name="dict">The dictionary.</param>
+        [Theory(DisplayName = "ObservableDictionary, Redo with undone Add")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableDictionaryRedoAtAdd(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
 
-            var list = new ObservableDictionary<int, int>
-            {
-                [1] = 1,
-                [7] = 7,
-                [19] = 19,
-                [23] = 23,
-                [4] = 4,
-            };
-
-            list.Add(6, 6);
-            Assert.True(list.ContainsKey(6));
-            list.Undo();
-            Assert.False(list.ContainsKey(6));
+            dict.Add(6, 6);
+            Assert.True(dict.ContainsKey(6), "Element not found: 6");
+            dict.Undo();
+            Assert.False(dict.ContainsKey(6), "Element found: 6");
 
             // ACT
-            list.Redo();
+            dict.Redo();
 
             // ASSERT
-            Assert.True(list.ContainsKey(6));
+            Assert.True(dict.ContainsKey(6), "Element not found: 6");
         }
 
         /// <summary>
         /// Observables the dictionary undo at clear.
         /// </summary>
-        [Fact(DisplayName = "ObservableDictionary, Undo with Clear")]
-        public void ObservableDictionaryUndoAtClear()
+        /// <param name="dict">The dictionary.</param>
+        [Theory(DisplayName = "ObservableDictionary, Undo with Clear")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableDictionaryUndoAtClear(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
 
-            var list = new ObservableDictionary<int, int>
-            {
-                [1] = 1,
-                [7] = 7,
-                [19] = 19,
-                [23] = 23,
-                [4] = 4,
-            };
+            dict.Clear();
 
-            list.Clear();
-
-            Assert.False(list.ContainsKey(1));
-            Assert.False(list.ContainsKey(7));
-            Assert.False(list.ContainsKey(19));
-            Assert.False(list.ContainsKey(23));
-            Assert.False(list.ContainsKey(4));
+            Assert.False(dict.ContainsKey(1), "Element not found: 1");
+            Assert.False(dict.ContainsKey(7), "Element not found: 7");
+            Assert.False(dict.ContainsKey(19), "Element not found: 19");
+            Assert.False(dict.ContainsKey(23), "Element not found: 23");
+            Assert.False(dict.ContainsKey(4), "Element not found: 4");
 
             // ACT
-            list.Undo();
+            dict.Undo();
 
             // ASSERT
-            Assert.True(list.ContainsKey(1));
-            Assert.True(list.ContainsKey(7));
-            Assert.True(list.ContainsKey(19));
-            Assert.True(list.ContainsKey(23));
-            Assert.True(list.ContainsKey(4));
+            Assert.True(dict.ContainsKey(1), "Element found: 1");
+            Assert.True(dict.ContainsKey(7), "Element found: 7");
+            Assert.True(dict.ContainsKey(19), "Element found: 19");
+            Assert.True(dict.ContainsKey(23), "Element found: 23");
+            Assert.True(dict.ContainsKey(4), "Element found: 4");
         }
 
         /// <summary>
         /// Observables the dictionary redo at clear.
         /// </summary>
-        [Fact(DisplayName = "ObservableDictionary, Redo with undone Clear")]
-        public void ObservableDictionaryRedoAtClear()
+        /// <param name="dict">The dictionary.</param>
+        [Theory(DisplayName = "ObservableDictionary, Redo with undone Clear")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableDictionaryRedoAtClear(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
 
-            var list = new ObservableDictionary<int, int>
-            {
-                [1] = 1,
-                [7] = 7,
-                [19] = 19,
-                [23] = 23,
-                [4] = 4,
-            };
+            dict.Clear();
 
-            list.Clear();
+            dict.Undo();
 
-            list.Undo();
-
-            Assert.True(list.ContainsKey(1), "Element not found: 1");
-            Assert.True(list.ContainsKey(7), "Element not found: 7");
-            Assert.True(list.ContainsKey(19), "Element not found: 19");
-            Assert.True(list.ContainsKey(23), "Element not found: 23");
-            Assert.True(list.ContainsKey(4), "Element not found: 4");
+            Assert.True(dict.ContainsKey(1), "Element not found: 1");
+            Assert.True(dict.ContainsKey(7), "Element not found: 7");
+            Assert.True(dict.ContainsKey(19), "Element not found: 19");
+            Assert.True(dict.ContainsKey(23), "Element not found: 23");
+            Assert.True(dict.ContainsKey(4), "Element not found: 4");
 
             // ACT
-            list.Redo();
+            dict.Redo();
 
             // ASSERT
-            Assert.False(list.ContainsKey(1), "Element found: 1");
-            Assert.False(list.ContainsKey(7), "Element found: 7");
-            Assert.False(list.ContainsKey(19), "Element found: 19");
-            Assert.False(list.ContainsKey(23), "Element found: 23");
-            Assert.False(list.ContainsKey(4), "Element found: 4");
+            Assert.False(dict.ContainsKey(1), "Element found: 1");
+            Assert.False(dict.ContainsKey(7), "Element found: 7");
+            Assert.False(dict.ContainsKey(19), "Element found: 19");
+            Assert.False(dict.ContainsKey(23), "Element found: 23");
+            Assert.False(dict.ContainsKey(4), "Element found: 4");
         }
 
         /// <summary>
         /// Observables the dictionary undo at remove.
         /// </summary>
-        [Fact(DisplayName = "ObservableDictionary, Undo with Remove")]
-        public void ObservableDictionaryUndoAtRemove()
+        /// <param name="dict">The dictionary.</param>
+        [Theory(DisplayName = "ObservableDictionary, Undo with Remove")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableDictionaryUndoAtRemove(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
 
-            var list = new ObservableDictionary<int, int>
-            {
-                [1] = 1,
-                [7] = 7,
-                [19] = 19,
-                [23] = 23,
-                [4] = 4,
-            };
-
             // ACT
-            list.Remove(7);
+            dict.Remove(7);
 
-            Assert.False(list.ContainsKey(7));
+            Assert.False(dict.ContainsKey(7), "Element found: 7");
 
-            list.Undo();
+            dict.Undo();
 
             // ASSERT
-            Assert.True(list.ContainsKey(7));
+            Assert.True(dict.ContainsKey(7), "Element not found: 7");
         }
 
         /// <summary>
         /// Observables the dictionary redo at remove.
         /// </summary>
-        [Fact(DisplayName = "ObservableDictionary, Redo with undone Remove")]
-        public void ObservableDictionaryRedoAtRemove()
+        /// <param name="dict">The dictionary.</param>
+        [Theory(DisplayName = "ObservableDictionary, Redo with undone Remove")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableDictionaryRedoAtRemove(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
 
-            var list = new ObservableDictionary<int, int>
-            {
-                [1] = 1,
-                [7] = 7,
-                [19] = 19,
-                [23] = 23,
-                [4] = 4,
-            };
-
-            list.Remove(7);
-            Assert.False(list.ContainsKey(7));
-            list.Undo();
-            Assert.True(list.ContainsKey(7));
+            dict.Remove(7);
+            Assert.False(dict.ContainsKey(7), "Element found: 7");
+            dict.Undo();
+            Assert.True(dict.ContainsKey(7), "Element not found: 7");
 
             // ACT
-            list.Redo();
+            dict.Redo();
 
             // ASSERT
-            Assert.False(list.ContainsKey(7));
+            Assert.False(dict.ContainsKey(7));
         }
 
         /// <summary>
         /// Observables the dictionary undo multiple operations.
         /// </summary>
-        [Fact(DisplayName = "ObservableDictionary, Undo with multiple operations")]
-        public void ObservableDictionaryUndoMultipleOperations()
+        /// <param name="dict">The dictionary.</param>
+        [Theory(DisplayName = "ObservableDictionary, Undo with multiple operations")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableDictionaryUndoMultipleOperations(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
 
-            var list = new ObservableDictionary<int, int>
-            {
-                [1] = 1,
-                [7] = 7,
-                [19] = 19,
-                [23] = 23,
-                [4] = 4,
-            };
-
-            list.Add(18, 18);
-            list.Remove(7);
-            list.Add(5, 5);
-            list.Clear();
-            list.Add(7, 7);
+            dict.Add(18, 18);
+            dict.Remove(7);
+            dict.Add(5, 5);
+            dict.Clear();
+            dict.Add(7, 7);
 
             // Act & Assert groups
-            Assert.True(list.Count == 1);
-            Assert.True(list[7] == 7);
+            Assert.Single(dict);
+            Assert.Equal(7, dict[7]);
 
             // Level one
-            list.Undo();
-            Assert.True(list.Count == 0);
+            dict.Undo();
+            Assert.Empty(dict);
 
             // Level two
-            list.Undo();
-            Assert.True(list.Count == 6);
-            Assert.True(list[5] == 5);
+            dict.Undo();
+            Assert.Equal(6, dict.Count);
+            Assert.Equal(5, dict[5]);
 
             // Level three
-            list.Undo();
-            Assert.True(list.Count == 5);
-            Assert.True(list[4] == 4);
+            dict.Undo();
+            Assert.Equal(5, dict.Count);
+            Assert.Equal(4, dict[4]);
 
             // Level four
-            list.Undo();
-            Assert.True(list.Count == 6);
-            Assert.True(list[7] == 7);
+            dict.Undo();
+            Assert.Equal(6, dict.Count);
+            Assert.Equal(7, dict[7]);
 
             // Level two
-            list.Undo();
-            Assert.True(list.Count == 5);
-            Assert.False(list.ContainsKey(18));
+            dict.Undo();
+            Assert.Equal(5, dict.Count);
+            Assert.False(dict.ContainsKey(18));
 
             // Redo
-            list.Redo();
-            list.Redo();
-            list.Redo();
-            list.Redo();
-            Assert.True(list.Count == 0);
+            dict.Redo();
+            dict.Redo();
+            dict.Redo();
+            dict.Redo();
+            Assert.True(dict.Count == 0);
         }
 
         /// <summary>
         /// Observables the dictionary multiple undo operations.
         /// </summary>
-        [Fact(DisplayName = "ObservableDictionary, Undo with undo operations past the limit")]
-        public void ObservableDictionaryMultipleUndoOperations()
+        /// <param name="dict">The dictionary.</param>
+        [Theory(DisplayName = "ObservableDictionary, Undo with undo operations past the limit")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableDictionaryMultipleUndoOperations(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
 
-            var list = new ObservableDictionary<int, int>
-            {
-                [1] = 1,
-                [7] = 7,
-                [19] = 19,
-                [23] = 23,
-                [4] = 4,
-            };
+            dict.HistoryLevels = 3;
 
-            list.HistoryLevels = 3;
-
-            list.Add(15, 15);
-            list.Add(89, 89);
-            list.Add(3, 3);
-            list.Add(2, 2);
-            list.Add(57, 57);
+            dict.Add(15, 15);
+            dict.Add(89, 89);
+            dict.Add(3, 3);
+            dict.Add(2, 2);
+            dict.Add(57, 57);
 
             // ACT
-            list.Undo();
-            list.Undo();
-            list.Undo();
-            list.Undo();
-            list.Undo();
-            list.Undo();
+            dict.Undo();
+            dict.Undo();
+            dict.Undo();
+            dict.Undo();
+            dict.Undo();
+            dict.Undo();
 
             // ASSERT
-            Assert.True(list.ContainsKey(89));
-            Assert.False(list.ContainsKey(57));
-            Assert.False(list.ContainsKey(2));
-            Assert.False(list.ContainsKey(3));
+            Assert.True(dict.ContainsKey(89), "Element not found: 89");
+            Assert.False(dict.ContainsKey(57), "Element found: 57");
+            Assert.False(dict.ContainsKey(2), "Element found: 2");
+            Assert.False(dict.ContainsKey(3), "Element found: 3");
         }
 
         /// <summary>
         /// Observables the dictionary multiple redo cutoff.
         /// </summary>
-        [Fact(DisplayName = "ObservableDictionary, Redo cut-off")]
-        public void ObservableDictionaryMultipleRedoCutoff()
+        /// <param name="dict">The dictionary.</param>
+        [Theory(DisplayName = "ObservableDictionary, Redo cut-off")]
+        [MemberData(nameof(GenerateData))]
+        public void ObservableDictionaryMultipleRedoCutoff(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
             StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
 
-            var list = new ObservableDictionary<int, int>
-            {
-                [1] = 1,
-                [7] = 7,
-                [19] = 19,
-                [23] = 23,
-                [4] = 4,
-            };
-
-            list.Add(15, 15);
-            list.Add(89, 89);
-            list.Add(3, 3);
-            list.Add(2, 2);
-            list.Add(57, 57);
+            dict.Add(15, 15);
+            dict.Add(89, 89);
+            dict.Add(3, 3);
+            dict.Add(2, 2);
+            dict.Add(57, 57);
 
             // ACT
-            list.Undo();
-            list.Undo();
-            list.Undo();
-            list.Redo();
+            dict.Undo();
+            dict.Undo();
+            dict.Undo();
+            dict.Redo();
 
-            list.Add(74, 74);
+            dict.Add(74, 74);
 
-            list.Redo();
-            list.Redo();
-            list.Redo();
+            dict.Redo();
+            dict.Redo();
+            dict.Redo();
 
             // ASSERT
-            Assert.True(list.ContainsKey(3));
-            Assert.False(list.ContainsKey(57));
-            Assert.False(list.ContainsKey(2));
-            Assert.True(list.ContainsKey(74));
+            Assert.True(dict.ContainsKey(3), "Element not found: 3");
+            Assert.False(dict.ContainsKey(57), "Element found: 57");
+            Assert.False(dict.ContainsKey(2), "Element found: 2");
+            Assert.True(dict.ContainsKey(74), "Element not found: 74");
         }
     }
 }

@@ -23,7 +23,7 @@ public class RetryTests
     /// <param name="output">The output.</param>
     public RetryTests(ITestOutputHelper output)
     {
-        this.output = output;
+        this.output = output ?? throw new ArgumentNullException(nameof(output));
     }
 
     /// <summary>
