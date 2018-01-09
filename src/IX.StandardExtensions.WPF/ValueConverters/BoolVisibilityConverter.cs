@@ -1,4 +1,4 @@
-﻿// <copyright file="BoolVisibilityConverter.cs" company="Adrian Mos">
+// <copyright file="BoolVisibilityConverter.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -51,7 +51,7 @@ namespace IX.StandardExtensions.WPF.ValueConverters
                 filter = BoolVisibilityFilter.Collapsed;
             }
 
-            return (filter == BoolVisibilityFilter.Hidden) ? Visibility.Hidden : Visibility.Collapsed;
+            return result ? Visibility.Visible : ((filter == BoolVisibilityFilter.Hidden) ? Visibility.Hidden : Visibility.Collapsed);
         }
 
         /// <summary>
