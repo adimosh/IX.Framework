@@ -182,18 +182,6 @@ namespace IX.Observable
                 // Current object not disposed
                 this.ThrowIfCurrentObjectDisposed();
 
-#if false
-                // Automatic capture into undo/redo context is on, object must not already be captured by another undo/redo context
-                if (this.ItemsAreUndoable &&
-                    this.AutomaticallyCaptureSubItems &&
-                    value is IUndoableItem undoContextCheckItem &&
-                    undoContextCheckItem.IsCapturedIntoUndoContext &&
-                    undoContextCheckItem.ParentUndoContext != this)
-                {
-                    throw new ItemAlreadyCapturedIntoUndoContextException();
-                }
-#endif
-
                 // ACTION
                 Dictionary<TKey, TValue> dictionary = ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).dictionary;
 
@@ -202,16 +190,6 @@ namespace IX.Observable
                 {
                     if (dictionary.TryGetValue(key, out TValue val))
                     {
-#if false
-                        // Release old item from undo context
-                        if (this.ItemsAreUndoable &&
-                            this.AutomaticallyCaptureSubItems &&
-                            val is IUndoableItem ul)
-                        {
-                            ul.ReleaseFromUndoContext();
-                        }
-#endif
-
                         // Set the new item
                         dictionary[key] = value;
 
@@ -226,16 +204,6 @@ namespace IX.Observable
                         // Push an add undo level
                         this.PushUndoLevel(new DictionaryAddUndoLevel<TKey, TValue> { Key = key, Value = value });
                     }
-
-#if false
-                    // Capture new item into context
-                    if (this.ItemsAreUndoable &&
-                        this.AutomaticallyCaptureSubItems &&
-                        value is IUndoableItem nl)
-                    {
-                        nl.CaptureIntoUndoContext(this);
-                    }
-#endif
                 }
 
                 // NOTIFICATION
@@ -248,7 +216,29 @@ namespace IX.Observable
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
-        public void Add(TKey key, TValue value) => this.Add(new KeyValuePair<TKey, TValue>(key, value));
+        public void Add(TKey key, TValue value)
+        {
+            // PRECONDITIONS
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            int newIndex;
+
+            // Under write lock
+            using (this.WriteLock())
+            {
+                // Add the item
+                newIndex = ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).Add(key, value);
+
+                // Push the undo level
+                this.PushUndoLevel(new AddUndoLevel<KeyValuePair<TKey, TValue>> { AddedItem = new KeyValuePair<TKey, TValue>(key, value), Index = newIndex });
+            }
+
+            // NOTIFICATIONS
+            this.BroadcastChange();
+        }
 
         /// <summary>
         /// Determines whether the dictionary contains a specific key.
