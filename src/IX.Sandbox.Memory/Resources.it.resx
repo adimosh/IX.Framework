@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,4 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="SubScopeDifferentThanStored" xml:space="preserve">
+    <value>Il sub-ambito di applicazione è diverso da quello che è già stato memorizzato in questo ambito.</value>
+  </data>
+  <data name="SubScopeNotFound" xml:space="preserve">
+    <value>Ambito non trovato.</value>
+  </data>
+  <data name="VariableDifferentThanStored" xml:space="preserve">
+    <value>La variabile è diversa da quello che è già stato memorizzato in questo ambito.</value>
+  </data>
+  <data name="VariableNotFound" xml:space="preserve">
+    <value>La variabile non è stata trovata.</value>
+  </data>
 </root>

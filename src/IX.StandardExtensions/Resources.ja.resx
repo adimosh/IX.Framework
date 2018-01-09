@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,4 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrorLengthGoesPastArrayLimits" xml:space="preserve">
+    <value>長さが配列の境界の外側の操作の結果ではなく小さくする必要があります!。</value>
+  </data>
+  <data name="ErrorLengthMustBeAPositiveInteger" xml:space="preserve">
+    <value>長さが正の整数にする必要があります!。</value>
+  </data>
+  <data name="ErrorNotImplementedByDesign" xml:space="preserve">
+    <value>このメンバーはデザインによって実装されていません!。</value>
+  </data>
+  <data name="ErrorSourceIndexMustPointToALocationWithinTheArray" xml:space="preserve">
+    <value>これはボタンバーツールバーです。ここからゲームに関連するコマンドに簡単にアクセスできます。</value>
+  </data>
+  <data name="ErrorWrongArgumentType" xml:space="preserve">
+    <value>指定されたボックスまたはポリモーフィックな引数が間違った型のです!。</value>
+  </data>
 </root>

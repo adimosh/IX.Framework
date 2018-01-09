@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,4 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrorLengthGoesPastArrayLimits" xml:space="preserve">
+    <value>La lunghezza dovrebbe essere abbastanza piccola da non risultato in un'operazione di fuori dei limiti della matrice.</value>
+  </data>
+  <data name="ErrorLengthMustBeAPositiveInteger" xml:space="preserve">
+    <value>La lunghezza deve essere un numero intero positivo.</value>
+  </data>
+  <data name="ErrorNotImplementedByDesign" xml:space="preserve">
+    <value>Questo membro non è implementato da design.</value>
+  </data>
+  <data name="ErrorSourceIndexMustPointToALocationWithinTheArray" xml:space="preserve">
+    <value>L'indice di origine deve puntare a una posizione all'interno della matrice.</value>
+  </data>
+  <data name="ErrorWrongArgumentType" xml:space="preserve">
+    <value>La dotazione in scatola o argomento polimorfico è di un tipo sbagliato.</value>
+  </data>
 </root>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,4 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FunctionCallNotValid" xml:space="preserve">
+    <value>自分の番号は、必要なオペランド数を一致しないため、または彼らが種類が一致しませんので、指定したオペランドに要求された関数を呼び出すことはできません!。</value>
+  </data>
+  <data name="NotValidInternally" xml:space="preserve">
+    <value>式は論理的に音ではない、内部で有効なまたは不正確なデータでその呼び出しが行われました!。</value>
+  </data>
+  <data name="ParameterMustBeFloatButAlreadyRequiredToBeInteger" xml:space="preserve">
+    <value>パラメーター {0} は式は意味がありません、しかし、それは義務の整数として定義されて傷の float 値をする必要があります!。</value>
+  </data>
+  <data name="ParameterMustBeIntegerButAlreadyRequiredToBeFloat" xml:space="preserve">
+    <value>式は意味がありません、しかし、それは義務の float 型として定義されて傷パラメーター {0} は整数値をする必要があります!。</value>
+  </data>
+  <data name="FunctionCouldNotBeFound" xml:space="preserve">
+    <value>申し訳ありませんが、ページが見つかりません"{0}"。</value>
+  </data>
 </root>
