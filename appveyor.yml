@@ -123,6 +123,8 @@ artifacts:
   name: IX.Retry
 - path: src\IX.Math\bin\Release\IX.Math.%APPVEYOR_BUILD_VERSION%.nupkg
   name: IX.Math
+- path: src\IX.StandardExtensions.WPF\bin\Release\IX.StandardExtensions.WPF.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.StandardExtensions.WPF
 deploy:
 - provider: NuGet
   server: https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package
