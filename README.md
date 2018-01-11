@@ -4,7 +4,7 @@
 
 The IX Framework is a collections of assemblies delivered as .NET Standard NuGet packages.
 
-Their aim is to provide extensions, abstractization and functionality, in order to make working with various components of the .NET Framework in
+Their aim is to provide extensions, abstractions and functionality, in order to make working with various components of the .NET Framework in
 a better way across devices, across platforms and across versions.
 
 All libraries are compatible with .NET Framework 4.5 or above, as well as with the .NET Standard 2.0, and all libraries have at least one other .NET
@@ -22,8 +22,11 @@ Until further notice, all versions of this repository will be distributed under 
 | IX.Abstractions | A set of libraries for abstracting away things that are not abstracted by default (e.g. file storage) | - |
 | IX.Math | A library that interprets mathematical expressions into executable .NET code | [Project page](IX.Math.md) |
 | IX.Retry | A library that allows error recovery by retrying a method call according to set rules | [Project page](IX.Retry.md) |
+| IX.Undoable | A library providing a framework for general undo and redo operations | [Project page](IX.Undoable.md) |
 
 ## Contributing
+
+### Guidelines
 
 Contributing can be done by anyone, at any time and in any form, as long as the contributor
 has read the [contributing guidelines](https://adimosh.github.io/contributingguidelines)
@@ -48,7 +51,14 @@ Targeted languages:
 - Swedish - contributions welcome
 - Russian - contributions welcome
 
-## Developer guidelines
+### Code health checks
+
+| Build | Status |
+|:-----:|:------:|
+| Latest build | [![Build status](https://ci.appveyor.com/api/projects/status/vbemqye31fo3rj43?svg=true)](https://ci.appveyor.com/project/adimosh/ix-framework) |
+| Master branch | [![Build status](https://ci.appveyor.com/api/projects/status/vbemqye31fo3rj43/branch/master?svg=true)](https://ci.appveyor.com/project/adimosh/ix-framework/branch/master) |
+
+### Developer guidelines
 
 All projects in this repository build in Visual Studio 2017 at least 15.4 and use some of the language enhancements that it brought. The project
 structure also follows the .NET Core CSPROJ standard.
@@ -67,7 +77,7 @@ Should any special build, platform or standard be specifically required in the f
 in which things did not work out with the current targets. Such input is always welcome, since the author cannot commit to developing on all
 available platforms and operating systems at the same time.
 
-## Acknowledgements
+## Acknowledgments
 
 This project uses the following libraries:
 

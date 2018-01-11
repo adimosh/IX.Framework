@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.StandardExtensions", "IX.StandardExtensions\IX.StandardExtensions.csproj", "{A3D15D3A-BD82-4D19-BC32-56148D879FF4}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -92,6 +92,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub Documentation", "Git
 		..\IX.Math.md = ..\IX.Math.md
 		..\IX.Retry.md = ..\IX.Retry.md
 		..\IX.StandardExtensions.md = ..\IX.StandardExtensions.md
+		IX.Undoable.md = IX.Undoable.md
 		..\LICENSE.md = ..\LICENSE.md
 		..\README.md = ..\README.md
 	EndProjectSection
