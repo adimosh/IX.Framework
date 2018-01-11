@@ -23,6 +23,7 @@ Until further notice, all versions of this repository will be distributed under 
 | IX.Math | A library that interprets mathematical expressions into executable .NET code | [Project page](IX.Math.md) |
 | IX.Retry | A library that allows error recovery by retrying a method call according to set rules | [Project page](IX.Retry.md) |
 | IX.Undoable | A library providing a framework for general undo and redo operations | [Project page](IX.Undoable.md) |
+| IX.Observable | A library providing various collection types in a manner that is observable and that can be databound to various controls or simply to provide a way to observe changes. | [Project page](IX.Observable.md) |
 
 ## Contributing
 
