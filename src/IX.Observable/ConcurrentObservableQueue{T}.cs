@@ -87,7 +87,7 @@ namespace IX.Observable
         /// </summary>
         protected override void DisposeManagedContext()
         {
-            this.locker.Dispose();
+            this.locker?.Dispose();
 
             base.DisposeManagedContext();
         }
