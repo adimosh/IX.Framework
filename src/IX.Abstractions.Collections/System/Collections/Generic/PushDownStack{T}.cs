@@ -1,10 +1,11 @@
-﻿// <copyright file="PushDownStack{T}.cs" company="Adrian Mos">
+// <copyright file="PushDownStack{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using IX.Abstractions.Collections;
 using IX.StandardExtensions.Threading;
 using IX.System.Threading;
@@ -16,6 +17,7 @@ namespace IX.System.Collections.Generic
     /// </summary>
     /// <typeparam name="T">The stack item type.</typeparam>
     /// <seealso cref="IStack{T}" />
+    [CollectionDataContract(Namespace = Constants.DataContractNamespace, Name = "PushDownStackOf{0}", ItemName = "Item")]
     public class PushDownStack<T> : IStack<T>
     {
         /// <summary>
@@ -60,6 +62,7 @@ namespace IX.System.Collections.Generic
         /// <summary>
         /// Gets or sets the number of items in the push-down stack.
         /// </summary>
+        [DataMember]
         public int Limit
         {
             get => this.limit;
