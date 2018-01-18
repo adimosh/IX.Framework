@@ -282,15 +282,6 @@ namespace IX.Observable
                 // Do the actual removal
                 result = container.Remove(key);
 
-#if false
-                // Release from undo context
-                if (this.ItemsAreUndoable &&
-                    this.AutomaticallyCaptureSubItems &&
-                    value is IUndoableItem ul)
-                {
-                    ul.ReleaseFromUndoContext();
-                }
-#endif
 
                 // Push undo level
                 if (result)

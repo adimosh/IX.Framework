@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\UnitTestStandard.props" />
 
@@ -11,7 +11,8 @@
   <Import Project="..\CliToolsReference.UnitTests.targets" />
 
   <ItemGroup>
-    <ProjectReference Include="..\IX.Retry\IX.Retry.csproj" />
+    <ProjectReference Include="..\IX.Abstractions.Collections\IX.Abstractions.Collections.csproj" />
+    <ProjectReference Include="..\IX.StandardExtensions.TestUtils\IX.StandardExtensions.TestUtils.csproj" />
   </ItemGroup>
 
   <ItemGroup>

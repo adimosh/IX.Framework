@@ -1,4 +1,4 @@
-﻿// <copyright file="SerializationTests.cs" company="Adrian Mos">
+// <copyright file="SerializationTests.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -146,7 +146,7 @@ namespace IX.Observable.UnitTests
             // Serialization content is OK
             Assert.False(string.IsNullOrWhiteSpace(content));
             Assert.Equal(
-                $@"<ObservableDDCList xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:a=""http://schemas.datacontract.org/2004/07/IX.Observable.UnitTests""><Item><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Item></ObservableDDCList>",
+                $@"<ConcurrentObservableDDCList xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:a=""http://schemas.datacontract.org/2004/07/IX.Observable.UnitTests""><Item><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Item></ConcurrentObservableDDCList>",
                 content);
 
             // Deserialized object is OK
@@ -288,7 +288,7 @@ namespace IX.Observable.UnitTests
             // Serialization content is OK
             Assert.False(string.IsNullOrWhiteSpace(content));
             Assert.Equal(
-                $@"<ObservableDDCDictionaryByint xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><Entry><Key>{ddc1.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.Observable.UnitTests""><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc2.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.Observable.UnitTests""><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc3.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.Observable.UnitTests""><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc4.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.Observable.UnitTests""><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Value></Entry></ObservableDDCDictionaryByint>",
+                $@"<ConcurrentObservableDDCDictionaryByint xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><Entry><Key>{ddc1.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.Observable.UnitTests""><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc2.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.Observable.UnitTests""><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc3.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.Observable.UnitTests""><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc4.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.Observable.UnitTests""><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Value></Entry></ConcurrentObservableDDCDictionaryByint>",
                 content);
 
             // Deserialized object is OK
@@ -430,7 +430,7 @@ namespace IX.Observable.UnitTests
             // Serialization content is OK
             Assert.False(string.IsNullOrWhiteSpace(content));
             Assert.Equal(
-                $@"<ObservableDDCQueue xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:a=""http://schemas.datacontract.org/2004/07/IX.Observable.UnitTests""><Item><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Item></ObservableDDCQueue>",
+                $@"<ConcurrentObservableDDCQueue xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:a=""http://schemas.datacontract.org/2004/07/IX.Observable.UnitTests""><Item><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Item></ConcurrentObservableDDCQueue>",
                 content);
 
             // Deserialized object is OK

@@ -1,4 +1,4 @@
-﻿// <copyright file="ConcurrentObservableDictionary{TKey,TValue}.cs" company="Adrian Mos">
+// <copyright file="ConcurrentObservableDictionary{TKey,TValue}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -18,7 +18,7 @@ namespace IX.Observable
     /// <typeparam name="TValue">The data value type.</typeparam>
     [DebuggerDisplay("ConcurrentObservableDictionary, Count = {Count}")]
     [DebuggerTypeProxy(typeof(DictionaryDebugView<,>))]
-    [CollectionDataContract(Namespace = Constants.DataContractNamespace, Name = "Observable{1}DictionaryBy{0}", ItemName = "Entry", KeyName = "Key", ValueName = "Value")]
+    [CollectionDataContract(Namespace = Constants.DataContractNamespace, Name = "ConcurrentObservable{1}DictionaryBy{0}", ItemName = "Entry", KeyName = "Key", ValueName = "Value")]
     public class ConcurrentObservableDictionary<TKey, TValue> : ObservableDictionary<TKey, TValue>
     {
         private ReaderWriterLockSlim locker;
@@ -29,7 +29,6 @@ namespace IX.Observable
         public ConcurrentObservableDictionary()
             : base()
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -39,7 +38,6 @@ namespace IX.Observable
         public ConcurrentObservableDictionary(int capacity)
             : base(capacity)
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -49,7 +47,6 @@ namespace IX.Observable
         public ConcurrentObservableDictionary(IEqualityComparer<TKey> equalityComparer)
             : base(equalityComparer)
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -60,7 +57,6 @@ namespace IX.Observable
         public ConcurrentObservableDictionary(int capacity, IEqualityComparer<TKey> equalityComparer)
             : base(capacity, equalityComparer)
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -70,7 +66,6 @@ namespace IX.Observable
         public ConcurrentObservableDictionary(IDictionary<TKey, TValue> dictionary)
             : base(dictionary)
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -81,7 +76,6 @@ namespace IX.Observable
         public ConcurrentObservableDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer)
             : base(dictionary, comparer)
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -91,7 +85,6 @@ namespace IX.Observable
         public ConcurrentObservableDictionary(GlobalThreading.SynchronizationContext context)
             : base(context)
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -102,7 +95,6 @@ namespace IX.Observable
         public ConcurrentObservableDictionary(GlobalThreading.SynchronizationContext context, int capacity)
             : base(context, capacity)
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -113,7 +105,6 @@ namespace IX.Observable
         public ConcurrentObservableDictionary(GlobalThreading.SynchronizationContext context, IEqualityComparer<TKey> equalityComparer)
             : base(context, equalityComparer)
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -125,7 +116,6 @@ namespace IX.Observable
         public ConcurrentObservableDictionary(GlobalThreading.SynchronizationContext context, int capacity, IEqualityComparer<TKey> equalityComparer)
             : base(context, capacity, equalityComparer)
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -136,7 +126,6 @@ namespace IX.Observable
         public ConcurrentObservableDictionary(GlobalThreading.SynchronizationContext context, IDictionary<TKey, TValue> dictionary)
             : base(context, dictionary)
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -148,13 +137,12 @@ namespace IX.Observable
         public ConcurrentObservableDictionary(GlobalThreading.SynchronizationContext context, IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer)
             : base(context, dictionary, comparer)
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
         /// Gets a synchronization lock item to be used when trying to synchronize read/write operations between threads.
         /// </summary>
-        protected override IReaderWriterLock SynchronizationLock => this.locker;
+        protected override IReaderWriterLock SynchronizationLock => this.locker ?? new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
 
         /// <summary>
         /// Disposes the managed context.

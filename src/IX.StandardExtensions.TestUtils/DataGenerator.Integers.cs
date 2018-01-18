@@ -1,4 +1,4 @@
-﻿// <copyright file="DataGenerator.Integers.cs" company="Adrian Mos">
+// <copyright file="DataGenerator.Integers.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -41,6 +41,17 @@ namespace IX.StandardExtensions.TestUtils
         /// <param name="maxValue">The maximum value, exclusive.</param>
         /// <returns>An random integer.</returns>
         public static int RandomInteger(int minValue, int maxValue) => r.Next(minValue, maxValue);
+
+        /// <summary>
+        /// Returns a random non-negative integer.
+        /// </summary>
+        /// <returns>An random integer.</returns>
+        public static int RandomNonNegativeInteger()
+        {
+            var generated = r.Next();
+
+            return generated < 0 ? (-generated) : generated;
+        }
 
         /// <summary>
         /// Returns a random non-negative integer less than the specified maximum value.

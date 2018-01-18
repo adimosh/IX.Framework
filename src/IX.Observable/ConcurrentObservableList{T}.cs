@@ -1,4 +1,4 @@
-﻿// <copyright file="ConcurrentObservableList{T}.cs" company="Adrian Mos">
+// <copyright file="ConcurrentObservableList{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -18,7 +18,7 @@ namespace IX.Observable
     /// <seealso cref="IX.Observable.ObservableList{T}" />
     [DebuggerDisplay("ObservableList, Count = {Count}")]
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [CollectionDataContract(Namespace = Constants.DataContractNamespace, Name = "Observable{0}List", ItemName = "Item")]
+    [CollectionDataContract(Namespace = Constants.DataContractNamespace, Name = "ConcurrentObservable{0}List", ItemName = "Item")]
     public class ConcurrentObservableList<T> : ObservableList<T>
     {
         private ReaderWriterLockSlim locker;
@@ -28,7 +28,6 @@ namespace IX.Observable
         /// </summary>
         public ConcurrentObservableList()
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -38,7 +37,6 @@ namespace IX.Observable
         public ConcurrentObservableList(IEnumerable<T> source)
             : base(source)
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -48,7 +46,6 @@ namespace IX.Observable
         public ConcurrentObservableList(GlobalThreading.SynchronizationContext context)
             : base(context)
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -59,13 +56,12 @@ namespace IX.Observable
         public ConcurrentObservableList(IEnumerable<T> source, GlobalThreading.SynchronizationContext context)
             : base(source, context)
         {
-            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
         /// Gets a synchronization lock item to be used when trying to synchronize read/write operations between threads.
         /// </summary>
-        protected override IReaderWriterLock SynchronizationLock => this.locker;
+        protected override IReaderWriterLock SynchronizationLock => this.locker ?? new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
 
         /// <summary>
         /// Disposes the managed context.
