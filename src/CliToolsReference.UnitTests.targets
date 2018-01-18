@@ -1,0 +1,7 @@
+<Project>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
+
+</Project>
