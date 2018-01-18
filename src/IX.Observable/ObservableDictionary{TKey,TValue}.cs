@@ -282,7 +282,6 @@ namespace IX.Observable
                 // Do the actual removal
                 result = container.Remove(key);
 
-
                 // Push undo level
                 if (result)
                 {

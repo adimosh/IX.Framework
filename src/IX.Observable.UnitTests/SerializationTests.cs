@@ -84,6 +84,9 @@ namespace IX.Observable.UnitTests
             Assert.NotNull(l2);
             Assert.Equal(l1.Count, l2.Count);
             Assert.True(l1.SequenceEquals(l2));
+
+            l1.Dispose();
+            l2.Dispose();
         }
 
         /// <summary>
@@ -153,6 +156,9 @@ namespace IX.Observable.UnitTests
             Assert.NotNull(l2);
             Assert.Equal(l1.Count, l2.Count);
             Assert.True(l1.SequenceEquals(l2));
+
+            l1.Dispose();
+            l2.Dispose();
         }
 
         /// <summary>
@@ -226,6 +232,9 @@ namespace IX.Observable.UnitTests
             {
                 Assert.True(l1[key].Equals(l2[key]));
             }
+
+            l1.Dispose();
+            l2.Dispose();
         }
 
         /// <summary>
@@ -299,6 +308,9 @@ namespace IX.Observable.UnitTests
             {
                 Assert.True(l1[key].Equals(l2[key]));
             }
+
+            l1.Dispose();
+            l2.Dispose();
         }
 
         /// <summary>
@@ -368,6 +380,9 @@ namespace IX.Observable.UnitTests
             Assert.NotNull(l2);
             Assert.Equal(l1.Count, l2.Count);
             Assert.True(l1.SequenceEquals(l2));
+
+            l1.Dispose();
+            l2.Dispose();
         }
 
         /// <summary>
@@ -437,6 +452,9 @@ namespace IX.Observable.UnitTests
             Assert.NotNull(l2);
             Assert.Equal(l1.Count, l2.Count);
             Assert.True(l1.SequenceEquals(l2));
+
+            l1.Dispose();
+            l2.Dispose();
         }
 
         /// <summary>

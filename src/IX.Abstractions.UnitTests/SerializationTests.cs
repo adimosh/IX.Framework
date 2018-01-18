@@ -29,19 +29,19 @@ namespace IX.Abstractions.UnitTests
             var item3 = StandardExtensions.TestUtils.DataGenerator.RandomNonNegativeInteger();
             var item4 = StandardExtensions.TestUtils.DataGenerator.RandomNonNegativeInteger();
             var item5 = StandardExtensions.TestUtils.DataGenerator.RandomNonNegativeInteger();
-            var pushDownStack = new PushDownStack<int>(4);
+            var l1 = new PushDownStack<int>(4);
 
-            pushDownStack.Push(item1);
-            pushDownStack.Push(item2);
-            pushDownStack.Push(item3);
-            pushDownStack.Push(item4);
-            pushDownStack.Push(item5);
+            l1.Push(item1);
+            l1.Push(item2);
+            l1.Push(item3);
+            l1.Push(item4);
+            l1.Push(item5);
 
             // The serializer
             var dcs = new DataContractSerializer(typeof(PushDownStack<int>));
 
             // The deserialization variable
-            PushDownStack<int> deserializedPushDownStack;
+            PushDownStack<int> l2;
 
             // The serialization content
             string content;
@@ -50,7 +50,7 @@ namespace IX.Abstractions.UnitTests
             // ===
             using (var ms = new MemoryStream())
             {
-                dcs.WriteObject(ms, pushDownStack);
+                dcs.WriteObject(ms, l1);
 
                 ms.Seek(0, SeekOrigin.Begin);
 
@@ -61,7 +61,7 @@ namespace IX.Abstractions.UnitTests
 
                 ms.Seek(0, SeekOrigin.Begin);
 
-                deserializedPushDownStack = dcs.ReadObject(ms) as PushDownStack<int>;
+                l2 = dcs.ReadObject(ms) as PushDownStack<int>;
             }
 
             // ASSERT
@@ -74,10 +74,13 @@ namespace IX.Abstractions.UnitTests
                 content);
 
             // Deserialized object is OK
-            Assert.NotNull(deserializedPushDownStack);
-            Assert.Equal(pushDownStack.Count, deserializedPushDownStack.Count);
-            Assert.Equal(pushDownStack.Limit, deserializedPushDownStack.Limit);
-            Assert.True(pushDownStack.SequenceEquals(deserializedPushDownStack));
+            Assert.NotNull(l2);
+            Assert.Equal(l1.Count, l2.Count);
+            Assert.Equal(l1.Limit, l2.Limit);
+            Assert.True(l1.SequenceEquals(l2));
+
+            l1.Dispose();
+            l2.Dispose();
         }
     }
 }

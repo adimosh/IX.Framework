@@ -1,4 +1,4 @@
-﻿// <copyright file="DisposableBase.cs" company="Adrian Mos">
+// <copyright file="DisposableBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -53,6 +53,20 @@ namespace IX.StandardExtensions.ComponentModel
             this.ThrowIfCurrentObjectDisposed();
 
             (action ?? throw new ArgumentNullException()).Invoke();
+        }
+
+        /// <summary>
+        /// Invokes an action if the current instance is not disposed.
+        /// </summary>
+        /// <typeparam name="TReturn">The return type.</typeparam>
+        /// <param name="action">The action.</param>
+        /// <returns>The object returned by the action.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        protected TReturn InvokeIfNotDisposed<TReturn>(Func<TReturn> action)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            return (action ?? throw new ArgumentNullException()).Invoke();
         }
 
         /// <summary>
