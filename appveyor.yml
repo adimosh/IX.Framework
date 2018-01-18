@@ -84,6 +84,10 @@ before_build:
     dotnet csprojVersioning IX.StandardExtensions.WPF.csproj %APPVEYOR_BUILD_VERSION%
 
     cd ..\..\
+
+    dotnet clean src\IX.Framework.sln -c Release
+
+    dotnet clean src\IX.Framework.sln -c Debug
 build:
   project: src\IX.Framework.sln
   parallel: true
