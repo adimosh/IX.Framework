@@ -70,7 +70,7 @@ namespace IX.Abstractions.UnitTests
             // Serialization content is OK
             Assert.False(string.IsNullOrWhiteSpace(content));
             Assert.Equal(
-                $@"",
+                $@"<PushDownStackOfint xmlns=""{Collections.Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><Items xmlns:a=""http://schemas.microsoft.com/2003/10/Serialization/Arrays""><a:int>{item2}</a:int><a:int>{item3}</a:int><a:int>{item4}</a:int><a:int>{item5}</a:int></Items><Limit>4</Limit></PushDownStackOfint>",
                 content);
 
             // Deserialized object is OK

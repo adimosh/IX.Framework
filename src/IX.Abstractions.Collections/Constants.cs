@@ -15,5 +15,10 @@ namespace IX.Abstractions.Collections
         /// The concurrent lock acquisition timeout.
         /// </summary>
         internal const int ConcurrentLockAcquisitionTimeout = 100;
+
+        /// <summary>
+        /// The default limit for push-down collections.
+        /// </summary>
+        internal const int DefaultPushDownLimit = 5;
     }
 }

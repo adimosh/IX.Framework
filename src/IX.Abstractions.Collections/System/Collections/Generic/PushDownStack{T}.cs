@@ -17,8 +17,8 @@ namespace IX.System.Collections.Generic
     /// </summary>
     /// <typeparam name="T">The stack item type.</typeparam>
     /// <seealso cref="IStack{T}" />
-    [CollectionDataContract(Namespace = Constants.DataContractNamespace, Name = "PushDownStackOf{0}", ItemName = "Item")]
-    public class PushDownStack<T> : IStack<T>
+    [DataContract(Namespace = Constants.DataContractNamespace, Name = "PushDownStackOf{0}")]
+    public class PushDownStack<T> : IStack<T>, ICustomSerializableCollection<T>
     {
         /// <summary>
         /// The limit.
@@ -38,6 +38,14 @@ namespace IX.System.Collections.Generic
         /// <summary>
         /// Initializes a new instance of the <see cref="PushDownStack{T}"/> class.
         /// </summary>
+        public PushDownStack()
+            : this(Constants.DefaultPushDownLimit)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PushDownStack{T}"/> class.
+        /// </summary>
         /// <param name="limit">The limit.</param>
         /// <exception cref="IX.Abstractions.Collections.LimitArgumentNegativeException">limit</exception>
         public PushDownStack(int limit)
@@ -50,7 +58,6 @@ namespace IX.System.Collections.Generic
             this.limit = limit;
 
             this.internalContainer = new List<T>();
-            this.locker = new ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy.NoRecursion);
         }
 
         /// <summary>
@@ -98,6 +105,17 @@ namespace IX.System.Collections.Generic
         public object SyncRoot => ((ICollection)this.internalContainer).SyncRoot;
 
         /// <summary>
+        /// Gets or sets the internal container.
+        /// </summary>
+        /// <value>The internal container.</value>
+        [DataMember(Name="Items")]
+        List<T> ICustomSerializableCollection<T>.InternalContainer
+        {
+            get => this.internalContainer;
+            set => this.internalContainer = value;
+        }
+
+        /// <summary>
         /// Clears the observable stack.
         /// </summary>
         public void Clear() => this.WriteLock(() => this.internalContainer.Clear());
@@ -120,7 +138,7 @@ namespace IX.System.Collections.Generic
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
-        public IEnumerator<T> GetEnumerator() => new AtomicEnumerator<T>(this.internalContainer.GetEnumerator(), () => new ReadOnlySynchronizationLocker(this.locker));
+        public IEnumerator<T> GetEnumerator() => new AtomicEnumerator<T>(this.internalContainer.GetEnumerator(), () => new ReadOnlySynchronizationLocker(this.locker ?? (this.locker = new ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy.NoRecursion))));
 
         /// <summary>
         /// Peeks in the stack to view the topmost item, without removing it.
@@ -188,7 +206,7 @@ namespace IX.System.Collections.Generic
         /// <exception cref="TimeoutException">The lock could not be obtained in the timeout period.</exception>
         private void ReadLock(Action lockedAction)
         {
-            if (!this.locker.TryEnterReadLock(Constants.ConcurrentLockAcquisitionTimeout))
+            if (!(this.locker ?? (this.locker = new ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy.NoRecursion))).TryEnterReadLock(Constants.ConcurrentLockAcquisitionTimeout))
             {
                 throw new TimeoutException();
             }
@@ -212,7 +230,7 @@ namespace IX.System.Collections.Generic
         /// <exception cref="TimeoutException">The lock could not be obtained in the timeout period.</exception>
         private TResult ReadLock<TResult>(Func<TResult> lockedAction)
         {
-            if (!this.locker.TryEnterReadLock(Constants.ConcurrentLockAcquisitionTimeout))
+            if (!(this.locker ?? (this.locker = new ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy.NoRecursion))).TryEnterReadLock(Constants.ConcurrentLockAcquisitionTimeout))
             {
                 throw new TimeoutException();
             }
@@ -234,7 +252,7 @@ namespace IX.System.Collections.Generic
         /// <exception cref="TimeoutException">The lock could not be obtained in the timeout period.</exception>
         private void WriteLock(Action lockedAction)
         {
-            if (!this.locker.TryEnterWriteLock(Constants.ConcurrentLockAcquisitionTimeout))
+            if (!(this.locker ?? (this.locker = new ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy.NoRecursion))).TryEnterWriteLock(Constants.ConcurrentLockAcquisitionTimeout))
             {
                 throw new TimeoutException();
             }
@@ -258,7 +276,7 @@ namespace IX.System.Collections.Generic
         /// <exception cref="TimeoutException">The lock could not be obtained in the timeout period.</exception>
         private TResult WriteLock<TResult>(Func<TResult> lockedAction)
         {
-            if (!this.locker.TryEnterWriteLock(Constants.ConcurrentLockAcquisitionTimeout))
+            if (!(this.locker ?? (this.locker = new ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy.NoRecursion))).TryEnterWriteLock(Constants.ConcurrentLockAcquisitionTimeout))
             {
                 throw new TimeoutException();
             }
