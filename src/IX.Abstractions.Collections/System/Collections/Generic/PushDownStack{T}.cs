@@ -7,7 +7,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using IX.Abstractions.Collections;
-using IX.StandardExtensions.ComponentModel;
 using IX.StandardExtensions.Threading;
 using IX.System.Threading;
 
@@ -19,8 +18,10 @@ namespace IX.System.Collections.Generic
     /// <typeparam name="T">The stack item type.</typeparam>
     /// <seealso cref="IStack{T}" />
     [DataContract(Namespace = Constants.DataContractNamespace, Name = "PushDownStackOf{0}")]
-    public class PushDownStack<T> : DisposableBase, IStack<T>, ICustomSerializableCollection<T>, IDisposable
+    public class PushDownStack<T> : IStack<T>, ICustomSerializableCollection<T>, IDisposable
     {
+        private bool disposedValue;
+
         /// <summary>
         /// The limit.
         /// </summary>
@@ -59,6 +60,14 @@ namespace IX.System.Collections.Generic
             this.limit = limit;
 
             this.internalContainer = new List<T>();
+        }
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="PushDownStack{T}"/> class.
+        /// </summary>
+        ~PushDownStack()
+        {
+            this.Dispose(false);
         }
 
         /// <summary>
@@ -205,14 +214,112 @@ namespace IX.System.Collections.Generic
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Throws if the current object is disposed.
+        /// </summary>
+        /// <exception cref="ObjectDisposedException">If the current object is disposed, this exception will be thrown.</exception>
+        protected void ThrowIfCurrentObjectDisposed()
+        {
+            if (this.disposedValue)
+            {
+                throw new ObjectDisposedException(this.GetType().FullName);
+            }
+        }
+
+        /// <summary>
+        /// Invokes an action if the current instance is not disposed.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        protected void InvokeIfNotDisposed(Action action)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            (action ?? throw new ArgumentNullException()).Invoke();
+        }
+
+        /// <summary>
+        /// Invokes an action if the current instance is not disposed.
+        /// </summary>
+        /// <typeparam name="TReturn">The return type.</typeparam>
+        /// <param name="action">The action.</param>
+        /// <returns>The object returned by the action.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        protected TReturn InvokeIfNotDisposed<TReturn>(Func<TReturn> action)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            return (action ?? throw new ArgumentNullException()).Invoke();
+        }
+
+        /// <summary>
         /// Disposes in the managed context.
         /// </summary>
-        protected override void DisposeManagedContext()
+        protected virtual void DisposeManagedContext()
         {
             this.locker?.Dispose();
             this.internalContainer.Clear();
+        }
 
-            base.DisposeManagedContext();
+        /// <summary>
+        /// Disposes the general (managed and unmanaged) context.
+        /// </summary>
+        protected virtual void DisposeGeneralContext()
+        {
+        }
+
+        /// <summary>
+        /// Invokes an action if the current instance is not disposed.
+        /// </summary>
+        /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
+        /// <param name="action">The action.</param>
+        /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        protected void InvokeIfNotDisposed<TParam1>(Action<TParam1> action, TParam1 param1)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            (action ?? throw new ArgumentNullException()).Invoke(param1);
+        }
+
+        /// <summary>
+        /// Invokes an action if the current instance is not disposed.
+        /// </summary>
+        /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
+        /// <typeparam name="TReturn">The return type of the invoked method.</typeparam>
+        /// <param name="action">The action.</param>
+        /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0.</param>
+        /// <returns>A return value, as defined by the invoked method.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        protected TReturn InvokeIfNotDisposed<TParam1, TReturn>(Func<TParam1, TReturn> action, TParam1 param1)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            return (action ?? throw new ArgumentNullException()).Invoke(param1);
+        }
+
+        /// <summary>
+        /// Invokes an action if the current instance is not disposed.
+        /// </summary>
+        /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
+        /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
+        /// <param name="action">The action.</param>
+        /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0.</param>
+        /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        protected void InvokeIfNotDisposed<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            (action ?? throw new ArgumentNullException()).Invoke(param1, param2);
         }
 
         /// <summary>
@@ -404,6 +511,21 @@ namespace IX.System.Collections.Generic
             finally
             {
                 this.locker.ExitWriteLock();
+            }
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!this.disposedValue)
+            {
+                if (disposing)
+                {
+                    this.DisposeManagedContext();
+                }
+
+                this.DisposeGeneralContext();
+
+                this.disposedValue = true;
             }
         }
     }
