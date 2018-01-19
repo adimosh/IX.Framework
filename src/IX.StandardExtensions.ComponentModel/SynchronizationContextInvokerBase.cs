@@ -57,6 +57,12 @@ namespace IX.StandardExtensions.ComponentModel
                 throw new ArgumentNullException(nameof(action));
             }
 
+            if (EnvironmentSettings.InvokeSynchronouslyOnCurrentThread)
+            {
+                action();
+                return;
+            }
+
             SynchronizationContext currentSynchronizationContext = this.synchronizationContext ?? EnvironmentSettings.GetUsableSynchronizationContext();
 
             if (currentSynchronizationContext == null)

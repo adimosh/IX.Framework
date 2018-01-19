@@ -1,4 +1,4 @@
-﻿// <copyright file="EnvironmentSettings.cs" company="Adrian Mos">
+// <copyright file="EnvironmentSettings.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -42,6 +42,12 @@ namespace IX.StandardExtensions.ComponentModel
         /// <see cref="BackupSynchronizationContext"/> will always be used, if it is set.</para>
         /// </remarks>
         public static bool AlwaysSuppressCurrentSynchronizationContext { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether invocations should be performed on the calling thread instead of a synchronization context.
+        /// </summary>
+        /// <value><c>true</c> to invoke synchronously on current thread; otherwise, to use the synchronization context, <c>false</c>.</value>
+        public static bool InvokeSynchronouslyOnCurrentThread { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to invoke synchronously on the synchronization context. The default is false.
