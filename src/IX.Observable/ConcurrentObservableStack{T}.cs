@@ -83,7 +83,7 @@ namespace IX.Observable
         /// <summary>
         /// Gets a synchronization lock item to be used when trying to synchronize read/write operations between threads.
         /// </summary>
-        protected override IReaderWriterLock SynchronizationLock => this.locker ?? new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
+        protected override IReaderWriterLock SynchronizationLock => this.locker ?? (this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion));
 
         /// <summary>
         /// Disposes the managed context.
