@@ -1,4 +1,4 @@
-﻿// <copyright file="ConcurrentObservableMasterSlaveCollection{T}.cs" company="Adrian Mos">
+// <copyright file="ConcurrentObservableMasterSlaveCollection{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -49,7 +49,7 @@ namespace IX.Observable
         /// </summary>
         protected override void DisposeManagedContext()
         {
-            this.locker.Dispose();
+            this.locker?.Dispose();
 
             base.DisposeManagedContext();
         }

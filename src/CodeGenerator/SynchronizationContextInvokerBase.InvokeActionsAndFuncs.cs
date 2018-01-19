@@ -1,4 +1,4 @@
-﻿// <copyright file="SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs" company="Adrian Mos">
+// <copyright file="SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -27,6 +27,12 @@ namespace IX.StandardExtensions.ComponentModel
             if (action == null)
             {
                 throw new ArgumentNullException(nameof(action));
+            }
+
+            if (EnvironmentSettings.InvokeSynchronouslyOnCurrentThread)
+            {
+                action(param1);
+                return;
             }
 
             SynchronizationContext currentSynchronizationContext = this.synchronizationContext ?? EnvironmentSettings.GetUsableSynchronizationContext();
@@ -101,6 +107,12 @@ namespace IX.StandardExtensions.ComponentModel
             if (action == null)
             {
                 throw new ArgumentNullException(nameof(action));
+            }
+
+            if (EnvironmentSettings.InvokeSynchronouslyOnCurrentThread)
+            {
+                action(param1, param2);
+                return;
             }
 
             SynchronizationContext currentSynchronizationContext = this.synchronizationContext ?? EnvironmentSettings.GetUsableSynchronizationContext();
@@ -179,6 +191,12 @@ namespace IX.StandardExtensions.ComponentModel
             if (action == null)
             {
                 throw new ArgumentNullException(nameof(action));
+            }
+
+            if (EnvironmentSettings.InvokeSynchronouslyOnCurrentThread)
+            {
+                action(param1, param2, param3);
+                return;
             }
 
             SynchronizationContext currentSynchronizationContext = this.synchronizationContext ?? EnvironmentSettings.GetUsableSynchronizationContext();
@@ -261,6 +279,12 @@ namespace IX.StandardExtensions.ComponentModel
             if (action == null)
             {
                 throw new ArgumentNullException(nameof(action));
+            }
+
+            if (EnvironmentSettings.InvokeSynchronouslyOnCurrentThread)
+            {
+                action(param1, param2, param3, param4);
+                return;
             }
 
             SynchronizationContext currentSynchronizationContext = this.synchronizationContext ?? EnvironmentSettings.GetUsableSynchronizationContext();
@@ -347,6 +371,12 @@ namespace IX.StandardExtensions.ComponentModel
             if (action == null)
             {
                 throw new ArgumentNullException(nameof(action));
+            }
+
+            if (EnvironmentSettings.InvokeSynchronouslyOnCurrentThread)
+            {
+                action(param1, param2, param3, param4, param5);
+                return;
             }
 
             SynchronizationContext currentSynchronizationContext = this.synchronizationContext ?? EnvironmentSettings.GetUsableSynchronizationContext();
@@ -437,6 +467,12 @@ namespace IX.StandardExtensions.ComponentModel
             if (action == null)
             {
                 throw new ArgumentNullException(nameof(action));
+            }
+
+            if (EnvironmentSettings.InvokeSynchronouslyOnCurrentThread)
+            {
+                action(param1, param2, param3, param4, param5, param6);
+                return;
             }
 
             SynchronizationContext currentSynchronizationContext = this.synchronizationContext ?? EnvironmentSettings.GetUsableSynchronizationContext();
@@ -531,6 +567,12 @@ namespace IX.StandardExtensions.ComponentModel
             if (action == null)
             {
                 throw new ArgumentNullException(nameof(action));
+            }
+
+            if (EnvironmentSettings.InvokeSynchronouslyOnCurrentThread)
+            {
+                action(param1, param2, param3, param4, param5, param6, param7);
+                return;
             }
 
             SynchronizationContext currentSynchronizationContext = this.synchronizationContext ?? EnvironmentSettings.GetUsableSynchronizationContext();
@@ -629,6 +671,12 @@ namespace IX.StandardExtensions.ComponentModel
             if (action == null)
             {
                 throw new ArgumentNullException(nameof(action));
+            }
+
+            if (EnvironmentSettings.InvokeSynchronouslyOnCurrentThread)
+            {
+                action(param1, param2, param3, param4, param5, param6, param7, param8);
+                return;
             }
 
             SynchronizationContext currentSynchronizationContext = this.synchronizationContext ?? EnvironmentSettings.GetUsableSynchronizationContext();

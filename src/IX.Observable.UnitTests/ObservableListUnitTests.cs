@@ -50,7 +50,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListUndoAtAdd(ObservableList<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             // ACT
             list.Add(6);
@@ -72,7 +73,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListRedoAtAdd(ObservableList<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Add(6);
             Assert.True(list.Contains(6));
@@ -95,7 +97,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListUndoAtAddRange(ObservableList<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.AddRange(new int[] { 6, 5, 2 });
 
@@ -122,7 +125,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListRedoAtAddRange(ObservableList<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.AddRange(new int[] { 6, 5, 2 });
             Assert.True(list.Contains(6));
@@ -153,7 +157,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListUndoAtClear(ObservableList<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Clear();
 
@@ -183,7 +188,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListRedoAtClear(ObservableList<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Clear();
 
@@ -215,7 +221,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListUndoAtInsert(ObservableList<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             // ACT
             list.Insert(2, 6);
@@ -239,7 +246,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListRedoAtInsert(ObservableList<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Insert(2, 6);
             Assert.True(list.Contains(6));
@@ -263,7 +271,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListUndoAtRemoveAt(ObservableList<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             // ACT
             list.RemoveAt(2);
@@ -287,7 +296,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListRedoAtRemoveAt(ObservableList<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.RemoveAt(2);
             Assert.Equal(23, list[2]);
@@ -310,7 +320,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListUndoMultipleOperations(ObservableList<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Add(18);
             list.RemoveAt(1);
@@ -363,7 +374,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListMultipleUndoOperations(ObservableList<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.HistoryLevels = 3;
 
@@ -397,7 +409,8 @@ namespace IX.Observable.UnitTests
         public void ObservableListMultipleRedoCutoff(ObservableList<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronously = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Add(15);
             list.Add(89);
