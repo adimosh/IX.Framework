@@ -7,6 +7,12 @@
   <Import Project="..\DefaultPackageVersionSystem.props" />
 
   <PropertyGroup>
+    <Version>0.1.0.1</Version>
+    <FileVersion>0.1.0.1</FileVersion>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Title>IX Standard Extensions</Title>
     <Description>A library containing several extensions that aim to standardize and extend the .NET Framework functionality.</Description>
   </PropertyGroup>
