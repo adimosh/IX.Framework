@@ -7,6 +7,12 @@
   <Import Project="..\DefaultPackageVersionSystem.props" />
 
   <PropertyGroup>
+    <Version>0.1.0.1</Version>
+    <FileVersion>0.1.0.1</FileVersion>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Title>IX File System Abstractions</Title>
     <Description>A library for implementing I/O operation abstractizations in the .NET Framework using the existing filesystem implementation.</Description>
   </PropertyGroup>

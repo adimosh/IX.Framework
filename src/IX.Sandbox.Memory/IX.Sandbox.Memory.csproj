@@ -7,6 +7,11 @@
   <Import Project="..\DefaultPackageVersionSystem.props" />
 
   <PropertyGroup>
+    <Version>0.1.0.1</Version>
+    <FileVersion>0.1.0.1</FileVersion>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+  </PropertyGroup>
+  <PropertyGroup>
     <Title>IX Abstractions</Title>
     <Description>A library for abstracting away the common classes that have originally been implemented as static or non-abstractable classes in the .NET Framework.</Description>
   </PropertyGroup>
