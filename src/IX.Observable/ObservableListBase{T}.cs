@@ -45,6 +45,27 @@ namespace IX.Observable
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableListBase{T}"/> class.
+        /// </summary>
+        /// <param name="internalContainer">The internal container.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        protected ObservableListBase(ListAdapter<T> internalContainer, bool suppressUndoable)
+            : base(internalContainer, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableListBase{T}"/> class.
+        /// </summary>
+        /// <param name="internalContainer">The internal container.</param>
+        /// <param name="context">The context.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        protected ObservableListBase(ListAdapter<T> internalContainer, SynchronizationContext context, bool suppressUndoable)
+            : base(internalContainer, context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
         /// Gets a value indicating whether or not this list is of a fixed size.
         /// </summary>
         public virtual bool IsFixedSize => this.CheckDisposed(() => this.ReadLock(() => this.InternalListContainer?.IsFixedSize ?? false));

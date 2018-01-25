@@ -52,7 +52,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ConcurrentObservableQueue{T}"/> class.
         /// </summary>
         /// <param name="context">The synchronization context top use when posting observable messages.</param>
-        public ConcurrentObservableQueue(global::System.Threading.SynchronizationContext context)
+        public ConcurrentObservableQueue(GlobalThreading.SynchronizationContext context)
             : base(context)
         {
         }
@@ -62,7 +62,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="context">The synchronization context top use when posting observable messages.</param>
         /// <param name="collection">A collection of items to copy from.</param>
-        public ConcurrentObservableQueue(global::System.Threading.SynchronizationContext context, IEnumerable<T> collection)
+        public ConcurrentObservableQueue(GlobalThreading.SynchronizationContext context, IEnumerable<T> collection)
             : base(context, collection)
         {
         }
@@ -74,6 +74,67 @@ namespace IX.Observable
         /// <param name="capacity">The initial capacity of the queue.</param>
         public ConcurrentObservableQueue(GlobalThreading.SynchronizationContext context, int capacity)
             : base(context, capacity)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentObservableQueue{T}"/> class.
+        /// </summary>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentObservableQueue(bool suppressUndoable)
+            : base(suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentObservableQueue{T}"/> class.
+        /// </summary>
+        /// <param name="collection">A collection of items to copy from.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentObservableQueue(IEnumerable<T> collection, bool suppressUndoable)
+            : base(collection, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentObservableQueue{T}"/> class.
+        /// </summary>
+        /// <param name="capacity">The initial capacity of the queue.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentObservableQueue(int capacity, bool suppressUndoable)
+            : base(capacity, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentObservableQueue{T}"/> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentObservableQueue(GlobalThreading.SynchronizationContext context, bool suppressUndoable)
+            : base(context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentObservableQueue{T}"/> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="collection">A collection of items to copy from.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentObservableQueue(GlobalThreading.SynchronizationContext context, IEnumerable<T> collection, bool suppressUndoable)
+            : base(context, collection, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentObservableQueue{T}"/> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="capacity">The initial capacity of the queue.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentObservableQueue(GlobalThreading.SynchronizationContext context, int capacity, bool suppressUndoable)
+            : base(context, capacity, suppressUndoable)
         {
         }
 

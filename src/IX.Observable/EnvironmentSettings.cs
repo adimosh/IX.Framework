@@ -1,4 +1,4 @@
-﻿// <copyright file="EnvironmentSettings.cs" company="Adrian Mos">
+// <copyright file="EnvironmentSettings.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -18,13 +18,13 @@ namespace IX.Observable
         public static SynchronizationContext SpecificSynchronizationContext { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to always suppress the default synchronization context.
+        /// Gets or sets a value indicating whether to always suppress undo levels by default until the <see cref="ObservableCollectionBase{T}.StartUndo"/> method is called.
         /// </summary>
-        /// <value><c>true</c> if observable collections should always suppress the default synchronization context; otherwise, <c>false</c>.</value>
+        /// <value><c>true</c> to always suppress undo levels by default; otherwise, <c>false</c>.</value>
         /// <remarks>
-        /// <para>This setting will not suppress any explicit synchronization contexts set on observable collections.</para>
-        /// <para>If this setting is set to <c>true</c>, then <see cref="SpecificSynchronizationContext"/> is ignored.</para>
+        /// <para>The behavior of this switch is overridden if a specific (either <c>true</c> or <c>false</c>) value is given to an undoable collection in its constructor.</para>
+        /// <para>If you expect to serialize / deserialize </para>
         /// </remarks>
-        public static bool AlwaysSuppressDefaultSynchronizationContext { get; set; }
+        public static bool AlwaysSuppressUndoLevelsByDefault { get; set; }
     }
 }

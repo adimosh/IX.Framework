@@ -81,6 +81,67 @@ namespace IX.Observable
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentObservableStack{T}"/> class.
+        /// </summary>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentObservableStack(bool suppressUndoable)
+            : base(suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentObservableStack{T}"/> class.
+        /// </summary>
+        /// <param name="capacity">The initial capacity of the stack.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentObservableStack(int capacity, bool suppressUndoable)
+            : base(capacity, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentObservableStack{T}"/> class.
+        /// </summary>
+        /// <param name="collection">A collection of items to copy into the stack.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentObservableStack(IEnumerable<T> collection, bool suppressUndoable)
+            : base(collection, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentObservableStack{T}"/> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentObservableStack(GlobalThreading.SynchronizationContext context, bool suppressUndoable)
+            : base(context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentObservableStack{T}"/> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="capacity">The initial capacity of the stack.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentObservableStack(GlobalThreading.SynchronizationContext context, int capacity, bool suppressUndoable)
+            : base(context, capacity, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentObservableStack{T}"/> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="collection">A collection of items to copy into the stack.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentObservableStack(GlobalThreading.SynchronizationContext context, IEnumerable<T> collection, bool suppressUndoable)
+            : base(context, collection, suppressUndoable)
+        {
+        }
+
+        /// <summary>
         /// Gets a synchronization lock item to be used when trying to synchronize read/write operations between threads.
         /// </summary>
         protected override IReaderWriterLock SynchronizationLock => this.locker ?? (this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion));

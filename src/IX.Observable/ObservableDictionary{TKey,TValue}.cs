@@ -142,6 +142,134 @@ namespace IX.Observable
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
+        /// </summary>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableDictionary(bool suppressUndoable)
+            : base(new DictionaryCollectionAdapter<TKey, TValue>(), suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
+        /// </summary>
+        /// <param name="capacity">The initial capacity of the dictionary.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableDictionary(int capacity, bool suppressUndoable)
+            : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(capacity)), suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
+        /// </summary>
+        /// <param name="equalityComparer">A comparer object to use for equality comparison.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableDictionary(IEqualityComparer<TKey> equalityComparer, bool suppressUndoable)
+            : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(equalityComparer)), suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
+        /// </summary>
+        /// <param name="capacity">The initial capacity of the dictionary.</param>
+        /// <param name="equalityComparer">A comparer object to use for equality comparison.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableDictionary(int capacity, IEqualityComparer<TKey> equalityComparer, bool suppressUndoable)
+            : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(capacity, equalityComparer)), suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
+        /// </summary>
+        /// <param name="dictionary">A dictionary of items to copy from.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableDictionary(IDictionary<TKey, TValue> dictionary, bool suppressUndoable)
+            : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(dictionary)), suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
+        /// </summary>
+        /// <param name="dictionary">A dictionary of items to copy from.</param>
+        /// <param name="comparer">A comparer object to use for equality comparison.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer, bool suppressUndoable)
+            : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(dictionary, comparer)), suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableDictionary(SynchronizationContext context, bool suppressUndoable)
+            : base(new DictionaryCollectionAdapter<TKey, TValue>(), context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="capacity">The initial capacity of the dictionary.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableDictionary(SynchronizationContext context, int capacity, bool suppressUndoable)
+            : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(capacity)), context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="equalityComparer">A comparer object to use for equality comparison.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableDictionary(SynchronizationContext context, IEqualityComparer<TKey> equalityComparer, bool suppressUndoable)
+            : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(equalityComparer)), context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="capacity">The initial capacity of the dictionary.</param>
+        /// <param name="equalityComparer">A comparer object to use for equality comparison.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableDictionary(SynchronizationContext context, int capacity, IEqualityComparer<TKey> equalityComparer, bool suppressUndoable)
+            : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(capacity, equalityComparer)), context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="dictionary">A dictionary of items to copy from.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableDictionary(SynchronizationContext context, IDictionary<TKey, TValue> dictionary, bool suppressUndoable)
+            : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(dictionary)), context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="dictionary">A dictionary of items to copy from.</param>
+        /// <param name="comparer">A comparer object to use for equality comparison.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableDictionary(SynchronizationContext context, IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer, bool suppressUndoable)
+            : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(dictionary, comparer)), context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
         /// Gets the collection of keys in this dictionary.
         /// </summary>
         public ICollection<TKey> Keys => this.CheckDisposed(() => this.ReadLock(() => ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).dictionary.Keys));
