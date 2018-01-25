@@ -1,22 +1,19 @@
-﻿// <copyright file="DictionaryCollectionAdapter{TKey,TValue}.cs" company="Adrian Mos">
+// <copyright file="DictionaryCollectionAdapter{TKey,TValue}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using IX.StandardExtensions.Threading;
 
 namespace IX.Observable.Adapters
 {
-    internal class DictionaryCollectionAdapter<TKey, TValue> : CollectionAdapter<KeyValuePair<TKey, TValue>>
+    [CollectionDataContract(Namespace = Constants.DataContractNamespace, Name = "DictionaryCollectionAdapterOf{1}By{0}", ItemName = "Item", KeyName = "Key", ValueName = "Value")]
+    internal class DictionaryCollectionAdapter<TKey, TValue> : CollectionAdapter<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>
     {
-#pragma warning disable SA1307 // Accessible fields must begin with upper-case letter
-#pragma warning disable SA1401 // Fields must be private
-        internal Dictionary<TKey, TValue> dictionary;
-#pragma warning restore SA1401 // Fields must be private
-#pragma warning restore SA1307 // Accessible fields must begin with upper-case letter
+        private Dictionary<TKey, TValue> dictionary;
 
-        internal DictionaryCollectionAdapter()
+        public DictionaryCollectionAdapter()
         {
             this.dictionary = new Dictionary<TKey, TValue>();
         }
@@ -29,6 +26,10 @@ namespace IX.Observable.Adapters
         public override int Count => this.dictionary.Count;
 
         public override bool IsReadOnly => ((ICollection<KeyValuePair<TKey, TValue>>)this.dictionary).IsReadOnly;
+
+        public ICollection<TKey> Keys => this.dictionary.Keys;
+
+        public ICollection<TValue> Values => this.dictionary.Values;
 
         public TValue this[TKey key]
         {
@@ -53,13 +54,7 @@ namespace IX.Observable.Adapters
             Dictionary<TKey, TValue> tempdict = this.dictionary;
             this.dictionary = new Dictionary<TKey, TValue>();
 
-            SynchronizationContext syncContext = SynchronizationContext.Current;
-            SynchronizationContext.SetSynchronizationContext(null);
-            Task.Run(() =>
-            {
-                this.dictionary.Clear();
-            }).ConfigureAwait(false);
-            SynchronizationContext.SetSynchronizationContext(syncContext);
+            Fire.AndForget((oldDictionary) => oldDictionary.Clear(), tempdict);
         }
 
         public override bool Contains(KeyValuePair<TKey, TValue> item) => ((ICollection<KeyValuePair<TKey, TValue>>)this.dictionary).Contains(item);
@@ -77,5 +72,9 @@ namespace IX.Observable.Adapters
         public bool Remove(TKey item) => this.dictionary.Remove(item);
 
         public bool TryGetValue(TKey key, out TValue value) => this.dictionary.TryGetValue(key, out value);
+
+        public bool ContainsKey(TKey key) => this.dictionary.ContainsKey(key);
+
+        void IDictionary<TKey, TValue>.Add(TKey key, TValue value) => this.dictionary.Add(key, value);
     }
 }

@@ -272,7 +272,7 @@ namespace IX.Observable
         /// <summary>
         /// Gets the collection of keys in this dictionary.
         /// </summary>
-        public ICollection<TKey> Keys => this.CheckDisposed(() => this.ReadLock(() => ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).dictionary.Keys));
+        public ICollection<TKey> Keys => this.CheckDisposed(() => this.ReadLock(() => ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).Keys));
 
         /// <summary>
         /// Gets the collection of keys in this dictionary.
@@ -283,7 +283,7 @@ namespace IX.Observable
         /// Gets the collection of values in this dictionary.
         /// </summary>
         public ICollection<TValue> Values => this.CheckDisposed(() => this.ReadLock(() =>
-            ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).dictionary.Values));
+            ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).Values));
 
         /// <summary>
         /// Gets the collection of values in this dictionary.
@@ -299,7 +299,7 @@ namespace IX.Observable
         {
             get => this.CheckDisposed(
                 (keyL1) => this.ReadLock(
-                    (keyL2) => ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).dictionary[keyL2],
+                    (keyL2) => ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer)[keyL2],
                     keyL1),
                 key);
 
@@ -311,7 +311,7 @@ namespace IX.Observable
                 this.ThrowIfCurrentObjectDisposed();
 
                 // ACTION
-                Dictionary<TKey, TValue> dictionary = ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).dictionary;
+                IDictionary<TKey, TValue> dictionary = (DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer;
 
                 // Within a write lock
                 using (this.WriteLock())
@@ -375,7 +375,7 @@ namespace IX.Observable
         /// <returns><c>true</c> whether a key has been found, <c>false</c> otherwise.</returns>
         public bool ContainsKey(TKey key) => this.CheckDisposed(
             (keyL1) => this.ReadLock(
-                (keyL2) => ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).dictionary.ContainsKey(keyL2),
+                (keyL2) => ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).ContainsKey(keyL2),
                 keyL1),
             key);
 
@@ -438,7 +438,7 @@ namespace IX.Observable
 
             using (this.ReadLock())
             {
-                return ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).dictionary.TryGetValue(key, out value);
+                return ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).TryGetValue(key, out value);
             }
         }
 
