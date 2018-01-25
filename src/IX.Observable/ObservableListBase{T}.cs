@@ -29,7 +29,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ObservableListBase{T}"/> class.
         /// </summary>
         /// <param name="internalContainer">The internal container.</param>
-        protected ObservableListBase(ListAdapter<T> internalContainer)
+        protected ObservableListBase(IListAdapter<T> internalContainer)
             : base(internalContainer)
         {
         }
@@ -39,7 +39,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="internalContainer">The internal container.</param>
         /// <param name="context">The context.</param>
-        protected ObservableListBase(ListAdapter<T> internalContainer, SynchronizationContext context)
+        protected ObservableListBase(IListAdapter<T> internalContainer, SynchronizationContext context)
             : base(internalContainer, context)
         {
         }
@@ -49,7 +49,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="internalContainer">The internal container.</param>
         /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
-        protected ObservableListBase(ListAdapter<T> internalContainer, bool suppressUndoable)
+        protected ObservableListBase(IListAdapter<T> internalContainer, bool suppressUndoable)
             : base(internalContainer, suppressUndoable)
         {
         }
@@ -60,7 +60,7 @@ namespace IX.Observable
         /// <param name="internalContainer">The internal container.</param>
         /// <param name="context">The context.</param>
         /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
-        protected ObservableListBase(ListAdapter<T> internalContainer, SynchronizationContext context, bool suppressUndoable)
+        protected ObservableListBase(IListAdapter<T> internalContainer, SynchronizationContext context, bool suppressUndoable)
             : base(internalContainer, context, suppressUndoable)
         {
         }
@@ -68,7 +68,7 @@ namespace IX.Observable
         /// <summary>
         /// Gets a value indicating whether or not this list is of a fixed size.
         /// </summary>
-        public virtual bool IsFixedSize => this.CheckDisposed(() => this.ReadLock(() => this.InternalListContainer?.IsFixedSize ?? false));
+        public virtual bool IsFixedSize => this.CheckDisposed(() => this.ReadLock(() => this.InternalContainer?.IsFixedSize ?? false));
 
         /// <summary>
         /// Gets the internal list container.
@@ -76,7 +76,7 @@ namespace IX.Observable
         /// <value>
         /// The internal list container.
         /// </value>
-        protected ListAdapter<T> InternalListContainer => (ListAdapter<T>)this.InternalContainer;
+        protected new ListAdapter<T> InternalContainer => (ListAdapter<T>)base.InternalContainer;
 
         /// <summary>
         /// Gets the count after an add operation. Used internally.
@@ -96,7 +96,7 @@ namespace IX.Observable
         /// <returns>The item at the specified index.</returns>
         public virtual T this[int index]
         {
-            get => this.CheckDisposed(() => this.ReadLock(() => this.InternalListContainer[index]));
+            get => this.CheckDisposed(() => this.ReadLock(() => this.InternalContainer[index]));
 
             set
             {
@@ -121,7 +121,7 @@ namespace IX.Observable
                     lockContext.Upgrade();
 
                     // Get the old value
-                    oldValue = this.InternalListContainer[index];
+                    oldValue = this.InternalContainer[index];
 
                     // Two undo/redo transactions
                     using (AutoCaptureTransactionContext tc1 = this.CheckItemAutoCapture(value))
@@ -129,7 +129,7 @@ namespace IX.Observable
                         using (AutoReleaseTransactionContext tc2 = this.CheckItemAutoRelease(oldValue))
                         {
                             // Replace with new value
-                            this.InternalListContainer[index] = value;
+                            this.InternalContainer[index] = value;
 
                             // Push the undo level
                             this.PushUndoLevel(new ChangeAtUndoLevel<T> { Index = index, OldValue = oldValue, NewValue = value });
@@ -189,7 +189,7 @@ namespace IX.Observable
         /// <returns>The index of the item, or <c>-1</c> if not found.</returns>
         public virtual int IndexOf(T item) => this.CheckDisposed(
             (itemL1) => this.ReadLock(
-                (itemL2) => this.InternalListContainer.IndexOf(itemL2),
+                (itemL2) => this.InternalContainer.IndexOf(itemL2),
                 itemL1),
             item);
 
@@ -269,7 +269,7 @@ namespace IX.Observable
                 using (AutoCaptureTransactionContext tc = this.CheckItemAutoCapture(item))
                 {
                     // Actually insert
-                    this.InternalListContainer.Insert(index, item);
+                    this.InternalContainer.Insert(index, item);
 
                     // Push undo level
                     this.PushUndoLevel(new AddUndoLevel<T> { AddedItem = item, Index = index });
@@ -317,13 +317,13 @@ namespace IX.Observable
                 // Upgrade the lock to a write lock
                 lockContext.Upgrade();
 
-                item = this.InternalListContainer[index];
+                item = this.InternalContainer[index];
 
                 // Using an undo/redo transaction
                 using (AutoReleaseTransactionContext tc = this.CheckItemAutoRelease(item))
                 {
                     // Actually do the removal
-                    this.InternalListContainer.RemoveAt(index);
+                    this.InternalContainer.RemoveAt(index);
 
                     // Push an undo level
                     this.PushUndoLevel(new RemoveUndoLevel<T> { Index = index, RemovedItem = item });
@@ -458,7 +458,7 @@ namespace IX.Observable
                     {
                         var index = aul.Index;
 
-                        this.InternalListContainer.RemoveAt(index);
+                        this.InternalContainer.RemoveAt(index);
 
                         T item = aul.AddedItem;
 
@@ -487,7 +487,7 @@ namespace IX.Observable
 
                         for (var i = 0; i < amul.AddedItems.Length; i++)
                         {
-                            this.InternalListContainer.RemoveAt(index);
+                            this.InternalContainer.RemoveAt(index);
                         }
 
                         IEnumerable<T> items = amul.AddedItems;
@@ -516,7 +516,7 @@ namespace IX.Observable
                         T item = rul.RemovedItem;
                         var index = rul.Index;
 
-                        this.InternalListContainer.Insert(index, item);
+                        this.InternalContainer.Insert(index, item);
 
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems &&
@@ -540,7 +540,7 @@ namespace IX.Observable
                     {
                         foreach (T t in cul.OriginalItems)
                         {
-                            this.InternalListContainer.Add(t);
+                            this.InternalContainer.Add(t);
                         }
 
                         if (this.ItemsAreUndoable &&
@@ -568,7 +568,7 @@ namespace IX.Observable
                         T newItem = caul.OldValue;
                         var index = caul.Index;
 
-                        this.InternalListContainer[index] = newItem;
+                        this.InternalContainer[index] = newItem;
 
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
@@ -628,7 +628,7 @@ namespace IX.Observable
                         var index = aul.Index;
                         T item = aul.AddedItem;
 
-                        this.InternalListContainer.Insert(index, item);
+                        this.InternalContainer.Insert(index, item);
 
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems &&
@@ -653,7 +653,7 @@ namespace IX.Observable
                         var index = amul.Index;
                         IEnumerable<T> items = amul.AddedItems;
 
-                        items.Reverse().ForEach(p => this.InternalListContainer.Insert(index, p));
+                        items.Reverse().ForEach(p => this.InternalContainer.Insert(index, p));
 
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
@@ -679,7 +679,7 @@ namespace IX.Observable
                         T item = rul.RemovedItem;
                         var index = rul.Index;
 
-                        this.InternalListContainer.RemoveAt(index);
+                        this.InternalContainer.RemoveAt(index);
 
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems &&
@@ -729,7 +729,7 @@ namespace IX.Observable
                         T newItem = caul.NewValue;
                         var index = caul.Index;
 
-                        this.InternalListContainer[index] = newItem;
+                        this.InternalContainer[index] = newItem;
 
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)

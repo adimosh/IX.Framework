@@ -1,8 +1,9 @@
-﻿// <copyright file="StackCollectionAdapter{T}.cs" company="Adrian Mos">
+// <copyright file="StackCollectionAdapter{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace IX.Observable.Adapters
 {
@@ -11,6 +12,7 @@ namespace IX.Observable.Adapters
     /// </summary>
     /// <typeparam name="T">The type of item in the stack.</typeparam>
     /// <seealso cref="IX.Observable.Adapters.CollectionAdapter{T}" />
+    [CollectionDataContract(Namespace = Constants.DataContractNamespace, Name = "StackAdapterOf{0}", ItemName = "Item")]
     internal class StackCollectionAdapter<T> : CollectionAdapter<T>
     {
         /// <summary>

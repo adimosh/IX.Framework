@@ -1,12 +1,13 @@
-﻿// <copyright file="ListListAdapter{T}.cs" company="Adrian Mos">
+// <copyright file="ListListAdapter{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace IX.Observable.Adapters
 {
+    [CollectionDataContract(Namespace = Constants.DataContractNamespace, Name = "ListAdapterOf{0}", ItemName = "Item")]
     internal class ListListAdapter<T> : ListAdapter<T>
     {
         private List<T> list;

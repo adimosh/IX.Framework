@@ -18,7 +18,7 @@ namespace IX.Observable
     /// <seealso cref="global::System.Collections.Generic.IEnumerable{T}" />
     public abstract class ObservableReadOnlyCollectionBase<T> : ObservableBase, IReadOnlyCollection<T>, ICollection
     {
-        private CollectionAdapter<T> internalContainer;
+        private ICollectionAdapter<T> internalContainer;
         private object resetCountLocker;
         private object syncRoot;
 
@@ -26,7 +26,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ObservableReadOnlyCollectionBase{T}"/> class.
         /// </summary>
         /// <param name="internalContainer">The internal container of items.</param>
-        protected ObservableReadOnlyCollectionBase(CollectionAdapter<T> internalContainer)
+        protected ObservableReadOnlyCollectionBase(ICollectionAdapter<T> internalContainer)
             : base()
         {
             this.InternalContainer = internalContainer;
@@ -40,7 +40,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="internalContainer">The internal container of items.</param>
         /// <param name="context">The synchronization context to use, if any.</param>
-        protected ObservableReadOnlyCollectionBase(CollectionAdapter<T> internalContainer, SynchronizationContext context)
+        protected ObservableReadOnlyCollectionBase(ICollectionAdapter<T> internalContainer, SynchronizationContext context)
             : base(context)
         {
             this.InternalContainer = internalContainer;
@@ -55,7 +55,7 @@ namespace IX.Observable
         /// <remarks>
         /// <para>On concurrent collections, this property is read-synchronized.</para>
         /// </remarks>
-        public virtual int Count => this.CheckDisposed(() => this.ReadLock(() => this.InternalContainer.Count));
+        public virtual int Count => this.CheckDisposed(() => this.ReadLock(() => ((ICollection<T>)this.InternalContainer).Count));
 
         /// <summary>
         /// Gets a value indicating whether the <see cref="ObservableCollectionBase{T}" /> is read-only.
@@ -92,7 +92,7 @@ namespace IX.Observable
         /// <value>
         /// The internal container.
         /// </value>
-        protected internal CollectionAdapter<T> InternalContainer
+        protected internal ICollectionAdapter<T> InternalContainer
         {
             get => this.internalContainer;
             set
@@ -204,7 +204,7 @@ namespace IX.Observable
 
             using (this.ReadLock())
             {
-                tempArray = new T[this.InternalContainer.Count - index];
+                tempArray = new T[((ICollection<T>)this.InternalContainer).Count - index];
                 this.InternalContainer.CopyTo(tempArray, index);
             }
 

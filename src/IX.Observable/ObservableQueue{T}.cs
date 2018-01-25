@@ -176,8 +176,9 @@ namespace IX.Observable
 
             using (this.WriteLock())
             {
-                ((QueueCollectionAdapter<T>)this.InternalContainer).Enqueue(item);
-                newIndex = this.InternalContainer.Count - 1;
+                var internalContainer = (QueueCollectionAdapter<T>)this.InternalContainer;
+                internalContainer.Enqueue(item);
+                newIndex = internalContainer.Count - 1;
                 this.PushUndoLevel(new EnqueueUndoLevel<T> { EnqueuedItem = item });
             }
 
@@ -230,7 +231,7 @@ namespace IX.Observable
                             container.Enqueue(array[i]);
                         }
 
-                        var index = this.InternalContainer.Count;
+                        var index = container.Count;
                         T item = array.Last();
                         toInvokeOutsideLock = () =>
                         {
@@ -254,7 +255,7 @@ namespace IX.Observable
                             container.Enqueue(array[i]);
                         }
 
-                        var index = this.InternalContainer.Count;
+                        var index = container.Count;
                         T item = array.Last();
                         toInvokeOutsideLock = () =>
                         {
@@ -268,9 +269,10 @@ namespace IX.Observable
 
                 case DequeueUndoLevel<T> dul:
                     {
-                        ((QueueCollectionAdapter<T>)this.InternalContainer).Enqueue(dul.DequeuedItem);
+                        var container = (QueueCollectionAdapter<T>)this.InternalContainer;
+                        container.Enqueue(dul.DequeuedItem);
 
-                        var index = this.InternalContainer.Count - 1;
+                        var index = container.Count - 1;
                         T item = dul.DequeuedItem;
                         toInvokeOutsideLock = () =>
                         {
@@ -338,7 +340,7 @@ namespace IX.Observable
 
                         container.Enqueue(aul.AddedItem);
 
-                        var index = this.InternalContainer.Count - 1;
+                        var index = container.Count - 1;
                         T item = aul.AddedItem;
                         toInvokeOutsideLock = () =>
                         {
@@ -356,7 +358,7 @@ namespace IX.Observable
 
                         container.Enqueue(eul.EnqueuedItem);
 
-                        var index = this.InternalContainer.Count - 1;
+                        var index = container.Count - 1;
                         T item = eul.EnqueuedItem;
                         toInvokeOutsideLock = () =>
                         {

@@ -1,4 +1,4 @@
-﻿// <copyright file="ICollectionAdapter{T}.cs" company="Adrian Mos">
+// <copyright file="ICollectionAdapter{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -21,5 +21,19 @@ namespace IX.Observable.Adapters
         /// Occurs when the owner of this list adapter must reset.
         /// </summary>
         event EventHandler MustReset;
+
+        /// <summary>
+        /// Adds the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <returns>The index at which the item was added, or -1 if not applicable.</returns>
+        new int Add(T item);
+
+        /// <summary>
+        /// Removes the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <returns>The index at which the item resided before being removed, or -1 if not applicable.</returns>
+        new int Remove(T item);
     }
 }

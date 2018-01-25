@@ -222,9 +222,9 @@ namespace IX.Observable
 
                 lockContext.Upgrade();
 
-                item = this.InternalListContainer[index];
+                item = this.InternalContainer[index];
                 this.IncreaseIgnoreMustResetCounter();
-                this.InternalListContainer.RemoveAt(index);
+                this.InternalContainer.RemoveAt(index);
 
                 this.PushUndoLevel(new RemoveUndoLevel<T> { Index = index, RemovedItem = item });
             }

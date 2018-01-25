@@ -222,7 +222,7 @@ namespace IX.Observable
                 {
                     locker.Upgrade();
 
-                    this.cachedFilteredElements = new List<TItem>(this.InternalListContainer.Count);
+                    this.cachedFilteredElements = new List<TItem>(this.InternalContainer.Count);
 
                     using (IEnumerator<TItem> enumerator = this.EnumerateFiltered())
                     {

@@ -160,8 +160,9 @@ namespace IX.Observable
 
             using (this.WriteLock())
             {
-                item = ((StackCollectionAdapter<T>)this.InternalContainer).Pop();
-                index = this.InternalContainer.Count;
+                var container = (StackCollectionAdapter<T>)this.InternalContainer;
+                item = container.Pop();
+                index = container.Count;
             }
 
             this.RaisePropertyChanged(nameof(this.Count));
@@ -183,8 +184,9 @@ namespace IX.Observable
 
             using (this.WriteLock())
             {
-                ((StackCollectionAdapter<T>)this.InternalContainer).Push(item);
-                index = this.InternalContainer.Count - 1;
+                var container = (StackCollectionAdapter<T>)this.InternalContainer;
+                container.Push(item);
+                index = container.Count - 1;
             }
 
             this.RaisePropertyChanged(nameof(this.Count));
@@ -242,7 +244,7 @@ namespace IX.Observable
 
                         container.Push(eul.EnqueuedItem);
 
-                        var index = this.InternalContainer.Count - 1;
+                        var index = container.Count - 1;
                         T item = eul.EnqueuedItem;
                         toInvokeOutsideLock = () =>
                         {
@@ -260,7 +262,7 @@ namespace IX.Observable
 
                         T item = container.Pop();
 
-                        var index = this.InternalContainer.Count;
+                        var index = container.Count;
                         toInvokeOutsideLock = () =>
                         {
                             this.RaisePropertyChanged(nameof(this.Count));
@@ -323,7 +325,7 @@ namespace IX.Observable
 
                         T item = container.Pop();
 
-                        var index = this.InternalContainer.Count;
+                        var index = container.Count;
                         toInvokeOutsideLock = () =>
                         {
                             this.RaisePropertyChanged(nameof(this.Count));
@@ -340,7 +342,7 @@ namespace IX.Observable
 
                         T item = container.Pop();
 
-                        var index = this.InternalContainer.Count;
+                        var index = container.Count;
                         toInvokeOutsideLock = () =>
                         {
                             this.RaisePropertyChanged(nameof(this.Count));
@@ -357,7 +359,7 @@ namespace IX.Observable
 
                         container.Push(dul.DequeuedItem);
 
-                        var index = this.InternalContainer.Count - 1;
+                        var index = container.Count - 1;
                         T item = dul.DequeuedItem;
                         toInvokeOutsideLock = () =>
                         {
