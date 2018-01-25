@@ -81,6 +81,67 @@ namespace IX.Observable
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableStack{T}"/> class.
+        /// </summary>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableStack(bool suppressUndoable)
+            : base(new StackCollectionAdapter<T>(new System.Collections.Generic.Stack<T>()), suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableStack{T}"/> class.
+        /// </summary>
+        /// <param name="capacity">The initial capacity of the stack.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableStack(int capacity, bool suppressUndoable)
+            : base(new StackCollectionAdapter<T>(new System.Collections.Generic.Stack<T>(capacity)), suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableStack{T}"/> class.
+        /// </summary>
+        /// <param name="collection">A collection of items to copy into the stack.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableStack(IEnumerable<T> collection, bool suppressUndoable)
+            : base(new StackCollectionAdapter<T>(new System.Collections.Generic.Stack<T>(collection)), suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableStack{T}"/> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableStack(SynchronizationContext context, bool suppressUndoable)
+            : base(new StackCollectionAdapter<T>(new System.Collections.Generic.Stack<T>()), context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableStack{T}"/> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="capacity">The initial capacity of the stack.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableStack(SynchronizationContext context, int capacity, bool suppressUndoable)
+            : base(new StackCollectionAdapter<T>(new System.Collections.Generic.Stack<T>(capacity)), context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableStack{T}"/> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="collection">A collection of items to copy into the stack.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableStack(SynchronizationContext context, IEnumerable<T> collection, bool suppressUndoable)
+            : base(new StackCollectionAdapter<T>(new System.Collections.Generic.Stack<T>(collection)), context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
         /// Peeks in the stack to view the topmost item, without removing it.
         /// </summary>
         /// <returns>The topmost element in the stack, if any.</returns>

@@ -81,6 +81,67 @@ namespace IX.Observable
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableQueue{T}"/> class.
+        /// </summary>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableQueue(bool suppressUndoable)
+            : base(new QueueCollectionAdapter<T>(new System.Collections.Generic.Queue<T>()), suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableQueue{T}"/> class.
+        /// </summary>
+        /// <param name="collection">A collection of items to copy from.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableQueue(IEnumerable<T> collection, bool suppressUndoable)
+            : base(new QueueCollectionAdapter<T>(new System.Collections.Generic.Queue<T>(collection)), suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableQueue{T}"/> class.
+        /// </summary>
+        /// <param name="capacity">The initial capacity of the queue.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableQueue(int capacity, bool suppressUndoable)
+            : base(new QueueCollectionAdapter<T>(new System.Collections.Generic.Queue<T>(capacity)), suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableQueue{T}"/> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableQueue(SynchronizationContext context, bool suppressUndoable)
+            : base(new QueueCollectionAdapter<T>(new System.Collections.Generic.Queue<T>()), context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableQueue{T}"/> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="collection">A collection of items to copy from.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableQueue(SynchronizationContext context, IEnumerable<T> collection, bool suppressUndoable)
+            : base(new QueueCollectionAdapter<T>(new System.Collections.Generic.Queue<T>(collection)), context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableQueue{T}"/> class.
+        /// </summary>
+        /// <param name="context">The synchronization context top use when posting observable messages.</param>
+        /// <param name="capacity">The initial capacity of the queue.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableQueue(SynchronizationContext context, int capacity, bool suppressUndoable)
+            : base(new QueueCollectionAdapter<T>(new System.Collections.Generic.Queue<T>(capacity)), context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
         /// Dequeues and removes an item from the queue.
         /// </summary>
         /// <returns>The dequeued item.</returns>

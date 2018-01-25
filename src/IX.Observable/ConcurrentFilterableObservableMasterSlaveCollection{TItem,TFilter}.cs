@@ -1,4 +1,4 @@
-﻿// <copyright file="ConcurrentFilterableObservableMasterSlaveCollection{TItem,TFilter}.cs" company="Adrian Mos">
+// <copyright file="ConcurrentFilterableObservableMasterSlaveCollection{TItem,TFilter}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -47,6 +47,33 @@ namespace IX.Observable
         /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <c>null</c> (<c>Nothing</c>) in Visual Basic.</exception>
         public ConcurrentFilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate, GlobalThreading.SynchronizationContext context)
             : base(context)
+        {
+            this.filteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
+            this.cacheLocker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentFilterableObservableMasterSlaveCollection{TItem, TFilter}" /> class.
+        /// </summary>
+        /// <param name="filteringPredicate">The filtering predicate.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <c>null</c> (<c>Nothing</c>) in Visual Basic.</exception>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentFilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate, bool suppressUndoable)
+            : base(suppressUndoable)
+        {
+            this.filteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
+            this.cacheLocker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentFilterableObservableMasterSlaveCollection{TItem, TFilter}"/> class.
+        /// </summary>
+        /// <param name="filteringPredicate">The filtering predicate.</param>
+        /// <param name="context">The synchronization context to use, if any.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <c>null</c> (<c>Nothing</c>) in Visual Basic.</exception>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentFilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate, GlobalThreading.SynchronizationContext context, bool suppressUndoable)
+            : base(context, suppressUndoable)
         {
             this.filteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
             this.cacheLocker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);

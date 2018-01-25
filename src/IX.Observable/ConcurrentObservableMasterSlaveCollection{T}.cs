@@ -40,6 +40,27 @@ namespace IX.Observable
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentObservableMasterSlaveCollection{T}"/> class.
+        /// </summary>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentObservableMasterSlaveCollection(bool suppressUndoable)
+            : base(suppressUndoable)
+        {
+            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConcurrentObservableMasterSlaveCollection{T}"/> class.
+        /// </summary>
+        /// <param name="context">The synchronization context to use, if any.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ConcurrentObservableMasterSlaveCollection(GlobalThreading.SynchronizationContext context, bool suppressUndoable)
+            : base(context, suppressUndoable)
+        {
+            this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
+        }
+
+        /// <summary>
         /// Gets a synchronization lock item to be used when trying to synchronize read/write operations between threads.
         /// </summary>
         protected override IReaderWriterLock SynchronizationLock => this.locker;

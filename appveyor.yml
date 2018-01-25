@@ -88,6 +88,8 @@ before_build:
     dotnet clean src\IX.Framework.sln -c Release
 
     dotnet clean src\IX.Framework.sln -c Debug
+
+    dotnet restore src/IX.Framework.sln
 build:
   project: src\IX.Framework.sln
   parallel: true

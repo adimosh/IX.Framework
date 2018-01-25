@@ -25,11 +25,12 @@ namespace IX.Observable
     /// <seealso cref="global::System.Collections.Generic.IEnumerable{T}" />
     public abstract class ObservableCollectionBase<T> : ObservableReadOnlyCollectionBase<T>, ICollection<T>, IUndoableItem, IEditCommittableItem
     {
+        // Undoable stacks
         private PushDownStack<StateChange> undoStack;
         private PushDownStack<StateChange> redoStack;
 
-        private bool isCapturedIntoUndoContext;
         private IUndoableItem parentUndoableContext;
+        private bool suppressUndoable;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableCollectionBase{T}"/> class.
@@ -38,12 +39,7 @@ namespace IX.Observable
         protected ObservableCollectionBase(CollectionAdapter<T> internalContainer)
             : base(internalContainer)
         {
-            this.InternalContainer = internalContainer;
-
-            this.undoStack = new PushDownStack<StateChange>(Constants.StandardUndoRedoLevels);
-            this.redoStack = new PushDownStack<StateChange>(Constants.StandardUndoRedoLevels);
-
-            this.ItemsAreUndoable = typeof(IUndoableItem).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo());
+            this.InitializeInternalState(internalContainer);
         }
 
         /// <summary>
@@ -54,12 +50,30 @@ namespace IX.Observable
         protected ObservableCollectionBase(CollectionAdapter<T> internalContainer, SynchronizationContext context)
             : base(internalContainer, context)
         {
-            this.InternalContainer = internalContainer;
+            this.InitializeInternalState(internalContainer);
+        }
 
-            this.undoStack = new PushDownStack<StateChange>(Constants.StandardUndoRedoLevels);
-            this.redoStack = new PushDownStack<StateChange>(Constants.StandardUndoRedoLevels);
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableCollectionBase{T}" /> class.
+        /// </summary>
+        /// <param name="internalContainer">The internal container of items.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        protected ObservableCollectionBase(CollectionAdapter<T> internalContainer, bool suppressUndoable)
+            : base(internalContainer)
+        {
+            this.InitializeInternalState(internalContainer, suppressUndoable);
+        }
 
-            this.ItemsAreUndoable = typeof(IUndoableItem).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo());
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableCollectionBase{T}"/> class.
+        /// </summary>
+        /// <param name="internalContainer">The internal container of items.</param>
+        /// <param name="context">The synchronization context to use, if any.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        protected ObservableCollectionBase(CollectionAdapter<T> internalContainer, SynchronizationContext context, bool suppressUndoable)
+            : base(internalContainer, context)
+        {
+            this.InitializeInternalState(internalContainer, suppressUndoable);
         }
 
         /// <summary>
@@ -89,15 +103,15 @@ namespace IX.Observable
         /// </remarks>
         public int HistoryLevels
         {
-            get => this.undoStack.Limit;
+            get => this.UndoStack.Limit;
             set
             {
                 this.ThrowIfCurrentObjectDisposed();
 
-                if (this.undoStack.Limit != value)
+                if (this.UndoStack.Limit != value)
                 {
-                    this.undoStack.Limit = value;
-                    this.redoStack.Limit = value;
+                    this.UndoStack.Limit = value;
+                    this.RedoStack.Limit = value;
 
                     this.RaisePropertyChanged(nameof(this.HistoryLevels));
 
@@ -110,19 +124,19 @@ namespace IX.Observable
         /// <summary>
         /// Gets a value indicating whether this instance is caught into an undo context.
         /// </summary>
-        public bool IsCapturedIntoUndoContext => this.isCapturedIntoUndoContext;
+        public bool IsCapturedIntoUndoContext => this.parentUndoableContext != null;
 
         /// <summary>
         /// Gets a value indicating whether or not the implementer can perform an undo.
         /// </summary>
         /// <value><c>true</c> if the call to the <see cref="M:IX.Undoable.IUndoableItem.Undo" /> method would result in a state change, <c>false</c> otherwise.</value>
-        public bool CanUndo => this.CheckDisposed(() => (this.ParentUndoContext?.CanUndo ?? this.ReadLock(() => this.undoStack.Count > 0)));
+        public bool CanUndo => this.CheckDisposed(() => (this.ParentUndoContext?.CanUndo ?? this.ReadLock(() => this.UndoStack.Count > 0)));
 
         /// <summary>
         /// Gets a value indicating whether or not the implementer can perform a redo.
         /// </summary>
         /// <value><c>true</c> if the call to the <see cref="M:IX.Undoable.IUndoableItem.Redo" /> method would result in a state change, <c>false</c> otherwise.</value>
-        public bool CanRedo => this.CheckDisposed(() => (this.ParentUndoContext?.CanRedo ?? this.ReadLock(() => this.redoStack.Count > 0)));
+        public bool CanRedo => this.CheckDisposed(() => (this.ParentUndoContext?.CanRedo ?? this.ReadLock(() => this.RedoStack.Count > 0)));
 
         /// <summary>
         /// Gets the parent undo context, if any.
@@ -148,13 +162,25 @@ namespace IX.Observable
         /// Gets a value indicating whether items are undoable.
         /// </summary>
         /// <value><c>true</c> if items are undoable; otherwise, <c>false</c>.</value>
-        public bool ItemsAreUndoable { get; }
+        public bool ItemsAreUndoable { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether items are key/value pairs.
         /// </summary>
         /// <value><c>true</c> if items are key/value pairs; otherwise, <c>false</c>.</value>
         public bool ItemsAreKeyValuePairs { get; }
+
+        private PushDownStack<StateChange> UndoStack => this.undoStack ?? (this.undoStack = new PushDownStack<StateChange>(Constants.StandardUndoRedoLevels));
+
+        private PushDownStack<StateChange> RedoStack => this.redoStack ?? (this.redoStack = new PushDownStack<StateChange>(Constants.StandardUndoRedoLevels));
+
+        /// <summary>
+        /// Starts the undoable operations on this object.
+        /// </summary>
+        /// <remarks>
+        /// <para>If undoable operations were suppressed, no undo levels will accumulate before calling this method.</para>
+        /// </remarks>
+        public void StartUndo() => this.suppressUndoable = false;
 
         /// <summary>
         /// Adds an item to the <see cref="ObservableCollectionBase{T}" />.
@@ -351,7 +377,6 @@ namespace IX.Observable
                 (parentL2, automaticallyCaptureSubItemsL2) =>
                 {
                     this.AutomaticallyCaptureSubItems = automaticallyCaptureSubItemsL2;
-                    this.isCapturedIntoUndoContext = true;
                     this.parentUndoableContext = parentL2 ?? throw new ArgumentNullException(nameof(parentL2));
                 },
                 parentL1,
@@ -365,7 +390,6 @@ namespace IX.Observable
         public void ReleaseFromUndoContext() => this.CheckDisposed(() => this.WriteLock(() =>
         {
             this.AutomaticallyCaptureSubItems = false;
-            this.isCapturedIntoUndoContext = false;
             this.parentUndoableContext = null;
         }));
 
@@ -389,18 +413,18 @@ namespace IX.Observable
             bool internalResult;
             using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
             {
-                if (this.undoStack.Count == 0)
+                if (this.UndoStack.Count == 0)
                 {
                     return;
                 }
 
                 locker.Upgrade();
 
-                StateChange level = this.undoStack.Pop();
+                StateChange level = this.UndoStack.Pop();
                 internalResult = this.UndoInternally(level, out toInvoke);
                 if (internalResult)
                 {
-                    this.redoStack.Push(level);
+                    this.RedoStack.Push(level);
                 }
             }
 
@@ -433,18 +457,18 @@ namespace IX.Observable
             bool internalResult;
             using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
             {
-                if (this.redoStack.Count == 0)
+                if (this.RedoStack.Count == 0)
                 {
                     return;
                 }
 
                 locker.Upgrade();
 
-                StateChange level = this.redoStack.Pop();
+                StateChange level = this.RedoStack.Pop();
                 internalResult = this.RedoInternally(level, out toInvoke);
                 if (internalResult)
                 {
-                    this.undoStack.Push(level);
+                    this.UndoStack.Push(level);
                 }
             }
 
@@ -470,7 +494,7 @@ namespace IX.Observable
             this.ThrowIfCurrentObjectDisposed();
 
             // Current object captured in an undo/redo context
-            if (!this.isCapturedIntoUndoContext)
+            if (!this.IsCapturedIntoUndoContext)
             {
                 throw new ItemNotCapturedIntoUndoContextException();
             }
@@ -521,7 +545,7 @@ namespace IX.Observable
             this.ThrowIfCurrentObjectDisposed();
 
             // Current object captured in an undo/redo context
-            if (!this.isCapturedIntoUndoContext)
+            if (!this.IsCapturedIntoUndoContext)
             {
                 throw new ItemNotCapturedIntoUndoContextException();
             }
@@ -617,16 +641,21 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">The undo level to push.</param>
         protected void PushUndoLevel(StateChange undoRedoLevel)
         {
-            if (this.isCapturedIntoUndoContext)
+            if (this.suppressUndoable)
+            {
+                return;
+            }
+
+            if (this.IsCapturedIntoUndoContext)
             {
                 this.EditCommittedInternal?.Invoke(this, new EditCommittedEventArgs(undoRedoLevel));
             }
             else
             {
-                this.undoStack.Push(undoRedoLevel);
+                this.UndoStack.Push(undoRedoLevel);
             }
 
-            this.redoStack.Clear();
+            this.RedoStack.Clear();
 
             this.RaisePropertyChanged(nameof(this.CanUndo));
             this.RaisePropertyChanged(nameof(this.CanRedo));
@@ -724,5 +753,14 @@ namespace IX.Observable
         }
 
         private void Tei_EditCommitted(object sender, EditCommittedEventArgs e) => this.PushUndoLevel(new SubItemStateChange { SubObject = sender as IUndoableItem, StateChanges = e.StateChanges });
+
+        private void InitializeInternalState(CollectionAdapter<T> internalContainer, bool? suppressUndoable = null)
+        {
+            this.InternalContainer = internalContainer;
+
+            this.suppressUndoable = suppressUndoable ?? EnvironmentSettings.AlwaysSuppressUndoLevelsByDefault;
+
+            this.ItemsAreUndoable = typeof(IUndoableItem).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo());
+        }
     }
 }

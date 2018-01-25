@@ -1,4 +1,4 @@
-﻿// <copyright file="ObservableMasterSlaveCollection{T}.cs" company="Adrian Mos">
+// <copyright file="ObservableMasterSlaveCollection{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -43,6 +43,25 @@ namespace IX.Observable
         /// <param name="context">The synchronization context to use, if any.</param>
         public ObservableMasterSlaveCollection(SynchronizationContext context)
             : base(new MultiListMasterSlaveListAdapter<T>(), context)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableMasterSlaveCollection{T}"/> class.
+        /// </summary>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableMasterSlaveCollection(bool suppressUndoable)
+            : base(new MultiListMasterSlaveListAdapter<T>(), suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableMasterSlaveCollection{T}"/> class.
+        /// </summary>
+        /// <param name="context">The synchronization context to use, if any.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableMasterSlaveCollection(SynchronizationContext context, bool suppressUndoable)
+            : base(new MultiListMasterSlaveListAdapter<T>(), context, suppressUndoable)
         {
         }
 

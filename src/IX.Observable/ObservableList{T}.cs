@@ -1,4 +1,4 @@
-﻿// <copyright file="ObservableList{T}.cs" company="Adrian Mos">
+// <copyright file="ObservableList{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -54,6 +54,46 @@ namespace IX.Observable
         /// <param name="context">The context.</param>
         public ObservableList(IEnumerable<T> source, SynchronizationContext context)
             : base(new ListListAdapter<T>(source), context)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableList{T}"/> class.
+        /// </summary>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableList(bool suppressUndoable)
+            : base(new ListListAdapter<T>(), suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableList{T}"/> class.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableList(IEnumerable<T> source, bool suppressUndoable)
+            : base(new ListListAdapter<T>(source), suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableList{T}"/> class.
+        /// </summary>
+        /// <param name="context">The synchronization context to use, if any.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableList(SynchronizationContext context, bool suppressUndoable)
+            : base(new ListListAdapter<T>(), context, suppressUndoable)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableList{T}"/> class.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="context">The context.</param>
+        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        public ObservableList(IEnumerable<T> source, SynchronizationContext context, bool suppressUndoable)
+            : base(new ListListAdapter<T>(source), context, suppressUndoable)
         {
         }
     }
