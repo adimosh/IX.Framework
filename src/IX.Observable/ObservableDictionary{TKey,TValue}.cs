@@ -272,7 +272,7 @@ namespace IX.Observable
         /// <summary>
         /// Gets the collection of keys in this dictionary.
         /// </summary>
-        public ICollection<TKey> Keys => this.CheckDisposed(() => this.ReadLock(() => ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).Keys));
+        public ICollection<TKey> Keys => this.CheckDisposed(() => this.ReadLock(() => this.InternalContainer.Keys));
 
         /// <summary>
         /// Gets the collection of keys in this dictionary.
@@ -283,12 +283,18 @@ namespace IX.Observable
         /// Gets the collection of values in this dictionary.
         /// </summary>
         public ICollection<TValue> Values => this.CheckDisposed(() => this.ReadLock(() =>
-            ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).Values));
+            this.InternalContainer.Values));
 
         /// <summary>
         /// Gets the collection of values in this dictionary.
         /// </summary>
         IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => this.Values;
+
+        /// <summary>
+        /// Gets the internal object container.
+        /// </summary>
+        /// <value>The internal container.</value>
+        protected internal new IDictionaryCollectionAdapter<TKey, TValue> InternalContainer => (DictionaryCollectionAdapter<TKey, TValue>)base.InternalContainer;
 
         /// <summary>
         /// Gets or sets the value associated with a specific key.
@@ -299,7 +305,7 @@ namespace IX.Observable
         {
             get => this.CheckDisposed(
                 (keyL1) => this.ReadLock(
-                    (keyL2) => ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer)[keyL2],
+                    (keyL2) => this.InternalContainer[keyL2],
                     keyL1),
                 key);
 
@@ -311,7 +317,7 @@ namespace IX.Observable
                 this.ThrowIfCurrentObjectDisposed();
 
                 // ACTION
-                IDictionary<TKey, TValue> dictionary = (DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer;
+                IDictionary<TKey, TValue> dictionary = this.InternalContainer;
 
                 // Within a write lock
                 using (this.WriteLock())
@@ -358,7 +364,7 @@ namespace IX.Observable
             using (this.WriteLock())
             {
                 // Add the item
-                newIndex = ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).Add(key, value);
+                newIndex = this.InternalContainer.Add(key, value);
 
                 // Push the undo level
                 this.PushUndoLevel(new AddUndoLevel<KeyValuePair<TKey, TValue>> { AddedItem = new KeyValuePair<TKey, TValue>(key, value), Index = newIndex });
@@ -375,7 +381,7 @@ namespace IX.Observable
         /// <returns><c>true</c> whether a key has been found, <c>false</c> otherwise.</returns>
         public bool ContainsKey(TKey key) => this.CheckDisposed(
             (keyL1) => this.ReadLock(
-                (keyL2) => ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).ContainsKey(keyL2),
+                (keyL2) => this.InternalContainer.ContainsKey(keyL2),
                 keyL1),
             key);
 
@@ -393,7 +399,7 @@ namespace IX.Observable
 
             // ACTION
             bool result;
-            var container = (DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer;
+            IDictionaryCollectionAdapter<TKey, TValue> container = this.InternalContainer;
 
             // Within a read/write lock
             using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
@@ -438,7 +444,7 @@ namespace IX.Observable
 
             using (this.ReadLock())
             {
-                return ((DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer).TryGetValue(key, out value);
+                return this.InternalContainer.TryGetValue(key, out value);
             }
         }
 
@@ -469,7 +475,7 @@ namespace IX.Observable
             {
                 case AddUndoLevel<KeyValuePair<TKey, TValue>> aul:
                     {
-                        var container = (DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer;
+                        IDictionaryCollectionAdapter<TKey, TValue> container = this.InternalContainer;
 
                         container.Remove(aul.AddedItem.Key);
 
@@ -480,7 +486,7 @@ namespace IX.Observable
 
                 case RemoveUndoLevel<KeyValuePair<TKey, TValue>> rul:
                     {
-                        var container = (DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer;
+                        IDictionaryCollectionAdapter<TKey, TValue> container = this.InternalContainer;
 
                         container.Add(rul.RemovedItem.Key, rul.RemovedItem.Value);
 
@@ -491,7 +497,7 @@ namespace IX.Observable
 
                 case ClearUndoLevel<KeyValuePair<TKey, TValue>> cul:
                     {
-                        var container = (DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer;
+                        IDictionaryCollectionAdapter<TKey, TValue> container = this.InternalContainer;
 
                         foreach (KeyValuePair<TKey, TValue> item in cul.OriginalItems)
                         {
@@ -505,7 +511,7 @@ namespace IX.Observable
 
                 case DictionaryAddUndoLevel<TKey, TValue> daul:
                     {
-                        var container = (DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer;
+                        IDictionaryCollectionAdapter<TKey, TValue> container = this.InternalContainer;
 
                         container.Remove(daul.Key);
 
@@ -516,7 +522,7 @@ namespace IX.Observable
 
                 case DictionaryRemoveUndoLevel<TKey, TValue> raul:
                     {
-                        var container = (DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer;
+                        IDictionaryCollectionAdapter<TKey, TValue> container = this.InternalContainer;
 
                         container.Add(raul.Key, raul.Value);
 
@@ -527,7 +533,7 @@ namespace IX.Observable
 
                 case DictionaryChangeUndoLevel<TKey, TValue> caul:
                     {
-                        var container = (DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer;
+                        IDictionaryCollectionAdapter<TKey, TValue> container = this.InternalContainer;
 
                         container[caul.Key] = caul.OldValue;
 
@@ -564,7 +570,7 @@ namespace IX.Observable
             {
                 case AddUndoLevel<KeyValuePair<TKey, TValue>> aul:
                     {
-                        var container = (DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer;
+                        IDictionaryCollectionAdapter<TKey, TValue> container = this.InternalContainer;
 
                         container.Add(aul.AddedItem.Key, aul.AddedItem.Value);
 
@@ -575,7 +581,7 @@ namespace IX.Observable
 
                 case RemoveUndoLevel<KeyValuePair<TKey, TValue>> rul:
                     {
-                        var container = (DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer;
+                        IDictionaryCollectionAdapter<TKey, TValue> container = this.InternalContainer;
 
                         container.Remove(rul.RemovedItem.Key);
 
@@ -595,7 +601,7 @@ namespace IX.Observable
 
                 case DictionaryAddUndoLevel<TKey, TValue> daul:
                     {
-                        var container = (DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer;
+                        IDictionaryCollectionAdapter<TKey, TValue> container = this.InternalContainer;
 
                         container.Add(daul.Key, daul.Value);
 
@@ -606,7 +612,7 @@ namespace IX.Observable
 
                 case DictionaryRemoveUndoLevel<TKey, TValue> raul:
                     {
-                        var container = (DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer;
+                        IDictionaryCollectionAdapter<TKey, TValue> container = this.InternalContainer;
 
                         container.Remove(raul.Key);
 
@@ -617,7 +623,7 @@ namespace IX.Observable
 
                 case DictionaryChangeUndoLevel<TKey, TValue> caul:
                     {
-                        var container = (DictionaryCollectionAdapter<TKey, TValue>)this.InternalContainer;
+                        IDictionaryCollectionAdapter<TKey, TValue> container = this.InternalContainer;
 
                         container[caul.Key] = caul.NewValue;
 

@@ -9,7 +9,7 @@ using IX.StandardExtensions.Threading;
 namespace IX.Observable.Adapters
 {
     [CollectionDataContract(Namespace = Constants.DataContractNamespace, Name = "DictionaryCollectionAdapterOf{1}By{0}", ItemName = "Item", KeyName = "Key", ValueName = "Value")]
-    internal class DictionaryCollectionAdapter<TKey, TValue> : CollectionAdapter<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>
+    internal class DictionaryCollectionAdapter<TKey, TValue> : CollectionAdapter<KeyValuePair<TKey, TValue>>, IDictionaryCollectionAdapter<TKey, TValue>
     {
         private Dictionary<TKey, TValue> dictionary;
 
