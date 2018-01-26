@@ -212,5 +212,18 @@
       <DependentUpon>ObservableBase.ActionsAndFuncs.tt</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.Observable\ConcurrentObservableDictionary{TKey,TValue}.ActionsAndFuncs.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ConcurrentObservableDictionary{TKey,TValue}.ActionsAndFuncs.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.Observable\ConcurrentObservableDictionary{TKey,TValue}.ActionsAndFuncs.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConcurrentObservableDictionary{TKey,TValue}.ActionsAndFuncs.tt</DependentUpon>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -48,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\CodeGenerator\IX.Observable\ConcurrentObservableDictionary{TKey,TValue}.ActionsAndFuncs.cs" Link="ConcurrentObservableDictionary{TKey,TValue}.ActionsAndFuncs.cs" />
     <Compile Include="..\CodeGenerator\ObservableBase.ActionsAndFuncs.cs" Link="ObservableBase.ActionsAndFuncs.cs" />
   </ItemGroup>
 

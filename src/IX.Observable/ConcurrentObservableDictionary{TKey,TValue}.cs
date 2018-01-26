@@ -21,7 +21,7 @@ namespace IX.Observable
     [DebuggerDisplay("ConcurrentObservableDictionary, Count = {Count}")]
     [DebuggerTypeProxy(typeof(DictionaryDebugView<,>))]
     [CollectionDataContract(Namespace = Constants.DataContractNamespace, Name = "ConcurrentObservable{1}DictionaryBy{0}", ItemName = "Entry", KeyName = "Key", ValueName = "Value")]
-    public class ConcurrentObservableDictionary<TKey, TValue> : ObservableDictionary<TKey, TValue>
+    public partial class ConcurrentObservableDictionary<TKey, TValue> : ObservableDictionary<TKey, TValue>
     {
         private ReaderWriterLockSlim locker;
 
