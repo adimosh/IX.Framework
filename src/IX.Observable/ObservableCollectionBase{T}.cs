@@ -36,7 +36,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ObservableCollectionBase{T}"/> class.
         /// </summary>
         /// <param name="internalContainer">The internal container of items.</param>
-        protected ObservableCollectionBase(CollectionAdapter<T> internalContainer)
+        protected ObservableCollectionBase(ICollectionAdapter<T> internalContainer)
             : base(internalContainer)
         {
             this.InitializeInternalState(internalContainer);
@@ -47,7 +47,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="internalContainer">The internal container of items.</param>
         /// <param name="context">The synchronization context to use, if any.</param>
-        protected ObservableCollectionBase(CollectionAdapter<T> internalContainer, SynchronizationContext context)
+        protected ObservableCollectionBase(ICollectionAdapter<T> internalContainer, SynchronizationContext context)
             : base(internalContainer, context)
         {
             this.InitializeInternalState(internalContainer);
@@ -58,7 +58,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="internalContainer">The internal container of items.</param>
         /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
-        protected ObservableCollectionBase(CollectionAdapter<T> internalContainer, bool suppressUndoable)
+        protected ObservableCollectionBase(ICollectionAdapter<T> internalContainer, bool suppressUndoable)
             : base(internalContainer)
         {
             this.InitializeInternalState(internalContainer, suppressUndoable);
@@ -70,7 +70,7 @@ namespace IX.Observable
         /// <param name="internalContainer">The internal container of items.</param>
         /// <param name="context">The synchronization context to use, if any.</param>
         /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
-        protected ObservableCollectionBase(CollectionAdapter<T> internalContainer, SynchronizationContext context, bool suppressUndoable)
+        protected ObservableCollectionBase(ICollectionAdapter<T> internalContainer, SynchronizationContext context, bool suppressUndoable)
             : base(internalContainer, context)
         {
             this.InitializeInternalState(internalContainer, suppressUndoable);
@@ -256,7 +256,7 @@ namespace IX.Observable
             using (this.WriteLock())
             {
                 // Save existing items
-                T[] tempArray = new T[this.InternalContainer.Count];
+                T[] tempArray = new T[((ICollection<T>)this.InternalContainer).Count];
                 this.InternalContainer.CopyTo(tempArray, 0);
 
                 // Into an undo/redo transaction context
@@ -754,7 +754,7 @@ namespace IX.Observable
 
         private void Tei_EditCommitted(object sender, EditCommittedEventArgs e) => this.PushUndoLevel(new SubItemStateChange { SubObject = sender as IUndoableItem, StateChanges = e.StateChanges });
 
-        private void InitializeInternalState(CollectionAdapter<T> internalContainer, bool? suppressUndoable = null)
+        private void InitializeInternalState(ICollectionAdapter<T> internalContainer, bool? suppressUndoable = null)
         {
             this.InternalContainer = internalContainer;
 

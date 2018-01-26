@@ -1,8 +1,9 @@
-﻿// <copyright file="QueueCollectionAdapter{T}.cs" company="Adrian Mos">
+// <copyright file="QueueCollectionAdapter{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace IX.Observable.Adapters
 {
@@ -11,6 +12,7 @@ namespace IX.Observable.Adapters
     /// </summary>
     /// <typeparam name="T">The type of item in the queue.</typeparam>
     /// <seealso cref="IX.Observable.Adapters.CollectionAdapter{T}" />
+    [CollectionDataContract(Namespace = Constants.DataContractNamespace, Name = "QueueAdapterOf{0}", ItemName = "Item")]
     internal class QueueCollectionAdapter<T> : CollectionAdapter<T>
     {
         /// <summary>

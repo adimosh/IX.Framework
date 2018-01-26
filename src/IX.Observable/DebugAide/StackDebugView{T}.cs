@@ -1,8 +1,9 @@
-﻿// <copyright file="StackDebugView{T}.cs" company="Adrian Mos">
+// <copyright file="StackDebugView{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace IX.Observable.DebugAide
@@ -21,7 +22,7 @@ namespace IX.Observable.DebugAide
         {
             get
             {
-                T[] items = new T[this.stack.InternalContainer.Count];
+                T[] items = new T[((ICollection<T>)this.stack.InternalContainer).Count];
                 this.stack.InternalContainer.CopyTo(items, 0);
                 return items;
             }

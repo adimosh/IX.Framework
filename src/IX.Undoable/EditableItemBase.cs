@@ -65,6 +65,7 @@ namespace IX.Undoable
                 throw new ArgumentOutOfRangeException(nameof(limit));
             }
 
+            this.historyLevels = limit;
             this.undoStack = new PushDownStack<StateChange[]>(limit);
             this.redoStack = new PushDownStack<StateChange[]>(limit);
 
@@ -344,7 +345,10 @@ namespace IX.Undoable
                 throw new ItemNotCapturedIntoUndoContextException();
             }
 
-            this.RevertChanges(stateChanges);
+            if (stateChanges.Length > 0)
+            {
+                this.RevertChanges(stateChanges);
+            }
         }
 
         /// <summary>
@@ -365,7 +369,10 @@ namespace IX.Undoable
                 throw new ItemNotCapturedIntoUndoContextException();
             }
 
-            this.DoChanges(stateChanges);
+            if (stateChanges.Length > 0)
+            {
+                this.DoChanges(stateChanges);
+            }
         }
 
         /// <summary>
@@ -433,11 +440,11 @@ namespace IX.Undoable
         /// <param name="oldValue">The old value.</param>
         /// <param name="newValue">The new value.</param>
         protected void AdvertisePropertyChange<T>(string propertyName, T oldValue, T newValue) => this.AdvertiseStateChange(new PropertyStateChange<T>
-        {
-            PropertyName = propertyName,
-            OldValue = oldValue,
-            NewValue = newValue,
-        });
+            {
+                PropertyName = propertyName,
+                OldValue = oldValue,
+                NewValue = newValue,
+            });
 
         /// <summary>
         /// Called when a list of state changes are canceled and must be reverted.
@@ -469,6 +476,11 @@ namespace IX.Undoable
         /// <param name="stateChanges">The state changes.</param>
         private void CommitEditInternal(StateChange[] stateChanges)
         {
+            if ((stateChanges?.Length ?? 0) == 0)
+            {
+                return;
+            }
+
             if (this.parentContext != null)
             {
                 this.undoStack.Push(stateChanges);

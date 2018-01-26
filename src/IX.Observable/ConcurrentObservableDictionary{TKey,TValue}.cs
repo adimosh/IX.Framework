@@ -2,10 +2,12 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using IX.Observable.DebugAide;
+using IX.StandardExtensions.Threading;
 using IX.System.Threading;
 using GlobalThreading = System.Threading;
 
@@ -19,7 +21,7 @@ namespace IX.Observable
     [DebuggerDisplay("ConcurrentObservableDictionary, Count = {Count}")]
     [DebuggerTypeProxy(typeof(DictionaryDebugView<,>))]
     [CollectionDataContract(Namespace = Constants.DataContractNamespace, Name = "ConcurrentObservable{1}DictionaryBy{0}", ItemName = "Entry", KeyName = "Key", ValueName = "Value")]
-    public class ConcurrentObservableDictionary<TKey, TValue> : ObservableDictionary<TKey, TValue>
+    public partial class ConcurrentObservableDictionary<TKey, TValue> : ObservableDictionary<TKey, TValue>
     {
         private ReaderWriterLockSlim locker;
 
@@ -271,6 +273,145 @@ namespace IX.Observable
         /// Gets a synchronization lock item to be used when trying to synchronize read/write operations between threads.
         /// </summary>
         protected override IReaderWriterLock SynchronizationLock => this.locker ?? (this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion));
+
+        /// <summary>
+        /// Gets a value from the dictionary, optionally generating one if the key is not found.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="valueGenerator">The value generator.</param>
+        /// <returns>The value corresponding to the key, that is guaranteed to exist in the dictionary after this method.</returns>
+        /// <remarks>
+        /// <para>The <paramref name="valueGenerator" /> method is guaranteed to not be invoked if the key exists.</para>
+        /// <para>When the <paramref name="valueGenerator" /> method is invoked, it will be invoked within the write lock. Please ensure that no member of the dictionary is called within it.</para>
+        /// </remarks>
+        public TValue GetOrAdd(TKey key, Func<TValue> valueGenerator)
+        {
+            // PRECONDITIONS
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            int newIndex;
+            TValue value;
+
+            // Under read/write lock
+            using (ReadWriteSynchronizationLocker rwl = this.ReadWriteLock())
+            {
+                if (this.InternalContainer.TryGetValue(key, out value))
+                {
+                    // Within read lock, if the key is found, return the value.
+                    return value;
+                }
+                else
+                {
+                    rwl.Upgrade();
+
+                    if (this.InternalContainer.TryGetValue(key, out value))
+                    {
+                        // Re-check within a write lock, to ensure that something else hasn't already added it.
+                        return value;
+                    }
+
+                    // Generate the value
+                    value = valueGenerator();
+
+                    // Add the item
+                    newIndex = this.InternalContainer.Add(key, value);
+                }
+            }
+
+            // NOTIFICATIONS
+
+            // Collection changed
+            if (newIndex == -1)
+            {
+                // If no index could be found for an item (Dictionary add)
+                this.RaiseCollectionReset();
+            }
+            else
+            {
+                // If index was added at a specific index
+                this.RaiseCollectionChangedAdd(new KeyValuePair<TKey, TValue>(key, value), newIndex);
+            }
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
+
+            return value;
+        }
+
+        /// <summary>
+        /// Creates an item or changes its state, if one exists.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="valueGenerator">The value generator.</param>
+        /// <param name="valueAction">The value action.</param>
+        /// <returns>The created or state-changed item.</returns>
+        public TValue CreateOrChangeState(TKey key, Func<TValue> valueGenerator, Action<TValue> valueAction)
+        {
+            // PRECONDITIONS
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            int newIndex;
+            TValue value;
+
+            // Under read/write lock
+            using (ReadWriteSynchronizationLocker rwl = this.ReadWriteLock())
+            {
+                if (this.InternalContainer.TryGetValue(key, out value))
+                {
+                    // Within read lock, if the key is found, return the value.
+                    valueAction(value);
+                    return value;
+                }
+                else
+                {
+                    rwl.Upgrade();
+
+                    if (this.InternalContainer.TryGetValue(key, out value))
+                    {
+                        // Re-check within a write lock, to ensure that something else hasn't already added it.
+                        valueAction(value);
+                        return value;
+                    }
+
+                    // Generate the value
+                    value = valueGenerator();
+
+                    // Add the item
+                    newIndex = this.InternalContainer.Add(key, value);
+                }
+            }
+
+            // NOTIFICATIONS
+
+            // Collection changed
+            if (newIndex == -1)
+            {
+                // If no index could be found for an item (Dictionary add)
+                this.RaiseCollectionReset();
+            }
+            else
+            {
+                // If index was added at a specific index
+                this.RaiseCollectionChangedAdd(new KeyValuePair<TKey, TValue>(key, value), newIndex);
+            }
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
+
+            return value;
+        }
 
         /// <summary>
         /// Disposes the managed context.
