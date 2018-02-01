@@ -1,4 +1,4 @@
-﻿// <copyright file="ExpressionGenerator.cs" company="Adrian Mos">
+// <copyright file="ExpressionGenerator.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -30,10 +30,10 @@ namespace IX.Math
             workingSet.CancellationToken.ThrowIfCancellationRequested();
 
             // Strings
-            workingSet.Expression = StringExtractor.ExtractStringConstants(
+            workingSet.Expression = workingSet.Extractors[typeof(StringExtractor)].ExtractAllConstants(
+                workingSet.Expression,
                 workingSet.ConstantsTable,
                 workingSet.ReverseConstantsTable,
-                workingSet.Expression,
                 workingSet.Definition.StringIndicator);
 
             workingSet.CancellationToken.ThrowIfCancellationRequested();

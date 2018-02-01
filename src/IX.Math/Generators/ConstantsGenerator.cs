@@ -1,7 +1,8 @@
-﻿// <copyright file="ConstantsGenerator.cs" company="Adrian Mos">
+// <copyright file="ConstantsGenerator.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using IX.Math.Formatters;
@@ -10,15 +11,52 @@ using IX.Math.Nodes.Constants;
 
 namespace IX.Math.Generators
 {
-    internal static class ConstantsGenerator
+    /// <summary>
+    /// A generator for constant values and their like.
+    /// </summary>
+    public static class ConstantsGenerator
     {
+        /// <summary>
+        /// Generates a string constant.
+        /// </summary>
+        /// <param name="constantsTable">The constants table.</param>
+        /// <param name="reverseConstantsTable">The reverse constants table.</param>
+        /// <param name="originalExpression">The original expression.</param>
+        /// <param name="stringIndicator">The string indicator.</param>
+        /// <param name="content">The content.</param>
+        /// <returns>The name of the new constant.</returns>
         public static string GenerateStringConstant(
-            in IDictionary<string, ConstantNodeBase> constantsTable,
-            in IDictionary<string, string> reverseConstantsTable,
-            in string originalExpression,
-            in string stringIndicator,
-            in string content)
+                    in IDictionary<string, ConstantNodeBase> constantsTable,
+                    in IDictionary<string, string> reverseConstantsTable,
+                    in string originalExpression,
+                    in string stringIndicator,
+                    in string content)
         {
+            if (string.IsNullOrWhiteSpace(originalExpression))
+            {
+                throw new ArgumentNullException(nameof(originalExpression));
+            }
+
+            if (constantsTable == null)
+            {
+                throw new ArgumentNullException(nameof(constantsTable));
+            }
+
+            if (reverseConstantsTable == null)
+            {
+                throw new ArgumentNullException(nameof(reverseConstantsTable));
+            }
+
+            if (string.IsNullOrWhiteSpace(stringIndicator))
+            {
+                throw new ArgumentNullException(nameof(stringIndicator));
+            }
+
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                throw new ArgumentNullException(nameof(content));
+            }
+
             if (reverseConstantsTable.TryGetValue(content, out string key))
             {
                 return key;
@@ -32,12 +70,35 @@ namespace IX.Math.Generators
             }
         }
 
+        /// <summary>
+        /// Checks the constant to see if there isn't one already, then tries to guess what type it is, finally adding it to the constants table if one suitable type is found.
+        /// </summary>
+        /// <param name="constantsTable">The constants table.</param>
+        /// <param name="reverseConstantsTable">The reverse constants table.</param>
+        /// <param name="originalExpression">The original expression.</param>
+        /// <param name="content">The content.</param>
+        /// <returns>The name of the new constant, or <c>null</c> (<c>Nothing</c> in Visual Basic) if a suitable type is not found.</returns>
         public static string CheckAndAdd(
-            in IDictionary<string, ConstantNodeBase> constantsTable,
-            in IDictionary<string, string> reverseConstantsTable,
-            in string originalExpression,
-            in string content)
+                    in IDictionary<string, ConstantNodeBase> constantsTable,
+                    in IDictionary<string, string> reverseConstantsTable,
+                    in string originalExpression,
+                    in string content)
         {
+            if (string.IsNullOrWhiteSpace(originalExpression))
+            {
+                throw new ArgumentNullException(nameof(originalExpression));
+            }
+
+            if (constantsTable == null)
+            {
+                throw new ArgumentNullException(nameof(constantsTable));
+            }
+
+            if (reverseConstantsTable == null)
+            {
+                throw new ArgumentNullException(nameof(reverseConstantsTable));
+            }
+
             if (string.IsNullOrWhiteSpace(content))
             {
                 return null;
@@ -77,13 +138,36 @@ namespace IX.Math.Generators
             }
         }
 
+        /// <summary>
+        /// Generates a named numeric symbol.
+        /// </summary>
+        /// <param name="constantsTable">The constants table.</param>
+        /// <param name="reverseConstantsTable">The reverse constants table.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="alternateNames">The alternate names.</param>
         public static void GenerateNamedNumericSymbol(
-            in IDictionary<string, ConstantNodeBase> constantsTable,
-            in IDictionary<string, string> reverseConstantsTable,
-            in string name,
-            in double value,
-            params string[] alternateNames)
+                    in IDictionary<string, ConstantNodeBase> constantsTable,
+                    in IDictionary<string, string> reverseConstantsTable,
+                    in string name,
+                    in double value,
+                    params string[] alternateNames)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (constantsTable == null)
+            {
+                throw new ArgumentNullException(nameof(constantsTable));
+            }
+
+            if (reverseConstantsTable == null)
+            {
+                throw new ArgumentNullException(nameof(reverseConstantsTable));
+            }
+
             if (reverseConstantsTable.TryGetValue(name, out string key))
             {
                 return;

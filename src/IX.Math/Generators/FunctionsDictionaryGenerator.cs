@@ -1,4 +1,4 @@
-﻿// <copyright file="FunctionsDictionaryGenerator.cs" company="Adrian Mos">
+// <copyright file="FunctionsDictionaryGenerator.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -31,42 +31,35 @@ namespace IX.Math.Generators
         {
             var typeDictionary = new Dictionary<string, Type>();
 
-            assemblies.ForEach(InterpretAssembly);
+            assemblies.GetTypesAssignableFrom<T>().ForEach(AddToTypeDictionary);
 
-            void InterpretAssembly(Assembly assembly)
+            void AddToTypeDictionary(TypeInfo p)
             {
-                assembly?.DefinedTypes
-                    ?.Where(p => typeof(T).GetTypeInfo().IsAssignableFrom(p))
-                    .ForEach(AddToTypeDictionary);
-
-                void AddToTypeDictionary(TypeInfo p)
+                CallableMathematicsFunctionAttribute attr;
+                try
                 {
-                    CallableMathematicsFunctionAttribute attr;
-                    try
-                    {
-                        attr = p.GetCustomAttribute<CallableMathematicsFunctionAttribute>();
-                    }
-                    catch
-                    {
-                        // We need not do anything special here.
-                        return;
-                    }
-
-                    if (attr == null)
-                    {
-                        return;
-                    }
-
-                    attr.Names.ForEach(q =>
-                    {
-                        if (typeDictionary.ContainsKey(q))
-                        {
-                            return;
-                        }
-
-                        typeDictionary.Add(q, p.AsType());
-                    });
+                    attr = p.GetCustomAttribute<CallableMathematicsFunctionAttribute>();
                 }
+                catch
+                {
+                    // We need not do anything special here.
+                    return;
+                }
+
+                if (attr == null)
+                {
+                    return;
+                }
+
+                attr.Names.ForEach(q =>
+                {
+                    if (typeDictionary.ContainsKey(q))
+                    {
+                        return;
+                    }
+
+                    typeDictionary.Add(q, p.AsType());
+                });
             }
 
             return typeDictionary;
