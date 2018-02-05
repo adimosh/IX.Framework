@@ -781,6 +781,18 @@ namespace IX.Math.UnitTests
                     new object[1] { BitConverter.GetBytes(0b1001010111010110110010000000010010101110101) },
                     false,
                 },
+                //new object[]
+                //{
+                //    "2.12+6.274E+1",
+                //    new object[0],
+                //    64.84D,
+                //},
+                //new object[]
+                //{
+                //    "2.12+6.274E1",
+                //    new object[0],
+                //    64.84D,
+                //},
             };
 
         /// <summary>

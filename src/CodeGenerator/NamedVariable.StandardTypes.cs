@@ -1,4 +1,4 @@
-// <copyright file="Variable.StandardTypes.cs" company="Adrian Mos">
+// <copyright file="NamedVariable.StandardTypes.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -15,42 +15,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:byte" />.
     /// </summary>
-    public class ByteVariable : VariableBase<byte>, IDeepCloneable<ByteVariable>
+    public class NamedByteVariable : NamedVariableBase<byte>, IDeepCloneable<NamedByteVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ByteVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedByteVariable"/> class.
         /// </summary>
-        public ByteVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedByteVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ByteVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedByteVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public ByteVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedByteVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ByteVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedByteVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public ByteVariable(byte value)
-            : base()
+        public NamedByteVariable(string name, byte value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ByteVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedByteVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public ByteVariable(byte value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedByteVariable(string name, byte value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -79,18 +83,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="ByteVariable" /> to <see cref="T:byte" />.
+        /// Performs an implicit conversion from <see cref="NamedByteVariable" /> to <see cref="T:byte" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator byte(ByteVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator byte(NamedByteVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="ByteVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(ByteVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedByteVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -104,7 +108,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<byte> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -119,14 +134,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<byte> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public ByteVariable DeepClone() => new ByteVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedByteVariable DeepClone() => new NamedByteVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -138,42 +164,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:sbyte" />.
     /// </summary>
-    public class SignedByteVariable : VariableBase<sbyte>, IDeepCloneable<SignedByteVariable>
+    public class NamedSignedByteVariable : NamedVariableBase<sbyte>, IDeepCloneable<NamedSignedByteVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SignedByteVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedSignedByteVariable"/> class.
         /// </summary>
-        public SignedByteVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedSignedByteVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SignedByteVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedSignedByteVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public SignedByteVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedSignedByteVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SignedByteVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedSignedByteVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public SignedByteVariable(sbyte value)
-            : base()
+        public NamedSignedByteVariable(string name, sbyte value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SignedByteVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedSignedByteVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public SignedByteVariable(sbyte value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedSignedByteVariable(string name, sbyte value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -202,18 +232,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="SignedByteVariable" /> to <see cref="T:sbyte" />.
+        /// Performs an implicit conversion from <see cref="NamedSignedByteVariable" /> to <see cref="T:sbyte" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator sbyte(SignedByteVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator sbyte(NamedSignedByteVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="SignedByteVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(SignedByteVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedSignedByteVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -227,7 +257,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<sbyte> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -242,14 +283,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<sbyte> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public SignedByteVariable DeepClone() => new SignedByteVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedSignedByteVariable DeepClone() => new NamedSignedByteVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -261,42 +313,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:short" />.
     /// </summary>
-    public class ShortVariable : VariableBase<short>, IDeepCloneable<ShortVariable>
+    public class NamedShortVariable : NamedVariableBase<short>, IDeepCloneable<NamedShortVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ShortVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedShortVariable"/> class.
         /// </summary>
-        public ShortVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedShortVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ShortVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedShortVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public ShortVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedShortVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ShortVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedShortVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public ShortVariable(short value)
-            : base()
+        public NamedShortVariable(string name, short value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ShortVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedShortVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public ShortVariable(short value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedShortVariable(string name, short value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -325,18 +381,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="ShortVariable" /> to <see cref="T:short" />.
+        /// Performs an implicit conversion from <see cref="NamedShortVariable" /> to <see cref="T:short" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator short(ShortVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator short(NamedShortVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="ShortVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(ShortVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedShortVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -350,7 +406,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<short> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -365,14 +432,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<short> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public ShortVariable DeepClone() => new ShortVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedShortVariable DeepClone() => new NamedShortVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -384,42 +462,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:ushort" />.
     /// </summary>
-    public class UnsignedShortVariable : VariableBase<ushort>, IDeepCloneable<UnsignedShortVariable>
+    public class NamedUnsignedShortVariable : NamedVariableBase<ushort>, IDeepCloneable<NamedUnsignedShortVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnsignedShortVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedUnsignedShortVariable"/> class.
         /// </summary>
-        public UnsignedShortVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedUnsignedShortVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnsignedShortVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedUnsignedShortVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public UnsignedShortVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedUnsignedShortVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnsignedShortVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedUnsignedShortVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public UnsignedShortVariable(ushort value)
-            : base()
+        public NamedUnsignedShortVariable(string name, ushort value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnsignedShortVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedUnsignedShortVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public UnsignedShortVariable(ushort value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedUnsignedShortVariable(string name, ushort value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -448,18 +530,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="UnsignedShortVariable" /> to <see cref="T:ushort" />.
+        /// Performs an implicit conversion from <see cref="NamedUnsignedShortVariable" /> to <see cref="T:ushort" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator ushort(UnsignedShortVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator ushort(NamedUnsignedShortVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="UnsignedShortVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(UnsignedShortVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedUnsignedShortVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -473,7 +555,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<ushort> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -488,14 +581,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<ushort> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public UnsignedShortVariable DeepClone() => new UnsignedShortVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedUnsignedShortVariable DeepClone() => new NamedUnsignedShortVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -507,42 +611,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:char" />.
     /// </summary>
-    public class CharVariable : VariableBase<char>, IDeepCloneable<CharVariable>
+    public class NamedCharVariable : NamedVariableBase<char>, IDeepCloneable<NamedCharVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CharVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedCharVariable"/> class.
         /// </summary>
-        public CharVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedCharVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CharVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedCharVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public CharVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedCharVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CharVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedCharVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public CharVariable(char value)
-            : base()
+        public NamedCharVariable(string name, char value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CharVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedCharVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public CharVariable(char value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedCharVariable(string name, char value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -576,18 +684,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="CharVariable" /> to <see cref="T:char" />.
+        /// Performs an implicit conversion from <see cref="NamedCharVariable" /> to <see cref="T:char" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator char(CharVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator char(NamedCharVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="CharVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(CharVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedCharVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -601,7 +709,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<char> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -616,14 +735,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<char> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public CharVariable DeepClone() => new CharVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedCharVariable DeepClone() => new NamedCharVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -635,42 +765,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:int" />.
     /// </summary>
-    public class IntVariable : VariableBase<int>, IDeepCloneable<IntVariable>
+    public class NamedIntVariable : NamedVariableBase<int>, IDeepCloneable<NamedIntVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="IntVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedIntVariable"/> class.
         /// </summary>
-        public IntVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedIntVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IntVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedIntVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public IntVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedIntVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IntVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedIntVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public IntVariable(int value)
-            : base()
+        public NamedIntVariable(string name, int value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IntVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedIntVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public IntVariable(int value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedIntVariable(string name, int value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -699,18 +833,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="IntVariable" /> to <see cref="T:int" />.
+        /// Performs an implicit conversion from <see cref="NamedIntVariable" /> to <see cref="T:int" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator int(IntVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator int(NamedIntVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="IntVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(IntVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedIntVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -724,7 +858,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<int> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -739,14 +884,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<int> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public IntVariable DeepClone() => new IntVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedIntVariable DeepClone() => new NamedIntVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -758,42 +914,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:uint" />.
     /// </summary>
-    public class UnsignedIntVariable : VariableBase<uint>, IDeepCloneable<UnsignedIntVariable>
+    public class NamedUnsignedIntVariable : NamedVariableBase<uint>, IDeepCloneable<NamedUnsignedIntVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnsignedIntVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedUnsignedIntVariable"/> class.
         /// </summary>
-        public UnsignedIntVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedUnsignedIntVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnsignedIntVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedUnsignedIntVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public UnsignedIntVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedUnsignedIntVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnsignedIntVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedUnsignedIntVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public UnsignedIntVariable(uint value)
-            : base()
+        public NamedUnsignedIntVariable(string name, uint value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnsignedIntVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedUnsignedIntVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public UnsignedIntVariable(uint value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedUnsignedIntVariable(string name, uint value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -822,18 +982,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="UnsignedIntVariable" /> to <see cref="T:uint" />.
+        /// Performs an implicit conversion from <see cref="NamedUnsignedIntVariable" /> to <see cref="T:uint" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator uint(UnsignedIntVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator uint(NamedUnsignedIntVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="UnsignedIntVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(UnsignedIntVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedUnsignedIntVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -847,7 +1007,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<uint> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -862,14 +1033,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<uint> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public UnsignedIntVariable DeepClone() => new UnsignedIntVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedUnsignedIntVariable DeepClone() => new NamedUnsignedIntVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -881,42 +1063,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:long" />.
     /// </summary>
-    public class LongVariable : VariableBase<long>, IDeepCloneable<LongVariable>
+    public class NamedLongVariable : NamedVariableBase<long>, IDeepCloneable<NamedLongVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LongVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedLongVariable"/> class.
         /// </summary>
-        public LongVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedLongVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LongVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedLongVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public LongVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedLongVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LongVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedLongVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public LongVariable(long value)
-            : base()
+        public NamedLongVariable(string name, long value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LongVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedLongVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public LongVariable(long value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedLongVariable(string name, long value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -945,18 +1131,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="LongVariable" /> to <see cref="T:long" />.
+        /// Performs an implicit conversion from <see cref="NamedLongVariable" /> to <see cref="T:long" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator long(LongVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator long(NamedLongVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="LongVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(LongVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedLongVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -970,7 +1156,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<long> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -985,14 +1182,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<long> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public LongVariable DeepClone() => new LongVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedLongVariable DeepClone() => new NamedLongVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -1004,42 +1212,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:ulong" />.
     /// </summary>
-    public class UnsignedLongVariable : VariableBase<ulong>, IDeepCloneable<UnsignedLongVariable>
+    public class NamedUnsignedLongVariable : NamedVariableBase<ulong>, IDeepCloneable<NamedUnsignedLongVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnsignedLongVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedUnsignedLongVariable"/> class.
         /// </summary>
-        public UnsignedLongVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedUnsignedLongVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnsignedLongVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedUnsignedLongVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public UnsignedLongVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedUnsignedLongVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnsignedLongVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedUnsignedLongVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public UnsignedLongVariable(ulong value)
-            : base()
+        public NamedUnsignedLongVariable(string name, ulong value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnsignedLongVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedUnsignedLongVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public UnsignedLongVariable(ulong value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedUnsignedLongVariable(string name, ulong value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -1068,18 +1280,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="UnsignedLongVariable" /> to <see cref="T:ulong" />.
+        /// Performs an implicit conversion from <see cref="NamedUnsignedLongVariable" /> to <see cref="T:ulong" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator ulong(UnsignedLongVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator ulong(NamedUnsignedLongVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="UnsignedLongVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(UnsignedLongVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedUnsignedLongVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -1093,7 +1305,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<ulong> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -1108,14 +1331,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<ulong> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public UnsignedLongVariable DeepClone() => new UnsignedLongVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedUnsignedLongVariable DeepClone() => new NamedUnsignedLongVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -1127,42 +1361,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:float" />.
     /// </summary>
-    public class FloatVariable : VariableBase<float>, IDeepCloneable<FloatVariable>
+    public class NamedFloatVariable : NamedVariableBase<float>, IDeepCloneable<NamedFloatVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FloatVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedFloatVariable"/> class.
         /// </summary>
-        public FloatVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedFloatVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FloatVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedFloatVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public FloatVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedFloatVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FloatVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedFloatVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public FloatVariable(float value)
-            : base()
+        public NamedFloatVariable(string name, float value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FloatVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedFloatVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public FloatVariable(float value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedFloatVariable(string name, float value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -1191,18 +1429,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="FloatVariable" /> to <see cref="T:float" />.
+        /// Performs an implicit conversion from <see cref="NamedFloatVariable" /> to <see cref="T:float" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator float(FloatVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator float(NamedFloatVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="FloatVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(FloatVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedFloatVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -1216,7 +1454,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<float> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -1231,14 +1480,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<float> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public FloatVariable DeepClone() => new FloatVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedFloatVariable DeepClone() => new NamedFloatVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -1250,42 +1510,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:double" />.
     /// </summary>
-    public class DoubleVariable : VariableBase<double>, IDeepCloneable<DoubleVariable>
+    public class NamedDoubleVariable : NamedVariableBase<double>, IDeepCloneable<NamedDoubleVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DoubleVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedDoubleVariable"/> class.
         /// </summary>
-        public DoubleVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedDoubleVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DoubleVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedDoubleVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public DoubleVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedDoubleVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DoubleVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedDoubleVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public DoubleVariable(double value)
-            : base()
+        public NamedDoubleVariable(string name, double value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DoubleVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedDoubleVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public DoubleVariable(double value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedDoubleVariable(string name, double value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -1314,18 +1578,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="DoubleVariable" /> to <see cref="T:double" />.
+        /// Performs an implicit conversion from <see cref="NamedDoubleVariable" /> to <see cref="T:double" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator double(DoubleVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator double(NamedDoubleVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="DoubleVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(DoubleVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedDoubleVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -1339,7 +1603,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<double> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -1354,14 +1629,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<double> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public DoubleVariable DeepClone() => new DoubleVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedDoubleVariable DeepClone() => new NamedDoubleVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -1373,42 +1659,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:decimal" />.
     /// </summary>
-    public class DecimalVariable : VariableBase<decimal>, IDeepCloneable<DecimalVariable>
+    public class NamedDecimalVariable : NamedVariableBase<decimal>, IDeepCloneable<NamedDecimalVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DecimalVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedDecimalVariable"/> class.
         /// </summary>
-        public DecimalVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedDecimalVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DecimalVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedDecimalVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public DecimalVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedDecimalVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DecimalVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedDecimalVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public DecimalVariable(decimal value)
-            : base()
+        public NamedDecimalVariable(string name, decimal value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DecimalVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedDecimalVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public DecimalVariable(decimal value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedDecimalVariable(string name, decimal value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -1437,18 +1727,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="DecimalVariable" /> to <see cref="T:decimal" />.
+        /// Performs an implicit conversion from <see cref="NamedDecimalVariable" /> to <see cref="T:decimal" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator decimal(DecimalVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator decimal(NamedDecimalVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="DecimalVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(DecimalVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedDecimalVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -1462,7 +1752,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<decimal> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -1477,14 +1778,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<decimal> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public DecimalVariable DeepClone() => new DecimalVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedDecimalVariable DeepClone() => new NamedDecimalVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -1496,42 +1808,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:DateTime" />.
     /// </summary>
-    public class DateTimeVariable : VariableBase<DateTime>, IDeepCloneable<DateTimeVariable>
+    public class NamedDateTimeVariable : NamedVariableBase<DateTime>, IDeepCloneable<NamedDateTimeVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateTimeVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedDateTimeVariable"/> class.
         /// </summary>
-        public DateTimeVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedDateTimeVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateTimeVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedDateTimeVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public DateTimeVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedDateTimeVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateTimeVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedDateTimeVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public DateTimeVariable(DateTime value)
-            : base()
+        public NamedDateTimeVariable(string name, DateTime value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateTimeVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedDateTimeVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public DateTimeVariable(DateTime value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedDateTimeVariable(string name, DateTime value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -1560,18 +1876,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="DateTimeVariable" /> to <see cref="T:DateTime" />.
+        /// Performs an implicit conversion from <see cref="NamedDateTimeVariable" /> to <see cref="T:DateTime" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator DateTime(DateTimeVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator DateTime(NamedDateTimeVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="DateTimeVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(DateTimeVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedDateTimeVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -1585,7 +1901,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<DateTime> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -1600,14 +1927,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<DateTime> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public DateTimeVariable DeepClone() => new DateTimeVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedDateTimeVariable DeepClone() => new NamedDateTimeVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -1619,42 +1957,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:bool" />.
     /// </summary>
-    public class BooleanVariable : VariableBase<bool>, IDeepCloneable<BooleanVariable>
+    public class NamedBooleanVariable : NamedVariableBase<bool>, IDeepCloneable<NamedBooleanVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BooleanVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedBooleanVariable"/> class.
         /// </summary>
-        public BooleanVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedBooleanVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BooleanVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedBooleanVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public BooleanVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedBooleanVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BooleanVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedBooleanVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public BooleanVariable(bool value)
-            : base()
+        public NamedBooleanVariable(string name, bool value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BooleanVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedBooleanVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public BooleanVariable(bool value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedBooleanVariable(string name, bool value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -1683,18 +2025,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="BooleanVariable" /> to <see cref="T:bool" />.
+        /// Performs an implicit conversion from <see cref="NamedBooleanVariable" /> to <see cref="T:bool" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator bool(BooleanVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator bool(NamedBooleanVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="BooleanVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(BooleanVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedBooleanVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -1708,7 +2050,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<bool> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -1723,14 +2076,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<bool> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public BooleanVariable DeepClone() => new BooleanVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedBooleanVariable DeepClone() => new NamedBooleanVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -1742,42 +2106,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:TimeSpan" />.
     /// </summary>
-    public class TimeSpanVariable : VariableBase<TimeSpan>, IDeepCloneable<TimeSpanVariable>
+    public class NamedTimeSpanVariable : NamedVariableBase<TimeSpan>, IDeepCloneable<NamedTimeSpanVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TimeSpanVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedTimeSpanVariable"/> class.
         /// </summary>
-        public TimeSpanVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedTimeSpanVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TimeSpanVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedTimeSpanVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public TimeSpanVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedTimeSpanVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TimeSpanVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedTimeSpanVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public TimeSpanVariable(TimeSpan value)
-            : base()
+        public NamedTimeSpanVariable(string name, TimeSpan value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TimeSpanVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedTimeSpanVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public TimeSpanVariable(TimeSpan value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedTimeSpanVariable(string name, TimeSpan value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -1806,18 +2174,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="TimeSpanVariable" /> to <see cref="T:TimeSpan" />.
+        /// Performs an implicit conversion from <see cref="NamedTimeSpanVariable" /> to <see cref="T:TimeSpan" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator TimeSpan(TimeSpanVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator TimeSpan(NamedTimeSpanVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="TimeSpanVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(TimeSpanVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedTimeSpanVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -1831,7 +2199,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<TimeSpan> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -1846,14 +2225,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<TimeSpan> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public TimeSpanVariable DeepClone() => new TimeSpanVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedTimeSpanVariable DeepClone() => new NamedTimeSpanVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -1865,42 +2255,46 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:string" />.
     /// </summary>
-    public class StringVariable : VariableBase<string>, IDeepCloneable<StringVariable>
+    public class NamedStringVariable : NamedVariableBase<string>, IDeepCloneable<NamedStringVariable>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="StringVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedStringVariable"/> class.
         /// </summary>
-        public StringVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedStringVariable(string name)
+            : base(name)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StringVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedStringVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public StringVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedStringVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StringVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedStringVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public StringVariable(string value)
-            : base()
+        public NamedStringVariable(string name, string value)
+            : base(name)
         {
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StringVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedStringVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public StringVariable(string value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedStringVariable(string name, string value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.InternalValue = value;
         }
@@ -1929,11 +2323,11 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="StringVariable" /> to <see cref="T:string" />.
+        /// Performs an implicit conversion from <see cref="NamedStringVariable" /> to <see cref="T:string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(StringVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator string(NamedStringVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -1947,7 +2341,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+            if (!(other is INamedVariable<string> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -1962,14 +2367,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<string> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public StringVariable DeepClone() => new StringVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedStringVariable DeepClone() => new NamedStringVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
@@ -1981,93 +2397,101 @@ namespace IX.Sandbox.Memory
     /// <summary>
     /// A variable of discreet type <see cref="T:byte[]" />.
     /// </summary>
-    public class ByteArrayVariable : VariableBase<byte[]>, IDeepCloneable<ByteArrayVariable>
+    public class NamedByteArrayVariable : NamedVariableBase<byte[]>, IDeepCloneable<NamedByteArrayVariable>
     {
         private Encoding encoding;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ByteArrayVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedByteArrayVariable"/> class.
         /// </summary>
-        public ByteArrayVariable()
-            : base()
+        /// <param name="name">The name.</param>
+        public NamedByteArrayVariable(string name)
+            : base(name)
         {
             this.encoding = Encoding.UTF8;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ByteArrayVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedByteArrayVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public ByteArrayVariable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedByteArrayVariable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.encoding = Encoding.UTF8;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ByteArrayVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedByteArrayVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public ByteArrayVariable(byte[] value)
-            : base()
-        {
-            this.encoding = Encoding.UTF8;
-            this.InternalValue = value;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ByteArrayVariable"/> class.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="synchronizationContext">The synchronization context.</param>
-        public ByteArrayVariable(byte[] value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedByteArrayVariable(string name, byte[] value)
+            : base(name)
         {
             this.encoding = Encoding.UTF8;
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ByteArrayVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedByteArrayVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public NamedByteArrayVariable(string name, byte[] value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+            this.encoding = Encoding.UTF8;
+            this.InternalValue = value;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NamedByteArrayVariable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="encoding">The encoding to use when converting to/from strings.</param>
-        public ByteArrayVariable(Encoding encoding)
-            : base()
+        public NamedByteArrayVariable(string name, Encoding encoding)
+            : base(name)
         {
             this.encoding = encoding;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ByteArrayVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedByteArrayVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="encoding">The encoding to use when converting to/from strings.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public ByteArrayVariable(Encoding encoding, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedByteArrayVariable(string name, Encoding encoding, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.encoding = encoding;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ByteArrayVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedByteArrayVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="encoding">The encoding to use when converting to/from strings.</param>
-        public ByteArrayVariable(byte[] value, Encoding encoding)
-            : base()
+        public NamedByteArrayVariable(string name, byte[] value, Encoding encoding)
+            : base(name)
         {
             this.encoding = encoding;
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ByteArrayVariable"/> class.
+        /// Initializes a new instance of the <see cref="NamedByteArrayVariable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="encoding">The encoding to use when converting to/from strings.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public ByteArrayVariable(byte[] value, Encoding encoding, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public NamedByteArrayVariable(string name, byte[] value, Encoding encoding, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.encoding = encoding;
             this.InternalValue = value;
@@ -2097,18 +2521,18 @@ namespace IX.Sandbox.Memory
         public override bool IsDefault => (this.Value?.Length ?? 0) == 0;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="ByteArrayVariable" /> to <see cref="T:byte[]" />.
+        /// Performs an implicit conversion from <see cref="NamedByteArrayVariable" /> to <see cref="T:byte[]" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator byte[](ByteArrayVariable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator byte[](NamedByteArrayVariable value) => value?.RawDebuggerValue ?? default;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="ByteArrayVariable" /> to <see cref="string" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(ByteArrayVariable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(NamedByteArrayVariable value) => value?.DebuggerValue ?? default;
 
         /// <summary>
         /// Compares this variable to another variable.
@@ -2122,7 +2546,18 @@ namespace IX.Sandbox.Memory
                 return -1;
             }
 
-            return other.RawDebuggerValue.SequenceCompare(this.RawDebuggerValue);
+            if (!(other is INamedVariable<byte[]> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return otherVariable.RawDebuggerValue.SequenceCompare(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -2137,14 +2572,25 @@ namespace IX.Sandbox.Memory
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<byte[]> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public ByteArrayVariable DeepClone() => new ByteArrayVariable(this.InternalValue, this.SynchronizationContext);
+        public NamedByteArrayVariable DeepClone() => new NamedByteArrayVariable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.

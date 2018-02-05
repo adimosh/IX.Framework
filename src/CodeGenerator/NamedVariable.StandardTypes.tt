@@ -5,7 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ include file="StandardTypes.tt" #><#@ include file="Fixture.tt" #>
 <#@ output extension=".cs" #>
-// <copyright file="Variable.StandardTypes.cs" company="Adrian Mos">
+// <copyright file="NamedVariable.StandardTypes.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -30,7 +30,7 @@ foreach (var typ in types)
     /// <summary>
     /// A variable of discreet type <see cref="T:<#= fullTypeName #>" />.
     /// </summary>
-    public class <#= typeName #>Variable : VariableBase<<#= fullTypeName #>>, IDeepCloneable<<#= typeName #>Variable>
+    public class Named<#= typeName #>Variable : NamedVariableBase<<#= fullTypeName #>>, IDeepCloneable<Named<#= typeName #>Variable>
     {
 <#
 if (typ == typeof(byte[]))
@@ -42,10 +42,11 @@ if (typ == typeof(byte[]))
 }
 #>
         /// <summary>
-        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
+        /// Initializes a new instance of the <see cref="Named<#= typeName #>Variable"/> class.
         /// </summary>
-        public <#= typeName #>Variable()
-            : base()
+        /// <param name="name">The name.</param>
+        public Named<#= typeName #>Variable(string name)
+            : base(name)
         {
 <#
 if (typ == typeof(byte[]))
@@ -58,11 +59,12 @@ if (typ == typeof(byte[]))
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
+        /// Initializes a new instance of the <see cref="Named<#= typeName #>Variable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public <#= typeName #>Variable(SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public Named<#= typeName #>Variable(string name, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
 <#
 if (typ == typeof(byte[]))
@@ -75,30 +77,12 @@ if (typ == typeof(byte[]))
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
+        /// Initializes a new instance of the <see cref="Named<#= typeName #>Variable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public <#= typeName #>Variable(<#= fullTypeName #> value)
-            : base()
-        {
-<#
-if (typ == typeof(byte[]))
-{
-#>
-            this.encoding = Encoding.UTF8;
-<#
-}
-#>
-            this.InternalValue = value;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="synchronizationContext">The synchronization context.</param>
-        public <#= typeName #>Variable(<#= fullTypeName #> value, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public Named<#= typeName #>Variable(string name, <#= fullTypeName #> value)
+            : base(name)
         {
 <#
 if (typ == typeof(byte[]))
@@ -110,52 +94,76 @@ if (typ == typeof(byte[]))
 #>
             this.InternalValue = value;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Named<#= typeName #>Variable"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="synchronizationContext">The synchronization context.</param>
+        public Named<#= typeName #>Variable(string name, <#= fullTypeName #> value, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
+        {
+<#
+if (typ == typeof(byte[]))
+{
+#>
+            this.encoding = Encoding.UTF8;
+<#
+}
+#>
+            this.InternalValue = value;
+        }
 <#
 if (typ == typeof(byte[]))
 {
 #>
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
+        /// Initializes a new instance of the <see cref="Named<#= typeName #>Variable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="encoding">The encoding to use when converting to/from strings.</param>
-        public <#= typeName #>Variable(Encoding encoding)
-            : base()
+        public Named<#= typeName #>Variable(string name, Encoding encoding)
+            : base(name)
         {
             this.encoding = encoding;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
+        /// Initializes a new instance of the <see cref="Named<#= typeName #>Variable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="encoding">The encoding to use when converting to/from strings.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public <#= typeName #>Variable(Encoding encoding, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public Named<#= typeName #>Variable(string name, Encoding encoding, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.encoding = encoding;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
+        /// Initializes a new instance of the <see cref="Named<#= typeName #>Variable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="encoding">The encoding to use when converting to/from strings.</param>
-        public <#= typeName #>Variable(<#= fullTypeName #> value, Encoding encoding)
-            : base()
+        public Named<#= typeName #>Variable(string name, <#= fullTypeName #> value, Encoding encoding)
+            : base(name)
         {
             this.encoding = encoding;
             this.InternalValue = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="<#= typeName #>Variable"/> class.
+        /// Initializes a new instance of the <see cref="Named<#= typeName #>Variable"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
         /// <param name="encoding">The encoding to use when converting to/from strings.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        public <#= typeName #>Variable(<#= fullTypeName #> value, Encoding encoding, SynchronizationContext synchronizationContext)
-            : base(synchronizationContext)
+        public Named<#= typeName #>Variable(string name, <#= fullTypeName #> value, Encoding encoding, SynchronizationContext synchronizationContext)
+            : base(name, synchronizationContext)
         {
             this.encoding = encoding;
             this.InternalValue = value;
@@ -223,11 +231,11 @@ else
 #>
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="<#= typeName #>Variable" /> to <see cref="T:<#= fullTypeName #>" />.
+        /// Performs an implicit conversion from <see cref="Named<#= typeName #>Variable" /> to <see cref="T:<#= fullTypeName #>" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator <#= fullTypeName #>(<#= typeName #>Variable value) => value?.RawDebuggerValue ?? default;
+        public static implicit operator <#= fullTypeName #>(Named<#= typeName #>Variable value) => value?.RawDebuggerValue ?? default;
 
 <#
 if (typ != typeof(string))
@@ -237,7 +245,7 @@ if (typ != typeof(string))
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator string(<#= typeName #>Variable value) => value?.DebuggerValue ?? default;
+        public static implicit operator string(Named<#= typeName #>Variable value) => value?.DebuggerValue ?? default;
 
 <#
 }
@@ -253,15 +261,26 @@ if (typ != typeof(string))
                 return -1;
             }
 
+            if (!(other is INamedVariable<<#= fullTypeName #>> otherVariable))
+            {
+                return -1;
+            }
+
+            var nameComparison = otherVariable.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
             <#
 if (typ == typeof(byte[]))
 {
-#>return other.RawDebuggerValue.SequenceCompare(this.RawDebuggerValue);
+#>return otherVariable.RawDebuggerValue.SequenceCompare(this.RawDebuggerValue);
 <#
 }
 else
 {
-#>return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+#>return otherVariable.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
 <#
 }
 #>
@@ -279,14 +298,25 @@ else
                 return false;
             }
 
-            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
+            if (!(other is INamedVariable<<#= fullTypeName #>> otherVariable))
+            {
+                return false;
+            }
+
+            var nameComparison = otherVariable.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public <#= typeName #>Variable DeepClone() => new <#= typeName #>Variable(this.InternalValue, this.SynchronizationContext);
+        public Named<#= typeName #>Variable DeepClone() => new Named<#= typeName #>Variable(this.Name, this.InternalValue, this.SynchronizationContext);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.

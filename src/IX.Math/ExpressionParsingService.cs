@@ -1,4 +1,4 @@
-﻿// <copyright file="ExpressionParsingService.cs" company="Adrian Mos">
+// <copyright file="ExpressionParsingService.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -7,10 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using IX.Math.Extraction;
 using IX.Math.Generators;
 using IX.Math.Nodes.Constants;
 using IX.Math.Nodes.Parameters;
+using IX.StandardExtensions;
 using IX.StandardExtensions.ComponentModel;
+using IX.System.Collections.Generic;
 
 namespace IX.Math
 {
@@ -27,6 +30,8 @@ namespace IX.Math
         private Dictionary<string, Type> unaryFunctions;
         private Dictionary<string, Type> binaryFunctions;
         private Dictionary<string, Type> ternaryFunctions;
+
+        private LevelDictionary<Type, IConstantsExtractor> constantExtractors;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionParsingService"/> class with a standard math definition object.
@@ -97,6 +102,11 @@ namespace IX.Math
                 this.InitializeFunctionsDictionary();
             }
 
+            if (this.constantExtractors == null)
+            {
+                this.InitializeExtractorsDictionary();
+            }
+
             var workingSet = new WorkingExpressionSet(
                 expression,
                 this.workingDefinition,
@@ -105,6 +115,7 @@ namespace IX.Math
                 this.unaryFunctions,
                 this.binaryFunctions,
                 this.ternaryFunctions,
+                this.constantExtractors,
                 cancellationToken);
 
             ExpressionGenerator.CreateBody(workingSet);
@@ -305,6 +316,22 @@ namespace IX.Math
             this.unaryFunctions = FunctionsDictionaryGenerator.GenerateInternalUnaryFunctionsDictionary(this.assembliesToRegister);
             this.binaryFunctions = FunctionsDictionaryGenerator.GenerateInternalBinaryFunctionsDictionary(this.assembliesToRegister);
             this.ternaryFunctions = FunctionsDictionaryGenerator.GenerateInternalTernaryFunctionsDictionary(this.assembliesToRegister);
+        }
+
+        private void InitializeExtractorsDictionary()
+        {
+            this.constantExtractors = new LevelDictionary<Type, IConstantsExtractor>
+            {
+                { typeof(StringExtractor), new StringExtractor(), 0 },
+            };
+
+            var i = 1000;
+            this.assembliesToRegister
+                .GetTypesAssignableFrom<IConstantsExtractor>()
+                .Where(p => p.IsClass && !p.IsAbstract && !p.IsGenericTypeDefinition && p.HasPublicParameterlessConstructor())
+                .Select(p => p.AsType())
+                .Where(p => !this.constantExtractors.ContainsKey(p))
+                .ForEach(p => this.constantExtractors.Add(p, (IConstantsExtractor)p.Instantiate(), i++));
         }
 
         private string GetParameterNode(ParameterInfo parameter)

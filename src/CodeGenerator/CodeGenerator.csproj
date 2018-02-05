@@ -225,5 +225,18 @@
       <DependentUpon>ConcurrentObservableDictionary{TKey,TValue}.ActionsAndFuncs.tt</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="NamedVariable.StandardTypes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NamedVariable.StandardTypes.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NamedVariable.StandardTypes.cs">
+      <DependentUpon>NamedVariable.StandardTypes.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

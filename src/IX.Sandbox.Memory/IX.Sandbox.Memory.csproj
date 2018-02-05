@@ -29,6 +29,7 @@
   <Import Project="..\StyleCop.targets" />
 
   <ItemGroup>
+    <Compile Include="..\CodeGenerator\NamedVariable.StandardTypes.cs" Link="NamedVariable.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\Variable.StandardTypes.cs" Link="Variable.StandardTypes.cs" />
   </ItemGroup>
 
@@ -75,6 +76,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources.ro.resx">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources.ru.resx">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources.se.resx">
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿// <copyright file="WorkingExpressionSet.cs" company="Adrian Mos">
+// <copyright file="WorkingExpressionSet.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using IX.Math.ExpressionState;
+using IX.Math.Extraction;
 using IX.Math.Generators;
 using IX.Math.Nodes;
 using IX.System.Collections.Generic;
@@ -47,6 +48,8 @@ namespace IX.Math
         internal Dictionary<string, Type> BinaryFunctions;
         internal Dictionary<string, Type> TernaryFunctions;
 
+        internal LevelDictionary<Type, IConstantsExtractor> Extractors;
+
         // Results
         internal object ValueIfConstant;
         internal bool Success = false;
@@ -65,6 +68,7 @@ namespace IX.Math
             Dictionary<string, Type> unaryFunctions,
             Dictionary<string, Type> binaryFunctions,
             Dictionary<string, Type> ternaryFunctions,
+            LevelDictionary<Type, IConstantsExtractor> extractors,
             CancellationToken cancellationToken)
         {
             this.ConstantsTable = new Dictionary<string, ConstantNodeBase>();
@@ -105,6 +109,8 @@ namespace IX.Math
             this.UnaryFunctions = unaryFunctions;
             this.BinaryFunctions = binaryFunctions;
             this.TernaryFunctions = ternaryFunctions;
+
+            this.Extractors = extractors;
 
             this.FunctionRegex = new Regex($@"(?'functionName'.*?){Regex.Escape(this.Definition.Parentheses.Item1)}(?'expression'.*?){Regex.Escape(this.Definition.Parentheses.Item2)}");
         }
