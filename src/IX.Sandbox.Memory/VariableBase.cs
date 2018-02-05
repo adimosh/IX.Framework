@@ -23,21 +23,17 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Initializes a new instance of the <see cref="VariableBase{T}"/> class.
         /// </summary>
-        /// <param name="name">The name.</param>
-        protected VariableBase(string name)
+        protected VariableBase()
         {
-            this.InitializeInternalContext(name);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VariableBase{T}"/> class.
         /// </summary>
-        /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
-        protected VariableBase(string name, SynchronizationContext synchronizationContext)
+        protected VariableBase(SynchronizationContext synchronizationContext)
             : base(synchronizationContext)
         {
-            this.InitializeInternalContext(name);
         }
 
         /// <summary>
@@ -76,12 +72,6 @@ namespace IX.Sandbox.Memory
                 this.RaisePropertyChanged(nameof(this.RawDebuggerValue));
             }
         }
-
-        /// <summary>
-        /// Gets the name of the variable.
-        /// </summary>
-        /// <value>The name of the variable.</value>
-        public string Name { get; private set; }
 
         /// <summary>
         /// Gets or sets the value that is shown in and loaded from a debugger window.
@@ -160,17 +150,5 @@ namespace IX.Sandbox.Memory
         /// </summary>
         /// <returns>A deep clone.</returns>
         protected abstract VariableBase<T> DeepCloneImplementation();
-
-        private void InitializeInternalContext(string name)
-        {
-            // Validate parameters
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentNullException(name);
-            }
-
-            // Set parameters
-            this.Name = name;
-        }
     }
 }

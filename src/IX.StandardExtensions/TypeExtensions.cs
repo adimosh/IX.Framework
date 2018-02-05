@@ -33,6 +33,5 @@ namespace IX.StandardExtensions
         /// <param name="parameters">The parameters to pass through to the constructor.</param>
         /// <returns>An instance of the object to instantiate.</returns>
         public static object Instantiate(this Type type, params object[] parameters) => Activator.CreateInstance(type, parameters);
-
     }
 }

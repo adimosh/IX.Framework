@@ -1,9 +1,8 @@
-﻿// <copyright file="IScope.cs" company="Adrian Mos">
+// <copyright file="IScope.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 
 namespace IX.Abstractions.Memory
 {
@@ -50,7 +49,7 @@ namespace IX.Abstractions.Memory
         /// <typeparam name="T">The type of the variable.</typeparam>
         /// <param name="name">The name of the variable.</param>
         /// <returns>The new variable, if one has been created.</returns>
-        IVariable<T> CreateVariable<T>(string name);
+        INamedVariable<T> CreateVariable<T>(string name);
 
         /// <summary>
         /// Disposes a variable by name.
@@ -62,6 +61,6 @@ namespace IX.Abstractions.Memory
         /// Disposes a variable by reference.
         /// </summary>
         /// <param name="variable">The variable, by reference.</param>
-        void DisposeVariable(ref IVariable variable);
+        void DisposeVariable(ref INamedVariable variable);
     }
 }

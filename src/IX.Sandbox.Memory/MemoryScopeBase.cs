@@ -1,4 +1,4 @@
-﻿// <copyright file="MemoryScopeBase.cs" company="Adrian Mos">
+// <copyright file="MemoryScopeBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -22,7 +22,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// The variables container.
         /// </summary>
-        private ConcurrentObservableDictionary<string, IVariable> variables;
+        private ConcurrentObservableDictionary<string, INamedVariable> variables;
 
         /// <summary>
         /// The sub scopes container.
@@ -88,7 +88,7 @@ namespace IX.Sandbox.Memory
         /// Gets the variables contained in this space.
         /// </summary>
         /// <value>The variables contained in this scope.</value>
-        public ObservableDictionary<string, IVariable> Variables => this.variables;
+        public ObservableDictionary<string, INamedVariable> Variables => this.variables;
 
         /// <summary>
         /// Gets the sub-scopes of this scope.
@@ -102,7 +102,7 @@ namespace IX.Sandbox.Memory
         /// <typeparam name="T">The type of the variable.</typeparam>
         /// <param name="name">The name of the variable.</param>
         /// <returns>The new variable, if one has been created.</returns>
-        public abstract IVariable<T> CreateVariable<T>(string name);
+        public abstract INamedVariable<T> CreateVariable<T>(string name);
 
         /// <summary>
         /// Disposes a variable by name.
@@ -117,7 +117,7 @@ namespace IX.Sandbox.Memory
 
             this.ThrowIfCurrentObjectDisposed();
 
-            if (this.variables.TryGetValue(name, out IVariable storedVariable))
+            if (this.variables.TryGetValue(name, out INamedVariable storedVariable))
             {
                 this.variables.Remove(name);
 
@@ -129,7 +129,7 @@ namespace IX.Sandbox.Memory
         /// Disposes a variable by reference.
         /// </summary>
         /// <param name="variable">The variable, by reference.</param>
-        public virtual void DisposeVariable(ref IVariable variable)
+        public virtual void DisposeVariable(ref INamedVariable variable)
         {
             if (variable == null)
             {
@@ -139,7 +139,7 @@ namespace IX.Sandbox.Memory
             this.ThrowIfCurrentObjectDisposed();
 
             var name = variable.Name;
-            if (this.variables.TryGetValue(name, out IVariable storedVariable))
+            if (this.variables.TryGetValue(name, out INamedVariable storedVariable))
             {
                 if (storedVariable != variable)
                 {
@@ -247,13 +247,13 @@ namespace IX.Sandbox.Memory
 
             this.FireAndForget((st) => ((KeyValuePair<string, IScope>[])st).ForEach(p => p.Value.Dispose()), scopes);
 
-            KeyValuePair<string, IVariable>[] variables = new KeyValuePair<string, IVariable>[this.variables.Count];
+            KeyValuePair<string, INamedVariable>[] variables = new KeyValuePair<string, INamedVariable>[this.variables.Count];
 
             this.variables.CopyTo(variables, 0);
 
             this.variables.Clear();
 
-            this.FireAndForget((st) => ((KeyValuePair<string, IVariable>[])st).ForEach(p => p.Value.Dispose()), variables);
+            this.FireAndForget((st) => ((KeyValuePair<string, INamedVariable>[])st).ForEach(p => p.Value.Dispose()), variables);
 
             base.DisposeManagedContext();
         }
@@ -271,7 +271,7 @@ namespace IX.Sandbox.Memory
             this.Parent = parent;
 
             // Initialize internal scope
-            this.variables = new ConcurrentObservableDictionary<string, IVariable>();
+            this.variables = new ConcurrentObservableDictionary<string, INamedVariable>();
             this.subScopes = new ConcurrentObservableDictionary<string, IScope>();
         }
     }

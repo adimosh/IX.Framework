@@ -12,12 +12,6 @@ namespace IX.Abstractions.Memory
     public interface IVariable : IDisposable
     {
         /// <summary>
-        /// Gets the name of the variable.
-        /// </summary>
-        /// <value>The name of the variable.</value>
-        string Name { get; }
-
-        /// <summary>
         /// Gets or sets the value that is shown in and loaded from a debugger window.
         /// </summary>
         /// <value>The debugger value.</value>
