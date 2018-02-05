@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
   "settings": {
     "documentationRules": {
@@ -13,7 +13,8 @@
     "orderingRules": {
       "systemUsingDirectivesFirst": true,
       "usingDirectivesPlacement": "outsideNamespace",
-      "elementOrder": [ "kind", "constant", "readonly", "static", "accessibility" ]
+      "elementOrder": [ "kind", "constant", "readonly", "static", "accessibility" ],
+      "blankLinesBetweenUsingGroups": "allow"
     },
     "namingRules": {
       "allowCommonHungarianPrefixes": false
@@ -24,7 +25,15 @@
       "useTabs": false
     },
     "layoutRules": {
-      "newlineAtEndOfFile": "omit"
+      "newlineAtEndOfFile": "omit",
+      "allowConsecutiveUsings": true
+    },
+    "maintainabilityRules": {
+      "topLevelTypes": [ "class", "struct", "interface" ]
+    },
+    "readabilityRules": {
+    },
+    "spacingRules": {
     }
   }
 }
