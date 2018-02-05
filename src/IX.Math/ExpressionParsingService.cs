@@ -326,7 +326,12 @@ namespace IX.Math
             };
 
             var i = 1000;
-            this.assembliesToRegister.GetTypesAssignableFrom<IConstantsExtractor>().Select(p => p.AsType()).Where(p => !this.constantExtractors.ContainsKey(p)).ForEach(p => this.constantExtractors.Add(p, (IConstantsExtractor)p.Instantiate(), i++));
+            this.assembliesToRegister
+                .GetTypesAssignableFrom<IConstantsExtractor>()
+                .Where(p => p.IsClass && !p.IsAbstract && !p.IsGenericTypeDefinition && p.HasPublicParameterlessConstructor())
+                .Select(p => p.AsType())
+                .Where(p => !this.constantExtractors.ContainsKey(p))
+                .ForEach(p => this.constantExtractors.Add(p, (IConstantsExtractor)p.Instantiate(), i++));
         }
 
         private string GetParameterNode(ParameterInfo parameter)
