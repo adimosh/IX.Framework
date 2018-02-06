@@ -217,6 +217,84 @@ for (int i = 1; i <= 8; i++)
 
             return value;
         }
+
+        /// <summary>
+        /// Removes a key from the dictionary, then acts on its resulting value.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="key">The key.</param>
+        /// <param name="action">The action.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        public void RemoveThenAct<<#= paramTypes #>>(TKey key, Action<TValue, <#= paramTypes #>> action, <#= paramNameTypes #>)
+        {
+            // PRECONDITIONS
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            int oldIndex;
+            TValue value;
+
+            // Under read/write lock
+            using (ReadWriteSynchronizationLocker rwl = this.ReadWriteLock())
+            {
+                if (this.InternalContainer.TryGetValue(key, out value))
+                {
+                    rwl.Upgrade();
+
+                    if (this.InternalContainer.TryGetValue(key, out value))
+                    {
+                        // Re-check within a write lock, to ensure that something else hasn't already removed it.
+                        oldIndex = this.InternalContainer.Remove(new KeyValuePair<TKey, TValue>(key, value));
+
+                        action(value, <#= paramNames #>);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            // NOTIFICATIONS
+
+            // Collection changed
+            if (oldIndex == -1)
+            {
+                // If no index could be found for an item (Dictionary remove)
+                this.RaiseCollectionReset();
+            }
+            else
+            {
+                // If index was added at a specific index
+                this.RaiseCollectionChangedRemove(new KeyValuePair<TKey, TValue>(key, value), oldIndex);
+            }
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
+        }
 <#
 }
 #>

@@ -414,6 +414,68 @@ namespace IX.Observable
         }
 
         /// <summary>
+        /// Removes a key from the dictionary, then acts on its resulting value.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="action">The action.</param>
+        public void RemoveThenAct(TKey key, Action<TValue> action)
+        {
+            // PRECONDITIONS
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            int oldIndex;
+            TValue value;
+
+            // Under read/write lock
+            using (ReadWriteSynchronizationLocker rwl = this.ReadWriteLock())
+            {
+                if (this.InternalContainer.TryGetValue(key, out value))
+                {
+                    rwl.Upgrade();
+
+                    if (this.InternalContainer.TryGetValue(key, out value))
+                    {
+                        // Re-check within a write lock, to ensure that something else hasn't already removed it.
+                        oldIndex = this.InternalContainer.Remove(new KeyValuePair<TKey, TValue>(key, value));
+
+                        action(value);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            // NOTIFICATIONS
+
+            // Collection changed
+            if (oldIndex == -1)
+            {
+                // If no index could be found for an item (Dictionary remove)
+                this.RaiseCollectionReset();
+            }
+            else
+            {
+                // If index was added at a specific index
+                this.RaiseCollectionChangedRemove(new KeyValuePair<TKey, TValue>(key, value), oldIndex);
+            }
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
+        }
+
+        /// <summary>
         /// Disposes the managed context.
         /// </summary>
         protected override void DisposeManagedContext()

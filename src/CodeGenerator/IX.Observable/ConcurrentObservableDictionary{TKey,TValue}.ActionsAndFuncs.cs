@@ -156,6 +156,70 @@ namespace IX.Observable
         }
 
         /// <summary>
+        /// Removes a key from the dictionary, then acts on its resulting value.
+        /// </summary>
+        /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="action">The action.</param>
+        /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0.</param>
+        public void RemoveThenAct<TParam1>(TKey key, Action<TValue, TParam1> action, TParam1 param1)
+        {
+            // PRECONDITIONS
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            int oldIndex;
+            TValue value;
+
+            // Under read/write lock
+            using (ReadWriteSynchronizationLocker rwl = this.ReadWriteLock())
+            {
+                if (this.InternalContainer.TryGetValue(key, out value))
+                {
+                    rwl.Upgrade();
+
+                    if (this.InternalContainer.TryGetValue(key, out value))
+                    {
+                        // Re-check within a write lock, to ensure that something else hasn't already removed it.
+                        oldIndex = this.InternalContainer.Remove(new KeyValuePair<TKey, TValue>(key, value));
+
+                        action(value, param1);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            // NOTIFICATIONS
+
+            // Collection changed
+            if (oldIndex == -1)
+            {
+                // If no index could be found for an item (Dictionary remove)
+                this.RaiseCollectionReset();
+            }
+            else
+            {
+                // If index was added at a specific index
+                this.RaiseCollectionChangedRemove(new KeyValuePair<TKey, TValue>(key, value), oldIndex);
+            }
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
+        }
+
+        /// <summary>
         /// Gets a value from the dictionary, optionally generating one if the key is not found.
         /// </summary>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
@@ -300,6 +364,72 @@ namespace IX.Observable
             this.ContentsMayHaveChanged();
 
             return value;
+        }
+
+        /// <summary>
+        /// Removes a key from the dictionary, then acts on its resulting value.
+        /// </summary>
+        /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
+        /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="action">The action.</param>
+        /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0.</param>
+        /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1.</param>
+        public void RemoveThenAct<TParam1, TParam2>(TKey key, Action<TValue, TParam1, TParam2> action, TParam1 param1, TParam2 param2)
+        {
+            // PRECONDITIONS
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            int oldIndex;
+            TValue value;
+
+            // Under read/write lock
+            using (ReadWriteSynchronizationLocker rwl = this.ReadWriteLock())
+            {
+                if (this.InternalContainer.TryGetValue(key, out value))
+                {
+                    rwl.Upgrade();
+
+                    if (this.InternalContainer.TryGetValue(key, out value))
+                    {
+                        // Re-check within a write lock, to ensure that something else hasn't already removed it.
+                        oldIndex = this.InternalContainer.Remove(new KeyValuePair<TKey, TValue>(key, value));
+
+                        action(value, param1, param2);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            // NOTIFICATIONS
+
+            // Collection changed
+            if (oldIndex == -1)
+            {
+                // If no index could be found for an item (Dictionary remove)
+                this.RaiseCollectionReset();
+            }
+            else
+            {
+                // If index was added at a specific index
+                this.RaiseCollectionChangedRemove(new KeyValuePair<TKey, TValue>(key, value), oldIndex);
+            }
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
         }
 
         /// <summary>
@@ -451,6 +581,74 @@ namespace IX.Observable
             this.ContentsMayHaveChanged();
 
             return value;
+        }
+
+        /// <summary>
+        /// Removes a key from the dictionary, then acts on its resulting value.
+        /// </summary>
+        /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
+        /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
+        /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="action">The action.</param>
+        /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0.</param>
+        /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1.</param>
+        /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2.</param>
+        public void RemoveThenAct<TParam1, TParam2, TParam3>(TKey key, Action<TValue, TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3)
+        {
+            // PRECONDITIONS
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            int oldIndex;
+            TValue value;
+
+            // Under read/write lock
+            using (ReadWriteSynchronizationLocker rwl = this.ReadWriteLock())
+            {
+                if (this.InternalContainer.TryGetValue(key, out value))
+                {
+                    rwl.Upgrade();
+
+                    if (this.InternalContainer.TryGetValue(key, out value))
+                    {
+                        // Re-check within a write lock, to ensure that something else hasn't already removed it.
+                        oldIndex = this.InternalContainer.Remove(new KeyValuePair<TKey, TValue>(key, value));
+
+                        action(value, param1, param2, param3);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            // NOTIFICATIONS
+
+            // Collection changed
+            if (oldIndex == -1)
+            {
+                // If no index could be found for an item (Dictionary remove)
+                this.RaiseCollectionReset();
+            }
+            else
+            {
+                // If index was added at a specific index
+                this.RaiseCollectionChangedRemove(new KeyValuePair<TKey, TValue>(key, value), oldIndex);
+            }
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
         }
 
         /// <summary>
@@ -606,6 +804,76 @@ namespace IX.Observable
             this.ContentsMayHaveChanged();
 
             return value;
+        }
+
+        /// <summary>
+        /// Removes a key from the dictionary, then acts on its resulting value.
+        /// </summary>
+        /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
+        /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
+        /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
+        /// <typeparam name="TParam4">The type of parameter to be passed to the invoked method at index 3.</typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="action">The action.</param>
+        /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0.</param>
+        /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1.</param>
+        /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2.</param>
+        /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3.</param>
+        public void RemoveThenAct<TParam1, TParam2, TParam3, TParam4>(TKey key, Action<TValue, TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
+        {
+            // PRECONDITIONS
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            int oldIndex;
+            TValue value;
+
+            // Under read/write lock
+            using (ReadWriteSynchronizationLocker rwl = this.ReadWriteLock())
+            {
+                if (this.InternalContainer.TryGetValue(key, out value))
+                {
+                    rwl.Upgrade();
+
+                    if (this.InternalContainer.TryGetValue(key, out value))
+                    {
+                        // Re-check within a write lock, to ensure that something else hasn't already removed it.
+                        oldIndex = this.InternalContainer.Remove(new KeyValuePair<TKey, TValue>(key, value));
+
+                        action(value, param1, param2, param3, param4);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            // NOTIFICATIONS
+
+            // Collection changed
+            if (oldIndex == -1)
+            {
+                // If no index could be found for an item (Dictionary remove)
+                this.RaiseCollectionReset();
+            }
+            else
+            {
+                // If index was added at a specific index
+                this.RaiseCollectionChangedRemove(new KeyValuePair<TKey, TValue>(key, value), oldIndex);
+            }
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
         }
 
         /// <summary>
@@ -765,6 +1033,78 @@ namespace IX.Observable
             this.ContentsMayHaveChanged();
 
             return value;
+        }
+
+        /// <summary>
+        /// Removes a key from the dictionary, then acts on its resulting value.
+        /// </summary>
+        /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
+        /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
+        /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
+        /// <typeparam name="TParam4">The type of parameter to be passed to the invoked method at index 3.</typeparam>
+        /// <typeparam name="TParam5">The type of parameter to be passed to the invoked method at index 4.</typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="action">The action.</param>
+        /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0.</param>
+        /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1.</param>
+        /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2.</param>
+        /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3.</param>
+        /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4.</param>
+        public void RemoveThenAct<TParam1, TParam2, TParam3, TParam4, TParam5>(TKey key, Action<TValue, TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
+        {
+            // PRECONDITIONS
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            int oldIndex;
+            TValue value;
+
+            // Under read/write lock
+            using (ReadWriteSynchronizationLocker rwl = this.ReadWriteLock())
+            {
+                if (this.InternalContainer.TryGetValue(key, out value))
+                {
+                    rwl.Upgrade();
+
+                    if (this.InternalContainer.TryGetValue(key, out value))
+                    {
+                        // Re-check within a write lock, to ensure that something else hasn't already removed it.
+                        oldIndex = this.InternalContainer.Remove(new KeyValuePair<TKey, TValue>(key, value));
+
+                        action(value, param1, param2, param3, param4, param5);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            // NOTIFICATIONS
+
+            // Collection changed
+            if (oldIndex == -1)
+            {
+                // If no index could be found for an item (Dictionary remove)
+                this.RaiseCollectionReset();
+            }
+            else
+            {
+                // If index was added at a specific index
+                this.RaiseCollectionChangedRemove(new KeyValuePair<TKey, TValue>(key, value), oldIndex);
+            }
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
         }
 
         /// <summary>
@@ -928,6 +1268,80 @@ namespace IX.Observable
             this.ContentsMayHaveChanged();
 
             return value;
+        }
+
+        /// <summary>
+        /// Removes a key from the dictionary, then acts on its resulting value.
+        /// </summary>
+        /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
+        /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
+        /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
+        /// <typeparam name="TParam4">The type of parameter to be passed to the invoked method at index 3.</typeparam>
+        /// <typeparam name="TParam5">The type of parameter to be passed to the invoked method at index 4.</typeparam>
+        /// <typeparam name="TParam6">The type of parameter to be passed to the invoked method at index 5.</typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="action">The action.</param>
+        /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0.</param>
+        /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1.</param>
+        /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2.</param>
+        /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3.</param>
+        /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4.</param>
+        /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
+        public void RemoveThenAct<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(TKey key, Action<TValue, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6)
+        {
+            // PRECONDITIONS
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            int oldIndex;
+            TValue value;
+
+            // Under read/write lock
+            using (ReadWriteSynchronizationLocker rwl = this.ReadWriteLock())
+            {
+                if (this.InternalContainer.TryGetValue(key, out value))
+                {
+                    rwl.Upgrade();
+
+                    if (this.InternalContainer.TryGetValue(key, out value))
+                    {
+                        // Re-check within a write lock, to ensure that something else hasn't already removed it.
+                        oldIndex = this.InternalContainer.Remove(new KeyValuePair<TKey, TValue>(key, value));
+
+                        action(value, param1, param2, param3, param4, param5, param6);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            // NOTIFICATIONS
+
+            // Collection changed
+            if (oldIndex == -1)
+            {
+                // If no index could be found for an item (Dictionary remove)
+                this.RaiseCollectionReset();
+            }
+            else
+            {
+                // If index was added at a specific index
+                this.RaiseCollectionChangedRemove(new KeyValuePair<TKey, TValue>(key, value), oldIndex);
+            }
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
         }
 
         /// <summary>
@@ -1095,6 +1509,82 @@ namespace IX.Observable
             this.ContentsMayHaveChanged();
 
             return value;
+        }
+
+        /// <summary>
+        /// Removes a key from the dictionary, then acts on its resulting value.
+        /// </summary>
+        /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
+        /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
+        /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
+        /// <typeparam name="TParam4">The type of parameter to be passed to the invoked method at index 3.</typeparam>
+        /// <typeparam name="TParam5">The type of parameter to be passed to the invoked method at index 4.</typeparam>
+        /// <typeparam name="TParam6">The type of parameter to be passed to the invoked method at index 5.</typeparam>
+        /// <typeparam name="TParam7">The type of parameter to be passed to the invoked method at index 6.</typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="action">The action.</param>
+        /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0.</param>
+        /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1.</param>
+        /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2.</param>
+        /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3.</param>
+        /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4.</param>
+        /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
+        /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
+        public void RemoveThenAct<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(TKey key, Action<TValue, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7)
+        {
+            // PRECONDITIONS
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            int oldIndex;
+            TValue value;
+
+            // Under read/write lock
+            using (ReadWriteSynchronizationLocker rwl = this.ReadWriteLock())
+            {
+                if (this.InternalContainer.TryGetValue(key, out value))
+                {
+                    rwl.Upgrade();
+
+                    if (this.InternalContainer.TryGetValue(key, out value))
+                    {
+                        // Re-check within a write lock, to ensure that something else hasn't already removed it.
+                        oldIndex = this.InternalContainer.Remove(new KeyValuePair<TKey, TValue>(key, value));
+
+                        action(value, param1, param2, param3, param4, param5, param6, param7);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            // NOTIFICATIONS
+
+            // Collection changed
+            if (oldIndex == -1)
+            {
+                // If no index could be found for an item (Dictionary remove)
+                this.RaiseCollectionReset();
+            }
+            else
+            {
+                // If index was added at a specific index
+                this.RaiseCollectionChangedRemove(new KeyValuePair<TKey, TValue>(key, value), oldIndex);
+            }
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
         }
 
         /// <summary>
@@ -1266,6 +1756,84 @@ namespace IX.Observable
             this.ContentsMayHaveChanged();
 
             return value;
+        }
+
+        /// <summary>
+        /// Removes a key from the dictionary, then acts on its resulting value.
+        /// </summary>
+        /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
+        /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
+        /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
+        /// <typeparam name="TParam4">The type of parameter to be passed to the invoked method at index 3.</typeparam>
+        /// <typeparam name="TParam5">The type of parameter to be passed to the invoked method at index 4.</typeparam>
+        /// <typeparam name="TParam6">The type of parameter to be passed to the invoked method at index 5.</typeparam>
+        /// <typeparam name="TParam7">The type of parameter to be passed to the invoked method at index 6.</typeparam>
+        /// <typeparam name="TParam8">The type of parameter to be passed to the invoked method at index 7.</typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="action">The action.</param>
+        /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0.</param>
+        /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1.</param>
+        /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2.</param>
+        /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3.</param>
+        /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4.</param>
+        /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
+        /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
+        /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked method at index 7.</param>
+        public void RemoveThenAct<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(TKey key, Action<TValue, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8)
+        {
+            // PRECONDITIONS
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            int oldIndex;
+            TValue value;
+
+            // Under read/write lock
+            using (ReadWriteSynchronizationLocker rwl = this.ReadWriteLock())
+            {
+                if (this.InternalContainer.TryGetValue(key, out value))
+                {
+                    rwl.Upgrade();
+
+                    if (this.InternalContainer.TryGetValue(key, out value))
+                    {
+                        // Re-check within a write lock, to ensure that something else hasn't already removed it.
+                        oldIndex = this.InternalContainer.Remove(new KeyValuePair<TKey, TValue>(key, value));
+
+                        action(value, param1, param2, param3, param4, param5, param6, param7, param8);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            // NOTIFICATIONS
+
+            // Collection changed
+            if (oldIndex == -1)
+            {
+                // If no index could be found for an item (Dictionary remove)
+                this.RaiseCollectionReset();
+            }
+            else
+            {
+                // If index was added at a specific index
+                this.RaiseCollectionChangedRemove(new KeyValuePair<TKey, TValue>(key, value), oldIndex);
+            }
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
         }
     }
 }
