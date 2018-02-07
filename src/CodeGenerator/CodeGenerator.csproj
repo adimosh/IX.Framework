@@ -58,7 +58,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IEnumerateEquateSequentiallyExtensions.StandardTypes.tt</DependentUpon>
     </None>
-    <None Include="Variable.StandardTypes.cs">
+    <None Include="IX.Sandbox\Variable.StandardTypes.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Variable.StandardTypes.tt</DependentUpon>
@@ -104,7 +104,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ArrayExtensions.StandardTypes.cs</LastGenOutput>
     </None>
-    <None Include="Variable.StandardTypes.tt">
+    <None Include="IX.Sandbox\Variable.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Variable.StandardTypes.cs</LastGenOutput>
     </None>
@@ -226,14 +226,27 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="NamedVariable.StandardTypes.tt">
+    <None Include="IX.Sandbox\NamedVariable.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>NamedVariable.StandardTypes.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="NamedVariable.StandardTypes.cs">
+    <None Include="IX.Sandbox\NamedVariable.StandardTypes.cs">
       <DependentUpon>NamedVariable.StandardTypes.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MemoryScopeBase.StandardTypes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MemoryScopeBase.StandardTypes.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MemoryScopeBase.StandardTypes.cs">
+      <DependentUpon>MemoryScopeBase.StandardTypes.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </None>

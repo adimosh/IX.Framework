@@ -29,8 +29,8 @@
   <Import Project="..\StyleCop.targets" />
 
   <ItemGroup>
-    <Compile Include="..\CodeGenerator\NamedVariable.StandardTypes.cs" Link="NamedVariable.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\Variable.StandardTypes.cs" Link="Variable.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.Sandbox\NamedVariable.StandardTypes.cs" Link="NamedVariable.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.Sandbox\Variable.StandardTypes.cs" Link="Variable.StandardTypes.cs" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">

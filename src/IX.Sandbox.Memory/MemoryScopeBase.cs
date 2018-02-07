@@ -17,7 +17,7 @@ namespace IX.Sandbox.Memory
     /// </summary>
     /// <seealso cref="IX.StandardExtensions.ComponentModel.ViewModelBase" />
     /// <seealso cref="IX.Abstractions.Memory.IScope" />
-    public abstract class MemoryScopeBase : NotifyPropertyChangedBase, IScope
+    public abstract partial class MemoryScopeBase : NotifyPropertyChangedBase, IScope
     {
         /// <summary>
         /// The variables container.
@@ -88,13 +88,13 @@ namespace IX.Sandbox.Memory
         /// Gets the variables contained in this space.
         /// </summary>
         /// <value>The variables contained in this scope.</value>
-        public ObservableDictionary<string, INamedVariable> Variables => this.variables;
+        public ConcurrentObservableDictionary<string, INamedVariable> Variables => this.variables;
 
         /// <summary>
         /// Gets the sub-scopes of this scope.
         /// </summary>
         /// <value>The sub-scopes.</value>
-        protected ObservableDictionary<string, IScope> SubScopes => this.subScopes;
+        protected ConcurrentObservableDictionary<string, IScope> SubScopes => this.subScopes;
 
         /// <summary>
         /// Creates a variable of a certain type.
@@ -103,6 +103,31 @@ namespace IX.Sandbox.Memory
         /// <param name="name">The name of the variable.</param>
         /// <returns>The new variable, if one has been created.</returns>
         public abstract INamedVariable<T> CreateVariable<T>(string name);
+
+        /// <summary>
+        /// Creates a named variable, or reassigns if one is found with the same name.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>The named variable, new or existing.</returns>
+        public INamedVariable CreateNamedByteVariable(string name, byte value)
+            => this.variables.CreateOrChangeState(
+                name,
+                (nameL1, valueL1, scL1) => new NamedByteVariable(nameL1, valueL1, scL1),
+                (var, nameL1, valueL1, scL1) =>
+                {
+                    if (!(var is NamedByteVariable nbv))
+                    {
+                        throw new ArgumentInvalidTypeException(nameof(name));
+                    }
+                    else
+                    {
+                        nbv.Value = valueL1;
+                    }
+                },
+                name,
+                value,
+                this.SynchronizationContext);
 
         /// <summary>
         /// Disposes a variable by name.
@@ -245,7 +270,7 @@ namespace IX.Sandbox.Memory
 
             this.subScopes.Clear();
 
-            this.FireAndForget((st) => ((KeyValuePair<string, IScope>[])st).ForEach(p => p.Value.Dispose()), scopes);
+            this.FireAndForget((st) => st.ForEach(p => p.Value.Dispose()), scopes);
 
             KeyValuePair<string, INamedVariable>[] variables = new KeyValuePair<string, INamedVariable>[this.variables.Count];
 
@@ -253,7 +278,7 @@ namespace IX.Sandbox.Memory
 
             this.variables.Clear();
 
-            this.FireAndForget((st) => ((KeyValuePair<string, INamedVariable>[])st).ForEach(p => p.Value.Dispose()), variables);
+            this.FireAndForget((st) => st.ForEach(p => p.Value.Dispose()), variables);
 
             base.DisposeManagedContext();
         }
@@ -271,8 +296,8 @@ namespace IX.Sandbox.Memory
             this.Parent = parent;
 
             // Initialize internal scope
-            this.variables = new ConcurrentObservableDictionary<string, INamedVariable>();
-            this.subScopes = new ConcurrentObservableDictionary<string, IScope>();
+            this.variables = new ConcurrentObservableDictionary<string, INamedVariable>(true);
+            this.subScopes = new ConcurrentObservableDictionary<string, IScope>(true);
         }
     }
 }

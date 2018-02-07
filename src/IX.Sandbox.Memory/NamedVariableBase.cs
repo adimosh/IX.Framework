@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading;
+using IX.Abstractions.Memory;
 
 namespace IX.Sandbox.Memory
 {
@@ -11,7 +12,7 @@ namespace IX.Sandbox.Memory
     /// A base class for named variable containers.
     /// </summary>
     /// <typeparam name="T">The discreet type of data contained in the variable.</typeparam>
-    public abstract class NamedVariableBase<T> : VariableBase<T>
+    public abstract class NamedVariableBase<T> : VariableBase<T>, INamedVariable<T>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NamedVariableBase{T}"/> class.
@@ -38,6 +39,20 @@ namespace IX.Sandbox.Memory
         /// </summary>
         /// <value>The name of the variable.</value>
         public string Name { get; private set; }
+
+        /// <summary>
+        /// Compares this instance of a named variable to another.
+        /// </summary>
+        /// <param name="other">The named variable to compare to.</param>
+        /// <returns>An integer value showing the difference between the two, or 0 if they are identical.</returns>
+        public abstract int CompareTo(INamedVariable<T> other);
+
+        /// <summary>
+        /// Equates this instance of a named variable to another.
+        /// </summary>
+        /// <param name="other">The named variable to equate to.</param>
+        /// <returns><c>true</c> if the variables are identical, <c>false</c> otherwise.</returns>
+        public abstract bool Equals(INamedVariable<T> other);
 
         private void InitializeInternalContext(string name)
         {
