@@ -20,9 +20,14 @@ namespace IX.Sandbox.Memory
     public abstract partial class MemoryScopeBase : NotifyPropertyChangedBase, IScope
     {
         /// <summary>
-        /// The variables container.
+        /// The named variables container.
         /// </summary>
         private ConcurrentObservableDictionary<string, INamedVariable> variables;
+
+        /// <summary>
+        /// The unnamed variables container.
+        /// </summary>
+        private ConcurrentObservableList<IVariable> unnamedVariables;
 
         /// <summary>
         /// The sub scopes container.
@@ -85,7 +90,7 @@ namespace IX.Sandbox.Memory
         public IScope Parent { get; private set; }
 
         /// <summary>
-        /// Gets the variables contained in this space.
+        /// Gets the variables contained in this scope.
         /// </summary>
         /// <value>The variables contained in this scope.</value>
         public ConcurrentObservableDictionary<string, INamedVariable> Variables => this.variables;
@@ -97,37 +102,18 @@ namespace IX.Sandbox.Memory
         protected ConcurrentObservableDictionary<string, IScope> SubScopes => this.subScopes;
 
         /// <summary>
+        /// Gets the unnamed variables contained in this scope.
+        /// </summary>
+        /// <value>The unnamed variables.</value>
+        protected ConcurrentObservableList<IVariable> UnnamedVariables => this.unnamedVariables;
+
+        /// <summary>
         /// Creates a variable of a certain type.
         /// </summary>
         /// <typeparam name="T">The type of the variable.</typeparam>
         /// <param name="name">The name of the variable.</param>
         /// <returns>The new variable, if one has been created.</returns>
         public abstract INamedVariable<T> CreateVariable<T>(string name);
-
-        /// <summary>
-        /// Creates a named variable, or reassigns if one is found with the same name.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="value">The value.</param>
-        /// <returns>The named variable, new or existing.</returns>
-        public INamedVariable CreateNamedByteVariable(string name, byte value)
-            => this.variables.CreateOrChangeState(
-                name,
-                (nameL1, valueL1, scL1) => new NamedByteVariable(nameL1, valueL1, scL1),
-                (var, nameL1, valueL1, scL1) =>
-                {
-                    if (!(var is NamedByteVariable nbv))
-                    {
-                        throw new ArgumentInvalidTypeException(nameof(name));
-                    }
-                    else
-                    {
-                        nbv.Value = valueL1;
-                    }
-                },
-                name,
-                value,
-                this.SynchronizationContext);
 
         /// <summary>
         /// Disposes a variable by name.
@@ -142,16 +128,11 @@ namespace IX.Sandbox.Memory
 
             this.ThrowIfCurrentObjectDisposed();
 
-            if (this.variables.TryGetValue(name, out INamedVariable storedVariable))
-            {
-                this.variables.Remove(name);
-
-                this.FireAndForget((st) => (st as IDisposable).Dispose(), storedVariable);
-            }
+            this.variables.RemoveThenAct(name, storedVariable => this.FireAndForget((st) => (st as IDisposable).Dispose(), storedVariable));
         }
 
         /// <summary>
-        /// Disposes a variable by reference.
+        /// Disposes a named variable by reference.
         /// </summary>
         /// <param name="variable">The variable, by reference.</param>
         public virtual void DisposeVariable(ref INamedVariable variable)
@@ -163,23 +144,30 @@ namespace IX.Sandbox.Memory
 
             this.ThrowIfCurrentObjectDisposed();
 
-            var name = variable.Name;
-            if (this.variables.TryGetValue(name, out INamedVariable storedVariable))
+            if (this.variables.RemoveThenAct(variable.Name, storedVariable => this.FireAndForget((st) => (st as IDisposable).Dispose(), storedVariable)))
             {
-                if (storedVariable != variable)
-                {
-                    throw new InvalidOperationException(Resources.VariableDifferentThanStored);
-                }
-
-                this.variables.Remove(name);
-
                 variable = null;
-
-                this.FireAndForget((st) => (st as IDisposable).Dispose(), storedVariable);
             }
-            else
+        }
+
+        /// <summary>
+        /// Disposes an unnamed variable by reference.
+        /// </summary>
+        /// <param name="variable">The variable, by reference.</param>
+        public virtual void DisposeVariable(ref IVariable variable)
+        {
+            if (variable == null)
             {
-                throw new InvalidOperationException(Resources.VariableNotFound);
+                throw new ArgumentNullException(nameof(variable));
+            }
+
+            this.ThrowIfCurrentObjectDisposed();
+
+            if (this.unnamedVariables.Remove(variable))
+            {
+                IVariable storedVariable = variable;
+                this.FireAndForget((st) => (st as IDisposable).Dispose(), storedVariable);
+                variable = null;
             }
         }
 
@@ -264,21 +252,64 @@ namespace IX.Sandbox.Memory
         /// </summary>
         protected override void DisposeManagedContext()
         {
+            // Dispose sub-scopes
             KeyValuePair<string, IScope>[] scopes = new KeyValuePair<string, IScope>[this.subScopes.Count];
 
             this.subScopes.CopyTo(scopes, 0);
 
             this.subScopes.Clear();
 
-            this.FireAndForget((st) => st.ForEach(p => p.Value.Dispose()), scopes);
+            this.FireAndForget(
+                (st) => st.ForEach(p =>
+                {
+                    try
+                    {
+                        p.Value.Dispose();
+                    }
+                    catch
+                    {
+                    }
+                }),
+                scopes);
 
+            // Dispose named variables
             KeyValuePair<string, INamedVariable>[] variables = new KeyValuePair<string, INamedVariable>[this.variables.Count];
 
             this.variables.CopyTo(variables, 0);
 
             this.variables.Clear();
 
-            this.FireAndForget((st) => st.ForEach(p => p.Value.Dispose()), variables);
+            this.FireAndForget(
+                (st) => st.ForEach(p =>
+                {
+                    try
+                    {
+                        p.Value.Dispose();
+                    }
+                    catch
+                    {
+                    }
+                }),
+                variables);
+
+            IVariable[] unnamedVariables = new IVariable[this.unnamedVariables.Count];
+
+            this.unnamedVariables.CopyTo(unnamedVariables, 0);
+
+            this.unnamedVariables.Clear();
+
+            this.FireAndForget(
+                (st) => st.ForEach(p =>
+                {
+                    try
+                    {
+                        p.Dispose();
+                    }
+                    catch
+                    {
+                    }
+                }),
+                unnamedVariables);
 
             base.DisposeManagedContext();
         }
@@ -297,6 +328,7 @@ namespace IX.Sandbox.Memory
 
             // Initialize internal scope
             this.variables = new ConcurrentObservableDictionary<string, INamedVariable>(true);
+            this.unnamedVariables = new ConcurrentObservableList<IVariable>(true);
             this.subScopes = new ConcurrentObservableDictionary<string, IScope>(true);
         }
     }

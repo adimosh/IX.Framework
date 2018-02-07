@@ -418,7 +418,8 @@ namespace IX.Observable
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="action">The action.</param>
-        public void RemoveThenAct(TKey key, Action<TValue> action)
+        /// <returns><c>true</c> if the variable was successfully removed, <c>false</c> otherwise.</returns>
+        public bool RemoveThenAct(TKey key, Action<TValue> action)
         {
             // PRECONDITIONS
 
@@ -445,12 +446,12 @@ namespace IX.Observable
                     }
                     else
                     {
-                        return;
+                        return false;
                     }
                 }
                 else
                 {
-                    return;
+                    return false;
                 }
             }
 
@@ -473,6 +474,8 @@ namespace IX.Observable
 
             // Contents may have changed
             this.ContentsMayHaveChanged();
+
+            return true;
         }
 
         /// <summary>
