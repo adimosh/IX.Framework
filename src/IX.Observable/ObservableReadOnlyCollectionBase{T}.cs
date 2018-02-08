@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using IX.Observable.Adapters;
 
@@ -154,6 +155,56 @@ namespace IX.Observable
                 arrayIndexL1),
             array,
             arrayIndex);
+
+        /// <summary>
+        /// Copies the elements of the <see cref="ObservableCollectionBase{T}" /> to a new <see cref="Array" />, starting at a particular index.
+        /// </summary>
+        /// <param name="fromIndex">The zero-based index from which which copying begins.</param>
+        /// <returns>A newly-formed array.</returns>
+        /// <remarks>On concurrent collections, this method is read-synchronized.</remarks>
+        public T[] CopyToArray(int fromIndex) => this.CheckDisposed(
+            (arrayIndexL1) => this.ReadLock(
+                (arrayIndexL2) =>
+                {
+                    var clount = ((ICollection<T>)this.InternalContainer).Count;
+
+                    if (arrayIndexL2 >= clount || arrayIndexL2 < 0)
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(fromIndex));
+                    }
+
+                    T[] array;
+
+                    if (arrayIndexL2 == 0)
+                    {
+                        array = new T[clount];
+                        this.InternalContainer.CopyTo(array, 0);
+                    }
+                    else
+                    {
+                        array = this.InternalContainer.Skip(arrayIndexL2).ToArray();
+                    }
+
+                    return array;
+                },
+                arrayIndexL1),
+            fromIndex);
+
+        /// <summary>
+        /// Copies the elements of the <see cref="ObservableCollectionBase{T}" /> to a new <see cref="Array" />.
+        /// </summary>
+        /// <returns>A newly-formed array.</returns>
+        /// <remarks>On concurrent collections, this method is read-synchronized.</remarks>
+        public T[] CopyToArray() => this.CheckDisposed(
+            () => this.ReadLock(
+                () =>
+                {
+                    var clount = ((ICollection<T>)this.InternalContainer).Count;
+
+                    T[] array = new T[clount];
+                    this.InternalContainer.CopyTo(array, 0);
+                    return array;
+                }));
 
         /// <summary>
         /// Returns a locking enumerator that iterates through the collection.

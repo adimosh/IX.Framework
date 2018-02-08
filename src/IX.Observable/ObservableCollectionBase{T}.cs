@@ -243,47 +243,16 @@ namespace IX.Observable
         /// <remarks>
         /// <para>On concurrent collections, this method is write-synchronized.</para>
         /// </remarks>
-        public virtual void Clear()
-        {
-            // PRECONDITIONS
+        public void Clear() => this.ClearInternal();
 
-            // Current object not disposed
-            this.ThrowIfCurrentObjectDisposed();
-
-            // ACTION
-
-            // Under write lock
-            using (this.WriteLock())
-            {
-                // Save existing items
-                T[] tempArray = new T[((ICollection<T>)this.InternalContainer).Count];
-                this.InternalContainer.CopyTo(tempArray, 0);
-
-                // Into an undo/redo transaction context
-                using (AutoReleaseTransactionContext tc = this.CheckItemAutoRelease(tempArray))
-                {
-                    // Do the actual clearing
-                    this.InternalContainer.Clear();
-
-                    // Push an undo level
-                    this.PushUndoLevel(new ClearUndoLevel<T> { OriginalItems = tempArray });
-
-                    // Mark the transaction as a success
-                    tc.Success();
-                }
-            }
-
-            // NOTIFICATIONS
-
-            // Collection changed
-            this.RaiseCollectionReset();
-
-            // Property changed
-            this.RaisePropertyChanged(nameof(this.Count));
-
-            // Contents may have changed
-            this.ContentsMayHaveChanged();
-        }
+        /// <summary>
+        /// Removes all items from the <see cref="ObservableCollectionBase{T}" /> and returns them as an array.
+        /// </summary>
+        /// <returns>An array containing the original collection items.</returns>
+        /// <remarks>
+        /// <para>On concurrent collections, this method is write-synchronized.</para>
+        /// </remarks>
+        public T[] ClearAndPersist() => this.ClearInternal();
 
         /// <summary>
         /// Removes the first occurrence of a specific object from the <see cref="ObservableCollectionBase{T}" />.
@@ -750,6 +719,55 @@ namespace IX.Observable
             }
 
             return new AutoReleaseTransactionContext();
+        }
+
+        /// <summary>
+        /// Removes all items from the <see cref="ObservableCollectionBase{T}" /> and returns them as an array.
+        /// </summary>
+        /// <returns>An array containing the original collection items.</returns>
+        protected virtual T[] ClearInternal()
+        {
+            // PRECONDITIONS
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            T[] tempArray;
+
+            // Under write lock
+            using (this.WriteLock())
+            {
+                // Save existing items
+                tempArray = new T[((ICollection<T>)this.InternalContainer).Count];
+                this.InternalContainer.CopyTo(tempArray, 0);
+
+                // Into an undo/redo transaction context
+                using (AutoReleaseTransactionContext tc = this.CheckItemAutoRelease(tempArray))
+                {
+                    // Do the actual clearing
+                    this.InternalContainer.Clear();
+
+                    // Push an undo level
+                    this.PushUndoLevel(new ClearUndoLevel<T> { OriginalItems = tempArray });
+
+                    // Mark the transaction as a success
+                    tc.Success();
+                }
+            }
+
+            // NOTIFICATIONS
+
+            // Collection changed
+            this.RaiseCollectionReset();
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
+
+            return tempArray;
         }
 
         private void Tei_EditCommitted(object sender, EditCommittedEventArgs e) => this.PushUndoLevel(new SubItemStateChange { SubObject = sender as IUndoableItem, StateChanges = e.StateChanges });

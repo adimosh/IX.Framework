@@ -145,35 +145,6 @@ namespace IX.Observable
         }
 
         /// <summary>
-        /// Removes all items from the <see cref="ObservableMasterSlaveCollection{T}" />.
-        /// </summary>
-        /// <remarks>
-        /// <para>On concurrent collections, this method is write-synchronized.</para>
-        /// </remarks>
-        public override void Clear()
-        {
-            this.ThrowIfCurrentObjectDisposed();
-
-            using (this.WriteLock())
-            {
-                var container = (MultiListMasterSlaveListAdapter<T>)this.InternalContainer;
-
-                this.IncreaseIgnoreMustResetCounter(container.SlavesCount + 1);
-
-                T[] originalArray = new T[container.MasterCount];
-                container.MasterCopyTo(originalArray, 0);
-
-                this.InternalContainer.Clear();
-
-                this.PushUndoLevel(new ClearUndoLevel<T> { OriginalItems = originalArray });
-            }
-
-            this.RaiseCollectionReset();
-            this.RaisePropertyChanged(nameof(this.Count));
-            this.ContentsMayHaveChanged();
-        }
-
-        /// <summary>
         /// Inserts an item at the specified index.
         /// </summary>
         /// <param name="index">The index at which to insert.</param>
@@ -232,6 +203,38 @@ namespace IX.Observable
             this.RaiseCollectionChangedRemove(item, index);
             this.RaisePropertyChanged(nameof(this.Count));
             this.ContentsMayHaveChanged();
+        }
+
+        /// <summary>
+        /// Removes all items from the <see cref="ObservableMasterSlaveCollection{T}" />.
+        /// </summary>
+        /// <returns>An array containing the original collection items.</returns>
+        /// <remarks>On concurrent collections, this method is write-synchronized.</remarks>
+        protected override T[] ClearInternal()
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            T[] originalArray;
+
+            using (this.WriteLock())
+            {
+                var container = (MultiListMasterSlaveListAdapter<T>)this.InternalContainer;
+
+                this.IncreaseIgnoreMustResetCounter(container.SlavesCount + 1);
+
+                originalArray = new T[container.MasterCount];
+                container.MasterCopyTo(originalArray, 0);
+
+                this.InternalContainer.Clear();
+
+                this.PushUndoLevel(new ClearUndoLevel<T> { OriginalItems = originalArray });
+            }
+
+            this.RaiseCollectionReset();
+            this.RaisePropertyChanged(nameof(this.Count));
+            this.ContentsMayHaveChanged();
+
+            return originalArray;
         }
 
         /// <summary>
