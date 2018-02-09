@@ -23,10 +23,5 @@ namespace IX.Observable
         /// The name &quot;Items[]&quot;.
         /// </summary>
         internal const string ItemsName = "Item[]";
-
-        /// <summary>
-        /// The standard undo/redo levels.
-        /// </summary>
-        internal const int StandardUndoRedoLevels = 50;
     }
 }

@@ -170,9 +170,9 @@ namespace IX.Observable
         /// <value><c>true</c> if items are key/value pairs; otherwise, <c>false</c>.</value>
         public bool ItemsAreKeyValuePairs { get; }
 
-        private PushDownStack<StateChange> UndoStack => this.undoStack ?? (this.undoStack = new PushDownStack<StateChange>(Constants.StandardUndoRedoLevels));
+        private PushDownStack<StateChange> UndoStack => this.undoStack ?? (this.undoStack = new PushDownStack<StateChange>(EnvironmentSettings.DisableUndoable ? 0 : EnvironmentSettings.DefaultUndoRedoLevels));
 
-        private PushDownStack<StateChange> RedoStack => this.redoStack ?? (this.redoStack = new PushDownStack<StateChange>(Constants.StandardUndoRedoLevels));
+        private PushDownStack<StateChange> RedoStack => this.redoStack ?? (this.redoStack = new PushDownStack<StateChange>(EnvironmentSettings.DisableUndoable ? 0 : EnvironmentSettings.DefaultUndoRedoLevels));
 
         /// <summary>
         /// Starts the undoable operations on this object.
@@ -610,7 +610,7 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">The undo level to push.</param>
         protected void PushUndoLevel(StateChange undoRedoLevel)
         {
-            if (this.suppressUndoable)
+            if (this.suppressUndoable || EnvironmentSettings.DisableUndoable)
             {
                 return;
             }
