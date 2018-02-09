@@ -92,15 +92,23 @@ namespace IX.System.Collections.Generic
                     throw new LimitArgumentNegativeException();
                 }
 
-                this.limit = value;
-
-                if (value != 0)
-                {
-                    while (this.internalContainer.Count > value)
+                this.WriteLock(
+                    (val) =>
                     {
-                        this.internalContainer.RemoveAt(0);
-                    }
-                }
+                        this.limit = val;
+
+                        if (val != 0)
+                        {
+                            while (this.internalContainer.Count > val)
+                            {
+                                this.internalContainer.RemoveAt(0);
+                            }
+                        }
+                        else
+                        {
+                            this.internalContainer.Clear();
+                        }
+                    }, value);
             }
         }
 
@@ -162,37 +170,55 @@ namespace IX.System.Collections.Generic
         /// Pops the topmost element from the stack, removing it.
         /// </summary>
         /// <returns>The topmost element in the stack, if any.</returns>
-        public T Pop() => this.InvokeIfNotDisposed(() => this.WriteLock(() =>
-        {
-            var index = this.internalContainer.Count - 1;
-
-            if (index < 0)
+        public T Pop() => this.InvokeIfNotDisposed(
+            () =>
             {
-                return default;
-            }
+                if (this.limit == 0)
+                {
+                    return default;
+                }
 
-            T item = this.internalContainer[index];
+                return this.WriteLock(
+                    () =>
+                    {
+                        var index = this.internalContainer.Count - 1;
 
-            this.internalContainer.RemoveAt(index);
+                        if (index < 0)
+                        {
+                            return default;
+                        }
 
-            return item;
-        }));
+                        T item = this.internalContainer[index];
+
+                        this.internalContainer.RemoveAt(index);
+
+                        return item;
+                    });
+            });
 
         /// <summary>
         /// Pushes an element to the top of the stack.
         /// </summary>
         /// <param name="item">The item to push.</param>
         public void Push(T item) => this.InvokeIfNotDisposed(
-            (itemL2) => this.WriteLock(
-                (itemL1) =>
+            (itemL2) =>
+            {
+                if (this.limit == 0)
                 {
-                    if (this.internalContainer.Count == this.limit && this.limit != 0)
-                    {
-                        this.internalContainer.RemoveAt(0);
-                    }
+                    return;
+                }
 
-                    this.internalContainer.Add(itemL1);
-                }, itemL2), item);
+                this.WriteLock(
+                    (itemL1) =>
+                    {
+                        if (this.internalContainer.Count == this.limit)
+                        {
+                            this.internalContainer.RemoveAt(0);
+                        }
+
+                        this.internalContainer.Add(itemL1);
+                    }, itemL2);
+            }, item);
 
         /// <summary>
         /// Copies all elements of the stack to a new array.
