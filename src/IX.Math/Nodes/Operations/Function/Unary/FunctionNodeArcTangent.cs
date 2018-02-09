@@ -1,4 +1,4 @@
-﻿// <copyright file="FunctionNodeArcTangent.cs" company="Adrian Mos">
+// <copyright file="FunctionNodeArcTangent.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -6,39 +6,17 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 using IX.Math.Extensibility;
 using IX.Math.Nodes.Constants;
-using IX.Math.Nodes.Parameters;
 
 namespace IX.Math.Nodes.Operations.Function.Unary
 {
     [DebuggerDisplay("atan({Parameter})")]
     [CallableMathematicsFunction("atan", "arctg", "arctangent")]
-    internal sealed class FunctionNodeArcTangent : UnaryFunctionNodeBase
+    internal sealed class FunctionNodeArcTangent : NumericUnaryFunctionNodeBase
     {
-        public FunctionNodeArcTangent(NumericNode parameter)
+        public FunctionNodeArcTangent(NodeBase parameter)
             : base(parameter)
         {
         }
-
-        public FunctionNodeArcTangent(NumericParameterNode parameter)
-            : base(parameter)
-        {
-        }
-
-        public FunctionNodeArcTangent(UndefinedParameterNode parameter)
-            : base(parameter?.DetermineNumeric())
-        {
-        }
-
-        public FunctionNodeArcTangent(OperationNodeBase parameter)
-            : base(parameter?.Simplify())
-        {
-            if (this.Parameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public override SupportedValueType ReturnType => SupportedValueType.Numeric;
 
         public override NodeBase Simplify()
         {
@@ -49,6 +27,8 @@ namespace IX.Math.Nodes.Operations.Function.Unary
 
             return this;
         }
+
+        public override NodeBase DeepClone() => new FunctionNodeArcTangent(this.Parameter.DeepClone());
 
         protected override Expression GenerateExpressionInternal() => this.GenerateStaticUnaryFunctionCall(typeof(global::System.Math), nameof(global::System.Math.Atan));
     }

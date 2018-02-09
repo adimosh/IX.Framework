@@ -1,4 +1,4 @@
-﻿// <copyright file="FunctionNodeStringLength.cs" company="Adrian Mos">
+// <copyright file="FunctionNodeStringLength.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -15,28 +15,9 @@ namespace IX.Math.Nodes.Operations.Function.Unary
     [CallableMathematicsFunction("strlen", "length")]
     internal sealed class FunctionNodeStringLength : UnaryFunctionNodeBase
     {
-        public FunctionNodeStringLength(StringNode parameter)
+        public FunctionNodeStringLength(NodeBase parameter)
             : base(parameter)
         {
-        }
-
-        public FunctionNodeStringLength(StringParameterNode parameter)
-            : base(parameter)
-        {
-        }
-
-        public FunctionNodeStringLength(UndefinedParameterNode parameter)
-            : base(parameter?.DetermineString())
-        {
-        }
-
-        public FunctionNodeStringLength(OperationNodeBase parameter)
-            : base(parameter?.Simplify())
-        {
-            if (parameter?.ReturnType != SupportedValueType.String)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
         }
 
         public override SupportedValueType ReturnType => SupportedValueType.Numeric;
@@ -49,6 +30,21 @@ namespace IX.Math.Nodes.Operations.Function.Unary
             }
 
             return this;
+        }
+
+        public override NodeBase DeepClone() => new FunctionNodeStringLength(this.Parameter.DeepClone());
+
+        protected override void EnsureCompatibleParameter(ref NodeBase parameter)
+        {
+            if (parameter is UndefinedParameterNode upn)
+            {
+                parameter = upn.DetermineString();
+            }
+
+            if (parameter.ReturnType != SupportedValueType.String)
+            {
+                throw new ExpressionNotValidLogicallyException();
+            }
         }
 
         protected override Expression GenerateExpressionInternal() => Expression.Convert(this.GenerateParameterPropertyCall<string>(nameof(string.Length)), typeof(long));

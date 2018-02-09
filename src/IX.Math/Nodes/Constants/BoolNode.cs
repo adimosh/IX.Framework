@@ -1,4 +1,4 @@
-﻿// <copyright file="BoolNode.cs" company="Adrian Mos">
+// <copyright file="BoolNode.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -59,5 +59,11 @@ namespace IX.Math.Nodes.Constants
         /// </summary>
         /// <returns>The string expression.</returns>
         public override Expression GenerateCachedStringExpression() => Expression.Constant(this.value ? "true" : "false", typeof(string));
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public override NodeBase DeepClone() => new BoolNode(this.Value);
     }
 }

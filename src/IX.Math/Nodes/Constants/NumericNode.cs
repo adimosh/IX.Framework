@@ -1,4 +1,4 @@
-﻿// <copyright file="NumericNode.cs" company="Adrian Mos">
+// <copyright file="NumericNode.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -66,6 +66,10 @@ namespace IX.Math.Nodes.Constants
                 default:
                     throw new ArgumentException(Resources.NumericTypeInvalid, nameof(value));
             }
+        }
+
+        private NumericNode()
+        {
         }
 
         /// <summary>
@@ -347,6 +351,17 @@ namespace IX.Math.Nodes.Constants
         /// </summary>
         /// <returns>The string expression.</returns>
         public override Expression GenerateCachedStringExpression() => Expression.Constant(this.Value.ToString(), typeof(string));
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public override NodeBase DeepClone() => new NumericNode
+        {
+            integerValue = this.integerValue,
+            floatValue = this.floatValue,
+            isFloat = this.isFloat,
+        };
 
         /// <summary>
         /// Initializes the specified value.

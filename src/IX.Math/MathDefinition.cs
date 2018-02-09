@@ -1,9 +1,10 @@
-﻿// <copyright file="MathDefinition.cs" company="Adrian Mos">
+// <copyright file="MathDefinition.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
 using System.Runtime.Serialization;
+using IX.StandardExtensions;
 
 namespace IX.Math
 {
@@ -11,7 +12,7 @@ namespace IX.Math
     /// A definition for signs and symbols used in expression parsing of a mathematical expression.
     /// </summary>
     [DataContract]
-    public class MathDefinition
+    public class MathDefinition : IDeepCloneable<MathDefinition>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MathDefinition"/> class.
@@ -180,5 +181,35 @@ namespace IX.Math
         /// </summary>
         [DataMember]
         public string LeftShiftSymbol { get; set; }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public MathDefinition DeepClone() =>
+            new MathDefinition
+            {
+                AddSymbol = this.AddSymbol,
+                AndSymbol = this.AndSymbol,
+                DivideSymbol = this.DivideSymbol,
+                EqualsSymbol = this.EqualsSymbol,
+                GreaterThanOrEqualSymbol = this.GreaterThanOrEqualSymbol,
+                GreaterThanSymbol = this.GreaterThanSymbol,
+                LeftShiftSymbol = this.LeftShiftSymbol,
+                LessThanOrEqualSymbol = this.LessThanOrEqualSymbol,
+                LessThanSymbol = this.LessThanSymbol,
+                MultiplySymbol = this.MultiplySymbol,
+                NotEqualsSymbol = this.NotEqualsSymbol,
+                NotSymbol = this.NotSymbol,
+                OrSymbol = this.OrSymbol,
+                ParameterSeparator = this.ParameterSeparator,
+                Parentheses = new Tuple<string, string>(this.Parentheses.Item1, this.Parentheses.Item2),
+                PowerSymbol = this.PowerSymbol,
+                RightShiftSymbol = this.RightShiftSymbol,
+                SpecialSymbolIndicators = new Tuple<string, string>(this.SpecialSymbolIndicators.Item1, this.SpecialSymbolIndicators.Item2),
+                StringIndicator = this.StringIndicator,
+                SubtractSymbol = this.SubtractSymbol,
+                XorSymbol = this.XorSymbol,
+            };
     }
 }

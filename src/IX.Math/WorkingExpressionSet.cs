@@ -80,7 +80,7 @@ namespace IX.Math
             this.InitialExpression = expression;
             this.CancellationToken = cancellationToken;
             this.Expression = expression;
-            this.Definition = new MathDefinition(mathDefinition);
+            this.Definition = mathDefinition;
 
             this.assembliesForFunctions = assembliesForFunctions;
 

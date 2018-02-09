@@ -1,10 +1,10 @@
-﻿// <copyright file="CachedExpressionParsingService.cs" company="Adrian Mos">
+// <copyright file="CachedExpressionParsingService.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
-using System.Collections.Concurrent;
 using System.Reflection;
 using System.Threading;
+using IX.Observable;
 using IX.StandardExtensions.ComponentModel;
 
 namespace IX.Math
@@ -18,7 +18,7 @@ namespace IX.Math
     public class CachedExpressionParsingService : DisposableBase, IExpressionParsingService
     {
         private ExpressionParsingService eps;
-        private ConcurrentDictionary<string, ComputedExpression> cachedComputedExpressions;
+        private ConcurrentObservableDictionary<string, ComputedExpression> cachedComputedExpressions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CachedExpressionParsingService"/> class.
@@ -26,7 +26,7 @@ namespace IX.Math
         public CachedExpressionParsingService()
         {
             this.eps = new ExpressionParsingService();
-            this.cachedComputedExpressions = new ConcurrentDictionary<string, ComputedExpression>();
+            this.cachedComputedExpressions = new ConcurrentObservableDictionary<string, ComputedExpression>();
         }
 
         /// <summary>
@@ -36,7 +36,10 @@ namespace IX.Math
         public CachedExpressionParsingService(MathDefinition definition)
         {
             this.eps = new ExpressionParsingService(definition);
-            this.cachedComputedExpressions = new ConcurrentDictionary<string, ComputedExpression>();
+            this.cachedComputedExpressions = new ConcurrentObservableDictionary<string, ComputedExpression>
+            {
+                HistoryLevels = 0,
+            };
         }
 
         /// <summary>
@@ -45,8 +48,27 @@ namespace IX.Math
         /// <param name="expression">The expression to interpret.</param>
         /// <param name="cancellationToken">The cancellation token for this operation.</param>
         /// <returns>A <see cref="ComputedExpression"/> that represents the interpreted expression.</returns>
-        public ComputedExpression Interpret(string expression, CancellationToken cancellationToken = default) =>
-            this.cachedComputedExpressions.GetOrAdd(expression, expr => this.eps.Interpret(expr, cancellationToken));
+        /// <remarks>
+        /// <para>Due to the specifics of executing multiple expressions, the returned object will always be a clone of the originally-interpreted object, unless any of the following conditions are met:</para>
+        /// <list type="bullet">
+        /// <item>The expression is constant</item>
+        /// <item>The expression has no undefined parameters</item>
+        /// <item>The expression has no parameters</item>
+        /// <item>The expression has not been recognized correctly.</item>
+        /// </list>
+        /// <para>This way, a computed expression that has parameters which depend on outside influence will not be subject to reinterpretation, but will execute without having to force undefined parameters into specific types.</para>
+        /// </remarks>
+        public ComputedExpression Interpret(string expression, CancellationToken cancellationToken = default)
+        {
+            ComputedExpression expr = this.cachedComputedExpressions.GetOrAdd(expression, ex => this.eps.Interpret(ex, cancellationToken), expression);
+
+            if (!expr.RecognizedCorrectly || expr.IsConstant || !expr.HasUndefinedParameters)
+            {
+                return expr;
+            }
+
+            return expr.DeepClone();
+        }
 
         /// <summary>
         /// Registers an assembly to extract compatible functions from.

@@ -1,4 +1,4 @@
-﻿// <copyright file="StringNode.cs" company="Adrian Mos">
+// <copyright file="StringNode.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -57,5 +57,11 @@ namespace IX.Math.Nodes.Constants
         /// </summary>
         /// <returns>A usable constant.</returns>
         public override object DistillValue() => this.value;
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public override NodeBase DeepClone() => new StringNode(this.Value);
     }
 }

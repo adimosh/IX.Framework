@@ -1,4 +1,4 @@
-﻿// <copyright file="NotNode.cs" company="Adrian Mos">
+// <copyright file="NotNode.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -46,6 +46,11 @@ namespace IX.Math.Nodes.Operations.Unary
         {
         }
 
+        private NotNode(NodeBase operand)
+            : base(operand)
+        {
+        }
+
         public override SupportedValueType ReturnType => this.Operand?.ReturnType ?? SupportedValueType.Unknown;
 
         public override NodeBase Simplify()
@@ -60,6 +65,12 @@ namespace IX.Math.Nodes.Operations.Unary
                     return this;
             }
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public override NodeBase DeepClone() => new NotNode(this.Operand.DeepClone());
 
         protected override Expression GenerateExpressionInternal() => Expression.Not(this.Operand.GenerateExpression());
     }

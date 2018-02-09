@@ -1,4 +1,4 @@
-﻿// <copyright file="ComputedExpression.cs" company="Adrian Mos">
+// <copyright file="ComputedExpression.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -8,13 +8,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using IX.Math.Formatters;
 using IX.Math.Nodes;
+using IX.StandardExtensions;
 
 namespace IX.Math
 {
     /// <summary>
     /// A representation of a computed expression, resulting from a string expression.
     /// </summary>
-    public class ComputedExpression : IDisposable
+    public class ComputedExpression : IDeepCloneable<ComputedExpression>, IDisposable
     {
         private readonly string initialExpression;
         private NodeBase body;
@@ -28,6 +29,8 @@ namespace IX.Math
             this.initialExpression = initialExpression;
             this.body = body;
             this.RecognizedCorrectly = isRecognized;
+            this.IsConstant = body?.IsConstant ?? false;
+            this.HasUndefinedParameters = parameters?.Any(p => p is Nodes.Parameters.UndefinedParameterNode) ?? false;
             this.locker = new object();
             this.computedBodies = new Dictionary<int, Delegate>();
             this.parameters = parameters;
@@ -46,7 +49,20 @@ namespace IX.Math
         /// <summary>
         /// Gets a value indicating whether or not the expression was actually recognized. <c>true</c> can possibly return an actual expression or a static value.
         /// </summary>
-        public bool RecognizedCorrectly { get; private set; }
+        /// <value><c>true</c> if the expression is recognized correctly, <c>false</c> otherwise.</value>
+        public bool RecognizedCorrectly { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether or not the expression is constant.
+        /// </summary>
+        /// <value><c>true</c> if the expression is constant, <c>false</c> otherwise.</value>
+        public bool IsConstant { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether or not the expression has undefined parameters.
+        /// </summary>
+        /// <value><c>true</c> if the expression has undefined parameters, <c>false</c> otherwise.</value>
+        public bool HasUndefinedParameters { get; }
 
         /// <summary>
         /// Gets the names of the parameters this expression requires, if any.
@@ -156,6 +172,13 @@ namespace IX.Math
 
             return this.Compute(pars.ToArray());
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public ComputedExpression DeepClone() =>
+                    new ComputedExpression(this.initialExpression, this.body.DeepClone(), this.parameters.DeepClone(), this.RecognizedCorrectly);
 
         /// <summary>
         /// Disposes an instance of the <see cref="ComputedExpression"/> class.

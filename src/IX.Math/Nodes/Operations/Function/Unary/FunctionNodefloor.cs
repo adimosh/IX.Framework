@@ -1,4 +1,4 @@
-﻿// <copyright file="FunctionNodefloor.cs" company="Adrian Mos">
+// <copyright file="FunctionNodefloor.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -12,33 +12,12 @@ namespace IX.Math.Nodes.Operations.Function.Unary
 {
     [DebuggerDisplay("floor({Parameter})")]
     [CallableMathematicsFunction("floor")]
-    internal class FunctionNodeFloor : UnaryFunctionNodeBase
+    internal class FunctionNodeFloor : NumericUnaryFunctionNodeBase
     {
-        public FunctionNodeFloor(NumericNode parameter)
+        public FunctionNodeFloor(NodeBase parameter)
             : base(parameter)
         {
         }
-
-        public FunctionNodeFloor(NumericParameterNode parameter)
-            : base(parameter)
-        {
-        }
-
-        public FunctionNodeFloor(UndefinedParameterNode parameter)
-            : base(parameter?.DetermineNumeric())
-        {
-        }
-
-        public FunctionNodeFloor(OperationNodeBase parameter)
-            : base(parameter?.Simplify())
-        {
-            if (this.Parameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public override SupportedValueType ReturnType => SupportedValueType.Numeric;
 
         public override NodeBase Simplify()
         {
@@ -49,6 +28,8 @@ namespace IX.Math.Nodes.Operations.Function.Unary
 
             return this;
         }
+
+        public override NodeBase DeepClone() => new FunctionNodeFloor(this.Parameter.DeepClone());
 
         protected override Expression GenerateExpressionInternal() => this.GenerateStaticUnaryFunctionCall(typeof(global::System.Math), nameof(global::System.Math.Floor));
     }

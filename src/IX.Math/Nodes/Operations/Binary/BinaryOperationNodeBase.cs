@@ -1,4 +1,4 @@
-﻿// <copyright file="BinaryOperationNodeBase.cs" company="Adrian Mos">
+// <copyright file="BinaryOperationNodeBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -17,8 +17,8 @@ namespace IX.Math.Nodes.Operations.Binary
 
             this.EnsureCompatibleOperands(ref leftTemp, ref rightTemp);
 
-            this.Left = leftTemp?.Simplify();
-            this.Right = rightTemp?.Simplify();
+            this.Left = leftTemp.Simplify();
+            this.Right = rightTemp.Simplify();
         }
 
         public NodeBase Left { get; protected set; }

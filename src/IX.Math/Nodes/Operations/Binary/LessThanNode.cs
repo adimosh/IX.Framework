@@ -1,4 +1,4 @@
-﻿// <copyright file="LessThanNode.cs" company="Adrian Mos">
+// <copyright file="LessThanNode.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -43,6 +43,12 @@ namespace IX.Math.Nodes.Operations.Binary
                 return this;
             }
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        public override NodeBase DeepClone() => new LessThanNode(this.Left.DeepClone(), this.Right.DeepClone());
 
         protected override Expression GenerateExpressionInternal()
         {

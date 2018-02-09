@@ -109,7 +109,7 @@ namespace IX.Math
 
             var workingSet = new WorkingExpressionSet(
                 expression,
-                this.workingDefinition,
+                this.workingDefinition.DeepClone(),
                 this.assembliesToRegister,
                 this.nonaryFunctions,
                 this.unaryFunctions,

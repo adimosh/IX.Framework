@@ -1,4 +1,4 @@
-﻿// <copyright file="StringParameterNode.cs" company="Adrian Mos">
+// <copyright file="StringParameterNode.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -41,5 +41,11 @@ namespace IX.Math.Nodes.Parameters
         /// </summary>
         /// <returns>The generated <see cref="T:System.Linq.Expressions.Expression" /> to be cached.</returns>
         public override Expression GenerateCachedExpression() => Expression.Parameter(typeof(string), this.Name);
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <returns>A deep clone.</returns>
+        protected override ParameterNodeBase DeepCloneInternal() => new StringParameterNode(this.Name);
     }
 }
