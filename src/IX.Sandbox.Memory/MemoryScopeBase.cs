@@ -116,6 +116,23 @@ namespace IX.Sandbox.Memory
         public abstract INamedVariable<T> CreateVariable<T>(string name);
 
         /// <summary>
+        /// Creates an unnamed variable of a certain type.
+        /// </summary>
+        /// <typeparam name="T">The type of the variable.</typeparam>
+        /// <param name="value">The value.</param>
+        /// <returns>The new variable, if one has been created.</returns>
+        public abstract IVariable<T> CreateVariable<T>(T value);
+
+        /// <summary>
+        /// Creates a variable of a certain type.
+        /// </summary>
+        /// <typeparam name="T">The type of the variable.</typeparam>
+        /// <param name="name">The name of the variable.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>The new variable, if one has been created.</returns>
+        public abstract INamedVariable<T> CreateVariable<T>(string name, T value);
+
+        /// <summary>
         /// Disposes a variable by name.
         /// </summary>
         /// <param name="name">The name  of the variable.</param>
@@ -253,18 +270,14 @@ namespace IX.Sandbox.Memory
         protected override void DisposeManagedContext()
         {
             // Dispose sub-scopes
-            KeyValuePair<string, IScope>[] scopes = new KeyValuePair<string, IScope>[this.subScopes.Count];
-
-            this.subScopes.CopyTo(scopes, 0);
-
-            this.subScopes.Clear();
+            KeyValuePair<string, IScope>[] scopes = this.subScopes.ClearAndPersist();
 
             this.FireAndForget(
                 (st) => st.ForEach(p =>
                 {
                     try
                     {
-                        p.Value.Dispose();
+                        p.Value?.Dispose();
                     }
                     catch
                     {
@@ -273,18 +286,14 @@ namespace IX.Sandbox.Memory
                 scopes);
 
             // Dispose named variables
-            KeyValuePair<string, INamedVariable>[] variables = new KeyValuePair<string, INamedVariable>[this.variables.Count];
-
-            this.variables.CopyTo(variables, 0);
-
-            this.variables.Clear();
+            KeyValuePair<string, INamedVariable>[] variables = this.variables.ClearAndPersist();
 
             this.FireAndForget(
                 (st) => st.ForEach(p =>
                 {
                     try
                     {
-                        p.Value.Dispose();
+                        p.Value?.Dispose();
                     }
                     catch
                     {
@@ -292,18 +301,15 @@ namespace IX.Sandbox.Memory
                 }),
                 variables);
 
-            IVariable[] unnamedVariables = new IVariable[this.unnamedVariables.Count];
-
-            this.unnamedVariables.CopyTo(unnamedVariables, 0);
-
-            this.unnamedVariables.Clear();
+            // Dispose unnamed variables
+            IVariable[] unnamedVariables = this.unnamedVariables.ClearAndPersist();
 
             this.FireAndForget(
                 (st) => st.ForEach(p =>
                 {
                     try
                     {
-                        p.Dispose();
+                        p?.Dispose();
                     }
                     catch
                     {
@@ -311,6 +317,7 @@ namespace IX.Sandbox.Memory
                 }),
                 unnamedVariables);
 
+            // Dispose base
             base.DisposeManagedContext();
         }
 
