@@ -163,6 +163,18 @@ namespace IX.Math.Nodes.Parameters
         /// </summary>
         /// <param name="context">The deep cloning context.</param>
         /// <returns>A deep clone.</returns>
-        protected override ParameterNodeBase DeepCloneInternal(NodeCloningContext context) => context.ParameterRegistry.RegisterParameter(this.Name);
+        protected override ParameterNodeBase DeepCloneInternal(NodeCloningContext context)
+        {
+            var para = context.ParameterRegistry.RegisterParameter(this.Name) as UndefinedParameterNode;
+
+            if (para == null)
+            {
+                throw new InvalidOperationException(Resources.ParameterRegistryReturnedNull);
+            }
+
+            para.determineFloat = this.determineFloat;
+
+            return para;
+        }
     }
 }
