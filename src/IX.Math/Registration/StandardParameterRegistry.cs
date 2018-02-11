@@ -74,16 +74,20 @@ namespace IX.Math.Registration
                 switch (valueType)
                 {
                     case SupportedValueType.Boolean:
-                        parameter = upn.DetermineBool();
+                        parameter = new BoolParameterNode(name);
+                        this.parameters[name] = parameter;
                         break;
                     case SupportedValueType.ByteArray:
-                        parameter = upn.DetermineByteArray();
+                        parameter = new ByteArrayParameterNode(name);
+                        this.parameters[name] = parameter;
                         break;
                     case SupportedValueType.Numeric:
-                        parameter = upn.DetermineNumeric();
+                        parameter = new NumericParameterNode(name);
+                        this.parameters[name] = parameter;
                         break;
                     case SupportedValueType.String:
-                        parameter = upn.DetermineString();
+                        parameter = new StringParameterNode(name);
+                        this.parameters[name] = parameter;
                         break;
                     default:
                         throw new ExpressionNotValidLogicallyException(string.Format(Resources.ParameterTypeNotRecognized, name));
