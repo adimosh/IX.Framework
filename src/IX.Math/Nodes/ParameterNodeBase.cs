@@ -72,7 +72,7 @@ namespace IX.Math.Nodes
         /// </summary>
         /// <param name="context">The deep cloning context.</param>
         /// <returns>A deep clone.</returns>
-        public sealed override NodeBase DeepClone(NodeCloningContext context) => ((IDeepCloneable<ParameterNodeBase>)this).DeepClone();
+        public sealed override NodeBase DeepClone(NodeCloningContext context) => ((IContextAwareDeepCloneable<NodeCloningContext, ParameterNodeBase>)this).DeepClone(context);
 
         /// <summary>
         /// Creates a deep clone of the source object.
