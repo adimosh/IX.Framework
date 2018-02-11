@@ -14,7 +14,7 @@ namespace IX.StandardExtensions
         /// <summary>
         /// Creates a deep clone of the source object based on an existing context.
         /// </summary>
-        /// <param name="context">The deep cloning context context.</param>
+        /// <param name="context">The deep cloning context.</param>
         /// <returns>A deep clone.</returns>
         TResult DeepClone(TContext context);
     }

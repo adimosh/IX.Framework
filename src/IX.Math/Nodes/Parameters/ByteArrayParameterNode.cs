@@ -38,7 +38,8 @@ namespace IX.Math.Nodes.Parameters
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
+        /// <param name="context">The deep cloning context.</param>
         /// <returns>A deep clone.</returns>
-        protected override ParameterNodeBase DeepCloneInternal() => new ByteArrayParameterNode(this.Name);
+        protected override ParameterNodeBase DeepCloneInternal(NodeCloningContext context) => context.ParameterRegistry.RegisterParameter(this.Name, SupportedValueType.ByteArray);
     }
 }

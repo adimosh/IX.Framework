@@ -93,7 +93,27 @@ namespace IX.Math.Nodes.Parameters
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
+        /// <param name="context">The deep cloning context.</param>
         /// <returns>A deep clone.</returns>
-        protected override ParameterNodeBase DeepCloneInternal() => new NumericParameterNode(this.Name) { RequireFloat = this.RequireFloat };
+        protected override ParameterNodeBase DeepCloneInternal(NodeCloningContext context)
+        {
+            var para = context.ParameterRegistry.RegisterParameter(this.Name, SupportedValueType.Numeric) as NumericParameterNode;
+
+            if (para == null)
+            {
+                throw new InvalidOperationException(Resources.ParameterRegistryReturnedNull);
+            }
+
+            if (this.RequireFloat == true)
+            {
+                para = para.ParameterMustBeFloat();
+            }
+            else if (this.RequireFloat == false)
+            {
+                para = para.ParameterMustBeInteger();
+            }
+
+            return para;
+        }
     }
 }

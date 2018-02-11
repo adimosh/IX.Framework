@@ -38,7 +38,7 @@ namespace IX.Math.Nodes.Operations.Binary
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public override NodeBase DeepClone() => new LeftShiftNode(this.Left.DeepClone(), this.Right.DeepClone());
+        public override NodeBase DeepClone(NodeCloningContext context) => new LeftShiftNode(this.Left.DeepClone(context), this.Right.DeepClone(context));
 
         protected override Expression GenerateExpressionInternal()
         {

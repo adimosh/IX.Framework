@@ -1,4 +1,4 @@
-﻿// <copyright file="TablePopulationGenerator.cs" company="Adrian Mos">
+// <copyright file="TablePopulationGenerator.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using IX.Math.ExpressionState;
 using IX.Math.Nodes;
+using IX.Math.Registration;
 
 namespace IX.Math.Generators
 {
@@ -22,7 +23,7 @@ namespace IX.Math.Generators
         /// <param name="reverseConstantsTable">The reverse-lookup constants table.</param>
         /// <param name="symbolTable">The symbols table.</param>
         /// <param name="reverseSymbolTable">The reverse-lookup symbols table.</param>
-        /// <param name="parametersTable">The parameters table.</param>
+        /// <param name="parameterRegistry">The parameters registry.</param>
         /// <param name="expression">The expression before processing.</param>
         /// <param name="openParenthesis">The symbol of an open parenthesis.</param>
         /// <param name="allOperatorsInOrder">All operators, in order.</param>
@@ -32,7 +33,7 @@ namespace IX.Math.Generators
             in Dictionary<string, string> reverseConstantsTable,
             in Dictionary<string, ExpressionSymbol> symbolTable,
             in Dictionary<string, string> reverseSymbolTable,
-            in Dictionary<string, ParameterNodeBase> parametersTable,
+            in IParameterRegistry parameterRegistry,
             in string expression,
             in string openParenthesis,
             in string[] allOperatorsInOrder)
@@ -51,7 +52,7 @@ namespace IX.Math.Generators
                     continue;
                 }
 
-                if (parametersTable.ContainsKey(exp))
+                if (parameterRegistry.Exists(exp))
                 {
                     continue;
                 }
@@ -76,7 +77,7 @@ namespace IX.Math.Generators
                     continue;
                 }
 
-                ParametersGenerator.GenerateParameter(parametersTable, exp);
+                parameterRegistry.RegisterParameter(exp);
             }
         }
     }

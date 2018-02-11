@@ -355,8 +355,9 @@ namespace IX.Math.Nodes.Constants
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
+        /// <param name="context">The deep cloning context.</param>
         /// <returns>A deep clone.</returns>
-        public override NodeBase DeepClone() => new NumericNode
+        public override NodeBase DeepClone(NodeCloningContext context) => new NumericNode
         {
             integerValue = this.integerValue,
             floatValue = this.floatValue,

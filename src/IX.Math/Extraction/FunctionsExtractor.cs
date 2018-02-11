@@ -1,4 +1,4 @@
-﻿// <copyright file="FunctionsExtractor.cs" company="Adrian Mos">
+// <copyright file="FunctionsExtractor.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -8,6 +8,7 @@ using System.Linq;
 using IX.Math.ExpressionState;
 using IX.Math.Generators;
 using IX.Math.Nodes;
+using IX.Math.Registration;
 
 namespace IX.Math.Extraction
 {
@@ -38,7 +39,7 @@ namespace IX.Math.Extraction
             in Dictionary<string, string> reverseConstantsTable,
             in Dictionary<string, ExpressionSymbol> symbolTable,
             in Dictionary<string, string> reverseSymbolTable,
-            in Dictionary<string, ParameterNodeBase> parametersTable,
+            in IParameterRegistry parametersTable,
             in string expression,
             in string[] allOperatorsInOrder,
             in string[] allSymbols)
@@ -82,7 +83,7 @@ namespace IX.Math.Extraction
                 in Dictionary<string, string> outerReverseConstantsTableReference,
                 in Dictionary<string, ExpressionSymbol> outerSymbolTableReference,
                 in Dictionary<string, string> outerReverseSymbolTableRefeerence,
-                in Dictionary<string, ParameterNodeBase> outerParametersTableReference,
+                in IParameterRegistry outerParametersTableReference,
                 in string outerExpressionSymbol,
                 in string[] outerAllOperatorsInOrderSymbols,
                 in string[] outerAllSymbolsSymbols)
@@ -121,7 +122,7 @@ namespace IX.Math.Extraction
                     in Dictionary<string, string> reverseConstantsTableReference,
                     in Dictionary<string, ExpressionSymbol> symbolTableReference,
                     in Dictionary<string, string> reverseSymbolTableReference,
-                    in Dictionary<string, ParameterNodeBase> parametersTableReference,
+                    in IParameterRegistry parametersTableReference,
                     in string expressionSymbol,
                     in string[] allOperatorsInOrderSymbols,
                     in string[] allSymbolsSymbols)
@@ -208,7 +209,7 @@ namespace IX.Math.Extraction
                             if (sa == null)
                             {
                                 // We check whether or not this is actually an already-recognized external parameter
-                                if (!parametersTableReference.ContainsKey(s))
+                                if (!parametersTableReference.Exists(s))
                                 {
                                     // Not a constant, and also not an already-recognized external parameter, let's generate a symbol
                                     sa = SymbolExpressionGenerator.GenerateSymbolExpression(symbolTableReference, reverseSymbolTableReference, s, isFunction: false);

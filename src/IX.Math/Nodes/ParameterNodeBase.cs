@@ -13,7 +13,7 @@ namespace IX.Math.Nodes
     /// A base class for a parameter node.
     /// </summary>
     /// <seealso cref="IX.Math.Nodes.CachedExpressionNodeBase" />
-    public abstract class ParameterNodeBase : CachedExpressionNodeBase, IDeepCloneable<ParameterNodeBase>
+    public abstract class ParameterNodeBase : CachedExpressionNodeBase, IContextAwareDeepCloneable<NodeCloningContext, ParameterNodeBase>
     {
         private readonly string name;
 
@@ -70,19 +70,22 @@ namespace IX.Math.Nodes
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
+        /// <param name="context">The deep cloning context.</param>
         /// <returns>A deep clone.</returns>
-        public sealed override NodeBase DeepClone() => ((IDeepCloneable<ParameterNodeBase>)this).DeepClone();
+        public sealed override NodeBase DeepClone(NodeCloningContext context) => ((IDeepCloneable<ParameterNodeBase>)this).DeepClone();
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
+        /// <param name="context">The deep cloning context.</param>
         /// <returns>A deep clone.</returns>
-        ParameterNodeBase IDeepCloneable<ParameterNodeBase>.DeepClone() => this.DeepCloneInternal();
+        ParameterNodeBase IContextAwareDeepCloneable<NodeCloningContext, ParameterNodeBase>.DeepClone(NodeCloningContext context) => this.DeepCloneInternal(context);
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
+        /// <param name="context">The deep cloning context.</param>
         /// <returns>A deep clone.</returns>
-        protected abstract ParameterNodeBase DeepCloneInternal();
+        protected abstract ParameterNodeBase DeepCloneInternal(NodeCloningContext context);
     }
 }

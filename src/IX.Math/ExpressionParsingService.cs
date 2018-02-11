@@ -122,11 +122,11 @@ namespace IX.Math
 
             if (!workingSet.Success)
             {
-                return new ComputedExpression(expression, null, null, false);
+                return new ComputedExpression(expression, null, null, false, null);
             }
             else
             {
-                return new ComputedExpression(expression, workingSet.Body, workingSet.ParametersTable.Values.ToArray(), true);
+                return new ComputedExpression(expression, workingSet.Body, workingSet.ParameterRegistry.Dump(), true, workingSet.ParameterRegistry);
             }
         }
 

@@ -24,7 +24,7 @@ namespace IX.Math.Nodes.Operations.Function.Nonary
 
         public override NodeBase Simplify() => this;
 
-        public override NodeBase DeepClone() => this;
+        public override NodeBase DeepClone(NodeCloningContext context) => new FunctionNodeRandom();
 
         protected override Expression GenerateExpressionInternal() => this.GenerateStaticNonaryFunctionCall<FunctionNodeRandom>(nameof(GenerateRandom));
     }

@@ -14,7 +14,7 @@ namespace IX.StandardExtensions
         /// <summary>
         /// Creates a shallow clone of the source object based on an existing context.
         /// </summary>
-        /// <param name="context">The shallow cloning context context.</param>
+        /// <param name="context">The shallow cloning context.</param>
         /// <returns>A shallow clone.</returns>
         TResult ShallowClone(TContext context);
     }

@@ -1,4 +1,4 @@
-﻿// <copyright file="FunctionNodeRandom.cs" company="Adrian Mos">
+// <copyright file="FunctionNodeRandom.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -13,124 +13,18 @@ namespace IX.Math.Nodes.Operations.Function.Binary
 {
     [DebuggerDisplay("random({FirstParameter}, {SecondParameter})")]
     [CallableMathematicsFunction("rand", "random")]
-    internal sealed class FunctionNodeRandom : BinaryFunctionNodeBase
+    internal sealed class FunctionNodeRandom : NumericBinaryFunctionNodeBase
     {
-        public FunctionNodeRandom(NumericNode firstParameter, NumericNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodeRandom(NumericNode firstParameter, NumericParameterNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodeRandom(NumericNode firstParameter, OperationNodeBase secondParameter)
-            : base(firstParameter, secondParameter?.Simplify())
-        {
-            if (this.SecondParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeRandom(NumericParameterNode firstParameter, NumericNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodeRandom(NumericParameterNode firstParameter, NumericParameterNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodeRandom(NumericParameterNode firstParameter, OperationNodeBase secondParameter)
-            : base(firstParameter, secondParameter?.Simplify())
-        {
-            if (this.SecondParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeRandom(OperationNodeBase firstParameter, NumericNode secondParameter)
-            : base(firstParameter?.Simplify(), secondParameter)
-        {
-            if (this.FirstParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeRandom(OperationNodeBase firstParameter, NumericParameterNode secondParameter)
-            : base(firstParameter?.Simplify(), secondParameter)
-        {
-            if (this.FirstParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeRandom(OperationNodeBase firstParameter, OperationNodeBase secondParameter)
+        public FunctionNodeRandom(NodeBase firstParameter, NodeBase secondParameter)
             : base(firstParameter?.Simplify(), secondParameter?.Simplify())
         {
-            if (this.FirstParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-
-            if (this.SecondParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
         }
-
-        public FunctionNodeRandom(UndefinedParameterNode firstParameter, UndefinedParameterNode secondParameter)
-            : base(firstParameter?.DetermineNumeric(), secondParameter?.DetermineNumeric())
-        {
-        }
-
-        public FunctionNodeRandom(UndefinedParameterNode firstParameter, NodeBase secondParameter)
-            : base(firstParameter, secondParameter?.Simplify())
-        {
-            if (this.SecondParameter.ReturnType == SupportedValueType.Numeric)
-            {
-                this.FirstParameter = firstParameter.DetermineNumeric();
-            }
-            else
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeRandom(NodeBase firstParameter, UndefinedParameterNode secondParameter)
-            : base(firstParameter?.Simplify(), secondParameter)
-        {
-            if (this.FirstParameter.ReturnType == SupportedValueType.Numeric)
-            {
-                this.SecondParameter = secondParameter.DetermineNumeric();
-            }
-            else
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public override SupportedValueType ReturnType => SupportedValueType.Numeric;
 
         public static double GenerateRandom(double min, double max) => RandomNumberGenerator.Generate(min, max);
 
-        public override NodeBase Simplify()
-        {
-            NumericNode firstParam, secondParam;
-            if ((firstParam = this.FirstParameter as NumericNode) != null &&
-                (secondParam = this.SecondParameter as NumericNode) != null)
-            {
-                return new NumericNode(GenerateRandom(firstParam.ExtractFloat(), secondParam.ExtractFloat()));
-            }
+        public override NodeBase Simplify() => this;
 
-            return this;
-        }
+        public override NodeBase DeepClone(NodeCloningContext context) => new FunctionNodeRandom(this.FirstParameter.DeepClone(context), this.SecondParameter.DeepClone(context));
 
         protected override Expression GenerateExpressionInternal() => this.GenerateStaticBinaryFunctionCall<FunctionNodeRandom>(nameof(GenerateRandom));
     }

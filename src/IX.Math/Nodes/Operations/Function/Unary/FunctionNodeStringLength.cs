@@ -32,7 +32,7 @@ namespace IX.Math.Nodes.Operations.Function.Unary
             return this;
         }
 
-        public override NodeBase DeepClone() => new FunctionNodeStringLength(this.Parameter.DeepClone());
+        public override NodeBase DeepClone(NodeCloningContext context) => new FunctionNodeStringLength(this.Parameter.DeepClone(context));
 
         protected override void EnsureCompatibleParameter(ref NodeBase parameter)
         {

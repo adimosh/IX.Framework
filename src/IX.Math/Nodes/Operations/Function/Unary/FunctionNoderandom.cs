@@ -31,7 +31,7 @@ namespace IX.Math.Nodes.Operations.Function.Unary
             return this;
         }
 
-        public override NodeBase DeepClone() => new FunctionNodeRandom(this.Parameter.DeepClone());
+        public override NodeBase DeepClone(NodeCloningContext context) => new FunctionNodeRandom(this.Parameter.DeepClone(context));
 
         protected override Expression GenerateExpressionInternal() => this.GenerateStaticUnaryFunctionCall<FunctionNodeRandom>(nameof(GenerateRandom));
     }

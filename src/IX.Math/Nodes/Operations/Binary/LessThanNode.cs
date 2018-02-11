@@ -47,8 +47,9 @@ namespace IX.Math.Nodes.Operations.Binary
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
+        /// <param name="context">The deep cloning context.</param>
         /// <returns>A deep clone.</returns>
-        public override NodeBase DeepClone() => new LessThanNode(this.Left.DeepClone(), this.Right.DeepClone());
+        public override NodeBase DeepClone(NodeCloningContext context) => new LessThanNode(this.Left.DeepClone(context), this.Right.DeepClone(context));
 
         protected override Expression GenerateExpressionInternal()
         {

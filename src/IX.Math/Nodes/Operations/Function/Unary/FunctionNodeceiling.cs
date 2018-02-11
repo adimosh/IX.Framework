@@ -28,7 +28,7 @@ namespace IX.Math.Nodes.Operations.Function.Unary
             return this;
         }
 
-        public override NodeBase DeepClone() => new FunctionNodeCeiling(this.Parameter.DeepClone());
+        public override NodeBase DeepClone(NodeCloningContext context) => new FunctionNodeCeiling(this.Parameter.DeepClone(context));
 
         protected override Expression GenerateExpressionInternal() => this.GenerateStaticUnaryFunctionCall(typeof(global::System.Math), nameof(global::System.Math.Ceiling));
     }

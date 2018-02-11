@@ -69,8 +69,9 @@ namespace IX.Math.Nodes.Operations.Unary
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
+        /// <param name="context">The deep cloning context.</param>
         /// <returns>A deep clone.</returns>
-        public override NodeBase DeepClone() => new NotNode(this.Operand.DeepClone());
+        public override NodeBase DeepClone(NodeCloningContext context) => new NotNode(this.Operand.DeepClone(context));
 
         protected override Expression GenerateExpressionInternal() => Expression.Not(this.Operand.GenerateExpression());
     }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using IX.Math.Formatters;
 using IX.Math.Nodes;
+using IX.Math.Registration;
 using IX.StandardExtensions;
 
 namespace IX.Math
@@ -23,8 +24,9 @@ namespace IX.Math
         private object locker;
         private Dictionary<int, Delegate> computedBodies;
         private bool disposedValue;
+        private IParameterRegistry parametersRegistry;
 
-        internal ComputedExpression(in string initialExpression, in NodeBase body, in ParameterNodeBase[] parameters, in bool isRecognized)
+        internal ComputedExpression(in string initialExpression, in NodeBase body, in ParameterNodeBase[] parameters, in bool isRecognized, in IParameterRegistry parameterRegistry)
         {
             this.initialExpression = initialExpression;
             this.body = body;
@@ -35,6 +37,8 @@ namespace IX.Math
             this.computedBodies = new Dictionary<int, Delegate>();
             this.parameters = parameters;
             this.ParameterNames = parameters?.Select(p => p.Name).ToArray() ?? new string[0];
+
+            this.parametersRegistry = parameterRegistry;
         }
 
         /// <summary>
@@ -177,8 +181,19 @@ namespace IX.Math
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
-        public ComputedExpression DeepClone() =>
-                    new ComputedExpression(this.initialExpression, this.body.DeepClone(), this.parameters.DeepClone(), this.RecognizedCorrectly);
+        public ComputedExpression DeepClone()
+        {
+            var registry = new StandardParameterRegistry();
+            var context = new NodeCloningContext { ParameterRegistry = registry };
+
+            ParameterNodeBase[] newParameters = new ParameterNodeBase[this.parameters.Length];
+            for (var i = 0; i < this.parameters.Length; i++)
+            {
+                newParameters[i] = (ParameterNodeBase)this.parameters[i].DeepClone(context);
+            }
+
+            return new ComputedExpression(this.initialExpression, this.body.DeepClone(context), newParameters, this.RecognizedCorrectly, registry);
+        }
 
         /// <summary>
         /// Disposes an instance of the <see cref="ComputedExpression"/> class.

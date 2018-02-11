@@ -1,4 +1,4 @@
-﻿// <copyright file="FunctionNodeMinimum.cs" company="Adrian Mos">
+// <copyright file="FunctionNodeMinimum.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -12,110 +12,14 @@ namespace IX.Math.Nodes.Operations.Function.Binary
 {
     [DebuggerDisplay("min({FirstParameter}, {SecondParameter})")]
     [CallableMathematicsFunction("min", "minimum")]
-    internal sealed class FunctionNodeMinimum : BinaryFunctionNodeBase
+    internal sealed class FunctionNodeMinimum : NumericBinaryFunctionNodeBase
     {
-        public FunctionNodeMinimum(NumericNode firstParameter, NumericNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodeMinimum(NumericNode firstParameter, NumericParameterNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodeMinimum(NumericNode firstParameter, OperationNodeBase secondParameter)
-            : base(firstParameter, secondParameter?.Simplify())
-        {
-            if (this.SecondParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeMinimum(NumericParameterNode firstParameter, NumericNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodeMinimum(NumericParameterNode firstParameter, NumericParameterNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodeMinimum(NumericParameterNode firstParameter, OperationNodeBase secondParameter)
-            : base(firstParameter, secondParameter?.Simplify())
-        {
-            if (this.SecondParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeMinimum(OperationNodeBase firstParameter, NumericNode secondParameter)
-            : base(firstParameter?.Simplify(), secondParameter)
-        {
-            if (this.FirstParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeMinimum(OperationNodeBase firstParameter, NumericParameterNode secondParameter)
-            : base(firstParameter?.Simplify(), secondParameter)
-        {
-            if (this.FirstParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeMinimum(OperationNodeBase firstParameter, OperationNodeBase secondParameter)
+        public FunctionNodeMinimum(NodeBase firstParameter, NodeBase secondParameter)
             : base(firstParameter?.Simplify(), secondParameter?.Simplify())
         {
-            if (this.FirstParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-
-            if (this.SecondParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
         }
 
-        public FunctionNodeMinimum(UndefinedParameterNode firstParameter, UndefinedParameterNode secondParameter)
-            : base(firstParameter?.DetermineNumeric(), secondParameter?.DetermineNumeric())
-        {
-        }
-
-        public FunctionNodeMinimum(UndefinedParameterNode firstParameter, NodeBase secondParameter)
-            : base(firstParameter, secondParameter?.Simplify())
-        {
-            if (this.SecondParameter.ReturnType == SupportedValueType.Numeric)
-            {
-                this.FirstParameter = firstParameter.DetermineNumeric();
-            }
-            else
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeMinimum(NodeBase firstParameter, UndefinedParameterNode secondParameter)
-            : base(firstParameter?.Simplify(), secondParameter)
-        {
-            if (this.FirstParameter.ReturnType == SupportedValueType.Numeric)
-            {
-                this.SecondParameter = secondParameter.DetermineNumeric();
-            }
-            else
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public override SupportedValueType ReturnType => SupportedValueType.Numeric;
+        public override NodeBase DeepClone(NodeCloningContext context) => new FunctionNodeMinimum(this.FirstParameter.DeepClone(context), this.SecondParameter.DeepClone(context));
 
         public override NodeBase Simplify()
         {

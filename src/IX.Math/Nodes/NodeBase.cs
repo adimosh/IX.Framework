@@ -11,7 +11,7 @@ namespace IX.Math.Nodes
     /// A base class for mathematics nodes.
     /// </summary>
     /// <seealso cref="IX.StandardExtensions.IDeepCloneable{T}" />
-    public abstract class NodeBase : IDeepCloneable<NodeBase>
+    public abstract class NodeBase : IContextAwareDeepCloneable<NodeCloningContext, NodeBase>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NodeBase"/> class.
@@ -35,8 +35,9 @@ namespace IX.Math.Nodes
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
+        /// <param name="context">The deep cloning context.</param>
         /// <returns>A deep clone.</returns>
-        public abstract NodeBase DeepClone();
+        public abstract NodeBase DeepClone(NodeCloningContext context);
 
         /// <summary>
         /// Generates the expression that will be compiled into code.
