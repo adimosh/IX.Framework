@@ -1,4 +1,4 @@
-﻿// <copyright file="FunctionNodeMaximum.cs" company="Adrian Mos">
+// <copyright file="FunctionNodeMaximum.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -12,110 +12,14 @@ namespace IX.Math.Nodes.Operations.Function.Binary
 {
     [DebuggerDisplay("max({FirstParameter}, {SecondParameter})")]
     [CallableMathematicsFunction("max", "maximum")]
-    internal sealed class FunctionNodeMaximum : BinaryFunctionNodeBase
+    internal sealed class FunctionNodeMaximum : NumericBinaryFunctionNodeBase
     {
-        public FunctionNodeMaximum(NumericNode firstParameter, NumericNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodeMaximum(NumericNode firstParameter, NumericParameterNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodeMaximum(NumericNode firstParameter, OperationNodeBase secondParameter)
-            : base(firstParameter, secondParameter?.Simplify())
-        {
-            if (this.SecondParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeMaximum(NumericParameterNode firstParameter, NumericNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodeMaximum(NumericParameterNode firstParameter, NumericParameterNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodeMaximum(NumericParameterNode firstParameter, OperationNodeBase secondParameter)
-            : base(firstParameter, secondParameter?.Simplify())
-        {
-            if (this.SecondParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeMaximum(OperationNodeBase firstParameter, NumericNode secondParameter)
-            : base(firstParameter?.Simplify(), secondParameter)
-        {
-            if (this.FirstParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeMaximum(OperationNodeBase firstParameter, NumericParameterNode secondParameter)
-            : base(firstParameter?.Simplify(), secondParameter)
-        {
-            if (this.FirstParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeMaximum(OperationNodeBase firstParameter, OperationNodeBase secondParameter)
+        public FunctionNodeMaximum(NodeBase firstParameter, NodeBase secondParameter)
             : base(firstParameter?.Simplify(), secondParameter?.Simplify())
         {
-            if (this.FirstParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-
-            if (this.SecondParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
         }
 
-        public FunctionNodeMaximum(UndefinedParameterNode firstParameter, UndefinedParameterNode secondParameter)
-            : base(firstParameter?.DetermineNumeric(), secondParameter?.DetermineNumeric())
-        {
-        }
-
-        public FunctionNodeMaximum(UndefinedParameterNode firstParameter, NodeBase secondParameter)
-            : base(firstParameter, secondParameter?.Simplify())
-        {
-            if (this.SecondParameter.ReturnType == SupportedValueType.Numeric)
-            {
-                this.FirstParameter = firstParameter.DetermineNumeric();
-            }
-            else
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeMaximum(NodeBase firstParameter, UndefinedParameterNode secondParameter)
-            : base(firstParameter?.Simplify(), secondParameter)
-        {
-            if (this.FirstParameter.ReturnType == SupportedValueType.Numeric)
-            {
-                this.SecondParameter = secondParameter.DetermineNumeric();
-            }
-            else
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public override SupportedValueType ReturnType => SupportedValueType.Numeric;
+        public override NodeBase DeepClone(NodeCloningContext context) => new FunctionNodeMaximum(this.FirstParameter.DeepClone(context), this.SecondParameter.DeepClone(context));
 
         public override NodeBase Simplify()
         {

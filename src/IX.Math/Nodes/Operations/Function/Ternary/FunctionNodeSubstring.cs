@@ -1,4 +1,4 @@
-﻿// <copyright file="FunctionNodeSubstring.cs" company="Adrian Mos">
+// <copyright file="FunctionNodeSubstring.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -343,7 +343,14 @@ namespace IX.Math.Nodes.Operations.Function.Ternary
             }
         }
 
+        private FunctionNodeSubstring(NodeBase firstParameter, NodeBase secondParameter, NodeBase thirdParameter)
+            : base(firstParameter, secondParameter, thirdParameter)
+        {
+        }
+
         public override SupportedValueType ReturnType => SupportedValueType.String;
+
+        public override NodeBase DeepClone(NodeCloningContext context) => new FunctionNodeSubstring(this.FirstParameter.DeepClone(context), this.SecondParameter.DeepClone(context), this.ThirdParameter.DeepClone(context));
 
         public override NodeBase Simplify()
         {

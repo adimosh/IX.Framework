@@ -60,7 +60,7 @@ namespace IX.Math
                 workingSet.ReverseConstantsTable,
                 workingSet.SymbolTable,
                 workingSet.ReverseSymbolTable,
-                workingSet.ParametersTable,
+                workingSet.ParameterRegistry,
                 workingSet.Expression,
                 workingSet.AllOperatorsInOrder,
                 workingSet.AllSymbols);
@@ -87,7 +87,7 @@ namespace IX.Math
                     workingSet.ReverseConstantsTable,
                     workingSet.SymbolTable,
                     workingSet.ReverseSymbolTable,
-                    workingSet.ParametersTable,
+                    workingSet.ParameterRegistry,
                     workingSet.Expression,
                     workingSet.Definition.Parentheses.Item1,
                     workingSet.AllOperatorsInOrder);
@@ -115,7 +115,7 @@ namespace IX.Math
             // Set success values and possibly constant values
             if (workingSet.Body is ConstantNodeBase)
             {
-                if (workingSet.ParametersTable.Count > 0)
+                if (workingSet.ParameterRegistry.Populated)
                 {
                     // Cannot have external parameters if the expression is itself constant; something somewhere doesn't make sense
                     return;
@@ -166,9 +166,9 @@ namespace IX.Math
             }
 
             // Check whether expression is an external parameter
-            if (workingSet.ParametersTable.TryGetValue(expression, out ParameterNodeBase parameterResult))
+            if (workingSet.ParameterRegistry.Exists(expression))
             {
-                return parameterResult;
+                return workingSet.ParameterRegistry.RegisterParameter(expression);
             }
 
             // Check whether the expression already exists in the symbols table

@@ -1,4 +1,4 @@
-﻿// <copyright file="BinaryFunctionNodeBase.cs" company="Adrian Mos">
+// <copyright file="BinaryFunctionNodeBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -28,8 +28,13 @@ namespace IX.Math.Nodes
         /// </exception>
         protected BinaryFunctionNodeBase(NodeBase firstParameter, NodeBase secondParameter)
         {
-            this.FirstParameter = firstParameter ?? throw new ArgumentNullException(nameof(firstParameter));
-            this.SecondParameter = secondParameter ?? throw new ArgumentNullException(nameof(secondParameter));
+            NodeBase firstParameterTemp = firstParameter ?? throw new ArgumentNullException(nameof(firstParameter));
+            NodeBase secondParameterTemp = secondParameter ?? throw new ArgumentNullException(nameof(secondParameter));
+
+            this.EnsureCompatibleParameters(ref firstParameter, ref secondParameter);
+
+            this.FirstParameter = firstParameterTemp.Simplify();
+            this.SecondParameter = secondParameterTemp.Simplify();
         }
 
         /// <summary>
@@ -55,6 +60,13 @@ namespace IX.Math.Nodes
 
             return this;
         }
+
+        /// <summary>
+        /// Ensures that the parameters that are received are compatible with the function, optionally allowing the parameter references to change.
+        /// </summary>
+        /// <param name="firstParameter">The first parameter.</param>
+        /// <param name="secondParameter">The second parameter.</param>
+        protected abstract void EnsureCompatibleParameters(ref NodeBase firstParameter, ref NodeBase secondParameter);
 
         /// <summary>
         /// Generates a static binary function call expression.

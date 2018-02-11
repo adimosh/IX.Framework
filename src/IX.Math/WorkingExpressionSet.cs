@@ -12,6 +12,7 @@ using IX.Math.ExpressionState;
 using IX.Math.Extraction;
 using IX.Math.Generators;
 using IX.Math.Nodes;
+using IX.Math.Registration;
 using IX.System.Collections.Generic;
 
 namespace IX.Math
@@ -35,9 +36,9 @@ namespace IX.Math
         internal Dictionary<string, string> ReverseConstantsTable;
         internal Dictionary<string, ExpressionSymbol> SymbolTable;
         internal Dictionary<string, string> ReverseSymbolTable;
-        internal Dictionary<string, ParameterNodeBase> ParametersTable;
         internal string Expression;
         internal NodeBase Body;
+        internal IParameterRegistry ParameterRegistry;
 
         // Scrap
         internal LevelDictionary<string, Type> UnaryOperators;
@@ -71,16 +72,16 @@ namespace IX.Math
             LevelDictionary<Type, IConstantsExtractor> extractors,
             CancellationToken cancellationToken)
         {
+            this.ParameterRegistry = new StandardParameterRegistry();
             this.ConstantsTable = new Dictionary<string, ConstantNodeBase>();
             this.ReverseConstantsTable = new Dictionary<string, string>();
-            this.ParametersTable = new Dictionary<string, ParameterNodeBase>();
             this.SymbolTable = new Dictionary<string, ExpressionSymbol>();
             this.ReverseSymbolTable = new Dictionary<string, string>();
 
             this.InitialExpression = expression;
             this.CancellationToken = cancellationToken;
             this.Expression = expression;
-            this.Definition = new MathDefinition(mathDefinition);
+            this.Definition = mathDefinition;
 
             this.assembliesForFunctions = assembliesForFunctions;
 

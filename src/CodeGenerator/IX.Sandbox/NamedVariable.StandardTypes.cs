@@ -123,6 +123,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<byte> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -146,6 +167,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<byte> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -272,6 +314,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<sbyte> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -295,6 +358,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<sbyte> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -421,6 +505,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<short> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -444,6 +549,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<short> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -570,6 +696,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<ushort> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -593,6 +740,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<ushort> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -724,6 +892,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<char> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -747,6 +936,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<char> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -873,6 +1083,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<int> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -896,6 +1127,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<int> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -1022,6 +1274,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<uint> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -1045,6 +1318,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<uint> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -1171,6 +1465,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<long> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -1194,6 +1509,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<long> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -1320,6 +1656,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<ulong> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -1343,6 +1700,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<ulong> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -1469,6 +1847,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<float> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -1492,6 +1891,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<float> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -1618,6 +2038,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<double> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -1641,6 +2082,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<double> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -1767,6 +2229,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<decimal> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -1790,6 +2273,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<decimal> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -1916,6 +2420,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<DateTime> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -1939,6 +2464,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<DateTime> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -2065,6 +2611,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<bool> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -2088,6 +2655,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<bool> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -2214,6 +2802,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<TimeSpan> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -2237,6 +2846,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<TimeSpan> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -2356,6 +2986,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<string> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.CompareTo(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -2379,6 +3030,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<string> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>
@@ -2561,6 +3233,27 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        /// Compares this variable to another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>0</c> if the two are equal, a different value if not.</returns>
+        public override int CompareTo(INamedVariable<byte[]> other)
+        {
+            if (other == null)
+            {
+                return -1;
+            }
+
+            var nameComparison = other.Name?.CompareTo(this.Name) ?? -1;
+            if (nameComparison != 0)
+            {
+                return nameComparison;
+            }
+
+            return other.RawDebuggerValue.SequenceCompare(this.RawDebuggerValue);
+        }
+
+        /// <summary>
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -2584,6 +3277,27 @@ namespace IX.Sandbox.Memory
             }
 
             return otherVariable.RawDebuggerValue.Equals(this.RawDebuggerValue);
+        }
+
+        /// <summary>
+        /// Equates this variable with another variable.
+        /// </summary>
+        /// <param name="other">The variable to compare to.</param>
+        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        public override bool Equals(INamedVariable<byte[]> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            var nameComparison = other.Name?.Equals(this.Name) ?? false;
+            if (!nameComparison)
+            {
+                return false;
+            }
+
+            return other.RawDebuggerValue.Equals(this.RawDebuggerValue);
         }
 
         /// <summary>

@@ -52,6 +52,23 @@ namespace IX.Abstractions.Memory
         INamedVariable<T> CreateVariable<T>(string name);
 
         /// <summary>
+        /// Creates an unnamed variable of a certain type.
+        /// </summary>
+        /// <typeparam name="T">The type of the variable.</typeparam>
+        /// <param name="value">The value.</param>
+        /// <returns>The new variable, if one has been created.</returns>
+        IVariable<T> CreateVariable<T>(T value);
+
+        /// <summary>
+        /// Creates a variable of a certain type.
+        /// </summary>
+        /// <typeparam name="T">The type of the variable.</typeparam>
+        /// <param name="name">The name of the variable.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>The new variable, if one has been created.</returns>
+        INamedVariable<T> CreateVariable<T>(string name, T value);
+
+        /// <summary>
         /// Disposes a variable by name.
         /// </summary>
         /// <param name="name">The name  of the variable.</param>
@@ -62,5 +79,11 @@ namespace IX.Abstractions.Memory
         /// </summary>
         /// <param name="variable">The variable, by reference.</param>
         void DisposeVariable(ref INamedVariable variable);
+
+        /// <summary>
+        /// Disposes an unnamed variable by reference.
+        /// </summary>
+        /// <param name="variable">The variable, by reference.</param>
+        void DisposeVariable(ref IVariable variable);
     }
 }

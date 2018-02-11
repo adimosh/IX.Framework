@@ -113,5 +113,32 @@ namespace IX.Math {
                 return ResourceManager.GetString("ParameterMustBeIntegerButAlreadyRequiredToBeFloat", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The parameter registry has returned a null value..
+        /// </summary>
+        internal static string ParameterRegistryReturnedNull {
+            get {
+                return ResourceManager.GetString("ParameterRegistryReturnedNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The parameter {0} is used as two separate and incompatible types..
+        /// </summary>
+        internal static string ParameterRequiredOfMismatchedTypes {
+            get {
+                return ResourceManager.GetString("ParameterRequiredOfMismatchedTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The parameter {0} has been requested as an unknown or unsupported type..
+        /// </summary>
+        internal static string ParameterTypeNotRecognized {
+            get {
+                return ResourceManager.GetString("ParameterTypeNotRecognized", resourceCulture);
+            }
+        }
     }
 }

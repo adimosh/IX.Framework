@@ -1,4 +1,4 @@
-﻿// <copyright file="FunctionNodeSubstring.cs" company="Adrian Mos">
+// <copyright file="FunctionNodeSubstring.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -119,6 +119,8 @@ namespace IX.Math.Nodes.Operations.Function.Binary
 
         public override SupportedValueType ReturnType => SupportedValueType.String;
 
+        public override NodeBase DeepClone(NodeCloningContext context) => throw new NotImplementedException();
+
         public override NodeBase Simplify()
         {
             if (this.FirstParameter is StringNode stringParam && this.SecondParameter is NumericNode numericParam)
@@ -127,6 +129,19 @@ namespace IX.Math.Nodes.Operations.Function.Binary
             }
 
             return this;
+        }
+
+        protected override void EnsureCompatibleParameters(ref NodeBase firstParameter, ref NodeBase secondParameter)
+        {
+            if (firstParameter is UndefinedParameterNode fp)
+            {
+                firstParameter = fp.DetermineString();
+            }
+
+            if (secondParameter is UndefinedParameterNode sp)
+            {
+                secondParameter = sp.DetermineNumeric().ParameterMustBeInteger();
+            }
         }
 
         protected override Expression GenerateExpressionInternal()

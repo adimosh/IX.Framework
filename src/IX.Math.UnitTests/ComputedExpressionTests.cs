@@ -11,8 +11,19 @@ namespace IX.Math.UnitTests
     /// <summary>
     /// Tests computed expressions.
     /// </summary>
-    public class ComputedExpressionTests
+    public class ComputedExpressionTests : IClassFixture<CachedExpressionProviderFixture>
     {
+        private CachedExpressionProviderFixture fixture;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ComputedExpressionTests"/> class.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        public ComputedExpressionTests(CachedExpressionProviderFixture fixture)
+        {
+            this.fixture = fixture;
+        }
+
         /// <summary>
         /// Provides the data for theory.
         /// </summary>
@@ -781,18 +792,20 @@ namespace IX.Math.UnitTests
                     new object[1] { BitConverter.GetBytes(0b1001010111010110110010000000010010101110101) },
                     false,
                 },
-                //new object[]
-                //{
-                //    "2.12+6.274E+1",
-                //    new object[0],
-                //    64.84D,
-                //},
-                //new object[]
-                //{
-                //    "2.12+6.274E1",
-                //    new object[0],
-                //    64.84D,
-                //},
+#if false
+                new object[]
+                {
+                    "2.12+6.274E+1",
+                    new object[0],
+                    64.84D,
+                },
+                new object[]
+                {
+                    "2.12+6.274E1",
+                    new object[0],
+                    64.84D,
+                },
+#endif
             };
 
         /// <summary>
@@ -805,7 +818,7 @@ namespace IX.Math.UnitTests
         /// No computed expression was generated!
         /// or
         /// </exception>
-        [Theory(DisplayName = "Para")]
+        [Theory(DisplayName = "EPSPara")]
         [MemberData(nameof(ProvideDataForTheory))]
         public void ComputedExpressionWithParameters(string expression, object[] parameters, object expectedResult)
         {
@@ -834,7 +847,7 @@ namespace IX.Math.UnitTests
         /// No computed expression was generated!
         /// or
         /// </exception>
-        [Theory(DisplayName = "Findr")]
+        [Theory(DisplayName = "EPSFindr")]
         [MemberData(nameof(ProvideDataForTheory))]
         public void ComputedExpressionWithFinder(string expression, object[] parameters, object expectedResult)
         {
@@ -861,6 +874,68 @@ namespace IX.Math.UnitTests
 
                 Assert.Equal(expectedResult, result);
             }
+        }
+
+        /// <summary>
+        /// Tests the cached computed expression with parameters.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="expectedResult">The expected result.</param>
+        /// <exception cref="InvalidOperationException">
+        /// No computed expression was generated!
+        /// or
+        /// </exception>
+        [Theory(DisplayName = "CEPSPara")]
+        [MemberData(nameof(ProvideDataForTheory))]
+        public void CachedComputedExpressionWithParameters(string expression, object[] parameters, object expectedResult)
+        {
+            ComputedExpression del = this.fixture.Service.Interpret(expression);
+
+            if (del == null)
+            {
+                throw new InvalidOperationException("No computed expression was generated!");
+            }
+
+            var result = del.Compute(parameters);
+
+            Assert.Equal(expectedResult, result);
+        }
+
+        /// <summary>
+        /// Tests a cached computed expression with finder.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="expectedResult">The expected result.</param>
+        /// <exception cref="InvalidOperationException">
+        /// No computed expression was generated!
+        /// or
+        /// </exception>
+        [Theory(DisplayName = "CEPSFindr")]
+        [MemberData(nameof(ProvideDataForTheory))]
+        public void CachedComputedExpressionWithFinder(string expression, object[] parameters, object expectedResult)
+        {
+            var finder = new Mock<IDataFinder>(MockBehavior.Loose);
+
+            ComputedExpression del = this.fixture.Service.Interpret(expression);
+
+            if (del == null)
+            {
+                throw new InvalidOperationException("No computed expression was generated!");
+            }
+
+            for (var i = 0; i < global::System.Math.Min(del.ParameterNames.Length, parameters.Length); i++)
+            {
+                var valueName = del.ParameterNames[i];
+                var outValue = parameters[i];
+
+                finder.Setup(p => p.TryGetData(valueName, out outValue)).Returns(true);
+            }
+
+            var result = del.Compute(finder.Object);
+
+            Assert.Equal(expectedResult, result);
         }
     }
 }

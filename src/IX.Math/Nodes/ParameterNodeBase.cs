@@ -1,10 +1,11 @@
-﻿// <copyright file="ParameterNodeBase.cs" company="Adrian Mos">
+// <copyright file="ParameterNodeBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
 using System.Linq.Expressions;
 using IX.Math.PlatformMitigation;
+using IX.StandardExtensions;
 
 namespace IX.Math.Nodes
 {
@@ -12,7 +13,7 @@ namespace IX.Math.Nodes
     /// A base class for a parameter node.
     /// </summary>
     /// <seealso cref="IX.Math.Nodes.CachedExpressionNodeBase" />
-    public abstract class ParameterNodeBase : CachedExpressionNodeBase
+    public abstract class ParameterNodeBase : CachedExpressionNodeBase, IContextAwareDeepCloneable<NodeCloningContext, ParameterNodeBase>
     {
         private readonly string name;
 
@@ -65,5 +66,26 @@ namespace IX.Math.Nodes
 #else
             new Type[0]));
 #endif
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <param name="context">The deep cloning context.</param>
+        /// <returns>A deep clone.</returns>
+        public sealed override NodeBase DeepClone(NodeCloningContext context) => ((IContextAwareDeepCloneable<NodeCloningContext, ParameterNodeBase>)this).DeepClone(context);
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <param name="context">The deep cloning context.</param>
+        /// <returns>A deep clone.</returns>
+        ParameterNodeBase IContextAwareDeepCloneable<NodeCloningContext, ParameterNodeBase>.DeepClone(NodeCloningContext context) => this.DeepCloneInternal(context);
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <param name="context">The deep cloning context.</param>
+        /// <returns>A deep clone.</returns>
+        protected abstract ParameterNodeBase DeepCloneInternal(NodeCloningContext context);
     }
 }

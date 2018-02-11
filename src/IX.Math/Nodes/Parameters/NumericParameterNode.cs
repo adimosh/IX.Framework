@@ -1,4 +1,4 @@
-﻿// <copyright file="NumericParameterNode.cs" company="Adrian Mos">
+// <copyright file="NumericParameterNode.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -88,6 +88,32 @@ namespace IX.Math.Nodes.Parameters
             }
 
             return this;
+        }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <param name="context">The deep cloning context.</param>
+        /// <returns>A deep clone.</returns>
+        protected override ParameterNodeBase DeepCloneInternal(NodeCloningContext context)
+        {
+            var para = context.ParameterRegistry.RegisterParameter(this.Name, SupportedValueType.Numeric) as NumericParameterNode;
+
+            if (para == null)
+            {
+                throw new InvalidOperationException(Resources.ParameterRegistryReturnedNull);
+            }
+
+            if (this.RequireFloat == true)
+            {
+                para = para.ParameterMustBeFloat();
+            }
+            else if (this.RequireFloat == false)
+            {
+                para = para.ParameterMustBeInteger();
+            }
+
+            return para;
         }
     }
 }

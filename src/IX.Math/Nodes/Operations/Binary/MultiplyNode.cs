@@ -1,4 +1,4 @@
-﻿// <copyright file="MultiplyNode.cs" company="Adrian Mos">
+// <copyright file="MultiplyNode.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -25,6 +25,13 @@ namespace IX.Math.Nodes.Operations.Binary
 
             return this;
         }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <param name="context">The deep cloning context.</param>
+        /// <returns>A deep clone.</returns>
+        public override NodeBase DeepClone(NodeCloningContext context) => new MultiplyNode(this.Left.DeepClone(context), this.Right.DeepClone(context));
 
         protected override Expression GenerateExpressionInternal() =>
             Expression.Multiply(Expression.Convert(this.Left.GenerateExpression(), typeof(double)), Expression.Convert(this.Right.GenerateExpression(), typeof(double)));

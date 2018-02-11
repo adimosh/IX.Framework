@@ -1,4 +1,4 @@
-﻿// <copyright file="BoolParameterNode.cs" company="Adrian Mos">
+// <copyright file="BoolParameterNode.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -34,5 +34,12 @@ namespace IX.Math.Nodes.Parameters
         /// </summary>
         /// <returns>The generated <see cref="T:System.Linq.Expressions.Expression" /> to be cached.</returns>
         public override Expression GenerateCachedExpression() => Expression.Parameter(typeof(bool), this.Name);
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <param name="context">The deep cloning context.</param>
+        /// <returns>A deep clone.</returns>
+        protected override ParameterNodeBase DeepCloneInternal(NodeCloningContext context) => context.ParameterRegistry.RegisterParameter(this.Name, SupportedValueType.Boolean);
     }
 }

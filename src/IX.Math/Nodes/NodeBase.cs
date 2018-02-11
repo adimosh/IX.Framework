@@ -1,15 +1,17 @@
-﻿// <copyright file="NodeBase.cs" company="Adrian Mos">
+// <copyright file="NodeBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System.Linq.Expressions;
+using IX.StandardExtensions;
 
 namespace IX.Math.Nodes
 {
     /// <summary>
     /// A base class for mathematics nodes.
     /// </summary>
-    public abstract class NodeBase
+    /// <seealso cref="IX.StandardExtensions.IDeepCloneable{T}" />
+    public abstract class NodeBase : IContextAwareDeepCloneable<NodeCloningContext, NodeBase>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NodeBase"/> class.
@@ -29,6 +31,13 @@ namespace IX.Math.Nodes
         /// </summary>
         /// <value><c>true</c> if the node is a constant, <c>false</c> otherwise.</value>
         public abstract bool IsConstant { get; }
+
+        /// <summary>
+        /// Creates a deep clone of the source object.
+        /// </summary>
+        /// <param name="context">The deep cloning context.</param>
+        /// <returns>A deep clone.</returns>
+        public abstract NodeBase DeepClone(NodeCloningContext context);
 
         /// <summary>
         /// Generates the expression that will be compiled into code.

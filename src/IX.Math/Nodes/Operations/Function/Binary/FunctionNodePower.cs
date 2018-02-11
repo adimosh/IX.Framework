@@ -1,4 +1,4 @@
-﻿// <copyright file="FunctionNodePower.cs" company="Adrian Mos">
+// <copyright file="FunctionNodePower.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -12,110 +12,14 @@ namespace IX.Math.Nodes.Operations.Function.Binary
 {
     [DebuggerDisplay("pow({FirstParameter}, {SecondParameter})")]
     [CallableMathematicsFunction("pow", "power")]
-    internal sealed class FunctionNodePower : BinaryFunctionNodeBase
+    internal sealed class FunctionNodePower : NumericBinaryFunctionNodeBase
     {
-        public FunctionNodePower(NumericNode firstParameter, NumericNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodePower(NumericNode firstParameter, NumericParameterNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodePower(NumericNode firstParameter, OperationNodeBase secondParameter)
-            : base(firstParameter, secondParameter?.Simplify())
-        {
-            if (this.SecondParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodePower(NumericParameterNode firstParameter, NumericNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodePower(NumericParameterNode firstParameter, NumericParameterNode secondParameter)
-            : base(firstParameter, secondParameter)
-        {
-        }
-
-        public FunctionNodePower(NumericParameterNode firstParameter, OperationNodeBase secondParameter)
-            : base(firstParameter, secondParameter?.Simplify())
-        {
-            if (this.SecondParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodePower(OperationNodeBase firstParameter, NumericNode secondParameter)
-            : base(firstParameter?.Simplify(), secondParameter)
-        {
-            if (this.FirstParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodePower(OperationNodeBase firstParameter, NumericParameterNode secondParameter)
-            : base(firstParameter?.Simplify(), secondParameter)
-        {
-            if (this.FirstParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodePower(OperationNodeBase firstParameter, OperationNodeBase secondParameter)
+        public FunctionNodePower(NodeBase firstParameter, NodeBase secondParameter)
             : base(firstParameter?.Simplify(), secondParameter?.Simplify())
         {
-            if (this.FirstParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-
-            if (this.SecondParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
         }
 
-        public FunctionNodePower(UndefinedParameterNode firstParameter, UndefinedParameterNode secondParameter)
-            : base(firstParameter?.DetermineNumeric(), secondParameter?.DetermineNumeric())
-        {
-        }
-
-        public FunctionNodePower(UndefinedParameterNode firstParameter, NodeBase secondParameter)
-            : base(firstParameter, secondParameter?.Simplify())
-        {
-            if (this.SecondParameter.ReturnType == SupportedValueType.Numeric)
-            {
-                this.FirstParameter = firstParameter.DetermineNumeric();
-            }
-            else
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodePower(NodeBase firstParameter, UndefinedParameterNode secondParameter)
-            : base(firstParameter?.Simplify(), secondParameter)
-        {
-            if (this.FirstParameter.ReturnType == SupportedValueType.Numeric)
-            {
-                this.SecondParameter = secondParameter.DetermineNumeric();
-            }
-            else
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public override SupportedValueType ReturnType => SupportedValueType.Numeric;
+        public override NodeBase DeepClone(NodeCloningContext context) => new FunctionNodePower(this.FirstParameter.DeepClone(context), this.SecondParameter.DeepClone(context));
 
         public override NodeBase Simplify()
         {

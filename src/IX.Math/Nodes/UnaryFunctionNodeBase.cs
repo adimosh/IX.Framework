@@ -1,4 +1,4 @@
-﻿// <copyright file="UnaryFunctionNodeBase.cs" company="Adrian Mos">
+// <copyright file="UnaryFunctionNodeBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -19,10 +19,14 @@ namespace IX.Math.Nodes
         /// Initializes a new instance of the <see cref="UnaryFunctionNodeBase"/> class.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
-        /// <exception cref="global::System.ArgumentNullException">parameter</exception>
+        /// <exception cref="ArgumentNullException">parameter</exception>
         protected UnaryFunctionNodeBase(NodeBase parameter)
         {
-            this.Parameter = parameter ?? throw new ArgumentNullException(nameof(parameter));
+            NodeBase parameterTemp = parameter ?? throw new ArgumentNullException(nameof(parameter));
+
+            this.EnsureCompatibleParameter(ref parameterTemp);
+
+            this.Parameter = parameterTemp.Simplify();
         }
 
         /// <summary>
@@ -41,6 +45,12 @@ namespace IX.Math.Nodes
 
             return this;
         }
+
+        /// <summary>
+        /// Ensures that the parameter that is received is compatible with the function, optionally allowing the parameter reference to change.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
+        protected abstract void EnsureCompatibleParameter(ref NodeBase parameter);
 
         /// <summary>
         /// Generates a static unary function call.
