@@ -6,7 +6,6 @@ using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using IX.Math.Nodes.Constants;
-using IX.Math.Nodes.Parameters;
 using IX.Math.PlatformMitigation;
 
 namespace IX.Math.Nodes.Operations.Binary
@@ -75,7 +74,7 @@ namespace IX.Math.Nodes.Operations.Binary
 
         protected override void EnsureCompatibleOperands(ref NodeBase left, ref NodeBase right)
         {
-            if (left is UndefinedParameterNode uLeft)
+            if (left is ParameterNode uLeft && uLeft.ReturnType == SupportedValueType.Unknown)
             {
                 switch (right.ReturnType)
                 {
@@ -97,7 +96,7 @@ namespace IX.Math.Nodes.Operations.Binary
                 }
             }
 
-            if (right is UndefinedParameterNode uRight)
+            if (right is ParameterNode uRight && uRight.ReturnType == SupportedValueType.Unknown)
             {
                 switch (left.ReturnType)
                 {

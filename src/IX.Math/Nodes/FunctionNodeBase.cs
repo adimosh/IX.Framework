@@ -1,10 +1,9 @@
-﻿// <copyright file="FunctionNodeBase.cs" company="Adrian Mos">
+// <copyright file="FunctionNodeBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
 using IX.Math.Nodes.Constants;
-using IX.Math.Nodes.Parameters;
 
 namespace IX.Math.Nodes
 {
@@ -30,15 +29,23 @@ namespace IX.Math.Nodes
         protected static Type ParameterTypeFromParameter(NodeBase parameter)
         {
             Type parameterType;
-
             switch (parameter.ReturnType)
             {
+                case SupportedValueType.Boolean:
+                    parameterType = typeof(bool);
+                    break;
+                case SupportedValueType.ByteArray:
+                    parameterType = typeof(byte[]);
+                    break;
+                case SupportedValueType.String:
+                    parameterType = typeof(string);
+                    break;
                 case SupportedValueType.Numeric:
                     {
                         switch (parameter)
                         {
-                            case NumericParameterNode nn:
-                                if (nn.RequireFloat == false)
+                            case ParameterNode nn:
+                                if (nn.IsFloat == false)
                                 {
                                     parameterType = typeof(long);
                                 }
@@ -57,12 +64,6 @@ namespace IX.Math.Nodes
                         }
                     }
 
-                    break;
-                case SupportedValueType.Boolean:
-                    parameterType = typeof(bool);
-                    break;
-                case SupportedValueType.String:
-                    parameterType = typeof(string);
                     break;
                 default:
                     throw new InvalidOperationException();

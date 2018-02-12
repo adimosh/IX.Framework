@@ -1,4 +1,4 @@
-﻿// <copyright file="ConstantNodeBase.cs" company="Adrian Mos">
+// <copyright file="ConstantNodeBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -28,12 +28,6 @@ namespace IX.Math.Nodes
         /// </summary>
         /// <returns>A usable constant.</returns>
         public abstract object DistillValue();
-
-        /// <summary>
-        /// Refreshes all the parameters recursively.
-        /// </summary>
-        /// <returns>A reflexive return.</returns>
-        public sealed override NodeBase RefreshParametersRecursive() => this;
 
         /// <summary>
         /// Simplifies this node, if possible, reflexively returns otherwise.

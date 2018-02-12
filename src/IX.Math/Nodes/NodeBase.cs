@@ -52,12 +52,6 @@ namespace IX.Math.Nodes
         public abstract Expression GenerateStringExpression();
 
         /// <summary>
-        /// Refreshes all the parameters recursively.
-        /// </summary>
-        /// <returns>A reference to the same conceptual node, but possibly a different instance.</returns>
-        public abstract NodeBase RefreshParametersRecursive();
-
-        /// <summary>
         /// Simplifies this node, if possible, reflexively returns otherwise.
         /// </summary>
         /// <returns>A simplified node, or this instance.</returns>
