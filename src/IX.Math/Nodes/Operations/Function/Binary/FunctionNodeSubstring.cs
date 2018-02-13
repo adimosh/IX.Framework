@@ -8,7 +8,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using IX.Math.Extensibility;
 using IX.Math.Nodes.Constants;
-using IX.Math.Nodes.Parameters;
 using IX.Math.PlatformMitigation;
 
 namespace IX.Math.Nodes.Operations.Function.Binary
@@ -17,103 +16,27 @@ namespace IX.Math.Nodes.Operations.Function.Binary
     [CallableMathematicsFunction("substr", "substring")]
     internal sealed class FunctionNodeSubstring : BinaryFunctionNodeBase
     {
-        public FunctionNodeSubstring(StringNode stringParameter, NumericNode numericParameter)
-            : base(stringParameter, numericParameter)
-        {
-        }
-
-        public FunctionNodeSubstring(StringParameterNode stringParameter, NumericNode numericParameter)
-            : base(stringParameter, numericParameter)
-        {
-        }
-
-        public FunctionNodeSubstring(StringNode stringParameter, NumericParameterNode numericParameter)
-            : base(stringParameter, numericParameter?.ParameterMustBeInteger())
-        {
-        }
-
-        public FunctionNodeSubstring(StringParameterNode stringParameter, NumericParameterNode numericParameter)
-            : base(stringParameter, numericParameter?.ParameterMustBeInteger())
-        {
-        }
-
-        public FunctionNodeSubstring(OperationNodeBase stringParameter, NumericNode numericParameter)
-            : base(stringParameter?.Simplify(), numericParameter)
-        {
-            if (this.FirstParameter?.ReturnType != SupportedValueType.String)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeSubstring(StringParameterNode stringParameter, OperationNodeBase numericParameter)
-            : base(stringParameter, numericParameter?.Simplify())
-        {
-            if (this.SecondParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeSubstring(StringNode stringParameter, OperationNodeBase numericParameter)
-            : base(stringParameter, numericParameter?.Simplify())
-        {
-            if (this.SecondParameter?.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeSubstring(OperationNodeBase stringParameter, NumericParameterNode numericParameter)
-            : base(stringParameter?.Simplify(), numericParameter?.ParameterMustBeInteger())
-        {
-            if (this.FirstParameter?.ReturnType != SupportedValueType.String)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeSubstring(OperationNodeBase stringParameter, OperationNodeBase numericParameter)
+        public FunctionNodeSubstring(NodeBase stringParameter, NodeBase numericParameter)
             : base(stringParameter?.Simplify(), numericParameter?.Simplify())
         {
-            if (this.FirstParameter?.ReturnType != SupportedValueType.String)
+            if (stringParameter is ParameterNode sp)
+            {
+                sp.DetermineString();
+            }
+
+            if (numericParameter is ParameterNode np)
+            {
+                np?.DetermineNumeric().DetermineInteger();
+            }
+
+            if (stringParameter?.ReturnType != SupportedValueType.String)
             {
                 throw new ExpressionNotValidLogicallyException();
             }
 
-            if (this.SecondParameter?.ReturnType != SupportedValueType.Numeric)
+            if (numericParameter?.ReturnType != SupportedValueType.Numeric)
             {
                 throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeSubstring(UndefinedParameterNode stringParameter, UndefinedParameterNode numericParameter)
-            : base(stringParameter?.DetermineString(), numericParameter?.DetermineNumeric()?.ParameterMustBeInteger())
-        {
-        }
-
-        public FunctionNodeSubstring(NodeBase stringParameter, UndefinedParameterNode numericParameter)
-            : base(stringParameter?.Simplify(), numericParameter?.DetermineNumeric()?.ParameterMustBeInteger())
-        {
-            if (this.FirstParameter.ReturnType != SupportedValueType.String)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-        }
-
-        public FunctionNodeSubstring(UndefinedParameterNode stringParameter, NodeBase numericParameter)
-            : base(stringParameter?.DetermineString(), numericParameter?.Simplify())
-        {
-            if (this.FirstParameter.ReturnType != SupportedValueType.Numeric)
-            {
-                throw new ExpressionNotValidLogicallyException();
-            }
-            else
-            {
-                if (this.SecondParameter is NumericParameterNode npn)
-                {
-                    npn.ParameterMustBeInteger();
-                }
             }
         }
 
@@ -133,15 +56,7 @@ namespace IX.Math.Nodes.Operations.Function.Binary
 
         protected override void EnsureCompatibleParameters(ref NodeBase firstParameter, ref NodeBase secondParameter)
         {
-            if (firstParameter is UndefinedParameterNode fp)
-            {
-                firstParameter = fp.DetermineString();
-            }
-
-            if (secondParameter is UndefinedParameterNode sp)
-            {
-                secondParameter = sp.DetermineNumeric().ParameterMustBeInteger();
-            }
+            // Nothing needs to be done here
         }
 
         protected override Expression GenerateExpressionInternal()

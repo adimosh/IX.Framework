@@ -18,27 +18,20 @@ namespace IX.Math
     /// </summary>
     public class ComputedExpression : IDeepCloneable<ComputedExpression>, IDisposable
     {
+        private readonly IParameterRegistry parametersRegistry;
+
         private readonly string initialExpression;
         private NodeBase body;
-        private ParameterNodeBase[] parameters;
-        private object locker;
-        private Dictionary<int, Delegate> computedBodies;
         private bool disposedValue;
-        private IParameterRegistry parametersRegistry;
 
-        internal ComputedExpression(in string initialExpression, in NodeBase body, in ParameterNodeBase[] parameters, in bool isRecognized, in IParameterRegistry parameterRegistry)
+        internal ComputedExpression(in string initialExpression, in NodeBase body, in bool isRecognized, in IParameterRegistry parameterRegistry)
         {
+            this.parametersRegistry = parameterRegistry;
+
             this.initialExpression = initialExpression;
             this.body = body;
             this.RecognizedCorrectly = isRecognized;
             this.IsConstant = body?.IsConstant ?? false;
-            this.HasUndefinedParameters = parameters?.Any(p => p is Nodes.Parameters.UndefinedParameterNode) ?? false;
-            this.locker = new object();
-            this.computedBodies = new Dictionary<int, Delegate>();
-            this.parameters = parameters;
-            this.ParameterNames = parameters?.Select(p => p.Name).ToArray() ?? new string[0];
-
-            this.parametersRegistry = parameterRegistry;
         }
 
         /// <summary>
@@ -66,12 +59,12 @@ namespace IX.Math
         /// Gets a value indicating whether or not the expression has undefined parameters.
         /// </summary>
         /// <value><c>true</c> if the expression has undefined parameters, <c>false</c> otherwise.</value>
-        public bool HasUndefinedParameters { get; }
+        public bool HasUndefinedParameters => this.parametersRegistry.Dump().Any(p => p.ReturnType == SupportedValueType.Unknown);
 
         /// <summary>
         /// Gets the names of the parameters this expression requires, if any.
         /// </summary>
-        public string[] ParameterNames { get; private set; }
+        public string[] ParameterNames => this.parametersRegistry.Dump().Select(p => p.Name).ToArray();
 
         /// <summary>
         /// Disposes an instance of the <see cref="ComputedExpression"/> class.
@@ -100,16 +93,241 @@ namespace IX.Math
                 return this.initialExpression;
             }
 
-            object[] convertedArguments = ParameterFormatter.FormatArgumentsAccordingToParameters(arguments, this.parameters);
+            object[] convertedArguments = FormatArgumentsAccordingToParameters(arguments, this.parametersRegistry.Dump());
 
-            this.body = this.body.RefreshParametersRecursive();
+            object[] FormatArgumentsAccordingToParameters(
+                in object[] parameterValues,
+                in ParameterContext[] parameters)
+            {
+                if (parameterValues.Length != parameterValues.Length)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                object[] finalValues = new object[parameterValues.Length];
+
+                var i = 0;
+
+                while (i < finalValues.Length)
+                {
+                    ParameterContext para = parameters[i];
+                    switch (parameters[i].ReturnType)
+                    {
+                        case SupportedValueType.Numeric:
+                            switch (parameterValues[i])
+                            {
+                                case string se:
+                                    if (ParsingFormatter.ParseNumeric(se, out object val))
+                                    {
+                                        if (para.IsFloat == false)
+                                        {
+                                            finalValues[i] = Convert.ToInt64(val);
+                                        }
+                                        else
+                                        {
+                                            finalValues[i] = Convert.ToDouble(val);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        throw new InvalidCastException();
+                                    }
+
+                                    break;
+                                default:
+                                    if (para.IsFloat == false)
+                                    {
+                                        finalValues[i] = Convert.ToInt64(parameterValues[i]);
+                                    }
+                                    else
+                                    {
+                                        finalValues[i] = Convert.ToDouble(parameterValues[i]);
+                                    }
+
+                                    break;
+                            }
+
+                            break;
+                        case SupportedValueType.String:
+                            finalValues[i] = parameterValues[i].ToString();
+                            break;
+                        case SupportedValueType.Boolean:
+                            switch (parameterValues[i])
+                            {
+                                case bool be:
+                                    finalValues[i] = be;
+                                    break;
+                                case byte bbe:
+                                    finalValues[i] = bbe != 0;
+                                    break;
+                                case sbyte bbe:
+                                    finalValues[i] = bbe != 0;
+                                    break;
+                                case short bbe:
+                                    finalValues[i] = bbe != 0;
+                                    break;
+                                case char bbe:
+                                    finalValues[i] = bbe != 0;
+                                    break;
+                                case ushort bbe:
+                                    finalValues[i] = bbe != 0;
+                                    break;
+                                case int bbe:
+                                    finalValues[i] = bbe != 0;
+                                    break;
+                                case uint bbe:
+                                    finalValues[i] = bbe != 0;
+                                    break;
+                                case long bbe:
+                                    finalValues[i] = bbe != 0;
+                                    break;
+                                case ulong bbe:
+                                    finalValues[i] = bbe != 0;
+                                    break;
+                                case float bbe:
+                                    finalValues[i] = bbe != 0;
+                                    break;
+                                case double bbe:
+                                    finalValues[i] = bbe != 0;
+                                    break;
+                                case string se:
+                                    if (bool.TryParse(se, out bool bbb3))
+                                    {
+                                        finalValues[i] = bbb3;
+                                    }
+                                    else
+                                    {
+                                        throw new InvalidCastException();
+                                    }
+
+                                    break;
+                                default:
+                                    throw new InvalidCastException();
+                            }
+
+                            break;
+                        case SupportedValueType.ByteArray:
+                            switch (parameterValues[i])
+                            {
+                                case bool be:
+                                    finalValues[i] = BitConverter.GetBytes(be);
+                                    break;
+                                case byte bbe:
+                                    finalValues[i] = new byte[1] { bbe };
+                                    break;
+                                case sbyte bbe:
+                                    finalValues[i] = new byte[1] { (byte)bbe };
+                                    break;
+                                case short bbe:
+                                    finalValues[i] = BitConverter.GetBytes(bbe);
+                                    break;
+                                case char bbe:
+                                    finalValues[i] = BitConverter.GetBytes(bbe);
+                                    break;
+                                case ushort bbe:
+                                    finalValues[i] = BitConverter.GetBytes(bbe);
+                                    break;
+                                case int bbe:
+                                    finalValues[i] = BitConverter.GetBytes(bbe);
+                                    break;
+                                case uint bbe:
+                                    finalValues[i] = BitConverter.GetBytes(bbe);
+                                    break;
+                                case long bbe:
+                                    finalValues[i] = BitConverter.GetBytes(bbe);
+                                    break;
+                                case ulong bbe:
+                                    finalValues[i] = BitConverter.GetBytes(bbe);
+                                    break;
+                                case float bbe:
+                                    finalValues[i] = BitConverter.GetBytes(bbe);
+                                    break;
+                                case double bbe:
+                                    finalValues[i] = BitConverter.GetBytes(bbe);
+                                    break;
+                                case byte[] ba:
+                                    finalValues[i] = ba;
+                                    break;
+                                case string se:
+                                    if (ParsingFormatter.ParseByteArray(se, out byte[] val))
+                                    {
+                                        finalValues[i] = val;
+                                    }
+                                    else
+                                    {
+                                        throw new InvalidCastException();
+                                    }
+
+                                    break;
+                                default:
+                                    throw new InvalidCastException();
+                            }
+
+                            break;
+                        case SupportedValueType.Unknown:
+                            switch (parameterValues[i])
+                            {
+                                case bool be:
+                                    para.DetermineType(SupportedValueType.Boolean);
+                                    break;
+                                case byte bbe:
+                                    para.DetermineType(SupportedValueType.Numeric);
+                                    break;
+                                case sbyte bbe:
+                                    para.DetermineType(SupportedValueType.Numeric);
+                                    break;
+                                case short bbe:
+                                    para.DetermineType(SupportedValueType.Numeric);
+                                    break;
+                                case char bbe:
+                                    para.DetermineType(SupportedValueType.Numeric);
+                                    break;
+                                case ushort bbe:
+                                    para.DetermineType(SupportedValueType.Numeric);
+                                    break;
+                                case int bbe:
+                                    para.DetermineType(SupportedValueType.Numeric);
+                                    break;
+                                case uint bbe:
+                                    para.DetermineType(SupportedValueType.Numeric);
+                                    break;
+                                case long bbe:
+                                    para.DetermineType(SupportedValueType.Numeric);
+                                    break;
+                                case ulong bbe:
+                                    para.DetermineType(SupportedValueType.Numeric);
+                                    break;
+                                case float bbe:
+                                    para.DetermineType(SupportedValueType.Numeric);
+                                    break;
+                                case double bbe:
+                                    para.DetermineType(SupportedValueType.Numeric);
+                                    break;
+                                case byte[] ba:
+                                    para.DetermineType(SupportedValueType.ByteArray);
+                                    break;
+                                default:
+                                    para.DetermineType(SupportedValueType.String);
+                                    break;
+                            }
+
+                            continue;
+                        default:
+                            throw new InvalidCastException();
+                    }
+
+                    i++;
+                }
+
+                return finalValues;
+            }
 
             Delegate del;
             try
             {
                 LambdaExpression lambda = Expression.Lambda(
                     this.body.GenerateExpression(),
-                    this.parameters.Select(p => (ParameterExpression)p.GenerateExpression()));
+                    this.parametersRegistry.Dump().Select(p => p.Compile()));
 
                 if (lambda == null)
                 {
@@ -159,7 +377,7 @@ namespace IX.Math
 
             var pars = new List<object>();
 
-            foreach (ParameterNodeBase p in this.parameters)
+            foreach (ParameterContext p in this.parametersRegistry.Dump())
             {
                 if (!dataFinder.TryGetData(p.Name, out object data))
                 {
@@ -186,13 +404,7 @@ namespace IX.Math
             var registry = new StandardParameterRegistry();
             var context = new NodeCloningContext { ParameterRegistry = registry };
 
-            ParameterNodeBase[] newParameters = new ParameterNodeBase[this.parameters.Length];
-            for (var i = 0; i < this.parameters.Length; i++)
-            {
-                newParameters[i] = (ParameterNodeBase)this.parameters[i].DeepClone(context);
-            }
-
-            return new ComputedExpression(this.initialExpression, this.body.DeepClone(context), newParameters, this.RecognizedCorrectly, registry);
+            return new ComputedExpression(this.initialExpression, this.body.DeepClone(context), this.RecognizedCorrectly, registry);
         }
 
         /// <summary>
@@ -203,17 +415,7 @@ namespace IX.Math
         {
             if (!this.disposedValue)
             {
-                if (disposing)
-                {
-                    lock (this.locker)
-                    {
-                        this.computedBodies.Clear();
-                    }
-                }
-
-                this.computedBodies = null;
                 this.body = null;
-                this.parameters = null;
 
                 this.disposedValue = true;
             }

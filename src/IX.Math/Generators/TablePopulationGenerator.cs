@@ -77,7 +77,7 @@ namespace IX.Math.Generators
                     continue;
                 }
 
-                parameterRegistry.RegisterParameter(exp);
+                parameterRegistry.AdvertiseParameter(exp);
             }
         }
     }

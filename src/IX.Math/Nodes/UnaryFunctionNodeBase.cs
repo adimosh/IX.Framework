@@ -36,17 +36,6 @@ namespace IX.Math.Nodes
         public NodeBase Parameter { get; private set; }
 
         /// <summary>
-        /// Refreshes all the parameters recursively.
-        /// </summary>
-        /// <returns>A reference to the same conceptual node, but possibly a different instance.</returns>
-        public override NodeBase RefreshParametersRecursive()
-        {
-            this.Parameter = this.Parameter.RefreshParametersRecursive();
-
-            return this;
-        }
-
-        /// <summary>
         /// Ensures that the parameter that is received is compatible with the function, optionally allowing the parameter reference to change.
         /// </summary>
         /// <param name="parameter">The parameter.</param>

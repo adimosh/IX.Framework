@@ -1,8 +1,6 @@
-﻿// <copyright file="LogicalOperationNodeBase.cs" company="Adrian Mos">
+// <copyright file="LogicalOperationNodeBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
-
-using IX.Math.Nodes.Parameters;
 
 namespace IX.Math.Nodes.Operations.Binary
 {
@@ -17,23 +15,23 @@ namespace IX.Math.Nodes.Operations.Binary
 
         protected override void EnsureCompatibleOperands(ref NodeBase left, ref NodeBase right)
         {
-            if (left is UndefinedParameterNode uLeft)
+            if (left is ParameterNode uLeft && uLeft.ReturnType == SupportedValueType.Unknown)
             {
-                if (right is UndefinedParameterNode uRightInternal)
+                if (right is ParameterNode uRightInternal && uRightInternal.ReturnType == SupportedValueType.Unknown)
                 {
-                    left = uLeft.IfDeterminedNumericAlsoDetermineInteger();
-                    right = uRightInternal.IfDeterminedNumericAlsoDetermineInteger();
+                    left = uLeft.DetermineInteger();
+                    right = uRightInternal.DetermineInteger();
                 }
                 else
                 {
                     switch (right.ReturnType)
                     {
                         case SupportedValueType.Numeric:
-                            left = uLeft.DetermineNumeric().ParameterMustBeInteger();
+                            left = uLeft.DetermineNumeric().DetermineInteger();
                             break;
 
                         case SupportedValueType.Boolean:
-                            left = uLeft.DetermineBool();
+                            left = uLeft.DetermineBoolean();
                             break;
 
                         case SupportedValueType.Unknown:
@@ -45,16 +43,16 @@ namespace IX.Math.Nodes.Operations.Binary
                 }
             }
 
-            if (right is UndefinedParameterNode uRight)
+            if (right is ParameterNode uRight && uRight.ReturnType == SupportedValueType.Unknown)
             {
                 switch (left.ReturnType)
                 {
                     case SupportedValueType.Numeric:
-                        right = uRight.DetermineNumeric().ParameterMustBeInteger();
+                        right = uRight.DetermineNumeric().DetermineInteger();
                         break;
 
                     case SupportedValueType.Boolean:
-                        right = uRight.DetermineBool();
+                        right = uRight.DetermineBoolean();
                         break;
 
                     case SupportedValueType.Unknown:

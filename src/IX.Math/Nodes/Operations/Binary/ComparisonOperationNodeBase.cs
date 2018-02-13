@@ -1,8 +1,6 @@
-﻿// <copyright file="ComparisonOperationNodeBase.cs" company="Adrian Mos">
+// <copyright file="ComparisonOperationNodeBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
-
-using IX.Math.Nodes.Parameters;
 
 namespace IX.Math.Nodes.Operations.Binary
 {
@@ -17,12 +15,12 @@ namespace IX.Math.Nodes.Operations.Binary
 
         protected override void EnsureCompatibleOperands(ref NodeBase left, ref NodeBase right)
         {
-            if (left is UndefinedParameterNode uLeft)
+            if (left is ParameterNode uLeft)
             {
                 switch (right.ReturnType)
                 {
                     case SupportedValueType.Boolean:
-                        left = uLeft.DetermineBool();
+                        left = uLeft.DetermineBoolean();
                         break;
                     case SupportedValueType.ByteArray:
                         left = uLeft.DetermineByteArray();
@@ -40,12 +38,12 @@ namespace IX.Math.Nodes.Operations.Binary
                 }
             }
 
-            if (right is UndefinedParameterNode uRight)
+            if (right is ParameterNode uRight)
             {
                 switch (left.ReturnType)
                 {
                     case SupportedValueType.Boolean:
-                        right = uRight.DetermineBool();
+                        right = uRight.DetermineBoolean();
                         break;
                     case SupportedValueType.ByteArray:
                         right = uRight.DetermineByteArray();

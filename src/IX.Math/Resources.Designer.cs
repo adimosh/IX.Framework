@@ -12,6 +12,7 @@ namespace IX.Math {
     using global::System;
     using global::System.Reflection;
 
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -93,6 +94,24 @@ namespace IX.Math {
         internal static string NumericTypeInvalid {
             get {
                 return ResourceManager.GetString("NumericTypeInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The parameter {0} has already been advertised in this scope. The context cannot take over the context..
+        /// </summary>
+        internal static string ParameterAlreadyAdvertised {
+            get {
+                return ResourceManager.GetString("ParameterAlreadyAdvertised", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The parameter {0} has already been compiled..
+        /// </summary>
+        internal static string ParameterAlreadyCompiled {
+            get {
+                return ResourceManager.GetString("ParameterAlreadyCompiled", resourceCulture);
             }
         }
         

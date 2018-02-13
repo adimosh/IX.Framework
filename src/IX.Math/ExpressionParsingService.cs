@@ -9,8 +9,6 @@ using System.Reflection;
 using System.Threading;
 using IX.Math.Extraction;
 using IX.Math.Generators;
-using IX.Math.Nodes.Constants;
-using IX.Math.Nodes.Parameters;
 using IX.StandardExtensions;
 using IX.StandardExtensions.ComponentModel;
 using IX.System.Collections.Generic;
@@ -122,11 +120,11 @@ namespace IX.Math
 
             if (!workingSet.Success)
             {
-                return new ComputedExpression(expression, null, null, false, null);
+                return new ComputedExpression(expression, null, false, null);
             }
             else
             {
-                return new ComputedExpression(expression, workingSet.Body, workingSet.ParameterRegistry.Dump(), true, workingSet.ParameterRegistry);
+                return new ComputedExpression(expression, workingSet.Body, true, workingSet.ParameterRegistry);
             }
         }
 
@@ -164,7 +162,7 @@ namespace IX.Math
                         continue;
                     }
 
-                    var parameterName = this.GetParameterNode(parameters[0]);
+                    var parameterName = parameters[0].Name;
 
                     if (parameterName == null)
                     {
@@ -186,8 +184,8 @@ namespace IX.Math
                         continue;
                     }
 
-                    var parameterNameLeft = this.GetParameterNode(parameters[0]);
-                    var parameterNameRight = this.GetParameterNode(parameters[1]);
+                    var parameterNameLeft = parameters[0].Name;
+                    var parameterNameRight = parameters[1].Name;
 
                     if (parameterNameLeft == null || parameterNameRight == null)
                     {
@@ -209,9 +207,9 @@ namespace IX.Math
                         continue;
                     }
 
-                    var parameterNameLeft = this.GetParameterNode(parameters[0]);
-                    var parameterNameMiddle = this.GetParameterNode(parameters[1]);
-                    var parameterNameRight = this.GetParameterNode(parameters[2]);
+                    var parameterNameLeft = parameters[0].Name;
+                    var parameterNameMiddle = parameters[1].Name;
+                    var parameterNameRight = parameters[2].Name;
 
                     if (parameterNameLeft == null || parameterNameMiddle == null || parameterNameRight == null)
                     {
@@ -332,29 +330,6 @@ namespace IX.Math
                 .Select(p => p.AsType())
                 .Where(p => !this.constantExtractors.ContainsKey(p))
                 .ForEach(p => this.constantExtractors.Add(p, (IConstantsExtractor)p.Instantiate(), i++));
-        }
-
-        private string GetParameterNode(ParameterInfo parameter)
-        {
-            if (parameter.ParameterType == typeof(BoolParameterNode) ||
-                parameter.ParameterType == typeof(BoolNode))
-            {
-                return "boolean";
-            }
-            else if (parameter.ParameterType == typeof(NumericParameterNode) ||
-                parameter.ParameterType == typeof(NumericNode))
-            {
-                return "numeric";
-            }
-            else if (parameter.ParameterType == typeof(StringParameterNode) ||
-                parameter.ParameterType == typeof(StringNode))
-            {
-                return "string";
-            }
-            else
-            {
-                return null;
-            }
         }
     }
 }

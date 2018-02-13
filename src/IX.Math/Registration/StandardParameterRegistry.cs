@@ -4,102 +4,59 @@
 
 using System;
 using System.Linq;
-using IX.Math.Nodes;
-using IX.Math.Nodes.Parameters;
+using System.Linq.Expressions;
 using IX.Observable;
 
 namespace IX.Math.Registration
 {
     internal class StandardParameterRegistry : IParameterRegistry
     {
-        private readonly ConcurrentObservableDictionary<string, ParameterNodeBase> parameters;
+        private readonly ConcurrentObservableDictionary<string, ParameterContext> parameterContexts;
 
         public StandardParameterRegistry()
         {
-            this.parameters = new ConcurrentObservableDictionary<string, ParameterNodeBase>(true)
+            this.parameterContexts = new ConcurrentObservableDictionary<string, ParameterContext>(true)
             {
                 HistoryLevels = 0,
             };
         }
 
-        public bool Populated => this.parameters.Count > 0;
+        public bool Populated => this.parameterContexts.Count > 0;
 
-        public ParameterNodeBase[] Dump() => this.parameters.Values.ToArray();
-
-        public bool Exists(string name) => this.parameters.ContainsKey(name);
-
-        public ParameterNodeBase RegisterParameter(string name, SupportedValueType valueType = SupportedValueType.Unknown)
+        public ParameterContext AdvertiseParameter(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentNullException(nameof(name));
             }
 
-            ParameterNodeBase parameter = this.parameters.GetOrAdd(
-                name,
-                (nameL1, valueTypeL1) =>
-                {
-                    ParameterNodeBase pnb;
-                    switch (valueTypeL1)
-                    {
-                        case SupportedValueType.Boolean:
-                            pnb = new BoolParameterNode(nameL1);
-                            break;
-                        case SupportedValueType.ByteArray:
-                            pnb = new ByteArrayParameterNode(nameL1);
-                            break;
-                        case SupportedValueType.Numeric:
-                            pnb = new NumericParameterNode(nameL1);
-                            break;
-                        case SupportedValueType.String:
-                            pnb = new StringParameterNode(nameL1);
-                            break;
-                        default:
-                            pnb = new UndefinedParameterNode(nameL1, this);
-                            break;
-                    }
-
-                    return pnb;
-                },
-                name,
-                valueType);
-
-            if (valueType == SupportedValueType.Unknown)
-            {
-                return parameter;
-            }
-
-            if (parameter is UndefinedParameterNode upn)
-            {
-                switch (valueType)
-                {
-                    case SupportedValueType.Boolean:
-                        parameter = new BoolParameterNode(name);
-                        this.parameters[name] = parameter;
-                        break;
-                    case SupportedValueType.ByteArray:
-                        parameter = new ByteArrayParameterNode(name);
-                        this.parameters[name] = parameter;
-                        break;
-                    case SupportedValueType.Numeric:
-                        parameter = new NumericParameterNode(name);
-                        this.parameters[name] = parameter;
-                        break;
-                    case SupportedValueType.String:
-                        parameter = new StringParameterNode(name);
-                        this.parameters[name] = parameter;
-                        break;
-                    default:
-                        throw new ExpressionNotValidLogicallyException(string.Format(Resources.ParameterTypeNotRecognized, name));
-                }
-            }
-
-            if (parameter.ReturnType != valueType)
-            {
-                throw new ExpressionNotValidLogicallyException(string.Format(Resources.ParameterRequiredOfMismatchedTypes, name));
-            }
-
-            return parameter;
+            return this.parameterContexts.GetOrAdd(name, (nameL1) => new ParameterContext(nameL1), name);
         }
+
+        public ParameterContext CloneFrom(ParameterContext previousContext)
+        {
+            if (previousContext == null)
+            {
+                throw new ArgumentNullException(nameof(previousContext));
+            }
+
+            var name = previousContext.Name;
+            if (this.parameterContexts.ContainsKey(name))
+            {
+                throw new InvalidOperationException(string.Format(Resources.ParameterAlreadyAdvertised, name));
+            }
+
+            ParameterContext newContext = previousContext.DeepClone();
+
+            this.parameterContexts.Add(name, newContext);
+
+            return newContext;
+        }
+
+        public ParameterContext[] Dump() => this.parameterContexts.CopyToArray().Select(p => p.Value).ToArray();
+
+        public bool Exists(string name) => this.parameterContexts.ContainsKey(name);
+
+        public ParameterExpression GetParameterExpression(string name) => throw new NotImplementedException();
     }
 }

@@ -2,7 +2,7 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
-using IX.Math.Nodes;
+using System.Linq.Expressions;
 
 namespace IX.Math.Registration
 {
@@ -18,14 +18,6 @@ namespace IX.Math.Registration
         bool Populated { get; }
 
         /// <summary>
-        /// Registers a parameter of a certain value type.
-        /// </summary>
-        /// <param name="name">The name of the parameter.</param>
-        /// <param name="valueType">The value type of the parameter.</param>
-        /// <returns>A parameter node base.</returns>
-        ParameterNodeBase RegisterParameter(string name, SupportedValueType valueType = SupportedValueType.Unknown);
-
-        /// <summary>
         /// Checks whether a specific parameter name exists.
         /// </summary>
         /// <param name="name">The name.</param>
@@ -36,6 +28,27 @@ namespace IX.Math.Registration
         /// Dumps all parameters.
         /// </summary>
         /// <returns>The existing parameters.</returns>
-        ParameterNodeBase[] Dump();
+        ParameterContext[] Dump();
+
+        /// <summary>
+        /// Gets the parameter expression.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns>ParameterExpression.</returns>
+        ParameterExpression GetParameterExpression(string name);
+
+        /// <summary>
+        /// Advertises a potentially new parameter.
+        /// </summary>
+        /// <param name="name">The name of the parameter.</param>
+        /// <returns>A parameter context.</returns>
+        ParameterContext AdvertiseParameter(string name);
+
+        /// <summary>
+        /// Clones from a previous, unrelated context.
+        /// </summary>
+        /// <param name="previousContext">The previous context.</param>
+        /// <returns>The new parameter context.</returns>
+        ParameterContext CloneFrom(ParameterContext previousContext);
     }
 }

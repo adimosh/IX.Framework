@@ -2,8 +2,6 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
-using IX.Math.Nodes.Parameters;
-
 namespace IX.Math.Nodes.Operations.Function.Binary
 {
     internal abstract class NumericBinaryFunctionNodeBase : BinaryFunctionNodeBase
@@ -17,12 +15,12 @@ namespace IX.Math.Nodes.Operations.Function.Binary
 
         protected sealed override void EnsureCompatibleParameters(ref NodeBase firstParameter, ref NodeBase secondParameter)
         {
-            if (firstParameter is UndefinedParameterNode up1)
+            if (firstParameter is ParameterNode up1)
             {
                 firstParameter = up1.DetermineNumeric();
             }
 
-            if (secondParameter is UndefinedParameterNode up2)
+            if (secondParameter is ParameterNode up2)
             {
                 secondParameter = up2.DetermineNumeric();
             }

@@ -5,7 +5,6 @@
 using System.Diagnostics;
 using System.Linq.Expressions;
 using IX.Math.Nodes.Constants;
-using IX.Math.Nodes.Parameters;
 
 namespace IX.Math.Nodes.Operations.Unary
 {
@@ -22,14 +21,20 @@ namespace IX.Math.Nodes.Operations.Unary
         {
         }
 
-        public NotNode(NumericParameterNode operand)
-            : base(operand?.ParameterMustBeInteger())
-        {
-        }
-
-        public NotNode(BoolParameterNode operand)
+        public NotNode(ParameterNode operand)
             : base(operand)
         {
+            if (operand.ReturnType == SupportedValueType.Numeric || operand.ReturnType == SupportedValueType.Unknown)
+            {
+                operand.DetermineInteger();
+            }
+            else if (operand.ReturnType == SupportedValueType.Boolean)
+            {
+            }
+            else
+            {
+                throw new ExpressionNotValidLogicallyException();
+            }
         }
 
         public NotNode(OperationNodeBase operand)
@@ -39,11 +44,6 @@ namespace IX.Math.Nodes.Operations.Unary
             {
                 throw new ExpressionNotValidLogicallyException();
             }
-        }
-
-        public NotNode(UndefinedParameterNode operand)
-            : base(operand?.IfDeterminedNumericAlsoDetermineInteger())
-        {
         }
 
         private NotNode(NodeBase operand)
