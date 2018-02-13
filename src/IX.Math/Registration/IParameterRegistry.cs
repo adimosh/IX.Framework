@@ -3,7 +3,6 @@
 // </copyright>
 
 using System.Linq.Expressions;
-using IX.Math.Nodes;
 
 namespace IX.Math.Registration
 {

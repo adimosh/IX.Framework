@@ -5,7 +5,6 @@
 using System.Diagnostics;
 using System.Linq.Expressions;
 using IX.Math.Nodes.Constants;
-using IX.Math.Nodes.Parameters;
 
 namespace IX.Math.Nodes.Operations.Unary
 {
@@ -17,8 +16,8 @@ namespace IX.Math.Nodes.Operations.Unary
         {
         }
 
-        public SubtractNode(NumericParameterNode operand)
-            : base(operand)
+        public SubtractNode(ParameterNode operand)
+            : base(operand?.DetermineNumeric())
         {
         }
 
@@ -29,11 +28,6 @@ namespace IX.Math.Nodes.Operations.Unary
             {
                 throw new ExpressionNotValidLogicallyException();
             }
-        }
-
-        public SubtractNode(UndefinedParameterNode operand)
-            : base(operand?.DetermineNumeric())
-        {
         }
 
         private SubtractNode(NodeBase operand)

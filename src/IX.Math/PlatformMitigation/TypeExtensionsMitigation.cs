@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Linq;
 using System.Reflection;
 
 namespace IX.Math.PlatformMitigation

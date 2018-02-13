@@ -1,4 +1,4 @@
-﻿// <copyright file="TernaryFunctionNodeBase.cs" company="Adrian Mos">
+// <copyright file="TernaryFunctionNodeBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -48,18 +48,5 @@ namespace IX.Math.Nodes
         /// </summary>
         /// <value>The third parameter.</value>
         public NodeBase ThirdParameter { get; protected set; }
-
-        /// <summary>
-        /// Refreshes all the parameters recursively.
-        /// </summary>
-        /// <returns>A reference to the same conceptual node, but possibly a different instance.</returns>
-        public override NodeBase RefreshParametersRecursive()
-        {
-            this.FirstParameter = this.FirstParameter.RefreshParametersRecursive();
-            this.SecondParameter = this.SecondParameter.RefreshParametersRecursive();
-            this.ThirdParameter = this.ThirdParameter.RefreshParametersRecursive();
-
-            return this;
-        }
     }
 }

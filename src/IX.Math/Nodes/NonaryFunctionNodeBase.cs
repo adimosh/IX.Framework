@@ -1,4 +1,4 @@
-﻿// <copyright file="NonaryFunctionNodeBase.cs" company="Adrian Mos">
+// <copyright file="NonaryFunctionNodeBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -22,12 +22,6 @@ namespace IX.Math.Nodes
             : base()
         {
         }
-
-        /// <summary>
-        /// Refreshes all the parameters recursively.
-        /// </summary>
-        /// <returns>A reflexive reference, since there are no parameters to refresh.</returns>
-        public sealed override NodeBase RefreshParametersRecursive() => this;
 
         /// <summary>
         /// Generates a static function call for a function with no parameters.

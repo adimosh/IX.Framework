@@ -50,18 +50,6 @@ namespace IX.Math.Nodes
         public NodeBase SecondParameter { get; protected set; }
 
         /// <summary>
-        /// Refreshes all the parameters recursively.
-        /// </summary>
-        /// <returns>A reference to the same conceptual node, but possibly a different instance.</returns>
-        public override NodeBase RefreshParametersRecursive()
-        {
-            this.FirstParameter = this.FirstParameter.RefreshParametersRecursive();
-            this.SecondParameter = this.SecondParameter.RefreshParametersRecursive();
-
-            return this;
-        }
-
-        /// <summary>
         /// Ensures that the parameters that are received are compatible with the function, optionally allowing the parameter references to change.
         /// </summary>
         /// <param name="firstParameter">The first parameter.</param>

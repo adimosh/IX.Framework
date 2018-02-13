@@ -205,6 +205,7 @@ namespace IX.Math.Registration
                     new Type[0]));
 #endif
 
+            this.alreadyCompiled = true;
             return expression;
         }
 

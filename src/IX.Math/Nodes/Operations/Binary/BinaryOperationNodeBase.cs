@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace IX.Math.Nodes.Operations.Binary
@@ -24,14 +23,6 @@ namespace IX.Math.Nodes.Operations.Binary
         public NodeBase Left { get; protected set; }
 
         public NodeBase Right { get; protected set; }
-
-        public override NodeBase RefreshParametersRecursive()
-        {
-            this.Left = this.Left.RefreshParametersRecursive();
-            this.Right = this.Right.RefreshParametersRecursive();
-
-            return this;
-        }
 
         protected abstract void EnsureCompatibleOperands(ref NodeBase left, ref NodeBase right);
 

@@ -2,8 +2,6 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
-using IX.Math.Nodes.Parameters;
-
 namespace IX.Math.Nodes.Operations.Function.Unary
 {
     internal abstract class NumericUnaryFunctionNodeBase : UnaryFunctionNodeBase
@@ -17,7 +15,7 @@ namespace IX.Math.Nodes.Operations.Function.Unary
 
         protected sealed override void EnsureCompatibleParameter(ref NodeBase parameter)
         {
-            if (parameter is UndefinedParameterNode up)
+            if (parameter is ParameterNode up)
             {
                 parameter = up.DetermineNumeric();
             }

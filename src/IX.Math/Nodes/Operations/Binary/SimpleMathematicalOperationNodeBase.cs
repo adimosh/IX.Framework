@@ -1,8 +1,6 @@
-﻿// <copyright file="SimpleMathematicalOperationNodeBase.cs" company="Adrian Mos">
+// <copyright file="SimpleMathematicalOperationNodeBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
-
-using IX.Math.Nodes.Parameters;
 
 namespace IX.Math.Nodes.Operations.Binary
 {
@@ -17,12 +15,12 @@ namespace IX.Math.Nodes.Operations.Binary
 
         protected override void EnsureCompatibleOperands(ref NodeBase left, ref NodeBase right)
         {
-            if (left is UndefinedParameterNode uLeft)
+            if (left is ParameterNode uLeft)
             {
                 left = uLeft.DetermineNumeric();
             }
 
-            if (right is UndefinedParameterNode uRight)
+            if (right is ParameterNode uRight)
             {
                 right = uRight.DetermineNumeric();
             }

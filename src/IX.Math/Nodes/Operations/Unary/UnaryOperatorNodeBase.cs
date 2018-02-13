@@ -1,4 +1,4 @@
-﻿// <copyright file="UnaryOperatorNodeBase.cs" company="Adrian Mos">
+// <copyright file="UnaryOperatorNodeBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -14,12 +14,5 @@ namespace IX.Math.Nodes.Operations.Unary
         }
 
         public NodeBase Operand { get; private set; }
-
-        public override NodeBase RefreshParametersRecursive()
-        {
-            this.Operand = this.Operand.RefreshParametersRecursive();
-
-            return this;
-        }
     }
 }

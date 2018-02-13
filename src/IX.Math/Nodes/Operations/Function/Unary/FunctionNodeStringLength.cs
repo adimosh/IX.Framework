@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 using IX.Math.Extensibility;
 using IX.Math.Nodes.Constants;
-using IX.Math.Nodes.Parameters;
 
 namespace IX.Math.Nodes.Operations.Function.Unary
 {
@@ -36,7 +35,7 @@ namespace IX.Math.Nodes.Operations.Function.Unary
 
         protected override void EnsureCompatibleParameter(ref NodeBase parameter)
         {
-            if (parameter is UndefinedParameterNode upn)
+            if (parameter is ParameterNode upn)
             {
                 parameter = upn.DetermineString();
             }

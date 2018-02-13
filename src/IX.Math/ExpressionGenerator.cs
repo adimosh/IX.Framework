@@ -126,7 +126,7 @@ namespace IX.Math
                     workingSet.Constant = true;
                 }
             }
-            else if (workingSet.Body is ParameterNodeBase)
+            else if (workingSet.Body is ParameterNode)
             {
                 workingSet.PossibleString = true;
             }
@@ -168,7 +168,7 @@ namespace IX.Math
             // Check whether expression is an external parameter
             if (workingSet.ParameterRegistry.Exists(expression))
             {
-                return workingSet.ParameterRegistry.RegisterParameter(expression);
+                return new ParameterNode(expression, workingSet.ParameterRegistry);
             }
 
             // Check whether the expression already exists in the symbols table

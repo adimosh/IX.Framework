@@ -89,5 +89,65 @@ namespace IX.Math.Nodes
         /// </summary>
         /// <returns>This instance.</returns>
         public override NodeBase Simplify() => this;
+
+        /// <summary>
+        /// Determines the parameter to be numeric, if possible.
+        /// </summary>
+        /// <returns>Returns reflexively.</returns>
+        public ParameterNode DetermineNumeric()
+        {
+            this.parametersRegistry.AdvertiseParameter(this.Name).DetermineType(SupportedValueType.Numeric);
+            return this;
+        }
+
+        /// <summary>
+        /// Determines the parameter to be string, if possible.
+        /// </summary>
+        /// <returns>Returns reflexively.</returns>
+        public ParameterNode DetermineString()
+        {
+            this.parametersRegistry.AdvertiseParameter(this.Name).DetermineType(SupportedValueType.String);
+            return this;
+        }
+
+        /// <summary>
+        /// Determines the parameter to be binary, if possible.
+        /// </summary>
+        /// <returns>Returns reflexively.</returns>
+        public ParameterNode DetermineByteArray()
+        {
+            this.parametersRegistry.AdvertiseParameter(this.Name).DetermineType(SupportedValueType.ByteArray);
+            return this;
+        }
+
+        /// <summary>
+        /// Determines the parameter to be numeric, if possible.
+        /// </summary>
+        /// <returns>Returns reflexively.</returns>
+        public ParameterNode DetermineBoolean()
+        {
+            this.parametersRegistry.AdvertiseParameter(this.Name).DetermineType(SupportedValueType.Boolean);
+            return this;
+        }
+
+        /// <summary>
+        /// If the parameter will be numeric, determine it to be an integer.
+        /// </summary>
+        /// <returns>Returns reflexively.</returns>
+        public ParameterNode DetermineInteger()
+        {
+            this.parametersRegistry.AdvertiseParameter(this.Name).DetermineInteger();
+            return this;
+        }
+
+        /// <summary>
+        /// If the parameter will be numeric, determine it to be a float.
+        /// </summary>
+        /// <returns>Returns reflexively.</returns>
+        public ParameterNode DetermineFloat()
+        {
+            this.parametersRegistry.AdvertiseParameter(this.Name).DetermineFloat();
+            return this;
+        }
     }
 }

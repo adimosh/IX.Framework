@@ -404,8 +404,6 @@ namespace IX.Math
             var registry = new StandardParameterRegistry();
             var context = new NodeCloningContext { ParameterRegistry = registry };
 
-            this.parametersRegistry.Dump().ForEach(p => registry.CloneFrom(p));
-
             return new ComputedExpression(this.initialExpression, this.body.DeepClone(context), this.RecognizedCorrectly, registry);
         }
 
