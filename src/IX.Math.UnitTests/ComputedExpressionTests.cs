@@ -792,6 +792,12 @@ namespace IX.Math.UnitTests
                     new object[1] { BitConverter.GetBytes(0b1001010111010110110010000000010010101110101) },
                     false,
                 },
+                new object[]
+                {
+                    "x*(x+1)*(x+2)",
+                    new object[1] { 5 },
+                    210L,
+                },
 #if false
                 new object[]
                 {
