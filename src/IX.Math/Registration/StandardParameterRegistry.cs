@@ -41,16 +41,25 @@ namespace IX.Math.Registration
             }
 
             var name = previousContext.Name;
-            if (this.parameterContexts.ContainsKey(name))
+            if (this.parameterContexts.TryGetValue(name, out ParameterContext existingValue))
             {
-                throw new InvalidOperationException(string.Format(Resources.ParameterAlreadyAdvertised, name));
+                if (existingValue.Equals(previousContext))
+                {
+                    return existingValue;
+                }
+                else
+                {
+                    throw new InvalidOperationException(string.Format(Resources.ParameterAlreadyAdvertised, name));
+                }
             }
+            else
+            {
+                ParameterContext newContext = previousContext.DeepClone();
 
-            ParameterContext newContext = previousContext.DeepClone();
+                this.parameterContexts.Add(name, newContext);
 
-            this.parameterContexts.Add(name, newContext);
-
-            return newContext;
+                return newContext;
+            }
         }
 
         public ParameterContext[] Dump() => this.parameterContexts.CopyToArray().Select(p => p.Value).ToArray();

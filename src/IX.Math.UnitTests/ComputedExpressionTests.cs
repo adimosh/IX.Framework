@@ -27,7 +27,7 @@ namespace IX.Math.UnitTests
         /// <summary>
         /// Provides the data for theory.
         /// </summary>
-        /// <returns>System.Object[][].</returns>
+        /// <returns>Theory data.</returns>
         public static object[][] ProvideDataForTheory() => new object[][]
             {
                 new object[]
@@ -791,6 +791,18 @@ namespace IX.Math.UnitTests
                     "x!=0b1001010111010110110010000000010010101110101",
                     new object[1] { BitConverter.GetBytes(0b1001010111010110110010000000010010101110101) },
                     false,
+                },
+                new object[]
+                {
+                    "x*(x+1)*(x+2)",
+                    new object[1] { 5 },
+                    210D,
+                },
+                new object[]
+                {
+                    "tempVar1+tempVar1",
+                    new object[1] { 5 },
+                    10D,
                 },
 #if false
                 new object[]
