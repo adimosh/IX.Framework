@@ -27,7 +27,7 @@ namespace IX.Math.UnitTests
         /// <summary>
         /// Provides the data for theory.
         /// </summary>
-        /// <returns>System.Object[][].</returns>
+        /// <returns>Theory data.</returns>
         public static object[][] ProvideDataForTheory() => new object[][]
             {
                 new object[]
@@ -796,7 +796,7 @@ namespace IX.Math.UnitTests
                 {
                     "x*(x+1)*(x+2)",
                     new object[1] { 5 },
-                    210L,
+                    210D,
                 },
 #if false
                 new object[]

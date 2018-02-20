@@ -12,7 +12,7 @@ namespace IX.Math.Registration
     /// <summary>
     /// A data model for a parameter's context of existence.
     /// </summary>
-    public class ParameterContext : IDeepCloneable<ParameterContext>
+    public class ParameterContext : IDeepCloneable<ParameterContext>, IEquatable<ParameterContext>
     {
         private bool alreadyCompiled;
         private ParameterExpression expression;
@@ -239,5 +239,23 @@ namespace IX.Math.Registration
             IsFloat = this.IsFloat,
             ReturnType = this.ReturnType,
         };
+
+        /// <summary>
+        /// Indicates whether the current context is equal to another <see cref="ParameterContext"/>.
+        /// </summary>
+        /// <param name="other">A parameter context to compare with this context.</param>
+        /// <returns>true if the current context is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
+        public bool Equals(ParameterContext other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return
+                other.IsFloat == this.IsFloat &&
+                other.Name == this.Name &&
+                other.ReturnType == this.ReturnType;
+        }
     }
 }
