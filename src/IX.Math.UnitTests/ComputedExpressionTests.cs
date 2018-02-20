@@ -798,6 +798,12 @@ namespace IX.Math.UnitTests
                     new object[1] { 5 },
                     210D,
                 },
+                new object[]
+                {
+                    "tempVar1+tempVar1",
+                    new object[1] { 5 },
+                    10D,
+                },
 #if false
                 new object[]
                 {
