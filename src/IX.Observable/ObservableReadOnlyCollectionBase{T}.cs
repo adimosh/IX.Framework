@@ -56,12 +56,12 @@ namespace IX.Observable
         /// <remarks>
         /// <para>On concurrent collections, this property is read-synchronized.</para>
         /// </remarks>
-        public virtual int Count => this.CheckDisposed(() => this.ReadLock(() => ((ICollection<T>)this.InternalContainer).Count));
+        public virtual int Count => this.InvokeIfNotDisposed(() => this.ReadLock(() => ((ICollection<T>)this.InternalContainer).Count));
 
         /// <summary>
         /// Gets a value indicating whether the <see cref="ObservableCollectionBase{T}" /> is read-only.
         /// </summary>
-        public bool IsReadOnly => this.CheckDisposed(() => this.ReadLock(() => this.InternalContainer.IsReadOnly));
+        public bool IsReadOnly => this.InvokeIfNotDisposed(() => this.ReadLock(() => this.InternalContainer.IsReadOnly));
 
         /// <summary>
         /// Gets a value indicating whether this instance is synchronized.
@@ -134,7 +134,7 @@ namespace IX.Observable
         /// <remarks>
         /// <para>On concurrent collections, this method is read-synchronized.</para>
         /// </remarks>
-        public bool Contains(T item) => this.CheckDisposed(
+        public bool Contains(T item) => this.InvokeIfNotDisposed(
             (itemL1) => this.ReadLock(
                 (itemL2) => this.InternalContainer.Contains(itemL2),
                 itemL1),
@@ -148,7 +148,7 @@ namespace IX.Observable
         /// <remarks>
         /// <para>On concurrent collections, this method is read-synchronized.</para>
         /// </remarks>
-        public void CopyTo(T[] array, int arrayIndex) => this.CheckDisposed(
+        public void CopyTo(T[] array, int arrayIndex) => this.InvokeIfNotDisposed(
             (arrayL1, arrayIndexL1) => this.ReadLock(
                 (arrayL2, arrayIndexL2) => this.InternalContainer.CopyTo(arrayL2, arrayIndexL2),
                 arrayL1,
@@ -162,7 +162,7 @@ namespace IX.Observable
         /// <param name="fromIndex">The zero-based index from which which copying begins.</param>
         /// <returns>A newly-formed array.</returns>
         /// <remarks>On concurrent collections, this method is read-synchronized.</remarks>
-        public T[] CopyToArray(int fromIndex) => this.CheckDisposed(
+        public T[] CopyToArray(int fromIndex) => this.InvokeIfNotDisposed(
             (arrayIndexL1) => this.ReadLock(
                 (arrayIndexL2) =>
                 {
@@ -195,7 +195,7 @@ namespace IX.Observable
         /// </summary>
         /// <returns>A newly-formed array.</returns>
         /// <remarks>On concurrent collections, this method is read-synchronized.</remarks>
-        public T[] CopyToArray() => this.CheckDisposed(
+        public T[] CopyToArray() => this.InvokeIfNotDisposed(
             () => this.ReadLock(
                 () =>
                 {

@@ -1,4 +1,4 @@
-﻿// <copyright file="ObservableBase.cs" company="Adrian Mos">
+// <copyright file="ObservableBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -98,31 +98,5 @@ namespace IX.Observable
         /// </summary>
         /// <returns>A disposable object representing the lock.</returns>
         protected ReadWriteSynchronizationLocker ReadWriteLock() => new ReadWriteSynchronizationLocker(this.SynchronizationLock);
-
-        /// <summary>
-        /// Checks whether or not this object is disposed and throws an <see cref="ObjectDisposedException" />, and, if not, invokes an action.
-        /// </summary>
-        /// <param name="action">The action to invoke.</param>
-        /// <exception cref="ObjectDisposedException">This instance is disposed.</exception>
-        protected void CheckDisposed(Action action)
-        {
-            this.ThrowIfCurrentObjectDisposed();
-
-            action();
-        }
-
-        /// <summary>
-        /// Checks whether or not this object is disposed and throws an <see cref="ObjectDisposedException" />, and, if not, invokes an action and returns its result.
-        /// </summary>
-        /// <typeparam name="TReturn">The return type of the action.</typeparam>
-        /// <param name="action">The action to invoke.</param>
-        /// <returns>The result from the action.</returns>
-        /// <exception cref="ObjectDisposedException">This instance is disposed.</exception>
-        protected TReturn CheckDisposed<TReturn>(Func<TReturn> action)
-        {
-            this.ThrowIfCurrentObjectDisposed();
-
-            return action();
-        }
     }
 }

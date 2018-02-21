@@ -130,13 +130,13 @@ namespace IX.Observable
         /// Gets a value indicating whether or not the implementer can perform an undo.
         /// </summary>
         /// <value><c>true</c> if the call to the <see cref="M:IX.Undoable.IUndoableItem.Undo" /> method would result in a state change, <c>false</c> otherwise.</value>
-        public bool CanUndo => this.CheckDisposed(() => (this.ParentUndoContext?.CanUndo ?? this.ReadLock(() => this.UndoStack.Count > 0)));
+        public bool CanUndo => this.InvokeIfNotDisposed(() => (this.ParentUndoContext?.CanUndo ?? this.ReadLock(() => this.UndoStack.Count > 0)));
 
         /// <summary>
         /// Gets a value indicating whether or not the implementer can perform a redo.
         /// </summary>
         /// <value><c>true</c> if the call to the <see cref="M:IX.Undoable.IUndoableItem.Redo" /> method would result in a state change, <c>false</c> otherwise.</value>
-        public bool CanRedo => this.CheckDisposed(() => (this.ParentUndoContext?.CanRedo ?? this.ReadLock(() => this.RedoStack.Count > 0)));
+        public bool CanRedo => this.InvokeIfNotDisposed(() => (this.ParentUndoContext?.CanRedo ?? this.ReadLock(() => this.RedoStack.Count > 0)));
 
         /// <summary>
         /// Gets the parent undo context, if any.
@@ -341,7 +341,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="parent">The parent undo and redo context.</param>
         /// <param name="automaticallyCaptureSubItems">if set to <c>true</c>, the collection automatically captures sub-items into its undo/redo context.</param>
-        public void CaptureIntoUndoContext(IUndoableItem parent, bool automaticallyCaptureSubItems) => this.CheckDisposed(
+        public void CaptureIntoUndoContext(IUndoableItem parent, bool automaticallyCaptureSubItems) => this.InvokeIfNotDisposed(
             (parentL1, automaticallyCaptureSubItemsL1) => this.WriteLock(
                 (parentL2, automaticallyCaptureSubItemsL2) =>
                 {
@@ -356,7 +356,7 @@ namespace IX.Observable
         /// <summary>
         /// Releases the implementer from being captured into an undo and redo context.
         /// </summary>
-        public void ReleaseFromUndoContext() => this.CheckDisposed(() => this.WriteLock(() =>
+        public void ReleaseFromUndoContext() => this.InvokeIfNotDisposed(() => this.WriteLock(() =>
         {
             this.AutomaticallyCaptureSubItems = false;
             this.parentUndoableContext = null;
@@ -370,7 +370,7 @@ namespace IX.Observable
         /// <para>If that is the case, the capturing object is solely responsible for ensuring that the inner state of the whole
         /// system is correct. Implementing classes should not expect this method to also handle state.</para>
         /// <para>If the object is released, it is expected that this method once again starts ensuring state when called.</para></remarks>
-        public void Undo() => this.CheckDisposed(() =>
+        public void Undo() => this.InvokeIfNotDisposed(() =>
         {
             if (this.ParentUndoContext != null)
             {
@@ -414,7 +414,7 @@ namespace IX.Observable
         /// <para>If that is the case, the capturing object is solely responsible for ensuring that the inner state of the whole
         /// system is correct. Implementing classes should not expect this method to also handle state.</para>
         /// <para>If the object is released, it is expected that this method once again starts ensuring state when called.</para></remarks>
-        public void Redo() => this.CheckDisposed(() =>
+        public void Redo() => this.InvokeIfNotDisposed(() =>
         {
             if (this.ParentUndoContext != null)
             {

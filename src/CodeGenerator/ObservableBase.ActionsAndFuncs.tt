@@ -1,4 +1,4 @@
-﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
@@ -153,64 +153,6 @@ for (int i = 1; i <= 8; i++)
             {
                 return action(<#= paramNames #>);
             }
-        }
-
-        /// <summary>
-        /// Checks whether or not this object is disposed and throws an <see cref="ObjectDisposedException" />, and, if not, invokes an action.
-        /// </summary>
-<#
-    for (int j = 1; j <= i; j++)
-    {
-#>
-        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
-<#
-    }
-#>
-        /// <param name="action">The action to invoke.</param>
-<#
-    for (int j = 1; j <= i; j++)
-    {
-#>
-        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
-<#
-    }
-#>
-        /// <exception cref="ObjectDisposedException">This instance is disposed.</exception>
-        protected void CheckDisposed<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>)
-        {
-            this.ThrowIfCurrentObjectDisposed();
-
-            action(<#= paramNames #>);
-        }
-
-        /// <summary>
-        /// Checks whether or not this object is disposed and throws an <see cref="ObjectDisposedException" />, and, if not, invokes an action and returns its result.
-        /// </summary>
-<#
-    for (int j = 1; j <= i; j++)
-    {
-#>
-        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
-<#
-    }
-#>
-        /// <typeparam name="TReturn">The return type of the invoked method.</typeparam>
-        /// <param name="action">The action to invoke.</param>
-<#
-    for (int j = 1; j <= i; j++)
-    {
-#>
-        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
-<#
-    }
-#>
-        /// <returns>The result from the action.</returns>
-        /// <exception cref="ObjectDisposedException">This instance is disposed.</exception>
-        protected TReturn CheckDisposed<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> action, <#= paramNameTypes #>)
-        {
-            this.ThrowIfCurrentObjectDisposed();
-
-            return action(<#= paramNames #>);
         }
 <#
 }
