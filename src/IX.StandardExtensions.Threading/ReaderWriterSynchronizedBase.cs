@@ -14,7 +14,8 @@ namespace IX.StandardExtensions.Threading
     /// <seealso cref="IX.StandardExtensions.ComponentModel.DisposableBase" />
     public abstract partial class ReaderWriterSynchronizedBase : DisposableBase
     {
-        private IReaderWriterLock locker;
+        private readonly bool lockInherited;
+        private readonly IReaderWriterLock locker;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReaderWriterSynchronizedBase"/> class.
@@ -32,13 +33,19 @@ namespace IX.StandardExtensions.Threading
         protected ReaderWriterSynchronizedBase(IReaderWriterLock locker)
         {
             this.locker = locker ?? throw new ArgumentNullException(nameof(locker));
+            this.lockInherited = true;
         }
 
         /// <summary>
         /// Produces a reader lock in concurrent collections.
         /// </summary>
         /// <returns>A disposable object representing the lock.</returns>
-        protected ReadOnlySynchronizationLocker ReadLock() => new ReadOnlySynchronizationLocker(this.locker);
+        protected ReadOnlySynchronizationLocker ReadLock()
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            return new ReadOnlySynchronizationLocker(this.locker);
+        }
 
         /// <summary>
         /// Invokes using a reader lock.
@@ -46,6 +53,8 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">An action that is called.</param>
         protected void ReadLock(Action action)
         {
+            this.ThrowIfCurrentObjectDisposed();
+
             using (new ReadOnlySynchronizationLocker(this.locker))
             {
                 action();
@@ -60,6 +69,8 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A disposable object representing the lock.</returns>
         protected T ReadLock<T>(Func<T> action)
         {
+            this.ThrowIfCurrentObjectDisposed();
+
             using (new ReadOnlySynchronizationLocker(this.locker))
             {
                 return action();
@@ -70,7 +81,12 @@ namespace IX.StandardExtensions.Threading
         /// Produces a writer lock in concurrent collections.
         /// </summary>
         /// <returns>A disposable object representing the lock.</returns>
-        protected WriteOnlySynchronizationLocker WriteLock() => new WriteOnlySynchronizationLocker(this.locker);
+        protected WriteOnlySynchronizationLocker WriteLock()
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            return new WriteOnlySynchronizationLocker(this.locker);
+        }
 
         /// <summary>
         /// Invokes using a writer lock.
@@ -78,6 +94,8 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">An action that is called.</param>
         protected void WriteLock(Action action)
         {
+            this.ThrowIfCurrentObjectDisposed();
+
             using (new WriteOnlySynchronizationLocker(this.locker))
             {
                 action();
@@ -88,14 +106,22 @@ namespace IX.StandardExtensions.Threading
         /// Produces an upgradeable reader lock in concurrent collections.
         /// </summary>
         /// <returns>A disposable object representing the lock.</returns>
-        protected ReadWriteSynchronizationLocker ReadWriteLock() => new ReadWriteSynchronizationLocker(this.locker);
+        protected ReadWriteSynchronizationLocker ReadWriteLock()
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            return new ReadWriteSynchronizationLocker(this.locker);
+        }
 
         /// <summary>
         /// Disposes in the managed context.
         /// </summary>
         protected override void DisposeManagedContext()
         {
-            this.locker.Dispose();
+            if (!this.lockInherited)
+            {
+                this.locker.Dispose();
+            }
 
             base.DisposeManagedContext();
         }

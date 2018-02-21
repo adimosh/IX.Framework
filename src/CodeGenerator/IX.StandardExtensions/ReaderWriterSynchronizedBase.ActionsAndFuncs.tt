@@ -61,6 +61,8 @@ for (int i = 1; i <= 8; i++)
 #>
         protected void ReadLock<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>)
         {
+            this.ThrowIfCurrentObjectDisposed();
+
             using (new ReadOnlySynchronizationLocker(this.locker))
             {
                 action(<#= paramNames #>);
@@ -91,6 +93,8 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A disposable object representing the lock.</returns>
         protected TReturn ReadLock<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> action, <#= paramNameTypes #>)
         {
+            this.ThrowIfCurrentObjectDisposed();
+
             using (new ReadOnlySynchronizationLocker(this.locker))
             {
                 return action(<#= paramNames #>);
@@ -119,6 +123,8 @@ for (int i = 1; i <= 8; i++)
 #>
         protected void WriteLock<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>)
         {
+            this.ThrowIfCurrentObjectDisposed();
+
             using (new WriteOnlySynchronizationLocker(this.locker))
             {
                 action(<#= paramNames #>);
@@ -149,6 +155,8 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A disposable object representing the lock.</returns>
         protected TReturn WriteLock<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> action, <#= paramNameTypes #>)
         {
+            this.ThrowIfCurrentObjectDisposed();
+
             using (new WriteOnlySynchronizationLocker(this.locker))
             {
                 return action(<#= paramNames #>);
