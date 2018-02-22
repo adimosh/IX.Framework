@@ -332,5 +332,18 @@ namespace IX.StandardExtensions.HighPerformance.Collections
                 return value;
             }
         }
+
+        /// <summary>
+        /// Copies all items to array.
+        /// </summary>
+        /// <returns>A new array.</returns>
+        public KeyValuePair<TKey, TValue>[] CopyToArray() => this.ReadLock(() =>
+            {
+                KeyValuePair<TKey, TValue>[] collection = new KeyValuePair<TKey, TValue>[this.items.Count];
+
+                ((ICollection<KeyValuePair<TKey, TValue>>)this.items).CopyTo(collection, 0);
+
+                return collection;
+            });
     }
 }

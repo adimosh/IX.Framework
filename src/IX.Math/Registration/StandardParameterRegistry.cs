@@ -5,20 +5,17 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using IX.Observable;
+using IX.StandardExtensions.HighPerformance.Collections;
 
 namespace IX.Math.Registration
 {
     internal class StandardParameterRegistry : IParameterRegistry
     {
-        private readonly ConcurrentObservableDictionary<string, ParameterContext> parameterContexts;
+        private readonly HighPerformanceConcurrentDictionary<string, ParameterContext> parameterContexts;
 
         public StandardParameterRegistry()
         {
-            this.parameterContexts = new ConcurrentObservableDictionary<string, ParameterContext>(true)
-            {
-                HistoryLevels = 0,
-            };
+            this.parameterContexts = new HighPerformanceConcurrentDictionary<string, ParameterContext>();
         }
 
         public bool Populated => this.parameterContexts.Count > 0;
