@@ -1,4 +1,4 @@
-﻿// <copyright file="IStack{T}.cs" company="Adrian Mos">
+// <copyright file="IStack{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -14,7 +14,7 @@ namespace IX.System.Collections.Generic
     /// <seealso cref="IEnumerable{T}" />
     /// <seealso cref="ICollection" />
     /// <seealso cref="IReadOnlyCollection{T}" />
-    public interface IStack<T> : IEnumerable<T>, ICollection, IReadOnlyCollection<T>
+    public interface IStack<T> : IEnumerable<T>, IReadOnlyCollection<T>
     {
         /// <summary>
         /// Clears the observable stack.

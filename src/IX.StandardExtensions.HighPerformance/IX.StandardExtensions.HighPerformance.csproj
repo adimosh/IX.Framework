@@ -30,6 +30,7 @@
   <Import Project="..\StyleCop.targets" />
 
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+    <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
 
@@ -42,6 +43,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IX.Abstractions\IX.Abstractions.csproj" />
+    <ProjectReference Include="..\IX.Abstractions.Collections\IX.Abstractions.Collections.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions.Threading\IX.StandardExtensions.Threading.csproj" />
   </ItemGroup>

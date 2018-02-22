@@ -103,6 +103,22 @@ namespace IX.StandardExtensions.Threading
         }
 
         /// <summary>
+        /// Invokes using a writer lock.
+        /// </summary>
+        /// <typeparam name="T">The type of item to return.</typeparam>
+        /// <param name="action">An action that is called.</param>
+        /// <returns>The generated item.</returns>
+        protected T WriteLock<T>(Func<T> action)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (new WriteOnlySynchronizationLocker(this.locker))
+            {
+                return action();
+            }
+        }
+
+        /// <summary>
         /// Produces an upgradeable reader lock in concurrent collections.
         /// </summary>
         /// <returns>A disposable object representing the lock.</returns>
