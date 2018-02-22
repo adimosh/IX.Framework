@@ -1,0 +1,142 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+// <copyright file="HighPerformanceConcurrentDictionary{TKey,TValue}.cs" company="Adrian Mos">
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
+// </copyright>
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using IX.StandardExtensions.Threading;
+using IX.System.Threading;
+
+namespace IX.StandardExtensions.HighPerformance.Collections
+{
+    public partial class HighPerformanceConcurrentDictionary<TKey, TValue>
+    {<#
+for (int i = 1; i <= 8; i++)
+{
+    string[] types = new string[i];
+    string[] names = new string[i];
+    string[] nameTypes = new string[i];
+
+    for (int j = 1; j <= i; j++)
+    {
+        int idx = j - 1;
+        types[idx] = $"TParam{j}";
+        names[idx] = $"param{j}";
+        nameTypes[idx] = $"TParam{j} param{j}";
+    }
+
+    string paramTypes = string.Join(", ", types);
+    string paramNames = string.Join(", ", names);
+    string paramNameTypes = string.Join(", ", nameTypes);
+#>
+
+        /// <summary>
+        /// Gets a value from the dictionary, optionally generating one if the key is not found.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="key">The key.</param>
+        /// <param name="valueGenerator">The value generator.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <returns>The value corresponding to the key, that is guaranteed to exist in the dictionary after this method.</returns>
+        /// <remarks>
+        /// <para>The <paramref name="valueGenerator" /> method is guaranteed to not be invoked if the key exists.</para>
+        /// <para>When the <paramref name="valueGenerator" /> method is invoked, it will be invoked within the write lock. Please ensure that no member of the dictionary is called within it.</para>
+        /// </remarks>
+        public TValue GetOrAdd<<#= paramTypes #>>(TKey key, Func<<#= paramTypes #>, TValue> valueGenerator, <#= paramNameTypes #>)
+        {
+            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            {
+                if (this.items.TryGetValue(key, out TValue value))
+                {
+                    return value;
+                }
+
+                locker.Upgrade();
+
+                if (this.items.TryGetValue(key, out value))
+                {
+                    return value;
+                }
+
+                value = valueGenerator(<#= paramNames #>);
+
+                this.items.Add(key, value);
+
+                return value;
+            }
+        }
+
+        /// <summary>
+        /// Creates an item or changes its state, if one exists.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="key">The key.</param>
+        /// <param name="valueGenerator">The value generator.</param>
+        /// <param name="valueAction">The value action.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <returns>The created or state-changed item.</returns>
+        public TValue CreateOrChangeState<<#= paramTypes #>>(TKey key, Func<<#= paramTypes #>, TValue> valueGenerator, Action<TValue, <#= paramTypes #>> valueAction, <#= paramNameTypes #>)
+        {
+            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            {
+                if (this.items.TryGetValue(key, out TValue value))
+                {
+                    valueAction(value, <#= paramNames #>);
+                    return value;
+                }
+
+                locker.Upgrade();
+
+                if (this.items.TryGetValue(key, out value))
+                {
+                    valueAction(value, <#= paramNames #>);
+                    return value;
+                }
+
+                value = valueGenerator(<#= paramNames #>);
+
+                this.items.Add(key, value);
+
+                return value;
+            }
+        }
+<#
+}
+#>
+    }
+}

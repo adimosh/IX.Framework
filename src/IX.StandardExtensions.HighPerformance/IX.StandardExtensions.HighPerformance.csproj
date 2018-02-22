@@ -30,9 +30,14 @@
   <Import Project="..\StyleCop.targets" />
 
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+    <Reference Include="System.Core" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'!='net45'">
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\HighPerformanceConcurrentDictionary{TKey,TValue}.ActionsAndFuncs.cs" Link="Collections\HighPerformanceConcurrentDictionary{TKey,TValue}.ActionsAndFuncs.cs" />
   </ItemGroup>
 
   <ItemGroup>
