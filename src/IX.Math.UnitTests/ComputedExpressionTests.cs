@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using IX.StandardExtensions.TestUtils;
 using Moq;
 using Xunit;
 
@@ -828,7 +829,6 @@ namespace IX.Math.UnitTests
         /// <param name="expectedResult">The expected result.</param>
         /// <exception cref="InvalidOperationException">
         /// No computed expression was generated!
-        /// or
         /// </exception>
         [Theory(DisplayName = "EPSPara")]
         [MemberData(nameof(ProvideDataForTheory))]
@@ -857,7 +857,6 @@ namespace IX.Math.UnitTests
         /// <param name="expectedResult">The expected result.</param>
         /// <exception cref="InvalidOperationException">
         /// No computed expression was generated!
-        /// or
         /// </exception>
         [Theory(DisplayName = "EPSFindr")]
         [MemberData(nameof(ProvideDataForTheory))]
@@ -896,7 +895,6 @@ namespace IX.Math.UnitTests
         /// <param name="expectedResult">The expected result.</param>
         /// <exception cref="InvalidOperationException">
         /// No computed expression was generated!
-        /// or
         /// </exception>
         [Theory(DisplayName = "CEPSPara")]
         [MemberData(nameof(ProvideDataForTheory))]
@@ -922,7 +920,6 @@ namespace IX.Math.UnitTests
         /// <param name="expectedResult">The expected result.</param>
         /// <exception cref="InvalidOperationException">
         /// No computed expression was generated!
-        /// or
         /// </exception>
         [Theory(DisplayName = "CEPSFindr")]
         [MemberData(nameof(ProvideDataForTheory))]
@@ -948,6 +945,153 @@ namespace IX.Math.UnitTests
             var result = del.Compute(finder.Object);
 
             Assert.Equal(expectedResult, result);
+        }
+
+        /// <summary>
+        /// Tests a computed expression with finder.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="expectedResult">The expected result.</param>
+        /// <exception cref="InvalidOperationException">
+        /// No computed expression was generated!
+        /// </exception>
+        [Theory(DisplayName = "EPSFindrFunc")]
+        [MemberData(nameof(ProvideDataForTheory))]
+        public void ComputedExpressionWithFunctionFinder(string expression, object[] parameters, object expectedResult)
+        {
+            using (var service = new ExpressionParsingService())
+            {
+                var finder = new Mock<IDataFinder>(MockBehavior.Loose);
+
+                ComputedExpression del = service.Interpret(expression);
+
+                if (del == null)
+                {
+                    throw new InvalidOperationException("No computed expression was generated!");
+                }
+
+                for (var i = 0; i < global::System.Math.Min(del.ParameterNames.Length, parameters.Length); i++)
+                {
+                    var valueName = del.ParameterNames[i];
+                    var outValue = this.GenerateFuncOutOfParameterValue(parameters[i]);
+
+                    finder.Setup(p => p.TryGetData(valueName, out outValue)).Returns(true);
+                }
+
+                var result = del.Compute(finder.Object);
+
+                Assert.Equal(expectedResult, result);
+            }
+        }
+
+        /// <summary>
+        /// Tests a cached computed expression with finder.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="expectedResult">The expected result.</param>
+        /// <exception cref="InvalidOperationException">
+        /// No computed expression was generated!
+        /// </exception>
+        [Theory(DisplayName = "CEPSFindrFunc")]
+        [MemberData(nameof(ProvideDataForTheory))]
+        public void CachedComputedExpressionWithFunctionFinder(string expression, object[] parameters, object expectedResult)
+        {
+            var finder = new Mock<IDataFinder>(MockBehavior.Loose);
+
+            ComputedExpression del = this.fixture.Service.Interpret(expression);
+
+            if (del == null)
+            {
+                throw new InvalidOperationException("No computed expression was generated!");
+            }
+
+            for (var i = 0; i < global::System.Math.Min(del.ParameterNames.Length, parameters.Length); i++)
+            {
+                var valueName = del.ParameterNames[i];
+                var outValue = this.GenerateFuncOutOfParameterValue(parameters[i]);
+
+                finder.Setup(p => p.TryGetData(valueName, out outValue)).Returns(true);
+            }
+
+            var result = del.Compute(finder.Object);
+
+            Assert.Equal(expectedResult, result);
+        }
+
+        /// <summary>
+        /// Tests a cached computed expression with finder returning functions repeatedly.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="expectedResult">The expected result.</param>
+        /// <exception cref="InvalidOperationException">
+        /// No computed expression was generated!
+        /// </exception>
+        [Theory(DisplayName = "CEPSFindrFuncRepeated")]
+        [MemberData(nameof(ProvideDataForTheory))]
+        public void CachedComputedExpressionWithFunctionFinderRepeated(string expression, object[] parameters, object expectedResult)
+        {
+            var indexLimit = DataGenerator.RandomInteger(3, 5);
+            for (var index = 0; index < indexLimit; index++)
+            {
+                var finder = new Mock<IDataFinder>(MockBehavior.Loose);
+
+                ComputedExpression del = this.fixture.Service.Interpret(expression);
+
+                if (del == null)
+                {
+                    throw new InvalidOperationException("No computed expression was generated!");
+                }
+
+                for (var i = 0; i < global::System.Math.Min(del.ParameterNames.Length, parameters.Length); i++)
+                {
+                    var valueName = del.ParameterNames[i];
+                    var outValue = this.GenerateFuncOutOfParameterValue(parameters[i]);
+
+                    finder.Setup(p => p.TryGetData(valueName, out outValue)).Returns(true);
+                }
+
+                var result = del.Compute(finder.Object);
+
+                Assert.Equal(expectedResult, result);
+            }
+        }
+
+        private object GenerateFuncOutOfParameterValue(object tempParameter)
+        {
+            switch (tempParameter)
+            {
+                case byte convertedValue:
+                    return new Func<byte>(() => convertedValue);
+                case sbyte convertedValue:
+                    return new Func<sbyte>(() => convertedValue);
+                case short convertedValue:
+                    return new Func<short>(() => convertedValue);
+                case ushort convertedValue:
+                    return new Func<ushort>(() => convertedValue);
+                case int convertedValue:
+                    return new Func<int>(() => convertedValue);
+                case uint convertedValue:
+                    return new Func<uint>(() => convertedValue);
+                case long convertedValue:
+                    return new Func<long>(() => convertedValue);
+                case ulong convertedValue:
+                    return new Func<ulong>(() => convertedValue);
+                case float convertedValue:
+                    return new Func<float>(() => convertedValue);
+                case double convertedValue:
+                    return new Func<double>(() => convertedValue);
+                case byte[] convertedValue:
+                    return new Func<byte[]>(() => convertedValue);
+                case string convertedValue:
+                    return new Func<string>(() => convertedValue);
+                case bool convertedValue:
+                    return new Func<bool>(() => convertedValue);
+                default:
+                    throw new InvalidOperationException();
+            }
         }
     }
 }

@@ -15,7 +15,8 @@ namespace IX.Math.Registration
     public class ParameterContext : IDeepCloneable<ParameterContext>, IEquatable<ParameterContext>
     {
         private bool alreadyCompiled;
-        private ParameterExpression expression;
+        private ParameterExpression parameterDefinitionExpression;
+        private Expression expression;
         private Expression stringExpression;
 
         /// <summary>
@@ -55,6 +56,29 @@ namespace IX.Math.Registration
         /// </summary>
         /// <value>The return type of the parameter.</value>
         public SupportedValueType ReturnType { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the parameter is a function.
+        /// </summary>
+        /// <value><c>true</c> if the parameter is a function; otherwise, <c>false</c>.</value>
+        public bool FuncParameter { get; private set; }
+
+        /// <summary>
+        /// Gets the parameter expression.
+        /// </summary>
+        /// <value>The parameter expression.</value>
+        public ParameterExpression ParameterExpression
+        {
+            get
+            {
+                if (!this.alreadyCompiled)
+                {
+                    this.Compile();
+                }
+
+                return this.parameterDefinitionExpression;
+            }
+        }
 
         /// <summary>
         /// Determines the type of the parameter.
@@ -150,16 +174,21 @@ namespace IX.Math.Registration
         }
 
         /// <summary>
+        /// Determines the parameter to be a function.
+        /// </summary>
+        public void DetermineFunc() => this.FuncParameter = true;
+
+        /// <summary>
         /// Compiles this instance.
         /// </summary>
         /// <returns>A LINQ expression representing the parameter.</returns>
         /// <exception cref="InvalidOperationException">The parameter was already compiled, but it is <c>null</c>.</exception>
         /// <exception cref="IX.Math.ExpressionNotValidLogicallyException">The parameter is still undefined.</exception>
-        public ParameterExpression Compile()
+        public Expression Compile()
         {
             if (this.alreadyCompiled)
             {
-                return this.expression ?? throw new InvalidOperationException();
+                return this.expression ?? throw new InvalidOperationException(string.Format(Resources.ParameterAlreadyCompiledButCompilationIsNull, this.Name));
             }
 
             Type type;
@@ -167,22 +196,22 @@ namespace IX.Math.Registration
             switch (this.ReturnType)
             {
                 case SupportedValueType.Boolean:
-                    type = typeof(bool);
+                    type = this.FuncParameter ? typeof(Func<bool>) : typeof(bool);
                     break;
                 case SupportedValueType.ByteArray:
-                    type = typeof(byte[]);
+                    type = this.FuncParameter ? typeof(Func<byte[]>) : typeof(byte[]);
                     break;
                 case SupportedValueType.String:
-                    type = typeof(string);
+                    type = this.FuncParameter ? typeof(Func<string>) : typeof(string);
                     break;
                 case SupportedValueType.Numeric:
                     if (this.IsFloat == false)
                     {
-                        type = typeof(long);
+                        type = this.FuncParameter ? typeof(Func<long>) : typeof(long);
                     }
                     else
                     {
-                        type = typeof(double);
+                        type = this.FuncParameter ? typeof(Func<double>) : typeof(double);
                     }
 
                     break;
@@ -192,12 +221,21 @@ namespace IX.Math.Registration
 
             ParameterExpression expression = Expression.Parameter(type, this.Name);
 
-            this.expression = expression;
+            this.parameterDefinitionExpression = expression;
+
+            if (this.FuncParameter)
+            {
+                this.expression = Expression.Invoke(expression);
+            }
+            else
+            {
+                this.expression = expression;
+            }
 
             this.stringExpression =
                 (this.ReturnType == SupportedValueType.String) ?
-                (Expression)expression :
-                Expression.Call(expression, typeof(object).GetTypeMethod(
+                this.expression :
+                Expression.Call(this.expression, typeof(object).GetTypeMethod(
                     nameof(object.ToString),
 #if NETSTANDARD2_0
                     Array.Empty<Type>()));
@@ -206,7 +244,7 @@ namespace IX.Math.Registration
 #endif
 
             this.alreadyCompiled = true;
-            return expression;
+            return this.expression;
         }
 
         /// <summary>
@@ -217,12 +255,12 @@ namespace IX.Math.Registration
         {
             if (this.alreadyCompiled)
             {
-                return this.stringExpression ?? throw new InvalidOperationException();
+                return this.stringExpression ?? throw new InvalidOperationException(string.Format(Resources.ParameterAlreadyCompiledButCompilationIsNull, this.Name));
             }
 
             this.Compile();
 
-            return this.stringExpression ?? throw new InvalidOperationException();
+            return this.stringExpression ?? throw new InvalidOperationException(string.Format(Resources.ParameterAlreadyCompiledButCompilationIsNull, this.Name));
         }
 
         /// <summary>
@@ -238,6 +276,7 @@ namespace IX.Math.Registration
         {
             IsFloat = this.IsFloat,
             ReturnType = this.ReturnType,
+            FuncParameter = this.FuncParameter,
         };
 
         /// <summary>
@@ -255,6 +294,7 @@ namespace IX.Math.Registration
             return
                 other.IsFloat == this.IsFloat &&
                 other.Name == this.Name &&
+                other.FuncParameter == this.FuncParameter &&
                 other.ReturnType == this.ReturnType;
         }
     }

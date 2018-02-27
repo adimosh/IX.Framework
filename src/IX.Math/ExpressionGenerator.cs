@@ -217,49 +217,58 @@ namespace IX.Math
                     }
 #endif
 
+                    if (position == 0)
+                    {
+                        // We certainly have an unary operator if the operator is at the beginning of the expression. We therefore cannot continue with binary
+                        return null;
+                    }
+
                     innerWorkingSet.CancellationToken.ThrowIfCancellationRequested();
 
-                    try
+                    if (innerWorkingSet.BinaryOperators.TryGetValue(op, out Type t))
                     {
-                        NodeBase left;
-                        NodeBase right;
-
-                        // We have a normal, regular binary
-                        var eee = s.Substring(0, position);
-                        if (string.IsNullOrWhiteSpace(eee))
+                        // We have a binary operator found
+                        try
                         {
-                            eee = null;
-                        }
+                            // We have a normal, regular binary
+                            var eee = s.Substring(0, position);
+                            if (string.IsNullOrWhiteSpace(eee))
+                            {
+                                // Empty space before operator. Normally, this should never be hit.
+                                return null;
+                            }
 
-                        left = GenerateExpression(eee, innerWorkingSet);
-                        if (left == null)
-                        {
-                            return null;
-                        }
+                            NodeBase left = GenerateExpression(eee, innerWorkingSet);
+                            if (left == null)
+                            {
+                                // Left expression is invalid.
+                                return null;
+                            }
 
-                        eee = s.Substring(position + op.Length);
-                        if (string.IsNullOrWhiteSpace(eee))
-                        {
-                            eee = null;
-                        }
+                            eee = s.Substring(position + op.Length);
+                            if (string.IsNullOrWhiteSpace(eee))
+                            {
+                                // Empty space after operator. Normally, this should never be hit.
+                                return null;
+                            }
 
-                        right = GenerateExpression(eee, innerWorkingSet);
-                        if (right == null)
-                        {
-                            return null;
-                        }
+                            NodeBase right = GenerateExpression(eee, innerWorkingSet);
+                            if (right == null)
+                            {
+                                // Right expression is invalid.
+                                return null;
+                            }
 
-                        if (innerWorkingSet.BinaryOperators.TryGetValue(op, out Type t))
-                        {
                             return ((BinaryOperationNodeBase)Activator.CreateInstance(t, left, right))?.Simplify();
                         }
-                        else
+                        catch
                         {
                             return null;
                         }
                     }
-                    catch
+                    else
                     {
+                        // Binary operator not actually found.
                         return null;
                     }
                 }
@@ -295,38 +304,35 @@ namespace IX.Math
 
                     innerWorkingSet.CancellationToken.ThrowIfCancellationRequested();
 
-                    if (s.StartsWith(op))
+                    if (s.StartsWith(op) && innerWorkingSet.UnaryOperators.TryGetValue(op, out Type t))
                     {
+                        // We have a valid unary operator and the expression starts with it.
                         try
                         {
                             var eee = s.Substring(op.Length);
                             NodeBase expr = GenerateExpression(string.IsNullOrWhiteSpace(eee) ? null : eee, innerWorkingSet);
                             if (expr == null)
                             {
+                                // The operand expression was not valid.
                                 return null;
                             }
 
-                            if (innerWorkingSet.UnaryOperators.TryGetValue(op, out Type t))
-                            {
-                                return ((UnaryOperatorNodeBase)Activator.CreateInstance(t, expr))?.Simplify();
-                            }
-                            else
-                            {
-                                return null;
-                            }
+                            return ((UnaryOperatorNodeBase)Activator.CreateInstance(t, expr))?.Simplify();
                         }
                         catch
                         {
+                            // An exception has been thrown when recognizing.
                             return null;
                         }
                     }
 
+                    // The unary operator is not valid.
                     return null;
                 }
 
                 if (exp != null)
                 {
-                    // We have found a valid unary operator expression
+                    // We have found a valid unary operator expression.
                     return exp;
                 }
             }

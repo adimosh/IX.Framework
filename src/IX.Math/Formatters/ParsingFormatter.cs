@@ -5,6 +5,7 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using IX.StandardExtensions.Globalization;
 
 namespace IX.Math.Formatters
 {
@@ -92,7 +93,7 @@ namespace IX.Math.Formatters
                 throw new ArgumentNullException(nameof(expression));
             }
 
-            if (expression.StartsWith("0b", StringComparison.CurrentCultureIgnoreCase))
+            if (expression.CurrentCultureStartsWithInsensitive("0b"))
             {
                 if (expression.Length > 2)
                 {

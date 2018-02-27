@@ -150,4 +150,7 @@
   <data name="ParameterAlreadyAdvertised" xml:space="preserve">
     <value>The parameter {0} has already been advertised in this scope. The context cannot take over the context.</value>
   </data>
+  <data name="ParameterAlreadyCompiledButCompilationIsNull" xml:space="preserve">
+    <value>The parameter {0} has already been compiled, but the compilation result is lost or not correctly initialized.</value>
+  </data>
 </root>
