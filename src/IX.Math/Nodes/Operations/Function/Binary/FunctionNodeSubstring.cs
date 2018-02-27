@@ -42,7 +42,7 @@ namespace IX.Math.Nodes.Operations.Function.Binary
 
         public override SupportedValueType ReturnType => SupportedValueType.String;
 
-        public override NodeBase DeepClone(NodeCloningContext context) => throw new NotImplementedException();
+        public override NodeBase DeepClone(NodeCloningContext context) => new FunctionNodeSubstring(this.FirstParameter.DeepClone(context), this.SecondParameter.DeepClone(context));
 
         public override NodeBase Simplify()
         {

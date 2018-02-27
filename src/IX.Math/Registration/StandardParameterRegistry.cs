@@ -12,13 +12,25 @@ namespace IX.Math.Registration
     internal class StandardParameterRegistry : IParameterRegistry
     {
         private readonly HighPerformanceConcurrentDictionary<string, ParameterContext> parameterContexts;
+#if DEBUG
+        private readonly int id;
+        private static int staticId;
+#endif
 
         public StandardParameterRegistry()
         {
+#if DEBUG
+            this.id = NewId();
+#endif
+
             this.parameterContexts = new HighPerformanceConcurrentDictionary<string, ParameterContext>();
         }
 
         public bool Populated => this.parameterContexts.Count > 0;
+
+#if DEBUG
+        public static int NewId() => ++staticId;
+#endif
 
         public ParameterContext AdvertiseParameter(string name)
         {
@@ -62,7 +74,5 @@ namespace IX.Math.Registration
         public ParameterContext[] Dump() => this.parameterContexts.CopyToArray().Select(p => p.Value).ToArray();
 
         public bool Exists(string name) => this.parameterContexts.ContainsKey(name);
-
-        public ParameterExpression GetParameterExpression(string name) => throw new NotImplementedException();
     }
 }

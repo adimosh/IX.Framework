@@ -50,7 +50,6 @@ namespace IX.Math
         /// <para>Due to the specifics of executing multiple expressions, the returned object will always be a clone of the originally-interpreted object, unless any of the following conditions are met:</para>
         /// <list type="bullet">
         /// <item>The expression is constant</item>
-        /// <item>The expression has no undefined parameters</item>
         /// <item>The expression has no parameters</item>
         /// <item>The expression has not been recognized correctly.</item>
         /// </list>
@@ -60,7 +59,7 @@ namespace IX.Math
         {
             ComputedExpression expr = this.cachedComputedExpressions.GetOrAdd(expression, ex => this.eps.Interpret(ex, cancellationToken), expression);
 
-            if (!expr.RecognizedCorrectly || expr.IsConstant || !expr.HasUndefinedParameters)
+            if (!expr.RecognizedCorrectly || expr.IsConstant)
             {
                 return expr;
             }
