@@ -759,6 +759,18 @@ namespace IX.Math.UnitTests
                 },
                 new object[]
                 {
+                    "x=\" \"",
+                    new object[1] { " " },
+                    true,
+                },
+                new object[]
+                {
+                    "x=\"\"",
+                    new object[1] { string.Empty },
+                    true,
+                },
+                new object[]
+                {
                     "0b1001010111010110110010000000010010101110101=0b1001010111010110110010000000010010101110101",
                     new object[0],
                     true,
