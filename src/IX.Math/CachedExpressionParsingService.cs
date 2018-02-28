@@ -4,8 +4,8 @@
 
 using System.Reflection;
 using System.Threading;
-using IX.Observable;
 using IX.StandardExtensions.ComponentModel;
+using IX.StandardExtensions.HighPerformance.Collections;
 
 namespace IX.Math
 {
@@ -18,7 +18,7 @@ namespace IX.Math
     public class CachedExpressionParsingService : DisposableBase, IExpressionParsingService
     {
         private ExpressionParsingService eps;
-        private ConcurrentObservableDictionary<string, ComputedExpression> cachedComputedExpressions;
+        private HighPerformanceConcurrentDictionary<string, ComputedExpression> cachedComputedExpressions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CachedExpressionParsingService"/> class.
@@ -26,7 +26,7 @@ namespace IX.Math
         public CachedExpressionParsingService()
         {
             this.eps = new ExpressionParsingService();
-            this.cachedComputedExpressions = new ConcurrentObservableDictionary<string, ComputedExpression>();
+            this.cachedComputedExpressions = new HighPerformanceConcurrentDictionary<string, ComputedExpression>();
         }
 
         /// <summary>
@@ -36,10 +36,8 @@ namespace IX.Math
         public CachedExpressionParsingService(MathDefinition definition)
         {
             this.eps = new ExpressionParsingService(definition);
-            this.cachedComputedExpressions = new ConcurrentObservableDictionary<string, ComputedExpression>
-            {
-                HistoryLevels = 0,
-            };
+
+            this.cachedComputedExpressions = new HighPerformanceConcurrentDictionary<string, ComputedExpression>();
         }
 
         /// <summary>
@@ -52,7 +50,6 @@ namespace IX.Math
         /// <para>Due to the specifics of executing multiple expressions, the returned object will always be a clone of the originally-interpreted object, unless any of the following conditions are met:</para>
         /// <list type="bullet">
         /// <item>The expression is constant</item>
-        /// <item>The expression has no undefined parameters</item>
         /// <item>The expression has no parameters</item>
         /// <item>The expression has not been recognized correctly.</item>
         /// </list>
@@ -62,7 +59,7 @@ namespace IX.Math
         {
             ComputedExpression expr = this.cachedComputedExpressions.GetOrAdd(expression, ex => this.eps.Interpret(ex, cancellationToken), expression);
 
-            if (!expr.RecognizedCorrectly || expr.IsConstant || !expr.HasUndefinedParameters)
+            if (!expr.RecognizedCorrectly || expr.IsConstant)
             {
                 return expr;
             }

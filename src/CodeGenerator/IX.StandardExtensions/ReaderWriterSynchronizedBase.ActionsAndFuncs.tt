@@ -4,7 +4,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
-// <copyright file="ObservableBase.ActionsAndFuncs.cs" company="Adrian Mos">
+// <copyright file="ReaderWriterSynchronizedBase.ActionsAndFuncs.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -12,13 +12,13 @@ using System;
 using IX.StandardExtensions.ComponentModel;
 using IX.StandardExtensions.Threading;
 
-namespace IX.Observable
+namespace IX.StandardExtensions.Threading
 {
     /// <summary>
-    /// A base class for collections that are observable.
+    /// A base class for a reader/writer synchronized class.
     /// </summary>
-    /// <seealso cref="NotifyCollectionChangedInvokerBase" />
-    public abstract partial class ObservableBase : NotifyCollectionChangedInvokerBase
+    /// <seealso cref="IX.StandardExtensions.ComponentModel.DisposableBase" />
+    public abstract partial class ReaderWriterSynchronizedBase
     {<#
 for (int i = 1; i <= 8; i++)
 {
@@ -61,7 +61,9 @@ for (int i = 1; i <= 8; i++)
 #>
         protected void ReadLock<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>)
         {
-            using (new ReadOnlySynchronizationLocker(this.SynchronizationLock))
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (new ReadOnlySynchronizationLocker(this.locker))
             {
                 action(<#= paramNames #>);
             }
@@ -91,7 +93,9 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A disposable object representing the lock.</returns>
         protected TReturn ReadLock<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> action, <#= paramNameTypes #>)
         {
-            using (new ReadOnlySynchronizationLocker(this.SynchronizationLock))
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (new ReadOnlySynchronizationLocker(this.locker))
             {
                 return action(<#= paramNames #>);
             }
@@ -119,7 +123,9 @@ for (int i = 1; i <= 8; i++)
 #>
         protected void WriteLock<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>)
         {
-            using (new WriteOnlySynchronizationLocker(this.SynchronizationLock))
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (new WriteOnlySynchronizationLocker(this.locker))
             {
                 action(<#= paramNames #>);
             }
@@ -149,7 +155,9 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A disposable object representing the lock.</returns>
         protected TReturn WriteLock<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> action, <#= paramNameTypes #>)
         {
-            using (new WriteOnlySynchronizationLocker(this.SynchronizationLock))
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (new WriteOnlySynchronizationLocker(this.locker))
             {
                 return action(<#= paramNames #>);
             }

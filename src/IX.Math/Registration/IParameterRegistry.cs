@@ -31,13 +31,6 @@ namespace IX.Math.Registration
         ParameterContext[] Dump();
 
         /// <summary>
-        /// Gets the parameter expression.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <returns>A <see cref="ParameterExpression"/> that represents the constant.</returns>
-        ParameterExpression GetParameterExpression(string name);
-
-        /// <summary>
         /// Advertises a potentially new parameter.
         /// </summary>
         /// <param name="name">The name of the parameter.</param>

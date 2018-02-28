@@ -120,11 +120,11 @@ namespace IX.Math
 
             if (!workingSet.Success)
             {
-                return new ComputedExpression(expression, null, false, null);
+                return new ComputedExpression(expression, null, false, null, null);
             }
             else
             {
-                return new ComputedExpression(expression, workingSet.Body, true, workingSet.ParameterRegistry);
+                return new ComputedExpression(expression, workingSet.Body, true, workingSet.ParameterRegistry, this.workingDefinition.AutoConvertStringFormatSpecifier);
             }
         }
 

@@ -116,6 +116,15 @@ namespace IX.Math {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The parameter {0} has already been compiled, but the compilation result is lost or not correctly initialized..
+        /// </summary>
+        internal static string ParameterAlreadyCompiledButCompilationIsNull {
+            get {
+                return ResourceManager.GetString("ParameterAlreadyCompiledButCompilationIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The parameter {0} should be an float value lest the expression makes no sense, but it is already defined as obligatory integer..
         /// </summary>
         internal static string ParameterMustBeFloatButAlreadyRequiredToBeInteger {

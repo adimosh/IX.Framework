@@ -272,7 +272,7 @@ namespace IX.Observable
         /// <summary>
         /// Gets the collection of keys in this dictionary.
         /// </summary>
-        public ICollection<TKey> Keys => this.CheckDisposed(() => this.ReadLock(() => this.InternalContainer.Keys));
+        public ICollection<TKey> Keys => this.InvokeIfNotDisposed(() => this.ReadLock(() => this.InternalContainer.Keys));
 
         /// <summary>
         /// Gets the collection of keys in this dictionary.
@@ -282,7 +282,7 @@ namespace IX.Observable
         /// <summary>
         /// Gets the collection of values in this dictionary.
         /// </summary>
-        public ICollection<TValue> Values => this.CheckDisposed(() => this.ReadLock(() =>
+        public ICollection<TValue> Values => this.InvokeIfNotDisposed(() => this.ReadLock(() =>
             this.InternalContainer.Values));
 
         /// <summary>
@@ -303,7 +303,7 @@ namespace IX.Observable
         /// <returns>The value associated with the specified key.</returns>
         public TValue this[TKey key]
         {
-            get => this.CheckDisposed(
+            get => this.InvokeIfNotDisposed(
                 (keyL1) => this.ReadLock(
                     (keyL2) => this.InternalContainer[keyL2],
                     keyL1),
@@ -379,7 +379,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="key">The key to look for.</param>
         /// <returns><c>true</c> whether a key has been found, <c>false</c> otherwise.</returns>
-        public bool ContainsKey(TKey key) => this.CheckDisposed(
+        public bool ContainsKey(TKey key) => this.InvokeIfNotDisposed(
             (keyL1) => this.ReadLock(
                 (keyL2) => this.InternalContainer.ContainsKey(keyL2),
                 keyL1),

@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net45;netstandard1.1;netstandard2.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <Import Project="..\DefaultPackageVersionSystem.props" />
+
+  <PropertyGroup>
+    <Version>0.1.0.1</Version>
+    <FileVersion>0.1.0.1</FileVersion>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>IX High Performance Extensions</Title>
+    <Description>A library containing several classes that replace standard .NET functionality with high performance concurrent equivalents.</Description>
+  </PropertyGroup>
+
+  <Import Project="..\Branding.props" />
+
+  <Import Project="..\TargetSymbols.props" />
+
+  <Import Project="..\DocumentationFile.props" />
+
+  <Import Project="..\PackageSettings.props" />
+
+  <Import Project="..\VsCodeRemove.targets" />
+
+  <Import Project="..\StyleCop.targets" />
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'!='net45'">
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\HighPerformanceConcurrentDictionary{TKey,TValue}.ActionsAndFuncs.cs" Link="Collections\HighPerformanceConcurrentDictionary{TKey,TValue}.ActionsAndFuncs.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IX.Abstractions\IX.Abstractions.csproj" />
+    <ProjectReference Include="..\IX.Abstractions.Collections\IX.Abstractions.Collections.csproj" />
+    <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
+    <ProjectReference Include="..\IX.StandardExtensions.Threading\IX.StandardExtensions.Threading.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\CliToolsReference.Normal.targets" />
+
+</Project>

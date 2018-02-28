@@ -31,8 +31,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IX.Abstractions.Collections\IX.Abstractions.Collections.csproj" />
-    <ProjectReference Include="..\IX.Observable\IX.Observable.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
+    <ProjectReference Include="..\IX.StandardExtensions.HighPerformance\IX.StandardExtensions.HighPerformance.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">

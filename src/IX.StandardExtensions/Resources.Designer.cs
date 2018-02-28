@@ -62,6 +62,15 @@ namespace IX.StandardExtensions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The argument {0} is not a positive integer..
+        /// </summary>
+        internal static string ErrorArgumentNotPositiveInteger {
+            get {
+                return ResourceManager.GetString("ErrorArgumentNotPositiveInteger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The length should be small enough to not result in an operation outside of the bounds of the array..
         /// </summary>
         internal static string ErrorLengthGoesPastArrayLimits {

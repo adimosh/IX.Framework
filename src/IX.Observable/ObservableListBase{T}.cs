@@ -68,7 +68,7 @@ namespace IX.Observable
         /// <summary>
         /// Gets a value indicating whether or not this list is of a fixed size.
         /// </summary>
-        public virtual bool IsFixedSize => this.CheckDisposed(() => this.ReadLock(() => this.InternalContainer?.IsFixedSize ?? false));
+        public virtual bool IsFixedSize => this.InvokeIfNotDisposed(() => this.ReadLock(() => this.InternalContainer?.IsFixedSize ?? false));
 
         /// <summary>
         /// Gets the internal list container.
@@ -96,7 +96,7 @@ namespace IX.Observable
         /// <returns>The item at the specified index.</returns>
         public virtual T this[int index]
         {
-            get => this.CheckDisposed(() => this.ReadLock(() => this.InternalContainer[index]));
+            get => this.InvokeIfNotDisposed((indexL1) => this.ReadLock((indexL2) => this.InternalContainer[indexL2], indexL1), index);
 
             set
             {
@@ -187,7 +187,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="item">The item.</param>
         /// <returns>The index of the item, or <c>-1</c> if not found.</returns>
-        public virtual int IndexOf(T item) => this.CheckDisposed(
+        public virtual int IndexOf(T item) => this.InvokeIfNotDisposed(
             (itemL1) => this.ReadLock(
                 (itemL2) => this.InternalContainer.IndexOf(itemL2),
                 itemL1),

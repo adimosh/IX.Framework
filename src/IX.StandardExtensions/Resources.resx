@@ -135,4 +135,7 @@
   <data name="ErrorStopRetrying" xml:space="preserve">
     <value>The operation that has made a call to this method should stop retrying, as a critical error, a state change or unrecoverable environment conditions guarantee failure on subsequent retries.</value>
   </data>
+  <data name="ErrorArgumentNotPositiveInteger" xml:space="preserve">
+    <value>The argument {0} is not a positive integer.</value>
+  </data>
 </root>
