@@ -1,4 +1,4 @@
-﻿// <copyright file="DataGenerator.cs" company="Adrian Mos">
+// <copyright file="DataGenerator.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -77,11 +77,14 @@ namespace IX.StandardExtensions.TestUtils
         /// <returns>An array of predictable random integers.</returns>
         public static int[] RandomIntegerArray(int limit, Random random)
         {
-            int[] array = new int[limit];
+            var array = new int[limit];
 
             for (var i = 0; i < limit; i++)
             {
-                array[i] = random.Next();
+                lock (random) // Random is not thread-safe
+                {
+                    array[i] = random.Next();
+                }
             }
 
             return array;

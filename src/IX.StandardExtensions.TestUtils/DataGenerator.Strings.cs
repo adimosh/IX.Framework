@@ -1,4 +1,4 @@
-﻿// <copyright file="DataGenerator.Strings.cs" company="Adrian Mos">
+// <copyright file="DataGenerator.Strings.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -26,14 +26,34 @@ namespace IX.StandardExtensions.TestUtils
         /// Generates a random string.
         /// </summary>
         /// <returns>A random string.</returns>
-        public static string RandomLowercaseString() => RandomString(r, r.Next(), lowerCaseAlphaCharacters);
+        public static string RandomLowercaseString()
+        {
+            int length;
+
+            lock (r)
+            {
+                length = r.Next();
+            }
+
+            return RandomString(r, length, lowerCaseAlphaCharacters);
+        }
 
         /// <summary>
         /// Generates a random string.
         /// </summary>
         /// <param name="random">The random generator to use.</param>
         /// <returns>A random string.</returns>
-        public static string RandomLowercaseString(Random random) => RandomString(random, random.Next(), lowerCaseAlphaCharacters);
+        public static string RandomLowercaseString(Random random)
+        {
+            int length;
+
+            lock (random)
+            {
+                length = random.Next();
+            }
+
+            return RandomString(random, length, lowerCaseAlphaCharacters);
+        }
 
         /// <summary>
         /// Generates a random string.
@@ -54,14 +74,34 @@ namespace IX.StandardExtensions.TestUtils
         /// Generates a random string.
         /// </summary>
         /// <returns>A random string.</returns>
-        public static string RandomUppercaseString() => RandomString(r, r.Next(), upperCaseAlphaCharacters);
+        public static string RandomUppercaseString()
+        {
+            int length;
+
+            lock (r)
+            {
+                length = r.Next();
+            }
+
+            return RandomString(r, length, upperCaseAlphaCharacters);
+        }
 
         /// <summary>
         /// Generates a random string.
         /// </summary>
         /// <param name="random">The random generator to use.</param>
         /// <returns>A random string.</returns>
-        public static string RandomUppercaseString(Random random) => RandomString(random, random.Next(), upperCaseAlphaCharacters);
+        public static string RandomUppercaseString(Random random)
+        {
+            int length;
+
+            lock (random)
+            {
+                length = random.Next();
+            }
+
+            return RandomString(random, length, upperCaseAlphaCharacters);
+        }
 
         /// <summary>
         /// Generates a random string.
@@ -82,14 +122,34 @@ namespace IX.StandardExtensions.TestUtils
         /// Generates a random string.
         /// </summary>
         /// <returns>A random string.</returns>
-        public static string RandomNumericString() => RandomString(r, r.Next(), numericCharacters);
+        public static string RandomNumericString()
+        {
+            int length;
+
+            lock (r)
+            {
+                length = r.Next();
+            }
+
+            return RandomString(r, length, numericCharacters);
+        }
 
         /// <summary>
         /// Generates a random string.
         /// </summary>
         /// <param name="random">The random generator to use.</param>
         /// <returns>A random string.</returns>
-        public static string RandomNumericString(Random random) => RandomString(random, random.Next(), numericCharacters);
+        public static string RandomNumericString(Random random)
+        {
+            int length;
+
+            lock (random)
+            {
+                length = random.Next();
+            }
+
+            return RandomString(random, length, numericCharacters);
+        }
 
         /// <summary>
         /// Generates a random string.
@@ -110,14 +170,34 @@ namespace IX.StandardExtensions.TestUtils
         /// Generates a random string.
         /// </summary>
         /// <returns>A random string.</returns>
-        public static string RandomSymbolString() => RandomString(r, r.Next(), basicSymbolCharacters);
+        public static string RandomSymbolString()
+        {
+            int length;
+
+            lock (r)
+            {
+                length = r.Next();
+            }
+
+            return RandomString(r, length, basicSymbolCharacters);
+        }
 
         /// <summary>
         /// Generates a random string.
         /// </summary>
         /// <param name="random">The random generator to use.</param>
         /// <returns>A random string.</returns>
-        public static string RandomSymbolString(Random random) => RandomString(random, random.Next(), basicSymbolCharacters);
+        public static string RandomSymbolString(Random random)
+        {
+            int length;
+
+            lock (random)
+            {
+                length = random.Next();
+            }
+
+            return RandomString(random, length, basicSymbolCharacters);
+        }
 
         /// <summary>
         /// Generates a random string.
@@ -138,14 +218,34 @@ namespace IX.StandardExtensions.TestUtils
         /// Generates a random string.
         /// </summary>
         /// <returns>A random string.</returns>
-        public static string RandomAlphaString() => RandomString(r, r.Next(), alphaCharacters);
+        public static string RandomAlphaString()
+        {
+            int length;
+
+            lock (r)
+            {
+                length = r.Next();
+            }
+
+            return RandomString(r, length, alphaCharacters);
+        }
 
         /// <summary>
         /// Generates a random string.
         /// </summary>
         /// <param name="random">The random generator to use.</param>
         /// <returns>A random string.</returns>
-        public static string RandomAlphaString(Random random) => RandomString(random, random.Next(), alphaCharacters);
+        public static string RandomAlphaString(Random random)
+        {
+            int length;
+
+            lock (random)
+            {
+                length = random.Next();
+            }
+
+            return RandomString(random, length, alphaCharacters);
+        }
 
         /// <summary>
         /// Generates a random string.
@@ -166,14 +266,34 @@ namespace IX.StandardExtensions.TestUtils
         /// Generates a random string.
         /// </summary>
         /// <returns>A random string.</returns>
-        public static string RandomAlphanumericString() => RandomString(r, r.Next(), alphaNumericCharacters);
+        public static string RandomAlphanumericString()
+        {
+            int length;
+
+            lock (r)
+            {
+                length = r.Next();
+            }
+
+            return RandomString(r, length, alphaNumericCharacters);
+        }
 
         /// <summary>
         /// Generates a random string.
         /// </summary>
         /// <param name="random">The random generator to use.</param>
         /// <returns>A random string.</returns>
-        public static string RandomAlphanumericString(Random random) => RandomString(random, random.Next(), alphaNumericCharacters);
+        public static string RandomAlphanumericString(Random random)
+        {
+            int length;
+
+            lock (random)
+            {
+                length = random.Next();
+            }
+
+            return RandomString(random, length, alphaNumericCharacters);
+        }
 
         /// <summary>
         /// Generates a random string.
@@ -194,14 +314,34 @@ namespace IX.StandardExtensions.TestUtils
         /// Generates a random string.
         /// </summary>
         /// <returns>A random string.</returns>
-        public static string RandomString() => RandomString(r, r.Next(), allCharacters);
+        public static string RandomString()
+        {
+            int length;
+
+            lock (r)
+            {
+                length = r.Next();
+            }
+
+            return RandomString(r, length, allCharacters);
+        }
 
         /// <summary>
         /// Generates a random string.
         /// </summary>
         /// <param name="random">The random generator to use.</param>
         /// <returns>A random string.</returns>
-        public static string RandomString(Random random) => RandomString(random, random.Next(), allCharacters);
+        public static string RandomString(Random random)
+        {
+            int length;
+
+            lock (random)
+            {
+                length = random.Next();
+            }
+
+            return RandomString(random, length, allCharacters);
+        }
 
         /// <summary>
         /// Generates a random string.
@@ -224,7 +364,17 @@ namespace IX.StandardExtensions.TestUtils
         /// <param name="random">The random generator to use.</param>
         /// <param name="fromCharacters">The array of characters from which to generate the string.</param>
         /// <returns>A random string.</returns>
-        public static string RandomString(Random random, char[] fromCharacters) => RandomString(random, random.Next(), fromCharacters);
+        public static string RandomString(Random random, char[] fromCharacters)
+        {
+            int length;
+
+            lock (random)
+            {
+                length = random.Next();
+            }
+
+            return RandomString(random, length, fromCharacters);
+        }
 
         /// <summary>
         /// Generates a random string.
@@ -235,10 +385,17 @@ namespace IX.StandardExtensions.TestUtils
         /// <returns>A random string.</returns>
         public static string RandomString(Random random, int length, char[] fromCharacters)
         {
-            char[] randomString = new char[length];
+            var randomString = new char[length];
+            int position;
+
             for (var i = 0; i < length; i++)
             {
-                randomString[i] = fromCharacters[random.Next(fromCharacters.Length)];
+                lock (r)
+                {
+                    position = random.Next(fromCharacters.Length);
+                }
+
+                randomString[i] = fromCharacters[position];
             }
 
             return new string(randomString);
