@@ -2,10 +2,10 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using System.Collections.Concurrent;
 using System.Reflection;
 using System.Threading;
 using IX.StandardExtensions.ComponentModel;
-using IX.StandardExtensions.HighPerformance.Collections;
 
 namespace IX.Math
 {
@@ -18,7 +18,7 @@ namespace IX.Math
     public class CachedExpressionParsingService : DisposableBase, IExpressionParsingService
     {
         private ExpressionParsingService eps;
-        private HighPerformanceConcurrentDictionary<string, ComputedExpression> cachedComputedExpressions;
+        private ConcurrentDictionary<string, ComputedExpression> cachedComputedExpressions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CachedExpressionParsingService"/> class.
@@ -26,7 +26,7 @@ namespace IX.Math
         public CachedExpressionParsingService()
         {
             this.eps = new ExpressionParsingService();
-            this.cachedComputedExpressions = new HighPerformanceConcurrentDictionary<string, ComputedExpression>();
+            this.cachedComputedExpressions = new ConcurrentDictionary<string, ComputedExpression>();
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace IX.Math
         {
             this.eps = new ExpressionParsingService(definition);
 
-            this.cachedComputedExpressions = new HighPerformanceConcurrentDictionary<string, ComputedExpression>();
+            this.cachedComputedExpressions = new ConcurrentDictionary<string, ComputedExpression>();
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace IX.Math
         /// </remarks>
         public ComputedExpression Interpret(string expression, CancellationToken cancellationToken = default)
         {
-            ComputedExpression expr = this.cachedComputedExpressions.GetOrAdd(expression, ex => this.eps.Interpret(ex, cancellationToken), expression);
+            ComputedExpression expr = this.cachedComputedExpressions.GetOrAdd(expression, ex => this.eps.Interpret(ex, cancellationToken));
 
             if (!expr.RecognizedCorrectly || expr.IsConstant)
             {

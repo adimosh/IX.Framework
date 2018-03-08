@@ -83,10 +83,6 @@ before_build:
 
     dotnet csprojVersioning IX.StandardExtensions.WPF.csproj %APPVEYOR_BUILD_VERSION%
 
-    cd ..\IX.StandardExtensions.HighPerformance\
-
-    dotnet csprojVersioning IX.StandardExtensions.HighPerformance.csproj %APPVEYOR_BUILD_VERSION%
-
     cd ..\..\
 
     dotnet clean src\IX.Framework.sln -c Release
@@ -135,8 +131,6 @@ artifacts:
   name: IX.Math
 - path: src\IX.StandardExtensions.WPF\bin\Release\IX.StandardExtensions.WPF.%APPVEYOR_BUILD_VERSION%.nupkg
   name: IX.StandardExtensions.WPF
-- path: src\IX.StandardExtensions.HighPerformance\bin\Release\IX.StandardExtensions.HighPerformance.%APPVEYOR_BUILD_VERSION%.nupkg
-  name: IX.StandardExtensions.HighPerformance
 deploy:
 - provider: NuGet
   server: https://ci.appveyor.com/nuget/adimosh-at-live-dot-com/api/v2/package

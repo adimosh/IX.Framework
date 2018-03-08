@@ -33,7 +33,7 @@ namespace IX.StandardExtensions.Tests.Benchmarking
         {
             var limit = 200000000;
 
-            int[] array = DataGenerator.RandomIntegerArray(limit);
+            var array = DataGenerator.RandomIntegerArray(limit);
 
             var sw = new Stopwatch();
 
@@ -78,7 +78,7 @@ namespace IX.StandardExtensions.Tests.Benchmarking
         {
             var limit = 1000;
 
-            int[] array = DataGenerator.RandomIntegerArray(limit);
+            var array = DataGenerator.RandomIntegerArray(limit);
 
             var sw = new Stopwatch();
 
@@ -118,7 +118,7 @@ namespace IX.StandardExtensions.Tests.Benchmarking
         {
             var limit = 1000;
 
-            int[] array = DataGenerator.RandomIntegerArray(limit);
+            var array = DataGenerator.RandomIntegerArray(limit);
 
             var sw = new Stopwatch();
 
@@ -158,7 +158,7 @@ namespace IX.StandardExtensions.Tests.Benchmarking
         {
             var limit = 100;
 
-            int[] array = DataGenerator.RandomIntegerArray(limit);
+            var array = DataGenerator.RandomIntegerArray(limit);
 
             var sw = new Stopwatch();
 
