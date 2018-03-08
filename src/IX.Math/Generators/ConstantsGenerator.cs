@@ -57,7 +57,7 @@ namespace IX.Math.Generators
                 throw new ArgumentNullException(nameof(content));
             }
 
-            if (reverseConstantsTable.TryGetValue(content, out string key))
+            if (reverseConstantsTable.TryGetValue(content, out var key))
             {
                 return key;
             }
@@ -104,27 +104,27 @@ namespace IX.Math.Generators
                 return null;
             }
 
-            if (reverseConstantsTable.TryGetValue(content, out string key))
+            if (reverseConstantsTable.TryGetValue(content, out var key))
             {
                 return key;
             }
             else
             {
-                if (ParsingFormatter.ParseNumeric(content, out object n))
+                if (ParsingFormatter.ParseNumeric(content, out var n))
                 {
                     var name = GenerateName(constantsTable.Keys, originalExpression);
                     constantsTable.Add(name, new NumericNode(n));
                     reverseConstantsTable.Add(content, name);
                     return name;
                 }
-                else if (ParsingFormatter.ParseByteArray(content, out byte[] ba))
+                else if (ParsingFormatter.ParseByteArray(content, out var ba))
                 {
                     var name = GenerateName(constantsTable.Keys, originalExpression);
                     constantsTable.Add(name, new ByteArrayNode(ba));
                     reverseConstantsTable.Add(content, name);
                     return name;
                 }
-                else if (bool.TryParse(content, out bool b))
+                else if (bool.TryParse(content, out var b))
                 {
                     var name = GenerateName(constantsTable.Keys, originalExpression);
                     constantsTable.Add(name, new BoolNode(b));
@@ -168,7 +168,7 @@ namespace IX.Math.Generators
                 throw new ArgumentNullException(nameof(reverseConstantsTable));
             }
 
-            if (reverseConstantsTable.TryGetValue(name, out string key))
+            if (reverseConstantsTable.TryGetValue(name, out var key))
             {
                 return;
             }

@@ -20,7 +20,7 @@ namespace IX.Math.Generators
             Dictionary<string, string> reverseSymbolTable)
         {
             FormatParenthesis(string.Empty, openParenthesis, closeParenthesis);
-            string[] names = symbolTable.Keys.Where(p => p.StartsWith("item")).ToArray();
+            var names = symbolTable.Keys.Where(p => p.StartsWith("item")).ToArray();
             foreach (var name in names)
             {
                 FormatParenthesis(name, openParenthesis, closeParenthesis);
@@ -145,7 +145,7 @@ namespace IX.Math.Generators
                     {
                         var expr1 = innerSource.Substring(0, cp);
 
-                        string[] parameters = expr1.Split(new string[] { parameterSeparator }, StringSplitOptions.None);
+                        var parameters = expr1.Split(new string[] { parameterSeparator }, StringSplitOptions.None);
 
                         var parSymbols = new List<string>();
                         foreach (var s in parameters)

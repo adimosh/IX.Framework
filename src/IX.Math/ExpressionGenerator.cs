@@ -157,7 +157,7 @@ namespace IX.Math
                 return c1;
             }
 
-            if (workingSet.ReverseConstantsTable.TryGetValue(expression, out string c2))
+            if (workingSet.ReverseConstantsTable.TryGetValue(expression, out var c2))
             {
                 if (workingSet.ConstantsTable.TryGetValue(c2, out ConstantNodeBase c3))
                 {
@@ -177,7 +177,7 @@ namespace IX.Math
                 return GenerateExpression(e1.Expression, workingSet);
             }
 
-            if (workingSet.ReverseSymbolTable.TryGetValue(expression, out string e2))
+            if (workingSet.ReverseSymbolTable.TryGetValue(expression, out var e2))
             {
                 if (workingSet.SymbolTable.TryGetValue(e2, out ExpressionSymbol e3))
                 {
