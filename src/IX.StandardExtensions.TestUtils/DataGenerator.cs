@@ -81,7 +81,7 @@ namespace IX.StandardExtensions.TestUtils
 
             for (var i = 0; i < limit; i++)
             {
-                lock (random) // Random is not thread-safe
+                lock (random)
                 {
                     array[i] = random.Next();
                 }
