@@ -12,6 +12,7 @@ nuget:
   disable_publish_on_pr: true
 before_build:
 - cmd: >-
+
     dotnet clean src\IX.Framework.sln -c Release
 
     dotnet clean src\IX.Framework.sln -c Debug
