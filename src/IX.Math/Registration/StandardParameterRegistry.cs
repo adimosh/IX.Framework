@@ -70,7 +70,7 @@ namespace IX.Math.Registration
             }
         }
 
-        public ParameterContext[] Dump() => this.parameterContexts.ToArray().Select(p => p.Value).ToArray();
+        public ParameterContext[] Dump() => this.parameterContexts.ToArray().Select(p => p.Value).OrderBy(p => p.Order).ToArray();
 
         public bool Exists(string name) => this.parameterContexts.ContainsKey(name);
     }

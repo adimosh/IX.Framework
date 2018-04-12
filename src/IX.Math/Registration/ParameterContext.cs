@@ -64,6 +64,12 @@ namespace IX.Math.Registration
         public bool FuncParameter { get; private set; }
 
         /// <summary>
+        /// Gets or sets the order in which this parameter has appeared in the expression.
+        /// </summary>
+        /// <value>The order.</value>
+        public int Order { get; set; }
+
+        /// <summary>
         /// Gets the parameter expression.
         /// </summary>
         /// <value>The parameter expression.</value>
@@ -277,6 +283,7 @@ namespace IX.Math.Registration
             IsFloat = this.IsFloat,
             ReturnType = this.ReturnType,
             FuncParameter = this.FuncParameter,
+            Order = this.Order,
         };
 
         /// <summary>
@@ -295,6 +302,7 @@ namespace IX.Math.Registration
                 other.IsFloat == this.IsFloat &&
                 other.Name == this.Name &&
                 other.FuncParameter == this.FuncParameter &&
+                other.Order == this.Order &&
                 other.ReturnType == this.ReturnType;
         }
     }
