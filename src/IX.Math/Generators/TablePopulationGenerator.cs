@@ -38,7 +38,7 @@ namespace IX.Math.Generators
             in string openParenthesis,
             in string[] allOperatorsInOrder)
         {
-            string[] expressions = processedExpression.Split(allOperatorsInOrder, StringSplitOptions.RemoveEmptyEntries);
+            var expressions = processedExpression.Split(allOperatorsInOrder, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var exp in expressions)
             {

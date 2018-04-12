@@ -58,6 +58,7 @@ namespace IX.Math
                 LessThanSymbol = "<",
                 RightShiftSymbol = ">>",
                 LeftShiftSymbol = "<<",
+                OperatorPrecedenceStyle = OperatorPrecedenceStyle.Mathematical,
             })
         {
         }

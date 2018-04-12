@@ -15,8 +15,14 @@ namespace IX.StandardExtensions.TestUtils
         /// <returns>An random integer.</returns>
         public static int RandomInteger()
         {
-            var negative = r.Next(2) == 1;
-            var item = r.Next();
+            bool negative;
+            int item;
+
+            lock (r)
+            {
+                negative = r.Next(2) == 1;
+                item = r.Next();
+            }
 
             return negative ? (0 - item) : item;
         }
@@ -28,8 +34,14 @@ namespace IX.StandardExtensions.TestUtils
         /// <returns>An random integer.</returns>
         public static int RandomInteger(int maxValue)
         {
-            var negative = r.Next(2) == 1;
-            var item = r.Next(maxValue);
+            bool negative;
+            int item;
+
+            lock (r)
+            {
+                negative = r.Next(2) == 1;
+                item = r.Next(maxValue);
+            }
 
             return negative ? (0 - item) : item;
         }
@@ -40,7 +52,13 @@ namespace IX.StandardExtensions.TestUtils
         /// <param name="minValue">The minimum value, inclusive.</param>
         /// <param name="maxValue">The maximum value, exclusive.</param>
         /// <returns>An random integer.</returns>
-        public static int RandomInteger(int minValue, int maxValue) => r.Next(minValue, maxValue);
+        public static int RandomInteger(int minValue, int maxValue)
+        {
+            lock (r)
+            {
+                return r.Next(minValue, maxValue);
+            }
+        }
 
         /// <summary>
         /// Returns a random non-negative integer.
@@ -48,7 +66,12 @@ namespace IX.StandardExtensions.TestUtils
         /// <returns>An random integer.</returns>
         public static int RandomNonNegativeInteger()
         {
-            var generated = r.Next();
+            int generated;
+
+            lock (r)
+            {
+                generated = r.Next();
+            }
 
             return generated < 0 ? (-generated) : generated;
         }
@@ -58,6 +81,12 @@ namespace IX.StandardExtensions.TestUtils
         /// </summary>
         /// <param name="maxValue">The maximum value.</param>
         /// <returns>An random integer.</returns>
-        public static int RandomNonNegativeInteger(int maxValue) => r.Next(maxValue);
+        public static int RandomNonNegativeInteger(int maxValue)
+        {
+            lock (r)
+            {
+                return r.Next(maxValue);
+            }
+        }
     }
 }

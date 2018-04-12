@@ -96,7 +96,7 @@ namespace IX.Math
                 return this.initialExpression;
             }
 
-            object[] convertedArguments = FormatArgumentsAccordingToParameters(arguments, this.parametersRegistry.Dump());
+            var convertedArguments = FormatArgumentsAccordingToParameters(arguments, this.parametersRegistry.Dump());
 
             object[] FormatArgumentsAccordingToParameters(
                 in object[] parameterValues,
@@ -107,7 +107,7 @@ namespace IX.Math
                     return null;
                 }
 
-                object[] finalValues = new object[parameterValues.Length];
+                var finalValues = new object[parameterValues.Length];
 
                 var i = 0;
 
@@ -374,7 +374,7 @@ namespace IX.Math
 
                                 case SupportedValueType.ByteArray:
                                     {
-                                        if (ParsingFormatter.ParseByteArray(convertedParam, out byte[] byteArrayResult))
+                                        if (ParsingFormatter.ParseByteArray(convertedParam, out var byteArrayResult))
                                         {
                                             paramValue = CreateValue(paraContext, byteArrayResult);
                                         }
@@ -389,7 +389,7 @@ namespace IX.Math
 
                                 case SupportedValueType.Numeric:
                                     {
-                                        if (ParsingFormatter.ParseNumeric(convertedParam, out object numericResult))
+                                        if (ParsingFormatter.ParseNumeric(convertedParam, out var numericResult))
                                         {
                                             if (numericResult is long integerResult)
                                             {
@@ -601,7 +601,7 @@ namespace IX.Math
                                 case SupportedValueType.ByteArray:
                                     paramValue = CreateValueFromFunc(paraContext, () =>
                                     {
-                                        if (ParsingFormatter.ParseByteArray(convertedParam(), out byte[] baResult))
+                                        if (ParsingFormatter.ParseByteArray(convertedParam(), out var baResult))
                                         {
                                             return baResult;
                                         }
@@ -619,7 +619,7 @@ namespace IX.Math
                                         paramValue = CreateValueFromFunc(paraContext, () =>
                                         {
                                             var str = convertedParam();
-                                            if (ParsingFormatter.ParseNumeric(str, out object numericResult))
+                                            if (ParsingFormatter.ParseNumeric(str, out var numericResult))
                                             {
                                                 return Convert.ToDouble(numericResult);
                                             }
@@ -634,7 +634,7 @@ namespace IX.Math
                                         paramValue = CreateValueFromFunc(paraContext, () =>
                                         {
                                             var str = convertedParam();
-                                            if (ParsingFormatter.ParseNumeric(str, out object numericResult))
+                                            if (ParsingFormatter.ParseNumeric(str, out var numericResult))
                                             {
                                                 return Convert.ToInt64(numericResult);
                                             }
@@ -813,7 +813,7 @@ namespace IX.Math
 
             foreach (ParameterContext p in this.parametersRegistry.Dump())
             {
-                if (!dataFinder.TryGetData(p.Name, out object data))
+                if (!dataFinder.TryGetData(p.Name, out var data))
                 {
                     data = null;
                 }

@@ -32,7 +32,6 @@
   <ItemGroup>
     <ProjectReference Include="..\IX.Abstractions.Collections\IX.Abstractions.Collections.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
-    <ProjectReference Include="..\IX.StandardExtensions.HighPerformance\IX.StandardExtensions.HighPerformance.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
@@ -43,6 +42,7 @@
 
   <ItemGroup Condition="'$(TargetFramework)'!='net45'">
     <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />
     <PackageReference Include="System.Globalization" Version="4.3.0" />

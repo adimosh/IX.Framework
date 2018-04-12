@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -125,6 +126,35 @@ namespace IX.Sandbox.Memory
         public bool IsDefault => this.items.Count == 0;
 
         /// <summary>
+        /// Gets the count.
+        /// </summary>
+        /// <value>The count.</value>
+        public int Count => this.items.Count;
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is read only.
+        /// </summary>
+        /// <value><c>true</c> if this instance is read only; otherwise, <c>false</c>.</value>
+        public bool IsReadOnly => false;
+
+        /// <summary>
+        /// Adds the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        public void Add(T item) => this.items.Add(this.parentScope.CreateVariable(item));
+
+        /// <summary>
+        /// Adds the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        public void Add(IVariable<T> item) => this.items.Add(item);
+
+        /// <summary>
+        /// Clears this instance.
+        /// </summary>
+        public void Clear() => this.FireAndForget((oi) => oi.ForEach<IVariable>(p => this.parentScope.DisposeVariable(ref p)), this.items.ClearAndPersist());
+
+        /// <summary>
         /// Compares the list with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
@@ -178,6 +208,34 @@ namespace IX.Sandbox.Memory
 
             return this.CompareToInternal(other);
         }
+
+        /// <summary>
+        /// Determines whether [contains] [the specified item].
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <returns><c>true</c> if [contains] [the specified item]; otherwise, <c>false</c>.</returns>
+        public abstract bool Contains(T item);
+
+        /// <summary>
+        /// Determines whether [contains] [the specified item].
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <returns><c>true</c> if [contains] [the specified item]; otherwise, <c>false</c>.</returns>
+        public bool Contains(IVariable<T> item) => this.items.Contains(item);
+
+        /// <summary>
+        /// Copies the raw values of the items contained in the collection to an array.
+        /// </summary>
+        /// <param name="array">The array to copy to.</param>
+        /// <param name="arrayIndex">Index of the array to start copying into.</param>
+        public void CopyTo(T[] array, int arrayIndex) => this.items.Select(p => p.Value).ToList().CopyTo(array, arrayIndex);
+
+        /// <summary>
+        /// Copies the items contained in the collection to an array.
+        /// </summary>
+        /// <param name="array">The array to copy to.</param>
+        /// <param name="arrayIndex">Index of the array to start copying into.</param>
+        public void CopyTo(IVariable<T>[] array, int arrayIndex) => this.items.CopyTo(array, arrayIndex);
 
         /// <summary>
         /// Equates the list with another variable.
@@ -239,6 +297,38 @@ namespace IX.Sandbox.Memory
         /// </summary>
         /// <returns>Type.</returns>
         public Type GetDataType() => typeof(IEnumerable<T>);
+
+        /// <summary>
+        /// Gets the enumerator of raw values for this collection.
+        /// </summary>
+        /// <returns>the enumerator for this collection.</returns>
+        IEnumerator<T> IEnumerable<T>.GetEnumerator() => this.items.Select(p => p.Value).GetEnumerator();
+
+        /// <summary>
+        /// Removes the specified item value.
+        /// </summary>
+        /// <param name="item">The item value.</param>
+        /// <returns><c>true</c> if the item with the specified value was found and successfully removed, <c>false</c> otherwise.</returns>
+        public abstract bool Remove(T item);
+
+        /// <summary>
+        /// Removes the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <returns><c>true</c> if the item has been successfully removed, <c>false</c> otherwise.</returns>
+        public bool Remove(IVariable<T> item) => this.items.Remove(item);
+
+        /// <summary>
+        /// Gets the enumerator of raw values for this collection.
+        /// </summary>
+        /// <returns>the enumerator for this collection.</returns>
+        IEnumerator IEnumerable.GetEnumerator() => this.items.GetEnumerator();
+
+        /// <summary>
+        /// Gets the enumerator of raw values for this collection.
+        /// </summary>
+        /// <returns>the enumerator for this collection.</returns>
+        IEnumerator<IVariable<T>> IEnumerable<IVariable<T>>.GetEnumerator() => this.items.GetEnumerator();
 
         /// <summary>
         /// Compares the list with another list.

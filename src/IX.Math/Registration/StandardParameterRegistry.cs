@@ -3,15 +3,14 @@
 // </copyright>
 
 using System;
+using System.Collections.Concurrent;
 using System.Linq;
-using System.Linq.Expressions;
-using IX.StandardExtensions.HighPerformance.Collections;
 
 namespace IX.Math.Registration
 {
     internal class StandardParameterRegistry : IParameterRegistry
     {
-        private readonly HighPerformanceConcurrentDictionary<string, ParameterContext> parameterContexts;
+        private readonly ConcurrentDictionary<string, ParameterContext> parameterContexts;
 #if DEBUG
         private readonly int id;
         private static int staticId;
@@ -23,7 +22,7 @@ namespace IX.Math.Registration
             this.id = NewId();
 #endif
 
-            this.parameterContexts = new HighPerformanceConcurrentDictionary<string, ParameterContext>();
+            this.parameterContexts = new ConcurrentDictionary<string, ParameterContext>();
         }
 
         public bool Populated => this.parameterContexts.Count > 0;
@@ -39,7 +38,7 @@ namespace IX.Math.Registration
                 throw new ArgumentNullException(nameof(name));
             }
 
-            return this.parameterContexts.GetOrAdd(name, (nameL1) => new ParameterContext(nameL1), name);
+            return this.parameterContexts.GetOrAdd(name, (nameL1) => new ParameterContext(nameL1));
         }
 
         public ParameterContext CloneFrom(ParameterContext previousContext)
@@ -65,13 +64,13 @@ namespace IX.Math.Registration
             {
                 ParameterContext newContext = previousContext.DeepClone();
 
-                this.parameterContexts.Add(name, newContext);
+                this.parameterContexts.TryAdd(name, newContext);
 
                 return newContext;
             }
         }
 
-        public ParameterContext[] Dump() => this.parameterContexts.CopyToArray().Select(p => p.Value).ToArray();
+        public ParameterContext[] Dump() => this.parameterContexts.ToArray().Select(p => p.Value).OrderBy(p => p.Order).ToArray();
 
         public bool Exists(string name) => this.parameterContexts.ContainsKey(name);
     }

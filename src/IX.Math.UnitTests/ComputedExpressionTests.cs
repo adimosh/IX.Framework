@@ -3,6 +3,8 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using IX.StandardExtensions.TestUtils;
 using Moq;
 using Xunit;
@@ -34,800 +36,990 @@ namespace IX.Math.UnitTests
                 new object[]
                 {
                     "3+6",
-                    new object[0],
+                    null,
                     9L,
                 },
                 new object[]
                 {
                     "8-9",
-                    new object[0],
+                    null,
                     -1L,
                 },
                 new object[]
                 {
                     "0=0",
-                    new object[0],
+                    null,
                     true,
                 },
                 new object[]
                 {
                     "\"some string\"=\"some string\"",
-                    new object[0],
+                    null,
                     true,
                 },
                 new object[]
                 {
                     "true=true",
-                    new object[0],
+                    null,
                     true,
                 },
                 new object[]
                 {
                     "0=1",
-                    new object[0],
+                    null,
                     false,
                 },
                 new object[]
                 {
                     "\"some string\"=\"spppng\"",
-                    new object[0],
+                    null,
                     false,
                 },
                 new object[]
                 {
                     "false=true",
-                    new object[0],
+                    null,
                     false,
                 },
                 new object[]
                 {
                     "0!=0",
-                    new object[0],
+                    null,
                     false,
                 },
                 new object[]
                 {
                     "\"some string\"!=\"skskskg\"",
-                    new object[0],
+                    null,
                     true,
                 },
                 new object[]
                 {
                     "false!=true",
-                    new object[0],
+                    null,
                     true,
                 },
                 new object[]
                 {
                     "6-2",
-                    new object[0],
+                    null,
                     4L,
                 },
                 new object[]
                 {
                     "3*6",
-                    new object[0],
+                    null,
                     18L,
                 },
                 new object[]
                 {
                     "3/6",
-                    new object[0],
+                    null,
                     0.5,
                 },
                 new object[]
                 {
                     "6/3",
-                    new object[0],
+                    null,
                     2L,
                 },
                 new object[]
                 {
                     "6^3",
-                    new object[0],
+                    null,
                     216L,
                 },
                 new object[]
                 {
                     @"""3""+6",
-                    new object[0],
+                    null,
                     "36",
                 },
                 new object[]
                 {
                     @"""3""+""6""",
-                    new object[0],
+                    null,
                     "36",
                 },
                 new object[]
                 {
                     @"""3+6""",
-                    new object[0],
+                    null,
                     "3+6",
                 },
                 new object[]
                 {
                     "3+6-2*4",
-                    new object[0],
+                    null,
                     1L,
                 },
                 new object[]
                 {
                     "3+(6-2)*2",
-                    new object[0],
+                    null,
                     11L,
                 },
                 new object[]
                 {
                     "3+(6-2*2)",
-                    new object[0],
+                    null,
                     5L,
                 },
                 new object[]
                 {
                     "1<<2",
-                    new object[0],
+                    null,
                     4L,
                 },
                 new object[]
                 {
                     "3-6+1<<2",
-                    new object[0],
+                    null,
                     1L,
                 },
                 new object[]
                 {
                     "x&y",
-                    new object[2] { 5, 49 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 5,
+                        ["y"] = 49,
+                    },
                     1L,
                 },
                 new object[]
                 {
                     "x|y",
-                    new object[2] { 5, 49 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 5,
+                        ["y"] = 49,
+                    },
                     53L,
                 },
                 new object[]
                 {
                     "x#y",
-                    new object[2] { 5, 49 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 5,
+                        ["y"] = 49,
+                    },
                     52L,
                 },
                 new object[]
                 {
                     "x&y",
-                    new object[2] { true, false },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = true,
+                        ["y"] = false,
+                    },
                     false,
                 },
                 new object[]
                 {
                     "x&y",
-                    new object[2] { true, true },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = true,
+                        ["y"] = true,
+                    },
                     true,
                 },
                 new object[]
                 {
                     "x|y",
-                    new object[2] { true, false },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = true,
+                        ["y"] = false,
+                    },
                     true,
                 },
                 new object[]
                 {
                     "x|(1>2)",
-                    new object[1] { true },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = true,
+                    },
                     true,
                 },
                 new object[]
                 {
                     "x|y",
-                    new object[2] { false, false },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = false,
+                        ["y"] = false,
+                    },
                     false,
                 },
                 new object[]
                 {
                     "x#y",
-                    new object[2] { true, true },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = true,
+                        ["y"] = true,
+                    },
                     false,
                 },
                 new object[]
                 {
                     "x#y",
-                    new object[2] { true, false },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = true,
+                        ["y"] = false,
+                    },
                     true,
                 },
                 new object[]
                 {
                     "x<<y",
-                    new object[2] { 3, 2 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 3,
+                        ["y"] = 2,
+                    },
                     12L,
                 },
                 new object[]
                 {
                     "x>>y",
-                    new object[2] { 3, 1 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 3,
+                        ["y"] = 1,
+                    },
                     1L,
                 },
                 new object[]
                 {
                     "0x1123>>8",
-                    new object[0],
+                    null,
                     17L,
                 },
                 new object[]
                 {
                     "2<<2+1<<2",
-                    new object[0],
+                    null,
                     12L,
                 },
                 new object[]
                 {
                     "1<<1<<2",
-                    new object[0],
+                    null,
                     8L,
                 },
                 new object[]
                 {
                     "1<<2>>2",
-                    new object[0],
+                    null,
                     1L,
                 },
                 new object[]
                 {
                     "((2+3)*2-1)*2",
-                    new object[0],
+                    null,
                     18L,
                 },
                 new object[]
                 {
                     "  3         +        6      ",
-                    new object[0],
+                    null,
                     9L,
                 },
                 new object[]
                 {
                     "3=6",
-                    new object[0],
+                    null,
                     false,
                 },
                 new object[]
                 {
                     "((2+3)*2-1)*2 - x",
-                    new object[] { 12 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 12,
+                    },
                     6D,
                 },
                 new object[]
                 {
                     "x^2",
-                    new object[] { 2 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 2,
+                    },
                     4.0,
                 },
                 new object[]
                 {
                     "x^3",
-                    new object[] { 3 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 3,
+                    },
                     27.0,
                 },
                 new object[]
                 {
                     "x",
-                    new object[] { 12 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 12,
+                    },
                     12D,
                 },
                 new object[]
                 {
                     "2*x-7*y",
-                    new object[] { 12, 2 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 12,
+                        ["y"] = 2,
+                    },
                     10D,
                 },
                 new object[]
                 {
                     "x-y",
-                    new object[] { 12, 2 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 12,
+                        ["y"] = 2,
+                    },
                     10D,
                 },
                 new object[]
                 {
                     "textparam = 12",
-                    new object[] { 13 },
+                    new Dictionary<string, object>
+                    {
+                        ["textparam"] = 13,
+                    },
                     false,
                 },
                 new object[]
                 {
                     "7+14+79<3+(7*12)",
-                    new object[0],
+                    null,
                     false,
                 },
                 new object[]
                 {
                     "-1.00<-1",
-                    new object[0],
+                    null,
                     false,
                 },
                 new object[]
                 {
                     "1<<1",
-                    new object[0],
+                    null,
                     2L,
                 },
                 new object[]
                 {
                     "7/2",
-                    new object[0],
+                    null,
                     3.5,
                 },
                 new object[]
                 {
                     "1<<1 + 2 << 1",
-                    new object[0],
+                    null,
                     6L,
                 },
                 new object[]
                 {
                     "((1+1)-(1-1))+((1-1)-(1+1))",
-                    new object[0],
+                    null,
                     0L,
                 },
                 new object[]
                 {
                     "((6-3)*(3+3))-1",
-                    new object[0],
+                    null,
                     17L,
                 },
                 new object[]
                 {
                     "2+sqrt(4)+2",
-                    new object[0],
+                    null,
                     6L,
                 },
                 new object[]
                 {
                     "2.0*x-7*y",
-                    new object[] { 12.5D, 2 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 12.5D,
+                        ["y"] = 2,
+                    },
                     11.0D,
                 },
                 new object[]
                 {
                     "!x",
-                    new object[] { 32768 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 32768,
+                    },
                     -32769L,
                 },
                 new object[]
                 {
                     "strlen(x)",
-                    new object[] { "alabala" },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = "alabala",
+                    },
                     7L,
                 },
                 new object[]
                 {
                     "21*3-17",
-                    new object[0],
+                    null,
                     46L,
                 },
                 new object[]
                 {
                     "(1+1)*2-3",
-                    new object[0],
+                    null,
                     1L,
                 },
                 new object[]
                 {
                     "sqrt(4)",
-                    new object[0],
+                    null,
                     2L,
                 },
                 new object[]
                 {
                     "sqrt(4.0)",
-                    new object[0],
+                    null,
                     2L,
                 },
                 new object[]
                 {
                     "sqrt(0.49)",
-                    new object[0],
+                    null,
                     0.7,
                 },
                 new object[]
                 {
                     "!4+4",
-                    new object[0],
+                    null,
                     -1L,
                 },
                 new object[]
                 {
                     "212",
-                    new object[0],
+                    null,
                     212L,
                 },
                 new object[]
                 {
                     "String is wonderful",
-                    new object[0],
+                    null,
                     "String is wonderful",
                 },
                 new object[]
                 {
                     "212=String again",
-                    new object[0],
+                    null,
                     "212=String again",
                 },
                 new object[]
                 {
                     "0x10+26",
-                    new object[0],
+                    null,
                     42L,
                 },
                 new object[]
                 {
                     "e",
-                    new object[0],
+                    null,
                     global::System.Math.E,
                 },
                 new object[]
                 {
                     "[pi]",
-                    new object[0],
+                    null,
                     global::System.Math.PI,
                 },
                 new object[]
                 {
                     "e*[pi]",
-                    new object[0],
+                    null,
                     global::System.Math.E * global::System.Math.PI,
                 },
                 new object[]
                 {
                     "min(2,17)",
-                    new object[0],
+                    null,
                     2L,
                 },
                 new object[]
                 {
                     "max(2,17)+1",
-                    new object[0],
+                    null,
                     18L,
                 },
                 new object[]
                 {
                     "(max(2,17)+1)/2",
-                    new object[0],
+                    null,
                     9L,
                 },
                 new object[]
                 {
                     "max(2,17)+max(3,1)",
-                    new object[0],
+                    null,
                     20L,
                 },
                 new object[]
                 {
                     "(sqrt(16)+1)*4-max(20,13)+(27*5-27*4 - sqrt(49))",
-                    new object[0],
+                    null,
                     20L,
                 },
                 new object[]
                 {
                     "strlen(\"This that those\")",
-                    new object[0],
+                    null,
                     15L,
                 },
                 new object[]
                 {
                     "5+strlen(\"This that those\")-10",
-                    new object[0],
+                    null,
                     10L,
                 },
                 new object[]
                 {
                     "min(max(10,5),max(25,10))",
-                    new object[0],
+                    null,
                     10L,
                 },
                 new object[]
                 {
                     "min(max(10,5)+40,3*max(25,10))",
-                    new object[0],
+                    null,
                     50L,
                 },
                 new object[]
                 {
                     "min(max(5+strlen(\"This that those\")-10,5)+40,3*max(25,10))",
-                    new object[0],
+                    null,
                     50L,
                 },
                 new object[]
                 {
                     "1--2",
-                    new object[0],
+                    null,
                     3L,
                 },
                 new object[]
                 {
                     "x+y",
-                    new object[2] { 1, -2 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 1,
+                        ["y"] = -2,
+                    },
                     -1D,
                 },
                 new object[]
                 {
                     "1*-2",
-                    new object[0],
+                    null,
                     -2L,
                 },
                 new object[]
                 {
                     "(x=0) & (y=1)",
-                    new object[2] { 0, 1 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 0,
+                        ["y"] = 1,
+                    },
                     true,
                 },
                 new object[]
                 {
                     "(x=0) | (y=1)",
-                    new object[2] { 0, 0 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 0,
+                        ["y"] = 0,
+                    },
                     true,
                 },
                 new object[]
                 {
                     "(x=0) & (y=1)",
-                    new object[2] { 0, 2 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 0,
+                        ["y"] = 2,
+                    },
                     false,
                 },
                 new object[]
                 {
                     "(x>0) & (y<1)",
-                    new object[2] { 1, 0 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 1,
+                        ["y"] = 0,
+                    },
                     true,
                 },
                 new object[]
                 {
                     "abs(x)",
-                    new object[] { -1 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = -1,
+                    },
                     1D,
                 },
                 new object[]
                 {
                     "abs(0x1)",
-                    new object[0],
+                    null,
                     1L,
                 },
                 new object[]
                 {
                     "sqrt(x)",
-                    new object[] { 2 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 2,
+                    },
                     1.4142135623730951,
                 },
                 new object[]
                 {
                     "sqrt(x)",
-                    new object[] { 9 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 9,
+                    },
                     3D,
                 },
                 new object[]
                 {
                     "ceil(x)",
-                    new object[] { 2.2 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 2.2,
+                    },
                     3D,
                 },
                 new object[]
                 {
                     "floor(x)",
-                    new object[] { 4.9 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 4.9,
+                    },
                     4D,
                 },
                 new object[]
                 {
                     "round(x)",
-                    new object[] { 3.5 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 3.5,
+                    },
                     4D,
                 },
                 new object[]
                 {
                     "round(x)",
-                    new object[] { 2.49 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 2.49,
+                    },
                     2D,
                 },
                 new object[]
                 {
                     "(2*max(x,500)-y)/pow(x,2)",
-                    new object[] { 217, 323 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 217,
+                        ["y"] = 323,
+                    },
                     0.014377030729045,
                 },
                 new object[]
                 {
                     "min(max(x,y),10)",
-                    new object[] { 5, 3 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 5,
+                        ["y"] = 3,
+                    },
                     5D,
                 },
                 new object[]
                 {
                     "min(max(x,y),max(y,500)*2-min(995,pow(x,200)))",
-                    new object[] { 5, 3 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 5,
+                        ["y"] = 3,
+                    },
                     5D,
                 },
                 new object[]
                 {
                     "max(max(x,y),max(y,500)*2-995)",
-                    new object[] { 5.5, 3 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 5.5,
+                        ["y"] = 3,
+                    },
                     5.5,
                 },
                 new object[]
                 {
                     "substr(x,y)",
-                    new object[] { "aaabbb", 3 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = "aaabbb",
+                        ["y"] = 3,
+                    },
                     "bbb",
                 },
                 new object[]
                 {
                     "substr(x,y,z)",
-                    new object[] { "aaabbb", 3, 2 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = "aaabbb",
+                        ["y"] = 3,
+                        ["z"] = 2,
+                    },
                     "bb",
                 },
                 new object[]
                 {
                     "strlen(substr(x,y,z))",
-                    new object[] { "aaabbb", 3, 2 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = "aaabbb",
+                        ["y"] = 3,
+                        ["z"] = 2,
+                    },
                     2L,
                 },
                 new object[]
                 {
                     "substr(x,y,z)+substr(q,y,z)",
-                    new object[] { "aaabbb", 3, 2, "ccccddd" },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = "aaabbb",
+                        ["y"] = 3,
+                        ["z"] = 2,
+                        ["q"] = "ccccddd",
+                    },
                     "bbcd",
                 },
                 new object[]
                 {
                     "\"aaa\" + \"bbb\"",
-                    new object[0],
+                    null,
                     "aaabbb",
                 },
                 new object[]
                 {
                     "\"aaa\" + substr(\"bbbbbb\", 1, 1)",
-                    new object[0],
+                    null,
                     "aaab",
                 },
                 new object[]
                 {
                     "\"aaa\" > \"bbb\"",
-                    new object[0],
+                    null,
                     false,
                 },
                 new object[]
                 {
                     "\"aaa\" > x",
-                    new object[1] { "z" },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = "z",
+                    },
                     false,
                 },
                 new object[]
                 {
                     "\"aaa\" < \"bbb\"",
-                    new object[0],
+                    null,
                     true,
                 },
                 new object[]
                 {
                     "\"aaa\" < x",
-                    new object[1] { "aa" },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = "aa",
+                    },
                     false,
                 },
                 new object[]
                 {
                     "\"aaa\" >= \"bbb\"",
-                    new object[0],
+                    null,
                     false,
                 },
                 new object[]
                 {
                     "\"aaa\" >= x",
-                    new object[1] { "z" },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = "z",
+                    },
                     false,
                 },
                 new object[]
                 {
                     "\"aaa\" <= \"bbb\"",
-                    new object[0],
+                    null,
                     true,
                 },
                 new object[]
                 {
                     "\"aaa\" <= x",
-                    new object[1] { "aa" },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = "aa",
+                    },
                     false,
                 },
                 new object[]
                 {
                     "\"aaa\" <= \"aaa\"",
-                    new object[0],
+                    null,
                     true,
                 },
                 new object[]
                 {
                     "\"aaa\" >= \"aaa\"",
-                    new object[0],
+                    null,
                     true,
                 },
                 new object[]
                 {
                     "tempVariable1=2",
-                    new object[1] { 2 },
+                    new Dictionary<string, object>
+                    {
+                        ["tempVariable1"] = 2,
+                    },
                     true,
                 },
                 new object[]
                 {
                     "6/2*3",
-                    new object[0],
+                    null,
                     9L,
                 },
                 new object[]
                 {
                     "x=\" \"",
-                    new object[1] { " " },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = " ",
+                    },
                     true,
                 },
                 new object[]
                 {
                     "x=\"\"",
-                    new object[1] { string.Empty },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = string.Empty,
+                    },
                     true,
                 },
                 new object[]
                 {
                     "0b1001010111010110110010000000010010101110101=0b1001010111010110110010000000010010101110101",
-                    new object[0],
+                    null,
                     true,
                 },
                 new object[]
                 {
                     "0b1001010111010110110011111000010010101110101=0b1001010111010110110010000000011111101110101",
-                    new object[0],
+                    null,
                     false,
                 },
                 new object[]
                 {
                     "x=0b1001010111010110110010000000010010101110101",
-                    new object[1] { BitConverter.GetBytes(0b1001010111010110110010000000010010101110101) },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110101),
+                    },
                     true,
                 },
                 new object[]
                 {
                     "0b1001010111010110110010000000010010101110101!=0b1001010111010110110010000000010010101110101",
-                    new object[0],
+                    null,
                     false,
                 },
                 new object[]
                 {
                     "0b1001010111010110110011111000010010101110101!=0b1001010111010110110010000000011111101110101",
-                    new object[0],
+                    null,
                     true,
                 },
                 new object[]
                 {
                     "x!=0b1001010111010110110010000000010010101110101",
-                    new object[1] { BitConverter.GetBytes(0b1001010111010110110010000000010010101110101) },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110101),
+                    },
                     false,
                 },
                 new object[]
                 {
                     "x*(x+1)*(x+2)",
-                    new object[1] { 5 },
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = 5,
+                    },
                     210D,
                 },
                 new object[]
                 {
                     "tempVar1+tempVar1",
-                    new object[1] { 5 },
+                    new Dictionary<string, object>
+                    {
+                        ["tempVar1"] = 5,
+                    },
                     10D,
                 },
 #if false
                 new object[]
                 {
                     "2.12+6.274E+1",
-                    new object[0],
+                    null,
                     64.84D,
                 },
                 new object[]
                 {
                     "2.12+6.274E1",
-                    new object[0],
+                    null,
                     64.84D,
                 },
 #endif
@@ -844,7 +1036,7 @@ namespace IX.Math.UnitTests
         /// </exception>
         [Theory(DisplayName = "EPSPara")]
         [MemberData(nameof(ProvideDataForTheory))]
-        public void ComputedExpressionWithParameters(string expression, object[] parameters, object expectedResult)
+        public void ComputedExpressionWithParameters(string expression, Dictionary<string, object> parameters, object expectedResult)
         {
             using (var service = new ExpressionParsingService())
             {
@@ -855,7 +1047,7 @@ namespace IX.Math.UnitTests
                     throw new InvalidOperationException("No computed expression was generated!");
                 }
 
-                var result = del.Compute(parameters);
+                var result = del.Compute(parameters?.Values?.ToArray() ?? new object[0]);
 
                 Assert.Equal(expectedResult, result);
             }
@@ -872,7 +1064,7 @@ namespace IX.Math.UnitTests
         /// </exception>
         [Theory(DisplayName = "EPSFindr")]
         [MemberData(nameof(ProvideDataForTheory))]
-        public void ComputedExpressionWithFinder(string expression, object[] parameters, object expectedResult)
+        public void ComputedExpressionWithFinder(string expression, Dictionary<string, object> parameters, object expectedResult)
         {
             using (var service = new ExpressionParsingService())
             {
@@ -885,12 +1077,14 @@ namespace IX.Math.UnitTests
                     throw new InvalidOperationException("No computed expression was generated!");
                 }
 
-                for (var i = 0; i < global::System.Math.Min(del.ParameterNames.Length, parameters.Length); i++)
+                if (parameters != null)
                 {
-                    var valueName = del.ParameterNames[i];
-                    var outValue = parameters[i];
-
-                    finder.Setup(p => p.TryGetData(valueName, out outValue)).Returns(true);
+                    foreach (KeyValuePair<string, object> parameter in parameters)
+                    {
+                        var key = parameter.Key;
+                        var value = parameter.Value;
+                        finder.Setup(p => p.TryGetData(key, out value)).Returns(true);
+                    }
                 }
 
                 var result = del.Compute(finder.Object);
@@ -910,7 +1104,7 @@ namespace IX.Math.UnitTests
         /// </exception>
         [Theory(DisplayName = "CEPSPara")]
         [MemberData(nameof(ProvideDataForTheory))]
-        public void CachedComputedExpressionWithParameters(string expression, object[] parameters, object expectedResult)
+        public void CachedComputedExpressionWithParameters(string expression, Dictionary<string, object> parameters, object expectedResult)
         {
             ComputedExpression del = this.fixture.Service.Interpret(expression);
 
@@ -919,7 +1113,7 @@ namespace IX.Math.UnitTests
                 throw new InvalidOperationException("No computed expression was generated!");
             }
 
-            var result = del.Compute(parameters);
+            var result = del.Compute(parameters?.Values?.ToArray() ?? new object[0]);
 
             Assert.Equal(expectedResult, result);
         }
@@ -935,7 +1129,7 @@ namespace IX.Math.UnitTests
         /// </exception>
         [Theory(DisplayName = "CEPSFindr")]
         [MemberData(nameof(ProvideDataForTheory))]
-        public void CachedComputedExpressionWithFinder(string expression, object[] parameters, object expectedResult)
+        public void CachedComputedExpressionWithFinder(string expression, Dictionary<string, object> parameters, object expectedResult)
         {
             var finder = new Mock<IDataFinder>(MockBehavior.Loose);
 
@@ -946,12 +1140,14 @@ namespace IX.Math.UnitTests
                 throw new InvalidOperationException("No computed expression was generated!");
             }
 
-            for (var i = 0; i < global::System.Math.Min(del.ParameterNames.Length, parameters.Length); i++)
+            if (parameters != null)
             {
-                var valueName = del.ParameterNames[i];
-                var outValue = parameters[i];
-
-                finder.Setup(p => p.TryGetData(valueName, out outValue)).Returns(true);
+                foreach (KeyValuePair<string, object> parameter in parameters)
+                {
+                    var key = parameter.Key;
+                    var value = parameter.Value;
+                    finder.Setup(p => p.TryGetData(key, out value)).Returns(true);
+                }
             }
 
             var result = del.Compute(finder.Object);
@@ -970,7 +1166,7 @@ namespace IX.Math.UnitTests
         /// </exception>
         [Theory(DisplayName = "EPSFindrFunc")]
         [MemberData(nameof(ProvideDataForTheory))]
-        public void ComputedExpressionWithFunctionFinder(string expression, object[] parameters, object expectedResult)
+        public void ComputedExpressionWithFunctionFinder(string expression, Dictionary<string, object> parameters, object expectedResult)
         {
             using (var service = new ExpressionParsingService())
             {
@@ -983,12 +1179,14 @@ namespace IX.Math.UnitTests
                     throw new InvalidOperationException("No computed expression was generated!");
                 }
 
-                for (var i = 0; i < global::System.Math.Min(del.ParameterNames.Length, parameters.Length); i++)
+                if (parameters != null)
                 {
-                    var valueName = del.ParameterNames[i];
-                    var outValue = this.GenerateFuncOutOfParameterValue(parameters[i]);
-
-                    finder.Setup(p => p.TryGetData(valueName, out outValue)).Returns(true);
+                    foreach (KeyValuePair<string, object> parameter in parameters)
+                    {
+                        var key = parameter.Key;
+                        var value = parameter.Value;
+                        finder.Setup(p => p.TryGetData(key, out value)).Returns(true);
+                    }
                 }
 
                 var result = del.Compute(finder.Object);
@@ -1008,7 +1206,7 @@ namespace IX.Math.UnitTests
         /// </exception>
         [Theory(DisplayName = "CEPSFindrFunc")]
         [MemberData(nameof(ProvideDataForTheory))]
-        public void CachedComputedExpressionWithFunctionFinder(string expression, object[] parameters, object expectedResult)
+        public void CachedComputedExpressionWithFunctionFinder(string expression, Dictionary<string, object> parameters, object expectedResult)
         {
             var finder = new Mock<IDataFinder>(MockBehavior.Loose);
 
@@ -1019,12 +1217,14 @@ namespace IX.Math.UnitTests
                 throw new InvalidOperationException("No computed expression was generated!");
             }
 
-            for (var i = 0; i < global::System.Math.Min(del.ParameterNames.Length, parameters.Length); i++)
+            if (parameters != null)
             {
-                var valueName = del.ParameterNames[i];
-                var outValue = this.GenerateFuncOutOfParameterValue(parameters[i]);
-
-                finder.Setup(p => p.TryGetData(valueName, out outValue)).Returns(true);
+                foreach (KeyValuePair<string, object> parameter in parameters)
+                {
+                    var key = parameter.Key;
+                    var value = parameter.Value;
+                    finder.Setup(p => p.TryGetData(key, out value)).Returns(true);
+                }
             }
 
             var result = del.Compute(finder.Object);
@@ -1043,7 +1243,7 @@ namespace IX.Math.UnitTests
         /// </exception>
         [Theory(DisplayName = "CEPSFindrFuncRepeated")]
         [MemberData(nameof(ProvideDataForTheory))]
-        public void CachedComputedExpressionWithFunctionFinderRepeated(string expression, object[] parameters, object expectedResult)
+        public void CachedComputedExpressionWithFunctionFinderRepeated(string expression, Dictionary<string, object> parameters, object expectedResult)
         {
             var indexLimit = DataGenerator.RandomInteger(3, 5);
             for (var index = 0; index < indexLimit; index++)
@@ -1057,12 +1257,14 @@ namespace IX.Math.UnitTests
                     throw new InvalidOperationException("No computed expression was generated!");
                 }
 
-                for (var i = 0; i < global::System.Math.Min(del.ParameterNames.Length, parameters.Length); i++)
+                if (parameters != null)
                 {
-                    var valueName = del.ParameterNames[i];
-                    var outValue = this.GenerateFuncOutOfParameterValue(parameters[i]);
-
-                    finder.Setup(p => p.TryGetData(valueName, out outValue)).Returns(true);
+                    foreach (KeyValuePair<string, object> parameter in parameters)
+                    {
+                        var key = parameter.Key;
+                        var value = parameter.Value;
+                        finder.Setup(p => p.TryGetData(key, out value)).Returns(true);
+                    }
                 }
 
                 var result = del.Compute(finder.Object);

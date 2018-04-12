@@ -67,6 +67,9 @@ namespace IX.Math
 
             workingSet.CancellationToken.ThrowIfCancellationRequested();
 
+            // We save a split expression for determining parameter order
+            var splitExpression = workingSet.Expression.Split(workingSet.AllSymbols.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+
             // Break by parentheses
             ParenthesesExpressionGenerator.FormatParentheses(
                 workingSet.Definition.Parentheses.Item1,
@@ -91,6 +94,12 @@ namespace IX.Math
                     workingSet.Expression,
                     workingSet.Definition.Parentheses.Item1,
                     workingSet.AllOperatorsInOrder);
+            }
+
+            // For each parameter from the table we've just populated, see where it's first used, and fill in that index as the order
+            foreach (Registration.ParameterContext paramForOrdering in workingSet.ParameterRegistry.Dump())
+            {
+                paramForOrdering.Order = Array.IndexOf(splitExpression, paramForOrdering.Name);
             }
 
             workingSet.CancellationToken.ThrowIfCancellationRequested();
@@ -157,7 +166,7 @@ namespace IX.Math
                 return c1;
             }
 
-            if (workingSet.ReverseConstantsTable.TryGetValue(expression, out string c2))
+            if (workingSet.ReverseConstantsTable.TryGetValue(expression, out var c2))
             {
                 if (workingSet.ConstantsTable.TryGetValue(c2, out ConstantNodeBase c3))
                 {
@@ -177,7 +186,7 @@ namespace IX.Math
                 return GenerateExpression(e1.Expression, workingSet);
             }
 
-            if (workingSet.ReverseSymbolTable.TryGetValue(expression, out string e2))
+            if (workingSet.ReverseSymbolTable.TryGetValue(expression, out var e2))
             {
                 if (workingSet.SymbolTable.TryGetValue(e2, out ExpressionSymbol e3))
                 {

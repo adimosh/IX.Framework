@@ -230,32 +230,32 @@ namespace IX.Math
             var binaryOperators = new LevelDictionary<string, Type>
             {
                 // First tier - Comparison and equation operators
-                { this.Definition.GreaterThanOrEqualSymbol, typeof(Nodes.Operations.Binary.GreaterThanOrEqualNode), 1 },
-                { this.Definition.LessThanOrEqualSymbol, typeof(Nodes.Operations.Binary.LessThanOrEqualNode), 1 },
-                { this.Definition.GreaterThanSymbol, typeof(Nodes.Operations.Binary.GreaterThanNode), 1 },
-                { this.Definition.LessThanSymbol, typeof(Nodes.Operations.Binary.LessThanNode), 1 },
-                { this.Definition.NotEqualsSymbol, typeof(Nodes.Operations.Binary.NotEqualsNode), 1 },
-                { this.Definition.EqualsSymbol, typeof(Nodes.Operations.Binary.EqualsNode), 1 },
+                { this.Definition.GreaterThanOrEqualSymbol, typeof(Nodes.Operations.Binary.GreaterThanOrEqualNode), 10 },
+                { this.Definition.LessThanOrEqualSymbol, typeof(Nodes.Operations.Binary.LessThanOrEqualNode), 10 },
+                { this.Definition.GreaterThanSymbol, typeof(Nodes.Operations.Binary.GreaterThanNode), 10 },
+                { this.Definition.LessThanSymbol, typeof(Nodes.Operations.Binary.LessThanNode), 10 },
+                { this.Definition.NotEqualsSymbol, typeof(Nodes.Operations.Binary.NotEqualsNode), 10 },
+                { this.Definition.EqualsSymbol, typeof(Nodes.Operations.Binary.EqualsNode), 10 },
 
                 // Second tier - Logical operators
-                { this.Definition.XorSymbol, typeof(Nodes.Operations.Binary.XorNode), 2 },
-                { this.Definition.OrSymbol, typeof(Nodes.Operations.Binary.OrNode), 2 },
-                { this.Definition.AndSymbol, typeof(Nodes.Operations.Binary.AndNode), 2 },
+                { this.Definition.OrSymbol, typeof(Nodes.Operations.Binary.OrNode), 20 },
+                { this.Definition.XorSymbol, typeof(Nodes.Operations.Binary.XorNode), this.Definition.OperatorPrecedenceStyle == OperatorPrecedenceStyle.CStyle ? 21 : 20 },
+                { this.Definition.AndSymbol, typeof(Nodes.Operations.Binary.AndNode), this.Definition.OperatorPrecedenceStyle == OperatorPrecedenceStyle.CStyle ? 22 : 20 },
 
                 // Third tier - Arithmetic second-rank operators
-                { this.Definition.AddSymbol, typeof(Nodes.Operations.Binary.AddNode), 3 },
-                { this.Definition.SubtractSymbol, typeof(Nodes.Operations.Binary.SubtractNode), 3 },
+                { this.Definition.AddSymbol, typeof(Nodes.Operations.Binary.AddNode), 30 },
+                { this.Definition.SubtractSymbol, typeof(Nodes.Operations.Binary.SubtractNode), 30 },
 
-                // Fourth tier - Arithmetic second-rank operators
-                { this.Definition.DivideSymbol, typeof(Nodes.Operations.Binary.DivideNode), 4 },
-                { this.Definition.MultiplySymbol, typeof(Nodes.Operations.Binary.MultiplyNode), 4 },
+                // Fourth tier - Arithmetic first-rank operators
+                { this.Definition.DivideSymbol, typeof(Nodes.Operations.Binary.DivideNode), 40 },
+                { this.Definition.MultiplySymbol, typeof(Nodes.Operations.Binary.MultiplyNode), 40 },
 
                 // Fifth tier - Power operator
-                { this.Definition.PowerSymbol, typeof(Nodes.Operations.Binary.PowerNode), 5 },
+                { this.Definition.PowerSymbol, typeof(Nodes.Operations.Binary.PowerNode), 50 },
 
                 // Sixth tier - Bitwise shift operators
-                { this.Definition.LeftShiftSymbol, typeof(Nodes.Operations.Binary.LeftShiftNode), 6 },
-                { this.Definition.RightShiftSymbol, typeof(Nodes.Operations.Binary.RightShiftNode), 6 },
+                { this.Definition.LeftShiftSymbol, typeof(Nodes.Operations.Binary.LeftShiftNode), 60 },
+                { this.Definition.RightShiftSymbol, typeof(Nodes.Operations.Binary.RightShiftNode), 60 },
             };
 
             this.BinaryOperators = binaryOperators;

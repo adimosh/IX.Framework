@@ -52,7 +52,7 @@ namespace IX.Math.Formatters
                 in string hexExpression,
                 out object hexResult)
             {
-                if (long.TryParse(hexExpression, HexNumberStyle, CultureInfo.CurrentCulture, out long intVal))
+                if (long.TryParse(hexExpression, HexNumberStyle, CultureInfo.CurrentCulture, out var intVal))
                 {
                     hexResult = intVal;
                     return true;
@@ -68,12 +68,12 @@ namespace IX.Math.Formatters
             {
                 IFormatProvider formatProvider = CultureInfo.CurrentCulture;
 
-                if (long.TryParse(specificExpression, IntegerNumberStyle, formatProvider, out long intVal))
+                if (long.TryParse(specificExpression, IntegerNumberStyle, formatProvider, out var intVal))
                 {
                     specificResult = intVal;
                     return true;
                 }
-                else if (double.TryParse(specificExpression, FloatNumberStyle, formatProvider, out double doubleVal))
+                else if (double.TryParse(specificExpression, FloatNumberStyle, formatProvider, out var doubleVal))
                 {
                     specificResult = doubleVal;
                     return true;
@@ -120,7 +120,7 @@ namespace IX.Math.Formatters
                     byteLength++;
                 }
 
-                byte[] bytes = new byte[byteLength];
+                var bytes = new byte[byteLength];
 
                 try
                 {
