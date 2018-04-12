@@ -49,6 +49,7 @@ namespace IX.Math
             this.SubtractSymbol = definition.SubtractSymbol;
             this.XorSymbol = definition.XorSymbol;
             this.AutoConvertStringFormatSpecifier = definition.AutoConvertStringFormatSpecifier;
+            this.OperatorPrecedenceStyle = definition.OperatorPrecedenceStyle;
         }
 
         /// <summary>
@@ -208,6 +209,13 @@ namespace IX.Math
         public string AutoConvertStringFormatSpecifier { get; set; }
 
         /// <summary>
+        /// Gets or sets the operator precedence style. Default is mathematical.
+        /// </summary>
+        /// <value>The operator precedence style.</value>
+        [DataMember]
+        public OperatorPrecedenceStyle OperatorPrecedenceStyle { get; set; }
+
+        /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
@@ -236,6 +244,7 @@ namespace IX.Math
                 SubtractSymbol = this.SubtractSymbol,
                 XorSymbol = this.XorSymbol,
                 AutoConvertStringFormatSpecifier = this.AutoConvertStringFormatSpecifier,
+                OperatorPrecedenceStyle = this.OperatorPrecedenceStyle,
             };
     }
 }
