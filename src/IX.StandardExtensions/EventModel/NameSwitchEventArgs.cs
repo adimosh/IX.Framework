@@ -22,7 +22,7 @@ namespace IX.StandardExtensions.EventModel
             this.Value = switchValue;
         }
 
-#pragma warning disable SA1623 // Property summary documentation should match accessors - It matches, however the analyzer expects that this is a switch instead of a boolean valule.
+#pragma warning disable SA1623 // Property summary documentation should match accessors - It matches, however the analyzer expects that this is a switch instead of a boolean value.
         /// <summary>
         /// Gets the value of the switch.
         /// </summary>
