@@ -1248,7 +1248,7 @@ namespace IX.Math.UnitTests
                     foreach (KeyValuePair<string, object> parameter in parameters)
                     {
                         var key = parameter.Key;
-                        var value = parameter.Value;
+                        var value = this.GenerateFuncOutOfParameterValue(parameter.Value);
                         finder.Setup(p => p.TryGetData(key, out value)).Returns(true);
                     }
                 }
@@ -1286,7 +1286,7 @@ namespace IX.Math.UnitTests
                 foreach (KeyValuePair<string, object> parameter in parameters)
                 {
                     var key = parameter.Key;
-                    var value = parameter.Value;
+                    var value = this.GenerateFuncOutOfParameterValue(parameter.Value);
                     finder.Setup(p => p.TryGetData(key, out value)).Returns(true);
                 }
             }
@@ -1326,7 +1326,7 @@ namespace IX.Math.UnitTests
                     foreach (KeyValuePair<string, object> parameter in parameters)
                     {
                         var key = parameter.Key;
-                        var value = parameter.Value;
+                        var value = this.GenerateFuncOutOfParameterValue(parameter.Value);
                         finder.Setup(p => p.TryGetData(key, out value)).Returns(true);
                     }
                 }

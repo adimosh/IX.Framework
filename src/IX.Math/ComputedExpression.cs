@@ -488,7 +488,7 @@ namespace IX.Math
                                     }
                                     else
                                     {
-                                        paraContext.DetermineFloat();
+                                        paraContext.DetermineInteger();
                                         continue;
                                     }
 
@@ -657,7 +657,7 @@ namespace IX.Math
                                     break;
 
                                 case SupportedValueType.Unknown:
-                                    paraContext.DetermineType(SupportedValueType.Numeric);
+                                    paraContext.DetermineType(SupportedValueType.String);
                                     continue;
                             }
 
