@@ -690,6 +690,15 @@ namespace IX.Math.UnitTests
                 },
                 new object[]
                 {
+                    "abs(x)",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = -1D,
+                    },
+                    1D,
+                },
+                new object[]
+                {
                     "abs(0x1)",
                     null,
                     1L,
