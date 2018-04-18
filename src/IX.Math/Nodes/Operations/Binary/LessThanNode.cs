@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 using IX.Math.Nodes.Constants;
-using IX.Math.PlatformMitigation;
 using IX.StandardExtensions;
 
 namespace IX.Math.Nodes.Operations.Binary
@@ -56,7 +55,7 @@ namespace IX.Math.Nodes.Operations.Binary
             Tuple<Expression, Expression> pars = this.GetExpressionsOfSameTypeFromOperands();
             if (pars.Item1.Type == typeof(string))
             {
-                MethodInfo mi = typeof(string).GetTypeMethod(nameof(string.Compare), typeof(string), typeof(string));
+                MethodInfo mi = typeof(string).GetMethodWithExactParameters(nameof(string.Compare), typeof(string), typeof(string));
                 return Expression.LessThan(
                     Expression.Call(mi, this.Left.GenerateStringExpression(), this.Right.GenerateStringExpression()),
                     Expression.Constant(0, typeof(int)));
@@ -72,7 +71,7 @@ namespace IX.Math.Nodes.Operations.Binary
             {
                 return Expression.LessThan(
                     Expression.Call(
-                        typeof(ArraySequenceCompareWithMsbExtensions).GetTypeMethod(nameof(ArraySequenceCompareWithMsbExtensions.SequenceCompareWithMsb), typeof(byte[]), typeof(byte[])),
+                        typeof(ArraySequenceCompareWithMsbExtensions).GetMethodWithExactParameters(nameof(ArraySequenceCompareWithMsbExtensions.SequenceCompareWithMsb), typeof(byte[]), typeof(byte[])),
                         pars.Item1,
                         pars.Item2),
                     Expression.Constant(0, typeof(int)));

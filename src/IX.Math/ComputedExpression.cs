@@ -261,7 +261,7 @@ namespace IX.Math
                                         }
                                         else
                                         {
-                                            paraContext.DetermineFloat();
+                                            paraContext.DetermineInteger();
                                             continue;
                                         }
                                     }

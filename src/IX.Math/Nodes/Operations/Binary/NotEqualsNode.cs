@@ -6,7 +6,6 @@ using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using IX.Math.Nodes.Constants;
-using IX.Math.PlatformMitigation;
 using IX.StandardExtensions;
 
 namespace IX.Math.Nodes.Operations.Binary
@@ -58,7 +57,7 @@ namespace IX.Math.Nodes.Operations.Binary
             {
                 return Expression.Equal(
                     Expression.Call(
-                        typeof(ArraySequenceEqualsWithMsbExtensions).GetTypeMethod(nameof(ArraySequenceEqualsWithMsbExtensions.SequenceEqualsWithMsb), typeof(byte[]), typeof(byte[])),
+                        typeof(ArraySequenceEqualsWithMsbExtensions).GetMethodWithExactParameters(nameof(ArraySequenceEqualsWithMsbExtensions.SequenceEqualsWithMsb), typeof(byte[]), typeof(byte[])),
                         pars.Item1,
                         pars.Item2),
                     Expression.Constant(false, typeof(bool)));

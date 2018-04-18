@@ -5,7 +5,6 @@
 using System.Diagnostics;
 using System.Linq.Expressions;
 using IX.Math.Nodes.Constants;
-using IX.Math.PlatformMitigation;
 using IX.StandardExtensions;
 
 namespace IX.Math.Nodes.Operations.Binary
@@ -50,7 +49,7 @@ namespace IX.Math.Nodes.Operations.Binary
             else if (this.Left.ReturnType == SupportedValueType.ByteArray)
             {
                 return Expression.Call(
-                    typeof(BitwiseExtensions).GetTypeMethod(nameof(BitwiseExtensions.LeftShift), typeof(byte[]), typeof(int)),
+                    typeof(BitwiseExtensions).GetMethodWithExactParameters(nameof(BitwiseExtensions.LeftShift), typeof(byte[]), typeof(int)),
                     this.Left.GenerateExpression(),
                     rightExpression);
             }

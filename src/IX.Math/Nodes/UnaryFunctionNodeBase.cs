@@ -5,7 +5,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using IX.Math.PlatformMitigation;
+using IX.StandardExtensions;
 
 namespace IX.Math.Nodes
 {
@@ -67,25 +67,25 @@ namespace IX.Math.Nodes
 
             Type parameterType = ParameterTypeFromParameter(this.Parameter);
 
-            MethodInfo mi = t.GetTypeMethod(functionName, parameterType);
+            MethodInfo mi = t.GetMethodWithExactParameters(functionName, parameterType);
 
             if (mi == null)
             {
                 parameterType = typeof(double);
 
-                mi = t.GetTypeMethod(functionName, parameterType);
+                mi = t.GetMethodWithExactParameters(functionName, parameterType);
 
                 if (mi == null)
                 {
                     parameterType = typeof(long);
 
-                    mi = t.GetTypeMethod(functionName, parameterType);
+                    mi = t.GetMethodWithExactParameters(functionName, parameterType);
 
                     if (mi == null)
                     {
                         parameterType = typeof(int);
 
-                        mi = t.GetTypeMethod(functionName, parameterType) ??
+                        mi = t.GetMethodWithExactParameters(functionName, parameterType) ??
                             throw new ArgumentException(string.Format(Resources.FunctionCouldNotBeFound, functionName), nameof(functionName));
                     }
                 }

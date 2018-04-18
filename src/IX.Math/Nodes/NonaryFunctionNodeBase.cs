@@ -5,7 +5,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using IX.Math.PlatformMitigation;
+using IX.StandardExtensions;
 
 namespace IX.Math.Nodes
 {
@@ -47,7 +47,7 @@ namespace IX.Math.Nodes
                 throw new ArgumentException(string.Format(Resources.FunctionCouldNotBeFound, functionName), nameof(functionName));
             }
 
-            MethodInfo mi = t.GetTypeMethod(
+            MethodInfo mi = t.GetMethodWithExactParameters(
                 functionName,
 #if NETSTANDARD2_0
                 Array.Empty<Type>())

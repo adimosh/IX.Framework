@@ -4,7 +4,6 @@
 
 using System;
 using System.Linq.Expressions;
-using IX.Math.PlatformMitigation;
 using IX.StandardExtensions;
 
 namespace IX.Math.Registration
@@ -241,7 +240,7 @@ namespace IX.Math.Registration
             this.stringExpression =
                 (this.ReturnType == SupportedValueType.String) ?
                 this.expression :
-                Expression.Call(this.expression, typeof(object).GetTypeMethod(
+                Expression.Call(this.expression, typeof(object).GetMethodWithExactParameters(
                     nameof(object.ToString),
 #if NETSTANDARD2_0
                     Array.Empty<Type>()));

@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using IX.Math.Nodes.Constants;
-using IX.Math.PlatformMitigation;
+using IX.StandardExtensions;
 
 namespace IX.Math.Nodes.Operations.Binary
 {
@@ -179,7 +179,7 @@ namespace IX.Math.Nodes.Operations.Binary
 
             if (this.ReturnType == SupportedValueType.String)
             {
-                global::System.Reflection.MethodInfo mi = typeof(string).GetTypeMethod(nameof(string.Concat), typeof(string), typeof(string));
+                global::System.Reflection.MethodInfo mi = typeof(string).GetMethodWithExactParameters(nameof(string.Concat), typeof(string), typeof(string));
                 return Expression.Call(mi, pars.Item1, pars.Item2);
             }
             else

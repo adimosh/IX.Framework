@@ -372,7 +372,7 @@ namespace IX.Math.UnitTests
                     {
                         ["x"] = 12,
                     },
-                    12D,
+                    12L,
                 },
                 new object[]
                 {
@@ -631,7 +631,7 @@ namespace IX.Math.UnitTests
                         ["x"] = 1,
                         ["y"] = -2,
                     },
-                    -1D,
+                    -1L,
                 },
                 new object[]
                 {
@@ -1007,7 +1007,62 @@ namespace IX.Math.UnitTests
                     {
                         ["tempVar1"] = 5,
                     },
+                    10L,
+                },
+                new object[]
+                {
+                    "tempVar1+tempVar2",
+                    new Dictionary<string, object>
+                    {
+                        ["tempVar1"] = 5,
+                        ["tempVar1"] = 5D,
+                    },
                     10D,
+                },
+                new object[]
+                {
+                    "tempVar1",
+                    new Dictionary<string, object>
+                    {
+                        ["tempVar1"] = 5D,
+                    },
+                    5D,
+                },
+                new object[]
+                {
+                    "tempVar1",
+                    new Dictionary<string, object>
+                    {
+                        ["tempVar1"] = "aaa",
+                    },
+                    "aaa",
+                },
+                new object[]
+                {
+                    "tempVar1",
+                    new Dictionary<string, object>
+                    {
+                        ["tempVar1"] = 5L,
+                    },
+                    5L,
+                },
+                new object[]
+                {
+                    "tempVar1",
+                    new Dictionary<string, object>
+                    {
+                        ["tempVar1"] = true,
+                    },
+                    true,
+                },
+                new object[]
+                {
+                    "tempVar1",
+                    new Dictionary<string, object>
+                    {
+                        ["tempVar1"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110101),
+                    },
+                    BitConverter.GetBytes(0b1001010111010110110010000000010010101110101),
                 },
 #if false
                 new object[]

@@ -5,7 +5,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using IX.Math.PlatformMitigation;
+using IX.StandardExtensions;
 
 namespace IX.Math.Nodes
 {
@@ -81,7 +81,7 @@ namespace IX.Math.Nodes
             Type firstParameterType = ParameterTypeFromParameter(this.FirstParameter);
             Type secondParameterType = ParameterTypeFromParameter(this.SecondParameter);
 
-            MethodInfo mi = t.GetTypeMethod(functionName, firstParameterType, secondParameterType);
+            MethodInfo mi = t.GetMethodWithExactParameters(functionName, firstParameterType, secondParameterType);
 
             if (mi == null)
             {
@@ -91,21 +91,21 @@ namespace IX.Math.Nodes
                     firstParameterType = typeof(double);
                     secondParameterType = typeof(double);
 
-                    mi = t.GetTypeMethod(functionName, firstParameterType, secondParameterType);
+                    mi = t.GetMethodWithExactParameters(functionName, firstParameterType, secondParameterType);
 
                     if (mi == null)
                     {
                         firstParameterType = typeof(long);
                         secondParameterType = typeof(long);
 
-                        mi = t.GetTypeMethod(functionName, firstParameterType, secondParameterType);
+                        mi = t.GetMethodWithExactParameters(functionName, firstParameterType, secondParameterType);
 
                         if (mi == null)
                         {
                             firstParameterType = typeof(int);
                             secondParameterType = typeof(int);
 
-                            mi = t.GetTypeMethod(functionName, firstParameterType, secondParameterType) ??
+                            mi = t.GetMethodWithExactParameters(functionName, firstParameterType, secondParameterType) ??
                                 throw new ArgumentException(string.Format(Resources.FunctionCouldNotBeFound, functionName), nameof(functionName));
                         }
                     }
@@ -157,7 +157,7 @@ namespace IX.Math.Nodes
             Type firstParameterType = ParameterTypeFromParameter(this.FirstParameter);
             Type secondParameterType = ParameterTypeFromParameter(this.SecondParameter);
 
-            MethodInfo mi = t.GetTypeMethod(functionName, firstParameterType, secondParameterType);
+            MethodInfo mi = t.GetMethodWithExactParameters(functionName, firstParameterType, secondParameterType);
 
             if (mi == null)
             {
@@ -167,21 +167,21 @@ namespace IX.Math.Nodes
                     firstParameterType = typeof(double);
                     secondParameterType = typeof(double);
 
-                    mi = t.GetTypeMethod(functionName, firstParameterType, secondParameterType);
+                    mi = t.GetMethodWithExactParameters(functionName, firstParameterType, secondParameterType);
 
                     if (mi == null)
                     {
                         firstParameterType = typeof(long);
                         secondParameterType = typeof(long);
 
-                        mi = t.GetTypeMethod(functionName, firstParameterType, secondParameterType);
+                        mi = t.GetMethodWithExactParameters(functionName, firstParameterType, secondParameterType);
 
                         if (mi == null)
                         {
                             firstParameterType = typeof(int);
                             secondParameterType = typeof(int);
 
-                            mi = t.GetTypeMethod(functionName, firstParameterType, secondParameterType) ??
+                            mi = t.GetMethodWithExactParameters(functionName, firstParameterType, secondParameterType) ??
                                 throw new ArgumentException(string.Format(Resources.FunctionCouldNotBeFound, functionName), nameof(functionName));
                         }
                     }
