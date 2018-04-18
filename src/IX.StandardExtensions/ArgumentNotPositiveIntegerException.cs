@@ -16,7 +16,7 @@ namespace IX.StandardExtensions
 #if NET45
     [Serializable]
 #endif
-   public class ArgumentNotPositiveIntegerException : ArgumentException
+    public class ArgumentNotPositiveIntegerException : ArgumentException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ArgumentNotPositiveIntegerException"/> class.
