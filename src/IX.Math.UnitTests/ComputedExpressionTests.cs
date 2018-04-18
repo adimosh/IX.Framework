@@ -686,7 +686,7 @@ namespace IX.Math.UnitTests
                     {
                         ["x"] = -1,
                     },
-                    1D,
+                    1L,
                 },
                 new object[]
                 {
@@ -1015,7 +1015,7 @@ namespace IX.Math.UnitTests
                     new Dictionary<string, object>
                     {
                         ["tempVar1"] = 5,
-                        ["tempVar1"] = 5D,
+                        ["tempVar2"] = 5D,
                     },
                     10D,
                 },

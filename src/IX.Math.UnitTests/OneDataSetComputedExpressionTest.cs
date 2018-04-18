@@ -35,21 +35,13 @@ namespace IX.Math.UnitTests
             {
                 new object[]
                 {
-                    "sqrt(x)",
+                    "tempVar1+tempVar2",
                     new Dictionary<string, object>
                     {
-                        ["x"] = 2,
+                        ["tempVar1"] = 5,
+                        ["tempVar2"] = 5D,
                     },
-                    1.4142135623730951,
-                },
-                new object[]
-                {
-                    "sqrt(x)",
-                    new Dictionary<string, object>
-                    {
-                        ["x"] = 9,
-                    },
-                    3D,
+                    10D,
                 },
             };
 
