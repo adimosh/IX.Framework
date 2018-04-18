@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace IX.StandardExtensions
@@ -33,5 +34,40 @@ namespace IX.StandardExtensions
         /// <param name="parameters">The parameters to pass through to the constructor.</param>
         /// <returns>An instance of the object to instantiate.</returns>
         public static object Instantiate(this Type type, params object[] parameters) => Activator.CreateInstance(type, parameters);
+
+        /// <summary>
+        /// Gets a method with exact parameters, if one exists.
+        /// </summary>
+        /// <param name="typeInfo">The type information.</param>
+        /// <param name="name">The name of the method to find.</param>
+        /// <param name="parameters">The parameters list, if any.</param>
+        /// <returns>A <see cref="MethodInfo"/> object representing the found method, or <c>null</c> (<c>Nothing</c> in Visual Basic), if none is found.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="typeInfo"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        public static MethodInfo GetMethodWithExactParameters(this Type typeInfo, string name, params Type[] parameters) =>
+            (typeInfo ?? throw new ArgumentNullException(nameof(typeInfo)))
+                .GetRuntimeMethods()
+                .Where(p => p.Name == name)
+                .Where(
+                    p =>
+                    {
+                        ParameterInfo[] ps = p.GetParameters();
+                        if ((parameters?.Length ?? 0) != ps.Length)
+                        {
+                            return false;
+                        }
+
+                        return parameters?.SequenceEqual(ps.Select(q => q.ParameterType)) ?? true;
+                    })
+                .SingleOrDefault();
+
+        /// <summary>
+        /// Gets a method with exact parameters, if one exists.
+        /// </summary>
+        /// <param name="typeInfo">The type information.</param>
+        /// <param name="name">The name of the method to find.</param>
+        /// <param name="parameters">The parameters list, if any.</param>
+        /// <returns>A <see cref="MethodInfo"/> object representing the found method, or <c>null</c> (<c>Nothing</c> in Visual Basic), if none is found.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="typeInfo"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        public static MethodInfo GetMethodWithExactParameters(this Type typeInfo, string name, params TypeInfo[] parameters) => typeInfo.GetMethodWithExactParameters(name, parameters.Select(p => p.AsType()).ToArray());
     }
 }

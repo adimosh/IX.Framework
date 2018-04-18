@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using IX.Math.Extensibility;
 using IX.Math.Nodes.Constants;
-using IX.Math.PlatformMitigation;
+using IX.StandardExtensions;
 
 namespace IX.Math.Nodes.Operations.Function.Ternary
 {
@@ -56,7 +56,7 @@ namespace IX.Math.Nodes.Operations.Function.Ternary
             Type thirdParameterType = typeof(int);
             var functionName = nameof(string.Substring);
 
-            MethodInfo mi = typeof(string).GetTypeMethod(functionName, secondParameterType, thirdParameterType);
+            MethodInfo mi = typeof(string).GetMethodWithExactParameters(functionName, secondParameterType, thirdParameterType);
 
             if (mi == null)
             {
