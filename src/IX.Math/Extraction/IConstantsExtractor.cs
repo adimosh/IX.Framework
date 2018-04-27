@@ -18,12 +18,12 @@ namespace IX.Math.Extraction
         /// <param name="originalExpression">The original expression.</param>
         /// <param name="constantsTable">The constants table.</param>
         /// <param name="reverseConstantsTable">The reverse constants table.</param>
-        /// <param name="separators">The separators to use, if any.</param>
+        /// <param name="mathDefinition">The math definition.</param>
         /// <returns>The expression, after replacement.</returns>
         string ExtractAllConstants(
                 string originalExpression,
                 IDictionary<string, ConstantNodeBase> constantsTable,
                 IDictionary<string, string> reverseConstantsTable,
-                params string[] separators);
+                MathDefinition mathDefinition);
     }
 }

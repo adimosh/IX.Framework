@@ -29,17 +29,30 @@ namespace IX.Math
 
             workingSet.CancellationToken.ThrowIfCancellationRequested();
 
-            // Strings
+            // Extract string constants - we need to do this since strings can contain, within them, mathematical expressions which should not be interpreted
             workingSet.Expression = workingSet.Extractors[typeof(StringExtractor)].ExtractAllConstants(
                 workingSet.Expression,
                 workingSet.ConstantsTable,
                 workingSet.ReverseConstantsTable,
-                workingSet.Definition.StringIndicator);
+                workingSet.Definition);
 
             workingSet.CancellationToken.ThrowIfCancellationRequested();
 
+            // Cleanup
             workingSet.Expression = SubExpressionFormatter.Cleanup(workingSet.Expression);
 
+            workingSet.CancellationToken.ThrowIfCancellationRequested();
+
+            // Extract numeric constants written in scientific notation
+            workingSet.Expression = workingSet.Extractors[typeof(ScientificFormatNumberExtractor)].ExtractAllConstants(
+                workingSet.Expression,
+                workingSet.ConstantsTable,
+                workingSet.ReverseConstantsTable,
+                workingSet.Definition);
+
+            workingSet.CancellationToken.ThrowIfCancellationRequested();
+
+            // Start preparing expression
             workingSet.SymbolTable.Add(
                 string.Empty,
                 ExpressionSymbol.GenerateSymbol(string.Empty, workingSet.Expression));

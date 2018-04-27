@@ -71,6 +71,58 @@ namespace IX.Math.Generators
         }
 
         /// <summary>
+        /// Generates a numeric constant out of a string.
+        /// </summary>
+        /// <param name="constantsTable">The constants table.</param>
+        /// <param name="reverseConstantsTable">The reverse constants table.</param>
+        /// <param name="originalExpression">The original expression.</param>
+        /// <param name="content">The content.</param>
+        /// <returns>The name of the new constant.</returns>
+        public static string GenerateNumericConstant(
+                    in IDictionary<string, ConstantNodeBase> constantsTable,
+                    in IDictionary<string, string> reverseConstantsTable,
+                    in string originalExpression,
+                    in string content)
+        {
+            if (string.IsNullOrWhiteSpace(originalExpression))
+            {
+                throw new ArgumentNullException(nameof(originalExpression));
+            }
+
+            if (constantsTable == null)
+            {
+                throw new ArgumentNullException(nameof(constantsTable));
+            }
+
+            if (reverseConstantsTable == null)
+            {
+                throw new ArgumentNullException(nameof(reverseConstantsTable));
+            }
+
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                throw new ArgumentNullException(nameof(content));
+            }
+
+            if (reverseConstantsTable.TryGetValue(content, out var key))
+            {
+                return key;
+            }
+            else
+            {
+                if (!double.TryParse(content, out var result))
+                {
+                    return null;
+                }
+
+                var name = GenerateName(constantsTable.Keys, originalExpression);
+                constantsTable.Add(name, new NumericNode(result));
+                reverseConstantsTable.Add(content, name);
+                return name;
+            }
+        }
+
+        /// <summary>
         /// Checks the constant to see if there isn't one already, then tries to guess what type it is, finally adding it to the constants table if one suitable type is found.
         /// </summary>
         /// <param name="constantsTable">The constants table.</param>

@@ -1073,20 +1073,42 @@ namespace IX.Math.UnitTests
                     },
                     BitConverter.GetBytes(0b1001010111010110110010000000010010101110101),
                 },
-#if false
                 new object[]
                 {
                     "2.12+6.274E+1",
                     null,
-                    64.84D,
+                    64.86D,
                 },
                 new object[]
                 {
                     "2.12+6.274E1",
                     null,
-                    64.84D,
+                    64.86D,
                 },
-#endif
+                new object[]
+                {
+                    "2.12+627.4E-2",
+                    null,
+                    8.394D,
+                },
+                new object[]
+                {
+                    "2.12+6.274e+1",
+                    null,
+                    64.86D,
+                },
+                new object[]
+                {
+                    "2.12+6.274e1",
+                    null,
+                    64.86D,
+                },
+                new object[]
+                {
+                    "2.12+627.4e-2",
+                    null,
+                    8.394D,
+                },
             };
 
         /// <summary>
