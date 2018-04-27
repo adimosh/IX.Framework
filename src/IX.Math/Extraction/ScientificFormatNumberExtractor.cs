@@ -1,21 +1,25 @@
-// <copyright file="StringExtractor.cs" company="Adrian Mos">
+// <copyright file="ScientificFormatNumberExtractor.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using IX.Math.Generators;
 using IX.Math.Nodes;
 
 namespace IX.Math.Extraction
 {
     /// <summary>
-    /// An extractor for strings. This class cannot be inherited.
+    /// An extractor for scientific notation of numbers. This class cannot be inherited.
     /// </summary>
-    public sealed class StringExtractor : IConstantsExtractor
+    /// <seealso cref="IX.Math.Extraction.IConstantsExtractor" />
+    public sealed class ScientificFormatNumberExtractor : IConstantsExtractor
     {
+        private readonly Regex exponentialNotationRegex = new Regex(@"[0-9.,]+(?:e\+|E\+|e\-|E\-|e|E)[0-9]+");
+
         /// <summary>
-        /// Extracts the string constants and replaces them with expression placeholders.
+        /// Extracts the scientific notations constants and replaces them with expression placeholders.
         /// </summary>
         /// <param name="originalExpression">The original expression.</param>
         /// <param name="constantsTable">The constants table.</param>
@@ -23,9 +27,11 @@ namespace IX.Math.Extraction
         /// <param name="mathDefinition">The math definition.</param>
         /// <returns>The expression, after replacement.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="originalExpression"/>
-        /// or
         /// <paramref name="constantsTable"/>
+        /// or
+        /// <paramref name="mathDefinition"/>
+        /// or
+        /// <paramref name="originalExpression"/>
         /// or
         /// <paramref name="reverseConstantsTable"/>
         /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
@@ -47,41 +53,37 @@ namespace IX.Math.Extraction
                 throw new ArgumentNullException(nameof(reverseConstantsTable));
             }
 
-            var stringIndicator = mathDefinition.StringIndicator;
+            if (mathDefinition == null)
+            {
+                throw new ArgumentNullException(nameof(mathDefinition));
+            }
 
             var process = originalExpression;
+            var location = 0;
 
-            while (true)
+            while (process.Length > location)
             {
-                var op = process.IndexOf(stringIndicator);
+                Match match = this.exponentialNotationRegex.Match(process, location);
 
-                if (op == -1)
+                if (!match.Success)
                 {
                     break;
                 }
 
-                var cp = process.IndexOf(stringIndicator, op + stringIndicator.Length);
-
-                escapeRoute:
-                if (cp == -1 || (cp + stringIndicator.Length) > process.Length)
-                {
-                    break;
-                }
-
-                if (process.Substring(cp + stringIndicator.Length).StartsWith(stringIndicator))
-                {
-                    cp = process.IndexOf(stringIndicator, cp + (stringIndicator.Length * 2));
-                    goto escapeRoute;
-                }
-
-                var itemName = ConstantsGenerator.GenerateStringConstant(
+                var itemName = ConstantsGenerator.GenerateNumericConstant(
                     constantsTable,
                     reverseConstantsTable,
                     process,
-                    stringIndicator,
-                    process.Substring(op, cp - op));
+                    match.Value);
 
-                process = $"{process.Substring(0, op)}{itemName}{process.Substring(cp + stringIndicator.Length)}";
+                if (!string.IsNullOrWhiteSpace(itemName))
+                {
+                    process = this.exponentialNotationRegex.Replace(process, itemName, 1, location);
+                }
+                else
+                {
+                    location = match.Index + match.Length;
+                }
             }
 
             return process;
