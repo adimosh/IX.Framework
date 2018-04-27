@@ -59,10 +59,11 @@ namespace IX.Math.Extraction
             }
 
             var process = originalExpression;
+            var location = 0;
 
-            while (true)
+            while (process.Length > location)
             {
-                Match match = this.exponentialNotationRegex.Match(process);
+                Match match = this.exponentialNotationRegex.Match(process, location);
 
                 if (!match.Success)
                 {
@@ -77,7 +78,11 @@ namespace IX.Math.Extraction
 
                 if (!string.IsNullOrWhiteSpace(itemName))
                 {
-                    process = this.exponentialNotationRegex.Replace(process, itemName, 1);
+                    process = this.exponentialNotationRegex.Replace(process, itemName, 1, location);
+                }
+                else
+                {
+                    location = match.Index + match.Length;
                 }
             }
 
