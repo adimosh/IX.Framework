@@ -52,6 +52,16 @@ namespace IX.Math
 
             workingSet.CancellationToken.ThrowIfCancellationRequested();
 
+            // Extract other types of constants
+            foreach (Type extractorType in workingSet.Extractors.KeysByLevel.Where(p => p.Key > 0).OrderBy(p => p.Key).SelectMany(p => p.Value))
+            {
+                workingSet.Expression = workingSet.Extractors[extractorType].ExtractAllConstants(
+                    workingSet.Expression,
+                    workingSet.ConstantsTable,
+                    workingSet.ReverseConstantsTable,
+                    workingSet.Definition);
+            }
+
             // Start preparing expression
             workingSet.SymbolTable.Add(
                 string.Empty,

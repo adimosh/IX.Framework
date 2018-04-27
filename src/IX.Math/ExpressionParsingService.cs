@@ -322,6 +322,7 @@ namespace IX.Math
             this.constantExtractors = new LevelDictionary<Type, IConstantsExtractor>
             {
                 { typeof(StringExtractor), new StringExtractor(), 0 },
+                { typeof(ScientificFormatNumberExtractor), new ScientificFormatNumberExtractor(), 0 },
             };
 
             var i = 1000;
