@@ -53,6 +53,7 @@
     <PackageReference Include="System.Linq" Version="4.3.0" />
     <PackageReference Include="System.Reflection.Extensions" Version="4.3.0" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
+    <PackageReference Include="System.Runtime" Version="4.3.0" />
     <PackageReference Include="System.Threading" Version="4.3.0" />
   </ItemGroup>
 
