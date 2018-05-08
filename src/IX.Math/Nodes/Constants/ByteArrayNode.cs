@@ -10,7 +10,7 @@ using System.Text;
 namespace IX.Math.Nodes.Constants
 {
     /// <summary>
-    /// A boolean node. This class cannot be inherited.
+    /// A binary value node. This class cannot be inherited.
     /// </summary>
     /// <seealso cref="ConstantNodeBase" />
     [DebuggerDisplay("{DisplayValue}")]
