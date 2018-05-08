@@ -83,7 +83,7 @@ namespace IX.StandardExtensions.ComponentModel
         {
         }
 
-        private void Dispose(bool disposing)
+        private void Dispose(in bool disposing)
         {
             if (!this.disposedValue)
             {

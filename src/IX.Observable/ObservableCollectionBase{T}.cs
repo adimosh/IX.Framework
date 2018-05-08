@@ -772,7 +772,7 @@ namespace IX.Observable
 
         private void Tei_EditCommitted(object sender, EditCommittedEventArgs e) => this.PushUndoLevel(new SubItemStateChange { SubObject = sender as IUndoableItem, StateChanges = e.StateChanges });
 
-        private void InitializeInternalState(ICollectionAdapter<T> internalContainer, bool? suppressUndoable = null)
+        private void InitializeInternalState(in ICollectionAdapter<T> internalContainer, in bool? suppressUndoable = null)
         {
             this.InternalContainer = internalContainer;
 

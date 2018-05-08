@@ -321,7 +321,7 @@ namespace IX.Sandbox.Memory
             base.DisposeManagedContext();
         }
 
-        private void InitializeInternalContext(string id, IScope parent)
+        private void InitializeInternalContext(in string id, in IScope parent)
         {
             // Validate parameters
             if (string.IsNullOrWhiteSpace(id))

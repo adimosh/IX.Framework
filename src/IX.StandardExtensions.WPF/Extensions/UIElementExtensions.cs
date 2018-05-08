@@ -1,4 +1,4 @@
-﻿// <copyright file="UIElementExtensions.cs" company="Adrian Mos">
+// <copyright file="UIElementExtensions.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -70,7 +70,7 @@ namespace IX.StandardExtensions.WPF.Extensions
             }
         }
 
-        private static Cursor CreateCursorByUnmanaged(Bitmap bitmap, int xPosition, int yPosition)
+        private static Cursor CreateCursorByUnmanaged(in Bitmap bitmap, in int xPosition, in int yPosition)
         {
             var unmanagedIconInfo = default(Unmanaged.IconInfo);
 

@@ -54,7 +54,7 @@ namespace IX.Sandbox.Memory
         /// <returns><c>true</c> if the variables are identical, <c>false</c> otherwise.</returns>
         public abstract bool Equals(INamedVariable<T> other);
 
-        private void InitializeInternalContext(string name)
+        private void InitializeInternalContext(in string name)
         {
             // Validate parameters
             if (string.IsNullOrWhiteSpace(name))
