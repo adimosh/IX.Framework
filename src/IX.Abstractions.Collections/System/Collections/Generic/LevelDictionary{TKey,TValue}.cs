@@ -235,7 +235,7 @@ namespace IX.System.Collections.Generic
 
             var result = false;
 
-            if (this.levelKeys.TryGetValue(key, out int level))
+            if (this.levelKeys.TryGetValue(key, out var level))
             {
                 if (this.internalDictionary.Remove(key))
                 {

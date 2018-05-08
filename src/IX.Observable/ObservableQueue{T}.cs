@@ -222,7 +222,7 @@ namespace IX.Observable
                 case AddUndoLevel<T> aul:
                     {
                         var container = (QueueCollectionAdapter<T>)this.InternalContainer;
-                        T[] array = new T[container.Count];
+                        var array = new T[container.Count];
                         container.CopyTo(array, 0);
                         container.Clear();
 
@@ -246,7 +246,7 @@ namespace IX.Observable
                 case EnqueueUndoLevel<T> eul:
                     {
                         var container = (QueueCollectionAdapter<T>)this.InternalContainer;
-                        T[] array = new T[container.Count];
+                        var array = new T[container.Count];
                         container.CopyTo(array, 0);
                         container.Clear();
 

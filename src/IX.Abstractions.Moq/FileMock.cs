@@ -35,7 +35,7 @@ namespace IX.Abstractions.Moq
         /// <seealso cref="Encoding"/>
         public void SetupStandaloneOpenRead(string fileName, string fileContents, Encoding encoding)
         {
-            byte[] bytes = encoding.GetBytes(fileContents);
+            var bytes = encoding.GetBytes(fileContents);
 
             this.SetupStandaloneOpenRead(fileName, bytes);
         }
@@ -68,7 +68,7 @@ namespace IX.Abstractions.Moq
         /// <seealso cref="Encoding"/>
         public void SetupStandaloneOpenText(string fileName, string fileContents, Encoding encoding)
         {
-            byte[] bytes = Encoding.UTF8.GetBytes(fileContents);
+            var bytes = Encoding.UTF8.GetBytes(fileContents);
 
             this.SetupStandaloneOpenText(fileName, bytes);
         }

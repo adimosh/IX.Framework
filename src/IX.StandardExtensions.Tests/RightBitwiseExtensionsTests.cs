@@ -53,7 +53,7 @@ namespace IX.StandardExtensions.Tests
         [MemberData(nameof(TestDataGenerator))]
         public void TestBitwiseExtensions(byte[] data, int howManyBits, byte[] expectedResult)
         {
-            byte[] result = data.RightShift(howManyBits);
+            var result = data.RightShift(howManyBits);
 
             Assert.True(expectedResult.SequenceEquals(result));
         }

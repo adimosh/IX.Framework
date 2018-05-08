@@ -49,8 +49,8 @@ namespace IX.StandardExtensions.Tests.Benchmarking
         {
             var limit = 200000000;
 
-            int[] array = DataGenerator.RandomIntegerArray(limit);
-            int[] array2 = new int[limit];
+            var array = DataGenerator.RandomIntegerArray(limit);
+            var array2 = new int[limit];
             Array.Copy(array, array2, limit);
 
             var sw = new Stopwatch();

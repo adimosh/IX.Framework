@@ -38,14 +38,14 @@ namespace IX.StandardExtensions
 
             if (left.Length < length)
             {
-                byte[] newLeft = new byte[length];
+                var newLeft = new byte[length];
                 left.CopyTo(newLeft, 0);
                 left = newLeft;
             }
 
             if (right.Length < length)
             {
-                byte[] newRight = new byte[length];
+                var newRight = new byte[length];
                 right.CopyTo(newRight, 0);
                 right = newRight;
             }
