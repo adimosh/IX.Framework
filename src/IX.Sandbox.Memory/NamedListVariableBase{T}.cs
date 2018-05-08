@@ -24,7 +24,7 @@ namespace IX.Sandbox.Memory
     {
         private readonly IScope parentScope;
 
-        private ConcurrentObservableList<IVariable<T>> items;
+        private readonly ConcurrentObservableList<IVariable<T>> items;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NamedListVariableBase{T}" /> class.

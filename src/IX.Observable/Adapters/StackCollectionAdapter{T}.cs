@@ -18,7 +18,7 @@ namespace IX.Observable.Adapters
         /// <summary>
         /// The base stack.
         /// </summary>
-        private Stack<T> stack;
+        private readonly Stack<T> stack;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StackCollectionAdapter{T}"/> class.

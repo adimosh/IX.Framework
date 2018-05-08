@@ -3071,7 +3071,7 @@ namespace IX.Sandbox.Memory
     /// </summary>
     public class NamedByteArrayVariable : NamedVariableBase<byte[]>, IDeepCloneable<NamedByteArrayVariable>
     {
-        private Encoding encoding;
+        private readonly Encoding encoding;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NamedByteArrayVariable"/> class.

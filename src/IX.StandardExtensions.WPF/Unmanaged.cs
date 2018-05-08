@@ -1,10 +1,9 @@
-﻿// <copyright file="Unmanaged.cs" company="Adrian Mos">
+// <copyright file="Unmanaged.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
 using System.Runtime.InteropServices;
-using System.Security.Permissions;
 using Microsoft.Win32.SafeHandles;
 
 namespace IX.StandardExtensions.WPF
@@ -59,7 +58,6 @@ namespace IX.StandardExtensions.WPF
 #pragma warning restore SA1121 // Use built-in type alias
 #pragma warning restore SA1307 // Accessible fields should begin with upper-case letter
 
-        [SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
         internal class SafeIconHandle : SafeHandleZeroOrMinusOneIsInvalid
         {
             public SafeIconHandle()

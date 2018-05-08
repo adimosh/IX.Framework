@@ -1,4 +1,4 @@
-﻿// <copyright file="BitwiseExtensions.cs" company="Adrian Mos">
+// <copyright file="BitwiseExtensions.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -98,7 +98,7 @@ namespace IX.StandardExtensions
 
             ba = LeftShift(ba, howManyBits);
 
-            byte[] result = new byte[data.Length];
+            var result = new byte[data.Length];
             ((ICollection)ba).CopyTo(result, 0);
 
             return result;
@@ -122,13 +122,13 @@ namespace IX.StandardExtensions
 
             ba = RightShift(ba, howManyBits);
 
-            byte[] result = new byte[data.Length];
+            var result = new byte[data.Length];
             ((ICollection)ba).CopyTo(result, 0);
 
             return result;
         }
 
-        private static BitArray Shift(BitArray data, int howManyBits)
+        private static BitArray Shift(in BitArray data, in int howManyBits)
         {
             if (data == null)
             {

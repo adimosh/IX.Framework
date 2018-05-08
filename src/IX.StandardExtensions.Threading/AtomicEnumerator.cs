@@ -1,4 +1,4 @@
-﻿// <copyright file="AtomicEnumerator.cs" company="Adrian Mos">
+// <copyright file="AtomicEnumerator.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -130,7 +130,7 @@ namespace IX.StandardExtensions.Threading
             GC.SuppressFinalize(this);
         }
 
-        private void Dispose(bool disposing)
+        private void Dispose(in bool disposing)
         {
             if (!this.disposedValue)
             {

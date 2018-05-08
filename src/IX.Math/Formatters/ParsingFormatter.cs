@@ -14,9 +14,6 @@ namespace IX.Math.Formatters
         private const NumberStyles IntegerNumberStyle =
             NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowExponent | NumberStyles.AllowExponent;
 
-        private const NumberStyles UnsignedIntegerNumberStyle =
-            NumberStyles.AllowThousands | NumberStyles.AllowExponent | NumberStyles.AllowExponent;
-
         private const NumberStyles FloatNumberStyle =
             NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowExponent | NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint;
 

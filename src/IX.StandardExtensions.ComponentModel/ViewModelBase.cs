@@ -1,4 +1,4 @@
-﻿// <copyright file="ViewModelBase.cs" company="Adrian Mos">
+// <copyright file="ViewModelBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -23,8 +23,8 @@ namespace IX.StandardExtensions.ComponentModel
     {
         private static readonly string[] EmptyStringArray = new string[0];
 
-        private ConcurrentDictionary<string, List<string>> entityErrors = new ConcurrentDictionary<string, List<string>>();
-        private object validatorLock = new object();
+        private readonly ConcurrentDictionary<string, List<string>> entityErrors;
+        private readonly object validatorLock;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ViewModelBase"/> class.
@@ -32,6 +32,8 @@ namespace IX.StandardExtensions.ComponentModel
         protected ViewModelBase()
             : base()
         {
+            this.entityErrors = new ConcurrentDictionary<string, List<string>>();
+            this.validatorLock = new object();
         }
 
         /// <summary>
@@ -41,6 +43,8 @@ namespace IX.StandardExtensions.ComponentModel
         protected ViewModelBase(SynchronizationContext synchronizationContext)
             : base(synchronizationContext)
         {
+            this.entityErrors = new ConcurrentDictionary<string, List<string>>();
+            this.validatorLock = new object();
         }
 
         /// <summary>
@@ -72,8 +76,9 @@ namespace IX.StandardExtensions.ComponentModel
         /// <summary>
         /// Validates this object asynchronously.
         /// </summary>
-        /// <returns>A <see cref="Task"/> that can be awaited.</returns>
-        public Task ValidateAsync() => Task.Run(() => this.Validate());
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task" /> that can be awaited.</returns>
+        public Task ValidateAsync(CancellationToken cancellationToken = default) => Task.Run(() => this.Validate(), cancellationToken);
 
         /// <summary>
         /// Validates this object.
@@ -110,7 +115,7 @@ namespace IX.StandardExtensions.ComponentModel
                                              group r by m into g
                                              select g)
                     {
-                        string[] messages = property.Select(r => r.ErrorMessage).ToArray();
+                        var messages = property.Select(r => r.ErrorMessage).ToArray();
 
                         List<string> errorList = this.entityErrors.GetOrAdd(property.Key, new List<string>(messages.Length));
                         errorList.Clear();

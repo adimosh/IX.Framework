@@ -1,4 +1,4 @@
-﻿// <copyright file="ArrayExtensions.StandardTypes.cs" company="Adrian Mos">
+// <copyright file="ArrayExtensions.StandardTypes.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -26,7 +26,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            byte[] destination = new byte[length];
+            var destination = new byte[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -51,7 +51,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            sbyte[] destination = new sbyte[length];
+            var destination = new sbyte[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -76,7 +76,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            short[] destination = new short[length];
+            var destination = new short[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -101,7 +101,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            ushort[] destination = new ushort[length];
+            var destination = new ushort[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -126,7 +126,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            char[] destination = new char[length];
+            var destination = new char[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -151,7 +151,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            int[] destination = new int[length];
+            var destination = new int[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -176,7 +176,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            uint[] destination = new uint[length];
+            var destination = new uint[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -201,7 +201,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            long[] destination = new long[length];
+            var destination = new long[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -226,7 +226,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            ulong[] destination = new ulong[length];
+            var destination = new ulong[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -251,7 +251,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            float[] destination = new float[length];
+            var destination = new float[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -276,7 +276,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            double[] destination = new double[length];
+            var destination = new double[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -301,7 +301,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            decimal[] destination = new decimal[length];
+            var destination = new decimal[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -326,7 +326,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            DateTime[] destination = new DateTime[length];
+            var destination = new DateTime[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -351,7 +351,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            bool[] destination = new bool[length];
+            var destination = new bool[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -376,7 +376,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            TimeSpan[] destination = new TimeSpan[length];
+            var destination = new TimeSpan[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -401,7 +401,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            string[] destination = new string[length];
+            var destination = new string[length];
 
             for (var i = 0; i < length; i++)
             {

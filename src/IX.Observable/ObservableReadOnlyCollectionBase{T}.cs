@@ -19,9 +19,9 @@ namespace IX.Observable
     /// <seealso cref="global::System.Collections.Generic.IEnumerable{T}" />
     public abstract class ObservableReadOnlyCollectionBase<T> : ObservableBase, IReadOnlyCollection<T>, ICollection
     {
+        private readonly object resetCountLocker;
+        private readonly object syncRoot;
         private ICollectionAdapter<T> internalContainer;
-        private object resetCountLocker;
-        private object syncRoot;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableReadOnlyCollectionBase{T}"/> class.
@@ -201,7 +201,7 @@ namespace IX.Observable
                 {
                     var clount = ((ICollection<T>)this.InternalContainer).Count;
 
-                    T[] array = new T[clount];
+                    var array = new T[clount];
                     this.InternalContainer.CopyTo(array, 0);
                     return array;
                 }));

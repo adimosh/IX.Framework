@@ -79,7 +79,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            await RunAsync(action, options, cancellationToken);
+            await RunAsync(action, options, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -340,7 +340,7 @@ namespace IX.Retry
 
             using (var context = new ActionRetryContext(action, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 

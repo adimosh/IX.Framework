@@ -22,10 +22,9 @@ namespace IX.Observable
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     public class ConcurrentFilterableObservableMasterSlaveCollection<TItem, TFilter> : ConcurrentObservableMasterSlaveCollection<TItem>
     {
+        private readonly IReaderWriterLock cacheLocker;
         private TFilter filter;
-        private Func<TItem, TFilter, bool> filteringPredicate;
         private IList<TItem> cachedFilteredElements;
-        private IReaderWriterLock cacheLocker;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConcurrentFilterableObservableMasterSlaveCollection{TItem, TFilter}" /> class.
@@ -35,7 +34,7 @@ namespace IX.Observable
         public ConcurrentFilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate)
             : base()
         {
-            this.filteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
+            this.FilteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
             this.cacheLocker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
@@ -48,7 +47,7 @@ namespace IX.Observable
         public ConcurrentFilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate, GlobalThreading.SynchronizationContext context)
             : base(context)
         {
-            this.filteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
+            this.FilteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
             this.cacheLocker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
@@ -61,7 +60,7 @@ namespace IX.Observable
         public ConcurrentFilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate, bool suppressUndoable)
             : base(suppressUndoable)
         {
-            this.filteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
+            this.FilteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
             this.cacheLocker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
@@ -75,7 +74,7 @@ namespace IX.Observable
         public ConcurrentFilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate, GlobalThreading.SynchronizationContext context, bool suppressUndoable)
             : base(context, suppressUndoable)
         {
-            this.filteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
+            this.FilteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
             this.cacheLocker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion);
         }
 
@@ -85,7 +84,7 @@ namespace IX.Observable
         /// <value>
         /// The filtering predicate.
         /// </value>
-        public Func<TItem, TFilter, bool> FilteringPredicate => this.filteringPredicate;
+        public Func<TItem, TFilter, bool> FilteringPredicate { get; }
 
         /// <summary>
         /// Gets or sets the filter value.
@@ -204,7 +203,7 @@ namespace IX.Observable
                 while (enumerator.MoveNext())
                 {
                     TItem current = enumerator.Current;
-                    if (this.filteringPredicate(current, filter))
+                    if (this.FilteringPredicate(current, filter))
                     {
                         yield return current;
                     }

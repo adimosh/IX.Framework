@@ -1,4 +1,4 @@
-﻿// <copyright file="IEnumerableSequenceEqualsExtensions.cs" company="Adrian Mos">
+// <copyright file="IEnumerableSequenceEqualsExtensions.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -58,9 +58,9 @@ namespace IX.StandardExtensions
                 right,
                 (c1, c2) => comparer.Equals(c1, c2));
 
-        private static bool CheckForNulls<T>(IEnumerable<T> left, IEnumerable<T> right) => (left == null) ? (right == null) : (right != null);
+        private static bool CheckForNulls<T>(in IEnumerable<T> left, in IEnumerable<T> right) => (left == null) ? (right == null) : (right != null);
 
-        private static bool SequenceEqualsInternal<T>(IEnumerable<T> left, IEnumerable<T> right, Func<T, T, bool> comparer)
+        private static bool SequenceEqualsInternal<T>(in IEnumerable<T> left, in IEnumerable<T> right, in Func<T, T, bool> comparer)
         {
             if (!CheckForNulls(left, right))
             {

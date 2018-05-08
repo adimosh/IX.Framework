@@ -1,4 +1,4 @@
-﻿// <copyright file="Retry.NowAndLaterExtended.cs" company="Adrian Mos">
+// <copyright file="Retry.NowAndLaterExtended.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -81,7 +81,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
-        public static async Task NowAsync<TParam1>(Action<TParam1> action, TParam1 param1, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task NowAsync<TParam1>(Action<TParam1> action, TParam1 param1, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -91,7 +91,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            await RunAsync(action, param1, options, cancellationToken);
+            return RunAsync(action, param1, options, cancellationToken);
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
-        public static async Task<TReturn> NowAsync<TParam1, TReturn>(Func<TParam1, TReturn> func, TParam1 param1, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task<TReturn> NowAsync<TParam1, TReturn>(Func<TParam1, TReturn> func, TParam1 param1, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -235,7 +235,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            return await RunAsync(func, param1, options, cancellationToken);
+            return RunAsync(func, param1, options, cancellationToken);
         }
 
         /// <summary>
@@ -375,7 +375,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
-        public static async Task NowAsync<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task NowAsync<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -385,7 +385,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            await RunAsync(action, param1, param2, options, cancellationToken);
+            return RunAsync(action, param1, param2, options, cancellationToken);
         }
 
         /// <summary>
@@ -537,7 +537,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
-        public static async Task<TReturn> NowAsync<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task<TReturn> NowAsync<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -547,7 +547,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            return await RunAsync(func, param1, param2, options, cancellationToken);
+            return RunAsync(func, param1, param2, options, cancellationToken);
         }
 
         /// <summary>
@@ -705,7 +705,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
-        public static async Task NowAsync<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task NowAsync<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -715,7 +715,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            await RunAsync(action, param1, param2, param3, options, cancellationToken);
+            return RunAsync(action, param1, param2, param3, options, cancellationToken);
         }
 
         /// <summary>
@@ -885,7 +885,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
-        public static async Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -895,7 +895,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            return await RunAsync(func, param1, param2, param3, options, cancellationToken);
+            return RunAsync(func, param1, param2, param3, options, cancellationToken);
         }
 
         /// <summary>
@@ -1071,7 +1071,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
-        public static async Task NowAsync<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task NowAsync<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -1081,7 +1081,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            await RunAsync(action, param1, param2, param3, param4, options, cancellationToken);
+            return RunAsync(action, param1, param2, param3, param4, options, cancellationToken);
         }
 
         /// <summary>
@@ -1269,7 +1269,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
-        public static async Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -1279,7 +1279,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            return await RunAsync(func, param1, param2, param3, param4, options, cancellationToken);
+            return RunAsync(func, param1, param2, param3, param4, options, cancellationToken);
         }
 
         /// <summary>
@@ -1473,7 +1473,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
-        public static async Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -1483,7 +1483,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            await RunAsync(action, param1, param2, param3, param4, param5, options, cancellationToken);
+            return RunAsync(action, param1, param2, param3, param4, param5, options, cancellationToken);
         }
 
         /// <summary>
@@ -1689,7 +1689,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
-        public static async Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -1699,7 +1699,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            return await RunAsync(func, param1, param2, param3, param4, param5, options, cancellationToken);
+            return RunAsync(func, param1, param2, param3, param4, param5, options, cancellationToken);
         }
 
         /// <summary>
@@ -1911,7 +1911,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
-        public static async Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -1921,7 +1921,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            await RunAsync(action, param1, param2, param3, param4, param5, param6, options, cancellationToken);
+            return RunAsync(action, param1, param2, param3, param4, param5, param6, options, cancellationToken);
         }
 
         /// <summary>
@@ -2145,7 +2145,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
-        public static async Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -2155,7 +2155,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            return await RunAsync(func, param1, param2, param3, param4, param5, param6, options, cancellationToken);
+            return RunAsync(func, param1, param2, param3, param4, param5, param6, options, cancellationToken);
         }
 
         /// <summary>
@@ -2385,7 +2385,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
-        public static async Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -2395,7 +2395,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            await RunAsync(action, param1, param2, param3, param4, param5, param6, param7, options, cancellationToken);
+            return RunAsync(action, param1, param2, param3, param4, param5, param6, param7, options, cancellationToken);
         }
 
         /// <summary>
@@ -2637,7 +2637,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
-        public static async Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -2647,7 +2647,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            return await RunAsync(func, param1, param2, param3, param4, param5, param6, param7, options, cancellationToken);
+            return RunAsync(func, param1, param2, param3, param4, param5, param6, param7, options, cancellationToken);
         }
 
         /// <summary>
@@ -2895,7 +2895,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
-        public static async Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -2905,7 +2905,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            await RunAsync(action, param1, param2, param3, param4, param5, param6, param7, param8, options, cancellationToken);
+            return RunAsync(action, param1, param2, param3, param4, param5, param6, param7, param8, options, cancellationToken);
         }
 
         /// <summary>
@@ -3165,7 +3165,7 @@ namespace IX.Retry
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
-        public static async Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -3175,7 +3175,7 @@ namespace IX.Retry
             var options = new RetryOptions();
             optionsSetter(options);
 
-            return await RunAsync(func, param1, param2, param3, param4, param5, param6, param7, param8, options, cancellationToken);
+            return RunAsync(func, param1, param2, param3, param4, param5, param6, param7, param8, options, cancellationToken);
         }
 
         /// <summary>
@@ -3284,7 +3284,7 @@ namespace IX.Retry
 
             using (var context = new ActionWith1ParamRetryContext<TParam1>(action, param1, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -3304,7 +3304,7 @@ namespace IX.Retry
 
             using (var context = new FuncWith1ParamRetryContext<TParam1, TReturn>(func, param1, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
 
                 return context.GetReturnValue();
             }
@@ -3328,7 +3328,7 @@ namespace IX.Retry
 
             using (var context = new ActionWith2ParamRetryContext<TParam1, TParam2>(action, param1, param2, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -3348,7 +3348,7 @@ namespace IX.Retry
 
             using (var context = new FuncWith2ParamRetryContext<TParam1, TParam2, TReturn>(func, param1, param2, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
 
                 return context.GetReturnValue();
             }
@@ -3372,7 +3372,7 @@ namespace IX.Retry
 
             using (var context = new ActionWith3ParamRetryContext<TParam1, TParam2, TParam3>(action, param1, param2, param3, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -3392,7 +3392,7 @@ namespace IX.Retry
 
             using (var context = new FuncWith3ParamRetryContext<TParam1, TParam2, TParam3, TReturn>(func, param1, param2, param3, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
 
                 return context.GetReturnValue();
             }
@@ -3416,7 +3416,7 @@ namespace IX.Retry
 
             using (var context = new ActionWith4ParamRetryContext<TParam1, TParam2, TParam3, TParam4>(action, param1, param2, param3, param4, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -3436,7 +3436,7 @@ namespace IX.Retry
 
             using (var context = new FuncWith4ParamRetryContext<TParam1, TParam2, TParam3, TParam4, TReturn>(func, param1, param2, param3, param4, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
 
                 return context.GetReturnValue();
             }
@@ -3460,7 +3460,7 @@ namespace IX.Retry
 
             using (var context = new ActionWith5ParamRetryContext<TParam1, TParam2, TParam3, TParam4, TParam5>(action, param1, param2, param3, param4, param5, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -3480,7 +3480,7 @@ namespace IX.Retry
 
             using (var context = new FuncWith5ParamRetryContext<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(func, param1, param2, param3, param4, param5, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
 
                 return context.GetReturnValue();
             }
@@ -3504,7 +3504,7 @@ namespace IX.Retry
 
             using (var context = new ActionWith6ParamRetryContext<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(action, param1, param2, param3, param4, param5, param6, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -3524,7 +3524,7 @@ namespace IX.Retry
 
             using (var context = new FuncWith6ParamRetryContext<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(func, param1, param2, param3, param4, param5, param6, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
 
                 return context.GetReturnValue();
             }
@@ -3548,7 +3548,7 @@ namespace IX.Retry
 
             using (var context = new ActionWith7ParamRetryContext<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(action, param1, param2, param3, param4, param5, param6, param7, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -3568,7 +3568,7 @@ namespace IX.Retry
 
             using (var context = new FuncWith7ParamRetryContext<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(func, param1, param2, param3, param4, param5, param6, param7, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
 
                 return context.GetReturnValue();
             }
@@ -3592,7 +3592,7 @@ namespace IX.Retry
 
             using (var context = new ActionWith8ParamRetryContext<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(action, param1, param2, param3, param4, param5, param6, param7, param8, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -3612,7 +3612,7 @@ namespace IX.Retry
 
             using (var context = new FuncWith8ParamRetryContext<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(func, param1, param2, param3, param4, param5, param6, param7, param8, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
 
                 return context.GetReturnValue();
             }

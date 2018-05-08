@@ -22,7 +22,7 @@ namespace IX.Observable.DebugAide
         {
             get
             {
-                T[] items = new T[((ICollection<T>)this.queue.InternalContainer).Count];
+                var items = new T[((ICollection<T>)this.queue.InternalContainer).Count];
                 this.queue.InternalContainer.CopyTo(items, 0);
                 return items;
             }

@@ -53,7 +53,7 @@ namespace IX.Observable.UnitTests
             StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             var numberOfItems = DataGenerator.RandomNonNegativeInteger(UnitTestConstants.TestsGeneralMagnitude);
-            int[] items = new int[numberOfItems];
+            var items = new int[numberOfItems];
 
             for (var i = 0; i < numberOfItems; i++)
             {
@@ -61,7 +61,7 @@ namespace IX.Observable.UnitTests
             }
 
             var numberOfItemsToCheck = DataGenerator.RandomNonNegativeInteger(numberOfItems);
-            int[] itemsToCheck = new int[numberOfItemsToCheck];
+            var itemsToCheck = new int[numberOfItemsToCheck];
 
             for (var i = 0; i < numberOfItemsToCheck; i++)
             {

@@ -19,7 +19,7 @@ namespace IX.Math.UnitTests
         {
             using (var service = new ExpressionParsingService())
             {
-                string[] functions = service.GetRegisteredFunctions();
+                var functions = service.GetRegisteredFunctions();
 
                 Assert.True(functions.Length > 0);
             }

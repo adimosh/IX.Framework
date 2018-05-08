@@ -1,4 +1,4 @@
-﻿// <copyright file="FilterableObservableMasterSlaveCollection{TItem,TFilter}.cs" company="Adrian Mos">
+// <copyright file="FilterableObservableMasterSlaveCollection{TItem,TFilter}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -21,7 +21,6 @@ namespace IX.Observable
     public class FilterableObservableMasterSlaveCollection<TItem, TFilter> : ObservableMasterSlaveCollection<TItem>
     {
         private TFilter filter;
-        private Func<TItem, TFilter, bool> filteringPredicate;
         private IList<TItem> filteredElements;
 
         /// <summary>
@@ -32,7 +31,7 @@ namespace IX.Observable
         public FilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate)
             : base()
         {
-            this.filteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
+            this.FilteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
         }
 
         /// <summary>
@@ -44,7 +43,7 @@ namespace IX.Observable
         public FilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate, SynchronizationContext context)
             : base(context)
         {
-            this.filteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
+            this.FilteringPredicate = filteringPredicate ?? throw new ArgumentNullException(nameof(filteringPredicate));
         }
 
         /// <summary>
@@ -53,7 +52,7 @@ namespace IX.Observable
         /// <value>
         /// The filtering predicate.
         /// </value>
-        public Func<TItem, TFilter, bool> FilteringPredicate => this.filteringPredicate;
+        public Func<TItem, TFilter, bool> FilteringPredicate { get; }
 
         /// <summary>
         /// Gets or sets the filter value.
@@ -186,7 +185,7 @@ namespace IX.Observable
                 while (enumerator.MoveNext())
                 {
                     TItem current = enumerator.Current;
-                    if (this.filteringPredicate(current, filter))
+                    if (this.FilteringPredicate(current, filter))
                     {
                         yield return current;
                     }

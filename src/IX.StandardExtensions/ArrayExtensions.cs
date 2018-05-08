@@ -28,7 +28,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            T[] destination = new T[length];
+            var destination = new T[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -55,7 +55,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            T[] destination = new T[length];
+            var destination = new T[length];
 
             for (var i = 0; i < length; i++)
             {
@@ -86,7 +86,7 @@ namespace IX.StandardExtensions
 
             var length = source.Length;
 
-            T[] destination = new T[length];
+            var destination = new T[length];
 
             Array.Copy(source, destination, length);
 
@@ -126,7 +126,7 @@ namespace IX.StandardExtensions
                 throw new ArgumentException(Resources.ErrorLengthGoesPastArrayLimits, nameof(length));
             }
 
-            T[] destination = new T[length];
+            var destination = new T[length];
 
             Array.Copy(source, destination, length);
 
@@ -174,7 +174,7 @@ namespace IX.StandardExtensions
                 throw new ArgumentException(Resources.ErrorLengthGoesPastArrayLimits, nameof(length));
             }
 
-            T[] destination = new T[length];
+            var destination = new T[length];
 
             Array.Copy(source, sourceIndex, destination, 0, length);
 

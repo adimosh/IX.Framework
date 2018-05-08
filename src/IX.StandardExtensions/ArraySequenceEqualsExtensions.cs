@@ -1,4 +1,4 @@
-﻿// <copyright file="ArraySequenceEqualsExtensions.cs" company="Adrian Mos">
+// <copyright file="ArraySequenceEqualsExtensions.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -58,7 +58,7 @@ namespace IX.StandardExtensions
                 right,
                 (c1, c2) => comparer.Equals(c1, c2));
 
-        private static bool SequenceEqualsInternal<T>(T[] left, T[] right, Func<T, T, bool> comparer)
+        private static bool SequenceEqualsInternal<T>(in T[] left, in T[] right, in Func<T, T, bool> comparer)
         {
             if (!CheckForNulls(left, right))
             {
@@ -80,7 +80,7 @@ namespace IX.StandardExtensions
 
             return true;
 
-            bool CheckForNulls(T[] leftOperand, T[] rightOperand) => (leftOperand == null) ? (rightOperand == null) : (rightOperand != null);
+            bool CheckForNulls(in T[] leftOperand, in T[] rightOperand) => (leftOperand == null) ? (rightOperand == null) : (rightOperand != null);
         }
     }
 }

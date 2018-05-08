@@ -1,4 +1,4 @@
-﻿// <copyright file="ObjectPoolQueue{T}.cs" company="Adrian Mos">
+// <copyright file="ObjectPoolQueue{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -63,42 +63,44 @@ namespace IX.StandardExtensions.Efficiency
             }
             else
             {
-                Task.Run(this.ProcessObjects, this.cancellationToken).ContinueWith(this.Run, TaskContinuationOptions.OnlyOnRanToCompletion);
-            }
-        }
+                Task.Run(
+                    ProcessObjects,
+                    this.cancellationToken).ContinueWith(this.Run, TaskContinuationOptions.OnlyOnRanToCompletion);
 
-        private async Task ProcessObjects()
-        {
-            this.cancellationToken.ThrowIfCancellationRequested();
-
-            var objectLimit = this.ObjectLimit;
-            var initialSize = objectLimit < this.objects.Count ? objectLimit : this.objects.Count;
-
-            var listProcess = new List<T>(initialSize);
-
-            for (var i = 0; i < initialSize; i++)
-            {
-                listProcess.Add(this.objects.Dequeue());
-            }
-
-            var retryCounter = 0;
-            var shouldRetry = true;
-
-            while (shouldRetry)
-            {
-                this.cancellationToken.ThrowIfCancellationRequested();
-
-                try
+                async Task ProcessObjects()
                 {
-                    shouldRetry = !(await this.queueAction(listProcess, retryCounter++));
-                }
-                catch (StopRetryingException)
-                {
-                    shouldRetry = false;
-                }
-                catch (Exception)
-                {
-                    // Do nothing, as a retry is necessary at this point
+                    this.cancellationToken.ThrowIfCancellationRequested();
+
+                    var objectLimit = this.ObjectLimit;
+                    var initialSize = objectLimit < this.objects.Count ? objectLimit : this.objects.Count;
+
+                    var listProcess = new List<T>(initialSize);
+
+                    for (var i = 0; i < initialSize; i++)
+                    {
+                        listProcess.Add(this.objects.Dequeue());
+                    }
+
+                    var retryCounter = 0;
+                    var shouldRetry = true;
+
+                    while (shouldRetry)
+                    {
+                        this.cancellationToken.ThrowIfCancellationRequested();
+
+                        try
+                        {
+                            shouldRetry = !(await this.queueAction(listProcess, retryCounter++).ConfigureAwait(false));
+                        }
+                        catch (StopRetryingException)
+                        {
+                            shouldRetry = false;
+                        }
+                        catch (Exception)
+                        {
+                            // Do nothing, as a retry is necessary at this point
+                        }
+                    }
                 }
             }
         }

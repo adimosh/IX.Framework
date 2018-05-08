@@ -8,7 +8,7 @@ namespace IX.Retry.Contexts
 {
     internal sealed class ActionRetryContext : RetryContext
     {
-        private Action action;
+        private readonly Action action;
 
         internal ActionRetryContext(Action action, RetryOptions retryOptions)
             : base(retryOptions)

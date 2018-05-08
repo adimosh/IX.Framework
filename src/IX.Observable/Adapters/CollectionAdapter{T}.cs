@@ -123,7 +123,7 @@ namespace IX.Observable.Adapters
         /// <param name="index">Index of the array.</param>
         void ICollection.CopyTo(Array array, int index)
         {
-            T[] tempArray = new T[this.Count - index];
+            var tempArray = new T[this.Count - index];
             this.CopyTo(tempArray, index);
             tempArray.CopyTo(array, index);
         }

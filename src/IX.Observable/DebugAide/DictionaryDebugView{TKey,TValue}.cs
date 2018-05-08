@@ -23,7 +23,7 @@ namespace IX.Observable.DebugAide
         {
             get
             {
-                KeyValuePair<TKey, TValue>[] items = new KeyValuePair<TKey, TValue>[((ICollection<KeyValuePair<TKey, TValue>>)this.dict.InternalContainer).Count];
+                var items = new KeyValuePair<TKey, TValue>[((ICollection<KeyValuePair<TKey, TValue>>)this.dict.InternalContainer).Count];
                 this.dict.InternalContainer.CopyTo(items, 0);
                 return items.Select(p => new KVP<TKey, TValue> { Key = p.Key, Value = p.Value }).ToArray();
             }

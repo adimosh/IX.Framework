@@ -1,4 +1,4 @@
-﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
@@ -190,7 +190,7 @@ for (int i = 1; i <= 8; i++)
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
-        public static async Task NowAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task NowAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -200,7 +200,7 @@ for (int i = 1; i <= 8; i++)
             var options = new RetryOptions();
             optionsSetter(options);
 
-            await RunAsync(action, <#= paramNames #>, options, cancellationToken);
+            return RunAsync(action, <#= paramNames #>, options, cancellationToken);
         }
 
         /// <summary>
@@ -460,7 +460,7 @@ for (int i = 1; i <= 8; i++)
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
-        public static async Task<TReturn> NowAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static Task<TReturn> NowAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
             if (optionsSetter == null)
             {
@@ -470,7 +470,7 @@ for (int i = 1; i <= 8; i++)
             var options = new RetryOptions();
             optionsSetter(options);
 
-            return await RunAsync(func, <#= paramNames #>, options, cancellationToken);
+            return RunAsync(func, <#= paramNames #>, options, cancellationToken);
         }
 
         /// <summary>
@@ -599,7 +599,7 @@ for (int i = 1; i <= 8; i++)
 
             using (var context = new ActionWith<#= i #>ParamRetryContext<<#= paramTypes #>>(action, <#= paramNames #>, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -619,7 +619,7 @@ for (int i = 1; i <= 8; i++)
 
             using (var context = new FuncWith<#= i #>ParamRetryContext<<#= paramTypes #>, TReturn>(func, <#= paramNames #>, options))
             {
-                await context.BeginRetryProcessAsync();
+                await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
 
                 return context.GetReturnValue();
             }

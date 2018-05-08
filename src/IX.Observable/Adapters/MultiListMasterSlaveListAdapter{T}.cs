@@ -1,4 +1,4 @@
-﻿// <copyright file="MultiListMasterSlaveListAdapter{T}.cs" company="Adrian Mos">
+// <copyright file="MultiListMasterSlaveListAdapter{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -12,8 +12,8 @@ namespace IX.Observable.Adapters
 {
     internal class MultiListMasterSlaveListAdapter<T> : ListAdapter<T>
     {
+        private readonly List<IEnumerable<T>> slaves;
         private IList<T> master;
-        private List<IEnumerable<T>> slaves;
 
         internal MultiListMasterSlaveListAdapter()
         {

@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using IX.Math.ExpressionState;
@@ -20,6 +19,8 @@ namespace IX.Math
 {
     internal class WorkingExpressionSet
     {
+        private readonly IEnumerable<Assembly> assembliesForFunctions;
+
         // Definition
 #pragma warning disable SA1401 // Fields must be private
         internal MathDefinition Definition;
@@ -59,8 +60,6 @@ namespace IX.Math
         internal bool Constant = false;
         internal bool PossibleString = false;
 #pragma warning restore SA1401 // Fields must be private
-
-        private IEnumerable<Assembly> assembliesForFunctions;
 
         internal WorkingExpressionSet(
             string expression,

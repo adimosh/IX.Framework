@@ -16,7 +16,7 @@ namespace IX.Math.UnitTests
     /// </summary>
     public class ComputedExpressionTests : IClassFixture<CachedExpressionProviderFixture>
     {
-        private CachedExpressionProviderFixture fixture;
+        private readonly CachedExpressionProviderFixture fixture;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ComputedExpressionTests"/> class.
@@ -710,7 +710,7 @@ namespace IX.Math.UnitTests
                     {
                         ["x"] = 2,
                     },
-                    1.4142135623730951,
+                    global::System.Math.Sqrt(2),
                 },
                 new object[]
                 {
@@ -966,6 +966,54 @@ namespace IX.Math.UnitTests
                 },
                 new object[]
                 {
+                    "0b1001010111010110110010000000010010101110101>0b1010111010110110010000000010010101110101",
+                    null,
+                    true,
+                },
+                new object[]
+                {
+                    "0b1001010111010110110010000000010010101110100<0b1001010111010110110010000000010010101110101",
+                    null,
+                    true,
+                },
+                new object[]
+                {
+                    "0b1001010111010110110010000000010010101110101>=0b1010111010110110010000000010010101110101",
+                    null,
+                    true,
+                },
+                new object[]
+                {
+                    "0b1001010111010110110010000000010010101110100<=0b1001010111010110110010000000010010101110101",
+                    null,
+                    true,
+                },
+                new object[]
+                {
+                    "0b1001010111010110110010000000010010101110101<0b1010111010110110010000000010010101110101",
+                    null,
+                    false,
+                },
+                new object[]
+                {
+                    "0b1001010111010110110010000000010010101110100>0b1001010111010110110010000000010010101110101",
+                    null,
+                    false,
+                },
+                new object[]
+                {
+                    "0b1001010111010110110010000000010010101110101<=0b1010111010110110010000000010010101110101",
+                    null,
+                    false,
+                },
+                new object[]
+                {
+                    "0b1001010111010110110010000000010010101110100>=0b1001010111010110110010000000010010101110101",
+                    null,
+                    false,
+                },
+                new object[]
+                {
                     "0b1001010111010110110011111000010010101110101=0b1001010111010110110010000000011111101110101",
                     null,
                     false,
@@ -997,6 +1045,150 @@ namespace IX.Math.UnitTests
                     new Dictionary<string, object>
                     {
                         ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110101),
+                    },
+                    false,
+                },
+                new object[]
+                {
+                    "0b1001010111010110110010000000010010101110101>x",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1010111010110110010000000010010101110101),
+                    },
+                    true,
+                },
+                new object[]
+                {
+                    "0b1001010111010110110010000000010010101110100<x",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110101),
+                    },
+                    true,
+                },
+                new object[]
+                {
+                    "0b1001010111010110110010000000010010101110101>=x",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1010111010110110010000000010010101110101),
+                    },
+                    true,
+                },
+                new object[]
+                {
+                    "0b1001010111010110110010000000010010101110100<=x",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110101),
+                    },
+                    true,
+                },
+                new object[]
+                {
+                    "0b1001010111010110110010000000010010101110101<x",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1010111010110110010000000010010101110101),
+                    },
+                    false,
+                },
+                new object[]
+                {
+                    "0b1001010111010110110010000000010010101110100>x",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110101),
+                    },
+                    false,
+                },
+                new object[]
+                {
+                    "0b1001010111010110110010000000010010101110101<=x",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1010111010110110010000000010010101110101),
+                    },
+                    false,
+                },
+                new object[]
+                {
+                    "0b1001010111010110110010000000010010101110100>=x",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110101),
+                    },
+                    false,
+                },
+                new object[]
+                {
+                    "x>0b1010111010110110010000000010010101110101",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110101),
+                    },
+                    true,
+                },
+                new object[]
+                {
+                    "x<0b1001010111010110110010000000010010101110101",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110100),
+                    },
+                    true,
+                },
+                new object[]
+                {
+                    "x>=0b1010111010110110010000000010010101110101",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110101),
+                    },
+                    true,
+                },
+                new object[]
+                {
+                    "x<=0b1001010111010110110010000000010010101110101",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110100),
+                    },
+                    true,
+                },
+                new object[]
+                {
+                    "x<0b1010111010110110010000000010010101110101",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110101),
+                    },
+                    false,
+                },
+                new object[]
+                {
+                    "x>0b1001010111010110110010000000010010101110101",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110100),
+                    },
+                    false,
+                },
+                new object[]
+                {
+                    "x<=0b1010111010110110010000000010010101110101",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110101),
+                    },
+                    false,
+                },
+                new object[]
+                {
+                    "x>=0b1001010111010110110010000000010010101110101",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110100),
                     },
                     false,
                 },
