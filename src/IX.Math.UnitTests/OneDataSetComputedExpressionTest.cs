@@ -16,7 +16,7 @@ namespace IX.Math.UnitTests
     /// </summary>
     public class OneDataSetComputedExpressionTest : IClassFixture<CachedExpressionProviderFixture>
     {
-        private CachedExpressionProviderFixture fixture;
+        private readonly CachedExpressionProviderFixture fixture;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OneDataSetComputedExpressionTest"/> class.

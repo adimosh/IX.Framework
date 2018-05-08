@@ -16,7 +16,7 @@ namespace IX.Math.UnitTests
     /// </summary>
     public class ComputedExpressionTests : IClassFixture<CachedExpressionProviderFixture>
     {
-        private CachedExpressionProviderFixture fixture;
+        private readonly CachedExpressionProviderFixture fixture;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ComputedExpressionTests"/> class.
@@ -710,7 +710,7 @@ namespace IX.Math.UnitTests
                     {
                         ["x"] = 2,
                     },
-                    1.4142135623730951,
+                    global::System.Math.Sqrt(2),
                 },
                 new object[]
                 {

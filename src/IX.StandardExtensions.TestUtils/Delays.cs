@@ -1,4 +1,4 @@
-﻿// <copyright file="Delays.cs" company="Adrian Mos">
+// <copyright file="Delays.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -20,8 +20,9 @@ namespace IX.StandardExtensions.TestUtils
         /// <summary>
         /// Delays by ten milliseconds, asynchronously.
         /// </summary>
-        /// <returns>A <see cref="Task"/> which can be awaited.</returns>
-        public static Task DelayByTenMillisecondsAsync() => Task.Delay(10);
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task" /> which can be awaited.</returns>
+        public static Task DelayByTenMillisecondsAsync(CancellationToken cancellationToken = default) => Task.Delay(10, cancellationToken);
 
         /// <summary>
         /// Delays by ten milliseconds.
@@ -35,10 +36,9 @@ namespace IX.StandardExtensions.TestUtils
         /// </summary>
         /// <typeparam name="T">The type of the state parameter.</typeparam>
         /// <param name="state">The state.</param>
-        /// <returns>
-        /// A <see cref="Task" /> which can be awaited.
-        /// </returns>
-        public static Task DelayByTenMillisecondsAsync<T>(T state) => Task.Delay(10);
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task" /> which can be awaited.</returns>
+        public static Task DelayByTenMillisecondsAsync<T>(T state, CancellationToken cancellationToken = default) => Task.Delay(10, cancellationToken);
 
         /// <summary>
         /// Delays by one hundred milliseconds.
@@ -48,8 +48,9 @@ namespace IX.StandardExtensions.TestUtils
         /// <summary>
         /// Delays by one hundred milliseconds, asynchronously.
         /// </summary>
-        /// <returns>A <see cref="Task"/> which can be awaited.</returns>
-        public static Task DelayByOneHundredMillisecondsAsync() => Task.Delay(100);
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task" /> which can be awaited.</returns>
+        public static Task DelayByOneHundredMillisecondsAsync(CancellationToken cancellationToken = default) => Task.Delay(100, cancellationToken);
 
         /// <summary>
         /// Delays by one hundred milliseconds.
@@ -63,10 +64,9 @@ namespace IX.StandardExtensions.TestUtils
         /// </summary>
         /// <typeparam name="T">The type of the state parameter.</typeparam>
         /// <param name="state">The state.</param>
-        /// <returns>
-        /// A <see cref="Task" /> which can be awaited.
-        /// </returns>
-        public static Task DelayByOneHundredMillisecondsAsync<T>(T state) => Task.Delay(100);
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task" /> which can be awaited.</returns>
+        public static Task DelayByOneHundredMillisecondsAsync<T>(T state, CancellationToken cancellationToken = default) => Task.Delay(100, cancellationToken);
 
         /// <summary>
         /// Delays by one thousand milliseconds.
@@ -76,8 +76,9 @@ namespace IX.StandardExtensions.TestUtils
         /// <summary>
         /// Delays by one thousand milliseconds, asynchronously.
         /// </summary>
-        /// <returns>A <see cref="Task"/> which can be awaited.</returns>
-        public static Task DelayByOneThousandMillisecondsAsync() => Task.Delay(1000);
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task" /> which can be awaited.</returns>
+        public static Task DelayByOneThousandMillisecondsAsync(CancellationToken cancellationToken = default) => Task.Delay(1000, cancellationToken);
 
         /// <summary>
         /// Delays by one thousand milliseconds.
@@ -91,10 +92,9 @@ namespace IX.StandardExtensions.TestUtils
         /// </summary>
         /// <typeparam name="T">The type of the state parameter.</typeparam>
         /// <param name="state">The state.</param>
-        /// <returns>
-        /// A <see cref="Task" /> which can be awaited.
-        /// </returns>
-        public static Task DelayByOneThousandMillisecondsAsync<T>(T state) => Task.Delay(1000);
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task" /> which can be awaited.</returns>
+        public static Task DelayByOneThousandMillisecondsAsync<T>(T state, CancellationToken cancellationToken = default) => Task.Delay(1000, cancellationToken);
 
         /// <summary>
         /// Delays by ten milliseconds.
@@ -106,7 +106,8 @@ namespace IX.StandardExtensions.TestUtils
         /// Delays by ten milliseconds, asynchronously.
         /// </summary>
         /// <param name="milliseconds">The number of milliseconds to delay.</param>
-        /// <returns>A <see cref="Task"/> which can be awaited.</returns>
-        public static Task DelayByAnAmountAsync(int milliseconds) => Task.Delay(milliseconds);
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task" /> which can be awaited.</returns>
+        public static Task DelayByAnAmountAsync(int milliseconds, CancellationToken cancellationToken = default) => Task.Delay(milliseconds, cancellationToken);
     }
 }

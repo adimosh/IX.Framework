@@ -17,12 +17,12 @@ namespace IX.StandardExtensions.WPF.Commanding
         /// <summary>
         /// The execute action
         /// </summary>
-        private Action<object> executeAction;
+        private readonly Action<object> executeAction;
 
         /// <summary>
         /// The can execute action
         /// </summary>
-        private Predicate<object> canExecuteAction;
+        private readonly Predicate<object> canExecuteAction;
 
         /// <summary>
         /// <c>true</c> if the command is waiting for an action, <c>false</c> if it is idle.

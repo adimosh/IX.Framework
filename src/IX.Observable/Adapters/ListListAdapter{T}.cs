@@ -10,7 +10,7 @@ namespace IX.Observable.Adapters
     [CollectionDataContract(Namespace = Constants.DataContractNamespace, Name = "ListAdapterOf{0}", ItemName = "Item")]
     internal class ListListAdapter<T> : ListAdapter<T>
     {
-        private List<T> list;
+        private readonly List<T> list;
 
         public ListListAdapter()
         {

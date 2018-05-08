@@ -11,7 +11,7 @@ namespace IX.Observable.Adapters
 {
     internal class MultiListListAdapter<T> : ListAdapter<T>
     {
-        private List<IEnumerable<T>> lists;
+        private readonly List<IEnumerable<T>> lists;
 
         internal MultiListListAdapter()
         {

@@ -19,7 +19,7 @@ namespace IX.StandardExtensions.WPF.Localization
         /// <summary>
         /// The resource managers
         /// </summary>
-        private Dictionary<Tuple<string, string>, ResourceManager> resourceManagers;
+        private readonly Dictionary<Tuple<string, string>, ResourceManager> resourceManagers;
 
         /// <summary>
         /// The culture

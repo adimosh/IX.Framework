@@ -18,7 +18,7 @@ namespace IX.Observable.Adapters
         /// <summary>
         /// The base queue.
         /// </summary>
-        private Queue<T> queue;
+        private readonly Queue<T> queue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QueueCollectionAdapter{T}"/> class.

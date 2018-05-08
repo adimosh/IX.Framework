@@ -12,7 +12,7 @@ namespace IX.Math.UnitTests
     /// <seealso cref="IDisposable" />
     public class CachedExpressionProviderFixture : IDisposable
     {
-        private CachedExpressionParsingService ceps;
+        private readonly CachedExpressionParsingService ceps;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CachedExpressionProviderFixture"/> class.

@@ -15,32 +15,14 @@ namespace IX.Undoable
     /// <seealso cref="IX.Undoable.IUndoableItem" />
     public abstract class EditableItemBase : ViewModelBase, ITransactionEditableItem, IUndoableItem
     {
-        /// <summary>
-        /// The value indicating whether the item is in edit mode
-        /// </summary>
-        private bool isInEditMode;
+        private readonly PushDownStack<StateChange[]> undoStack;
+        private readonly PushDownStack<StateChange[]> redoStack;
+        private readonly global::System.Collections.Generic.List<StateChange> stateChanges;
 
         /// <summary>
         /// The history levels
         /// </summary>
         private int historyLevels;
-
-        /// <summary>
-        /// The undo stack
-        /// </summary>
-        private PushDownStack<StateChange[]> undoStack;
-
-        /// <summary>
-        /// The redo stack
-        /// </summary>
-        private PushDownStack<StateChange[]> redoStack;
-
-        private global::System.Collections.Generic.List<StateChange> stateChanges;
-
-        /// <summary>
-        /// The parent context
-        /// </summary>
-        private IUndoableItem parentContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EditableItemBase" /> class.
@@ -113,13 +95,13 @@ namespace IX.Undoable
         /// Gets a value indicating whether this instance is in edit mode.
         /// </summary>
         /// <value><c>true</c> if this instance is in edit mode; otherwise, <c>false</c>.</value>
-        public bool IsInEditMode => this.isInEditMode;
+        public bool IsInEditMode { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is captured in undo context.
         /// </summary>
         /// <value><c>true</c> if this instance is captured in undo context; otherwise, <c>false</c>.</value>
-        public bool IsCapturedIntoUndoContext => this.parentContext != null;
+        public bool IsCapturedIntoUndoContext => this.ParentUndoContext != null;
 
         /// <summary>
         /// Gets a value indicating whether or not an undo can be performed on this item.
@@ -137,19 +119,19 @@ namespace IX.Undoable
         /// Gets the parent undo context.
         /// </summary>
         /// <value>The parent undo context.</value>
-        public IUndoableItem ParentUndoContext => this.parentContext;
+        public IUndoableItem ParentUndoContext { get; private set; }
 
         /// <summary>
         /// Begins the editing of an item.
         /// </summary>
         public void BeginEdit()
         {
-            if (this.isInEditMode)
+            if (this.IsInEditMode)
             {
                 return;
             }
 
-            this.isInEditMode = true;
+            this.IsInEditMode = true;
 
             this.RaisePropertyChanged(nameof(this.IsInEditMode));
         }
@@ -160,7 +142,7 @@ namespace IX.Undoable
         /// <exception cref="IX.Undoable.ItemNotInEditModeException">The item is not in edit mode.</exception>
         public void CancelEdit()
         {
-            if (!this.isInEditMode)
+            if (!this.IsInEditMode)
             {
                 throw new ItemNotInEditModeException();
             }
@@ -179,7 +161,7 @@ namespace IX.Undoable
         /// <exception cref="IX.Undoable.ItemNotInEditModeException">The item is not in edit mode.</exception>
         public void CommitEdit()
         {
-            if (!this.isInEditMode)
+            if (!this.IsInEditMode)
             {
                 throw new ItemNotInEditModeException();
             }
@@ -198,7 +180,7 @@ namespace IX.Undoable
         /// <exception cref="IX.Undoable.ItemNotInEditModeException">The item is not in edit mode.</exception>
         public void EndEdit()
         {
-            if (!this.isInEditMode)
+            if (!this.IsInEditMode)
             {
                 throw new ItemNotInEditModeException();
             }
@@ -210,7 +192,7 @@ namespace IX.Undoable
                 this.stateChanges.Clear();
             }
 
-            this.isInEditMode = false;
+            this.IsInEditMode = false;
 
             this.RaisePropertyChanged(nameof(this.IsInEditMode));
         }
@@ -230,17 +212,17 @@ namespace IX.Undoable
                 throw new ArgumentNullException(nameof(parent));
             }
 
-            if (parent == this.parentContext)
+            if (parent == this.ParentUndoContext)
             {
                 return;
             }
 
-            if (this.isInEditMode)
+            if (this.IsInEditMode)
             {
                 throw new ItemIsInEditModeException();
             }
 
-            this.parentContext = parent;
+            this.ParentUndoContext = parent;
             this.undoStack.Clear();
             this.redoStack.Clear();
 
@@ -253,12 +235,12 @@ namespace IX.Undoable
         /// <remarks>This method is meant to be used by containers, and should not be called directly.</remarks>
         public void ReleaseFromUndoContext()
         {
-            if (this.parentContext == null)
+            if (this.ParentUndoContext == null)
             {
                 return;
             }
 
-            this.parentContext = null;
+            this.ParentUndoContext = null;
 
             this.RaisePropertyChanged(nameof(this.IsCapturedIntoUndoContext));
         }
@@ -273,10 +255,10 @@ namespace IX.Undoable
         /// <para>If the object is released, it is expected that this method once again starts ensuring state when called.</para></remarks>
         public void Undo()
         {
-            if (this.parentContext != null)
+            if (this.ParentUndoContext != null)
             {
                 // We are captured by a parent context, let's invoke that context's Undo.
-                this.parentContext.Undo();
+                this.ParentUndoContext.Undo();
                 return;
             }
 
@@ -305,10 +287,10 @@ namespace IX.Undoable
         /// <para>If the object is released, it is expected that this method once again starts ensuring state when called.</para></remarks>
         public void Redo()
         {
-            if (this.parentContext != null)
+            if (this.ParentUndoContext != null)
             {
                 // We are captured by a parent context, let's invoke that context's Redo.
-                this.parentContext.Redo();
+                this.ParentUndoContext.Redo();
                 return;
             }
 
@@ -422,7 +404,7 @@ namespace IX.Undoable
         /// <param name="stateChange">The state change to advertise.</param>
         protected void AdvertiseStateChange(StateChange stateChange)
         {
-            if (this.isInEditMode)
+            if (this.IsInEditMode)
             {
                 this.stateChanges.Add(stateChange);
             }
@@ -481,7 +463,7 @@ namespace IX.Undoable
                 return;
             }
 
-            if (this.parentContext != null)
+            if (this.ParentUndoContext != null)
             {
                 this.undoStack.Push(stateChanges);
             }

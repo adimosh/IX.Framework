@@ -42,7 +42,7 @@ namespace IX.Retry.Contexts
                 if (shouldRetry && this.options.WaitBetweenRetriesType != WaitType.None)
                 {
                     TimeSpan waitFor = this.GetRetryTimeSpan(retries, now);
-                    await Task.Delay((int)waitFor.TotalMilliseconds, cancellationToken);
+                    await Task.Delay((int)waitFor.TotalMilliseconds, cancellationToken).ConfigureAwait(false);
                 }
             }
             while (shouldRetry);

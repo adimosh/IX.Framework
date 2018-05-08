@@ -21,7 +21,7 @@ namespace IX.StandardExtensions.Efficiency
         private readonly object locker;
 
         // Pool collections
-        private Queue<T> availableObjects;
+        private readonly Queue<T> availableObjects;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectPool{T}"/> class.

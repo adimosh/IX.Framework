@@ -1983,7 +1983,7 @@ namespace IX.Sandbox.Memory
     /// </summary>
     public class ByteArrayVariable : VariableBase<byte[]>, IDeepCloneable<ByteArrayVariable>
     {
-        private Encoding encoding;
+        private readonly Encoding encoding;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ByteArrayVariable"/> class.

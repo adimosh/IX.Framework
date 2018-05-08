@@ -18,7 +18,7 @@ namespace IX.System.Collections.Generic
     /// <typeparam name="T">The stack item type.</typeparam>
     /// <seealso cref="IStack{T}" />
     [DataContract(Namespace = Constants.DataContractNamespace, Name = "PushDownStackOf{0}")]
-    public class PushDownStack<T> : IStack<T>, ICustomSerializableCollection<T>, IDisposable
+    public class PushDownStack<T> : IStack<T>, IDisposable
     {
         private bool disposedValue;
 
@@ -35,6 +35,7 @@ namespace IX.System.Collections.Generic
         /// <summary>
         /// The internal container.
         /// </summary>
+        [DataMember(Name = "Items")]
         private List<T> internalContainer;
 
         /// <summary>
@@ -123,17 +124,6 @@ namespace IX.System.Collections.Generic
         /// </summary>
         /// <value>The synchronize root.</value>
         public object SyncRoot => ((ICollection)this.internalContainer).SyncRoot;
-
-        /// <summary>
-        /// Gets or sets the internal container.
-        /// </summary>
-        /// <value>The internal container.</value>
-        [DataMember(Name="Items")]
-        List<T> ICustomSerializableCollection<T>.InternalContainer
-        {
-            get => this.internalContainer;
-            set => this.internalContainer = value;
-        }
 
         /// <summary>
         /// Clears the observable stack.
@@ -346,52 +336,6 @@ namespace IX.System.Collections.Generic
             this.ThrowIfCurrentObjectDisposed();
 
             (action ?? throw new ArgumentNullException()).Invoke(param1, param2);
-        }
-
-        /// <summary>
-        /// Invokes an action under a reader lock.
-        /// </summary>
-        /// <param name="lockedAction">The action to invoke under lock.</param>
-        /// <exception cref="TimeoutException">The lock could not be obtained in the timeout period.</exception>
-        private void ReadLock(Action lockedAction)
-        {
-            if (!(this.locker ?? (this.locker = new ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy.NoRecursion))).TryEnterReadLock(Constants.ConcurrentLockAcquisitionTimeout))
-            {
-                throw new TimeoutException();
-            }
-
-            try
-            {
-                lockedAction();
-            }
-            finally
-            {
-                this.locker.ExitReadLock();
-            }
-        }
-
-        /// <summary>
-        /// Invokes an action under a reader lock.
-        /// </summary>
-        /// <typeparam name="TArgument">The type of the argument.</typeparam>
-        /// <param name="lockedAction">The action to invoke under lock.</param>
-        /// <param name="argument">The argument.</param>
-        /// <exception cref="TimeoutException">The lock could not be obtained in the timeout period.</exception>
-        private void ReadLock<TArgument>(Action<TArgument> lockedAction, TArgument argument)
-        {
-            if (!(this.locker ?? (this.locker = new ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy.NoRecursion))).TryEnterReadLock(Constants.ConcurrentLockAcquisitionTimeout))
-            {
-                throw new TimeoutException();
-            }
-
-            try
-            {
-                lockedAction(argument);
-            }
-            finally
-            {
-                this.locker.ExitReadLock();
-            }
         }
 
         /// <summary>
