@@ -25,7 +25,7 @@ namespace IX.Math
         private NodeBase body;
         private bool disposedValue;
 
-        internal ComputedExpression(in string initialExpression, in NodeBase body, in bool isRecognized, in IParameterRegistry parameterRegistry, in string defaultStringFormat)
+        internal ComputedExpression(string initialExpression, NodeBase body, bool isRecognized, IParameterRegistry parameterRegistry, string defaultStringFormat)
         {
             this.parametersRegistry = parameterRegistry;
 
@@ -99,8 +99,8 @@ namespace IX.Math
             var convertedArguments = FormatArgumentsAccordingToParameters(arguments, this.parametersRegistry.Dump());
 
             object[] FormatArgumentsAccordingToParameters(
-                in object[] parameterValues,
-                in ParameterContext[] parameters)
+                object[] parameterValues,
+                ParameterContext[] parameters)
             {
                 if (parameterValues.Length != parameters.Length)
                 {

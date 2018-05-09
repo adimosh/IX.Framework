@@ -77,7 +77,7 @@ namespace IX.System.Collections.Generic
         /// Gets the number of elements in the observable stack.
         /// </summary>
         /// <value>The count.</value>
-        public int Count => this.InvokeIfNotDisposed(() => this.ReadLock(() => this.internalContainer.Count));
+        public int Count => this.InvokeIfNotDisposed((cThis) => cThis.ReadLock((c2This) => c2This.internalContainer.Count, cThis), this);
 
         /// <summary>
         /// Gets or sets the number of items in the push-down stack.
@@ -96,22 +96,24 @@ namespace IX.System.Collections.Generic
                 }
 
                 this.WriteLock(
-                    (val) =>
+                    (val, cThis) =>
                     {
-                        this.limit = val;
+                        cThis.limit = val;
 
                         if (val != 0)
                         {
-                            while (this.internalContainer.Count > val)
+                            while (cThis.internalContainer.Count > val)
                             {
-                                this.internalContainer.RemoveAt(0);
+                                cThis.internalContainer.RemoveAt(0);
                             }
                         }
                         else
                         {
-                            this.internalContainer.Clear();
+                            cThis.internalContainer.Clear();
                         }
-                    }, value);
+                    },
+                    value,
+                    this);
             }
         }
 
@@ -192,25 +194,30 @@ namespace IX.System.Collections.Generic
         /// Pushes an element to the top of the stack.
         /// </summary>
         /// <param name="item">The item to push.</param>
-        public void Push(T item) => this.InvokeIfNotDisposed(
-            (itemL2) =>
-            {
-                if (this.limit == 0)
+        public void Push(T item) =>
+            this.InvokeIfNotDisposed(
+                (itemL2, cThis) =>
                 {
-                    return;
-                }
-
-                this.WriteLock(
-                    (itemL1) =>
+                    if (cThis.limit == 0)
                     {
-                        if (this.internalContainer.Count == this.limit)
-                        {
-                            this.internalContainer.RemoveAt(0);
-                        }
+                        return;
+                    }
 
-                        this.internalContainer.Add(itemL1);
-                    }, itemL2);
-            }, item);
+                    cThis.WriteLock(
+                        (itemL1, c2This) =>
+                        {
+                            if (c2This.internalContainer.Count == c2This.limit)
+                            {
+                                c2This.internalContainer.RemoveAt(0);
+                            }
+
+                            c2This.internalContainer.Add(itemL1);
+                        },
+                        itemL2,
+                        cThis);
+                },
+                item,
+                this);
 
         /// <summary>
         /// Copies all elements of the stack to a new array.
@@ -349,7 +356,7 @@ namespace IX.System.Collections.Generic
         /// <param name="argument1">The argument at index 0.</param>
         /// <param name="argument2">The argument at index 1.</param>
         /// <exception cref="TimeoutException">The lock could not be obtained in the timeout period.</exception>
-        private void ReadLock<TArgument1, TArgument2>(in Action<TArgument1, TArgument2> lockedAction, TArgument1 argument1, TArgument2 argument2)
+        private void ReadLock<TArgument1, TArgument2>(Action<TArgument1, TArgument2> lockedAction, TArgument1 argument1, TArgument2 argument2)
         {
             if (!(this.locker ?? (this.locker = new ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy.NoRecursion))).TryEnterReadLock(Constants.ConcurrentLockAcquisitionTimeout))
             {
@@ -373,7 +380,7 @@ namespace IX.System.Collections.Generic
         /// <param name="lockedAction">The action to invoke under lock.</param>
         /// <returns>The invocation result.</returns>
         /// <exception cref="TimeoutException">The lock could not be obtained in the timeout period.</exception>
-        private TResult ReadLock<TResult>(in Func<TResult> lockedAction)
+        private TResult ReadLock<TResult>(Func<TResult> lockedAction)
         {
             if (!(this.locker ?? (this.locker = new ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy.NoRecursion))).TryEnterReadLock(Constants.ConcurrentLockAcquisitionTimeout))
             {
@@ -399,7 +406,7 @@ namespace IX.System.Collections.Generic
         /// <param name="argument">The argument.</param>
         /// <returns>The invocation result.</returns>
         /// <exception cref="TimeoutException">The lock could not be obtained in the timeout period.</exception>
-        private TResult ReadLock<TArgument, TResult>(in Func<TArgument, TResult> lockedAction, TArgument argument)
+        private TResult ReadLock<TArgument, TResult>(Func<TArgument, TResult> lockedAction, TArgument argument)
         {
             if (!(this.locker ?? (this.locker = new ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy.NoRecursion))).TryEnterReadLock(Constants.ConcurrentLockAcquisitionTimeout))
             {
@@ -421,7 +428,7 @@ namespace IX.System.Collections.Generic
         /// </summary>
         /// <param name="lockedAction">The action to invoke under lock.</param>
         /// <exception cref="TimeoutException">The lock could not be obtained in the timeout period.</exception>
-        private void WriteLock(in Action lockedAction)
+        private void WriteLock(Action lockedAction)
         {
             if (!(this.locker ?? (this.locker = new ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy.NoRecursion))).TryEnterWriteLock(Constants.ConcurrentLockAcquisitionTimeout))
             {
@@ -442,10 +449,12 @@ namespace IX.System.Collections.Generic
         /// Invokes an action under a writer lock.
         /// </summary>
         /// <typeparam name="TArgument">The type of the argument.</typeparam>
+        /// <typeparam name="TArgument2">The type of the argument2.</typeparam>
         /// <param name="lockedAction">The action to invoke under lock.</param>
         /// <param name="argument">The argument.</param>
+        /// <param name="argument2">The argument2.</param>
         /// <exception cref="TimeoutException">The lock could not be obtained in the timeout period.</exception>
-        private void WriteLock<TArgument>(in Action<TArgument> lockedAction, TArgument argument)
+        private void WriteLock<TArgument, TArgument2>(Action<TArgument, TArgument2> lockedAction, TArgument argument, TArgument2 argument2)
         {
             if (!(this.locker ?? (this.locker = new ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy.NoRecursion))).TryEnterWriteLock(Constants.ConcurrentLockAcquisitionTimeout))
             {
@@ -454,7 +463,7 @@ namespace IX.System.Collections.Generic
 
             try
             {
-                lockedAction(argument);
+                lockedAction(argument, argument2);
             }
             finally
             {
@@ -469,7 +478,7 @@ namespace IX.System.Collections.Generic
         /// <param name="lockedAction">The action to invoke under lock.</param>
         /// <returns>The invocation result.</returns>
         /// <exception cref="TimeoutException">The lock could not be obtained in the timeout period.</exception>
-        private TResult WriteLock<TResult>(in Func<TResult> lockedAction)
+        private TResult WriteLock<TResult>(Func<TResult> lockedAction)
         {
             if (!(this.locker ?? (this.locker = new ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy.NoRecursion))).TryEnterWriteLock(Constants.ConcurrentLockAcquisitionTimeout))
             {
@@ -490,7 +499,7 @@ namespace IX.System.Collections.Generic
         /// Disposes the specified disposing.
         /// </summary>
         /// <param name="disposing">The disposing.</param>
-        private void Dispose(in bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!this.disposedValue)
             {

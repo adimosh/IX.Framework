@@ -39,6 +39,8 @@
     <Compile Include="..\CodeGenerator\IEnumerableSequenceEqualsExtensions.StandardTypes.cs" Link="IEnumerableSequenceEqualsExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" Link="IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\IListCloneExtensions.StandardTypes.cs" Link="IListCloneExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArrayExtensions.ForEachActions.cs" Link="ArrayExtensions.ForEachActions.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableExtensions.ForEachActions.cs" Link="IEnumerableExtensions.ForEachActions.cs" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">

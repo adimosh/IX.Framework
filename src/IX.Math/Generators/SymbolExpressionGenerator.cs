@@ -1,4 +1,4 @@
-﻿// <copyright file="SymbolExpressionGenerator.cs" company="Adrian Mos">
+// <copyright file="SymbolExpressionGenerator.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -10,10 +10,10 @@ namespace IX.Math.Generators
     internal static class SymbolExpressionGenerator
     {
         internal static string GenerateSymbolExpression(
-            in Dictionary<string, ExpressionSymbol> symbolTable,
-            in Dictionary<string, string> reverseSymbolTable,
-            in string expression,
-            in bool isFunction)
+            Dictionary<string, ExpressionSymbol> symbolTable,
+            Dictionary<string, string> reverseSymbolTable,
+            string expression,
+            bool isFunction)
         {
             if (!reverseSymbolTable.TryGetValue(expression, out var itemName))
             {

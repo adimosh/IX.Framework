@@ -4,6 +4,7 @@
 
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using IX.Math.ExpressionState;
 using IX.Math.Extraction;
@@ -232,10 +233,10 @@ namespace IX.Math
                 NodeBase exp = ExpressionByBinaryOperator(workingSet, expression, operatorPosition.Item2, operatorPosition.Item3);
 
                 NodeBase ExpressionByBinaryOperator(
-                    in WorkingExpressionSet innerWorkingSet,
-                    in string s,
-                    in int position,
-                    in string op)
+                    WorkingExpressionSet innerWorkingSet,
+                    string s,
+                    int position,
+                    string op)
                 {
 #if DEBUG
                     if (innerWorkingSet == null)
@@ -260,6 +261,7 @@ namespace IX.Math
                     if (innerWorkingSet.BinaryOperators.TryGetValue(op, out Type t))
                     {
                         // We have a binary operator found
+                        NodeBase left, right;
                         try
                         {
                             // We have a normal, regular binary
@@ -270,7 +272,7 @@ namespace IX.Math
                                 return null;
                             }
 
-                            NodeBase left = GenerateExpression(eee, innerWorkingSet);
+                            left = GenerateExpression(eee, innerWorkingSet);
                             if (left == null)
                             {
                                 // Left expression is invalid.
@@ -284,17 +286,31 @@ namespace IX.Math
                                 return null;
                             }
 
-                            NodeBase right = GenerateExpression(eee, innerWorkingSet);
+                            right = GenerateExpression(eee, innerWorkingSet);
                             if (right == null)
                             {
                                 // Right expression is invalid.
                                 return null;
                             }
-
-                            return ((BinaryOperationNodeBase)Activator.CreateInstance(t, left, right))?.Simplify();
                         }
                         catch
                         {
+                            return null;
+                        }
+
+                        try
+                        {
+                            // TODO: Change Activator.CreateInstance to something offering higher performance and less TargetInvocationExceptions
+                            return ((BinaryOperationNodeBase)Activator.CreateInstance(t, left, right))?.Simplify();
+                        }
+                        catch (MissingMemberException)
+                        {
+                            // The binary operator does not support the type of expression that would constitute the operand.
+                            return null;
+                        }
+                        catch (TargetInvocationException)
+                        {
+                            // The constructor has thrown an exception when trying to construct the node. It is possible that the binary operator might not be a good fit.
                             return null;
                         }
                     }
@@ -339,21 +355,36 @@ namespace IX.Math
                     if (s.StartsWith(op) && innerWorkingSet.UnaryOperators.TryGetValue(op, out Type t))
                     {
                         // We have a valid unary operator and the expression starts with it.
+                        NodeBase expr;
                         try
                         {
                             var eee = s.Substring(op.Length);
-                            NodeBase expr = GenerateExpression(string.IsNullOrWhiteSpace(eee) ? null : eee, innerWorkingSet);
+                            expr = GenerateExpression(string.IsNullOrWhiteSpace(eee) ? null : eee, innerWorkingSet);
                             if (expr == null)
                             {
                                 // The operand expression was not valid.
                                 return null;
                             }
-
-                            return ((UnaryOperatorNodeBase)Activator.CreateInstance(t, expr))?.Simplify();
                         }
-                        catch
+                        catch (Exception)
                         {
                             // An exception has been thrown when recognizing.
+                            return null;
+                        }
+
+                        try
+                        {
+                            // TODO: Change Activator.CreateInstance to something offering higher performance and less TargetInvocationExceptions
+                            return ((UnaryOperatorNodeBase)Activator.CreateInstance(t, expr))?.Simplify();
+                        }
+                        catch (MissingMemberException)
+                        {
+                            // The unary operator does not support the type of expression that would constitute the operand.
+                            return null;
+                        }
+                        catch (TargetInvocationException)
+                        {
+                            // The constructor has thrown an exception when trying to construct the node. It is possible that the unary operator might not be a good fit.
                             return null;
                         }
                     }

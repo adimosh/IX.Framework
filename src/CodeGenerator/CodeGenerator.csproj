@@ -264,5 +264,31 @@
       <DependentUpon>ReaderWriterSynchronizedBase.ActionsAndFuncs.tt</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.StandardExtensions\ArrayExtensions.ForEachActions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ArrayExtensions.ForEachActions.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.StandardExtensions\ArrayExtensions.ForEachActions.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ArrayExtensions.ForEachActions.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.StandardExtensions\IEnumerableExtensions.ForEachActions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IEnumerableExtensions.ForEachActions.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.StandardExtensions\IEnumerableExtensions.ForEachActions.cs">
+      <DependentUpon>IEnumerableExtensions.ForEachActions.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

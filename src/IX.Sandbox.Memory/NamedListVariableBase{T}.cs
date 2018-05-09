@@ -152,7 +152,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Clears this instance.
         /// </summary>
-        public void Clear() => this.FireAndForget((oi) => oi.ForEach<IVariable>(p => this.parentScope.DisposeVariable(ref p)), this.items.ClearAndPersist());
+        public void Clear() => this.FireAndForget((oi, ps) => oi.ForEach<IVariable>(p => ps.DisposeVariable(ref p)), this.items.ClearAndPersist(), this.parentScope);
 
         /// <summary>
         /// Compares the list with another variable.

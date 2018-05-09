@@ -65,6 +65,8 @@ namespace IX.Math.Nodes
                     }
 
                     break;
+
+                case SupportedValueType.Unknown:
                 default:
                     throw new InvalidOperationException();
             }
