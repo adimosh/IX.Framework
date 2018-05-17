@@ -1,4 +1,4 @@
-﻿// <copyright file="IDictionaryExtensions.cs" company="Adrian Mos">
+// <copyright file="IDictionaryExtensions.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -30,7 +30,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, TValue>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value.DeepClone()));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value.DeepClone()), destination);
 
             return destination;
         }
@@ -53,7 +53,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, TValue>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value.ShallowClone()));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value.ShallowClone()), destination);
 
             return destination;
         }

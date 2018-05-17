@@ -4,7 +4,6 @@
 
 using System;
 using System.Globalization;
-using System.Linq;
 using IX.StandardExtensions.Globalization;
 
 namespace IX.Math.Formatters
@@ -20,7 +19,7 @@ namespace IX.Math.Formatters
         private const NumberStyles HexNumberStyle = NumberStyles.AllowHexSpecifier;
 
         internal static bool ParseNumeric(
-            in string expression,
+            string expression,
             out object result)
         {
             if (string.IsNullOrWhiteSpace(expression))
@@ -46,7 +45,7 @@ namespace IX.Math.Formatters
             }
 
             bool ParseHexSpecific(
-                in string hexExpression,
+                string hexExpression,
                 out object hexResult)
             {
                 if (long.TryParse(hexExpression, HexNumberStyle, CultureInfo.CurrentCulture, out var intVal))
@@ -60,7 +59,7 @@ namespace IX.Math.Formatters
             }
 
             bool ParseSpecific(
-                in string specificExpression,
+                string specificExpression,
                 out object specificResult)
             {
                 IFormatProvider formatProvider = CultureInfo.CurrentCulture;
@@ -82,7 +81,7 @@ namespace IX.Math.Formatters
         }
 
         internal static bool ParseByteArray(
-            in string expression,
+            string expression,
             out byte[] result)
         {
             if (string.IsNullOrWhiteSpace(expression))
@@ -107,7 +106,7 @@ namespace IX.Math.Formatters
             return false;
 
             bool ParseByteArray(
-                in string byteArrayExpression,
+                string byteArrayExpression,
                 out byte[] byteArrayResult)
             {
                 var stringLength = byteArrayExpression.Length;
@@ -138,7 +137,8 @@ namespace IX.Math.Formatters
                         bytes[i] = Convert.ToByte(byteArrayExpression.Substring(startingIndex, length), 2);
                     }
 
-                    byteArrayResult = bytes.Reverse().ToArray();
+                    Array.Reverse(bytes);
+                    byteArrayResult = bytes;
 
                     return true;
                 }

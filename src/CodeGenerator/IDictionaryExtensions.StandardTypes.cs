@@ -1,4 +1,4 @@
-﻿// <copyright file="IDictionaryExtensions.StandardTypes.cs" company="Adrian Mos">
+// <copyright file="IDictionaryExtensions.StandardTypes.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -28,7 +28,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, byte>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
@@ -49,7 +49,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, sbyte>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
@@ -70,7 +70,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, short>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
@@ -91,7 +91,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, ushort>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
@@ -112,7 +112,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, char>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
@@ -133,7 +133,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, int>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
@@ -154,7 +154,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, uint>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
@@ -175,7 +175,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, long>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
@@ -196,7 +196,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, ulong>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
@@ -217,7 +217,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, float>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
@@ -238,7 +238,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, double>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
@@ -259,7 +259,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, decimal>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
@@ -280,7 +280,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, DateTime>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
@@ -301,7 +301,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, bool>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
@@ -322,7 +322,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, TimeSpan>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
@@ -343,7 +343,7 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, string>();
 
-            source.ForEach(p => destination.Add(p.Key, p.Value));
+            source.ForEach((p, dest) => dest.Add(p.Key, p.Value), destination);
 
             return destination;
         }
