@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard1.0;net45;netstandard1.1;netstandard2.0</TargetFrameworks>
@@ -30,15 +30,15 @@
   <Import Project="..\StyleCop.targets" />
 
   <ItemGroup>
-    <Compile Include="..\CodeGenerator\ArrayExtensions.StandardTypes.cs" Link="ArrayExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\ArraySequenceCompareExtensions.StandardTypes.cs" Link="ArraySequenceCompareExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\ArraySequenceEqualsExtensions.StandardTypes.cs" Link="ArraySequenceEqualsExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\DisposableBase.InvokeIfNotDisposed.cs" Link="ComponentModel\DisposableBase.InvokeIfNotDisposed.cs" />
-    <Compile Include="..\CodeGenerator\IDictionaryExtensions.StandardTypes.cs" Link="IDictionaryExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IEnumerableSequenceCompareExtensions.StandardTypes.cs" Link="IEnumerableSequenceCompareExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IEnumerableSequenceEqualsExtensions.StandardTypes.cs" Link="IEnumerableSequenceEqualsExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" Link="IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IListCloneExtensions.StandardTypes.cs" Link="IListCloneExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArrayExtensions.StandardTypes.cs" Link="ArrayExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArraySequenceCompareExtensions.StandardTypes.cs" Link="ArraySequenceCompareExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArraySequenceEqualsExtensions.StandardTypes.cs" Link="ArraySequenceEqualsExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\DisposableBase.InvokeIfNotDisposed.cs" Link="ComponentModel\DisposableBase.InvokeIfNotDisposed.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IDictionaryExtensions.StandardTypes.cs" Link="IDictionaryExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableSequenceCompareExtensions.StandardTypes.cs" Link="IEnumerableSequenceCompareExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableSequenceEqualsExtensions.StandardTypes.cs" Link="IEnumerableSequenceEqualsExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" Link="IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IListCloneExtensions.StandardTypes.cs" Link="IListCloneExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArrayExtensions.ForEachActions.cs" Link="ArrayExtensions.ForEachActions.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableExtensions.ForEachActions.cs" Link="IEnumerableExtensions.ForEachActions.cs" />
   </ItemGroup>

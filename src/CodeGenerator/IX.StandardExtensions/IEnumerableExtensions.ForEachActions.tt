@@ -17,7 +17,8 @@ namespace IX.StandardExtensions
     /// SequenceEquals extensions for IEnumerable.
     /// </summary>
     public static partial class IEnumerableSequenceEqualsExtensions
-    {<#
+    {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions<#
 for (int i = 1; i <= 8; i++)
 {
     string[] types = new string[i];
@@ -80,5 +81,6 @@ for (int i = 1; i <= 8; i++)
 <#
 }
 #>
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
     }
 }
