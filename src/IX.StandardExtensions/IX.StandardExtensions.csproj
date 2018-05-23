@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard1.1;netstandard2.0</TargetFrameworks>
@@ -41,6 +41,7 @@
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\IListCloneExtensions.StandardTypes.cs" Link="IListCloneExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArrayExtensions.ForEachActions.cs" Link="ArrayExtensions.ForEachActions.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableExtensions.ForEachActions.cs" Link="IEnumerableExtensions.ForEachActions.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\InDelegates.WithParameters.cs" Link="InDelegates.WithParameters.cs" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">

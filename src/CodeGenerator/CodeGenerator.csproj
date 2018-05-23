@@ -290,5 +290,18 @@
       <DesignTime>True</DesignTime>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.StandardExtensions\InDelegates.WithParameters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InDelegates.WithParameters.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.StandardExtensions\InDelegates.WithParameters.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InDelegates.WithParameters.tt</DependentUpon>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

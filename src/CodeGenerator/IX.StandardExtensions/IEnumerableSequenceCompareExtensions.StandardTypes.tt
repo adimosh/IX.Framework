@@ -3,7 +3,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ include file="StandardTypes.tt" #><#@ include file="Fixture.tt" #>
+<#@ include file="..\StandardTypes.tt" #><#@ include file="..\Fixture.tt" #>
 <#@ output extension=".cs" #>
 // <copyright file="IEnumerableSequenceCompareExtensions.StandardTypes.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.

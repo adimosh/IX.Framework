@@ -1,0 +1,78 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+// <copyright file="InDelegates.WithParameters.cs" company="Adrian Mos">
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
+// </copyright>
+
+namespace IX.StandardExtensions.Efficiency
+{<#
+for (int i = 1; i <= 8; i++)
+{
+    string[] types = new string[i];
+    string[] names = new string[i];
+    string[] nameTypes = new string[i];
+
+    for (int j = 1; j <= i; j++)
+    {
+        int idx = j - 1;
+        types[idx] = $"TParam{j}";
+        names[idx] = $"param{j}";
+        nameTypes[idx] = $"in TParam{j} param{j}";
+    }
+
+    string paramTypes = string.Join(", ", types);
+    string paramNames = string.Join(", ", names);
+    string paramNameTypes = string.Join(", ", nameTypes);
+#>
+
+    /// <summary>
+    /// A generic delegate for a method whose parameters are all marked as "in", with a return type.
+    /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+    /// <typeparam name="TParam<#= j #>">The type of the parameter at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+    /// <typeparam name="TResult">The type of the result.</typeparam>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+    /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+    /// <returns>The result of the method.</returns>
+    public delegate TResult InFunc<<#= paramTypes #>, TResult>(<#= paramNameTypes #>);
+
+    /// <summary>
+    /// A generic delegate for a method whose parameters are all marked as "in".
+    /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+    /// <typeparam name="TParam<#= j #>">The type of the parameter at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+    /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+    public delegate void InAction<<#= paramTypes #>>(<#= paramNameTypes #>);
+<#
+}
+#>
+}

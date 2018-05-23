@@ -1,4 +1,4 @@
-﻿// <copyright file="ArraySequenceCompareExtensions.cs" company="Adrian Mos">
+// <copyright file="ArraySequenceCompareExtensions.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -29,7 +29,10 @@ namespace IX.StandardExtensions
             }
             else if (typeof(IComparable).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
             {
-                comparer = (c1, c2) => ((IComparable)c1).CompareTo(c2);
+                comparer = SequenceComparerWithIComparable;
+
+                int SequenceComparerWithIComparable(T c1, T c2)
+                    => ((IComparable)c1).CompareTo(c2);
             }
             else
             {
