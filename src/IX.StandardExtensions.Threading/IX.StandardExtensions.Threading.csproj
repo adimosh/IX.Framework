@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;net45;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net45;netstandard1.1;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="..\DefaultPackageVersionSystem.props" />
@@ -45,7 +45,7 @@
     <Compile Include="..\CodeGenerator\Fire.AndForgetActionsAndFuncs.cs" Link="Fire.AndForgetActionsAndFuncs.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\ReaderWriterSynchronizedBase.ActionsAndFuncs.cs" Link="ReaderWriterSynchronizedBase.ActionsAndFuncs.cs" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\IX.Abstractions\IX.Abstractions.csproj" />
     <ProjectReference Include="..\IX.Abstractions.Threading\IX.Abstractions.Threading.csproj" />

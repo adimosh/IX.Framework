@@ -135,13 +135,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DisposableBase.InvokeIfNotDisposed.tt">
+    <None Include="IX.StandardExtensions\DisposableBase.InvokeIfNotDisposed.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DisposableBase.InvokeIfNotDisposed.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DisposableBase.InvokeIfNotDisposed.cs">
+    <None Include="IX.StandardExtensions\DisposableBase.InvokeIfNotDisposed.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DisposableBase.InvokeIfNotDisposed.tt</DependentUpon>
