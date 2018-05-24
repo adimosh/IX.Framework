@@ -6,6 +6,7 @@ using System;
 
 namespace IX.StandardExtensions
 {
+#pragma warning disable IDE0008 // Use explicit type - This is acceptable in this generated code in order to avoid DateTime and TimeSpan issues
     /// <summary>
     /// Extensions for array types.
     /// </summary>
@@ -763,4 +764,5 @@ namespace IX.StandardExtensions
             }
         }
     }
+#pragma warning restore IDE0008 // Use explicit type
 }

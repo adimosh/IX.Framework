@@ -25,7 +25,10 @@ namespace IX.StandardExtensions
             Func<T, T, int> comparer;
             if (typeof(IComparable<T>).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
             {
-                comparer = (c1, c2) => ((IComparable<T>)c1).CompareTo(c2);
+                comparer = SequenceCompareWithIComparableOfT;
+
+                int SequenceCompareWithIComparableOfT(T c1, T c2)
+                    => ((IComparable<T>)c1).CompareTo(c2);
             }
             else if (typeof(IComparable).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
             {
@@ -36,7 +39,10 @@ namespace IX.StandardExtensions
             }
             else
             {
-                comparer = (c1, c2) => c1.Equals(c2) ? 0 : -1;
+                comparer = SequenceCompareWithObjectEquality;
+
+                int SequenceCompareWithObjectEquality(T c1, T c2)
+                    => c1.Equals(c2) ? 0 : -1;
             }
 
             return SequenceCompare(
@@ -53,11 +59,18 @@ namespace IX.StandardExtensions
         /// <param name="right">The right operand array.</param>
         /// <param name="comparer">The comparer to use when equating items.</param>
         /// <returns>The result of the comparison.</returns>
-        public static int SequenceCompare<T>(this T[] left, T[] right, IComparer<T> comparer) =>
-            SequenceCompare(
+        public static int SequenceCompare<T>(this T[] left, T[] right, IComparer<T> comparer)
+        {
+            return SequenceCompare(
                 left,
                 right,
-                (c1, c2) => comparer.Compare(c1, c2));
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable, as we need a closure here anyway
+                CompareUsingComparer);
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+
+            int CompareUsingComparer(T c1, T c2)
+                => comparer.Compare(c1, c2);
+        }
 
         /// <summary>
         /// Compares two arrays to one another sequentially.

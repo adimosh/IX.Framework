@@ -26,15 +26,31 @@ namespace IX.StandardExtensions
             Func<T, T, bool> comparer;
             if (typeof(IEquatable<T>).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
             {
-                comparer = (c1, c2) => ((IEquatable<T>)c1).Equals(c2);
+                comparer = EquateWithIEquatableOfT;
+
+                bool EquateWithIEquatableOfT(T c1, T c2)
+                    => ((IEquatable<T>)c1).Equals(c2);
             }
             else if (typeof(IComparable<T>).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
             {
-                comparer = (c1, c2) => ((IComparable<T>)c1).CompareTo(c2) == 0;
+                comparer = EquateWithIComparableOfT;
+
+                bool EquateWithIComparableOfT(T c1, T c2)
+                    => ((IComparable<T>)c1).CompareTo(c2) == 0;
+            }
+            else if (typeof(IComparable).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
+            {
+                comparer = EquateWithIComparable;
+
+                bool EquateWithIComparable(T c1, T c2)
+                    => ((IComparable)c1).CompareTo(c2) == 0;
             }
             else
             {
-                comparer = (c1, c2) => c1.Equals(c2);
+                comparer = EquateAsObjects;
+
+                bool EquateAsObjects(T c1, T c2)
+                    => c1.Equals(c2);
             }
 
             return SequenceEqualsInternal(
@@ -52,11 +68,18 @@ namespace IX.StandardExtensions
         /// <param name="comparer">The comparer to use when equating items.</param>
         /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
         /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
-        public static bool SequenceEquals<T>(this T[] left, T[] right, IEqualityComparer<T> comparer) =>
-            SequenceEqualsInternal(
+        public static bool SequenceEquals<T>(this T[] left, T[] right, IEqualityComparer<T> comparer)
+        {
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable, as we need a closure here anyway
+            return SequenceEqualsInternal(
                 left,
                 right,
-                (c1, c2) => comparer.Equals(c1, c2));
+                EquateWithComparer);
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+
+            bool EquateWithComparer(T c1, T c2)
+                => comparer.Equals(c1, c2);
+        }
 
         private static bool SequenceEqualsInternal<T>(in T[] left, in T[] right, in Func<T, T, bool> comparer)
         {
