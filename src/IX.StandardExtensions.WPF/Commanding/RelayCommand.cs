@@ -1,4 +1,4 @@
-﻿// <copyright file="RelayCommand.cs" company="Adrian Mos">
+// <copyright file="RelayCommand.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -15,12 +15,12 @@ namespace IX.StandardExtensions.WPF.Commanding
     public class RelayCommand : ICommand
     {
         /// <summary>
-        /// The execute action
+        /// The execute action.
         /// </summary>
         private readonly Action<object> executeAction;
 
         /// <summary>
-        /// The can execute action
+        /// The can execute action.
         /// </summary>
         private readonly Predicate<object> canExecuteAction;
 
@@ -80,7 +80,9 @@ namespace IX.StandardExtensions.WPF.Commanding
             {
                 this.isWaitingForAction = false;
 
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable in this case
                 (Dispatcher.CurrentDispatcher ?? global::System.Windows.Application.Current.Dispatcher).Invoke(this.TriggerCanExecuteChanged, DispatcherPriority.ApplicationIdle);
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
             }
         }
 
