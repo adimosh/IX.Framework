@@ -26,11 +26,11 @@ namespace IX.Math.Generators
         /// <param name="content">The content.</param>
         /// <returns>The name of the new constant.</returns>
         public static string GenerateStringConstant(
-                    in IDictionary<string, ConstantNodeBase> constantsTable,
-                    in IDictionary<string, string> reverseConstantsTable,
-                    in string originalExpression,
-                    in string stringIndicator,
-                    in string content)
+            IDictionary<string, ConstantNodeBase> constantsTable,
+            IDictionary<string, string> reverseConstantsTable,
+            string originalExpression,
+            string stringIndicator,
+            string content)
         {
             if (string.IsNullOrWhiteSpace(originalExpression))
             {
@@ -79,10 +79,10 @@ namespace IX.Math.Generators
         /// <param name="content">The content.</param>
         /// <returns>The name of the new constant.</returns>
         public static string GenerateNumericConstant(
-                    in IDictionary<string, ConstantNodeBase> constantsTable,
-                    in IDictionary<string, string> reverseConstantsTable,
-                    in string originalExpression,
-                    in string content)
+            IDictionary<string, ConstantNodeBase> constantsTable,
+            IDictionary<string, string> reverseConstantsTable,
+            string originalExpression,
+            string content)
         {
             if (string.IsNullOrWhiteSpace(originalExpression))
             {
@@ -131,10 +131,10 @@ namespace IX.Math.Generators
         /// <param name="content">The content.</param>
         /// <returns>The name of the new constant, or <c>null</c> (<c>Nothing</c> in Visual Basic) if a suitable type is not found.</returns>
         public static string CheckAndAdd(
-                    in IDictionary<string, ConstantNodeBase> constantsTable,
-                    in IDictionary<string, string> reverseConstantsTable,
-                    in string originalExpression,
-                    in string content)
+            IDictionary<string, ConstantNodeBase> constantsTable,
+            IDictionary<string, string> reverseConstantsTable,
+            string originalExpression,
+            string content)
         {
             if (string.IsNullOrWhiteSpace(originalExpression))
             {
@@ -199,11 +199,11 @@ namespace IX.Math.Generators
         /// <param name="value">The value.</param>
         /// <param name="alternateNames">The alternate names.</param>
         public static void GenerateNamedNumericSymbol(
-                    in IDictionary<string, ConstantNodeBase> constantsTable,
-                    in IDictionary<string, string> reverseConstantsTable,
-                    in string name,
-                    in double value,
-                    params string[] alternateNames)
+            IDictionary<string, ConstantNodeBase> constantsTable,
+            IDictionary<string, string> reverseConstantsTable,
+            string name,
+            double value,
+            params string[] alternateNames)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -237,8 +237,8 @@ namespace IX.Math.Generators
         }
 
         private static string GenerateName(
-            in IEnumerable<string> keys,
-            in string originalExpression)
+            IEnumerable<string> keys,
+            string originalExpression)
         {
             var index = int.Parse(keys.Where(p => p.StartsWith("Const") && p.Length > 5).LastOrDefault()?.Substring(5) ?? "0");
 

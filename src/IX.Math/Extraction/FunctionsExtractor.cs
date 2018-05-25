@@ -32,17 +32,17 @@ namespace IX.Math.Extraction
         /// <param name="allOperatorsInOrder">All operators, in order.</param>
         /// <param name="allSymbols">All symbols.</param>
         internal static void ReplaceFunctions(
-            in string openParenthesis,
-            in string closeParenthesis,
-            in string parameterSeparator,
-            in Dictionary<string, ConstantNodeBase> constantsTable,
-            in Dictionary<string, string> reverseConstantsTable,
-            in Dictionary<string, ExpressionSymbol> symbolTable,
-            in Dictionary<string, string> reverseSymbolTable,
-            in IParameterRegistry parametersTable,
-            in string expression,
-            in string[] allOperatorsInOrder,
-            in string[] allSymbols)
+            string openParenthesis,
+            string closeParenthesis,
+            string parameterSeparator,
+            Dictionary<string, ConstantNodeBase> constantsTable,
+            Dictionary<string, string> reverseConstantsTable,
+            Dictionary<string, ExpressionSymbol> symbolTable,
+            Dictionary<string, string> reverseSymbolTable,
+            IParameterRegistry parametersTable,
+            string expression,
+            string[] allOperatorsInOrder,
+            string[] allSymbols)
         {
             ReplaceOneFunction(
                 string.Empty,
@@ -75,18 +75,18 @@ namespace IX.Math.Extraction
             }
 
             void ReplaceOneFunction(
-                in string key,
-                in string outerOpenParanthesisSymbol,
-                in string outerCloseParanthesisSymbol,
-                in string outerParameterSeparatorSymbol,
-                in Dictionary<string, ConstantNodeBase> outerConstantsTableReference,
-                in Dictionary<string, string> outerReverseConstantsTableReference,
-                in Dictionary<string, ExpressionSymbol> outerSymbolTableReference,
-                in Dictionary<string, string> outerReverseSymbolTableRefeerence,
-                in IParameterRegistry outerParametersTableReference,
-                in string outerExpressionSymbol,
-                in string[] outerAllOperatorsInOrderSymbols,
-                in string[] outerAllSymbolsSymbols)
+                string key,
+                string outerOpenParanthesisSymbol,
+                string outerCloseParanthesisSymbol,
+                string outerParameterSeparatorSymbol,
+                Dictionary<string, ConstantNodeBase> outerConstantsTableReference,
+                Dictionary<string, string> outerReverseConstantsTableReference,
+                Dictionary<string, ExpressionSymbol> outerSymbolTableReference,
+                Dictionary<string, string> outerReverseSymbolTableRefeerence,
+                IParameterRegistry outerParametersTableReference,
+                string outerExpressionSymbol,
+                string[] outerAllOperatorsInOrderSymbols,
+                string[] outerAllSymbolsSymbols)
             {
                 ExpressionSymbol symbol = outerSymbolTableReference[key];
                 if (symbol.IsFunctionCall)
@@ -114,18 +114,18 @@ namespace IX.Math.Extraction
                 }
 
                 string ReplaceFunctions(
-                    in string source,
-                    in string openParanthesisSymbol,
-                    in string closeParanthesisSymbol,
-                    in string parameterSeparatorSymbol,
-                    in Dictionary<string, ConstantNodeBase> constantsTableReference,
-                    in Dictionary<string, string> reverseConstantsTableReference,
-                    in Dictionary<string, ExpressionSymbol> symbolTableReference,
-                    in Dictionary<string, string> reverseSymbolTableReference,
-                    in IParameterRegistry parametersTableReference,
-                    in string expressionSymbol,
-                    in string[] allOperatorsInOrderSymbols,
-                    in string[] allSymbolsSymbols)
+                    string source,
+                    string openParanthesisSymbol,
+                    string closeParanthesisSymbol,
+                    string parameterSeparatorSymbol,
+                    Dictionary<string, ConstantNodeBase> constantsTableReference,
+                    Dictionary<string, string> reverseConstantsTableReference,
+                    Dictionary<string, ExpressionSymbol> symbolTableReference,
+                    Dictionary<string, string> reverseSymbolTableReference,
+                    IParameterRegistry parametersTableReference,
+                    string expressionSymbol,
+                    string[] allOperatorsInOrderSymbols,
+                    string[] allSymbolsSymbols)
                 {
                     var op = -1;
                     var opl = openParanthesisSymbol.Length;

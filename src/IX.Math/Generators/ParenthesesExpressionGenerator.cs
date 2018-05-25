@@ -1,4 +1,4 @@
-﻿// <copyright file="ParenthesesExpressionGenerator.cs" company="Adrian Mos">
+// <copyright file="ParenthesesExpressionGenerator.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -12,8 +12,8 @@ namespace IX.Math.Generators
     internal static class ParenthesesExpressionGenerator
     {
         internal static void FormatParentheses(
-            in string openParenthesis,
-            in string closeParenthesis,
+            string openParenthesis,
+            string closeParenthesis,
             string parameterSeparator,
             string[] allOperatorsInOrder,
             Dictionary<string, ExpressionSymbol> symbolTable,
@@ -27,9 +27,9 @@ namespace IX.Math.Generators
             }
 
             void FormatParenthesis(
-                in string key,
-                in string openParenthesisSymbol,
-                in string closeParenthesisSymbol)
+                string key,
+                string openParenthesisSymbol,
+                string closeParenthesisSymbol)
             {
                 ExpressionSymbol symbol = symbolTable[key];
                 if (symbol.IsFunctionCall)
@@ -47,9 +47,9 @@ namespace IX.Math.Generators
                 }
 
                 string ReplaceParanthesis(
-                    in string source,
-                    in string innerOpenParenthesisSymbol,
-                    in string innerCloseParenthesisSymbol)
+                    string source,
+                    string innerOpenParenthesisSymbol,
+                    string innerCloseParenthesisSymbol)
                 {
                     var src = source;
 
@@ -139,9 +139,9 @@ namespace IX.Math.Generators
                     }
 
                     string ProcessSubExpression(
-                        in int cp,
-                        in string innermostCloseParenthesisSymbol,
-                        in string innerSource)
+                        int cp,
+                        string innermostCloseParenthesisSymbol,
+                        string innerSource)
                     {
                         var expr1 = innerSource.Substring(0, cp);
 

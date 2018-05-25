@@ -21,7 +21,6 @@ namespace IX.StandardExtensions.WPF
         internal static extern bool GetIconInfo(IntPtr hIcon, ref IconInfo pIconInfo);
 
 #pragma warning disable SA1307 // Accessible fields should begin with upper-case letter - naming convention ignored as these are interop structs
-#pragma warning disable SA1121 // Use built-in type alias
 #pragma warning disable IDE0012 // Simplify Names
         /// <summary>
         /// The interop version of the ICONINFO struct.
@@ -37,12 +36,12 @@ namespace IX.StandardExtensions.WPF
             /// <summary>
             /// The x-coordinate of a cursor's hot spot.
             /// </summary>
-            public Int32 xHotspot;
+            public int xHotspot;
 
             /// <summary>
             /// The y-coordinate of a cursor's hot spot.
             /// </summary>
-            public Int32 yHotspot;
+            public int yHotspot;
 
             /// <summary>
             /// The icon bitmask bitmap.
@@ -55,7 +54,6 @@ namespace IX.StandardExtensions.WPF
             public IntPtr hbmColor;
         }
 #pragma warning restore IDE0012 // Simplify Names
-#pragma warning restore SA1121 // Use built-in type alias
 #pragma warning restore SA1307 // Accessible fields should begin with upper-case letter
 
         internal class SafeIconHandle : SafeHandleZeroOrMinusOneIsInvalid

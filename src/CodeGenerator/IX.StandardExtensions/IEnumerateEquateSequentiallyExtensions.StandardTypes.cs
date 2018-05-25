@@ -1,4 +1,4 @@
-﻿// <copyright file="IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" company="Adrian Mos">
+// <copyright file="IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -13,6 +13,7 @@ namespace IX.StandardExtensions
     /// </summary>
     public static partial class IEnumerateEquateSequentiallyExtensions
     {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions
         /// <summary>
         /// Equates two enumerable collections sequentially.
         /// </summary>
@@ -1900,5 +1901,6 @@ namespace IX.StandardExtensions
                 return true;
             }
         }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
     }
 }

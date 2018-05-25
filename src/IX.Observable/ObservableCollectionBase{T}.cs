@@ -130,13 +130,13 @@ namespace IX.Observable
         /// Gets a value indicating whether or not the implementer can perform an undo.
         /// </summary>
         /// <value><c>true</c> if the call to the <see cref="M:IX.Undoable.IUndoableItem.Undo" /> method would result in a state change, <c>false</c> otherwise.</value>
-        public bool CanUndo => this.InvokeIfNotDisposed(() => (this.ParentUndoContext?.CanUndo ?? this.ReadLock(() => this.UndoStack.Count > 0)));
+        public bool CanUndo => this.InvokeIfNotDisposed((cThis) => (cThis.ParentUndoContext?.CanUndo ?? cThis.ReadLock((c2This) => c2This.UndoStack.Count > 0, cThis)), this);
 
         /// <summary>
         /// Gets a value indicating whether or not the implementer can perform a redo.
         /// </summary>
         /// <value><c>true</c> if the call to the <see cref="M:IX.Undoable.IUndoableItem.Redo" /> method would result in a state change, <c>false</c> otherwise.</value>
-        public bool CanRedo => this.InvokeIfNotDisposed(() => (this.ParentUndoContext?.CanRedo ?? this.ReadLock(() => this.RedoStack.Count > 0)));
+        public bool CanRedo => this.InvokeIfNotDisposed((cThis) => (cThis.ParentUndoContext?.CanRedo ?? cThis.ReadLock((c2This) => c2This.RedoStack.Count > 0, cThis)), this);
 
         /// <summary>
         /// Gets the parent undo context, if any.
@@ -341,26 +341,36 @@ namespace IX.Observable
         /// </summary>
         /// <param name="parent">The parent undo and redo context.</param>
         /// <param name="automaticallyCaptureSubItems">if set to <c>true</c>, the collection automatically captures sub-items into its undo/redo context.</param>
-        public void CaptureIntoUndoContext(IUndoableItem parent, bool automaticallyCaptureSubItems) => this.InvokeIfNotDisposed(
-            (parentL1, automaticallyCaptureSubItemsL1) => this.WriteLock(
-                (parentL2, automaticallyCaptureSubItemsL2) =>
-                {
-                    this.AutomaticallyCaptureSubItems = automaticallyCaptureSubItemsL2;
-                    this.parentUndoableContext = parentL2 ?? throw new ArgumentNullException(nameof(parentL2));
-                },
-                parentL1,
-                automaticallyCaptureSubItemsL1),
-            parent,
-            automaticallyCaptureSubItems);
+        public void CaptureIntoUndoContext(IUndoableItem parent, bool automaticallyCaptureSubItems) =>
+            this.InvokeIfNotDisposed(
+                (parentL1, automaticallyCaptureSubItemsL1, cThis) =>
+                    cThis.WriteLock(
+                        (parentL2, automaticallyCaptureSubItemsL2, c2This) =>
+                        {
+                            c2This.AutomaticallyCaptureSubItems = automaticallyCaptureSubItemsL2;
+                            c2This.parentUndoableContext = parentL2 ?? throw new ArgumentNullException(nameof(parentL2));
+                        },
+                        parentL1,
+                        automaticallyCaptureSubItemsL1,
+                        cThis),
+                parent,
+                automaticallyCaptureSubItems,
+                this);
 
         /// <summary>
         /// Releases the implementer from being captured into an undo and redo context.
         /// </summary>
-        public void ReleaseFromUndoContext() => this.InvokeIfNotDisposed(() => this.WriteLock(() =>
-        {
-            this.AutomaticallyCaptureSubItems = false;
-            this.parentUndoableContext = null;
-        }));
+        public void ReleaseFromUndoContext() =>
+            this.InvokeIfNotDisposed(
+                (cThis) =>
+                    cThis.WriteLock(
+                        (c2This) =>
+                        {
+                            c2This.AutomaticallyCaptureSubItems = false;
+                            c2This.parentUndoableContext = null;
+                        },
+                        cThis),
+                this);
 
         /// <summary>
         /// Has the last operation performed on the implementing instance undone.
@@ -370,41 +380,44 @@ namespace IX.Observable
         /// <para>If that is the case, the capturing object is solely responsible for ensuring that the inner state of the whole
         /// system is correct. Implementing classes should not expect this method to also handle state.</para>
         /// <para>If the object is released, it is expected that this method once again starts ensuring state when called.</para></remarks>
-        public void Undo() => this.InvokeIfNotDisposed(() =>
-        {
-            if (this.ParentUndoContext != null)
-            {
-                this.ParentUndoContext.Undo();
-                return;
-            }
-
-            Action toInvoke;
-            bool internalResult;
-            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
-            {
-                if (this.UndoStack.Count == 0)
+        public void Undo() =>
+            this.InvokeIfNotDisposed(
+                (cThis) =>
                 {
-                    return;
-                }
+                    if (cThis.ParentUndoContext != null)
+                    {
+                        cThis.ParentUndoContext.Undo();
+                        return;
+                    }
 
-                locker.Upgrade();
+                    Action toInvoke;
+                    bool internalResult;
+                    using (ReadWriteSynchronizationLocker locker = cThis.ReadWriteLock())
+                    {
+                        if (cThis.UndoStack.Count == 0)
+                        {
+                            return;
+                        }
 
-                StateChange level = this.UndoStack.Pop();
-                internalResult = this.UndoInternally(level, out toInvoke);
-                if (internalResult)
-                {
-                    this.RedoStack.Push(level);
-                }
-            }
+                        locker.Upgrade();
 
-            if (internalResult)
-            {
-                toInvoke?.Invoke();
-            }
+                        StateChange level = cThis.UndoStack.Pop();
+                        internalResult = cThis.UndoInternally(level, out toInvoke);
+                        if (internalResult)
+                        {
+                            cThis.RedoStack.Push(level);
+                        }
+                    }
 
-            this.RaisePropertyChanged(nameof(this.CanUndo));
-            this.RaisePropertyChanged(nameof(this.CanRedo));
-        });
+                    if (internalResult)
+                    {
+                        toInvoke?.Invoke();
+                    }
+
+                    cThis.RaisePropertyChanged(nameof(cThis.CanUndo));
+                    cThis.RaisePropertyChanged(nameof(cThis.CanRedo));
+                },
+                this);
 
         /// <summary>
         /// Has the last undone operation performed on the implemented instance, presuming that it has not changed, redone.
@@ -414,41 +427,44 @@ namespace IX.Observable
         /// <para>If that is the case, the capturing object is solely responsible for ensuring that the inner state of the whole
         /// system is correct. Implementing classes should not expect this method to also handle state.</para>
         /// <para>If the object is released, it is expected that this method once again starts ensuring state when called.</para></remarks>
-        public void Redo() => this.InvokeIfNotDisposed(() =>
-        {
-            if (this.ParentUndoContext != null)
-            {
-                this.ParentUndoContext.Redo();
-                return;
-            }
-
-            Action toInvoke;
-            bool internalResult;
-            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
-            {
-                if (this.RedoStack.Count == 0)
+        public void Redo() =>
+            this.InvokeIfNotDisposed(
+                (cThis) =>
                 {
-                    return;
-                }
+                    if (cThis.ParentUndoContext != null)
+                    {
+                        cThis.ParentUndoContext.Redo();
+                        return;
+                    }
 
-                locker.Upgrade();
+                    Action toInvoke;
+                    bool internalResult;
+                    using (ReadWriteSynchronizationLocker locker = cThis.ReadWriteLock())
+                    {
+                        if (cThis.RedoStack.Count == 0)
+                        {
+                            return;
+                        }
 
-                StateChange level = this.RedoStack.Pop();
-                internalResult = this.RedoInternally(level, out toInvoke);
-                if (internalResult)
-                {
-                    this.UndoStack.Push(level);
-                }
-            }
+                        locker.Upgrade();
 
-            if (internalResult)
-            {
-                toInvoke?.Invoke();
-            }
+                        StateChange level = cThis.RedoStack.Pop();
+                        internalResult = cThis.RedoInternally(level, out toInvoke);
+                        if (internalResult)
+                        {
+                            cThis.UndoStack.Push(level);
+                        }
+                    }
 
-            this.RaisePropertyChanged(nameof(this.CanUndo));
-            this.RaisePropertyChanged(nameof(this.CanRedo));
-        });
+                    if (internalResult)
+                    {
+                        toInvoke?.Invoke();
+                    }
+
+                    cThis.RaisePropertyChanged(nameof(cThis.CanUndo));
+                    cThis.RaisePropertyChanged(nameof(cThis.CanRedo));
+                },
+                this);
 
         /// <summary>
         /// Has the state changes received undone from the object.
@@ -772,7 +788,7 @@ namespace IX.Observable
 
         private void Tei_EditCommitted(object sender, EditCommittedEventArgs e) => this.PushUndoLevel(new SubItemStateChange { SubObject = sender as IUndoableItem, StateChanges = e.StateChanges });
 
-        private void InitializeInternalState(in ICollectionAdapter<T> internalContainer, in bool? suppressUndoable = null)
+        private void InitializeInternalState(ICollectionAdapter<T> internalContainer, bool? suppressUndoable = null)
         {
             this.InternalContainer = internalContainer;
 

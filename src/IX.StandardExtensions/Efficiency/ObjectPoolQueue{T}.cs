@@ -59,13 +59,17 @@ namespace IX.StandardExtensions.Efficiency
 #endif
             if (this.objects.Count == 0)
             {
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable at this point
                 Task.Delay(1000, this.cancellationToken).ContinueWith(this.Run, TaskContinuationOptions.OnlyOnRanToCompletion);
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
             }
             else
             {
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable at this point
                 Task.Run(
                     ProcessObjects,
                     this.cancellationToken).ContinueWith(this.Run, TaskContinuationOptions.OnlyOnRanToCompletion);
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
 
                 async Task ProcessObjects()
                 {

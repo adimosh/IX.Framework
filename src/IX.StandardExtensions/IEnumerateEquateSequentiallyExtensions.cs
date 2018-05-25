@@ -1,4 +1,4 @@
-﻿// <copyright file="IEnumerateEquateSequentiallyExtensions.cs" company="Adrian Mos">
+// <copyright file="IEnumerateEquateSequentiallyExtensions.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -102,27 +102,41 @@ namespace IX.StandardExtensions
                 yield break;
             }
 
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Currently unavoidable, will do more later
             using (IEnumerator<T> leftEnumerator = left.GetEnumerator())
             {
                 using (IEnumerator<T> rightEnumerator = right.GetEnumerator())
                 {
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                     if (comparer == null)
                     {
                         if (typeof(IEquatable<T>).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
                         {
-                            comparer = (l, r) => (l as IEquatable<T>)?.Equals(r) ?? (r as IEquatable<T>)?.Equals(l) ?? true;
+                            comparer = EquateUsingIEquatableOfT;
+
+                            bool EquateUsingIEquatableOfT(T l, T r)
+                                 => (l as IEquatable<T>)?.Equals(r) ?? (r as IEquatable<T>)?.Equals(l) ?? true;
                         }
                         else if (typeof(IComparable<T>).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
                         {
-                            comparer = (l, r) => ((l as IComparable<T>)?.CompareTo(r) ?? (r as IComparable<T>)?.CompareTo(l) ?? 0) == 0;
+                            comparer = EquateSequentiallyUsingIComparerOfT;
+
+                            bool EquateSequentiallyUsingIComparerOfT(T l, T r)
+                                => ((l as IComparable<T>)?.CompareTo(r) ?? (r as IComparable<T>)?.CompareTo(l) ?? 0) == 0;
                         }
                         else if (typeof(IComparable).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
                         {
-                            comparer = (l, r) => ((l as IComparable)?.CompareTo(r) ?? (r as IComparable)?.CompareTo(l) ?? 0) == 0;
+                            comparer = EquateSequentiallyWithIComparable;
+
+                            bool EquateSequentiallyWithIComparable(T l, T r)
+                                 => ((l as IComparable)?.CompareTo(r) ?? (r as IComparable)?.CompareTo(l) ?? 0) == 0;
                         }
                         else
                         {
-                            comparer = (l, r) => l?.Equals(r) ?? r?.Equals(l) ?? true;
+                            comparer = EquateSequentiallyAsObjects;
+
+                            bool EquateSequentiallyAsObjects(T l, T r)
+                                => l?.Equals(r) ?? r?.Equals(l) ?? true;
                         }
                     }
 

@@ -1,4 +1,4 @@
-﻿// <copyright file="IEnumerableSequenceCompareExtensions.cs" company="Adrian Mos">
+// <copyright file="IEnumerableSequenceCompareExtensions.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -25,15 +25,24 @@ namespace IX.StandardExtensions
             Func<T, T, int> comparer;
             if (typeof(IComparable<T>).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
             {
-                comparer = (c1, c2) => ((IComparable<T>)c1).CompareTo(c2);
+                comparer = CompareUsingIComparableOfT;
+
+                int CompareUsingIComparableOfT(T c1, T c2)
+                    => ((IComparable<T>)c1).CompareTo(c2);
             }
             else if (typeof(IComparable).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
             {
-                comparer = (c1, c2) => ((IComparable)c1).CompareTo(c2);
+                comparer = CompareUsingIComparable;
+
+                int CompareUsingIComparable(T c1, T c2)
+                    => ((IComparable)c1).CompareTo(c2);
             }
             else
             {
-                comparer = (c1, c2) => c1.Equals(c2) ? 0 : -1;
+                comparer = CompareAsObjects;
+
+                int CompareAsObjects(T c1, T c2)
+                    => c1.Equals(c2) ? 0 : -1;
             }
 
             return SequenceCompare(

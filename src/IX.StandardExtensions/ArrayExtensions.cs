@@ -1,4 +1,4 @@
-﻿// <copyright file="ArrayExtensions.cs" company="Adrian Mos">
+// <copyright file="ArrayExtensions.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -182,10 +182,10 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Executes an action for each one of the elements of an enumerable.
+        /// Executes an action for each one of the elements of an array.
         /// </summary>
-        /// <typeparam name="T">The enumerable type.</typeparam>
-        /// <param name="source">The enumerable source.</param>
+        /// <typeparam name="T">The array type.</typeparam>
+        /// <param name="source">The array to run on.</param>
         /// <param name="action">The action to execute.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
         public static void ForEach<T>(this T[] source, Action<T> action)

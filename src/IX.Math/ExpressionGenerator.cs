@@ -4,6 +4,7 @@
 
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using IX.Math.ExpressionState;
 using IX.Math.Extraction;
@@ -18,7 +19,7 @@ namespace IX.Math
     internal static class ExpressionGenerator
     {
         internal static void CreateBody(
-            in WorkingExpressionSet workingSet)
+            WorkingExpressionSet workingSet)
         {
 #if DEBUG
             if (workingSet == null)
@@ -232,10 +233,10 @@ namespace IX.Math
                 NodeBase exp = ExpressionByBinaryOperator(workingSet, expression, operatorPosition.Item2, operatorPosition.Item3);
 
                 NodeBase ExpressionByBinaryOperator(
-                    in WorkingExpressionSet innerWorkingSet,
-                    in string s,
-                    in int position,
-                    in string op)
+                    WorkingExpressionSet innerWorkingSet,
+                    string s,
+                    int position,
+                    string op)
                 {
 #if DEBUG
                     if (innerWorkingSet == null)
@@ -260,41 +261,50 @@ namespace IX.Math
                     if (innerWorkingSet.BinaryOperators.TryGetValue(op, out Type t))
                     {
                         // We have a binary operator found
+                        NodeBase left, right;
+
+                        // We have a normal, regular binary
+                        var eee = s.Substring(0, position);
+                        if (string.IsNullOrWhiteSpace(eee))
+                        {
+                            // Empty space before operator. Normally, this should never be hit.
+                            return null;
+                        }
+
+                        left = GenerateExpression(eee, innerWorkingSet);
+                        if (left == null)
+                        {
+                            // Left expression is invalid.
+                            return null;
+                        }
+
+                        eee = s.Substring(position + op.Length);
+                        if (string.IsNullOrWhiteSpace(eee))
+                        {
+                            // Empty space after operator. Normally, this should never be hit.
+                            return null;
+                        }
+
+                        right = GenerateExpression(eee, innerWorkingSet);
+                        if (right == null)
+                        {
+                            // Right expression is invalid.
+                            return null;
+                        }
+
                         try
                         {
-                            // We have a normal, regular binary
-                            var eee = s.Substring(0, position);
-                            if (string.IsNullOrWhiteSpace(eee))
-                            {
-                                // Empty space before operator. Normally, this should never be hit.
-                                return null;
-                            }
-
-                            NodeBase left = GenerateExpression(eee, innerWorkingSet);
-                            if (left == null)
-                            {
-                                // Left expression is invalid.
-                                return null;
-                            }
-
-                            eee = s.Substring(position + op.Length);
-                            if (string.IsNullOrWhiteSpace(eee))
-                            {
-                                // Empty space after operator. Normally, this should never be hit.
-                                return null;
-                            }
-
-                            NodeBase right = GenerateExpression(eee, innerWorkingSet);
-                            if (right == null)
-                            {
-                                // Right expression is invalid.
-                                return null;
-                            }
-
+                            // TODO: Change Activator.CreateInstance to something offering higher performance and less TargetInvocationExceptions
                             return ((BinaryOperationNodeBase)Activator.CreateInstance(t, left, right))?.Simplify();
                         }
-                        catch
+                        catch (MissingMemberException)
                         {
+                            // The binary operator does not support the type of expression that would constitute the operand.
+                            return null;
+                        }
+                        catch (TargetInvocationException)
+                        {
+                            // The constructor has thrown an exception when trying to construct the node. It is possible that the binary operator might not be a good fit.
                             return null;
                         }
                     }
@@ -318,9 +328,9 @@ namespace IX.Math
                 NodeBase exp = ExpressionByUnaryOperator(workingSet, expression, operatorPosition.Item3);
 
                 NodeBase ExpressionByUnaryOperator(
-                    in WorkingExpressionSet innerWorkingSet,
-                    in string s,
-                    in string op)
+                    WorkingExpressionSet innerWorkingSet,
+                    string s,
+                    string op)
                 {
 #if DEBUG
                     if (innerWorkingSet == null)
@@ -339,21 +349,29 @@ namespace IX.Math
                     if (s.StartsWith(op) && innerWorkingSet.UnaryOperators.TryGetValue(op, out Type t))
                     {
                         // We have a valid unary operator and the expression starts with it.
+                        NodeBase expr;
+
+                        var eee = s.Substring(op.Length);
+                        expr = GenerateExpression(string.IsNullOrWhiteSpace(eee) ? null : eee, innerWorkingSet);
+                        if (expr == null)
+                        {
+                            // The operand expression was not valid.
+                            return null;
+                        }
+
                         try
                         {
-                            var eee = s.Substring(op.Length);
-                            NodeBase expr = GenerateExpression(string.IsNullOrWhiteSpace(eee) ? null : eee, innerWorkingSet);
-                            if (expr == null)
-                            {
-                                // The operand expression was not valid.
-                                return null;
-                            }
-
+                            // TODO: Change Activator.CreateInstance to something offering higher performance and less TargetInvocationExceptions
                             return ((UnaryOperatorNodeBase)Activator.CreateInstance(t, expr))?.Simplify();
                         }
-                        catch
+                        catch (MissingMemberException)
                         {
-                            // An exception has been thrown when recognizing.
+                            // The unary operator does not support the type of expression that would constitute the operand.
+                            return null;
+                        }
+                        catch (TargetInvocationException)
+                        {
+                            // The constructor has thrown an exception when trying to construct the node. It is possible that the unary operator might not be a good fit.
                             return null;
                         }
                     }
@@ -371,7 +389,7 @@ namespace IX.Math
 
             return null;
 
-            NodeBase GenerateFunctionCallExpression(in string possibleFunctionCallExpression, in WorkingExpressionSet innerWorkingSet)
+            NodeBase GenerateFunctionCallExpression(string possibleFunctionCallExpression, WorkingExpressionSet innerWorkingSet)
             {
 #if DEBUG
                 if (innerWorkingSet == null)

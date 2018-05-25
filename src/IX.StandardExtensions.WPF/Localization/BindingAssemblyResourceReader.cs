@@ -1,4 +1,4 @@
-﻿// <copyright file="BindingAssemblyResourceReader.cs" company="Adrian Mos">
+// <copyright file="BindingAssemblyResourceReader.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -17,12 +17,12 @@ namespace IX.StandardExtensions.WPF.Localization
     public class BindingAssemblyResourceReader : NotifyPropertyChangedBase
     {
         /// <summary>
-        /// The resource managers
+        /// The resource managers.
         /// </summary>
         private readonly Dictionary<Tuple<string, string>, ResourceManager> resourceManagers;
 
         /// <summary>
-        /// The culture
+        /// The culture.
         /// </summary>
         private CultureInfo culture;
 
@@ -107,7 +107,7 @@ namespace IX.StandardExtensions.WPF.Localization
                 }
             }
 
-            return string.Empty;
+            return null;
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace IX.StandardExtensions.WPF.Localization
                 }
             }
 
-            return string.Empty;
+            return null;
         }
     }
 }

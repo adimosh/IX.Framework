@@ -1,4 +1,4 @@
-﻿// <copyright file="RandomNumberGenerator.cs" company="Adrian Mos">
+// <copyright file="RandomNumberGenerator.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -15,7 +15,7 @@ namespace IX.Math.Generators
 
         public static double Generate() => RandomGenerator.NextDouble();
 
-        public static double Generate(in double max)
+        public static double Generate(double max)
         {
             var result = RandomGenerator.NextDouble();
 
@@ -27,7 +27,7 @@ namespace IX.Math.Generators
             return result;
         }
 
-        public static double Generate(in double min, in double max)
+        public static double Generate(double min, double max)
         {
             var result = RandomGenerator.NextDouble();
 

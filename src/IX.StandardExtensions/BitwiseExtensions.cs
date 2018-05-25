@@ -128,7 +128,7 @@ namespace IX.StandardExtensions
             return result;
         }
 
-        private static BitArray Shift(in BitArray data, in int howManyBits)
+        private static BitArray Shift(BitArray data, int howManyBits)
         {
             if (data == null)
             {

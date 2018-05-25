@@ -1,4 +1,4 @@
-﻿// <copyright file="File.cs" company="Adrian Mos">
+// <copyright file="File.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -24,7 +24,7 @@ namespace IX.System.IO
         /// <param name="contents">The contents.</param>
         /// <param name="encoding">The encoding to use.</param>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> or <paramref name="contents"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> or <paramref name="contents"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         /// <remarks>
         /// This operation always requires an encoding to be used. If <paramref name="encoding" /> is set to <c>null</c>, an implementation-specific
@@ -59,7 +59,7 @@ namespace IX.System.IO
         /// <param name="contents">The contents.</param>
         /// <param name="encoding">The encoding to use.</param>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> or <paramref name="contents"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> or <paramref name="contents"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         /// <remarks>
         /// This operation always requires an encoding to be used. If <paramref name="encoding" /> is set to <c>null</c>, an implementation-specific
@@ -95,7 +95,7 @@ namespace IX.System.IO
         /// A <see cref="T:System.IO.StreamWriter" /> that can write to a file.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public StreamWriter AppendText(string path)
         {
@@ -115,7 +115,7 @@ namespace IX.System.IO
         /// <param name="overwrite">If <c>true</c>, overwrites the destination file, if one exists, otherwise throws an exception. If a destination file doesn't
         /// exist, this parameter is ignored.</param>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="sourceFileName"/> or <paramref name="destFileName"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="sourceFileName"/> or <paramref name="destFileName"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public void Copy(string sourceFileName, string destFileName, bool overwrite = false)
         {
@@ -141,10 +141,10 @@ namespace IX.System.IO
         /// A <see cref="T:System.IO.Stream" /> that can read from and write to a file.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         /// <exception cref="T:System.ArgumentOutOfRangeException">
-        /// <paramref name="bufferSize"/> is less than or equal to 0
+        /// <paramref name="bufferSize"/> is less than or equal to 0.
         /// </exception>
         public Stream Create(string path, int bufferSize = 4096)
         {
@@ -169,7 +169,7 @@ namespace IX.System.IO
         /// A <see cref="T:System.IO.StreamWriter" /> that can write to a file.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public StreamWriter CreateText(string path)
         {
@@ -186,7 +186,7 @@ namespace IX.System.IO
         /// </summary>
         /// <param name="path">The path of the file.</param>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public void Delete(string path)
         {
@@ -206,7 +206,7 @@ namespace IX.System.IO
         /// Returns <c>true</c> if the specified file exists and is accessible, <c>false</c> otherwise.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public bool Exists(string path)
         {
@@ -226,7 +226,7 @@ namespace IX.System.IO
         /// A <see cref="T:System.DateTime" /> in UTC.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public DateTime GetCreationTime(string path)
         {
@@ -246,7 +246,7 @@ namespace IX.System.IO
         /// A <see cref="T:System.DateTime" /> in UTC.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public DateTime GetLastAccessTime(string path)
         {
@@ -266,7 +266,7 @@ namespace IX.System.IO
         /// A <see cref="T:System.DateTime" /> in UTC.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public DateTime GetLastWriteTime(string path)
         {
@@ -284,7 +284,7 @@ namespace IX.System.IO
         /// <param name="sourceFileName">The source file name.</param>
         /// <param name="destFileName">The destination file name.</param>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="sourceFileName"/> or <paramref name="destFileName"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="sourceFileName"/> or <paramref name="destFileName"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public void Move(string sourceFileName, string destFileName)
         {
@@ -309,7 +309,7 @@ namespace IX.System.IO
         /// A <see cref="T:System.IO.Stream" /> that can read from a file.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public Stream OpenRead(string path)
         {
@@ -329,7 +329,7 @@ namespace IX.System.IO
         /// A <see cref="T:System.IO.StreamReader" /> that can read from a file.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public StreamReader OpenText(string path)
         {
@@ -349,7 +349,7 @@ namespace IX.System.IO
         /// A <see cref="T:System.IO.Stream" /> that can write to a file.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public Stream OpenWrite(string path)
         {
@@ -369,7 +369,7 @@ namespace IX.System.IO
         /// The contents of a file, in binary.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public byte[] ReadAllBytes(string path)
         {
@@ -390,7 +390,7 @@ namespace IX.System.IO
         /// An array of <see cref="T:System.String" />.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         /// <remarks>
         /// This operation always requires an encoding to be used. If <paramref name="encoding" /> is set to <c>null</c>, an implementation-specific
@@ -422,7 +422,7 @@ namespace IX.System.IO
         /// The entire file contents as a string.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         /// <remarks>
         /// This operation always requires an encoding to be used. If <paramref name="encoding" /> is set to <c>null</c>, an implementation-specific
@@ -454,7 +454,7 @@ namespace IX.System.IO
         /// An enumerable of strings, each representing one line of text.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         /// <remarks>
         /// This operation always requires an encoding to be used. If <paramref name="encoding" /> is set to <c>null</c>, an implementation-specific
@@ -483,7 +483,7 @@ namespace IX.System.IO
         /// <param name="path">The path of the file.</param>
         /// <param name="creationTime">A <see cref="T:System.DateTime" /> with the file attribute to set.</param>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public void SetCreationTime(string path, DateTime creationTime)
         {
@@ -501,7 +501,7 @@ namespace IX.System.IO
         /// <param name="path">The path of the file.</param>
         /// <param name="lastAccessTime">A <see cref="T:System.DateTime" /> with the file attribute to set.</param>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public void SetLastAccessTime(string path, DateTime lastAccessTime)
         {
@@ -519,7 +519,7 @@ namespace IX.System.IO
         /// <param name="path">The path of the file.</param>
         /// <param name="lastWriteTime">A <see cref="T:System.DateTime" /> with the file attribute to set.</param>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public void SetLastWriteTime(string path, DateTime lastWriteTime)
         {
@@ -537,7 +537,7 @@ namespace IX.System.IO
         /// <param name="path">The path of the file.</param>
         /// <param name="bytes">The contents to write.</param>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> or <paramref name="bytes"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> or <paramref name="bytes"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         public void WriteAllBytes(string path, byte[] bytes)
         {
@@ -561,7 +561,7 @@ namespace IX.System.IO
         /// <param name="contents">The contents to write.</param>
         /// <param name="encoding">The encoding to use.</param>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> or <paramref name="contents"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> or <paramref name="contents"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         /// <remarks>
         /// This operation always requires an encoding to be used. If <paramref name="encoding" /> is set to <c>null</c>, an implementation-specific
@@ -596,7 +596,7 @@ namespace IX.System.IO
         /// <param name="contents">The contents to write.</param>
         /// <param name="encoding">The encoding to use.</param>
         /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="path"/> or <paramref name="contents"/> is <c>null</c> (<c>Nothing</c> in Visual Basic)
+        /// <paramref name="path"/> or <paramref name="contents"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         /// <remarks>
         /// This operation always requires an encoding to be used. If <paramref name="encoding" /> is set to <c>null</c>, an implementation-specific

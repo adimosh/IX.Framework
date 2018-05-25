@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard1.1;netstandard2.0</TargetFrameworks>
@@ -13,9 +13,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Title>IX Abstractions</Title>
-    <Description>A library for abstracting away the common classes that have originally been implemented as static or non-abstractable classes in the .NET Framework.</Description>
-    <RootNamespace>IX</RootNamespace>
+    <Title>IX Guaranteed</Title>
+    <Description>A library containing mechanisms for guaranteeing success of various operations.</Description>
   </PropertyGroup>
 
   <Import Project="..\Branding.props" />
@@ -31,13 +30,21 @@
   <Import Project="..\StyleCop.targets" />
 
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+    <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'!='net45'">
-    <PackageReference Include="System.IO" Version="4.3.0" />
-    <PackageReference Include="System.Runtime" Version="4.3.0" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
+    <PackageReference Include="System.Runtime" Version="4.3.0" />
+    <PackageReference Include="System.Threading" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IX.Abstractions\IX.Abstractions.csproj" />
+    <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
   </ItemGroup>
 
   <Import Project="..\CliToolsReference.Normal.targets" />

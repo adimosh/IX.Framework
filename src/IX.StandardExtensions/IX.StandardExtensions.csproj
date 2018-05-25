@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;net45;netstandard1.1;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net45;netstandard1.1;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="..\DefaultPackageVersionSystem.props" />
@@ -30,15 +30,18 @@
   <Import Project="..\StyleCop.targets" />
 
   <ItemGroup>
-    <Compile Include="..\CodeGenerator\ArrayExtensions.StandardTypes.cs" Link="ArrayExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\ArraySequenceCompareExtensions.StandardTypes.cs" Link="ArraySequenceCompareExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\ArraySequenceEqualsExtensions.StandardTypes.cs" Link="ArraySequenceEqualsExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\DisposableBase.InvokeIfNotDisposed.cs" Link="ComponentModel\DisposableBase.InvokeIfNotDisposed.cs" />
-    <Compile Include="..\CodeGenerator\IDictionaryExtensions.StandardTypes.cs" Link="IDictionaryExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IEnumerableSequenceCompareExtensions.StandardTypes.cs" Link="IEnumerableSequenceCompareExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IEnumerableSequenceEqualsExtensions.StandardTypes.cs" Link="IEnumerableSequenceEqualsExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" Link="IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IListCloneExtensions.StandardTypes.cs" Link="IListCloneExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArrayExtensions.StandardTypes.cs" Link="ArrayExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArraySequenceCompareExtensions.StandardTypes.cs" Link="ArraySequenceCompareExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArraySequenceEqualsExtensions.StandardTypes.cs" Link="ArraySequenceEqualsExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\DisposableBase.InvokeIfNotDisposed.cs" Link="ComponentModel\DisposableBase.InvokeIfNotDisposed.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IDictionaryExtensions.StandardTypes.cs" Link="IDictionaryExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableSequenceCompareExtensions.StandardTypes.cs" Link="IEnumerableSequenceCompareExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableSequenceEqualsExtensions.StandardTypes.cs" Link="IEnumerableSequenceEqualsExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" Link="IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IListCloneExtensions.StandardTypes.cs" Link="IListCloneExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArrayExtensions.ForEachActions.cs" Link="ArrayExtensions.ForEachActions.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableExtensions.ForEachActions.cs" Link="IEnumerableExtensions.ForEachActions.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\InDelegates.WithParameters.cs" Link="InDelegates.WithParameters.cs" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
@@ -54,10 +57,8 @@
     <PackageReference Include="System.Reflection.Extensions" Version="4.3.0" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
     <PackageReference Include="System.Runtime" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
     <PackageReference Include="System.Threading" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)'!='netstandard1.0' And '$(TargetFramework)'!='net45'">
     <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
   </ItemGroup>
 

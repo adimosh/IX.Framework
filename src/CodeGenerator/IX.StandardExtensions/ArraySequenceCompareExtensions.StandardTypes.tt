@@ -1,9 +1,9 @@
-﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ include file="StandardTypes.tt" #><#@ include file="Fixture.tt" #>
+<#@ include file="..\StandardTypes.tt" #><#@ include file="..\Fixture.tt" #>
 <#@ output extension=".cs" #>
 // <copyright file="ArraySequenceCompareExtensions.StandardTypes.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
@@ -13,6 +13,7 @@ using System;
 
 namespace IX.StandardExtensions
 {
+#pragma warning disable IDE0008 // Use explicit type - This is acceptable in this generated code in order to avoid DateTime and TimeSpan issues
     /// <summary>
     /// Extensions for array types.
     /// </summary>
@@ -75,4 +76,5 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
 }
 #>
     }
+#pragma warning restore IDE0008 // Use explicit type
 }

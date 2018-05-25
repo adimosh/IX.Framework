@@ -1,4 +1,4 @@
-﻿// <copyright file="IEnumerableSequenceCompareExtensions.StandardTypes.cs" company="Adrian Mos">
+// <copyright file="IEnumerableSequenceCompareExtensions.StandardTypes.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -12,6 +12,7 @@ namespace IX.StandardExtensions
     /// </summary>
     public static partial class IEnumerableSequenceCompareExtensions
     {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions
         /// <summary>
         /// Compares two enumerable sequences to one another.
         /// </summary>
@@ -843,5 +844,6 @@ namespace IX.StandardExtensions
                 }
             }
         }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
     }
 }
