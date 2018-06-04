@@ -4,21 +4,20 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
-// <copyright file="IEnumerableExtensions.ForEachActions.cs" company="Adrian Mos">
+// <copyright file="ArrayExtensions.ForEachRefActions.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
-using System.Collections.Generic;
+using IX.StandardExtensions.Efficiency;
 
 namespace IX.StandardExtensions
 {
     /// <summary>
-    /// SequenceEquals extensions for IEnumerable.
+    /// Extensions for array types.
     /// </summary>
-    public static partial class IEnumerableSequenceEqualsExtensions
-    {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions<#
+    public static partial class ArrayExtensions
+    {<#
 for (int i = 1; i <= 8; i++)
 {
     string[] types = new string[i];
@@ -29,8 +28,8 @@ for (int i = 1; i <= 8; i++)
     {
         int idx = j - 1;
         types[idx] = $"TParam{j}";
-        names[idx] = $"param{j}";
-        nameTypes[idx] = $"TParam{j} param{j}";
+        names[idx] = $"ref param{j}";
+        nameTypes[idx] = $"ref TParam{j} param{j}";
     }
 
     string paramTypes = string.Join(", ", types);
@@ -39,9 +38,9 @@ for (int i = 1; i <= 8; i++)
 #>
 
         /// <summary>
-        /// Executes an action for each one of the elements of an enumerable.
+        /// Executes an action for each one of the elements of an array.
         /// </summary>
-        /// <typeparam name="TItem">The enumerable item type.</typeparam>
+        /// <typeparam name="TItem">The array type.</typeparam>
 <#
     for (int j = 1; j <= i; j++)
     {
@@ -56,12 +55,12 @@ for (int i = 1; i <= 8; i++)
     for (int j = 1; j <= i; j++)
     {
 #>
-        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>. This parameter is passed by reference.</param>
 <#
     }
 #>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
-        public static void ForEach<TItem, <#= paramTypes #>>(this IEnumerable<TItem> source, Action<TItem, <#= paramTypes #>> action, <#= paramNameTypes #>)
+        public static void ForEach<TItem, <#= paramTypes #>>(this TItem[] source, RefIteratorAction<TItem, <#= paramTypes #>> action, <#= paramNameTypes #>)
         {
             if (source == null)
             {
@@ -73,14 +72,13 @@ for (int i = 1; i <= 8; i++)
                 throw new ArgumentNullException(nameof(action));
             }
 
-            foreach (TItem item in source)
+            for (var i = 0; i < source.Length; i++)
             {
-                action(item, <#= paramNames #>);
+                action(source[i], <#= paramNames #>);
             }
         }
 <#
 }
 #>
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
     }
 }

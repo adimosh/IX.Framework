@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Threading;
 
 namespace IX.StandardExtensions.ComponentModel
 {
@@ -12,6 +13,7 @@ namespace IX.StandardExtensions.ComponentModel
     /// <seealso cref="System.IDisposable" />
     public abstract partial class DisposableBase : IDisposable
     {
+        private volatile int disposeSignaled;
         private bool disposedValue;
 
         /// <summary>
@@ -27,6 +29,11 @@ namespace IX.StandardExtensions.ComponentModel
         /// </summary>
         public void Dispose()
         {
+            if (Interlocked.Exchange(ref this.disposeSignaled, 1) != 0)
+            {
+                return;
+            }
+
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }

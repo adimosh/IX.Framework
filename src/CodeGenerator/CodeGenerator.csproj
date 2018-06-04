@@ -303,5 +303,57 @@
       <DependentUpon>InDelegates.WithParameters.tt</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.StandardExtensions\RefDelegates.WithParameters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RefDelegates.WithParameters.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.StandardExtensions\RefDelegates.WithParameters.cs">
+      <DependentUpon>RefDelegates.WithParameters.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.StandardExtensions\IEnumerableExtensions.ForEachRefActions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IEnumerableExtensions.ForEachRefActions.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.StandardExtensions\IEnumerableExtensions.ForEachRefActions.cs">
+      <DependentUpon>IEnumerableExtensions.ForEachRefActions.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.StandardExtensions\RefIteratorDelegates.WithParameters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RefIteratorDelegates.WithParameters.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.StandardExtensions\RefIteratorDelegates.WithParameters.cs">
+      <DependentUpon>RefIteratorDelegates.WithParameters.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.StandardExtensions\ArrayExtensions.ForEachRefActions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ArrayExtensions.ForEachRefActions.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IX.StandardExtensions\ArrayExtensions.ForEachRefActions.cs">
+      <DependentUpon>ArrayExtensions.ForEachRefActions.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

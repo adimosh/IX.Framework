@@ -4,7 +4,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
-// <copyright file="InDelegates.WithParameters.cs" company="Adrian Mos">
+// <copyright file="RefDelegates.WithParameters.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -21,7 +21,7 @@ for (int i = 1; i <= 8; i++)
         int idx = j - 1;
         types[idx] = $"TParam{j}";
         names[idx] = $"param{j}";
-        nameTypes[idx] = $"in TParam{j} param{j}";
+        nameTypes[idx] = $"ref TParam{j} param{j}";
     }
 
     string paramTypes = string.Join(", ", types);
@@ -30,7 +30,7 @@ for (int i = 1; i <= 8; i++)
 #>
 
     /// <summary>
-    /// A generic delegate for a method whose parameters are all marked as &quot;in&quot;, with a return type.
+    /// A generic delegate for a method whose parameters are all marked as &quot;ref&quot;, with a return type.
     /// </summary>
 <#
     for (int j = 1; j <= i; j++)
@@ -45,15 +45,15 @@ for (int i = 1; i <= 8; i++)
     for (int j = 1; j <= i; j++)
     {
 #>
-    /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the method at index <#= j - 1 #>. This parameter is passed by read-only reference.</param>
+    /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the method at index <#= j - 1 #>. This parameter is passed by reference.</param>
 <#
     }
 #>
     /// <returns>The result of the method.</returns>
-    public delegate TResult InFunc<<#= paramTypes #>, TResult>(<#= paramNameTypes #>);
+    public delegate TResult RefFunc<<#= paramTypes #>, TResult>(<#= paramNameTypes #>);
 
     /// <summary>
-    /// A generic delegate for a method whose parameters are all marked as &quot;in&quot;.
+    /// A generic delegate for a method whose parameters are all marked as &quot;ref&quot;.
     /// </summary>
 <#
     for (int j = 1; j <= i; j++)
@@ -67,11 +67,11 @@ for (int i = 1; i <= 8; i++)
     for (int j = 1; j <= i; j++)
     {
 #>
-    /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the method at index <#= j - 1 #>. This parameter is passed by read-only reference.</param>
+    /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the method at index <#= j - 1 #>. This parameter is passed by reference.</param>
 <#
     }
 #>
-    public delegate void InAction<<#= paramTypes #>>(<#= paramNameTypes #>);
+    public delegate void RefAction<<#= paramTypes #>>(<#= paramNameTypes #>);
 <#
 }
 #>
