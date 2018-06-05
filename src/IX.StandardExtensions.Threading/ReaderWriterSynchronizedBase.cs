@@ -3,6 +3,8 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 using IX.StandardExtensions.ComponentModel;
 using IX.System.Threading;
 
@@ -15,7 +17,7 @@ namespace IX.StandardExtensions.Threading
     public abstract partial class ReaderWriterSynchronizedBase : DisposableBase
     {
         private readonly bool lockInherited;
-        private readonly IReaderWriterLock locker;
+        private IReaderWriterLock locker;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReaderWriterSynchronizedBase"/> class.
@@ -29,12 +31,22 @@ namespace IX.StandardExtensions.Threading
         /// Initializes a new instance of the <see cref="ReaderWriterSynchronizedBase"/> class.
         /// </summary>
         /// <param name="locker">The locker.</param>
-        /// <exception cref="ArgumentNullException">locker</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="locker"/>
+        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// </exception>
         protected ReaderWriterSynchronizedBase(IReaderWriterLock locker)
         {
             this.locker = locker ?? throw new ArgumentNullException(nameof(locker));
             this.lockInherited = true;
         }
+
+        /// <summary>
+        /// Called when the object is being deserialized, in order to set the locker to a new value.
+        /// </summary>
+        /// <param name="context">The streaming context.</param>
+        [OnDeserializing]
+        internal void OnDeserializingMethod(StreamingContext context)
+            => global::System.Threading.Interlocked.Exchange(ref this.locker, new ReaderWriterLockSlim());
 
         /// <summary>
         /// Produces a reader lock in concurrent collections.
@@ -140,6 +152,19 @@ namespace IX.StandardExtensions.Threading
             }
 
             base.DisposeManagedContext();
+        }
+
+        /// <summary>
+        /// Spawns an atomic enumerator tied to this instance's locking mechanisms.
+        /// </summary>
+        /// <typeparam name="T">The type of the item within the atomic enumerator.</typeparam>
+        /// <param name="sourceEnumerator">The source enumerator.</param>
+        /// <returns>An tied-in atomic enumerator.</returns>
+        protected AtomicEnumerator<T> SpawnAtomicEnumerator<T>(IEnumerator<T> sourceEnumerator)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            return new AtomicEnumerator<T>(sourceEnumerator, this.ReadLock);
         }
     }
 }
