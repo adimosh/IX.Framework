@@ -82,7 +82,7 @@ namespace IX.Math
         /// </summary>
         /// <param name="expression">The expression to interpret.</param>
         /// <param name="cancellationToken">The cancellation token for this operation.</param>
-        /// <returns>A <see cref="ComputedExpression"/> that represent</returns>
+        /// <returns>A <see cref="ComputedExpression"/> that represents a compilable form of the original expression, if the expression itself makes sense.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="expression"/> is either null, empty or whitespace-only.</exception>
         public ComputedExpression Interpret(string expression, CancellationToken cancellationToken = default)
         {
@@ -276,45 +276,32 @@ namespace IX.Math
         {
             base.DisposeGeneralContext();
 
-            this.nonaryFunctions = null;
-            this.unaryFunctions = null;
-            this.binaryFunctions = null;
-            this.ternaryFunctions = null;
-            this.assembliesToRegister = null;
+            Interlocked.Exchange(ref this.nonaryFunctions, null);
+            Interlocked.Exchange(ref this.unaryFunctions, null);
+            Interlocked.Exchange(ref this.binaryFunctions, null);
+            Interlocked.Exchange(ref this.ternaryFunctions, null);
+            Interlocked.Exchange(ref this.assembliesToRegister, null);
 
-            this.workingDefinition = null;
+            Interlocked.Exchange(ref this.workingDefinition, null);
         }
 
         private void InitializeFunctionsDictionary()
         {
-            if (this.nonaryFunctions != null)
-            {
-                this.nonaryFunctions.Clear();
-                this.nonaryFunctions = null;
-            }
+            Interlocked.Exchange(
+                ref this.nonaryFunctions,
+                FunctionsDictionaryGenerator.GenerateInternalNonaryFunctionsDictionary(this.assembliesToRegister))?.Clear();
 
-            if (this.unaryFunctions != null)
-            {
-                this.unaryFunctions.Clear();
-                this.unaryFunctions = null;
-            }
+            Interlocked.Exchange(
+                ref this.unaryFunctions,
+                FunctionsDictionaryGenerator.GenerateInternalUnaryFunctionsDictionary(this.assembliesToRegister))?.Clear();
 
-            if (this.binaryFunctions != null)
-            {
-                this.binaryFunctions.Clear();
-                this.binaryFunctions = null;
-            }
+            Interlocked.Exchange(
+                ref this.binaryFunctions,
+                FunctionsDictionaryGenerator.GenerateInternalBinaryFunctionsDictionary(this.assembliesToRegister))?.Clear();
 
-            if (this.ternaryFunctions != null)
-            {
-                this.ternaryFunctions.Clear();
-                this.ternaryFunctions = null;
-            }
-
-            this.nonaryFunctions = FunctionsDictionaryGenerator.GenerateInternalNonaryFunctionsDictionary(this.assembliesToRegister);
-            this.unaryFunctions = FunctionsDictionaryGenerator.GenerateInternalUnaryFunctionsDictionary(this.assembliesToRegister);
-            this.binaryFunctions = FunctionsDictionaryGenerator.GenerateInternalBinaryFunctionsDictionary(this.assembliesToRegister);
-            this.ternaryFunctions = FunctionsDictionaryGenerator.GenerateInternalTernaryFunctionsDictionary(this.assembliesToRegister);
+            Interlocked.Exchange(
+                ref this.ternaryFunctions,
+                FunctionsDictionaryGenerator.GenerateInternalTernaryFunctionsDictionary(this.assembliesToRegister))?.Clear();
         }
 
         private void InitializeExtractorsDictionary()
@@ -325,13 +312,13 @@ namespace IX.Math
                 { typeof(ScientificFormatNumberExtractor), new ScientificFormatNumberExtractor(), 0 },
             };
 
-            var i = 1000;
+            var incrementer = 1000;
             this.assembliesToRegister
                 .GetTypesAssignableFrom<IConstantsExtractor>()
                 .Where(p => p.IsClass && !p.IsAbstract && !p.IsGenericTypeDefinition && p.HasPublicParameterlessConstructor())
                 .Select(p => p.AsType())
                 .Where(p => !this.constantExtractors.ContainsKey(p))
-                .ForEach(p => this.constantExtractors.Add(p, (IConstantsExtractor)p.Instantiate(), i++));
+                .ForEach((Type p, ref int i) => this.constantExtractors.Add(p, (IConstantsExtractor)p.Instantiate(), Interlocked.Increment(ref i)), ref incrementer);
         }
     }
 }
