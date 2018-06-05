@@ -97,8 +97,8 @@ namespace IX.Math
         {
             base.DisposeGeneralContext();
 
-            this.cachedComputedExpressions = null;
-            this.eps = null;
+            Interlocked.Exchange(ref this.cachedComputedExpressions, null);
+            Interlocked.Exchange(ref this.eps, null);
         }
     }
 }

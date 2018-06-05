@@ -163,6 +163,7 @@ namespace IX.System.Collections.Generic
 #pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable here
 
         // TODO: #68 - Eliminate boxing from IEnumerable implementations
+
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
@@ -259,6 +260,7 @@ namespace IX.System.Collections.Generic
 #pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable at this point
 
         // TODO: #68 - Eliminate boxing from IEnumerable implementations
+
         /// <summary>
         /// Returns an enumerator that iterates through a collection.
         /// </summary>
