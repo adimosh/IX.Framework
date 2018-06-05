@@ -1,4 +1,4 @@
-﻿// <copyright file="Fire.cs" company="Adrian Mos">
+// <copyright file="Fire.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -35,11 +35,16 @@ namespace IX.StandardExtensions.Threading
 
             var runningTask = new Task(action, cancellationToken);
 
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable
             runningTask.ContinueWith(
-                (task) => exceptionHandler?.Invoke(task.Exception.GetBaseException()),
+                StandardContinuation,
+                exceptionHandler,
                 continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
 
             runningTask.Start();
         }
+
+        private static void StandardContinuation(Task task, object innerState) => (innerState as Action<Exception>)?.Invoke(task.Exception.GetBaseException());
     }
 }
