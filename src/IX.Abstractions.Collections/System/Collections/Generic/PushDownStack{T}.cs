@@ -168,7 +168,7 @@ namespace IX.System.Collections.Generic
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
-        public IEnumerator<T> GetEnumerator() => this.SpawnAtomicEnumerator(this.internalContainer.GetEnumerator());
+        public IEnumerator<T> GetEnumerator() => this.SpawnAtomicEnumerator<T, List<T>.Enumerator>(this.internalContainer.GetEnumerator());
 #pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
 #pragma warning restore HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation
 

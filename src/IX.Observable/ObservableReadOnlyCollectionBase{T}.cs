@@ -227,7 +227,7 @@ namespace IX.Observable
             }
             else
             {
-                return new StandardExtensions.Threading.AtomicEnumerator<T>(this.InternalContainer.GetEnumerator(), () => this.ReadLock());
+                return new StandardExtensions.Threading.AtomicEnumerator<T, IEnumerator<T>>(this.InternalContainer.GetEnumerator(), () => this.ReadLock());
             }
         }
 

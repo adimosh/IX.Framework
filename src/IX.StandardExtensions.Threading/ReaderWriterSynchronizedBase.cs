@@ -14,6 +14,7 @@ namespace IX.StandardExtensions.Threading
     /// A base class for a reader/writer synchronized class.
     /// </summary>
     /// <seealso cref="IX.StandardExtensions.ComponentModel.DisposableBase" />
+    [DataContract]
     public abstract partial class ReaderWriterSynchronizedBase : DisposableBase
     {
         private readonly bool lockInherited;
@@ -157,14 +158,16 @@ namespace IX.StandardExtensions.Threading
         /// <summary>
         /// Spawns an atomic enumerator tied to this instance's locking mechanisms.
         /// </summary>
-        /// <typeparam name="T">The type of the item within the atomic enumerator.</typeparam>
+        /// <typeparam name="TItem">The type of the item within the atomic enumerator.</typeparam>
+        /// <typeparam name="TEnumerator">The type of the enumerator to spawn the atomic enumerator from.</typeparam>
         /// <param name="sourceEnumerator">The source enumerator.</param>
         /// <returns>An tied-in atomic enumerator.</returns>
-        protected AtomicEnumerator<T> SpawnAtomicEnumerator<T>(IEnumerator<T> sourceEnumerator)
+        protected AtomicEnumerator<TItem, TEnumerator> SpawnAtomicEnumerator<TItem, TEnumerator>(in TEnumerator sourceEnumerator)
+            where TEnumerator : IEnumerator<TItem>
         {
             this.ThrowIfCurrentObjectDisposed();
 
-            return new AtomicEnumerator<T>(sourceEnumerator, this.ReadLock);
+            return new AtomicEnumerator<TItem, TEnumerator>(sourceEnumerator, this.ReadLock);
         }
     }
 }
