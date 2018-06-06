@@ -2,9 +2,10 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using IX.Observable;
 using Xunit;
 
-namespace IX.Observable.UnitTests
+namespace IX.UnitTests.IX.Observable
 {
     /// <summary>
     /// ObservableMasterSlaveCollection tests.
@@ -50,8 +51,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionUndoAtAdd(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             // ACT
             list.Add(6);
@@ -73,8 +74,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionRedoAtAdd(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Add(6);
             Assert.True(list.Contains(6));
@@ -97,8 +98,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionUndoAtClear(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Clear();
 
@@ -128,8 +129,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionRedoAtClear(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Clear();
 
@@ -161,8 +162,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionUndoAtInsert(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             // ACT
             list.Insert(2, 6);
@@ -186,8 +187,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionRedoAtInsert(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Insert(2, 6);
             Assert.True(list.Contains(6));
@@ -211,8 +212,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionUndoAtRemoveAt(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             // ACT
             list.RemoveAt(2);
@@ -236,8 +237,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionRedoAtRemoveAt(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.RemoveAt(2);
             Assert.True(list[2] == 23);
@@ -260,8 +261,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionUndoMultipleOperations(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Add(18);
             list.RemoveAt(1);
@@ -314,8 +315,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionMultipleUndoOperations(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.HistoryLevels = 3;
 
@@ -349,8 +350,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionMultipleRedoCutoff(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Add(15);
             list.Add(89);
@@ -386,8 +387,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionUndoAtAddWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             var slaveCollection = new ObservableList<int>
             {
@@ -420,8 +421,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionRedoAtAddWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             var slaveCollection = new ObservableList<int>
             {
@@ -455,8 +456,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionUndoAtClearWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             var slaveCollection = new ObservableList<int>
             {
@@ -497,8 +498,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionRedoAtClearWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             var slaveCollection = new ObservableList<int>
             {
@@ -541,8 +542,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionUndoAtInsertWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             var slaveCollection = new ObservableList<int>
             {
@@ -577,8 +578,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionRedoAtInsertWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Insert(2, 6);
             Assert.True(list.Contains(6));
@@ -613,8 +614,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionUndoAtRemoveAtWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             var slaveCollection = new ObservableList<int>
             {
@@ -649,8 +650,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionRedoAtRemoveAtWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             var slaveCollection = new ObservableList<int>
             {
@@ -684,8 +685,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionUndoMultipleOperationsWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             var slaveCollection = new ObservableList<int>
             {
@@ -749,8 +750,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionMultipleUndoOperationsWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             var slaveCollection = new ObservableList<int>
             {
@@ -795,8 +796,8 @@ namespace IX.Observable.UnitTests
         public void ObservableMasterSlaveCollectionMultipleRedoCutoffWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             var slaveCollection = new ObservableList<int>
             {

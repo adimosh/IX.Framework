@@ -2,10 +2,11 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using IX.Observable;
 using IX.StandardExtensions.TestUtils;
 using Xunit;
 
-namespace IX.Observable.UnitTests
+namespace IX.UnitTests.IX.Observable
 {
     /// <summary>
     /// ObservableDictionary unit tests.
@@ -49,8 +50,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryCount()
         {
             // Arrange
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             var numberOfItems = DataGenerator.RandomNonNegativeInteger(UnitTestConstants.TestsGeneralMagnitude);
             var items = new int[numberOfItems];
@@ -94,8 +95,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryUndoAtAdd(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             // ACT
             dict.Add(6, 6);
@@ -117,8 +118,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryRedoAtAdd(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             dict.Add(6, 6);
             Assert.True(dict.ContainsKey(6), "Element not found: 6");
@@ -141,8 +142,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryUndoAtClear(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             dict.Clear();
 
@@ -172,8 +173,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryRedoAtClear(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             dict.Clear();
 
@@ -205,8 +206,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryUndoAtRemove(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             // ACT
             dict.Remove(7);
@@ -228,8 +229,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryRedoAtRemove(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             dict.Remove(7);
             Assert.False(dict.ContainsKey(7), "Element found: 7");
@@ -252,8 +253,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryUndoMultipleOperations(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             dict.Add(18, 18);
             dict.Remove(7);
@@ -306,8 +307,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryMultipleUndoOperations(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             dict.HistoryLevels = 3;
 
@@ -341,8 +342,8 @@ namespace IX.Observable.UnitTests
         public void ObservableDictionaryMultipleRedoCutoff(ObservableDictionary<int, int> dict)
         {
             // ARRANGE
-            StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             dict.Add(15, 15);
             dict.Add(89, 89);

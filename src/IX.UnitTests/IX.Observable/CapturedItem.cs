@@ -5,7 +5,7 @@
 using System;
 using IX.Undoable;
 
-namespace IX.Observable.UnitTests
+namespace IX.UnitTests.IX.Observable
 {
     /// <summary>
     /// A test fixture for testing undo/redo stuff.

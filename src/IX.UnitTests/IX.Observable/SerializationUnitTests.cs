@@ -1,4 +1,4 @@
-// <copyright file="SerializationTests.cs" company="Adrian Mos">
+// <copyright file="SerializationUnitTests.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -7,15 +7,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
+using IX.Observable;
 using IX.StandardExtensions;
 using Xunit;
 
-namespace IX.Observable.UnitTests
+namespace IX.UnitTests.IX.Observable
 {
     /// <summary>
     /// Serialization tests.
     /// </summary>
-    public class SerializationTests
+    public class SerializationUnitTests
     {
         /// <summary>
         /// Observables the list serialization test.

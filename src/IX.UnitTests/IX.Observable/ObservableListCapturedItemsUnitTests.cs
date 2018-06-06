@@ -2,12 +2,13 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using IX.Observable;
 using Xunit;
 
-namespace IX.Observable.UnitTests
+namespace IX.UnitTests.IX.Observable
 {
     /// <summary>
-    /// Captured items test for ObservableList
+    /// Captured items test for ObservableList.
     /// </summary>
     public class ObservableListCapturedItemsUnitTests
     {
