@@ -4,10 +4,11 @@
 
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using IX.Math;
 using IX.Math.Extraction;
 using IX.Math.Nodes;
 
-namespace IX.Math.UnitTests.ExternalAssemblyCapabilities
+namespace IX.UnitTests.IX.Math.ExternalAssemblyCapabilities
 {
     /// <summary>
     /// A constants extractor used for testing purposes.

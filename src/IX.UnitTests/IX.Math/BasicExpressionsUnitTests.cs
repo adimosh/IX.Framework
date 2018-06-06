@@ -1,18 +1,19 @@
-﻿// <copyright file="BasicExpressionsTests.cs" company="Adrian Mos">
+// <copyright file="BasicExpressionsUnitTests.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
+using IX.Math;
 using IX.StandardExtensions.TestUtils;
 using Xunit;
 
-namespace IX.Math.UnitTests
+namespace IX.UnitTests.IX.Math
 {
     /// <summary>
     /// Tests for basic expressions.
     /// </summary>
-    public class BasicExpressionsTests
+    public class BasicExpressionsUnitTests
     {
         /// <summary>
         /// Provides the data for theory.
@@ -332,13 +333,13 @@ namespace IX.Math.UnitTests
         /// <param name="parameters">The parameters.</param>
         /// <param name="expectedResult">The expected result.</param>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated!
-        /// or
+        /// No computed expression was generated.
         /// </exception>
         [Theory(DisplayName = "Basic expressions with random data")]
         [MemberData(nameof(ProvideDataForTheory), DisableDiscoveryEnumeration = true)]
         public void ComputedExpressionWithParameters(string expression, object[] parameters, object expectedResult)
         {
+#pragma warning disable ERP023 // Only ex.Message property was observed in exception block! - Not consequential
             using (var service = new ExpressionParsingService())
             {
                 ComputedExpression del;
@@ -368,6 +369,7 @@ namespace IX.Math.UnitTests
 
                 Assert.Equal(expectedResult, result);
             }
+#pragma warning restore ERP023 // Only ex.Message property was observed in exception block!
         }
     }
 }

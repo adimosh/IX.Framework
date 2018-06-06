@@ -1,4 +1,4 @@
-// <copyright file="PushDownStackTests.cs" company="Adrian Mos">
+// <copyright file="PushDownStackUnitTests.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -6,12 +6,12 @@ using IX.StandardExtensions.TestUtils;
 using IX.System.Collections.Generic;
 using Xunit;
 
-namespace IX.Abstractions.UnitTests
+namespace IX.UnitTests.IX.Abstractions
 {
     /// <summary>
     /// Tests for <see cref="PushDownStack{T}"/>.
     /// </summary>
-    public class PushDownStackTests
+    public class PushDownStackUnitTests
     {
         /// <summary>
         /// Tests <see cref="PushDownStack{T}"/> according to the <see cref="FactAttribute"/> on the method.

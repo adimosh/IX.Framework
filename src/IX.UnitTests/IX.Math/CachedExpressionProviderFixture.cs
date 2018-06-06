@@ -3,8 +3,9 @@
 // </copyright>
 
 using System;
+using IX.Math;
 
-namespace IX.Math.UnitTests
+namespace IX.UnitTests.IX.Math
 {
     /// <summary>
     /// A fixture for a cached expression provider test suite.
@@ -12,25 +13,23 @@ namespace IX.Math.UnitTests
     /// <seealso cref="IDisposable" />
     public class CachedExpressionProviderFixture : IDisposable
     {
-        private readonly CachedExpressionParsingService ceps;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CachedExpressionProviderFixture"/> class.
         /// </summary>
         public CachedExpressionProviderFixture()
         {
-            this.ceps = new CachedExpressionParsingService();
+            this.Service = new CachedExpressionParsingService();
         }
 
         /// <summary>
         /// Gets the service.
         /// </summary>
         /// <value>The service.</value>
-        public CachedExpressionParsingService Service => this.ceps;
+        public CachedExpressionParsingService Service { get; }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public void Dispose() => this.ceps.Dispose();
+        public void Dispose() => this.Service.Dispose();
     }
 }

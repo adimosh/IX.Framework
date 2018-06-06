@@ -1,23 +1,24 @@
-﻿// <copyright file="ComputedExpressionRandomTests.cs" company="Adrian Mos">
+// <copyright file="ComputedExpressionRandomUnitTests.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
+using IX.Math;
 using Xunit;
 
-namespace IX.Math.UnitTests
+namespace IX.UnitTests.IX.Math
 {
     /// <summary>
     /// Class ComputedExpressionRandomTests.
     /// </summary>
-    public class ComputedExpressionRandomTests
+    public class ComputedExpressionRandomUnitTests
     {
+#pragma warning disable ERP023 // Only ex.Message property was observed in exception block! - Not consequential
         /// <summary>
         /// Computes the unary random function call expression, for testing.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated!
-        /// or
+        /// No computed expression was generated.
         /// </exception>
         [Fact(DisplayName = "Tests the unary function \"random\".")]
         public void ComputedUnaryRandomFunctionCallExpression()
@@ -42,7 +43,9 @@ namespace IX.Math.UnitTests
                 object result;
                 try
                 {
+#pragma warning disable HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation - Not consequential
                     result = del.Compute(100);
+#pragma warning restore HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation
                 }
                 catch (Exception ex)
                 {
@@ -59,8 +62,7 @@ namespace IX.Math.UnitTests
         /// Computes the random nonary function call expression, for testing.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated!
-        /// or
+        /// No computed expression was generated.
         /// </exception>
         [Fact(DisplayName = "Tests the nonary function \"random\".")]
         public void ComputedRandomNonaryFunctionCallExpression()
@@ -95,5 +97,6 @@ namespace IX.Math.UnitTests
                 Assert.IsType<double>(result);
             }
         }
+#pragma warning restore ERP023 // Only ex.Message property was observed in exception block!
     }
 }

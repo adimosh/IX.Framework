@@ -1,15 +1,16 @@
-﻿// <copyright file="LeftBitwiseExtensionsTests.cs" company="Adrian Mos">
+// <copyright file="LeftBitwiseExtensionsUnitTests.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using IX.StandardExtensions;
 using Xunit;
 
-namespace IX.StandardExtensions.Tests
+namespace IX.UnitTests.IX.StandardExtensions
 {
     /// <summary>
     /// Unit tests for left bitwise extensions.
     /// </summary>
-    public class LeftBitwiseExtensionsTests
+    public class LeftBitwiseExtensionsUnitTests
     {
         /// <summary>
         /// Generates data for tests.

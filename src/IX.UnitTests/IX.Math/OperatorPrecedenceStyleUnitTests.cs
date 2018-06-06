@@ -1,22 +1,23 @@
-// <copyright file="OperatorPrecedenceStyleTests.cs" company="Adrian Mos">
+// <copyright file="OperatorPrecedenceStyleUnitTests.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
+using IX.Math;
 using Xunit;
 
-namespace IX.Math.UnitTests
+namespace IX.UnitTests.IX.Math
 {
     /// <summary>
-    /// Unit tests for operator precedence styles
+    /// Unit tests for operator precedence styles.
     /// </summary>
-    public class OperatorPrecedenceStyleTests
+    public class OperatorPrecedenceStyleUnitTests
     {
         /// <summary>
         /// Tests mathematical and C-style operator precedence style.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated!
+        /// No computed expression was generated.
         /// </exception>
         [Fact(DisplayName = "Operator precedence style test")]
         public void Test1()

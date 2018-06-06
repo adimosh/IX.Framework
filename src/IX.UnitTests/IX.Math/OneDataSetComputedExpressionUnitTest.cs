@@ -1,28 +1,31 @@
-// <copyright file="OneDataSetComputedExpressionTest.cs" company="Adrian Mos">
+// <copyright file="OneDataSetComputedExpressionUnitTest.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using IX.Math;
 using IX.StandardExtensions.TestUtils;
 using Moq;
 using Xunit;
 
-namespace IX.Math.UnitTests
+namespace IX.UnitTests.IX.Math
 {
     /// <summary>
     /// Tests computed expressions.
     /// </summary>
-    public class OneDataSetComputedExpressionTest : IClassFixture<CachedExpressionProviderFixture>
+    public class OneDataSetComputedExpressionUnitTest : IClassFixture<CachedExpressionProviderFixture>
     {
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure - This is of little importance in unit tests yet
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source - This is of little importance in unit tests yet
         private readonly CachedExpressionProviderFixture fixture;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OneDataSetComputedExpressionTest"/> class.
+        /// Initializes a new instance of the <see cref="OneDataSetComputedExpressionUnitTest"/> class.
         /// </summary>
         /// <param name="fixture">The fixture.</param>
-        public OneDataSetComputedExpressionTest(CachedExpressionProviderFixture fixture)
+        public OneDataSetComputedExpressionUnitTest(CachedExpressionProviderFixture fixture)
         {
             this.fixture = fixture;
         }
@@ -51,7 +54,7 @@ namespace IX.Math.UnitTests
         /// <param name="parameters">The parameters.</param>
         /// <param name="expectedResult">The expected result.</param>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated!
+        /// No computed expression was generated.
         /// </exception>
         [Theory(DisplayName = "EPSPara")]
         [MemberData(nameof(ProvideDataForTheory))]
@@ -79,7 +82,7 @@ namespace IX.Math.UnitTests
         /// <param name="parameters">The parameters.</param>
         /// <param name="expectedResult">The expected result.</param>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated!
+        /// No computed expression was generated.
         /// </exception>
         [Theory(DisplayName = "EPSFindr")]
         [MemberData(nameof(ProvideDataForTheory))]
@@ -119,7 +122,7 @@ namespace IX.Math.UnitTests
         /// <param name="parameters">The parameters.</param>
         /// <param name="expectedResult">The expected result.</param>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated!
+        /// No computed expression was generated.
         /// </exception>
         [Theory(DisplayName = "CEPSPara")]
         [MemberData(nameof(ProvideDataForTheory))]
@@ -144,7 +147,7 @@ namespace IX.Math.UnitTests
         /// <param name="parameters">The parameters.</param>
         /// <param name="expectedResult">The expected result.</param>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated!
+        /// No computed expression was generated.
         /// </exception>
         [Theory(DisplayName = "CEPSFindr")]
         [MemberData(nameof(ProvideDataForTheory))]
@@ -181,7 +184,7 @@ namespace IX.Math.UnitTests
         /// <param name="parameters">The parameters.</param>
         /// <param name="expectedResult">The expected result.</param>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated!
+        /// No computed expression was generated.
         /// </exception>
         [Theory(DisplayName = "EPSFindrFunc")]
         [MemberData(nameof(ProvideDataForTheory))]
@@ -221,7 +224,7 @@ namespace IX.Math.UnitTests
         /// <param name="parameters">The parameters.</param>
         /// <param name="expectedResult">The expected result.</param>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated!
+        /// No computed expression was generated.
         /// </exception>
         [Theory(DisplayName = "CEPSFindrFunc")]
         [MemberData(nameof(ProvideDataForTheory))]
@@ -258,7 +261,7 @@ namespace IX.Math.UnitTests
         /// <param name="parameters">The parameters.</param>
         /// <param name="expectedResult">The expected result.</param>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated!
+        /// No computed expression was generated.
         /// </exception>
         [Theory(DisplayName = "CEPSFindrFuncRepeated")]
         [MemberData(nameof(ProvideDataForTheory))]
@@ -326,5 +329,7 @@ namespace IX.Math.UnitTests
                     throw new InvalidOperationException();
             }
         }
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
     }
 }

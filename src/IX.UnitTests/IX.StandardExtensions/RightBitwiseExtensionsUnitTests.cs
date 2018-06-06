@@ -1,15 +1,16 @@
-﻿// <copyright file="RightBitwiseExtensionsTests.cs" company="Adrian Mos">
+// <copyright file="RightBitwiseExtensionsUnitTests.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using IX.StandardExtensions;
 using Xunit;
 
-namespace IX.StandardExtensions.Tests
+namespace IX.UnitTests.IX.StandardExtensions
 {
     /// <summary>
     /// Unit tet for right bitwise extensions.
     /// </summary>
-    public class RightBitwiseExtensionsTests
+    public class RightBitwiseExtensionsUnitTests
     {
         /// <summary>
         /// Generates data for tests.

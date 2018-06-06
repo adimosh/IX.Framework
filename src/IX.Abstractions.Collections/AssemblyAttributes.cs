@@ -6,5 +6,5 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using IX.Abstractions.Collections;
 
-[assembly: InternalsVisibleTo("IX.Abstractions.UnitTests")]
+[assembly: InternalsVisibleTo("IX.UnitTests")]
 [assembly: ContractNamespace(Constants.DataContractNamespace, ClrNamespace = nameof(IX.Abstractions.Collections))]

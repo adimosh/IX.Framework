@@ -1,20 +1,22 @@
-// <copyright file="SerializationTests.cs" company="Adrian Mos">
+// <copyright file="SerializationUnitTests.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
+using IX.Abstractions.Collections;
 using IX.StandardExtensions;
+using IX.StandardExtensions.TestUtils;
 using IX.System.Collections.Generic;
 using Xunit;
 
-namespace IX.Abstractions.UnitTests
+namespace IX.UnitTests.IX.Abstractions
 {
     /// <summary>
     /// Tests for serialization.
     /// </summary>
-    public class SerializationTests
+    public class SerializationUnitTests
     {
         /// <summary>
         /// Tests the push down stack serialization.
@@ -24,11 +26,11 @@ namespace IX.Abstractions.UnitTests
         {
             // ARRANGE
             // =======
-            var item1 = StandardExtensions.TestUtils.DataGenerator.RandomNonNegativeInteger();
-            var item2 = StandardExtensions.TestUtils.DataGenerator.RandomNonNegativeInteger();
-            var item3 = StandardExtensions.TestUtils.DataGenerator.RandomNonNegativeInteger();
-            var item4 = StandardExtensions.TestUtils.DataGenerator.RandomNonNegativeInteger();
-            var item5 = StandardExtensions.TestUtils.DataGenerator.RandomNonNegativeInteger();
+            var item1 = DataGenerator.RandomNonNegativeInteger();
+            var item2 = DataGenerator.RandomNonNegativeInteger();
+            var item3 = DataGenerator.RandomNonNegativeInteger();
+            var item4 = DataGenerator.RandomNonNegativeInteger();
+            var item5 = DataGenerator.RandomNonNegativeInteger();
             var l1 = new PushDownStack<int>(4);
 
             l1.Push(item1);
@@ -70,7 +72,7 @@ namespace IX.Abstractions.UnitTests
             // Serialization content is OK
             Assert.False(string.IsNullOrWhiteSpace(content));
             Assert.Equal(
-                $@"<PushDownStackOfint xmlns=""{Collections.Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><Items xmlns:a=""http://schemas.microsoft.com/2003/10/Serialization/Arrays""><a:int>{item2}</a:int><a:int>{item3}</a:int><a:int>{item4}</a:int><a:int>{item5}</a:int></Items><Limit>4</Limit></PushDownStackOfint>",
+                $@"<PushDownStackOfint xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><Items xmlns:a=""http://schemas.microsoft.com/2003/10/Serialization/Arrays""><a:int>{item2}</a:int><a:int>{item3}</a:int><a:int>{item4}</a:int><a:int>{item5}</a:int></Items><Limit>4</Limit></PushDownStackOfint>",
                 content);
 
             // Deserialized object is OK

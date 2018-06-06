@@ -1,15 +1,16 @@
-﻿// <copyright file="ByteArrayExtensionsTests.cs" company="Adrian Mos">
+// <copyright file="ByteArrayExtensionsUnitTests.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using IX.StandardExtensions;
 using Xunit;
 
-namespace IX.StandardExtensions.Tests
+namespace IX.UnitTests.IX.StandardExtensions
 {
     /// <summary>
     /// Unit tests for ByteArrayExtensions.
     /// </summary>
-    public class ByteArrayExtensionsTests
+    public class ByteArrayExtensionsUnitTests
     {
         /// <summary>
         /// Generates data for tests.

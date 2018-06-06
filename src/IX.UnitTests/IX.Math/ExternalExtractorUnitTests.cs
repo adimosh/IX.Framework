@@ -1,16 +1,17 @@
-// <copyright file="ExternalExtractorTests.cs" company="Adrian Mos">
+// <copyright file="ExternalExtractorUnitTests.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System.Reflection;
+using IX.Math;
 using Xunit;
 
-namespace IX.Math.UnitTests
+namespace IX.UnitTests.IX.Math
 {
     /// <summary>
-    /// A class containing tests for external library support in IX.Math
+    /// A class containing tests for external library support in IX.Math.
     /// </summary>
-    public class ExternalExtractorTests
+    public class ExternalExtractorUnitTests
     {
         /// <summary>
         /// Tests extractors from external libraries.
@@ -19,7 +20,7 @@ namespace IX.Math.UnitTests
         public void Test1()
         {
             var eps = new ExpressionParsingService();
-            eps.RegisterFunctionsAssembly(typeof(ExternalExtractorTests).GetTypeInfo().Assembly);
+            eps.RegisterFunctionsAssembly(typeof(ExternalExtractorUnitTests).GetTypeInfo().Assembly);
 
             ComputedExpression interpreted = eps.Interpret("1+silly+3");
 
