@@ -3,6 +3,8 @@
 // </copyright>
 
 using System;
+using System.Runtime.Serialization;
+using System.Threading;
 
 namespace IX.StandardExtensions.ComponentModel
 {
@@ -10,8 +12,10 @@ namespace IX.StandardExtensions.ComponentModel
     /// An abstract base class for correctly implementing the disposable pattern.
     /// </summary>
     /// <seealso cref="System.IDisposable" />
+    [DataContract]
     public abstract partial class DisposableBase : IDisposable
     {
+        private volatile int disposeSignaled;
         private bool disposedValue;
 
         /// <summary>
@@ -27,6 +31,11 @@ namespace IX.StandardExtensions.ComponentModel
         /// </summary>
         public void Dispose()
         {
+            if (Interlocked.Exchange(ref this.disposeSignaled, 1) != 0)
+            {
+                return;
+            }
+
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }

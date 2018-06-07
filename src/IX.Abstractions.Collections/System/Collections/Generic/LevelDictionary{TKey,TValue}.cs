@@ -1,4 +1,4 @@
-﻿// <copyright file="LevelDictionary{TKey,TValue}.cs" company="Adrian Mos">
+// <copyright file="LevelDictionary{TKey,TValue}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using IX.Abstractions.Collections;
 using IX.StandardExtensions;
 using IX.StandardExtensions.ComponentModel;
@@ -221,7 +222,11 @@ namespace IX.System.Collections.Generic
         {
             this.ThrowIfCurrentObjectDisposed();
 
+#pragma warning disable HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation - Unavoidable at this time
+
+            // TODO: #68 - Eliminate boxing from IEnumerable implementations
             return this.internalDictionary.GetEnumerator();
+#pragma warning restore HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation
         }
 
         /// <summary>
@@ -277,7 +282,11 @@ namespace IX.System.Collections.Generic
         {
             this.ThrowIfCurrentObjectDisposed();
 
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable at this time
+
+            // TODO: #68 - Eliminate boxing from IEnumerable implementations
             return this.GetEnumerator();
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
         }
 
         /// <summary>
@@ -299,9 +308,9 @@ namespace IX.System.Collections.Generic
         {
             base.DisposeGeneralContext();
 
-            this.internalDictionary = null;
-            this.keyLevels = null;
-            this.levelKeys = null;
+            Interlocked.Exchange(ref this.internalDictionary, null);
+            Interlocked.Exchange(ref this.keyLevels, null);
+            Interlocked.Exchange(ref this.levelKeys, null);
         }
     }
 }

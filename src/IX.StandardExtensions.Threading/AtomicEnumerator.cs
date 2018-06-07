@@ -11,21 +11,23 @@ namespace IX.StandardExtensions.Threading
     /// <summary>
     /// An atomic enumerator that can enumerate items one at a time, atomically.
     /// </summary>
-    /// <typeparam name="T">The type of the items to enumerate.</typeparam>
+    /// <typeparam name="TItem">The type of the items to enumerate.</typeparam>
+    /// <typeparam name="TEnumerator">The type of the enumerator from which this atomic enumerator is derived.</typeparam>
     /// <seealso cref="global::System.Collections.Generic.IEnumerator{T}" />
-    public sealed class AtomicEnumerator<T> : IEnumerator<T>
+    public sealed class AtomicEnumerator<TItem, TEnumerator> : IEnumerator<TItem>
+        where TEnumerator : IEnumerator<TItem>
     {
-        private IEnumerator<T> existingEnumerator;
+        private TEnumerator existingEnumerator;
         private Func<ReadOnlySynchronizationLocker> readLock;
         private bool disposedValue;
         private bool movedNext;
 
-        private T current;
+        private TItem current;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AtomicEnumerator{T}"/> class.
+        /// Initializes a new instance of the <see cref="AtomicEnumerator{TItem, TEnumerator}"/> class.
         /// </summary>
-        /// <param name="existingEnumerator">The existing enumerator.</param>
+        /// <param name="existingEnumerator">The existing enumerator. This argument is passed by reference.</param>
         /// <param name="readLock">The read lock.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="existingEnumerator"/>
@@ -33,14 +35,19 @@ namespace IX.StandardExtensions.Threading
         /// <paramref name="readLock"/>
         /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
-        public AtomicEnumerator(IEnumerator<T> existingEnumerator, Func<ReadOnlySynchronizationLocker> readLock)
+        public AtomicEnumerator(TEnumerator existingEnumerator, Func<ReadOnlySynchronizationLocker> readLock)
         {
-            this.existingEnumerator = existingEnumerator ?? throw new ArgumentNullException(nameof(existingEnumerator));
+            if (existingEnumerator == null)
+            {
+                throw new ArgumentNullException(nameof(existingEnumerator));
+            }
+
+            this.existingEnumerator = existingEnumerator;
             this.readLock = readLock ?? throw new ArgumentNullException(nameof(readLock));
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="AtomicEnumerator{T}"/> class.
+        /// Finalizes an instance of the <see cref="AtomicEnumerator{TItem, TEnumerator}"/> class.
         /// </summary>
         ~AtomicEnumerator()
         {
@@ -52,7 +59,7 @@ namespace IX.StandardExtensions.Threading
         /// Gets the element in the collection at the current position of the enumerator.
         /// </summary>
         /// <value>The current element.</value>
-        public T Current
+        public TItem Current
         {
             get
             {
@@ -90,13 +97,14 @@ namespace IX.StandardExtensions.Threading
             bool result;
             using (this.readLock())
             {
-                result = this.existingEnumerator.MoveNext();
+                ref TEnumerator localEnumerator = ref this.existingEnumerator;
+                result = localEnumerator.MoveNext();
 
                 this.movedNext = true;
 
                 if (result)
                 {
-                    this.current = this.existingEnumerator.Current;
+                    this.current = localEnumerator.Current;
                 }
             }
 
@@ -139,7 +147,6 @@ namespace IX.StandardExtensions.Threading
                     this.existingEnumerator.Dispose();
                 }
 
-                this.existingEnumerator = null;
                 this.readLock = null;
 
                 this.disposedValue = true;

@@ -81,14 +81,22 @@ namespace IX.StandardExtensions.ComponentModel
                 if (EnvironmentSettings.InvokeSynchronously)
                 {
                     currentSynchronizationContext.Send(
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is unavoidable
                         SendOrPost,
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning disable HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation - This is acceptable
                         (this, action));
+#pragma warning restore HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation
                 }
                 else
                 {
                     currentSynchronizationContext.Post(
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is unavoidable
                         SendOrPost,
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning disable HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation - This is acceptable
                         (this, action));
+#pragma warning restore HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation
                 }
 
                 void SendOrPost(object innerState)
@@ -107,18 +115,20 @@ namespace IX.StandardExtensions.ComponentModel
             }
         }
 
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable
         /// <summary>
         /// Invokes an action and forgets about it, allowing it to run uninterrupted in the background.
         /// </summary>
         /// <param name="action">The action to invoke.</param>
         protected void FireAndForget(Action action) => Fire.AndForget(action, this.InvokeExceptionOccurredOnSeparateThread);
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
 
         /// <summary>
         /// Disposes in the general (managed and unmanaged) context.
         /// </summary>
         protected override void DisposeGeneralContext()
         {
-            this.synchronizationContext = null;
+            Interlocked.Exchange(ref this.synchronizationContext, null);
 
             base.DisposeGeneralContext();
         }

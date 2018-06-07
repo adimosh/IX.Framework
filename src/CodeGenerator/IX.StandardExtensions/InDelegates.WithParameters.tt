@@ -30,7 +30,7 @@ for (int i = 1; i <= 8; i++)
 #>
 
     /// <summary>
-    /// A generic delegate for a method whose parameters are all marked as "in", with a return type.
+    /// A generic delegate for a method whose parameters are all marked as &quot;in&quot;, with a return type.
     /// </summary>
 <#
     for (int j = 1; j <= i; j++)
@@ -45,7 +45,7 @@ for (int i = 1; i <= 8; i++)
     for (int j = 1; j <= i; j++)
     {
 #>
-    /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the method at index <#= j - 1 #>.</param>
+    /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the method at index <#= j - 1 #>. This parameter is passed by read-only reference.</param>
 <#
     }
 #>
@@ -53,7 +53,7 @@ for (int i = 1; i <= 8; i++)
     public delegate TResult InFunc<<#= paramTypes #>, TResult>(<#= paramNameTypes #>);
 
     /// <summary>
-    /// A generic delegate for a method whose parameters are all marked as "in".
+    /// A generic delegate for a method whose parameters are all marked as &quot;in&quot;.
     /// </summary>
 <#
     for (int j = 1; j <= i; j++)
@@ -67,7 +67,7 @@ for (int i = 1; i <= 8; i++)
     for (int j = 1; j <= i; j++)
     {
 #>
-    /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the method at index <#= j - 1 #>.</param>
+    /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the method at index <#= j - 1 #>. This parameter is passed by read-only reference.</param>
 <#
     }
 #>

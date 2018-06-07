@@ -16,7 +16,7 @@ namespace IX.StandardExtensions
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
         /// </summary>
-        /// <typeparam name="TItem">The enumerable type.</typeparam>
+        /// <typeparam name="TItem">The enumerable item type.</typeparam>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
         /// <param name="source">The enumerable source.</param>
         /// <param name="action">The action to execute.</param>
@@ -43,7 +43,7 @@ namespace IX.StandardExtensions
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
         /// </summary>
-        /// <typeparam name="TItem">The enumerable type.</typeparam>
+        /// <typeparam name="TItem">The enumerable item type.</typeparam>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
         /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
         /// <param name="source">The enumerable source.</param>
@@ -72,7 +72,7 @@ namespace IX.StandardExtensions
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
         /// </summary>
-        /// <typeparam name="TItem">The enumerable type.</typeparam>
+        /// <typeparam name="TItem">The enumerable item type.</typeparam>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
         /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
         /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
@@ -103,7 +103,7 @@ namespace IX.StandardExtensions
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
         /// </summary>
-        /// <typeparam name="TItem">The enumerable type.</typeparam>
+        /// <typeparam name="TItem">The enumerable item type.</typeparam>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
         /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
         /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
@@ -136,7 +136,7 @@ namespace IX.StandardExtensions
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
         /// </summary>
-        /// <typeparam name="TItem">The enumerable type.</typeparam>
+        /// <typeparam name="TItem">The enumerable item type.</typeparam>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
         /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
         /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
@@ -171,7 +171,7 @@ namespace IX.StandardExtensions
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
         /// </summary>
-        /// <typeparam name="TItem">The enumerable type.</typeparam>
+        /// <typeparam name="TItem">The enumerable item type.</typeparam>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
         /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
         /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
@@ -208,7 +208,7 @@ namespace IX.StandardExtensions
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
         /// </summary>
-        /// <typeparam name="TItem">The enumerable type.</typeparam>
+        /// <typeparam name="TItem">The enumerable item type.</typeparam>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
         /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
         /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
@@ -247,7 +247,7 @@ namespace IX.StandardExtensions
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
         /// </summary>
-        /// <typeparam name="TItem">The enumerable type.</typeparam>
+        /// <typeparam name="TItem">The enumerable item type.</typeparam>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
         /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
         /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>

@@ -1,4 +1,4 @@
-﻿// <copyright file="Fire.AndForgetActionsAndFuncs.cs" company="Adrian Mos">
+// <copyright file="Fire.AndForgetActionsAndFuncs.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -13,6 +13,7 @@ namespace IX.StandardExtensions.Threading
     /// </summary>
     public static partial class Fire
     {
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable
         /// <summary>
         /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
         /// </summary>
@@ -50,7 +51,8 @@ namespace IX.StandardExtensions.Threading
             }
 
             runningTask.ContinueWith(
-                (task) => exceptionHandler?.Invoke(task.Exception.GetBaseException()),
+                StandardContinuation,
+                exceptionHandler,
                 continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
 
             runningTask.Start();
@@ -97,7 +99,8 @@ namespace IX.StandardExtensions.Threading
             }
 
             runningTask.ContinueWith(
-                (task) => exceptionHandler?.Invoke(task.Exception.GetBaseException()),
+                StandardContinuation,
+                exceptionHandler,
                 continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
 
             runningTask.Start();
@@ -148,7 +151,8 @@ namespace IX.StandardExtensions.Threading
             }
 
             runningTask.ContinueWith(
-                (task) => exceptionHandler?.Invoke(task.Exception.GetBaseException()),
+                StandardContinuation,
+                exceptionHandler,
                 continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
 
             runningTask.Start();
@@ -203,7 +207,8 @@ namespace IX.StandardExtensions.Threading
             }
 
             runningTask.ContinueWith(
-                (task) => exceptionHandler?.Invoke(task.Exception.GetBaseException()),
+                StandardContinuation,
+                exceptionHandler,
                 continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
 
             runningTask.Start();
@@ -262,7 +267,8 @@ namespace IX.StandardExtensions.Threading
             }
 
             runningTask.ContinueWith(
-                (task) => exceptionHandler?.Invoke(task.Exception.GetBaseException()),
+                StandardContinuation,
+                exceptionHandler,
                 continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
 
             runningTask.Start();
@@ -325,7 +331,8 @@ namespace IX.StandardExtensions.Threading
             }
 
             runningTask.ContinueWith(
-                (task) => exceptionHandler?.Invoke(task.Exception.GetBaseException()),
+                StandardContinuation,
+                exceptionHandler,
                 continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
 
             runningTask.Start();
@@ -392,7 +399,8 @@ namespace IX.StandardExtensions.Threading
             }
 
             runningTask.ContinueWith(
-                (task) => exceptionHandler?.Invoke(task.Exception.GetBaseException()),
+                StandardContinuation,
+                exceptionHandler,
                 continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
 
             runningTask.Start();
@@ -463,10 +471,12 @@ namespace IX.StandardExtensions.Threading
             }
 
             runningTask.ContinueWith(
-                (task) => exceptionHandler?.Invoke(task.Exception.GetBaseException()),
+                StandardContinuation,
+                exceptionHandler,
                 continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
 
             runningTask.Start();
         }
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
     }
 }

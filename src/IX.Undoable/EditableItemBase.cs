@@ -20,7 +20,7 @@ namespace IX.Undoable
         private readonly global::System.Collections.Generic.List<StateChange> stateChanges;
 
         /// <summary>
-        /// The history levels
+        /// The history levels.
         /// </summary>
         private int historyLevels;
 
@@ -362,7 +362,10 @@ namespace IX.Undoable
         /// </summary>
         /// <typeparam name="TSubItem">The type of the sub item.</typeparam>
         /// <param name="item">The item.</param>
-        /// <exception cref="ArgumentNullException">item</exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="item"/>
+        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// </exception>
         /// <remarks>This method is intended to capture only objects that are directly sub-objects that can have their own internal state and undo/redo
         /// capabilities and are also transactional in nature when being edited. Using this method on any other object may yield unwanted
         /// commits.</remarks>
@@ -382,9 +385,12 @@ namespace IX.Undoable
         /// <summary>
         /// Releases the sub item from present context.
         /// </summary>
-        /// <typeparam name="TSubItem">The type of the t sub item.</typeparam>
+        /// <typeparam name="TSubItem">The type of the sub item.</typeparam>
         /// <param name="item">The item.</param>
-        /// <exception cref="ArgumentNullException">item</exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="item"/>
+        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// </exception>
         protected void ReleaseSubItemFromPresentContext<TSubItem>(TSubItem item)
             where TSubItem : IUndoableItem, IEditCommittableItem
         {

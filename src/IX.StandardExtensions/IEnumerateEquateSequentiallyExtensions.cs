@@ -103,6 +103,8 @@ namespace IX.StandardExtensions
             }
 
 #pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Currently unavoidable, will do more later
+
+            // TODO: #68 - Eliminate boxing from IEnumerable implementations
             using (IEnumerator<T> leftEnumerator = left.GetEnumerator())
             {
                 using (IEnumerator<T> rightEnumerator = right.GetEnumerator())
