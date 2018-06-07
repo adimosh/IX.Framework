@@ -229,7 +229,9 @@ namespace IX.UnitTests.IX.Observable
             Assert.NotNull(l2);
             Assert.Equal(l1.Count, l2.Count);
 
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Acceptable in this unit test
             foreach (var key in l1.Keys)
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
             {
                 Assert.True(l1[key].Equals(l2[key]));
             }
@@ -305,7 +307,9 @@ namespace IX.UnitTests.IX.Observable
             Assert.NotNull(l2);
             Assert.Equal(l1.Count, l2.Count);
 
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Acceptable in this unit test
             foreach (var key in l1.Keys)
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
             {
                 Assert.True(l1[key].Equals(l2[key]));
             }

@@ -39,7 +39,7 @@ namespace IX.UnitTests.IX.StandardExtensions
 
             while (ae.MoveNext())
             {
-                newList1.Add(ae.Current);
+                newList2.Add(ae.Current);
             }
 
             // ASSERT
