@@ -4,6 +4,9 @@
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta007" PrivateAssets="all" />
     <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'=='Debug'">
     <PackageReference Include="ErrorProne.Net" Version="0.1.5898.41180" PrivateAssets="all" />
     <PackageReference Include="ErrorProne.Net.Structs" Version="0.1.0" PrivateAssets="all" />
     <PackageReference Include="ClrHeapAllocationAnalyzer" Version="1.0.0.8" PrivateAssets="all" />
