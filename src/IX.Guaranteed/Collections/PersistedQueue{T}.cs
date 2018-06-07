@@ -57,30 +57,15 @@ namespace IX.Guaranteed.Collections
                 throw new ArgumentNullException(nameof(persistenceFolderPath));
             }
 
-            if (this.fileShim == null)
-            {
-                throw new ArgumentNullException(nameof(fileShim));
-            }
-
-            if (this.directoryShim == null)
-            {
-                throw new ArgumentNullException(nameof(directoryShim));
-            }
-
-            if (this.pathShim == null)
-            {
-                throw new ArgumentNullException(nameof(pathShim));
-            }
-
-            if (!directoryShim.Exists(persistenceFolderPath))
+            if (!(directoryShim ?? throw new ArgumentNullException(nameof(directoryShim))).Exists(persistenceFolderPath))
             {
                 throw new ArgumentInvalidPathException(nameof(persistenceFolderPath));
             }
 
             // Dependent state
-            this.fileShim = fileShim;
+            this.fileShim = fileShim ?? throw new ArgumentNullException(nameof(fileShim));
             this.directoryShim = directoryShim;
-            this.pathShim = pathShim;
+            this.pathShim = pathShim ?? throw new ArgumentNullException(nameof(pathShim));
 
             // Internal state
             this.serializer = new DataContractSerializer(typeof(T));
