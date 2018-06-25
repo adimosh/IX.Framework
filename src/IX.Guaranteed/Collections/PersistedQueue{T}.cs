@@ -7,7 +7,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using global::System;
 using IX.StandardExtensions;
-using IX.StandardExtensions.ComponentModel;
 using IX.StandardExtensions.Threading;
 using IX.System.Collections.Generic;
 using IX.System.IO;

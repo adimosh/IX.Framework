@@ -154,6 +154,23 @@ namespace IX.Math.Extraction
 
                         var functionHeader = functionHeaderCheck.Split(allSymbolsSymbols, StringSplitOptions.None).Last();
 
+                        bool FunctionHeaderCheck(string src, int ops, string allsmb, out fncHeader)
+                        {
+                            var fhc = src.Substring(0, ops);
+
+                            foreach (var p in allsmb)
+                            {
+                                if (fhc.EndsWith(p))
+                            }
+                            if (allSymbolsSymbols.Any(p => functionHeaderCheck.EndsWith(p)))
+                            {
+                                continue;
+                            }
+
+                            var functionHeader = functionHeaderCheck.Split(allSymbolsSymbols, StringSplitOptions.None).Last();
+
+                        }
+
                         var oop = source.IndexOf(openParanthesisSymbol, op + opl);
                         var cp = source.IndexOf(closeParanthesisSymbol, op + cpl);
 

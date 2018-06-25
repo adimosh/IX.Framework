@@ -1,4 +1,4 @@
-﻿// <copyright file="ManualResetEventSlim.cs" company="Adrian Mos">
+// <copyright file="ManualResetEventSlim.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -43,7 +43,8 @@ namespace IX.System.Threading
         /// Initializes a new instance of the <see cref="ManualResetEventSlim"/> class.
         /// </summary>
         /// <param name="manualResetEvent">The manual reset event.</param>
-        /// <exception cref="ArgumentNullException">manualResetEvent</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="manualResetEvent"/>
+        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
         public ManualResetEventSlim(global::System.Threading.ManualResetEventSlim manualResetEvent)
         {
             this.sre = manualResetEvent ?? throw new ArgumentNullException(nameof(manualResetEvent));

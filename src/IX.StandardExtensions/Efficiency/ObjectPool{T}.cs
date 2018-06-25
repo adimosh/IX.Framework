@@ -1,4 +1,4 @@
-﻿// <copyright file="ObjectPool{T}.cs" company="Adrian Mos">
+// <copyright file="ObjectPool{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -39,7 +39,7 @@ namespace IX.StandardExtensions.Efficiency
         /// <summary>
         /// Gets the count of unused objects in the pool.
         /// </summary>
-        /// <value>The unused object count.</value>
+        /// <value>The currently-unused object count.</value>
         /// <remarks>
         /// <para>If this property returns 0, there are no more unused objects in the pool. If one is requested, a new one will most likely be created.</para>
         /// <para>You should not make decisions on new instances based on this value, as it is not synchronized with the actual pool. It is possible to get a value of 0 here and
