@@ -9,6 +9,7 @@ namespace IX.StandardExtensions.EventModel
     /// <summary>
     /// An event arguments class depicting a named switch.
     /// </summary>
+    /// <seealso cref="System.EventArgs" />
     public class NameSwitchEventArgs : EventArgs
     {
         /// <summary>
