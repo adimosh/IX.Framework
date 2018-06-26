@@ -16,7 +16,6 @@ namespace IX.StandardExtensions.ComponentModel
     public abstract partial class DisposableBase : IDisposable
     {
         private volatile int disposeSignaled;
-        private bool disposedValue;
 
         /// <summary>
         /// Finalizes an instance of the <see cref="DisposableBase"/> class.
@@ -25,6 +24,8 @@ namespace IX.StandardExtensions.ComponentModel
         {
             this.Dispose(false);
         }
+
+        internal bool Disposed { get; private set; }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -46,7 +47,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// <exception cref="ObjectDisposedException">If the current object is disposed, this exception will be thrown.</exception>
         protected void ThrowIfCurrentObjectDisposed()
         {
-            if (this.disposedValue)
+            if (this.Disposed)
             {
                 throw new ObjectDisposedException(this.GetType().FullName);
             }
@@ -94,7 +95,7 @@ namespace IX.StandardExtensions.ComponentModel
 
         private void Dispose(bool disposing)
         {
-            if (!this.disposedValue)
+            if (!this.Disposed)
             {
                 if (disposing)
                 {
@@ -103,7 +104,7 @@ namespace IX.StandardExtensions.ComponentModel
 
                 this.DisposeGeneralContext();
 
-                this.disposedValue = true;
+                this.Disposed = true;
             }
         }
     }
