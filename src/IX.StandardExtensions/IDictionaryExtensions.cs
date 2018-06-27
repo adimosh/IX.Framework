@@ -30,7 +30,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, TValue>();
 
-            source.ForEach((p, dest) => dest.Add(p.Key, p.Value.DeepClone()), destination);
+            foreach (KeyValuePair<TKey, TValue> p in source)
+            {
+                destination.Add(p.Key, p.Value.DeepClone());
+            }
 
             return destination;
         }
@@ -53,7 +56,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, TValue>();
 
-            source.ForEach((p, dest) => dest.Add(p.Key, p.Value.ShallowClone()), destination);
+            foreach (KeyValuePair<TKey, TValue> p in source)
+            {
+                destination.Add(p.Key, p.Value.ShallowClone());
+            }
 
             return destination;
         }

@@ -101,6 +101,7 @@ for (int i = 1; i <= 8; i++)
             {
                 var state = new Tuple<SynchronizationContextInvokerBase, Action<<#= paramTypes #>>, Tuple<<#= paramTypes #>>>(this, action, new Tuple<<#= paramTypes #>>(<#= paramNames #>));
 
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - Unavoidable
                 if (EnvironmentSettings.InvokeSynchronously)
                 {
                     currentSynchronizationContext.Send(
@@ -113,6 +114,7 @@ for (int i = 1; i <= 8; i++)
                         SendOrPost,
                         state);
                 }
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
 
                 void SendOrPost(object innerState)
                 {
@@ -153,7 +155,9 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         protected void FireAndForget<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>)
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - Unavoidable
             => Fire.AndForget(action, <#= paramNames #>, this.InvokeExceptionOccurredOnSeparateThread);
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
 <#
 }
 #>

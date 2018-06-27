@@ -1,4 +1,4 @@
-﻿// <copyright file="IEnumerableExtensions.cs" company="Adrian Mos">
+// <copyright file="IEnumerableExtensions.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -33,7 +33,9 @@ namespace IX.StandardExtensions
                 throw new ArgumentNullException(nameof(action));
             }
 
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Makes sense, as this is IEnumerable extensions
             foreach (T item in source)
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
             {
                 action(item);
             }
@@ -107,7 +109,9 @@ namespace IX.StandardExtensions
             }
 
             var i = 0;
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Makes sense, as this is IEnumerable extensions
             foreach (T item in source)
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
             {
                 action(i, item);
                 i++;
@@ -160,19 +164,25 @@ namespace IX.StandardExtensions
                 throw new ArgumentNullException(nameof(action));
             }
 
-            Parallel.ForEach(EnumerateWithIndex(source), (state) => action(state.Item1, state.Item2));
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - Unavoidable
+            Parallel.ForEach(EnumerateWithIndex(source, action), PerformParallelAction);
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
 
-            IEnumerable<Tuple<int, T>> EnumerateWithIndex(IEnumerable<T> sourceEnumerable)
+            IEnumerable<Tuple<int, T, Action<int, T>>> EnumerateWithIndex(IEnumerable<T> sourceEnumerable, Action<int, T> actionToPerform)
             {
                 var i = 0;
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - This makes sense as it is IEnumerable extensions
                 foreach (T item in sourceEnumerable)
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                 {
-                    yield return new Tuple<int, T>(i, item);
+                    yield return new Tuple<int, T, Action<int, T>>(i, item, actionToPerform);
                     i++;
                 }
 
                 yield break;
             }
+
+            void PerformParallelAction(Tuple<int, T, Action<int, T>> state) => state.Item3(state.Item1, state.Item2);
         }
 #endif
     }

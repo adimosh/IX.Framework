@@ -1483,7 +1483,7 @@ namespace IX.UnitTests.IX.Math
         /// <param name="parameters">The parameters.</param>
         /// <param name="expectedResult">The expected result.</param>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated!
+        /// No computed expression was generated!.
         /// </exception>
         [Theory(DisplayName = "CEPSFindrFunc")]
         [MemberData(nameof(ProvideDataForTheory))]

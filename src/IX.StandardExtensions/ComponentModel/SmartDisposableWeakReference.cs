@@ -10,6 +10,9 @@ namespace IX.StandardExtensions.ComponentModel
     /// A smart weak reference for a <see cref="DisposableBase"/>-derived object.
     /// </summary>
     /// <typeparam name="T">The type of object to hold a weak reference to.</typeparam>
+    /// <remarks>
+    /// <para>This class is not intended to offer high performance or to be used in high-throughput scenarios. Should that be the aim of the code, please use a standard <see cref="WeakReference{T}"/> instead.</para>
+    /// </remarks>
     public class SmartDisposableWeakReference<T>
         where T : DisposableBase
     {

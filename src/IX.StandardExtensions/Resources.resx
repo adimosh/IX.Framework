@@ -138,4 +138,7 @@
   <data name="ErrorArgumentNotPositiveInteger" xml:space="preserve">
     <value>The argument {0} is not a positive integer.</value>
   </data>
+  <data name="SingleOrDefaultMultipleElements" xml:space="preserve">
+    <value>The input sequence contains more than one element.</value>
+  </data>
 </root>

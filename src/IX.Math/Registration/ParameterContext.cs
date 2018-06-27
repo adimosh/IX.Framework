@@ -22,7 +22,7 @@ namespace IX.Math.Registration
         /// Initializes a new instance of the <see cref="ParameterContext"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <exception cref="ArgumentNullException">name</exception>
+        /// <exception cref="ArgumentNullException">name.</exception>
         public ParameterContext(string name)
         {
             if (string.IsNullOrWhiteSpace(name))

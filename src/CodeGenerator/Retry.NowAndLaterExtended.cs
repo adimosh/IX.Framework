@@ -14,6 +14,9 @@ namespace IX.Retry
     /// </summary>
     public static partial class Retry
     {
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source - These are acceptable given the purpose of this code
+#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
         /// <summary>
         /// Retry now, with a default set of options.
         /// </summary>
@@ -3629,5 +3632,8 @@ namespace IX.Retry
                 return context.GetReturnValue();
             }
         }
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
     }
 }

@@ -56,12 +56,12 @@ namespace IX.Observable
         /// <remarks>
         /// <para>On concurrent collections, this property is read-synchronized.</para>
         /// </remarks>
-        public virtual int Count => this.InvokeIfNotDisposed(() => this.ReadLock(() => ((ICollection<T>)this.InternalContainer).Count));
+        public virtual int Count => this.InvokeIfNotDisposed((thisL1) => thisL1.ReadLock((thisL2) => ((ICollection<T>)thisL2.InternalContainer).Count, thisL1), this);
 
         /// <summary>
         /// Gets a value indicating whether the <see cref="ObservableCollectionBase{T}" /> is read-only.
         /// </summary>
-        public bool IsReadOnly => this.InvokeIfNotDisposed(() => this.ReadLock(() => this.InternalContainer.IsReadOnly));
+        public bool IsReadOnly => this.InvokeIfNotDisposed((thisL1) => thisL1.ReadLock((thisL2) => thisL2.InternalContainer.IsReadOnly, thisL1), this);
 
         /// <summary>
         /// Gets a value indicating whether this instance is synchronized.
@@ -135,10 +135,12 @@ namespace IX.Observable
         /// <para>On concurrent collections, this method is read-synchronized.</para>
         /// </remarks>
         public bool Contains(T item) => this.InvokeIfNotDisposed(
-            (itemL1) => this.ReadLock(
-                (itemL2) => this.InternalContainer.Contains(itemL2),
-                itemL1),
-            item);
+            (itemL1, thisL1) => thisL1.ReadLock(
+                (itemL2, thisL2) => thisL2.InternalContainer.Contains(itemL2),
+                itemL1,
+                thisL1),
+            item,
+            this);
 
         /// <summary>
         /// Copies the elements of the <see cref="ObservableCollectionBase{T}" /> to an <see cref="Array" />, starting at a particular <see cref="Array" /> index.
@@ -149,12 +151,14 @@ namespace IX.Observable
         /// <para>On concurrent collections, this method is read-synchronized.</para>
         /// </remarks>
         public void CopyTo(T[] array, int arrayIndex) => this.InvokeIfNotDisposed(
-            (arrayL1, arrayIndexL1) => this.ReadLock(
-                (arrayL2, arrayIndexL2) => this.InternalContainer.CopyTo(arrayL2, arrayIndexL2),
+            (arrayL1, arrayIndexL1, thisL1) => thisL1.ReadLock(
+                (arrayL2, arrayIndexL2, thisL2) => thisL2.InternalContainer.CopyTo(arrayL2, arrayIndexL2),
                 arrayL1,
-                arrayIndexL1),
+                arrayIndexL1,
+                thisL1),
             array,
-            arrayIndex);
+            arrayIndex,
+            this);
 
         /// <summary>
         /// Copies the elements of the <see cref="ObservableCollectionBase{T}" /> to a new <see cref="Array" />, starting at a particular index.
@@ -163,10 +167,10 @@ namespace IX.Observable
         /// <returns>A newly-formed array.</returns>
         /// <remarks>On concurrent collections, this method is read-synchronized.</remarks>
         public T[] CopyToArray(int fromIndex) => this.InvokeIfNotDisposed(
-            (arrayIndexL1) => this.ReadLock(
-                (arrayIndexL2) =>
+            (arrayIndexL1, thisL1) => thisL1.ReadLock(
+                (arrayIndexL2, thisL2) =>
                 {
-                    var clount = ((ICollection<T>)this.InternalContainer).Count;
+                    var clount = ((ICollection<T>)thisL2.InternalContainer).Count;
 
                     if (arrayIndexL2 >= clount || arrayIndexL2 < 0)
                     {
@@ -178,17 +182,19 @@ namespace IX.Observable
                     if (arrayIndexL2 == 0)
                     {
                         array = new T[clount];
-                        this.InternalContainer.CopyTo(array, 0);
+                        thisL2.InternalContainer.CopyTo(array, 0);
                     }
                     else
                     {
-                        array = this.InternalContainer.Skip(arrayIndexL2).ToArray();
+                        array = thisL2.InternalContainer.Skip(arrayIndexL2).ToArray();
                     }
 
                     return array;
                 },
-                arrayIndexL1),
-            fromIndex);
+                arrayIndexL1,
+                thisL1),
+            fromIndex,
+            this);
 
         /// <summary>
         /// Copies the elements of the <see cref="ObservableCollectionBase{T}" /> to a new <see cref="Array" />.
@@ -196,21 +202,21 @@ namespace IX.Observable
         /// <returns>A newly-formed array.</returns>
         /// <remarks>On concurrent collections, this method is read-synchronized.</remarks>
         public T[] CopyToArray() => this.InvokeIfNotDisposed(
-            () => this.ReadLock(
-                () =>
+            (thisL1) => thisL1.ReadLock(
+                (thisL2) =>
                 {
-                    var clount = ((ICollection<T>)this.InternalContainer).Count;
+                    var clount = ((ICollection<T>)thisL2.InternalContainer).Count;
 
                     var array = new T[clount];
-                    this.InternalContainer.CopyTo(array, 0);
+                    thisL2.InternalContainer.CopyTo(array, 0);
                     return array;
-                }));
+                }, thisL1), this);
 
         /// <summary>
         /// Returns a locking enumerator that iterates through the collection.
         /// </summary>
         /// <returns>
-        /// An atomic enumerator of type <see cref="StandardExtensions.Threading.AtomicEnumerator{T}"/> that can be used to iterate through the collection in a thread-safe manner.
+        /// An atomic enumerator of type <see cref="StandardExtensions.Threading.AtomicEnumerator{TItem,TEnumerator}"/> that can be used to iterate through the collection in a thread-safe manner.
         /// </returns>
         /// <remarks>
         /// <para>This enumerator returns an atomic enumerator.</para>
@@ -221,13 +227,14 @@ namespace IX.Observable
         {
             this.ThrowIfCurrentObjectDisposed();
 
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Acceptable
             if (this.SynchronizationLock == null)
             {
                 return this.InternalContainer.GetEnumerator();
             }
             else
             {
-                return new StandardExtensions.Threading.AtomicEnumerator<T, IEnumerator<T>>(this.InternalContainer.GetEnumerator(), () => this.ReadLock());
+                return new StandardExtensions.Threading.AtomicEnumerator<T, IEnumerator<T>>(this.InternalContainer.GetEnumerator(), this.ReadLock);
             }
         }
 
@@ -238,6 +245,7 @@ namespace IX.Observable
         /// An <see cref="IEnumerator" /> object that can be used to iterate through the collection.
         /// </returns>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
 
         /// <summary>
         /// Copies the contents of the container to an array.
@@ -303,7 +311,9 @@ namespace IX.Observable
             }
             catch
             {
+#pragma warning disable ERP022 // Catching everything considered harmful. - Acceptable
             }
+#pragma warning restore ERP022 // Catching everything considered harmful.
 
             base.DisposeManagedContext();
         }
@@ -318,28 +328,29 @@ namespace IX.Observable
             base.DisposeGeneralContext();
         }
 
-        private void InternalContainer_MustReset(object sender, EventArgs e) => this.Invoke(() =>
-        {
-            bool shouldReset;
-            lock (this.resetCountLocker)
+        private void InternalContainer_MustReset(object sender, EventArgs e) => this.Invoke(
+            (thisL1) =>
             {
-                if (this.IgnoreResetCount > 0)
+                bool shouldReset;
+                lock (thisL1.resetCountLocker)
                 {
-                    this.IgnoreResetCount--;
-                    shouldReset = false;
+                    if (thisL1.IgnoreResetCount > 0)
+                    {
+                        thisL1.IgnoreResetCount--;
+                        shouldReset = false;
+                    }
+                    else
+                    {
+                        shouldReset = true;
+                    }
                 }
-                else
-                {
-                    shouldReset = true;
-                }
-            }
 
-            if (shouldReset)
-            {
-                this.RaiseCollectionReset();
-                this.RaisePropertyChanged(nameof(this.Count));
-                this.ContentsMayHaveChanged();
-            }
-        });
+                if (shouldReset)
+                {
+                    thisL1.RaiseCollectionReset();
+                    thisL1.RaisePropertyChanged(nameof(thisL1.Count));
+                    thisL1.ContentsMayHaveChanged();
+                }
+            }, this);
     }
 }

@@ -21,7 +21,7 @@ namespace IX.Math.Nodes
         /// </summary>
         /// <param name="parameterName">Name of the parameter.</param>
         /// <param name="parametersRegistry">The parameters registry.</param>
-        /// <exception cref="ArgumentNullException">parameterName</exception>
+        /// <exception cref="ArgumentNullException">parameterName.</exception>
         internal ParameterNode(string parameterName, IParameterRegistry parametersRegistry)
         {
             if (string.IsNullOrWhiteSpace(parameterName))
