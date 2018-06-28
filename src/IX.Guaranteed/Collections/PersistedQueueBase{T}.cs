@@ -222,14 +222,22 @@ namespace IX.Guaranteed.Collections
 
                 try
                 {
+                    T obj;
+
                     using (global::System.IO.Stream stream = this.FileShim.OpenRead(possibleFilePath))
                     {
-                        var obj = (T)this.Serializer.ReadObject(stream);
-
-                        this.FileShim.Delete(possibleFilePath);
-
-                        return obj;
+                        obj = (T)this.Serializer.ReadObject(stream);
                     }
+
+                    this.FileShim.Delete(possibleFilePath);
+
+                    return obj;
+                }
+                catch (global::System.IO.IOException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
+                    continue;
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -272,6 +280,12 @@ namespace IX.Guaranteed.Collections
                         return (T)this.Serializer.ReadObject(stream);
                     }
                 }
+                catch (global::System.IO.IOException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
+                    continue;
+                }
                 catch (UnauthorizedAccessException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
@@ -303,6 +317,11 @@ namespace IX.Guaranteed.Collections
                     {
                         obj = (T)this.Serializer.ReadObject(stream);
                     }
+                }
+                catch (global::System.IO.IOException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                    continue;
                 }
                 catch (UnauthorizedAccessException)
                 {
