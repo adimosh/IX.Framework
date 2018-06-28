@@ -9,7 +9,7 @@ using System.Reflection;
 namespace IX.StandardExtensions
 {
     /// <summary>
-    /// Extensions for <see cref="Type"/>
+    /// Extensions for. <see cref="Type"/>
     /// </summary>
     public static class TypeExtensions
     {
@@ -43,22 +43,39 @@ namespace IX.StandardExtensions
         /// <param name="parameters">The parameters list, if any.</param>
         /// <returns>A <see cref="MethodInfo"/> object representing the found method, or <c>null</c> (<c>Nothing</c> in Visual Basic), if none is found.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="typeInfo"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
-        public static MethodInfo GetMethodWithExactParameters(this Type typeInfo, string name, params Type[] parameters) =>
-            (typeInfo ?? throw new ArgumentNullException(nameof(typeInfo)))
-                .GetRuntimeMethods()
-                .Where(p => p.Name == name)
-                .Where(
-                    p =>
-                    {
-                        ParameterInfo[] ps = p.GetParameters();
-                        if ((parameters?.Length ?? 0) != ps.Length)
-                        {
-                            return false;
-                        }
+        public static MethodInfo GetMethodWithExactParameters(this Type typeInfo, string name, params Type[] parameters)
+        {
+            MethodInfo mi = null;
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable
+            foreach (MethodInfo p in (typeInfo ?? throw new ArgumentNullException(nameof(typeInfo))).GetRuntimeMethods())
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+            {
+                if (p.Name != name)
+                {
+                    continue;
+                }
 
-                        return parameters?.SequenceEqual(ps.Select(q => q.ParameterType)) ?? true;
-                    })
-                .SingleOrDefault();
+                ParameterInfo[] ps = p.GetParameters();
+                if ((parameters?.Length ?? 0) != ps.Length)
+                {
+                    continue;
+                }
+
+                if (parameters?.SequenceEqual(ps.Select(q => q.ParameterType)) ?? true)
+                {
+                    if (mi != null)
+                    {
+                        throw new InvalidOperationException(Resources.SingleOrDefaultMultipleElements);
+                    }
+                    else
+                    {
+                        mi = p;
+                    }
+                }
+            }
+
+            return mi;
+        }
 
         /// <summary>
         /// Gets a method with exact parameters, if one exists.

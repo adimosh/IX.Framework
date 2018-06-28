@@ -19,7 +19,10 @@ namespace IX.Retry
     /// A class for containing retry operations.
     /// </summary>
     public static partial class Retry
-    {<#
+    {
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source - These are acceptable given the purpose of this code
+#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure<#
 for (int i = 1; i <= 8; i++)
 {
     string[] types = new string[i];
@@ -639,5 +642,8 @@ for (int i = 1; i <= 8; i++)
 <#
 }
 #>
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
     }
 }

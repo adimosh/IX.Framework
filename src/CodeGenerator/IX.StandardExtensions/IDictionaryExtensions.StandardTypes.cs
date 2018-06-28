@@ -28,10 +28,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, byte>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, byte> p, Dictionary<TKey, byte> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, byte> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }
@@ -52,10 +52,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, sbyte>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, sbyte> p, Dictionary<TKey, sbyte> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, sbyte> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }
@@ -76,10 +76,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, short>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, short> p, Dictionary<TKey, short> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, short> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }
@@ -100,10 +100,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, ushort>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, ushort> p, Dictionary<TKey, ushort> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, ushort> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }
@@ -124,10 +124,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, char>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, char> p, Dictionary<TKey, char> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, char> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }
@@ -148,10 +148,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, int>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, int> p, Dictionary<TKey, int> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, int> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }
@@ -172,10 +172,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, uint>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, uint> p, Dictionary<TKey, uint> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, uint> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }
@@ -196,10 +196,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, long>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, long> p, Dictionary<TKey, long> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, long> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }
@@ -220,10 +220,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, ulong>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, ulong> p, Dictionary<TKey, ulong> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, ulong> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }
@@ -244,10 +244,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, float>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, float> p, Dictionary<TKey, float> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, float> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }
@@ -268,10 +268,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, double>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, double> p, Dictionary<TKey, double> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, double> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }
@@ -292,10 +292,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, decimal>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, decimal> p, Dictionary<TKey, decimal> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, decimal> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }
@@ -316,10 +316,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, DateTime>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, DateTime> p, Dictionary<TKey, DateTime> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, DateTime> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }
@@ -340,10 +340,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, bool>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, bool> p, Dictionary<TKey, bool> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, bool> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }
@@ -364,10 +364,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, TimeSpan>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, TimeSpan> p, Dictionary<TKey, TimeSpan> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, TimeSpan> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }
@@ -388,10 +388,10 @@ namespace IX.StandardExtensions
 
             var destination = new Dictionary<TKey, string>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, string> p, Dictionary<TKey, string> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, string> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }

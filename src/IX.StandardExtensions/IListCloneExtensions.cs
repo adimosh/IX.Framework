@@ -1,4 +1,4 @@
-﻿// <copyright file="IListCloneExtensions.cs" company="Adrian Mos">
+// <copyright file="IListCloneExtensions.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -31,7 +31,10 @@ namespace IX.StandardExtensions
 
             var clonedList = new List<T>();
 
-            list.ForEach((T item) => clonedList.Add(item.DeepClone()));
+            foreach (T item in list)
+            {
+                clonedList.Add(item.DeepClone());
+            }
 
             return clonedList;
         }
@@ -55,7 +58,10 @@ namespace IX.StandardExtensions
 
             var clonedList = new List<T>();
 
-            list.ForEach((T item) => clonedList.Add(item.ShallowClone()));
+            foreach (T item in list)
+            {
+                clonedList.Add(item.ShallowClone());
+            }
 
             return clonedList;
         }

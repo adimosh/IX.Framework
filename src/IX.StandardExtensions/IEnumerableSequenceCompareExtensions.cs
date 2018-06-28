@@ -92,10 +92,12 @@ namespace IX.StandardExtensions
                 return 1;
             }
 
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions
             using (IEnumerator<T> e1 = left.GetEnumerator())
             {
                 using (IEnumerator<T> e2 = right.GetEnumerator())
                 {
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                     while (true)
                     {
                         var b1 = e1.MoveNext();

@@ -68,7 +68,7 @@ namespace IX.Observable
         /// <summary>
         /// Gets a value indicating whether or not this list is of a fixed size.
         /// </summary>
-        public virtual bool IsFixedSize => this.InvokeIfNotDisposed(() => this.ReadLock(() => this.InternalContainer?.IsFixedSize ?? false));
+        public virtual bool IsFixedSize => this.InvokeIfNotDisposed((thisL1) => thisL1.ReadLock((thisL2) => thisL2.InternalContainer?.IsFixedSize ?? false, thisL1), this);
 
         /// <summary>
         /// Gets the internal list container.
@@ -96,7 +96,7 @@ namespace IX.Observable
         /// <returns>The item at the specified index.</returns>
         public virtual T this[int index]
         {
-            get => this.InvokeIfNotDisposed((indexL1) => this.ReadLock((indexL2) => this.InternalContainer[indexL2], indexL1), index);
+            get => this.InvokeIfNotDisposed((indexL1, thisL1) => thisL1.ReadLock((indexL2, thisL2) => thisL2.InternalContainer[indexL2], indexL1, thisL1), index, this);
 
             set
             {
@@ -188,10 +188,12 @@ namespace IX.Observable
         /// <param name="item">The item.</param>
         /// <returns>The index of the item, or <c>-1</c> if not found.</returns>
         public virtual int IndexOf(T item) => this.InvokeIfNotDisposed(
-            (itemL1) => this.ReadLock(
-                (itemL2) => this.InternalContainer.IndexOf(itemL2),
-                itemL1),
-            item);
+            (itemL1, thisL1) => thisL1.ReadLock(
+                (itemL2, thisL2) => thisL2.InternalContainer.IndexOf(itemL2),
+                itemL1,
+                thisL1),
+            item,
+            this);
 
         /// <summary>
         /// Adds an item to the <see cref="ObservableCollectionBase{T}" />.
@@ -439,6 +441,7 @@ namespace IX.Observable
         protected virtual void RaiseCollectionChangedRemoveMultiple(IEnumerable<T> removedItems, int index)
             => this.RaiseCollectionRemove(index, removedItems);
 
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
         /// <summary>
         /// Has the last operation undone.
         /// </summary>
@@ -446,6 +449,7 @@ namespace IX.Observable
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <returns><c>true</c> if the undo was successful, <c>false</c> otherwise.</returns>
         protected override bool UndoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
         {
             if (base.UndoInternally(undoRedoLevel, out toInvokeOutsideLock))
             {
@@ -456,11 +460,15 @@ namespace IX.Observable
             {
                 case AddUndoLevel<T> aul:
                     {
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         var index = aul.Index;
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         this.InternalContainer.RemoveAt(index);
 
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         T item = aul.AddedItem;
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems &&
@@ -471,7 +479,9 @@ namespace IX.Observable
                             ul.ReleaseFromUndoContext();
                         }
 
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         toInvokeOutsideLock = () =>
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         {
                             this.RaiseCollectionChangedRemove(item, index);
                             this.RaisePropertyChanged(nameof(this.Count));
@@ -483,25 +493,35 @@ namespace IX.Observable
 
                 case AddMultipleUndoLevel<T> amul:
                     {
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         var index = amul.Index;
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         for (var i = 0; i < amul.AddedItems.Length; i++)
                         {
                             this.InternalContainer.RemoveAt(index);
                         }
 
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         IEnumerable<T> items = amul.AddedItems;
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
                         {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
                             foreach (IUndoableItem ul in items.Cast<IUndoableItem>().Where(p => p.IsCapturedIntoUndoContext && p.ParentUndoContext == this))
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                             {
                                 ul.ReleaseFromUndoContext();
                             }
                         }
 
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         toInvokeOutsideLock = () =>
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         {
                             this.RaiseCollectionChangedRemoveMultiple(items, index);
                             this.RaisePropertyChanged(nameof(this.Count));
@@ -513,8 +533,10 @@ namespace IX.Observable
 
                 case RemoveUndoLevel<T> rul:
                     {
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         T item = rul.RemovedItem;
                         var index = rul.Index;
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         this.InternalContainer.Insert(index, item);
 
@@ -526,7 +548,9 @@ namespace IX.Observable
                             ul.CaptureIntoUndoContext(this);
                         }
 
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         toInvokeOutsideLock = () =>
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         {
                             this.RaiseCollectionChangedAdd(item, index);
                             this.RaisePropertyChanged(nameof(this.Count));
@@ -546,13 +570,17 @@ namespace IX.Observable
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
                         {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                             foreach (IUndoableItem ul in cul.OriginalItems.Cast<IUndoableItem>().Where(p => !p.IsCapturedIntoUndoContext))
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                             {
                                 ul.CaptureIntoUndoContext(this);
                             }
                         }
 
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         toInvokeOutsideLock = () =>
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         {
                             this.RaiseCollectionReset();
                             this.RaisePropertyChanged(nameof(this.Count));
@@ -564,9 +592,11 @@ namespace IX.Observable
 
                 case ChangeAtUndoLevel<T> caul:
                     {
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         T oldItem = caul.NewValue;
                         T newItem = caul.OldValue;
                         var index = caul.Index;
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         this.InternalContainer[index] = newItem;
 
@@ -587,7 +617,9 @@ namespace IX.Observable
                             }
                         }
 
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         toInvokeOutsideLock = () =>
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         {
                             this.RaiseCollectionChangedChanged(oldItem, newItem, index);
                             this.RaisePropertyChanged(nameof(this.Count));
@@ -608,6 +640,7 @@ namespace IX.Observable
             return true;
         }
 
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
         /// <summary>
         /// Has the last undone operation redone.
         /// </summary>
@@ -615,6 +648,7 @@ namespace IX.Observable
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <returns><c>true</c> if the redo was successful, <c>false</c> otherwise.</returns>
         protected override bool RedoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
         {
             if (base.RedoInternally(undoRedoLevel, out toInvokeOutsideLock))
             {
@@ -625,8 +659,10 @@ namespace IX.Observable
             {
                 case AddUndoLevel<T> aul:
                     {
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         var index = aul.Index;
                         T item = aul.AddedItem;
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         this.InternalContainer.Insert(index, item);
 
@@ -638,7 +674,9 @@ namespace IX.Observable
                             ul.CaptureIntoUndoContext(this);
                         }
 
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         toInvokeOutsideLock = () =>
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         {
                             this.RaiseCollectionChangedAdd(item, index);
                             this.RaisePropertyChanged(nameof(this.Count));
@@ -650,21 +688,29 @@ namespace IX.Observable
 
                 case AddMultipleUndoLevel<T> amul:
                     {
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         var index = amul.Index;
                         IEnumerable<T> items = amul.AddedItems;
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         items.Reverse().ForEach(p => this.InternalContainer.Insert(index, p));
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
 
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
                         {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                             foreach (IUndoableItem ul in amul.AddedItems.Cast<IUndoableItem>().Where(p => !p.IsCapturedIntoUndoContext))
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                             {
                                 ul.CaptureIntoUndoContext(this);
                             }
                         }
 
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         toInvokeOutsideLock = () =>
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         {
                             this.RaiseCollectionChangedAddMultiple(items, index);
                             this.RaisePropertyChanged(nameof(this.Count));
@@ -676,8 +722,10 @@ namespace IX.Observable
 
                 case RemoveUndoLevel<T> rul:
                     {
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         T item = rul.RemovedItem;
                         var index = rul.Index;
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         this.InternalContainer.RemoveAt(index);
 
@@ -690,7 +738,9 @@ namespace IX.Observable
                             ul.ReleaseFromUndoContext();
                         }
 
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         toInvokeOutsideLock = () =>
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         {
                             this.RaiseCollectionChangedRemove(item, index);
                             this.RaisePropertyChanged(nameof(this.Count));
@@ -707,13 +757,19 @@ namespace IX.Observable
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
                         {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
                             foreach (IUndoableItem ul in cul.OriginalItems.Cast<IUndoableItem>().Where(p => p.IsCapturedIntoUndoContext && p.ParentUndoContext == this))
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                             {
                                 ul.ReleaseFromUndoContext();
                             }
                         }
 
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         toInvokeOutsideLock = () =>
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         {
                             this.RaiseCollectionReset();
                             this.RaisePropertyChanged(nameof(this.Count));
@@ -725,9 +781,11 @@ namespace IX.Observable
 
                 case ChangeAtUndoLevel<T> caul:
                     {
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         T oldItem = caul.OldValue;
                         T newItem = caul.NewValue;
                         var index = caul.Index;
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         this.InternalContainer[index] = newItem;
 
@@ -748,7 +806,9 @@ namespace IX.Observable
                             }
                         }
 
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         toInvokeOutsideLock = () =>
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
                         {
                             this.RaiseCollectionChangedChanged(oldItem, newItem, index);
                             this.RaisePropertyChanged(nameof(this.Count));

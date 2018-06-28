@@ -9,6 +9,7 @@ namespace IX.StandardExtensions.EventModel
     /// <summary>
     /// An event arguments class depicting a named value.
     /// </summary>
+    /// <seealso cref="System.EventArgs" />
     public class NameValueEventArgs : EventArgs
     {
         /// <summary>

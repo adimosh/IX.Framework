@@ -1,4 +1,4 @@
-﻿// <copyright file="NotifyCollectionChangedInvokerBase.cs" company="Adrian Mos">
+// <copyright file="NotifyCollectionChangedInvokerBase.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -49,11 +49,13 @@ namespace IX.StandardExtensions.ComponentModel
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection addition event of one element.
         /// </summary>
-        /// <typeparam name="T">The type of the item of the collection</typeparam>
+        /// <typeparam name="T">The type of the item of the collection.</typeparam>
         /// <param name="index">The index at which the item was added.</param>
         /// <param name="item">The item that was added.</param>
         protected void RaiseCollectionAdd<T>(int index, T item) => this.Invoke(
+#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalIndex, internalItem) =>
+#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -64,7 +66,9 @@ namespace IX.StandardExtensions.ComponentModel
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
                         invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+#pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
                     }
+#pragma warning restore ERP022 // Catching everything considered harmful.
                 },
                 this,
                 index,
@@ -73,11 +77,13 @@ namespace IX.StandardExtensions.ComponentModel
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection addition event of multiple elements.
         /// </summary>
-        /// <typeparam name="T">The type of the item of the collection</typeparam>
+        /// <typeparam name="T">The type of the item of the collection.</typeparam>
         /// <param name="index">The index at which the items were added.</param>
         /// <param name="items">The items that were added.</param>
         protected void RaiseCollectionAdd<T>(int index, IEnumerable<T> items) => this.Invoke(
+#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalIndex, internalItems) =>
+#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -88,7 +94,9 @@ namespace IX.StandardExtensions.ComponentModel
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
                         invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+#pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
                     }
+#pragma warning restore ERP022 // Catching everything considered harmful.
                 },
                 this,
                 index,
@@ -97,11 +105,13 @@ namespace IX.StandardExtensions.ComponentModel
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection removal event of one element.
         /// </summary>
-        /// <typeparam name="T">The type of the item of the collection</typeparam>
+        /// <typeparam name="T">The type of the item of the collection.</typeparam>
         /// <param name="index">The index at which the item was removed.</param>
         /// <param name="item">The item that was added.</param>
         protected void RaiseCollectionRemove<T>(int index, T item) => this.Invoke(
+#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalIndex, internalItem) =>
+#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -112,7 +122,9 @@ namespace IX.StandardExtensions.ComponentModel
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
                         invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+#pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
                     }
+#pragma warning restore ERP022 // Catching everything considered harmful.
                 },
                 this,
                 index,
@@ -121,11 +133,13 @@ namespace IX.StandardExtensions.ComponentModel
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection removal event of multiple elements.
         /// </summary>
-        /// <typeparam name="T">The type of the item of the collection</typeparam>
+        /// <typeparam name="T">The type of the item of the collection.</typeparam>
         /// <param name="index">The index at which the items were removed.</param>
         /// <param name="items">The items that were removed.</param>
         protected void RaiseCollectionRemove<T>(int index, IEnumerable<T> items) => this.Invoke(
+#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalIndex, internalItems) =>
+#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -136,7 +150,9 @@ namespace IX.StandardExtensions.ComponentModel
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
                         invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+#pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
                     }
+#pragma warning restore ERP022 // Catching everything considered harmful.
                 },
                 this,
                 index,
@@ -145,12 +161,14 @@ namespace IX.StandardExtensions.ComponentModel
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection move event of one element.
         /// </summary>
-        /// <typeparam name="T">The type of the item of the collection</typeparam>
+        /// <typeparam name="T">The type of the item of the collection.</typeparam>
         /// <param name="oldIndex">The index from which the item was moved.</param>
         /// <param name="newIndex">The index at which the item was moved.</param>
         /// <param name="item">The item that was added.</param>
         protected void RaiseCollectionMove<T>(int oldIndex, int newIndex, T item) => this.Invoke(
+#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalOldIndex, internalNewIndex, internalItem) =>
+#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -161,7 +179,9 @@ namespace IX.StandardExtensions.ComponentModel
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
                         invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+#pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
                     }
+#pragma warning restore ERP022 // Catching everything considered harmful.
                 },
                 this,
                 oldIndex,
@@ -171,12 +191,14 @@ namespace IX.StandardExtensions.ComponentModel
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection move event of multiple elements.
         /// </summary>
-        /// <typeparam name="T">The type of the item of the collection</typeparam>
+        /// <typeparam name="T">The type of the item of the collection.</typeparam>
         /// <param name="oldIndex">The index from which the items were moved.</param>
         /// <param name="newIndex">The index at which the items were moved.</param>
         /// <param name="items">The items that were added.</param>
         protected void RaiseCollectionMove<T>(int oldIndex, int newIndex, IEnumerable<T> items) => this.Invoke(
+#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalOldIndex, internalNewIndex, internalItems) =>
+#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -187,7 +209,9 @@ namespace IX.StandardExtensions.ComponentModel
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
                         invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+#pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
                     }
+#pragma warning restore ERP022 // Catching everything considered harmful.
                 },
                 this,
                 oldIndex,
@@ -197,12 +221,14 @@ namespace IX.StandardExtensions.ComponentModel
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection replacement event of one element.
         /// </summary>
-        /// <typeparam name="T">The type of the item of the collection</typeparam>
+        /// <typeparam name="T">The type of the item of the collection.</typeparam>
         /// <param name="index">The index at which the item was added.</param>
         /// <param name="oldItem">The original item.</param>
         /// <param name="newItem">The new item.</param>
         protected void RaiseCollectionReplace<T>(int index, T oldItem, T newItem) => this.Invoke(
+#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalIndex, internalOldItem, internalNewItem) =>
+#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -213,7 +239,9 @@ namespace IX.StandardExtensions.ComponentModel
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
                         invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+#pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
                     }
+#pragma warning restore ERP022 // Catching everything considered harmful.
                 },
                 this,
                 index,
@@ -223,12 +251,14 @@ namespace IX.StandardExtensions.ComponentModel
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection replacement event of multiple elements.
         /// </summary>
-        /// <typeparam name="T">The type of the item of the collection</typeparam>
+        /// <typeparam name="T">The type of the item of the collection.</typeparam>
         /// <param name="index">The index at which the items were added.</param>
         /// <param name="oldItems">The original items.</param>
         /// <param name="newItems">The new items.</param>
         protected void RaiseCollectionReplace<T>(int index, IEnumerable<T> oldItems, IEnumerable<T> newItems) => this.Invoke(
+#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalIndex, internalOldItems, internalNewItems) =>
+#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -239,7 +269,9 @@ namespace IX.StandardExtensions.ComponentModel
                     catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
                     {
                         invoker.CollectionChanged?.Invoke(invoker, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+#pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
                     }
+#pragma warning restore ERP022 // Catching everything considered harmful.
                 },
                 this,
                 index,

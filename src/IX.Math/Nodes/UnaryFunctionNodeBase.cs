@@ -19,7 +19,7 @@ namespace IX.Math.Nodes
         /// Initializes a new instance of the <see cref="UnaryFunctionNodeBase"/> class.
         /// </summary>
         /// <param name="parameter">The parameter.</param>
-        /// <exception cref="ArgumentNullException">parameter</exception>
+        /// <exception cref="ArgumentNullException">parameter.</exception>
         protected UnaryFunctionNodeBase(NodeBase parameter)
         {
             NodeBase parameterTemp = parameter ?? throw new ArgumentNullException(nameof(parameter));

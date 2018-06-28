@@ -78,7 +78,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task" /> that can be awaited.</returns>
-        public Task ValidateAsync(CancellationToken cancellationToken = default) => Task.Run(() => this.Validate(), cancellationToken);
+        public Task ValidateAsync(CancellationToken cancellationToken = default) => Threading.Fire.AndForgetAsync((thisL1) => thisL1.Validate(), this, cancellationToken);
 
         /// <summary>
         /// Validates this object.
@@ -102,19 +102,40 @@ namespace IX.StandardExtensions.ComponentModel
                     // Remove those properties which pass validation
                     foreach (var kv in this.entityErrors.ToArray())
                     {
-                        if (validationResults.All(r => r.MemberNames.All(m => m != kv.Key)))
+                        if (AllDifferent(validationResults, kv.Key))
                         {
                             this.entityErrors.TryRemove(kv.Key, out List<string> ignored);
                             this.RaiseErrorsChanged(kv.Key);
                         }
+
+                        bool AllDifferent(List<ValidationResult> source, string key)
+                        {
+                            foreach (var r in source)
+                            {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable
+                                foreach (var m in r.MemberNames)
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+                                {
+                                    if (m == kv.Key)
+                                    {
+                                        return false;
+                                    }
+                                }
+                            }
+
+                            return true;
+                        }
                     }
+
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable
 
                     // Those properties that currently don't pass validation should have their validation results saved as messages.
                     foreach (var property in from r in validationResults
                                              from m in r.MemberNames
                                              group r by m into g
                                              select g)
-                    {
+ #pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+                   {
                         var messages = property.Select(r => r.ErrorMessage).ToArray();
 
                         List<string> errorList = this.entityErrors.GetOrAdd(property.Key, new List<string>(messages.Length));
@@ -141,7 +162,9 @@ namespace IX.StandardExtensions.ComponentModel
         {
             this.RaisePropertyChanged(propertyName);
 
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - Expected
             this.FireAndForget(this.Validate);
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
         }
 
         /// <summary>

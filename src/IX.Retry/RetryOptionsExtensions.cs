@@ -192,8 +192,10 @@ namespace IX.Retry
                 throw new ArgumentNullException(nameof(options));
             }
 
-            options.RetryOnExceptions.RemoveAll(p => p.Item1 == typeof(T));
-            options.RetryOnExceptions.Add(new Tuple<Type, Func<Exception, bool>>(typeof(T), p => true));
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - Unavoidable
+            options.RetryOnExceptions.RemoveAll(RemovePredicate<T>);
+            options.RetryOnExceptions.Add(new Tuple<Type, Func<Exception, bool>>(typeof(T), AlwaysTrue));
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
 
             return options;
         }
@@ -218,7 +220,9 @@ namespace IX.Retry
                 throw new ArgumentNullException(nameof(testExceptionFunc));
             }
 
-            options.RetryOnExceptions.RemoveAll(p => p.Item1 == typeof(T));
+#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - Unavoidable
+            options.RetryOnExceptions.RemoveAll(RemovePredicate<T>);
+#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
             options.RetryOnExceptions.Add(new Tuple<Type, Func<Exception, bool>>(typeof(T), testExceptionFunc));
 
             return options;
@@ -307,5 +311,11 @@ namespace IX.Retry
 
             return options;
         }
+
+        private static bool RemovePredicate<T>(Tuple<Type, Func<Exception, bool>> p) => p.Item1 == typeof(T);
+
+#pragma warning disable SA1313 // Parameter names should begin with lower-case letter - Analyzer bug mitigation
+        private static bool AlwaysTrue(Exception _) => true;
+#pragma warning restore SA1313 // Parameter names should begin with lower-case letter
     }
 }

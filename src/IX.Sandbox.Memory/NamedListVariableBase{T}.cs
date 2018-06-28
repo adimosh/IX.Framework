@@ -15,7 +15,7 @@ using IX.StandardExtensions.ComponentModel;
 namespace IX.Sandbox.Memory
 {
     /// <summary>
-    /// A named list variable
+    /// A named list variable.
     /// </summary>
     /// <typeparam name="T">The type of item in the list.</typeparam>
     /// <seealso cref="IX.StandardExtensions.ComponentModel.ViewModelBase" />

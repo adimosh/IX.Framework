@@ -82,6 +82,8 @@ namespace IX.Retry
             await RunAsync(action, options, cancellationToken).ConfigureAwait(false);
         }
 
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure - These are expected to happen here
         /// <summary>
         /// Retry an action later.
         /// </summary>
@@ -115,6 +117,8 @@ namespace IX.Retry
 
             return () => Run(action, options);
         }
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
 
         /// <summary>
         /// Retry for a number of times.
@@ -140,40 +144,40 @@ namespace IX.Retry
         /// </summary>
         /// <returns>The configured retry options.</returns>
         public static RetryOptions Once() => new RetryOptions()
-            {
-                Type = RetryType.Times,
-                RetryTimes = 1,
-            };
+        {
+            Type = RetryType.Times,
+            RetryTimes = 1,
+        };
 
         /// <summary>
         /// Retry twice.
         /// </summary>
         /// <returns>The configured retry options.</returns>
         public static RetryOptions Twice() => new RetryOptions()
-            {
-                Type = RetryType.Times,
-                RetryTimes = 2,
-            };
+        {
+            Type = RetryType.Times,
+            RetryTimes = 2,
+        };
 
         /// <summary>
         /// Retry three times.
         /// </summary>
         /// <returns>The configured retry options.</returns>
         public static RetryOptions ThreeTimes() => new RetryOptions()
-            {
-                Type = RetryType.Times,
-                RetryTimes = 3,
-            };
+        {
+            Type = RetryType.Times,
+            RetryTimes = 3,
+        };
 
         /// <summary>
         /// Retry five times.
         /// </summary>
         /// <returns>The configured retry options.</returns>
         public static RetryOptions FiveTimes() => new RetryOptions()
-            {
-                Type = RetryType.Times,
-                RetryTimes = 5,
-            };
+        {
+            Type = RetryType.Times,
+            RetryTimes = 5,
+        };
 
         /// <summary>
         /// Retries for a specific time span.
@@ -273,9 +277,9 @@ namespace IX.Retry
         /// </summary>
         /// <returns>The configured retry options.</returns>
         public static RetryOptions ThrowException() => new RetryOptions()
-            {
-                ThrowExceptionOnLastRetry = true,
-            };
+        {
+            ThrowExceptionOnLastRetry = true,
+        };
 
         /// <summary>
         /// Waiting time between retries.

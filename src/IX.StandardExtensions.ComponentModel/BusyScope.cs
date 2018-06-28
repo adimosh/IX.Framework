@@ -1,4 +1,4 @@
-﻿// <copyright file="BusyScope.cs" company="Adrian Mos">
+// <copyright file="BusyScope.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -95,7 +95,7 @@ namespace IX.StandardExtensions.ComponentModel
 
             if (this.BusyScopeChanged != null)
             {
-                this.Invoke(this.BusyScopeChanged.Invoke);
+                this.Invoke((thisL1) => thisL1.BusyScopeChanged.Invoke(), this);
             }
         }
 
@@ -114,7 +114,7 @@ namespace IX.StandardExtensions.ComponentModel
 
             if (this.BusyScopeChanged != null)
             {
-                this.Invoke(this.BusyScopeChanged.Invoke);
+                this.Invoke((thisL1) => thisL1.BusyScopeChanged.Invoke(), this);
             }
         }
     }

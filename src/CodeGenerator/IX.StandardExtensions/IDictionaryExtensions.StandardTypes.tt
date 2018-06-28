@@ -42,10 +42,10 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
 
             var destination = new Dictionary<TKey, <#= fullTypeName #>>();
 
-            source.ForEach(ForEachAction, destination);
-
-            void ForEachAction(KeyValuePair<TKey, <#= fullTypeName #>> p, Dictionary<TKey, <#= fullTypeName #>> dest)
-                => dest.Add(p.Key, p.Value);
+            foreach (KeyValuePair<TKey, <#= fullTypeName #>> p in source)
+            {
+                destination.Add(p.Key, p.Value);
+            }
 
             return destination;
         }

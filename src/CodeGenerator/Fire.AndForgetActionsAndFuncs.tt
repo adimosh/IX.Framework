@@ -74,6 +74,35 @@ for (int i = 1; i <= 8; i++)
             => AndForget(action, <#= paramNames #>, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
 
         /// <summary>
+        /// Fires a method on a separate thread asynchronously, and forgets about it completely, only invoking a continuation if there was an exception.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static async Task AndForgetAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        {
+            await Task.Yield();
+
+            AndForget(action, <#= paramNames #>, cancellationToken);
+        }
+
+        /// <summary>
         /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
         /// </summary>
 <#
@@ -119,6 +148,36 @@ for (int i = 1; i <= 8; i++)
                 continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
 
             runningTask.Start();
+        }
+
+        /// <summary>
+        /// Fires a method on a separate thread asynchronously, and forgets about it completely, only invoking a continuation if there was an exception.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="exceptionHandler">The exception handler. This parameter can be null.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static async Task AndForgetAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
+        {
+            await Task.Yield();
+
+            AndForget(action, <#= paramNames #>, exceptionHandler, cancellationToken);
         }
 <#
 }
