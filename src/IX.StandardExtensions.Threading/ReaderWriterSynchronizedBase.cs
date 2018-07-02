@@ -20,12 +20,16 @@ namespace IX.StandardExtensions.Threading
         private readonly bool lockInherited;
         private IReaderWriterLock locker;
 
+        [DataMember]
+        private TimeSpan lockerTimeout;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ReaderWriterSynchronizedBase"/> class.
         /// </summary>
         protected ReaderWriterSynchronizedBase()
         {
             this.locker = new ReaderWriterLockSlim();
+            this.lockerTimeout = EnvironmentSettings.LockAcquisitionTimeout;
         }
 
         /// <summary>
@@ -39,6 +43,32 @@ namespace IX.StandardExtensions.Threading
         {
             this.locker = locker ?? throw new ArgumentNullException(nameof(locker));
             this.lockInherited = true;
+            this.lockerTimeout = EnvironmentSettings.LockAcquisitionTimeout;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReaderWriterSynchronizedBase" /> class.
+        /// </summary>
+        /// <param name="timeout">The lock timeout duration.</param>
+        protected ReaderWriterSynchronizedBase(TimeSpan timeout)
+        {
+            this.locker = new ReaderWriterLockSlim();
+            this.lockerTimeout = timeout;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReaderWriterSynchronizedBase"/> class.
+        /// </summary>
+        /// <param name="locker">The locker.</param>
+        /// <param name="timeout">The lock timeout duration.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="locker"/>
+        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// </exception>
+        protected ReaderWriterSynchronizedBase(IReaderWriterLock locker, TimeSpan timeout)
+        {
+            this.locker = locker ?? throw new ArgumentNullException(nameof(locker));
+            this.lockInherited = true;
+            this.lockerTimeout = timeout;
         }
 
         /// <summary>
@@ -57,7 +87,7 @@ namespace IX.StandardExtensions.Threading
         {
             this.ThrowIfCurrentObjectDisposed();
 
-            return new ReadOnlySynchronizationLocker(this.locker);
+            return new ReadOnlySynchronizationLocker(this.locker, this.lockerTimeout);
         }
 
         /// <summary>
@@ -68,7 +98,7 @@ namespace IX.StandardExtensions.Threading
         {
             this.ThrowIfCurrentObjectDisposed();
 
-            using (new ReadOnlySynchronizationLocker(this.locker))
+            using (new ReadOnlySynchronizationLocker(this.locker, this.lockerTimeout))
             {
                 action();
             }
@@ -84,7 +114,7 @@ namespace IX.StandardExtensions.Threading
         {
             this.ThrowIfCurrentObjectDisposed();
 
-            using (new ReadOnlySynchronizationLocker(this.locker))
+            using (new ReadOnlySynchronizationLocker(this.locker, this.lockerTimeout))
             {
                 return action();
             }
@@ -98,7 +128,7 @@ namespace IX.StandardExtensions.Threading
         {
             this.ThrowIfCurrentObjectDisposed();
 
-            return new WriteOnlySynchronizationLocker(this.locker);
+            return new WriteOnlySynchronizationLocker(this.locker, this.lockerTimeout);
         }
 
         /// <summary>
@@ -109,7 +139,7 @@ namespace IX.StandardExtensions.Threading
         {
             this.ThrowIfCurrentObjectDisposed();
 
-            using (new WriteOnlySynchronizationLocker(this.locker))
+            using (new WriteOnlySynchronizationLocker(this.locker, this.lockerTimeout))
             {
                 action();
             }
@@ -125,7 +155,7 @@ namespace IX.StandardExtensions.Threading
         {
             this.ThrowIfCurrentObjectDisposed();
 
-            using (new WriteOnlySynchronizationLocker(this.locker))
+            using (new WriteOnlySynchronizationLocker(this.locker, this.lockerTimeout))
             {
                 return action();
             }
@@ -139,7 +169,7 @@ namespace IX.StandardExtensions.Threading
         {
             this.ThrowIfCurrentObjectDisposed();
 
-            return new ReadWriteSynchronizationLocker(this.locker);
+            return new ReadWriteSynchronizationLocker(this.locker, this.lockerTimeout);
         }
 
         /// <summary>
