@@ -68,11 +68,12 @@ namespace IX.UnitTests.IX.Abstractions
 
             // ASSERT
             // ======
+            var threadingNS = global::IX.StandardExtensions.Threading.Constants.DataContractNamespace;
 
             // Serialization content is OK
             Assert.False(string.IsNullOrWhiteSpace(content));
             Assert.Equal(
-                $@"<PushDownStackOfint xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><Items xmlns:a=""http://schemas.microsoft.com/2003/10/Serialization/Arrays""><a:int>{item2}</a:int><a:int>{item3}</a:int><a:int>{item4}</a:int><a:int>{item5}</a:int></Items><Limit>4</Limit></PushDownStackOfint>",
+                $@"<PushDownStackOfint xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><lockerTimeout xmlns=""{threadingNS}"">PT0.1S</lockerTimeout><Items xmlns:a=""http://schemas.microsoft.com/2003/10/Serialization/Arrays""><a:int>{item2}</a:int><a:int>{item3}</a:int><a:int>{item4}</a:int><a:int>{item5}</a:int></Items><Limit>4</Limit></PushDownStackOfint>",
                 content);
 
             // Deserialized object is OK

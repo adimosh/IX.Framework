@@ -96,10 +96,6 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Concurrent\" />
-  </ItemGroup>
-
   <Import Project="..\CliToolsReference.Normal.targets" />
 
 </Project>

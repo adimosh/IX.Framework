@@ -14,7 +14,7 @@ namespace IX.StandardExtensions.Threading
     /// A base class for a reader/writer synchronized class.
     /// </summary>
     /// <seealso cref="IX.StandardExtensions.ComponentModel.DisposableBase" />
-    [DataContract]
+    [DataContract(Namespace = Constants.DataContractNamespace)]
     public abstract partial class ReaderWriterSynchronizedBase : DisposableBase
     {
         private readonly bool lockInherited;
