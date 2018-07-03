@@ -2,13 +2,10 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
-using System.Collections;
-using System.Linq;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using global::System;
 using IX.StandardExtensions;
-using IX.StandardExtensions.Threading;
-using IX.System.Collections.Generic;
 using IX.System.IO;
 
 namespace IX.Guaranteed.Collections
@@ -21,7 +18,7 @@ namespace IX.Guaranteed.Collections
     /// <seealso cref="IX.System.Collections.Generic.IQueue{T}" />
     public class PersistedQueue<T> : PersistedQueueBase<T>
     {
-        private readonly Queue<string> internalQueue;
+        private readonly System.Collections.Generic.Queue<string> internalQueue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PersistedQueue{T}"/> class.
@@ -45,7 +42,7 @@ namespace IX.Guaranteed.Collections
             : base(persistenceFolderPath, fileShim, directoryShim, pathShim, new DataContractSerializer(typeof(T)))
         {
             // Internal state
-            this.internalQueue = new Queue<string>();
+            this.internalQueue = new System.Collections.Generic.Queue<string>();
 
             // Initialize objects
 #pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable
@@ -70,15 +67,11 @@ namespace IX.Guaranteed.Collections
         /// <summary>
         /// Clears the queue of all elements.
         /// </summary>
-        public override void Clear() =>
-            this.InvokeIfNotDisposed(
-                reference => reference.WriteLock(
-                    (referenceL2) =>
-                    {
-                        referenceL2.internalQueue.Clear();
-                        referenceL2.ClearData();
-                    }, reference),
-                this);
+        public override void Clear()
+        {
+            this.internalQueue.Clear();
+            this.ClearData();
+        }
 
         /// <summary>
         /// This method should not be called, as it will always throw an <see cref="InvalidOperationException"/>.
@@ -88,47 +81,115 @@ namespace IX.Guaranteed.Collections
         public override bool Contains(T item) => throw new InvalidOperationException();
 
         /// <summary>
-        /// Copies the elements of the <see cref="PersistedQueue{T}" /> to an <see cref="T:System.Array" />, starting at a particular <see cref="T:System.Array" /> index.
+        /// This method should not be called, as it will always throw an <see cref="InvalidOperationException"/>.
         /// </summary>
         /// <param name="array">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="PersistedQueue{T}" />. The <see cref="T:System.Array" /> must have zero-based indexing.</param>
         /// <param name="index">The zero-based index in <paramref name="array" /> at which copying begins.</param>
-        public override void CopyTo(Array array, int index) =>
-            this.InvokeIfNotDisposed(
-                (referenceL1, arrayL1, indexL1) => referenceL1.ReadLock(
-                    (referenceL2, arrayL2, indexL2) => ((ICollection)referenceL2.internalQueue).CopyTo(arrayL2, indexL2),
-                    referenceL1,
-                    arrayL1,
-                    indexL1),
-                this,
-                array,
-                index);
+        public override void CopyTo(Array array, int index) => throw new InvalidOperationException();
 
         /// <summary>
         /// Dequeues an item and removes it from the queue.
         /// </summary>
         /// <returns>The item that has been dequeued.</returns>
-        public override T Dequeue() =>
-            this.InvokeIfNotDisposed(
-                (referenceL1) => referenceL1.WriteLock(
-                    (referenceL2) => referenceL2.LoadTopmostItem(),
-                    referenceL1),
-                this);
+        public override T Dequeue()
+        {
+            var success = true;
+
+            try
+            {
+                return this.LoadTopmostItem();
+            }
+            catch (Exception)
+            {
+                success = false;
+                throw;
+            }
+            finally
+            {
+                if (success)
+                {
+                    this.internalQueue.Dequeue();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Tries the load topmost item and execute an action on it, deleting the topmost object data if the operation is successful.
+        /// </summary>
+        /// <typeparam name="TState">The type of the state object to send to the action.</typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="actionToInvoke">The action to invoke.</param>
+        /// <param name="state">The state object to pass to the invoked action.</param>
+        /// <returns>The number of items that have been dequeued.</returns>
+        /// <remarks>
+        /// <para>Warning! This method has the potential of overrunning its read/write lock timeouts. Please ensure that the <paramref name="predicate"/> method
+        /// filters out items in a way that limits the amount of data passing through.</para>
+        /// </remarks>
+        public int DequeueWhilePredicateWithAction<TState>(Func<TState, T, bool> predicate, Action<TState, IEnumerable<T>> actionToInvoke, TState state)
+        {
+            var success = 0;
+
+            try
+            {
+                success = this.TryLoadWhilePredicateWithAction(predicate, actionToInvoke, state);
+            }
+            catch (Exception)
+            {
+                success = 0;
+                throw;
+            }
+            finally
+            {
+                for (var i = 0; i < success; i++)
+                {
+                    this.internalQueue.Dequeue();
+                }
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Dequeues an item from the queue, and executes the specified action on it.
+        /// </summary>
+        /// <typeparam name="TState">The type of the state object to pass to the action.</typeparam>
+        /// <param name="actionToInvoke">The action to invoke.</param>
+        /// <param name="state">The state object to pass to the action.</param>
+        /// <returns><c>true</c> if the dequeuing is successful, and the action performed, <c>false</c> otherwise.</returns>
+        public bool DequeueWithAction<TState>(Action<TState, T> actionToInvoke, TState state)
+        {
+            var success = true;
+
+            try
+            {
+                success = this.TryLoadTopmostItemWithAction(actionToInvoke, state);
+            }
+            catch (Exception)
+            {
+                success = false;
+                throw;
+            }
+            finally
+            {
+                if (success)
+                {
+                    this.internalQueue.Dequeue();
+                }
+            }
+
+            return success;
+        }
 
         /// <summary>
         /// Enqueues an item, adding it to the queue.
         /// </summary>
         /// <param name="item">The item to enqueue.</param>
-        public override void Enqueue(T item) =>
-            this.InvokeIfNotDisposed(
-                (referenceL1, itemL1) => referenceL1.WriteLock(
-                    (referenceL2, itemL2) =>
-                    {
-                        referenceL2.EnqueuePrivate(itemL2);
-                    },
-                    referenceL1,
-                    itemL1),
-                this,
-                item);
+        public override void Enqueue(T item)
+        {
+            var filePath = this.SaveNewItem(item);
+
+            this.internalQueue.Enqueue(filePath);
+        }
 
         /// <summary>
         /// This method should not be called, as it will always throw an <see cref="InvalidOperationException"/>.
@@ -140,12 +201,7 @@ namespace IX.Guaranteed.Collections
         /// Peeks at the topmost element in the queue, without removing it.
         /// </summary>
         /// <returns>The item peeked at, if any.</returns>
-        public override T Peek() =>
-            this.InvokeIfNotDisposed(
-                (referenceL1) => referenceL1.ReadLock(
-                    (referenceL2) => referenceL2.PeekTopmostItem(),
-                    referenceL1),
-                this);
+        public override T Peek() => this.PeekTopmostItem();
 
         /// <summary>
         /// This method should not be called, as it will always throw an <see cref="InvalidOperationException"/>.
@@ -156,37 +212,6 @@ namespace IX.Guaranteed.Collections
         /// <summary>
         /// Trims the excess free space from within the queue, reducing the capacity to the actual number of elements.
         /// </summary>
-        public override void TrimExcess() =>
-            this.InvokeIfNotDisposed(
-                (referenceL1) => referenceL1.WriteLock(
-                    (referenceL2) => referenceL2.internalQueue.TrimExcess(),
-                    referenceL1),
-                this);
-
-        private void EnqueuePrivate(T item)
-        {
-            var filePath = this.SaveNewItem(item);
-
-            this.internalQueue.Enqueue(filePath);
-        }
-
-        private readonly struct PersistedQueueItem
-        {
-            internal readonly string Path;
-            internal readonly T ObjectReference;
-
-            internal PersistedQueueItem(string path, T objectReference)
-            {
-#if DEBUG
-                if (string.IsNullOrWhiteSpace(path))
-                {
-                    throw new ArgumentNullException(nameof(path));
-                }
-#endif
-
-                this.Path = path;
-                this.ObjectReference = objectReference;
-            }
-        }
+        public override void TrimExcess() => this.internalQueue.TrimExcess();
     }
 }

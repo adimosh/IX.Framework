@@ -45,6 +45,7 @@ namespace IX.Guaranteed.Collections
         /// is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
         /// <exception cref="ArgumentInvalidPathException">The folder at <paramref name="persistenceFolderPath" /> does not exist, or is not accessible.</exception>
         protected PersistedQueueBase(string persistenceFolderPath, IFile fileShim, IDirectory directoryShim, IPath pathShim, DataContractSerializer serializer)
+            : base(EnvironmentSettings.PersistedCollectionsLockTimeout)
         {
             // Parameter validation
             if (string.IsNullOrWhiteSpace(persistenceFolderPath))
@@ -208,95 +209,320 @@ namespace IX.Guaranteed.Collections
         /// <exception cref="InvalidOperationException">There are no more valid items in the folder.</exception>
         protected T LoadTopmostItem()
         {
-            var files = this.DirectoryShim.EnumerateFiles(this.DataFolderPath, "*.dat").Except(this.poisonedUnremovableFiles).ToArray();
-            var i = 0;
+            this.ThrowIfCurrentObjectDisposed();
 
-            while (true)
+            using (this.WriteLock())
             {
-                if (i >= files.Length)
-                {
-                    throw new InvalidOperationException();
-                }
+                var files = this.GetPossibleDataFiles();
+                var i = 0;
+                string possibleFilePath;
+                T obj;
 
-                var possibleFilePath = files[i];
+                while (true)
+                {
+                    if (i >= files.Length)
+                    {
+                        throw new InvalidOperationException();
+                    }
+
+                    possibleFilePath = files[i];
+
+                    try
+                    {
+                        using (global::System.IO.Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                        {
+                            obj = (T)this.Serializer.ReadObject(stream);
+                        }
+
+                        break;
+                    }
+                    catch (global::System.IO.IOException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                        continue;
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                        continue;
+                    }
+                    catch (SerializationException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                        continue;
+                    }
+                }
 
                 try
                 {
-                    T obj;
-
-                    using (global::System.IO.Stream stream = this.FileShim.OpenRead(possibleFilePath))
-                    {
-                        obj = (T)this.Serializer.ReadObject(stream);
-                    }
-
                     this.FileShim.Delete(possibleFilePath);
-
-                    return obj;
                 }
                 catch (global::System.IO.IOException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
-                    i++;
-                    continue;
                 }
                 catch (UnauthorizedAccessException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
-                    i++;
-                    continue;
                 }
                 catch (SerializationException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
-                    i++;
-                    continue;
                 }
+
+                return obj;
             }
         }
 
         /// <summary>
-        /// Loads the topmost item from the folder, ensuring its deletion afterwards.
+        /// Tries the load topmost item and execute an action on it, deleting the topmost object data if the operation is successful.
         /// </summary>
-        /// <returns>An item, if one exists and can be loaded, a default value otherwise.</returns>
-        /// <exception cref="InvalidOperationException">There are no more valid items in the folder.</exception>
-        protected T PeekTopmostItem()
+        /// <typeparam name="TState">The type of the state object to send to the action.</typeparam>
+        /// <param name="actionToInvoke">The action to invoke.</param>
+        /// <param name="state">The state object to pass to the invoked action.</param>
+        /// <returns><c>true</c> if dequeuing and executing is successful, <c>false</c> otherwise.</returns>
+        protected bool TryLoadTopmostItemWithAction<TState>(Action<TState, T> actionToInvoke, TState state)
         {
-            var files = this.DirectoryShim.EnumerateFiles(this.DataFolderPath, "*.dat").Except(this.poisonedUnremovableFiles).ToArray();
-            var i = 0;
+            this.ThrowIfCurrentObjectDisposed();
 
-            while (true)
+            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
             {
-                if (i >= files.Length)
-                {
-                    throw new InvalidOperationException();
-                }
+                var files = this.GetPossibleDataFiles();
+                var i = 0;
 
-                var possibleFilePath = files[i];
+                T obj;
+                string possibleFilePath;
+
+                while (true)
+                {
+                    if (i >= files.Length)
+                    {
+                        return false;
+                    }
+
+                    possibleFilePath = files[i];
+
+                    try
+                    {
+                        using (global::System.IO.Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                        {
+                            obj = (T)this.Serializer.ReadObject(stream);
+                        }
+
+                        break;
+                    }
+                    catch (global::System.IO.IOException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                        continue;
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                        continue;
+                    }
+                    catch (SerializationException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                        continue;
+                    }
+                }
 
                 try
                 {
-                    using (global::System.IO.Stream stream = this.FileShim.OpenRead(possibleFilePath))
-                    {
-                        return (T)this.Serializer.ReadObject(stream);
-                    }
+                    actionToInvoke(state, obj);
+                }
+                catch (Exception)
+                {
+#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
+                    return false;
+#pragma warning restore ERP022 // Catching everything considered harmful.
+                }
+
+                locker.Upgrade();
+
+                try
+                {
+                    this.FileShim.Delete(possibleFilePath);
                 }
                 catch (global::System.IO.IOException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
-                    i++;
-                    continue;
                 }
                 catch (UnauthorizedAccessException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
-                    i++;
-                    continue;
                 }
                 catch (SerializationException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
-                    i++;
-                    continue;
+                }
+
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Tries the load topmost item and execute an action on it, deleting the topmost object data if the operation is successful.
+        /// </summary>
+        /// <typeparam name="TState">The type of the state object to send to the action.</typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="actionToInvoke">The action to invoke.</param>
+        /// <param name="state">The state object to pass to the invoked action.</param>
+        /// <returns>The number of items that have been dequeued.</returns>
+        /// <remarks>
+        /// <para>Warning! This method has the potential of overrunning its read/write lock timeouts. Please ensure that the <paramref name="predicate"/> method
+        /// filters out items in a way that limits the amount of data passing through.</para>
+        /// </remarks>
+        protected int TryLoadWhilePredicateWithAction<TState>(Func<TState, T, bool> predicate, Action<TState, IEnumerable<T>> actionToInvoke, TState state)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            {
+                var files = this.GetPossibleDataFiles();
+                var i = 0;
+
+                var accumulatedObjects = new List<T>();
+                var accumulatedPaths = new List<string>();
+
+                while (i < files.Length)
+                {
+                    var possibleFilePath = files[i];
+
+                    try
+                    {
+                        T obj;
+
+                        using (global::System.IO.Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                        {
+                            obj = (T)this.Serializer.ReadObject(stream);
+                        }
+
+                        if (!predicate(state, obj))
+                        {
+                            break;
+                        }
+
+                        accumulatedObjects.Add(obj);
+                        accumulatedPaths.Add(possibleFilePath);
+
+                        i++;
+                    }
+                    catch (global::System.IO.IOException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                        continue;
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                        continue;
+                    }
+                    catch (SerializationException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                        continue;
+                    }
+                }
+
+                if (accumulatedObjects.Count > 0)
+                {
+                    try
+                    {
+                        actionToInvoke(state, accumulatedObjects);
+                    }
+                    catch (Exception)
+                    {
+#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
+                        return 0;
+#pragma warning restore ERP022 // Catching everything considered harmful.
+                    }
+
+                    locker.Upgrade();
+
+                    foreach (var possibleFilePath in accumulatedPaths)
+                    {
+                        try
+                        {
+                            this.FileShim.Delete(possibleFilePath);
+                        }
+                        catch (global::System.IO.IOException)
+                        {
+                            this.HandleFileLoadProblem(possibleFilePath);
+                        }
+                        catch (UnauthorizedAccessException)
+                        {
+                            this.HandleFileLoadProblem(possibleFilePath);
+                        }
+                        catch (SerializationException)
+                        {
+                            this.HandleFileLoadProblem(possibleFilePath);
+                        }
+                    }
+                }
+
+                return accumulatedPaths.Count;
+            }
+        }
+
+        /// <summary>
+        /// Peeks at the topmost item in the folder.
+        /// </summary>
+        /// <returns>An item, if one exists and can be loaded, or an exception otherwise.</returns>
+        /// <exception cref="InvalidOperationException">There are no more valid items in the folder.</exception>
+        protected T PeekTopmostItem()
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (this.ReadLock())
+            {
+                var files = this.GetPossibleDataFiles();
+                var i = 0;
+
+                while (true)
+                {
+                    if (i >= files.Length)
+                    {
+                        throw new InvalidOperationException();
+                    }
+
+                    var possibleFilePath = files[i];
+
+                    try
+                    {
+                        using (global::System.IO.Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                        {
+                            return (T)this.Serializer.ReadObject(stream);
+                        }
+                    }
+                    catch (global::System.IO.IOException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                        continue;
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                        continue;
+                    }
+                    catch (SerializationException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                        continue;
+                    }
                 }
             }
         }
@@ -308,7 +534,7 @@ namespace IX.Guaranteed.Collections
         /// <exception cref="InvalidOperationException">There are no more valid items in the folder.</exception>
         protected IEnumerable<Tuple<T, string>> LoadValidItemObjectHandles()
         {
-            foreach (var possibleFilePath in this.DirectoryShim.EnumerateFiles(this.DataFolderPath, "*.dat").Except(this.poisonedUnremovableFiles).ToArray())
+            foreach (var possibleFilePath in this.GetPossibleDataFiles())
             {
                 T obj;
                 try
@@ -346,29 +572,34 @@ namespace IX.Guaranteed.Collections
         /// <exception cref="InvalidOperationException">We have reached the maximum number of items saved in the same femtosecond. This is theoretically not possible.</exception>
         protected string SaveNewItem(T item)
         {
-            var i = 1;
-            string filePath = null;
+            this.ThrowIfCurrentObjectDisposed();
 
-            DateTime now = DateTime.UtcNow;
-
-            do
+            using (this.WriteLock())
             {
-                filePath = this.PathShim.Combine(this.DataFolderPath, $"{now.ToString("yyyy.MM.dd.HH.mm.ss.fffffff")}.{i}.dat");
-                i++;
+                var i = 1;
+                string filePath = null;
 
-                if (i == int.MaxValue)
+                DateTime now = DateTime.UtcNow;
+
+                do
                 {
-                    throw new InvalidOperationException();
+                    filePath = this.PathShim.Combine(this.DataFolderPath, $"{now.ToString("yyyy.MM.dd.HH.mm.ss.fffffff")}.{i}.dat");
+                    i++;
+
+                    if (i == int.MaxValue)
+                    {
+                        throw new InvalidOperationException();
+                    }
                 }
-            }
-            while (this.FileShim.Exists(filePath));
+                while (this.FileShim.Exists(filePath));
 
-            using (global::System.IO.Stream stream = this.FileShim.Create(filePath))
-            {
-                this.Serializer.WriteObject(stream, item);
-            }
+                using (global::System.IO.Stream stream = this.FileShim.Create(filePath))
+                {
+                    this.Serializer.WriteObject(stream, item);
+                }
 
-            return filePath;
+                return filePath;
+            }
         }
 
         /// <summary>
@@ -376,13 +607,20 @@ namespace IX.Guaranteed.Collections
         /// </summary>
         protected void ClearData()
         {
-            foreach (var possibleFilePath in this.DirectoryShim.EnumerateFiles(this.DataFolderPath, "*.dat").ToArray())
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (this.WriteLock())
             {
-                this.HandleImpossibleMoveToPoison(possibleFilePath);
+                foreach (var possibleFilePath in this.DirectoryShim.EnumerateFiles(this.DataFolderPath, "*.dat").ToArray())
+                {
+                    this.HandleImpossibleMoveToPoison(possibleFilePath);
+                }
             }
 
             this.FixUnmovableReferences();
         }
+
+        private string[] GetPossibleDataFiles() => this.DirectoryShim.EnumerateFiles(this.DataFolderPath, "*.dat").Except(this.poisonedUnremovableFiles).ToArray();
 
         private void HandleFileLoadProblem(string possibleFilePath)
         {
