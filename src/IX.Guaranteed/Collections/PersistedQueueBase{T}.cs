@@ -369,6 +369,113 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
+        /// Tries the load topmost item and execute an action on it, deleting the topmost object data if the operation is successful.
+        /// </summary>
+        /// <typeparam name="TState">The type of the state object to send to the action.</typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="actionToInvoke">The action to invoke.</param>
+        /// <param name="state">The state object to pass to the invoked action.</param>
+        /// <returns>The number of items that have been dequeued.</returns>
+        /// <remarks>
+        /// <para>Warning! This method has the potential of overrunning its read/write lock timeouts. Please ensure that the <paramref name="predicate"/> method
+        /// filters out items in a way that limits the amount of data passing through.</para>
+        /// </remarks>
+        protected int TryLoadWhilePredicateWithAction<TState>(Func<TState, T, bool> predicate, Action<TState, IEnumerable<T>> actionToInvoke, TState state)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            {
+                var files = this.GetPossibleDataFiles();
+                var i = 0;
+
+                var accumulatedObjects = new List<T>();
+                var accumulatedPaths = new List<string>();
+
+                while (i < files.Length)
+                {
+                    var possibleFilePath = files[i];
+
+                    try
+                    {
+                        T obj;
+
+                        using (global::System.IO.Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                        {
+                            obj = (T)this.Serializer.ReadObject(stream);
+                        }
+
+                        if (!predicate(state, obj))
+                        {
+                            break;
+                        }
+
+                        accumulatedObjects.Add(obj);
+                        accumulatedPaths.Add(possibleFilePath);
+
+                        i++;
+                    }
+                    catch (global::System.IO.IOException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                        continue;
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                        continue;
+                    }
+                    catch (SerializationException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                        continue;
+                    }
+                }
+
+                if (accumulatedObjects.Count > 0)
+                {
+                    try
+                    {
+                        actionToInvoke(state, accumulatedObjects);
+                    }
+                    catch (Exception)
+                    {
+#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
+                        return 0;
+#pragma warning restore ERP022 // Catching everything considered harmful.
+                    }
+
+                    locker.Upgrade();
+
+                    foreach (var possibleFilePath in accumulatedPaths)
+                    {
+                        try
+                        {
+                            this.FileShim.Delete(possibleFilePath);
+                        }
+                        catch (global::System.IO.IOException)
+                        {
+                            this.HandleFileLoadProblem(possibleFilePath);
+                        }
+                        catch (UnauthorizedAccessException)
+                        {
+                            this.HandleFileLoadProblem(possibleFilePath);
+                        }
+                        catch (SerializationException)
+                        {
+                            this.HandleFileLoadProblem(possibleFilePath);
+                        }
+                    }
+                }
+
+                return accumulatedPaths.Count;
+            }
+        }
+
+        /// <summary>
         /// Peeks at the topmost item in the folder.
         /// </summary>
         /// <returns>An item, if one exists and can be loaded, or an exception otherwise.</returns>

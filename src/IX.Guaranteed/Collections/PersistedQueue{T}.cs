@@ -2,10 +2,10 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using global::System;
 using IX.StandardExtensions;
-using IX.System.Collections.Generic;
 using IX.System.IO;
 
 namespace IX.Guaranteed.Collections
@@ -18,7 +18,7 @@ namespace IX.Guaranteed.Collections
     /// <seealso cref="IX.System.Collections.Generic.IQueue{T}" />
     public class PersistedQueue<T> : PersistedQueueBase<T>
     {
-        private readonly Queue<string> internalQueue;
+        private readonly System.Collections.Generic.Queue<string> internalQueue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PersistedQueue{T}"/> class.
@@ -42,7 +42,7 @@ namespace IX.Guaranteed.Collections
             : base(persistenceFolderPath, fileShim, directoryShim, pathShim, new DataContractSerializer(typeof(T)))
         {
             // Internal state
-            this.internalQueue = new Queue<string>();
+            this.internalQueue = new System.Collections.Generic.Queue<string>();
 
             // Initialize objects
 #pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable
@@ -114,6 +114,42 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
+        /// Tries the load topmost item and execute an action on it, deleting the topmost object data if the operation is successful.
+        /// </summary>
+        /// <typeparam name="TState">The type of the state object to send to the action.</typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="actionToInvoke">The action to invoke.</param>
+        /// <param name="state">The state object to pass to the invoked action.</param>
+        /// <returns>The number of items that have been dequeued.</returns>
+        /// <remarks>
+        /// <para>Warning! This method has the potential of overrunning its read/write lock timeouts. Please ensure that the <paramref name="predicate"/> method
+        /// filters out items in a way that limits the amount of data passing through.</para>
+        /// </remarks>
+        public int DequeueWhilePredicateWithAction<TState>(Func<TState, T, bool> predicate, Action<TState, IEnumerable<T>> actionToInvoke, TState state)
+        {
+            var success = 0;
+
+            try
+            {
+                success = this.TryLoadWhilePredicateWithAction(predicate, actionToInvoke, state);
+            }
+            catch (Exception)
+            {
+                success = 0;
+                throw;
+            }
+            finally
+            {
+                for (var i = 0; i < success; i++)
+                {
+                    this.internalQueue.Dequeue();
+                }
+            }
+
+            return success;
+        }
+
+        /// <summary>
         /// Dequeues an item from the queue, and executes the specified action on it.
         /// </summary>
         /// <typeparam name="TState">The type of the state object to pass to the action.</typeparam>
@@ -126,7 +162,7 @@ namespace IX.Guaranteed.Collections
 
             try
             {
-                return this.TryLoadTopmostItemWithAction(actionToInvoke, state);
+                success = this.TryLoadTopmostItemWithAction(actionToInvoke, state);
             }
             catch (Exception)
             {
@@ -140,6 +176,8 @@ namespace IX.Guaranteed.Collections
                     this.internalQueue.Dequeue();
                 }
             }
+
+            return success;
         }
 
         /// <summary>
