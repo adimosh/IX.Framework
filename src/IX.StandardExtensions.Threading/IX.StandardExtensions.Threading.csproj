@@ -44,8 +44,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\CodeGenerator\Fire.AndForgetActionsAndFuncs.cs" Link="Fire.AndForgetActionsAndFuncs.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ReaderWriterSynchronizedBase.ActionsAndFuncs.cs" Link="ReaderWriterSynchronizedBase.ActionsAndFuncs.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\Fire.AndForgetActionsAndFuncs.cs" Link="Fire.AndForgetActionsAndFuncs.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\ReaderWriterSynchronizedBase.ActionsAndFuncs.cs" Link="ReaderWriterSynchronizedBase.ActionsAndFuncs.cs" />
   </ItemGroup>
 
   <ItemGroup>

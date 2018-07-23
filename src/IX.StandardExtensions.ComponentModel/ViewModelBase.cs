@@ -74,13 +74,6 @@ namespace IX.StandardExtensions.ComponentModel
         }
 
         /// <summary>
-        /// Validates this object asynchronously.
-        /// </summary>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>A <see cref="Task" /> that can be awaited.</returns>
-        public Task ValidateAsync(CancellationToken cancellationToken = default) => Threading.Fire.AndForgetAsync((thisL1) => thisL1.Validate(), this, cancellationToken);
-
-        /// <summary>
         /// Validates this object.
         /// </summary>
         public void Validate()
@@ -134,8 +127,8 @@ namespace IX.StandardExtensions.ComponentModel
                                              from m in r.MemberNames
                                              group r by m into g
                                              select g)
- #pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
-                   {
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+                    {
                         var messages = property.Select(r => r.ErrorMessage).ToArray();
 
                         List<string> errorList = this.entityErrors.GetOrAdd(property.Key, new List<string>(messages.Length));
