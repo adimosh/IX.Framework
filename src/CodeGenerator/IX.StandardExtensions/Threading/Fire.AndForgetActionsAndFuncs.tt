@@ -118,7 +118,88 @@ for (int i = 1; i <= 8; i++)
                 continuationAction: StandardContinuation,
                 state: exceptionHandler,
                 continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: TaskScheduler.FromCurrentSynchronizationContext(),
+                scheduler: GetCurrentTaskScheduler(),
+                cancellationToken: cancellationToken);
+
+            runningTask.Start(TaskScheduler.Default);
+
+            if (runningTask.IsCompleted)
+            {
+                return;
+            }
+
+            runningTask.ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        public static void AndForget<<#= paramTypes #>>(Action<<#= paramTypes #>, CancellationToken> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+            => AndForget(action, <#= paramNames #>, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
+
+        /// <summary>
+        /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="exceptionHandler">The exception handler. This parameter can be null.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        public static void AndForget<<#= paramTypes #>>(Action<<#= paramTypes #>, CancellationToken> action, <#= paramNameTypes #>, Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
+        {
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            var state = new Tuple<Action<<#= paramTypes #>, CancellationToken>, Tuple<<#= paramTypes #>>, CancellationToken>(action, new Tuple<<#= paramTypes #>>(<#= paramNames #>), cancellationToken);
+            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+
+            void ExecuteAction(object innerState)
+            {
+                var unpackedState = (Tuple<Action<<#= paramTypes #>, CancellationToken>, Tuple<<#= paramTypes #>>, CancellationToken>)innerState;
+                Tuple<<#= paramTypes #>> unpackedParameters = unpackedState.Item2;
+
+                unpackedState.Item1(<#= paramParameters #>, unpackedState.Item3);
+            }
+
+            runningTask.ContinueWith(
+                continuationAction: StandardContinuation,
+                state: exceptionHandler,
+                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
+                scheduler: GetCurrentTaskScheduler(),
                 cancellationToken: cancellationToken);
 
             runningTask.Start(TaskScheduler.Default);
@@ -228,7 +309,117 @@ for (int i = 1; i <= 8; i++)
                         }
                     }
                 },
-                new Tuple<Func<<#= paramTypes #>, Task>, Tuple<<#= paramTypes #>>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<<#= paramTypes #>>(<#= paramNames #>), exceptionHandler, TaskScheduler.FromCurrentSynchronizationContext(), cancellationToken),
+                new Tuple<Func<<#= paramTypes #>, Task>, Tuple<<#= paramTypes #>>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<<#= paramTypes #>>(<#= paramNames #>), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                cancellationToken);
+
+            runningTask.Start(TaskScheduler.Default);
+
+            if (runningTask.IsCompleted)
+            {
+                return;
+            }
+
+            runningTask.ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        public static void AndForget<<#= paramTypes #>>(Func<<#= paramTypes #>, CancellationToken, Task> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+            => AndForget(action, <#= paramNames #>, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
+
+        /// <summary>
+        /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="exceptionHandler">The exception handler. This parameter can be null.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        public static void AndForget<<#= paramTypes #>>(Func<<#= paramTypes #>, CancellationToken, Task> action, <#= paramNameTypes #>, Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
+        {
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            var runningTask = new Task(
+                (state) =>
+                {
+                    var brokenState = (Tuple<Func<<#= paramTypes #>, CancellationToken, Task>, Tuple<<#= paramTypes #>>, Action<Exception>, TaskScheduler, CancellationToken>)state;
+                    try
+                    {
+                        Tuple<<#= paramTypes #>> unpackedParameters = brokenState.Item2;
+                        Task task = brokenState.Item1(<#= paramParameters #>, brokenState.Item5);
+
+                        if (!task.IsCompleted)
+                        {
+                            task.ConfigureAwait(false);
+
+                            if (brokenState.Item3 != null)
+                            {
+                                task.ContinueWith(
+                                    continuationAction: StandardContinuation,
+                                    state: brokenState.Item3,
+                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
+                                    scheduler: brokenState.Item4,
+                                    cancellationToken: brokenState.Item5);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (brokenState.Item3 != null)
+                        {
+                            var task = new Task(
+                            (state2) =>
+                            {
+                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
+
+                                brokenState2.Item2(brokenState2.Item1);
+                            },
+                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
+                            brokenState.Item5);
+
+                            task.ConfigureAwait(false);
+
+                            task.Start(brokenState.Item4);
+                        }
+                    }
+                },
+                new Tuple<Func<<#= paramTypes #>, CancellationToken, Task>, Tuple<<#= paramTypes #>>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<<#= paramTypes #>>(<#= paramNames #>), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
                 cancellationToken);
 
             runningTask.Start(TaskScheduler.Default);
