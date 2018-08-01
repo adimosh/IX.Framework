@@ -181,13 +181,7 @@ if (typ == typeof(string))
 }
 else if (typ == typeof(char))
 {
-#>
-
-#if NETSTANDARD1_1
-                    string.IsNullOrEmpty(value) ? default : value.ToCharArray(0, 1)[0];
-#else
-                    <#= fullTypeName #>.Parse(value);
-#endif<#
+#> <#= fullTypeName #>.Parse(value);<#
 }
 else if (typ == typeof(byte[]))
 {

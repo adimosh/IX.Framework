@@ -3,7 +3,7 @@
 // </copyright>
 
 using System;
-#if NET45
+#if NET452
 using System.Runtime.Serialization;
 #endif
 
@@ -13,7 +13,7 @@ namespace IX.StandardExtensions
     /// An exception that, when thrown, signals the thread it's on to stop retrying an operation.
     /// </summary>
     /// <seealso cref="System.Exception" />
-#if NET45
+#if NET452
     [Serializable]
 #endif
     public class StopRetryingException : Exception
@@ -45,7 +45,7 @@ namespace IX.StandardExtensions
         {
         }
 
-#if NET45
+#if NET452
         /// <summary>
         /// Initializes a new instance of the <see cref="StopRetryingException"/> class.
         /// </summary>

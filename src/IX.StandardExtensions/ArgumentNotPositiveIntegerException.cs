@@ -3,7 +3,7 @@
 // </copyright>
 
 using System;
-#if NET45
+#if NET452
 using System.Runtime.Serialization;
 #endif
 
@@ -13,7 +13,7 @@ namespace IX.StandardExtensions
     /// An argument exception representing an argument not being a positive integer (like a capacity or a count).
     /// </summary>
     /// <seealso cref="System.ArgumentException" />
-#if NET45
+#if NET452
     [Serializable]
 #endif
     public class ArgumentNotPositiveIntegerException : ArgumentException
@@ -37,7 +37,7 @@ namespace IX.StandardExtensions
         {
         }
 
-#if NET45
+#if NET452
         /// <summary>
         /// Initializes a new instance of the <see cref="ArgumentNotPositiveIntegerException"/> class.
         /// </summary>

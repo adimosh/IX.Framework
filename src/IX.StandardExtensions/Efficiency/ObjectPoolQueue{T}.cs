@@ -58,7 +58,7 @@ namespace IX.StandardExtensions.Efficiency
 
         private void Run(Task originalTask)
         {
-#if NET45
+#if NET452
             Thread.CurrentThread.Name = $"Object pool queue {Thread.CurrentThread.ManagedThreadId}";
 #endif
             if (this.objects.Count == 0)
