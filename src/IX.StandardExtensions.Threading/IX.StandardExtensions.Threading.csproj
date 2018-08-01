@@ -29,13 +29,13 @@
 
   <Import Project="..\StyleCop.targets" />
 
-  <ItemGroup Condition="'$(TargetFramework)'=='net452'">
+  <ItemGroup Condition="$(DefineConstants.Contains('FULLDOTNET'))">
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'!='net452'">
+  <ItemGroup Condition="$(DefineConstants.Contains('DOTNETSTANDARD'))">
     <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />

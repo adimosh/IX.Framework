@@ -30,11 +30,11 @@
 
   <Import Project="..\StyleCop.targets" />
 
-  <ItemGroup Condition="'$(TargetFramework)'=='net452'">
+  <ItemGroup Condition="$(DefineConstants.Contains('FULLDOTNET'))">
     <Reference Include="System.Core" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'!='net452'">
+  <ItemGroup Condition="$(DefineConstants.Contains('DOTNETSTANDARD'))">
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
     <PackageReference Include="System.Threading" Version="4.3.0" />
   </ItemGroup>

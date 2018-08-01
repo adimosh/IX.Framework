@@ -34,7 +34,7 @@
     <Compile Include="..\CodeGenerator\IX.Sandbox\Variable.StandardTypes.cs" Link="Variable.StandardTypes.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='net452'">
+  <ItemGroup Condition="$(DefineConstants.Contains('FULLDOTNET'))">
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>

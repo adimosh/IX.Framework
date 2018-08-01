@@ -511,6 +511,7 @@ namespace IX.StandardExtensions
         /// <param name="comparer">The <see cref="IComparer{T}"/> implementation to use when comparing elements.-or-<c>null</c> to use the <see cref="IComparable{T}"/> implementation of each element.</param>
         public static void Sort<T>(this T[] array, int index, int length, IComparer<T> comparer) => Array.Sort(array, index, length, comparer);
 
+#if !NETSTANDARD1_2
         /// <summary>
         /// Sorts a pair of <see cref="Array"/> objects (one contains the keys and the other contains
         /// the corresponding items) based on the keys in the first <see cref="Array"/> using the
@@ -533,6 +534,7 @@ namespace IX.StandardExtensions
         /// <param name="items">The one-dimensional, zero-based <see cref="Array"/> that contains the items that correspond to the keys in keys, or null to sort only keys.</param>
         /// <param name="comparer">The <see cref="IComparer{T}"/> implementation to use when comparing elements.-or-<c>null</c> to use the <see cref="IComparable{T}"/> implementation of each element.</param>
         public static void Sort<TKey, TValue>(this TKey[] keys, TValue[] items, IComparer<TKey> comparer) => Array.Sort(keys, items, comparer);
+#endif
 
         /// <summary>
         /// Sorts the elements in a one-dimensional <see cref="Array"/> using the specified <see cref="IComparer"/>.
@@ -541,6 +543,7 @@ namespace IX.StandardExtensions
         /// <param name="comparer">The <see cref="IComparer"/> implementation to use when comparing elements.-or-<c>null</c> to use the <see cref="IComparable"/> implementation of each element.</param>
         public static void Sort(this Array array, IComparer comparer) => Array.Sort(array, comparer);
 
+#if !NETSTANDARD1_2
         /// <summary>
         /// Sorts a range of elements in a pair of <see cref="Array"/> objects (one contains the
         /// keys and the other contains the corresponding items) based on the keys in the
@@ -569,6 +572,7 @@ namespace IX.StandardExtensions
         /// <param name="length">The number of elements in the range to sort.</param>
         /// <param name="comparer">The <see cref="IComparer{T}"/> implementation to use when comparing elements.-or-<c>null</c> to use the <see cref="IComparable{T}"/> implementation of each element.</param>
         public static void Sort<TKey, TValue>(this TKey[] keys, TValue[] items, int index, int length, IComparer<TKey> comparer) => Array.Sort(keys, items, index, length, comparer);
+#endif
 
         /// <summary>
         /// Sorts the elements in an <see cref="Array"/> using the specified <see cref="IComparer{T}"/>
@@ -615,6 +619,7 @@ namespace IX.StandardExtensions
         /// <param name="length">The number of elements in the range to sort.</param>
         public static void Sort<T>(this T[] array, int index, int length) => Array.Sort(array, index, length);
 
+#if !NETSTANDARD1_2
         /// <summary>
         /// Sorts a range of elements in a pair of one-dimensional <see cref="Array"/> objects (one
         /// contains the keys and the other contains the corresponding items) based on the
@@ -626,6 +631,7 @@ namespace IX.StandardExtensions
         /// <param name="length">The number of elements in the range to sort.</param>
         /// <param name="comparer">The <see cref="IComparer"/> implementation to use when comparing elements.-or-<c>null</c> to use the <see cref="IComparable"/> implementation of each element.</param>
         public static void Sort(this Array keys, Array items, int index, int length, IComparer comparer) => Array.Sort(keys, items, index, length, comparer);
+#endif
 
         /// <summary>
         /// Sorts the elements in an entire one-dimensional <see cref="Array"/> using the <see cref="IComparable"/> implementation of each element of the <see cref="Array"/>.
@@ -633,6 +639,7 @@ namespace IX.StandardExtensions
         /// <param name="array">The one-dimensional <see cref="Array"/> to sort.</param>
         public static void Sort(this Array array) => Array.Sort(array);
 
+#if !NETSTANDARD1_2
         /// <summary>
         /// Sorts a pair of one-dimensional <see cref="Array"/> objects (one contains the keys and
         /// the other contains the corresponding items) based on the keys in the first <see cref="Array"/>
@@ -663,6 +670,7 @@ namespace IX.StandardExtensions
         /// <param name="index">The starting index of the range to sort.</param>
         /// <param name="length">The number of elements in the range to sort.</param>
         public static void Sort(this Array keys, Array items, int index, int length) => Array.Sort(keys, items, index, length);
+#endif
 
         /// <summary>
         /// Determines whether every element in the array matches the conditions defined
