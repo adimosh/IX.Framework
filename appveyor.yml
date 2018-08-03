@@ -20,6 +20,10 @@ before_build:
     dotnet restore src/IX.Framework.sln
 
 
+    cd src\IX.Aspects\
+
+    dotnet csprojVersioning IX.Aspects.csproj %APPVEYOR_BUILD_VERSION%
+
     cd src\IX.StandardExtensions\
 
     dotnet csprojVersioning IX.StandardExtensions.csproj %APPVEYOR_BUILD_VERSION%
@@ -104,6 +108,8 @@ test:
     except:
     - BenchmarkTests
 artifacts:
+- path: src\IX.Aspects\bin\Release\IX.Aspects.%APPVEYOR_BUILD_VERSION%.nupkg
+  name: IX.Aspects
 - path: src\IX.StandardExtensions\bin\Release\IX.StandardExtensions.%APPVEYOR_BUILD_VERSION%.nupkg
   name: IX.StandardExtensions
 - path: src\IX.StandardExtensions.ComponentModel\bin\Release\IX.StandardExtensions.ComponentModel.%APPVEYOR_BUILD_VERSION%.nupkg
