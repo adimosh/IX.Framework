@@ -35,6 +35,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="$(DefineConstants.Contains('DOTNETSTANDARD'))">
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
     <PackageReference Include="System.Runtime" Version="4.3.0" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
   </ItemGroup>
