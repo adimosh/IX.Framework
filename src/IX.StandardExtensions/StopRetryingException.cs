@@ -1,9 +1,9 @@
-﻿// <copyright file="StopRetryingException.cs" company="Adrian Mos">
+// <copyright file="StopRetryingException.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
-#if NET45
+#if FULLDOTNET
 using System.Runtime.Serialization;
 #endif
 
@@ -13,7 +13,7 @@ namespace IX.StandardExtensions
     /// An exception that, when thrown, signals the thread it's on to stop retrying an operation.
     /// </summary>
     /// <seealso cref="System.Exception" />
-#if NET45
+#if FULLDOTNET
     [Serializable]
 #endif
     public class StopRetryingException : Exception
@@ -45,7 +45,7 @@ namespace IX.StandardExtensions
         {
         }
 
-#if NET45
+#if FULLDOTNET
         /// <summary>
         /// Initializes a new instance of the <see cref="StopRetryingException"/> class.
         /// </summary>

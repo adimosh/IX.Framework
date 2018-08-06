@@ -58,7 +58,7 @@ namespace IX.StandardExtensions.Efficiency
 
         private void Run(Task originalTask)
         {
-#if NET45
+#if FULLDOTNET
             Thread.CurrentThread.Name = $"Object pool queue {Thread.CurrentThread.ManagedThreadId}";
 #endif
             if (this.objects.Count == 0)
@@ -104,10 +104,11 @@ namespace IX.StandardExtensions.Efficiency
                         {
                             shouldRetry = false;
                         }
+#pragma warning disable ERP022 // Catching everything considered harmful. - Do nothing, a retry is necessary at this point
                         catch (Exception)
                         {
-                            // Do nothing, as a retry is necessary at this point
                         }
+#pragma warning restore ERP022 // Catching everything considered harmful.
                     }
                 }
             }
