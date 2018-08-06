@@ -1,4 +1,4 @@
-﻿// <copyright file="INotifyThreadException.cs" company="Adrian Mos">
+// <copyright file="INotifyThreadException.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -10,8 +10,7 @@ namespace IX.StandardExtensions.ComponentModel
     /// A service contract for an entity that notifies of safely-ignorable exceptions.
     /// </summary>
     /// <remarks>
-    /// <para>WARNING !!!</para>
-    /// <para>Do not use this interface to unsafely block exceptions from propagating!</para>
+    /// <para>WARNING !!! Do not use this interface to unsafely block exceptions from propagating! Its purpose is different.</para>
     /// <para>This interface is to be used solely when dealing with exceptions that can either be safely ignored and should only be reported to a logging service, or
     /// have handling at a lower level.</para>
     /// <para>A common use case for this should be for safe disposal of exceptions on fire-and-forget tasks that should not otherwise crash the application.</para>

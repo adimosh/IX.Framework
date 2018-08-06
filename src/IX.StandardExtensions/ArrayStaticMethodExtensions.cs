@@ -13,7 +13,7 @@ namespace IX.StandardExtensions
     /// </summary>
     public static class ArrayStaticMethodExtensions
     {
-#if NET452
+#if FULLDOTNET
         /// <summary>
         /// Converts all elements of an array into elements of a different type.
         /// </summary>
