@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>0.5.0.0</Version>
+    <FileVersion>0.5.0.0</FileVersion>
+    <AssemblyVersion>0.5.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <!-- Fody-specific -->
+  <PropertyGroup>
+    <PackageId>$(MSBuildProjectName)</PackageId>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <TargetsForTfmSpecificBuildOutput></TargetsForTfmSpecificBuildOutput>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludeFodyFiles</TargetsForTfmSpecificContentInPackage>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <DisableFody>true</DisableFody>
+  </PropertyGroup>
+
+  <!-- END Fody-specific -->
+  <PropertyGroup>
+    <Title>IX Aspects - Fody Weaver</Title>
+    <Description>A weaver of aspects for Fody.</Description>
+    <RootNamespace>IX.Aspects</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="..\Branding.props" />
+
+  <Import Project="..\TargetSymbols.props" />
+
+  <Import Project="..\DocumentationFile.props" />
+
+  <Import Project="..\PackageSettings.props" />
+
+  <Import Project="..\VsCodeRemove.targets" />
+
+  <Import Project="..\StyleCop.targets" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\IX.Aspects\IX.Aspects.csproj" PrivateAssets="All" />
+    <PackageReference Include="FodyCecil" Version="3.0.1" />
+    <PackageReference Include="FodyHelpers" Version="3.0.1" />
+  </ItemGroup>
+
+  <!-- Fody-specific -->
+  <ItemGroup>
+    <PackageReference Include="Fody" Version="3.1.4" PrivateAssets="None" />
+  </ItemGroup>
+
+  <Target Name="IncludeFodyFiles">
+    <Message Text="Packaging for Fody..." />
+    <Message Text="Using folder: $(BaseOutputPath)\$(Configuration)" />
+
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="$(BaseOutputPath)\$(Configuration)\net46\$(PackageId).dll" PackagePath="netclassicweaver" />
+      <TfmSpecificPackageFile Include="$(BaseOutputPath)\$(Configuration)\net46\$(PackageId).xml" PackagePath="netclassicweaver" />
+      <TfmSpecificPackageFile Include="$(BaseOutputPath)\$(Configuration)\net46\$(PackageId).pdb" PackagePath="netclassicweaver" />
+      <TfmSpecificPackageFile Include="$(BaseOutputPath)\$(Configuration)\netstandard2.0\$(PackageId).dll" PackagePath="netstandardweaver" />
+      <TfmSpecificPackageFile Include="$(BaseOutputPath)\$(Configuration)\netstandard2.0\$(PackageId).xml" PackagePath="netstandardweaver" />
+      <TfmSpecificPackageFile Include="$(BaseOutputPath)\$(Configuration)\netstandard2.0\$(PackageId).pdb" PackagePath="netstandardweaver" />
+    </ItemGroup>
+  </Target>
+
+  <!-- END Fody-specific -->
+  <Import Project="..\CliToolsReference.Normal.targets" />
+
+</Project>

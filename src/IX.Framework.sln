@@ -99,7 +99,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.Aspects", "IX.Aspects\IX
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aspects", "Aspects", "{56AF3B52-4C69-404F-98EB-5456C016DC59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IX.Aspects.Weaver", "IX.Aspects.Weaver.Fody\IX.Aspects.Weaver.csproj", "{B6D95350-4EF4-4C94-B717-6B90BEDE03A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.Aspects.Weaver.Fody", "IX.Aspects.Weaver.Fody\IX.Aspects.Weaver.Fody.csproj", "{B6D95350-4EF4-4C94-B717-6B90BEDE03A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
