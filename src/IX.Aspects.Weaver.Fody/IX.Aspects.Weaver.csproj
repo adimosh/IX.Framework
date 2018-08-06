@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -33,9 +33,14 @@
   <Import Project="..\StyleCop.targets" />
 
   <ItemGroup>
+    <ProjectReference Include="..\IX.Aspects\IX.Aspects.csproj" PrivateAssets="All" />
     <PackageReference Include="FodyCecil" Version="3.0.1" developmentDependency="true" />
     <PackageReference Include="FodyHelpers" Version="3.0.1" developmentDependency="true" />
-    <ProjectReference Include="..\IX.Aspects\IX.Aspects.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Fody" Version="3.1.4" PrivateAssets="None" />
+    <PackageReference Include="FodyPackaging" Version="3.1.4" PrivateAssets="All" />
   </ItemGroup>
 
   <Import Project="..\CliToolsReference.Normal.targets" />
