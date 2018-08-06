@@ -557,7 +557,12 @@ namespace IX.Sandbox.Memory
 
             set
             {
-                this.Value = char.Parse(value);
+                this.Value =
+#if NETSTANDARD1_2
+                    string.IsNullOrEmpty(value) ? default : value.ToCharArray(0, 1)[0];
+#else
+                    char.Parse(value);
+#endif
                 this.RaisePropertyChangedWithValidation(nameof(this.Value));
                 this.RaisePropertyChanged(nameof(this.DebuggerValue));
                 this.RaisePropertyChanged(nameof(this.RawDebuggerValue));
