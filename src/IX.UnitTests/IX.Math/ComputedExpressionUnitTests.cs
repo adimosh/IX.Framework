@@ -834,6 +834,12 @@ namespace IX.UnitTests.IX.Math
                 },
                 new object[]
                 {
+                    "abs((1-17)+3) + abs(14-(1*4))",
+                    null,
+                    23L,
+                },
+                new object[]
+                {
                     "substr(x,y,z)+substr(q,y,z)",
                     new Dictionary<string, object>
                     {
