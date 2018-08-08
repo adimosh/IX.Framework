@@ -13,7 +13,7 @@ namespace IX.StandardExtensions
     /// </summary>
     public static class ArrayStaticMethodExtensions
     {
-#if NET45
+#if FULLDOTNET
         /// <summary>
         /// Converts all elements of an array into elements of a different type.
         /// </summary>
@@ -631,6 +631,7 @@ namespace IX.StandardExtensions
         /// <param name="length">The number of elements in the range to sort.</param>
         /// <param name="comparer">The <see cref="IComparer"/> implementation to use when comparing elements.-or-<c>null</c> to use the <see cref="IComparable"/> implementation of each element.</param>
         public static void Sort(this Array keys, Array items, int index, int length, IComparer comparer) => Array.Sort(keys, items, index, length, comparer);
+#endif
 
         /// <summary>
         /// Sorts the elements in an entire one-dimensional <see cref="Array"/> using the <see cref="IComparable"/> implementation of each element of the <see cref="Array"/>.
@@ -638,6 +639,7 @@ namespace IX.StandardExtensions
         /// <param name="array">The one-dimensional <see cref="Array"/> to sort.</param>
         public static void Sort(this Array array) => Array.Sort(array);
 
+#if !NETSTANDARD1_0 && !NETSTANDARD1_1
         /// <summary>
         /// Sorts a pair of one-dimensional <see cref="Array"/> objects (one contains the keys and
         /// the other contains the corresponding items) based on the keys in the first <see cref="Array"/>

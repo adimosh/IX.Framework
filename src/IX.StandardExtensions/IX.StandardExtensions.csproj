@@ -44,17 +44,18 @@
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArrayExtensions.ForEachActions.cs" Link="ArrayExtensions.ForEachActions.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableExtensions.ForEachActions.cs" Link="IEnumerableExtensions.ForEachActions.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\InDelegates.WithParameters.cs" Link="Efficiency\InDelegates.WithParameters.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\LinqExtensions.ActionsAndFuncs.cs" Link="LinqExtensions.ActionsAndFuncs.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\RefDelegates.WithParameters.cs" Link="Efficiency\RefDelegates.WithParameters.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\RefIteratorDelegates.WithParameters.cs" Link="Efficiency\RefIteratorDelegates.WithParameters.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+  <ItemGroup Condition="$(DefineConstants.Contains('FULLDOTNET'))">
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'!='net45'">
+  <ItemGroup Condition="$(DefineConstants.Contains('DOTNETSTANDARD'))">
     <PackageReference Include="System.Collections" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />

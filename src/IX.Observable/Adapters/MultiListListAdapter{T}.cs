@@ -1,4 +1,4 @@
-﻿// <copyright file="MultiListListAdapter{T}.cs" company="Adrian Mos">
+// <copyright file="MultiListListAdapter{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using IX.StandardExtensions;
 
 namespace IX.Observable.Adapters
 {
@@ -53,7 +54,7 @@ namespace IX.Observable.Adapters
 
         public override void Clear() => throw new InvalidOperationException();
 
-        public override bool Contains(T item) => this.lists.Any(p => p.Contains(item));
+        public override bool Contains(T item) => this.lists.Any((p, itemL1) => p.Contains(itemL1), item);
 
         public override void CopyTo(T[] array, int arrayIndex)
         {

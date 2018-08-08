@@ -109,7 +109,7 @@ namespace IX.Retry.Contexts
             catch (Exception ex)
             {
                 if (this.options.RetryOnExceptions.Count > 0 &&
-                    !this.options.RetryOnExceptions.Any(p => p.Item1 == ex.GetType() && p.Item2(ex)))
+                    !this.options.RetryOnExceptions.Any((p, exL1) => p.Item1 == exL1.GetType() && p.Item2(exL1), ex))
                 {
                     throw;
                 }

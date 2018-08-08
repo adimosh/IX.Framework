@@ -1,51 +1,51 @@
 <Project>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
-    <DefineConstants>NET45</DefineConstants>
+    <DefineConstants>NET45;FULLDOTNET</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net451'">
-    <DefineConstants>NET451</DefineConstants>
+    <DefineConstants>NET451;FULLDOTNET</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net452'">
-    <DefineConstants>NET452</DefineConstants>
+    <DefineConstants>NET452;FULLDOTNET</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net46'">
-    <DefineConstants>NET46</DefineConstants>
+    <DefineConstants>NET46;FULLDOTNET</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net461'">
-    <DefineConstants>NET461</DefineConstants>
+    <DefineConstants>NET461;FULLDOTNET</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.1'">
-    <DefineConstants>NETSTANDARD1_1</DefineConstants>
+    <DefineConstants>NETSTANDARD1_1;DOTNETSTANDARD</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.2'">
-    <DefineConstants>NETSTANDARD1_2</DefineConstants>
+    <DefineConstants>NETSTANDARD1_2;DOTNETSTANDARD</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
-    <DefineConstants>NETSTANDARD1_3</DefineConstants>
+    <DefineConstants>NETSTANDARD1_3;DOTNETSTANDARD</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.4'">
-    <DefineConstants>NETSTANDARD1_4</DefineConstants>
+    <DefineConstants>NETSTANDARD1_4;DOTNETSTANDARD</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.5'">
-    <DefineConstants>NETSTANDARD1_5</DefineConstants>
+    <DefineConstants>NETSTANDARD1_5;DOTNETSTANDARD</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
-    <DefineConstants>NETSTANDARD1_6</DefineConstants>
+    <DefineConstants>NETSTANDARD1_6;DOTNETSTANDARD</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-    <DefineConstants>NETSTANDARD2_0</DefineConstants>
+    <DefineConstants>NETSTANDARD2_0;DOTNETSTANDARD</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">

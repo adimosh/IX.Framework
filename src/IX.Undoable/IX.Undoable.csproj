@@ -29,8 +29,12 @@
 
   <Import Project="..\StyleCop.targets" />
 
-  <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+  <ItemGroup Condition="$(DefineConstants.Contains('FULLDOTNET'))">
     <Reference Include="System" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(DefineConstants.Contains('DOTNETSTANDARD'))">
+    <PackageReference Include="System.Collections" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,7 +43,7 @@
     <ProjectReference Include="..\IX.StandardExtensions.ComponentModel\IX.StandardExtensions.ComponentModel.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'!='net45'">
+  <ItemGroup Condition="'$(TargetFramework)'!='net452'">
     <PackageReference Include="System.Collections" Version="4.3.0" />
   </ItemGroup>
 
