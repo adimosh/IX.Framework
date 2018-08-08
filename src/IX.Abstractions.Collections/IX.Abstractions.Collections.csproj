@@ -48,7 +48,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IX.Abstractions\IX.Abstractions.csproj" />
-    <ProjectReference Include="..\IX.Aspects\IX.Aspects.csproj" />
     <ProjectReference Include="..\IX.Abstractions.Threading\IX.Abstractions.Threading.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions.Threading\IX.StandardExtensions.Threading.csproj" />
