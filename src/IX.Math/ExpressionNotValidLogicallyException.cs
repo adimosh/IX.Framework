@@ -3,7 +3,7 @@
 // </copyright>
 
 using System;
-#if NET45
+#if NET452
 using System.Runtime.Serialization;
 #endif
 
@@ -12,7 +12,7 @@ namespace IX.Math
     /// <summary>
     /// Thrown when an expression is not internally logical or consistent.
     /// </summary>
-#if NET45
+#if NET452
     [Serializable]
 #endif
     public class ExpressionNotValidLogicallyException : Exception
@@ -53,7 +53,7 @@ namespace IX.Math
         {
         }
 
-#if NET45
+#if NET452
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionNotValidLogicallyException"/> class.
         /// </summary>

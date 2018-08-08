@@ -101,7 +101,7 @@ namespace IX.Observable.Adapters
             this.InitializeMissingMaster();
 
             var index = this.master.Count;
-            items.ForEach(p => this.master.Add(p));
+            items.ForEach((p, master) => master.Add(p), this.master);
             return index;
         }
 
@@ -116,7 +116,7 @@ namespace IX.Observable.Adapters
         {
             this.InitializeMissingMaster();
 
-            return this.master.Contains(item) || this.slaves.Any(p => p.Contains(item));
+            return this.master.Contains(item) || this.slaves.Any((p, itemL1) => p.Contains(itemL1), item);
         }
 
         public void MasterCopyTo(T[] array, int arrayIndex)

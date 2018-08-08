@@ -9,7 +9,7 @@ using System.Reflection;
 namespace IX.StandardExtensions
 {
     /// <summary>
-    /// Extensions for. <see cref="Type"/>
+    /// Extensions for <see cref="Type"/>.
     /// </summary>
     public static class TypeExtensions
     {

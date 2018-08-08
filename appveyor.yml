@@ -98,7 +98,7 @@ before_build:
 build:
   project: src\IX.Framework.sln
   parallel: true
-  verbosity: minimal
+  verbosity: normal
 test:
   categories:
     except:

@@ -117,7 +117,7 @@ namespace IX.Math
                     workingSet.ParameterRegistry,
                     workingSet.Expression,
                     workingSet.Definition.Parentheses.Item1,
-                    workingSet.AllOperatorsInOrder);
+                    workingSet.AllSymbols);
             }
 
             // For each parameter from the table we've just populated, see where it's first used, and fill in that index as the order

@@ -1,12 +1,15 @@
-﻿// <copyright file="ExpressionSymbol.cs" company="Adrian Mos">
+// <copyright file="ExpressionSymbol.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
+
+using System.Diagnostics;
 
 namespace IX.Math.ExpressionState
 {
     /// <summary>
     /// An expression symbol.
     /// </summary>
+    [DebuggerDisplay("Expression: {Name} -> {Expression}")]
     public class ExpressionSymbol
     {
         private string expression;

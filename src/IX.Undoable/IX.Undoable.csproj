@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard1.1;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net452;netstandard1.2;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
   <Import Project="..\DefaultPackageVersionSystem.props" />
@@ -29,18 +29,18 @@
 
   <Import Project="..\StyleCop.targets" />
 
-  <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+  <ItemGroup Condition="$(DefineConstants.Contains('FULLDOTNET'))">
     <Reference Include="System" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(DefineConstants.Contains('DOTNETSTANDARD'))">
+    <PackageReference Include="System.Collections" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\IX.Abstractions.Collections\IX.Abstractions.Collections.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions.ComponentModel\IX.StandardExtensions.ComponentModel.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)'!='net45'">
-    <PackageReference Include="System.Collections" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>

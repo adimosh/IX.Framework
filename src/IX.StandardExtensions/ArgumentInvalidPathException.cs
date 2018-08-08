@@ -3,7 +3,7 @@
 // </copyright>
 
 using System;
-#if NET45
+#if FULLDOTNET
 using System.Runtime.Serialization;
 #endif
 
@@ -13,7 +13,7 @@ namespace IX.StandardExtensions
     /// An argument exception representing a path argument that is invalid.
     /// </summary>
     /// <seealso cref="System.ArgumentException" />
-#if NET45
+#if FULLDOTNET
     [Serializable]
 #endif
     public class ArgumentInvalidPathException : ArgumentException
@@ -75,7 +75,7 @@ namespace IX.StandardExtensions
         {
         }
 
-#if NET45
+#if FULLDOTNET
         /// <summary>
         /// Initializes a new instance of the <see cref="ArgumentInvalidPathException"/> class.
         /// </summary>

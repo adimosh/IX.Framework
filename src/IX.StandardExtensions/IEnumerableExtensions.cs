@@ -65,7 +65,6 @@ namespace IX.StandardExtensions
             }
         }
 
-#if !NETSTANDARD1_0
         /// <summary>
         /// Executes an independent action for each one of the elements of an enumerable, in parallel.
         /// </summary>
@@ -87,7 +86,6 @@ namespace IX.StandardExtensions
 
             Parallel.ForEach(source, action);
         }
-#endif
 
         /// <summary>
         /// Executes an action in sequence with an iterator.
@@ -144,7 +142,6 @@ namespace IX.StandardExtensions
             }
         }
 
-#if !NETSTANDARD1_0
         /// <summary>
         /// Executes an independent action in parallel, with an iterator that respects the original sequence.
         /// </summary>
@@ -184,6 +181,5 @@ namespace IX.StandardExtensions
 
             void PerformParallelAction(Tuple<int, T, Action<int, T>> state) => state.Item3(state.Item1, state.Item2);
         }
-#endif
     }
 }

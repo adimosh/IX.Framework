@@ -834,7 +834,7 @@ namespace IX.Sandbox.Memory
             set
             {
                 this.Value =
-#if NETSTANDARD1_1
+#if NETSTANDARD1_2
                     string.IsNullOrEmpty(value) ? default : value.ToCharArray(0, 1)[0];
 #else
                     char.Parse(value);
@@ -3071,7 +3071,7 @@ namespace IX.Sandbox.Memory
     /// </summary>
     public class NamedByteArrayVariable : NamedVariableBase<byte[]>, IDeepCloneable<NamedByteArrayVariable>
     {
-        private readonly Encoding encoding;
+        private Encoding encoding;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NamedByteArrayVariable"/> class.
