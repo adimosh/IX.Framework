@@ -44,6 +44,7 @@
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArrayExtensions.ForEachActions.cs" Link="ArrayExtensions.ForEachActions.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableExtensions.ForEachActions.cs" Link="IEnumerableExtensions.ForEachActions.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\InDelegates.WithParameters.cs" Link="Efficiency\InDelegates.WithParameters.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\LinqExtensions.ActionsAndFuncs.cs" Link="LinqExtensions.ActionsAndFuncs.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\RefDelegates.WithParameters.cs" Link="Efficiency\RefDelegates.WithParameters.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\RefIteratorDelegates.WithParameters.cs" Link="Efficiency\RefIteratorDelegates.WithParameters.cs" />
   </ItemGroup>

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using IX.Math.ExpressionState;
+using IX.StandardExtensions;
 
 namespace IX.Math.Generators
 {
@@ -20,10 +21,38 @@ namespace IX.Math.Generators
             Dictionary<string, string> reverseSymbolTable)
         {
             FormatParenthesis(string.Empty, openParenthesis, closeParenthesis);
-            var names = symbolTable.Keys.Where(p => p.StartsWith("item")).ToArray();
-            foreach (var name in names)
+
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
+            var itemsToProcess = new List<string>();
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
+
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
+#pragma warning disable HeapAnalyzerExplicitNewAnonymousObjectRule // Explicit new anonymous object allocation
+            var itemToProcess = symbolTable.Where(p => p.Key.StartsWith("item") && !itemsToProcess.Contains(p.Key)).Select(p => new { p.Key, p.Value }).FirstOrDefault();
+#pragma warning restore HeapAnalyzerExplicitNewAnonymousObjectRule // Explicit new anonymous object allocation
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+
+            while (itemToProcess != default)
             {
-                FormatParenthesis(name, openParenthesis, closeParenthesis);
+                try
+                {
+                    if (itemToProcess.Value.IsFunctionCall)
+                    {
+                        continue;
+                    }
+
+                    FormatParenthesis(itemToProcess.Key, openParenthesis, closeParenthesis);
+                }
+                finally
+                {
+                    itemsToProcess.Add(itemToProcess.Key);
+
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
+#pragma warning disable HeapAnalyzerExplicitNewAnonymousObjectRule // Explicit new anonymous object allocation
+                    itemToProcess = symbolTable.Where(p => p.Key.StartsWith("item") && !itemsToProcess.Contains(p.Key)).Select(p => new { p.Key, p.Value }).FirstOrDefault();
+#pragma warning restore HeapAnalyzerExplicitNewAnonymousObjectRule // Explicit new anonymous object allocation
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+                }
             }
 
             void FormatParenthesis(
@@ -78,12 +107,12 @@ namespace IX.Math.Generators
                                 {
                                     var expr4 = openingParanthesisLocation == 0 ? string.Empty : src.Substring(0, openingParanthesisLocation);
 
-                                    if (!allOperatorsInOrder.Any(p => expr4.EndsWith(p)))
+                                    if (!allOperatorsInOrder.Any((p, expr4L1) => expr4L1.EndsWith(p), expr4))
                                     {
                                         // We have a function call
                                         var inx = allOperatorsInOrder.Max(p => expr4.LastIndexOf(p));
                                         var expr5 = inx == -1 ? expr4 : expr4.Substring(inx);
-                                        var op1 = allOperatorsInOrder.OrderByDescending(p => p.Length).FirstOrDefault(p => expr5.StartsWith(p));
+                                        var op1 = allOperatorsInOrder.OrderByDescending(p => p.Length).FirstOrDefault((p, expr5L1) => expr5L1.StartsWith(p), expr5);
                                         var expr6 = op1 == null ? expr5 : expr5.Substring(op1.Length);
 
                                         var expr2 = SymbolExpressionGenerator.GenerateSymbolExpression(

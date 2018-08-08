@@ -26,7 +26,7 @@ namespace IX.Math.Generators
         /// <param name="parameterRegistry">The parameters registry.</param>
         /// <param name="expression">The expression before processing.</param>
         /// <param name="openParenthesis">The symbol of an open parenthesis.</param>
-        /// <param name="allOperatorsInOrder">All operators, in order.</param>
+        /// <param name="allSymbols">All symbols on which to split, in order.</param>
         internal static void PopulateTables(
             in string processedExpression,
             in Dictionary<string, ConstantNodeBase> constantsTable,
@@ -36,9 +36,9 @@ namespace IX.Math.Generators
             in IParameterRegistry parameterRegistry,
             in string expression,
             in string openParenthesis,
-            in string[] allOperatorsInOrder)
+            in string[] allSymbols)
         {
-            var expressions = processedExpression.Split(allOperatorsInOrder, StringSplitOptions.RemoveEmptyEntries);
+            var expressions = processedExpression.Split(allSymbols, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var exp in expressions)
             {

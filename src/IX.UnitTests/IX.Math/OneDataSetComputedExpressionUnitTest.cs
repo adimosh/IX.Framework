@@ -38,12 +38,9 @@ namespace IX.UnitTests.IX.Math
             {
                 new object[]
                 {
-                    "tempVar1",
-                    new Dictionary<string, object>
-                    {
-                        ["tempVar1"] = "aaa",
-                    },
-                    "aaa",
+                    "abs((1-17)+3) + abs(14-(1*4))",
+                    null,
+                    23L,
                 },
             };
 
