@@ -9,6 +9,7 @@ using IX.Math.ExpressionState;
 using IX.Math.Generators;
 using IX.Math.Nodes;
 using IX.Math.Registration;
+using IX.StandardExtensions;
 
 namespace IX.Math.Extraction
 {
@@ -147,7 +148,7 @@ namespace IX.Math.Extraction
 
                         var functionHeaderCheck = source.Substring(0, op);
 
-                        if (allSymbolsSymbols.Any(p => functionHeaderCheck.EndsWith(p)))
+                        if (allSymbolsSymbols.Any((p, check) => check.EndsWith(p), functionHeaderCheck))
                         {
                             continue;
                         }
@@ -202,7 +203,7 @@ namespace IX.Math.Extraction
                                 parametersTableReference,
                                 expressionSymbol,
                                 openParanthesisSymbol,
-                                allOperatorsInOrderSymbols);
+                                allSymbolsSymbols);
 
                             // We check whether or not this is actually a constant
                             var sa = ConstantsGenerator.CheckAndAdd(constantsTableReference, reverseConstantsTableReference, expressionSymbol, s);

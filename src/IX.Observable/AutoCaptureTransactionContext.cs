@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using IX.StandardExtensions;
 using IX.Undoable;
 
 namespace IX.Observable
@@ -97,7 +98,7 @@ namespace IX.Observable
             }
 #endif
 
-            if (items.Any(item => item.IsCapturedIntoUndoContext && item.ParentUndoContext != parentContext))
+            if (items.Any((item, pc) => item.IsCapturedIntoUndoContext && item.ParentUndoContext != pc, parentContext))
             {
                 throw new ItemAlreadyCapturedIntoUndoContextException();
             }
