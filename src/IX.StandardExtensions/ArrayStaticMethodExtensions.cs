@@ -639,7 +639,7 @@ namespace IX.StandardExtensions
         /// <param name="array">The one-dimensional <see cref="Array"/> to sort.</param>
         public static void Sort(this Array array) => Array.Sort(array);
 
-#if !NETSTANDARD1_2
+#if !NETSTANDARD1_0 && !NETSTANDARD1_1
         /// <summary>
         /// Sorts a pair of one-dimensional <see cref="Array"/> objects (one contains the keys and
         /// the other contains the corresponding items) based on the keys in the first <see cref="Array"/>
