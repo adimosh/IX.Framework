@@ -134,12 +134,14 @@ namespace IX.Observable
         /// </returns>
         public override IEnumerator<TItem> GetEnumerator()
         {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
             if (this.IsFilter())
             {
                 return this.CheckAndCache().GetEnumerator();
             }
 
             return base.GetEnumerator();
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
         }
 
         /// <summary>
@@ -198,6 +200,7 @@ namespace IX.Observable
         {
             TFilter filter = this.Filter;
 
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
             using (IEnumerator<TItem> enumerator = base.GetEnumerator())
             {
                 while (enumerator.MoveNext())
@@ -209,6 +212,7 @@ namespace IX.Observable
                     }
                 }
             }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
 
             yield break;
         }
@@ -223,6 +227,7 @@ namespace IX.Observable
 
                     this.cachedFilteredElements = new List<TItem>(this.InternalContainer.Count);
 
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                     using (IEnumerator<TItem> enumerator = this.EnumerateFiltered())
                     {
                         while (enumerator.MoveNext())
@@ -231,6 +236,7 @@ namespace IX.Observable
                             this.cachedFilteredElements.Add(current);
                         }
                     }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
 
                     return this.cachedFilteredElements;
                 }

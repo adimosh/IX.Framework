@@ -10,6 +10,7 @@ using IX.StandardExtensions;
 
 namespace IX.Observable.Adapters
 {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable right now
     internal class MultiListMasterSlaveListAdapter<T> : ListAdapter<T>
     {
         private readonly List<IEnumerable<T>> slaves;
@@ -232,6 +233,7 @@ namespace IX.Observable.Adapters
 
             if (oldMaster != null)
             {
+#pragma warning disable ERP022 // Catching everything considered harmful. - It is of no consequence
                 try
                 {
                     ((INotifyCollectionChanged)oldMaster).CollectionChanged -= this.List_CollectionChanged;
@@ -240,6 +242,7 @@ namespace IX.Observable.Adapters
                 {
                     // We need to do nothing here. Inability to remove the event delegate reference is of no consequence.
                 }
+#pragma warning restore ERP022 // Catching everything considered harmful.
             }
 
             this.master = newMaster;
@@ -256,6 +259,7 @@ namespace IX.Observable.Adapters
         internal void RemoveSlave<TList>(TList slaveList)
             where TList : class, IEnumerable<T>, INotifyCollectionChanged
         {
+#pragma warning disable ERP022 // Catching everything considered harmful. - It is of no consequence
             try
             {
                 slaveList.CollectionChanged -= this.List_CollectionChanged;
@@ -264,6 +268,7 @@ namespace IX.Observable.Adapters
             {
                 // We need to do nothing here. Inability to remove the event delegate reference is of no consequence.
             }
+#pragma warning restore ERP022 // Catching everything considered harmful.
 
             this.slaves.Remove(slaveList ?? throw new ArgumentNullException(nameof(slaveList)));
         }
@@ -278,4 +283,5 @@ namespace IX.Observable.Adapters
             }
         }
     }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
 }

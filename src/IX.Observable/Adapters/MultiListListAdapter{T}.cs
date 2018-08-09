@@ -10,6 +10,7 @@ using IX.StandardExtensions;
 
 namespace IX.Observable.Adapters
 {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable right now
     internal class MultiListListAdapter<T> : ListAdapter<T>
     {
         private readonly List<IEnumerable<T>> lists;
@@ -121,6 +122,7 @@ namespace IX.Observable.Adapters
         internal void RemoveList<TList>(TList list)
             where TList : class, IEnumerable<T>, INotifyCollectionChanged
         {
+#pragma warning disable ERP022 // Catching everything considered harmful. - It is of no consequence
             try
             {
                 list.CollectionChanged -= this.List_CollectionChanged;
@@ -128,10 +130,12 @@ namespace IX.Observable.Adapters
             catch
             {
             }
+#pragma warning restore ERP022 // Catching everything considered harmful.
 
             this.lists.Remove(list ?? throw new ArgumentNullException(nameof(list)));
         }
 
         private void List_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => this.TriggerReset();
     }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
 }

@@ -109,6 +109,7 @@ namespace IX.Observable
             this.item = null;
             this.editableHandler = editableHandler;
 
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
             foreach (IUndoableItem item in items)
             {
                 item.ReleaseFromUndoContext();
@@ -118,6 +119,7 @@ namespace IX.Observable
                     tei.EditCommitted -= editableHandler;
                 }
             }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
         }
 
 #pragma warning restore IDE0016 // Use 'throw' expression
@@ -141,6 +143,7 @@ namespace IX.Observable
 
                 if (this.items != null)
                 {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                     foreach (IUndoableItem item in this.items)
                     {
                         item.CaptureIntoUndoContext(this.parentContext);
@@ -150,6 +153,7 @@ namespace IX.Observable
                             tei.EditCommitted += this.editableHandler;
                         }
                     }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                 }
             }
         }
