@@ -25,12 +25,8 @@ namespace IX.Observable
     /// <seealso cref="global::System.Collections.Generic.IEnumerable{T}" />
     public abstract class ObservableCollectionBase<T> : ObservableReadOnlyCollectionBase<T>, ICollection<T>, IUndoableItem, IEditCommittableItem
     {
-        // Undoable stacks
-        private PushDownStack<StateChange> undoStack;
-        private PushDownStack<StateChange> redoStack;
-
-        private IUndoableItem parentUndoableContext;
         private bool suppressUndoable;
+        private bool automaticallyCaptureSubItems;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableCollectionBase{T}"/> class.
@@ -124,7 +120,7 @@ namespace IX.Observable
         /// <summary>
         /// Gets a value indicating whether this instance is caught into an undo context.
         /// </summary>
-        public bool IsCapturedIntoUndoContext => this.parentUndoableContext != null;
+        public bool IsCapturedIntoUndoContext => this.ParentUndoContext != null;
 
         /// <summary>
         /// Gets a value indicating whether or not the implementer can perform an undo.
@@ -147,7 +143,7 @@ namespace IX.Observable
         /// <para>The concept of the undo/redo context is incompatible with serialization. Any collection that is serialized will be free of any original context
         /// when deserialized.</para>
         /// </remarks>
-        public IUndoableItem ParentUndoContext => this.parentUndoableContext;
+        public IUndoableItem ParentUndoContext { get; private set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to automatically capture sub items in the current undo/redo context.
@@ -155,14 +151,54 @@ namespace IX.Observable
         /// <value><c>true</c> to automatically capture sub items; otherwise, <c>false</c>.</value>
         public bool AutomaticallyCaptureSubItems
         {
-            get; set;
+            get => this.automaticallyCaptureSubItems;
+
+            set
+            {
+                this.automaticallyCaptureSubItems = value;
+
+                if (value && this.ItemsAreUndoable)
+                {
+                    using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+                    {
+                        if (((ICollection<T>)this.InternalContainer).Count > 0)
+                        {
+                            locker.Upgrade();
+
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+                            foreach (IUndoableItem item in this.InternalContainer.Cast<IUndoableItem>())
+                            {
+                                item.CaptureIntoUndoContext(this);
+                            }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+                        }
+                    }
+                }
+                else
+                {
+                    using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+                    {
+                        if (((ICollection<T>)this.InternalContainer).Count > 0)
+                        {
+                            locker.Upgrade();
+
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+                            foreach (IUndoableItem item in this.InternalContainer.Cast<IUndoableItem>())
+                            {
+                                item.ReleaseFromUndoContext();
+                            }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
         /// Gets a value indicating whether items are undoable.
         /// </summary>
         /// <value><c>true</c> if items are undoable; otherwise, <c>false</c>.</value>
-        public bool ItemsAreUndoable { get; private set; }
+        public bool ItemsAreUndoable { get; } = typeof(IUndoableItem).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo());
 
         /// <summary>
         /// Gets a value indicating whether items are key/value pairs.
@@ -170,9 +206,9 @@ namespace IX.Observable
         /// <value><c>true</c> if items are key/value pairs; otherwise, <c>false</c>.</value>
         public bool ItemsAreKeyValuePairs { get; }
 
-        private PushDownStack<StateChange> UndoStack => this.undoStack ?? (this.undoStack = new PushDownStack<StateChange>(EnvironmentSettings.DisableUndoable ? 0 : EnvironmentSettings.DefaultUndoRedoLevels));
+        private PushDownStack<StateChange> UndoStack { get; } = new PushDownStack<StateChange>(EnvironmentSettings.DisableUndoable ? 0 : EnvironmentSettings.DefaultUndoRedoLevels);
 
-        private PushDownStack<StateChange> RedoStack => this.redoStack ?? (this.redoStack = new PushDownStack<StateChange>(EnvironmentSettings.DisableUndoable ? 0 : EnvironmentSettings.DefaultUndoRedoLevels));
+        private PushDownStack<StateChange> RedoStack { get; } = new PushDownStack<StateChange>(EnvironmentSettings.DisableUndoable ? 0 : EnvironmentSettings.DefaultUndoRedoLevels);
 
         /// <summary>
         /// Starts the undoable operations on this object.
@@ -353,7 +389,7 @@ namespace IX.Observable
             using (this.WriteLock())
             {
                 this.AutomaticallyCaptureSubItems = automaticallyCaptureSubItems;
-                this.parentUndoableContext = parent;
+                this.ParentUndoContext = parent;
             }
         }
 
@@ -367,7 +403,7 @@ namespace IX.Observable
             using (this.WriteLock())
             {
                 this.AutomaticallyCaptureSubItems = false;
-                this.parentUndoableContext = null;
+                this.ParentUndoContext = null;
             }
         }
 
@@ -800,8 +836,6 @@ namespace IX.Observable
             this.InternalContainer = internalContainer;
 
             this.suppressUndoable = suppressUndoable ?? EnvironmentSettings.AlwaysSuppressUndoLevelsByDefault;
-
-            this.ItemsAreUndoable = typeof(IUndoableItem).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo());
         }
     }
 }

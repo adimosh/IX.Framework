@@ -29,6 +29,7 @@ namespace IX.StandardExtensions.TestUtils
         {
         }
 
+#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
         /// <summary>
         /// Initializes a new instance of the <see cref="PredictableDataStore{T}"/> class.
         /// </summary>
@@ -36,6 +37,7 @@ namespace IX.StandardExtensions.TestUtils
         /// <param name="generator">The generator.</param>
         /// <param name="parallelGenerate">if set to <c>true</c>, run generation of items in parallel.</param>
         public PredictableDataStore(int capacity, Func<T> generator, bool parallelGenerate)
+#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
         {
             this.items = new T[capacity];
 
@@ -44,12 +46,14 @@ namespace IX.StandardExtensions.TestUtils
                 Parallel.For(
                     0,
                     capacity,
+#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
                     index =>
                     {
                         T item = generator();
 
                         this.items[index] = item;
                     });
+#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
             }
             else
             {
@@ -118,10 +122,12 @@ namespace IX.StandardExtensions.TestUtils
             }
         }
 
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
         /// <summary>
         /// Returns an enumerator that iterates through a collection, from the point in which it currently stands, to the end.
         /// </summary>
         /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
     }
 }
