@@ -43,12 +43,12 @@ namespace IX.UnitTests.IX.Observable
                     };
 
         /// <summary>
-        /// Observables the list undo at add.
+        /// Tests Undo after Add on an ObservableList.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableList, Undo with Add")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableListUndoAtAdd(ObservableList<int> list)
+        public void UnitTest1(ObservableList<int> list)
         {
             // ARRANGE
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
@@ -66,12 +66,12 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the list redo at add.
+        /// Tests Undo, then Redo, after Add on an ObservableList.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableList, Redo with undone Add")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableListRedoAtAdd(ObservableList<int> list)
+        public void UnitTest2(ObservableList<int> list)
         {
             // ARRANGE
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
@@ -90,12 +90,12 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the list undo at add.
+        /// Tests Undo after AddRange on an ObservableList.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableList, Undo with AddRange")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableListUndoAtAddRange(ObservableList<int> list)
+        public void UnitTest3(ObservableList<int> list)
         {
             // ARRANGE
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
@@ -118,12 +118,12 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the list redo at add.
+        /// Tests Undo, then Redo, after AddRange on an ObservableList.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableList, Redo with undone AddRange")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableListRedoAtAddRange(ObservableList<int> list)
+        public void UnitTest4(ObservableList<int> list)
         {
             // ARRANGE
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
@@ -150,12 +150,12 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the list undo at clear.
+        /// Tests Undo after Clear on an ObservableList.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableList, Undo with Clear")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableListUndoAtClear(ObservableList<int> list)
+        public void UnitTest5(ObservableList<int> list)
         {
             // ARRANGE
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
@@ -181,12 +181,12 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the list redo at clear.
+        /// Tests Undo, then Redo, after Clear on an ObservableList.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableList, Redo with undone Clear")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableListRedoAtClear(ObservableList<int> list)
+        public void UnitTest6(ObservableList<int> list)
         {
             // ARRANGE
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
@@ -214,12 +214,12 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the list undo at insert.
+        /// Tests Undo after Insert on an ObservableList.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableList, Undo with Insert")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableListUndoAtInsert(ObservableList<int> list)
+        public void UnitTest7(ObservableList<int> list)
         {
             // ARRANGE
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
@@ -239,12 +239,12 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the list redo at insert.
+        /// Tests Undo, then Redo, after Insert on an ObservableList.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableList, Redo with undone Insert")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableListRedoAtInsert(ObservableList<int> list)
+        public void UnitTest8(ObservableList<int> list)
         {
             // ARRANGE
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
@@ -264,12 +264,12 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the list undo at remove at.
+        /// Tests Undo after RemoveAt on an ObservableList.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableList, Undo with RemoveAt")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableListUndoAtRemoveAt(ObservableList<int> list)
+        public void UnitTest9(ObservableList<int> list)
         {
             // ARRANGE
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
@@ -289,12 +289,12 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the list redo at remove at.
+        /// Tests Undo, then Redo, after RemoveAt on an ObservableList.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableList, Redo with undone RemoveAt")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableListRedoAtRemoveAt(ObservableList<int> list)
+        public void UnitTest10(ObservableList<int> list)
         {
             // ARRANGE
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
@@ -313,12 +313,12 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the list undo multiple operations.
+        /// Tests Undo after multiple operations on an ObservableList.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableList, Undo with multiple operations")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableListUndoMultipleOperations(ObservableList<int> list)
+        public void UnitTest11(ObservableList<int> list)
         {
             // ARRANGE
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
@@ -367,12 +367,12 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the list multiple undo operations.
+        /// Tests Undo after limit breached on an ObservableList.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableList, Undo with undo operations past the limit")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableListMultipleUndoOperations(ObservableList<int> list)
+        public void UnitTest12(ObservableList<int> list)
         {
             // ARRANGE
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
@@ -402,12 +402,12 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the list multiple redo cutoff.
+        /// Tests redo cut-off after limit breach on an ObservableList.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableList, Redo cut-off")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableListMultipleRedoCutoff(ObservableList<int> list)
+        public void UnitTest13(ObservableList<int> list)
         {
             // ARRANGE
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
