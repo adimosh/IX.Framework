@@ -160,37 +160,40 @@ namespace IX.Observable
             {
                 this.automaticallyCaptureSubItems = value;
 
-                if (value && this.ItemsAreUndoable)
+                if (this.ItemsAreUndoable)
                 {
-                    using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+                    if (value)
                     {
-                        if (((ICollection<T>)this.InternalContainer).Count > 0)
+                        using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
                         {
-                            locker.Upgrade();
+                            if (((ICollection<T>)this.InternalContainer).Count > 0)
+                            {
+                                locker.Upgrade();
 
 #pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
-                            foreach (IUndoableItem item in this.InternalContainer.Cast<IUndoableItem>())
-                            {
-                                item.CaptureIntoUndoContext(this);
-                            }
+                                foreach (IUndoableItem item in this.InternalContainer.Cast<IUndoableItem>())
+                                {
+                                    item.CaptureIntoUndoContext(this);
+                                }
 #pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+                            }
                         }
                     }
-                }
-                else
-                {
-                    using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+                    else
                     {
-                        if (((ICollection<T>)this.InternalContainer).Count > 0)
+                        using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
                         {
-                            locker.Upgrade();
+                            if (((ICollection<T>)this.InternalContainer).Count > 0)
+                            {
+                                locker.Upgrade();
 
 #pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
-                            foreach (IUndoableItem item in this.InternalContainer.Cast<IUndoableItem>())
-                            {
-                                item.ReleaseFromUndoContext();
-                            }
+                                foreach (IUndoableItem item in this.InternalContainer.Cast<IUndoableItem>())
+                                {
+                                    item.ReleaseFromUndoContext();
+                                }
 #pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+                            }
                         }
                     }
                 }
