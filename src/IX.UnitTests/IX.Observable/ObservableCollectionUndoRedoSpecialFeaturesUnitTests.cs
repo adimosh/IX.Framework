@@ -16,61 +16,63 @@ namespace IX.UnitTests.IX.Observable
         /// Generates the test data.
         /// </summary>
         /// <returns>The test data.</returns>
-        public static object[][] GeneratePredefinedData() => new object[][]
+        public static object[][] GeneratePredefinedData()
+            => new object[][]
+                {
+                    new object[]
                     {
-                        new object[]
+                        new ObservableList<int>(new[]
                         {
-                            new ObservableList<int>(new[]
-                            {
-                                1,
-                                7,
-                                19,
-                                23,
-                                4,
-                            }),
-                        },
-                        new object[]
+                            1,
+                            7,
+                            19,
+                            23,
+                            4,
+                        }),
+                    },
+                    new object[]
+                    {
+                        new ConcurrentObservableList<int>(new[]
                         {
-                            new ConcurrentObservableList<int>(new[]
-                            {
-                                1,
-                                7,
-                                19,
-                                23,
-                                4,
-                            }),
-                        },
-                    };
+                            1,
+                            7,
+                            19,
+                            23,
+                            4,
+                        }),
+                    },
+                };
 
         /// <summary>
         /// Generates the test data.
         /// </summary>
         /// <returns>The test data.</returns>
-        public static object[][] GenerateSupressedUndoContextData() => new object[][]
+        public static object[][] GenerateSupressedUndoContextData()
+            => new object[][]
+                {
+                    new object[]
                     {
-                        new object[]
+                        new ObservableList<int>(true)
                         {
-                            new ObservableList<int>(true)
-                            {
-                                1,
-                                7,
-                                19,
-                                23,
-                                4,
-                            },
+                            1,
+                            7,
+                            19,
+                            23,
+                            4,
                         },
-                        new object[]
+                    },
+                    new object[]
+                    {
+                        new ConcurrentObservableList<int>(true)
                         {
-                            new ConcurrentObservableList<int>(true)
-                            {
-                                1,
-                                7,
-                                19,
-                                23,
-                                4,
-                            },
+                            1,
+                            7,
+                            19,
+                            23,
+                            4,
                         },
-                    };
+                    },
+                };
 
         /// <summary>
         /// When a list has predefined data (straight from the constructor), it should not be able to undo or redo.
@@ -163,10 +165,216 @@ namespace IX.UnitTests.IX.Observable
 
             list.Redo();
 
-            // ASSERT 2
             Assert.Equal(5, list.Count);
             Assert.False(list.CanUndo);
             Assert.False(list.CanRedo);
+        }
+
+        /// <summary>
+        /// When a list has its undo context suppressed, then activated, it should not be able to undo or redo in either part of the test.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList with suppressed context, undo/redo does nothing, then activated and also does nothing")]
+        [MemberData(nameof(GenerateSupressedUndoContextData))]
+        public void UnitTest4(ObservableList<int> list)
+        {
+            // ARRANGE
+            // =======
+            // Initial assertions
+            Assert.Equal(5, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.False(list.CanRedo);
+
+            list.Undo();
+
+            Assert.Equal(5, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.False(list.CanRedo);
+
+            list.Redo();
+
+            Assert.Equal(5, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.False(list.CanRedo);
+
+            // ACT
+            list.StartUndo();
+
+            // ASSERT
+            list.Undo();
+
+            Assert.Equal(5, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.False(list.CanRedo);
+
+            list.Redo();
+
+            Assert.Equal(5, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.False(list.CanRedo);
+        }
+
+        /// <summary>
+        /// When a list has its undo context suppressed, then activated, it should not be able to undo or redo in either part of the test if there is action before starting.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList with suppressed context and acted on, undo/redo does nothing, then activated and also does nothing")]
+        [MemberData(nameof(GenerateSupressedUndoContextData))]
+        public void UnitTest5(ObservableList<int> list)
+        {
+            // ARRANGE
+            // =======
+            // Initial assertions
+            Assert.Equal(5, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.False(list.CanRedo);
+
+            // ACT
+            list.RemoveAt(0);
+
+            // ASSERT
+            list.Undo();
+
+            Assert.Equal(4, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.False(list.CanRedo);
+
+            list.Redo();
+
+            Assert.Equal(4, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.False(list.CanRedo);
+
+            list.StartUndo();
+
+            list.Undo();
+
+            Assert.Equal(4, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.False(list.CanRedo);
+
+            list.Redo();
+
+            Assert.Equal(4, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.False(list.CanRedo);
+        }
+
+        /// <summary>
+        /// When a list has its undo context suppressed, then activated, it should not be able to undo or redo in either part of the test if there is action before starting, but should do something if htere is action after starting.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList with suppressed context and acted on, undo/redo does nothing, then activated and acted on, does only undo the last act")]
+        [MemberData(nameof(GenerateSupressedUndoContextData))]
+        public void UnitTest6(ObservableList<int> list)
+        {
+            // ARRANGE
+            // =======
+            // Initial assertions
+            Assert.Equal(5, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.False(list.CanRedo);
+
+            // ACT
+            list.RemoveAt(0);
+
+            list.Undo();
+
+            Assert.Equal(4, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.False(list.CanRedo);
+
+            list.Redo();
+
+            Assert.Equal(4, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.False(list.CanRedo);
+
+            list.StartUndo();
+
+            list.Undo();
+
+            Assert.Equal(4, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.False(list.CanRedo);
+
+            list.Redo();
+
+            Assert.Equal(4, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.False(list.CanRedo);
+
+            list.RemoveAt(0);
+
+            // ASSERT
+            Assert.Equal(3, list.Count);
+            Assert.True(list.CanUndo);
+            Assert.False(list.CanRedo);
+
+            list.Undo();
+
+            Assert.Equal(4, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.True(list.CanRedo);
+
+            list.Undo();
+
+            Assert.Equal(4, list.Count);
+            Assert.False(list.CanUndo);
+            Assert.True(list.CanRedo);
+
+            list.Redo();
+
+            Assert.Equal(3, list.Count);
+            Assert.True(list.CanUndo);
+            Assert.False(list.CanRedo);
+
+            list.Redo();
+
+            Assert.Equal(3, list.Count);
+            Assert.True(list.CanUndo);
+            Assert.False(list.CanRedo);
+        }
+
+        /// <summary>
+        /// When a list that has items from within the constructor sets its AutomaticallyCaptureItems property to true, it should change existing items to capture them as well.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        [Fact(DisplayName = "ObservableList activating its captures from constructor")]
+        public void UnitTest7()
+        {
+            // ARRANGE
+            var capturingList = new ObservableList<CapturedItem>(new[] { new CapturedItem() });
+
+            Assert.Null(capturingList[0].ParentUndoContext);
+
+            // ACT
+            capturingList.AutomaticallyCaptureSubItems = true;
+
+            // ASSERT
+            Assert.Equal(capturingList, capturingList[0].ParentUndoContext);
+        }
+
+        /// <summary>
+        /// When a list that has items from adding sets its AutomaticallyCaptureItems property to true, it should change existing items to capture them as well.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        [Fact(DisplayName = "ObservableList activating its captures from adding")]
+        public void UnitTest8()
+        {
+            // ARRANGE
+            var capturingList = new ObservableList<CapturedItem>
+            {
+                new CapturedItem(),
+            };
+
+            Assert.Null(capturingList[0].ParentUndoContext);
+
+            // ACT
+            capturingList.AutomaticallyCaptureSubItems = true;
+
+            // ASSERT
+            Assert.Equal(capturingList, capturingList[0].ParentUndoContext);
         }
     }
 }
