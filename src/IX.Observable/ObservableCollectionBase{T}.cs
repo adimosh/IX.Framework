@@ -341,36 +341,35 @@ namespace IX.Observable
         /// </summary>
         /// <param name="parent">The parent undo and redo context.</param>
         /// <param name="automaticallyCaptureSubItems">if set to <c>true</c>, the collection automatically captures sub-items into its undo/redo context.</param>
-        public void CaptureIntoUndoContext(IUndoableItem parent, bool automaticallyCaptureSubItems) =>
-            this.InvokeIfNotDisposed(
-                (parentL1, automaticallyCaptureSubItemsL1, cThis) =>
-                    cThis.WriteLock(
-                        (parentL2, automaticallyCaptureSubItemsL2, c2This) =>
-                        {
-                            c2This.AutomaticallyCaptureSubItems = automaticallyCaptureSubItemsL2;
-                            c2This.parentUndoableContext = parentL2 ?? throw new ArgumentNullException(nameof(parentL2));
-                        },
-                        parentL1,
-                        automaticallyCaptureSubItemsL1,
-                        cThis),
-                parent,
-                automaticallyCaptureSubItems,
-                this);
+        public void CaptureIntoUndoContext(IUndoableItem parent, bool automaticallyCaptureSubItems)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            if (parent == null)
+            {
+                throw new ArgumentNullException(nameof(parent));
+            }
+
+            using (this.WriteLock())
+            {
+                this.AutomaticallyCaptureSubItems = automaticallyCaptureSubItems;
+                this.parentUndoableContext = parent;
+            }
+        }
 
         /// <summary>
         /// Releases the implementer from being captured into an undo and redo context.
         /// </summary>
-        public void ReleaseFromUndoContext() =>
-            this.InvokeIfNotDisposed(
-                (cThis) =>
-                    cThis.WriteLock(
-                        (c2This) =>
-                        {
-                            c2This.AutomaticallyCaptureSubItems = false;
-                            c2This.parentUndoableContext = null;
-                        },
-                        cThis),
-                this);
+        public void ReleaseFromUndoContext()
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (this.WriteLock())
+            {
+                this.AutomaticallyCaptureSubItems = false;
+                this.parentUndoableContext = null;
+            }
+        }
 
         /// <summary>
         /// Has the last operation performed on the implementing instance undone.
@@ -380,44 +379,44 @@ namespace IX.Observable
         /// <para>If that is the case, the capturing object is solely responsible for ensuring that the inner state of the whole
         /// system is correct. Implementing classes should not expect this method to also handle state.</para>
         /// <para>If the object is released, it is expected that this method once again starts ensuring state when called.</para></remarks>
-        public void Undo() =>
-            this.InvokeIfNotDisposed(
-                (cThis) =>
+        public void Undo()
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            if (this.ParentUndoContext != null)
+            {
+                this.ParentUndoContext.Undo();
+                return;
+            }
+
+            Action<object> toInvoke;
+            object state;
+            bool internalResult;
+            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            {
+                if (this.UndoStack.Count == 0)
                 {
-                    if (cThis.ParentUndoContext != null)
-                    {
-                        cThis.ParentUndoContext.Undo();
-                        return;
-                    }
+                    return;
+                }
 
-                    Action toInvoke;
-                    bool internalResult;
-                    using (ReadWriteSynchronizationLocker locker = cThis.ReadWriteLock())
-                    {
-                        if (cThis.UndoStack.Count == 0)
-                        {
-                            return;
-                        }
+                locker.Upgrade();
 
-                        locker.Upgrade();
+                StateChange level = this.UndoStack.Pop();
+                internalResult = this.UndoInternally(level, out toInvoke, out state);
+                if (internalResult)
+                {
+                    this.RedoStack.Push(level);
+                }
+            }
 
-                        StateChange level = cThis.UndoStack.Pop();
-                        internalResult = cThis.UndoInternally(level, out toInvoke);
-                        if (internalResult)
-                        {
-                            cThis.RedoStack.Push(level);
-                        }
-                    }
+            if (internalResult)
+            {
+                toInvoke?.Invoke(state);
+            }
 
-                    if (internalResult)
-                    {
-                        toInvoke?.Invoke();
-                    }
-
-                    cThis.RaisePropertyChanged(nameof(cThis.CanUndo));
-                    cThis.RaisePropertyChanged(nameof(cThis.CanRedo));
-                },
-                this);
+            this.RaisePropertyChanged(nameof(this.CanUndo));
+            this.RaisePropertyChanged(nameof(this.CanRedo));
+        }
 
         /// <summary>
         /// Has the last undone operation performed on the implemented instance, presuming that it has not changed, redone.
@@ -427,44 +426,44 @@ namespace IX.Observable
         /// <para>If that is the case, the capturing object is solely responsible for ensuring that the inner state of the whole
         /// system is correct. Implementing classes should not expect this method to also handle state.</para>
         /// <para>If the object is released, it is expected that this method once again starts ensuring state when called.</para></remarks>
-        public void Redo() =>
-            this.InvokeIfNotDisposed(
-                (cThis) =>
+        public void Redo()
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            if (this.ParentUndoContext != null)
+            {
+                this.ParentUndoContext.Redo();
+                return;
+            }
+
+            Action<object> toInvoke;
+            object state;
+            bool internalResult;
+            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            {
+                if (this.RedoStack.Count == 0)
                 {
-                    if (cThis.ParentUndoContext != null)
-                    {
-                        cThis.ParentUndoContext.Redo();
-                        return;
-                    }
+                    return;
+                }
 
-                    Action toInvoke;
-                    bool internalResult;
-                    using (ReadWriteSynchronizationLocker locker = cThis.ReadWriteLock())
-                    {
-                        if (cThis.RedoStack.Count == 0)
-                        {
-                            return;
-                        }
+                locker.Upgrade();
 
-                        locker.Upgrade();
+                StateChange level = this.RedoStack.Pop();
+                internalResult = this.RedoInternally(level, out toInvoke, out state);
+                if (internalResult)
+                {
+                    this.UndoStack.Push(level);
+                }
+            }
 
-                        StateChange level = cThis.RedoStack.Pop();
-                        internalResult = cThis.RedoInternally(level, out toInvoke);
-                        if (internalResult)
-                        {
-                            cThis.UndoStack.Push(level);
-                        }
-                    }
+            if (internalResult)
+            {
+                toInvoke?.Invoke(state);
+            }
 
-                    if (internalResult)
-                    {
-                        toInvoke?.Invoke();
-                    }
-
-                    cThis.RaisePropertyChanged(nameof(cThis.CanUndo));
-                    cThis.RaisePropertyChanged(nameof(cThis.CanRedo));
-                },
-                this);
+            this.RaisePropertyChanged(nameof(this.CanUndo));
+            this.RaisePropertyChanged(nameof(this.CanRedo));
+        }
 
         /// <summary>
         /// Has the state changes received undone from the object.
@@ -498,17 +497,18 @@ namespace IX.Observable
 
                     case StateChange ulsc:
                         {
-                            Action act;
+                            Action<object> act;
+                            object state;
                             bool internalResult;
 
                             using (this.WriteLock())
                             {
-                                internalResult = this.UndoInternally(ulsc, out act);
+                                internalResult = this.UndoInternally(ulsc, out act, out state);
                             }
 
                             if (internalResult)
                             {
-                                act?.Invoke();
+                                act?.Invoke(state);
                             }
 
                             break;
@@ -549,17 +549,18 @@ namespace IX.Observable
 
                     case StateChange ulsc:
                         {
-                            Action act;
+                            Action<object> act;
+                            object state;
                             bool internalResult;
 
                             using (this.WriteLock())
                             {
-                                internalResult = this.RedoInternally(ulsc, out act);
+                                internalResult = this.RedoInternally(ulsc, out act, out state);
                             }
 
                             if (internalResult)
                             {
-                                act?.Invoke();
+                                act?.Invoke(state);
                             }
 
                             break;
@@ -573,8 +574,9 @@ namespace IX.Observable
         /// </summary>
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
+        /// <param name="state">The state object to pass to the invocation.</param>
         /// <returns><c>true</c> if the undo was successful, <c>false</c> otherwise.</returns>
-        protected virtual bool UndoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
+        protected virtual bool UndoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
             if (undoRedoLevel is SubItemStateChange)
             {
@@ -583,12 +585,14 @@ namespace IX.Observable
                 lvl.SubObject.UndoStateChanges(lvl.StateChanges);
 
                 toInvokeOutsideLock = null;
+                state = null;
 
                 return true;
             }
             else
             {
                 toInvokeOutsideLock = null;
+                state = null;
 
                 return false;
             }
@@ -599,8 +603,9 @@ namespace IX.Observable
         /// </summary>
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
+        /// <param name="state">The state object to pass to the invocation.</param>
         /// <returns><c>true</c> if the redo was successful, <c>false</c> otherwise.</returns>
-        protected virtual bool RedoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
+        protected virtual bool RedoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
             if (undoRedoLevel is SubItemStateChange)
             {
@@ -609,12 +614,14 @@ namespace IX.Observable
                 lvl.SubObject.RedoStateChanges(lvl.StateChanges);
 
                 toInvokeOutsideLock = null;
+                state = null;
 
                 return true;
             }
             else
             {
                 toInvokeOutsideLock = null;
+                state = null;
 
                 return false;
             }

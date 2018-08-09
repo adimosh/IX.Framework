@@ -441,17 +441,16 @@ namespace IX.Observable
         protected virtual void RaiseCollectionChangedRemoveMultiple(IEnumerable<T> removedItems, int index)
             => this.RaiseCollectionRemove(index, removedItems);
 
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
         /// <summary>
         /// Has the last operation undone.
         /// </summary>
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
+        /// <param name="state">The state object to pass to the invocation.</param>
         /// <returns><c>true</c> if the undo was successful, <c>false</c> otherwise.</returns>
-        protected override bool UndoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
+        protected override bool UndoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
-            if (base.UndoInternally(undoRedoLevel, out toInvokeOutsideLock))
+            if (base.UndoInternally(undoRedoLevel, out toInvokeOutsideLock, out state))
             {
                 return true;
             }
@@ -460,15 +459,11 @@ namespace IX.Observable
             {
                 case AddUndoLevel<T> aul:
                     {
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         var index = aul.Index;
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         this.InternalContainer.RemoveAt(index);
 
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         T item = aul.AddedItem;
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems &&
@@ -479,64 +474,60 @@ namespace IX.Observable
                             ul.ReleaseFromUndoContext();
                         }
 
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
-                        toInvokeOutsideLock = () =>
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaiseCollectionChangedRemove(item, index);
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.ContentsMayHaveChanged();
+                            var convertedState = innerState as Tuple<ObservableListBase<T>, T, int>;
+
+                            convertedState.Item1.RaiseCollectionChangedRemove(convertedState.Item2, convertedState.Item3);
+                            convertedState.Item1.RaisePropertyChanged(nameof(convertedState.Item1.Count));
+                            convertedState.Item1.ContentsMayHaveChanged();
                         };
+
+                        state = new Tuple<ObservableListBase<T>, T, int>(this, item, index);
 
                         break;
                     }
 
                 case AddMultipleUndoLevel<T> amul:
                     {
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         var index = amul.Index;
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         for (var i = 0; i < amul.AddedItems.Length; i++)
                         {
                             this.InternalContainer.RemoveAt(index);
                         }
 
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         IEnumerable<T> items = amul.AddedItems;
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
                         {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
-                            foreach (IUndoableItem ul in items.Cast<IUndoableItem>().Where(p => p.IsCapturedIntoUndoContext && p.ParentUndoContext == this))
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - currently unavoidable
+                            foreach (IUndoableItem ul in items.Cast<IUndoableItem>().Where((p, thisL1) => p.IsCapturedIntoUndoContext && p.ParentUndoContext == thisL1, this))
                             {
                                 ul.ReleaseFromUndoContext();
                             }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                         }
 
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
-                        toInvokeOutsideLock = () =>
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaiseCollectionChangedRemoveMultiple(items, index);
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.ContentsMayHaveChanged();
+                            var convertedState = innerState as Tuple<ObservableListBase<T>, IEnumerable<T>, int>;
+
+                            convertedState.Item1.RaiseCollectionChangedRemoveMultiple(convertedState.Item2, convertedState.Item3);
+                            convertedState.Item1.RaisePropertyChanged(nameof(convertedState.Item1.Count));
+                            convertedState.Item1.ContentsMayHaveChanged();
                         };
+
+                        state = new Tuple<ObservableListBase<T>, IEnumerable<T>, int>(this, items, index);
 
                         break;
                     }
 
                 case RemoveUndoLevel<T> rul:
                     {
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         T item = rul.RemovedItem;
                         var index = rul.Index;
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         this.InternalContainer.Insert(index, item);
 
@@ -548,14 +539,16 @@ namespace IX.Observable
                             ul.CaptureIntoUndoContext(this);
                         }
 
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
-                        toInvokeOutsideLock = () =>
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaiseCollectionChangedAdd(item, index);
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.ContentsMayHaveChanged();
+                            var convertedState = innerState as Tuple<ObservableListBase<T>, T, int>;
+
+                            convertedState.Item1.RaiseCollectionChangedAdd(convertedState.Item2, convertedState.Item3);
+                            convertedState.Item1.RaisePropertyChanged(nameof(convertedState.Item1.Count));
+                            convertedState.Item1.ContentsMayHaveChanged();
                         };
+
+                        state = new Tuple<ObservableListBase<T>, T, int>(this, item, index);
 
                         break;
                     }
@@ -572,31 +565,31 @@ namespace IX.Observable
                         {
 #pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                             foreach (IUndoableItem ul in cul.OriginalItems.Cast<IUndoableItem>().Where(p => !p.IsCapturedIntoUndoContext))
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                             {
                                 ul.CaptureIntoUndoContext(this);
                             }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                         }
 
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
-                        toInvokeOutsideLock = () =>
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaiseCollectionReset();
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.ContentsMayHaveChanged();
+                            var convertedState = innerState as ObservableListBase<T>;
+
+                            convertedState.RaiseCollectionReset();
+                            convertedState.RaisePropertyChanged(nameof(convertedState.Count));
+                            convertedState.ContentsMayHaveChanged();
                         };
+
+                        state = this;
 
                         break;
                     }
 
                 case ChangeAtUndoLevel<T> caul:
                     {
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         T oldItem = caul.NewValue;
                         T newItem = caul.OldValue;
                         var index = caul.Index;
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         this.InternalContainer[index] = newItem;
 
@@ -617,14 +610,16 @@ namespace IX.Observable
                             }
                         }
 
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
-                        toInvokeOutsideLock = () =>
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaiseCollectionChangedChanged(oldItem, newItem, index);
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.ContentsMayHaveChanged();
+                            var convertedState = innerState as Tuple<ObservableListBase<T>, T, T, int>;
+
+                            convertedState.Item1.RaiseCollectionChangedChanged(convertedState.Item2, convertedState.Item3, convertedState.Item4);
+                            convertedState.Item1.RaisePropertyChanged(nameof(convertedState.Item1.Count));
+                            convertedState.Item1.ContentsMayHaveChanged();
                         };
+
+                        state = new Tuple<ObservableListBase<T>, T, T, int>(this, oldItem, newItem, index);
 
                         break;
                     }
@@ -632,6 +627,7 @@ namespace IX.Observable
                 default:
                     {
                         toInvokeOutsideLock = null;
+                        state = null;
 
                         return false;
                     }
@@ -640,17 +636,16 @@ namespace IX.Observable
             return true;
         }
 
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
         /// <summary>
         /// Has the last undone operation redone.
         /// </summary>
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
+        /// <param name="state">The state object to pass to the invocation.</param>
         /// <returns><c>true</c> if the redo was successful, <c>false</c> otherwise.</returns>
-        protected override bool RedoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
+        protected override bool RedoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
-            if (base.RedoInternally(undoRedoLevel, out toInvokeOutsideLock))
+            if (base.RedoInternally(undoRedoLevel, out toInvokeOutsideLock, out state))
             {
                 return true;
             }
@@ -659,10 +654,8 @@ namespace IX.Observable
             {
                 case AddUndoLevel<T> aul:
                     {
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         var index = aul.Index;
                         T item = aul.AddedItem;
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         this.InternalContainer.Insert(index, item);
 
@@ -674,58 +667,56 @@ namespace IX.Observable
                             ul.CaptureIntoUndoContext(this);
                         }
 
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
-                        toInvokeOutsideLock = () =>
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaiseCollectionChangedAdd(item, index);
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.ContentsMayHaveChanged();
+                            var convertedState = innerState as Tuple<ObservableListBase<T>, T, int>;
+
+                            convertedState.Item1.RaiseCollectionChangedAdd(convertedState.Item2, convertedState.Item3);
+                            convertedState.Item1.RaisePropertyChanged(nameof(convertedState.Item1.Count));
+                            convertedState.Item1.ContentsMayHaveChanged();
                         };
+
+                        state = new Tuple<ObservableListBase<T>, T, int>(this, item, index);
 
                         break;
                     }
 
                 case AddMultipleUndoLevel<T> amul:
                     {
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         var index = amul.Index;
                         IEnumerable<T> items = amul.AddedItems;
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
-                        items.Reverse().ForEach(p => this.InternalContainer.Insert(index, p));
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+                        items.Reverse().ForEach((p, thisL1, indexL1) => thisL1.InternalContainer.Insert(indexL1, p), this, index);
 
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
                         {
 #pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                             foreach (IUndoableItem ul in amul.AddedItems.Cast<IUndoableItem>().Where(p => !p.IsCapturedIntoUndoContext))
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                             {
                                 ul.CaptureIntoUndoContext(this);
                             }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                         }
 
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
-                        toInvokeOutsideLock = () =>
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaiseCollectionChangedAddMultiple(items, index);
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.ContentsMayHaveChanged();
+                            var convertedState = innerState as Tuple<ObservableListBase<T>, IEnumerable<T>, int>;
+
+                            convertedState.Item1.RaiseCollectionChangedAddMultiple(convertedState.Item2, convertedState.Item3);
+                            convertedState.Item1.RaisePropertyChanged(nameof(convertedState.Item1.Count));
+                            convertedState.Item1.ContentsMayHaveChanged();
                         };
+
+                        state = new Tuple<ObservableListBase<T>, IEnumerable<T>, int>(this, items, index);
 
                         break;
                     }
 
                 case RemoveUndoLevel<T> rul:
                     {
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         T item = rul.RemovedItem;
                         var index = rul.Index;
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         this.InternalContainer.RemoveAt(index);
 
@@ -738,14 +729,16 @@ namespace IX.Observable
                             ul.ReleaseFromUndoContext();
                         }
 
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
-                        toInvokeOutsideLock = () =>
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaiseCollectionChangedRemove(item, index);
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.ContentsMayHaveChanged();
+                            var convertedState = innerState as Tuple<ObservableListBase<T>, T, int>;
+
+                            convertedState.Item1.RaiseCollectionChangedRemove(convertedState.Item2, convertedState.Item3);
+                            convertedState.Item1.RaisePropertyChanged(nameof(convertedState.Item1.Count));
+                            convertedState.Item1.ContentsMayHaveChanged();
                         };
+
+                        state = new Tuple<ObservableListBase<T>, T, int>(this, item, index);
 
                         break;
                     }
@@ -758,34 +751,32 @@ namespace IX.Observable
                             this.AutomaticallyCaptureSubItems)
                         {
 #pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
-                            foreach (IUndoableItem ul in cul.OriginalItems.Cast<IUndoableItem>().Where(p => p.IsCapturedIntoUndoContext && p.ParentUndoContext == this))
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+                            foreach (IUndoableItem ul in cul.OriginalItems.Cast<IUndoableItem>().Where((p, thisL1) => p.IsCapturedIntoUndoContext && p.ParentUndoContext == thisL1, this))
 #pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                             {
                                 ul.ReleaseFromUndoContext();
                             }
                         }
 
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
-                        toInvokeOutsideLock = () =>
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaiseCollectionReset();
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.ContentsMayHaveChanged();
+                            var convertedState = innerState as ObservableListBase<T>;
+
+                            convertedState.RaiseCollectionReset();
+                            convertedState.RaisePropertyChanged(nameof(convertedState.Count));
+                            convertedState.ContentsMayHaveChanged();
                         };
+
+                        state = this;
 
                         break;
                     }
 
                 case ChangeAtUndoLevel<T> caul:
                     {
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
                         T oldItem = caul.OldValue;
                         T newItem = caul.NewValue;
                         var index = caul.Index;
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
                         this.InternalContainer[index] = newItem;
 
@@ -806,14 +797,15 @@ namespace IX.Observable
                             }
                         }
 
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
-                        toInvokeOutsideLock = () =>
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaiseCollectionChangedChanged(oldItem, newItem, index);
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.ContentsMayHaveChanged();
+                            var convertedState = innerState as Tuple<ObservableListBase<T>, T, T, int>;
+
+                            convertedState.Item1.RaiseCollectionChangedChanged(convertedState.Item2, convertedState.Item3, convertedState.Item4);
+                            convertedState.Item1.RaisePropertyChanged(nameof(convertedState.Item1.Count));
+                            convertedState.Item1.ContentsMayHaveChanged();
                         };
+                        state = new Tuple<ObservableListBase<T>, T, T, int>(this, oldItem, newItem, index);
 
                         break;
                     }
@@ -821,6 +813,7 @@ namespace IX.Observable
                 default:
                     {
                         toInvokeOutsideLock = null;
+                        state = null;
 
                         return false;
                     }

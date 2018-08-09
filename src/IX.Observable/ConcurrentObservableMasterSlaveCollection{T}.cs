@@ -70,7 +70,7 @@ namespace IX.Observable
         /// </summary>
         protected override void DisposeManagedContext()
         {
-            this.locker?.Dispose();
+            GlobalThreading.Interlocked.Exchange(ref this.locker, null)?.Dispose();
 
             base.DisposeManagedContext();
         }
@@ -80,7 +80,7 @@ namespace IX.Observable
         /// </summary>
         protected override void DisposeGeneralContext()
         {
-            this.locker = null;
+            GlobalThreading.Interlocked.Exchange(ref this.locker, null);
 
             base.DisposeGeneralContext();
         }
