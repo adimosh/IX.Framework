@@ -8,6 +8,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using IX.Guaranteed;
 using IX.Observable.Adapters;
 using IX.Observable.UndoLevels;
 using IX.StandardExtensions.Threading;
@@ -241,7 +242,7 @@ namespace IX.Observable
             using (this.WriteLock())
             {
                 // Using an undo/redo transaction lock
-                using (AutoCaptureTransactionContext tc = this.CheckItemAutoCapture(item))
+                using (OperationTransaction tc = this.CheckItemAutoCapture(item))
                 {
                     // Add the item
                     newIndex = this.InternalContainer.Add(item);
@@ -317,7 +318,7 @@ namespace IX.Observable
             using (this.WriteLock())
             {
                 // Inside an undo/redo transaction
-                using (AutoReleaseTransactionContext tc = this.CheckItemAutoRelease(item))
+                using (OperationTransaction tc = this.CheckItemAutoRelease(item))
                 {
                     // Remove the item
                     oldIndex = this.InternalContainer.Remove(item);
@@ -732,7 +733,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="item">The item to capture.</param>
         /// <returns>An auto-capture transaction context that reverts the capture if things go wrong.</returns>
-        protected virtual AutoCaptureTransactionContext CheckItemAutoCapture(T item)
+        protected virtual OperationTransaction CheckItemAutoCapture(T item)
         {
             if (this.AutomaticallyCaptureSubItems && this.ItemsAreUndoable)
             {
@@ -750,7 +751,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="items">The items to capture.</param>
         /// <returns>An auto-capture transaction context that reverts the capture if things go wrong.</returns>
-        protected virtual AutoCaptureTransactionContext CheckItemAutoCapture(IEnumerable<T> items)
+        protected virtual OperationTransaction CheckItemAutoCapture(IEnumerable<T> items)
         {
             if (this.AutomaticallyCaptureSubItems && this.ItemsAreUndoable)
             {
@@ -765,7 +766,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="item">The item to capture.</param>
         /// <returns>An auto-capture transaction context that reverts the capture if things go wrong.</returns>
-        protected virtual AutoReleaseTransactionContext CheckItemAutoRelease(T item)
+        protected virtual OperationTransaction CheckItemAutoRelease(T item)
         {
             if (this.AutomaticallyCaptureSubItems && this.ItemsAreUndoable)
             {
@@ -783,7 +784,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="items">The items to capture.</param>
         /// <returns>An auto-capture transaction context that reverts the capture if things go wrong.</returns>
-        protected virtual AutoReleaseTransactionContext CheckItemAutoRelease(IEnumerable<T> items)
+        protected virtual OperationTransaction CheckItemAutoRelease(IEnumerable<T> items)
         {
             if (this.AutomaticallyCaptureSubItems && this.ItemsAreUndoable)
             {
@@ -815,7 +816,7 @@ namespace IX.Observable
                 this.InternalContainer.CopyTo(tempArray, 0);
 
                 // Into an undo/redo transaction context
-                using (AutoReleaseTransactionContext tc = this.CheckItemAutoRelease(tempArray))
+                using (OperationTransaction tc = this.CheckItemAutoRelease(tempArray))
                 {
                     // Do the actual clearing
                     this.InternalContainer.Clear();

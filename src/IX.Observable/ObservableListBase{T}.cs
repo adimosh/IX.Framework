@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using IX.Guaranteed;
 using IX.Observable.Adapters;
 using IX.Observable.UndoLevels;
 using IX.StandardExtensions;
@@ -124,9 +125,9 @@ namespace IX.Observable
                     oldValue = this.InternalContainer[index];
 
                     // Two undo/redo transactions
-                    using (AutoCaptureTransactionContext tc1 = this.CheckItemAutoCapture(value))
+                    using (OperationTransaction tc1 = this.CheckItemAutoCapture(value))
                     {
-                        using (AutoReleaseTransactionContext tc2 = this.CheckItemAutoRelease(oldValue))
+                        using (OperationTransaction tc2 = this.CheckItemAutoRelease(oldValue))
                         {
                             // Replace with new value
                             this.InternalContainer[index] = value;
@@ -218,10 +219,10 @@ namespace IX.Observable
             using (this.WriteLock())
             {
                 // Use an undo/redo transaction
-                using (AutoCaptureTransactionContext tc = this.CheckItemAutoCapture(itemsList))
+                using (OperationTransaction tc = this.CheckItemAutoCapture(itemsList))
                 {
                     // Actually add the items
-                    newIndex = ((ListAdapter<T>)this.InternalContainer).AddRange(itemsList);
+                    newIndex = this.InternalContainer.AddRange(itemsList);
 
                     // Push an undo level
                     this.PushUndoLevel(new AddMultipleUndoLevel<T> { AddedItems = itemsList, Index = newIndex });
@@ -268,7 +269,7 @@ namespace IX.Observable
             using (this.WriteLock())
             {
                 // Inside an undo/redo transaction
-                using (AutoCaptureTransactionContext tc = this.CheckItemAutoCapture(item))
+                using (OperationTransaction tc = this.CheckItemAutoCapture(item))
                 {
                     // Actually insert
                     this.InternalContainer.Insert(index, item);
@@ -322,7 +323,7 @@ namespace IX.Observable
                 item = this.InternalContainer[index];
 
                 // Using an undo/redo transaction
-                using (AutoReleaseTransactionContext tc = this.CheckItemAutoRelease(item))
+                using (OperationTransaction tc = this.CheckItemAutoRelease(item))
                 {
                     // Actually do the removal
                     this.InternalContainer.RemoveAt(index);

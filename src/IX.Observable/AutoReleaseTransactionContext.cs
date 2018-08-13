@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using IX.Guaranteed;
 using IX.StandardExtensions;
 using IX.Undoable;
 
@@ -13,22 +14,19 @@ namespace IX.Observable
     /// <summary>
     /// An auto-capture-releasing class that captures in a transaction.
     /// </summary>
-    /// <seealso cref="IDisposable" />
-    public class AutoReleaseTransactionContext : IDisposable
+    public class AutoReleaseTransactionContext : OperationTransaction
     {
         private readonly IUndoableItem item;
         private readonly IEnumerable<IUndoableItem> items;
         private readonly EventHandler<EditCommittedEventArgs> editableHandler;
         private readonly IUndoableItem parentContext;
 
-        private bool success;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoReleaseTransactionContext"/> class.
         /// </summary>
         public AutoReleaseTransactionContext()
         {
-            this.success = true;
+            this.Success();
         }
 
 #pragma warning disable IDE0016 // Use 'throw' expression
@@ -125,42 +123,34 @@ namespace IX.Observable
 #pragma warning restore IDE0016 // Use 'throw' expression
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// Gets invoked when the transaction commits and is successful.
         /// </summary>
-        public void Dispose()
+        protected override void WhenSuccessful()
         {
-            if (!this.success)
+            if (this.item != null)
             {
-                if (this.item != null)
+                this.item.CaptureIntoUndoContext(this.parentContext);
+
+                if (this.item is IEditCommittableItem tei)
                 {
-                    this.item.CaptureIntoUndoContext(this.parentContext);
+                    tei.EditCommitted += this.editableHandler;
+                }
+            }
+
+            if (this.items != null)
+            {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+                foreach (IUndoableItem item in this.items)
+                {
+                    item.CaptureIntoUndoContext(this.parentContext);
 
                     if (this.item is IEditCommittableItem tei)
                     {
                         tei.EditCommitted += this.editableHandler;
                     }
                 }
-
-                if (this.items != null)
-                {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
-                    foreach (IUndoableItem item in this.items)
-                    {
-                        item.CaptureIntoUndoContext(this.parentContext);
-
-                        if (this.item is IEditCommittableItem tei)
-                        {
-                            tei.EditCommitted += this.editableHandler;
-                        }
-                    }
 #pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
-                }
             }
         }
-
-        /// <summary>
-        /// Marks this context as successful.
-        /// </summary>
-        public void Success() => this.success = true;
     }
 }
