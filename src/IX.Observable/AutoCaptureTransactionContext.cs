@@ -70,6 +70,8 @@ namespace IX.Observable
             {
                 tei.EditCommitted += editableHandler;
             }
+
+            this.AddFailure();
         }
 
         /// <summary>
@@ -117,36 +119,47 @@ namespace IX.Observable
                 }
             }
 #pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+
+            this.AddFailure();
         }
 
 #pragma warning restore IDE0016 // Use 'throw' expression
 
+        /// <summary>
+        /// Gets invoked when the transaction commits and is successful.
+        /// </summary>
         protected override void WhenSuccessful()
         {
-            if (this.item != null)
-            {
-                this.item.ReleaseFromUndoContext();
-
-                if (this.item is IEditCommittableItem tei)
-                {
-                    tei.EditCommitted -= this.editableHandler;
-                }
-            }
-
-            if (this.items != null)
-            {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
-                foreach (IUndoableItem item in this.items)
-                {
-                    item.ReleaseFromUndoContext();
-
-                    if (this.item is IEditCommittableItem tei)
-                    {
-                        tei.EditCommitted -= this.editableHandler;
-                    }
-                }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
-            }
         }
+
+        private void AddFailure() => this.AddRevertStep(
+                (state) =>
+                {
+                    var thisL1 = state as AutoCaptureTransactionContext;
+                    if (thisL1.item != null)
+                    {
+                        thisL1.item.ReleaseFromUndoContext();
+
+                        if (thisL1.item is IEditCommittableItem tei)
+                        {
+                            tei.EditCommitted -= thisL1.editableHandler;
+                        }
+                    }
+
+                    if (thisL1.items != null)
+                    {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+                        foreach (IUndoableItem item in thisL1.items)
+                        {
+                            item.ReleaseFromUndoContext();
+
+                            if (thisL1.item is IEditCommittableItem tei)
+                            {
+                                tei.EditCommitted -= thisL1.editableHandler;
+                            }
+                        }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+                    }
+                }, this);
     }
 }
