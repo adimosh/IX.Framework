@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using IX.Guaranteed;
 using IX.StandardExtensions;
 using IX.Undoable;
 
@@ -13,21 +14,19 @@ namespace IX.Observable
     /// <summary>
     /// An auto-capturing class that captures in a transaction.
     /// </summary>
-    /// <seealso cref="IDisposable" />
-    public class AutoCaptureTransactionContext : IDisposable
+    /// <seealso cref="IX.Guaranteed.OperationTransaction" />
+    internal class AutoCaptureTransactionContext : OperationTransaction
     {
         private readonly IUndoableItem item;
         private readonly IEnumerable<IUndoableItem> items;
         private readonly EventHandler<EditCommittedEventArgs> editableHandler;
-
-        private bool success;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AutoCaptureTransactionContext"/> class.
         /// </summary>
         public AutoCaptureTransactionContext()
         {
-            this.success = true;
+            this.Success();
         }
 
 #pragma warning disable IDE0016 // Use 'throw' expression
@@ -71,6 +70,8 @@ namespace IX.Observable
             {
                 tei.EditCommitted += editableHandler;
             }
+
+            this.AddFailure();
         }
 
         /// <summary>
@@ -107,6 +108,7 @@ namespace IX.Observable
             this.item = null;
             this.editableHandler = editableHandler;
 
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
             foreach (IUndoableItem item in items)
             {
                 item.CaptureIntoUndoContext(parentContext);
@@ -116,45 +118,48 @@ namespace IX.Observable
                     tei.EditCommitted += editableHandler;
                 }
             }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+
+            this.AddFailure();
         }
 
 #pragma warning restore IDE0016 // Use 'throw' expression
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// Gets invoked when the transaction commits and is successful.
         /// </summary>
-        public void Dispose()
+        protected override void WhenSuccessful()
         {
-            if (!this.success)
-            {
-                if (this.item != null)
-                {
-                    this.item.ReleaseFromUndoContext();
-
-                    if (this.item is IEditCommittableItem tei)
-                    {
-                        tei.EditCommitted -= this.editableHandler;
-                    }
-                }
-
-                if (this.items != null)
-                {
-                    foreach (IUndoableItem item in this.items)
-                    {
-                        item.ReleaseFromUndoContext();
-
-                        if (this.item is IEditCommittableItem tei)
-                        {
-                            tei.EditCommitted -= this.editableHandler;
-                        }
-                    }
-                }
-            }
         }
 
-        /// <summary>
-        /// Marks this context as successful.
-        /// </summary>
-        public void Success() => this.success = true;
+        private void AddFailure() => this.AddRevertStep(
+                (state) =>
+                {
+                    var thisL1 = state as AutoCaptureTransactionContext;
+                    if (thisL1.item != null)
+                    {
+                        thisL1.item.ReleaseFromUndoContext();
+
+                        if (thisL1.item is IEditCommittableItem tei)
+                        {
+                            tei.EditCommitted -= thisL1.editableHandler;
+                        }
+                    }
+
+                    if (thisL1.items != null)
+                    {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+                        foreach (IUndoableItem item in thisL1.items)
+                        {
+                            item.ReleaseFromUndoContext();
+
+                            if (thisL1.item is IEditCommittableItem tei)
+                            {
+                                tei.EditCommitted -= thisL1.editableHandler;
+                            }
+                        }
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+                    }
+                }, this);
     }
 }

@@ -272,7 +272,18 @@ namespace IX.Observable
         /// <summary>
         /// Gets the collection of keys in this dictionary.
         /// </summary>
-        public ICollection<TKey> Keys => this.InvokeIfNotDisposed(() => this.ReadLock(() => this.InternalContainer.Keys));
+        public ICollection<TKey> Keys
+        {
+            get
+            {
+                this.ThrowIfCurrentObjectDisposed();
+
+                using (this.ReadLock())
+                {
+                    return this.InternalContainer.Keys;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the collection of keys in this dictionary.
@@ -282,8 +293,18 @@ namespace IX.Observable
         /// <summary>
         /// Gets the collection of values in this dictionary.
         /// </summary>
-        public ICollection<TValue> Values => this.InvokeIfNotDisposed(() => this.ReadLock(() =>
-            this.InternalContainer.Values));
+        public ICollection<TValue> Values
+        {
+            get
+            {
+                this.ThrowIfCurrentObjectDisposed();
+
+                using (this.ReadLock())
+                {
+                    return this.InternalContainer.Values;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the collection of values in this dictionary.
@@ -303,11 +324,15 @@ namespace IX.Observable
         /// <returns>The value associated with the specified key.</returns>
         public TValue this[TKey key]
         {
-            get => this.InvokeIfNotDisposed(
-                (keyL1) => this.ReadLock(
-                    (keyL2) => this.InternalContainer[keyL2],
-                    keyL1),
-                key);
+            get
+            {
+                this.ThrowIfCurrentObjectDisposed();
+
+                using (this.ReadLock())
+                {
+                    return this.InternalContainer[key];
+                }
+            }
 
             set
             {
@@ -379,11 +404,15 @@ namespace IX.Observable
         /// </summary>
         /// <param name="key">The key to look for.</param>
         /// <returns><c>true</c> whether a key has been found, <c>false</c> otherwise.</returns>
-        public bool ContainsKey(TKey key) => this.InvokeIfNotDisposed(
-            (keyL1) => this.ReadLock(
-                (keyL2) => this.InternalContainer.ContainsKey(keyL2),
-                keyL1),
-            key);
+        public bool ContainsKey(TKey key)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (this.ReadLock())
+            {
+                return this.InternalContainer.ContainsKey(key);
+            }
+        }
 
         /// <summary>
         /// Attempts to remove all info related to a key from the dictionary.
@@ -463,10 +492,11 @@ namespace IX.Observable
         /// </summary>
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
+        /// <param name="state">The state object to pass to the invocation.</param>
         /// <returns><c>true</c> if the undo was successful, <c>false</c> otherwise.</returns>
-        protected override bool UndoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
+        protected override bool UndoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
-            if (base.UndoInternally(undoRedoLevel, out toInvokeOutsideLock))
+            if (base.UndoInternally(undoRedoLevel, out toInvokeOutsideLock, out state))
             {
                 return true;
             }
@@ -479,7 +509,8 @@ namespace IX.Observable
 
                         container.Remove(aul.AddedItem.Key);
 
-                        toInvokeOutsideLock = () => this.BroadcastChange();
+                        toInvokeOutsideLock = (innerState) => (innerState as ObservableDictionary<TKey, TValue>).BroadcastChange();
+                        state = this;
 
                         break;
                     }
@@ -490,7 +521,8 @@ namespace IX.Observable
 
                         container.Add(rul.RemovedItem.Key, rul.RemovedItem.Value);
 
-                        toInvokeOutsideLock = () => this.BroadcastChange();
+                        toInvokeOutsideLock = (innerState) => (innerState as ObservableDictionary<TKey, TValue>).BroadcastChange();
+                        state = this;
 
                         break;
                     }
@@ -504,7 +536,8 @@ namespace IX.Observable
                             container.Add(item.Key, item.Value);
                         }
 
-                        toInvokeOutsideLock = () => this.BroadcastChange();
+                        toInvokeOutsideLock = (innerState) => (innerState as ObservableDictionary<TKey, TValue>).BroadcastChange();
+                        state = this;
 
                         break;
                     }
@@ -515,7 +548,8 @@ namespace IX.Observable
 
                         container.Remove(daul.Key);
 
-                        toInvokeOutsideLock = () => this.BroadcastChange();
+                        toInvokeOutsideLock = (innerState) => (innerState as ObservableDictionary<TKey, TValue>).BroadcastChange();
+                        state = this;
 
                         break;
                     }
@@ -526,7 +560,8 @@ namespace IX.Observable
 
                         container.Add(raul.Key, raul.Value);
 
-                        toInvokeOutsideLock = () => this.BroadcastChange();
+                        toInvokeOutsideLock = (innerState) => (innerState as ObservableDictionary<TKey, TValue>).BroadcastChange();
+                        state = this;
 
                         break;
                     }
@@ -537,7 +572,8 @@ namespace IX.Observable
 
                         container[caul.Key] = caul.OldValue;
 
-                        toInvokeOutsideLock = () => this.BroadcastChange();
+                        toInvokeOutsideLock = (innerState) => (innerState as ObservableDictionary<TKey, TValue>).BroadcastChange();
+                        state = this;
 
                         break;
                     }
@@ -545,6 +581,7 @@ namespace IX.Observable
                 default:
                     {
                         toInvokeOutsideLock = null;
+                        state = null;
 
                         return false;
                     }
@@ -558,10 +595,11 @@ namespace IX.Observable
         /// </summary>
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
+        /// <param name="state">The state object to pass to the invocation.</param>
         /// <returns><c>true</c> if the redo was successful, <c>false</c> otherwise.</returns>
-        protected override bool RedoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
+        protected override bool RedoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
-            if (base.RedoInternally(undoRedoLevel, out toInvokeOutsideLock))
+            if (base.RedoInternally(undoRedoLevel, out toInvokeOutsideLock, out state))
             {
                 return true;
             }
@@ -574,7 +612,8 @@ namespace IX.Observable
 
                         container.Add(aul.AddedItem.Key, aul.AddedItem.Value);
 
-                        toInvokeOutsideLock = () => this.BroadcastChange();
+                        toInvokeOutsideLock = (innerState) => (innerState as ObservableDictionary<TKey, TValue>).BroadcastChange();
+                        state = this;
 
                         break;
                     }
@@ -585,7 +624,8 @@ namespace IX.Observable
 
                         container.Remove(rul.RemovedItem.Key);
 
-                        toInvokeOutsideLock = () => this.BroadcastChange();
+                        toInvokeOutsideLock = (innerState) => (innerState as ObservableDictionary<TKey, TValue>).BroadcastChange();
+                        state = this;
 
                         break;
                     }
@@ -594,7 +634,8 @@ namespace IX.Observable
                     {
                         this.InternalContainer.Clear();
 
-                        toInvokeOutsideLock = () => this.BroadcastChange();
+                        toInvokeOutsideLock = (innerState) => (innerState as ObservableDictionary<TKey, TValue>).BroadcastChange();
+                        state = this;
 
                         break;
                     }
@@ -605,7 +646,8 @@ namespace IX.Observable
 
                         container.Add(daul.Key, daul.Value);
 
-                        toInvokeOutsideLock = () => this.BroadcastChange();
+                        toInvokeOutsideLock = (innerState) => (innerState as ObservableDictionary<TKey, TValue>).BroadcastChange();
+                        state = this;
 
                         break;
                     }
@@ -616,7 +658,8 @@ namespace IX.Observable
 
                         container.Remove(raul.Key);
 
-                        toInvokeOutsideLock = () => this.BroadcastChange();
+                        toInvokeOutsideLock = (innerState) => (innerState as ObservableDictionary<TKey, TValue>).BroadcastChange();
+                        state = this;
 
                         break;
                     }
@@ -627,7 +670,8 @@ namespace IX.Observable
 
                         container[caul.Key] = caul.NewValue;
 
-                        toInvokeOutsideLock = () => this.BroadcastChange();
+                        toInvokeOutsideLock = (innerState) => (innerState as ObservableDictionary<TKey, TValue>).BroadcastChange();
+                        state = this;
 
                         break;
                     }
@@ -635,6 +679,7 @@ namespace IX.Observable
                 default:
                     {
                         toInvokeOutsideLock = null;
+                        state = null;
 
                         return false;
                     }

@@ -1203,6 +1203,72 @@ namespace IX.UnitTests.IX.Math
                 },
                 new object[]
                 {
+                    "x>=y",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110100),
+                        ["y"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110100),
+                    },
+                    true,
+                },
+                new object[]
+                {
+                    "x<=y",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110100),
+                        ["y"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110100),
+                    },
+                    true,
+                },
+                new object[]
+                {
+                    "x>y",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110100),
+                        ["y"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110100),
+                    },
+                    false,
+                },
+                new object[]
+                {
+                    "x<y",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110100),
+                        ["y"] = BitConverter.GetBytes(0b1001010111010110110010000000010010101110100),
+                    },
+                    false,
+                },
+                new object[]
+                {
+                    "x>y",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b11111111_11111111_11111111),
+                        ["y"] = BitConverter.GetBytes(0b11111111_11111111),
+                    },
+                    true,
+                },
+                new object[]
+                {
+                    "x>y",
+                    new Dictionary<string, object>
+                    {
+                        ["x"] = BitConverter.GetBytes(0b11111111_11111111_00000000),
+                        ["y"] = BitConverter.GetBytes(0b00000000_11111111_11111111),
+                    },
+                    true,
+                },
+                new object[]
+                {
+                    "0b11111111_11111111_00000000>0b00000000_11111111_11111111",
+                    null,
+                    true,
+                },
+                new object[]
+                {
                     "x*(x+1)*(x+2)",
                     new Dictionary<string, object>
                     {

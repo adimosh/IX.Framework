@@ -101,14 +101,22 @@ namespace IX.Observable
         /// <summary>
         /// Gets a synchronization lock item to be used when trying to synchronize read/write operations between threads.
         /// </summary>
-        protected override IReaderWriterLock SynchronizationLock => this.locker ?? (this.locker = new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion));
+        protected override IReaderWriterLock SynchronizationLock => this.locker;
+
+        /// <summary>
+        /// Called when the object is being deserialized, in order to set the locker to a new value.
+        /// </summary>
+        /// <param name="context">The streaming context.</param>
+        [OnDeserializing]
+        internal void OnDeserializingMethod(StreamingContext context)
+            => GlobalThreading.Interlocked.Exchange(ref this.locker, new ReaderWriterLockSlim(GlobalThreading.LockRecursionPolicy.NoRecursion));
 
         /// <summary>
         /// Disposes the managed context.
         /// </summary>
         protected override void DisposeManagedContext()
         {
-            this.locker?.Dispose();
+            GlobalThreading.Interlocked.Exchange(ref this.locker, null)?.Dispose();
 
             base.DisposeManagedContext();
         }
@@ -118,7 +126,7 @@ namespace IX.Observable
         /// </summary>
         protected override void DisposeGeneralContext()
         {
-            this.locker = null;
+            GlobalThreading.Interlocked.Exchange(ref this.locker, null);
 
             base.DisposeGeneralContext();
         }

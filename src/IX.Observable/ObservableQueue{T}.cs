@@ -191,28 +191,53 @@ namespace IX.Observable
         /// Peeks at the topmost item in the queue without dequeuing it.
         /// </summary>
         /// <returns>The topmost item in the queue.</returns>
-        public T Peek() => this.InvokeIfNotDisposed(() => this.ReadLock(() => ((QueueCollectionAdapter<T>)this.InternalContainer).Peek()));
+        public T Peek()
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (this.ReadLock())
+            {
+                return ((QueueCollectionAdapter<T>)this.InternalContainer).Peek();
+            }
+        }
 
         /// <summary>
         /// Copies the items of the queue into a new array.
         /// </summary>
         /// <returns>An array of items that are contained in the queue.</returns>
-        public T[] ToArray() => this.InvokeIfNotDisposed(() => this.ReadLock(() => ((QueueCollectionAdapter<T>)this.InternalContainer).ToArray()));
+        public T[] ToArray()
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (this.ReadLock())
+            {
+                return ((QueueCollectionAdapter<T>)this.InternalContainer).ToArray();
+            }
+        }
 
         /// <summary>
         /// Sets the capacity to the actual number of elements in the <see cref="ObservableQueue{T}"/>, if that number is less than 90 percent of current capacity.
         /// </summary>
-        public void TrimExcess() => this.InvokeIfNotDisposed(() => this.WriteLock(() => ((QueueCollectionAdapter<T>)this.InternalContainer).TrimExcess()));
+        public void TrimExcess()
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (this.WriteLock())
+            {
+                ((QueueCollectionAdapter<T>)this.InternalContainer).TrimExcess();
+            }
+        }
 
         /// <summary>
         /// Has the last operation undone.
         /// </summary>
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
+        /// <param name="state">The state object to pass to the invocation.</param>
         /// <returns><c>true</c> if the undo was successful, <c>false</c> otherwise.</returns>
-        protected override bool UndoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
+        protected override bool UndoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
-            if (base.UndoInternally(undoRedoLevel, out toInvokeOutsideLock))
+            if (base.UndoInternally(undoRedoLevel, out toInvokeOutsideLock, out state))
             {
                 return true;
             }
@@ -233,12 +258,16 @@ namespace IX.Observable
 
                         var index = container.Count;
                         T item = array.Last();
-                        toInvokeOutsideLock = () =>
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.RaisePropertyChanged(Constants.ItemsName);
-                            this.RaiseCollectionChangedRemove(item, index);
+                            var convertedState = innerState as Tuple<ObservableQueue<T>, T, int>;
+
+                            convertedState.Item1.RaisePropertyChanged(nameof(convertedState.Item1.Count));
+                            convertedState.Item1.RaisePropertyChanged(Constants.ItemsName);
+                            convertedState.Item1.RaiseCollectionChangedRemove(convertedState.Item2, convertedState.Item3);
                         };
+
+                        state = new Tuple<ObservableQueue<T>, T, int>(this, item, index);
 
                         break;
                     }
@@ -257,12 +286,16 @@ namespace IX.Observable
 
                         var index = container.Count;
                         T item = array.Last();
-                        toInvokeOutsideLock = () =>
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.RaisePropertyChanged(Constants.ItemsName);
-                            this.RaiseCollectionChangedRemove(item, index);
+                            var convertedState = innerState as Tuple<ObservableQueue<T>, T, int>;
+
+                            convertedState.Item1.RaisePropertyChanged(nameof(convertedState.Item1.Count));
+                            convertedState.Item1.RaisePropertyChanged(Constants.ItemsName);
+                            convertedState.Item1.RaiseCollectionChangedRemove(convertedState.Item2, convertedState.Item3);
                         };
+
+                        state = new Tuple<ObservableQueue<T>, T, int>(this, item, index);
 
                         break;
                     }
@@ -274,12 +307,16 @@ namespace IX.Observable
 
                         var index = container.Count - 1;
                         T item = dul.DequeuedItem;
-                        toInvokeOutsideLock = () =>
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.RaisePropertyChanged(Constants.ItemsName);
-                            this.RaiseCollectionChangedAdd(item, index);
+                            var convertedState = innerState as Tuple<ObservableQueue<T>, T, int>;
+
+                            convertedState.Item1.RaisePropertyChanged(nameof(convertedState.Item1.Count));
+                            convertedState.Item1.RaisePropertyChanged(Constants.ItemsName);
+                            convertedState.Item1.RaiseCollectionChangedAdd(convertedState.Item2, convertedState.Item3);
                         };
+
+                        state = new Tuple<ObservableQueue<T>, T, int>(this, item, index);
 
                         break;
                     }
@@ -287,6 +324,7 @@ namespace IX.Observable
                 case RemoveUndoLevel<T> rul:
                     {
                         toInvokeOutsideLock = null;
+                        state = null;
                         break;
                     }
 
@@ -298,12 +336,16 @@ namespace IX.Observable
                             container.Enqueue(cul.OriginalItems[i]);
                         }
 
-                        toInvokeOutsideLock = () =>
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.RaisePropertyChanged(Constants.ItemsName);
-                            this.RaiseCollectionReset();
+                            var convertedState = innerState as ObservableQueue<T>;
+
+                            convertedState.RaisePropertyChanged(nameof(convertedState.Count));
+                            convertedState.RaisePropertyChanged(Constants.ItemsName);
+                            convertedState.RaiseCollectionReset();
                         };
+
+                        state = this;
 
                         break;
                     }
@@ -311,6 +353,7 @@ namespace IX.Observable
                 default:
                     {
                         toInvokeOutsideLock = null;
+                        state = null;
 
                         return false;
                     }
@@ -324,10 +367,11 @@ namespace IX.Observable
         /// </summary>
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
+        /// <param name="state">The state object to pass to the invocation.</param>
         /// <returns><c>true</c> if the redo was successful, <c>false</c> otherwise.</returns>
-        protected override bool RedoInternally(StateChange undoRedoLevel, out Action toInvokeOutsideLock)
+        protected override bool RedoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
-            if (base.RedoInternally(undoRedoLevel, out toInvokeOutsideLock))
+            if (base.RedoInternally(undoRedoLevel, out toInvokeOutsideLock, out state))
             {
                 return true;
             }
@@ -342,12 +386,16 @@ namespace IX.Observable
 
                         var index = container.Count - 1;
                         T item = aul.AddedItem;
-                        toInvokeOutsideLock = () =>
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.RaisePropertyChanged(Constants.ItemsName);
-                            this.RaiseCollectionChangedAdd(item, index);
+                            var convertedState = innerState as Tuple<ObservableQueue<T>, T, int>;
+
+                            convertedState.Item1.RaisePropertyChanged(nameof(convertedState.Item1.Count));
+                            convertedState.Item1.RaisePropertyChanged(Constants.ItemsName);
+                            convertedState.Item1.RaiseCollectionChangedAdd(convertedState.Item2, convertedState.Item3);
                         };
+
+                        state = new Tuple<ObservableQueue<T>, T, int>(this, item, index);
 
                         break;
                     }
@@ -360,12 +408,16 @@ namespace IX.Observable
 
                         var index = container.Count - 1;
                         T item = eul.EnqueuedItem;
-                        toInvokeOutsideLock = () =>
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.RaisePropertyChanged(Constants.ItemsName);
-                            this.RaiseCollectionChangedAdd(item, index);
+                            var convertedState = innerState as Tuple<ObservableQueue<T>, T, int>;
+
+                            convertedState.Item1.RaisePropertyChanged(nameof(convertedState.Item1.Count));
+                            convertedState.Item1.RaisePropertyChanged(Constants.ItemsName);
+                            convertedState.Item1.RaiseCollectionChangedAdd(convertedState.Item2, convertedState.Item3);
                         };
+
+                        state = new Tuple<ObservableQueue<T>, T, int>(this, item, index);
 
                         break;
                     }
@@ -378,12 +430,16 @@ namespace IX.Observable
 
                         var index = 0;
                         T item = dul.DequeuedItem;
-                        toInvokeOutsideLock = () =>
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.RaisePropertyChanged(Constants.ItemsName);
-                            this.RaiseCollectionChangedRemove(item, index);
+                            var convertedState = innerState as Tuple<ObservableQueue<T>, T, int>;
+
+                            convertedState.Item1.RaisePropertyChanged(nameof(convertedState.Item1.Count));
+                            convertedState.Item1.RaisePropertyChanged(Constants.ItemsName);
+                            convertedState.Item1.RaiseCollectionChangedRemove(convertedState.Item2, convertedState.Item3);
                         };
+
+                        state = new Tuple<ObservableQueue<T>, T, int>(this, item, index);
 
                         break;
                     }
@@ -391,6 +447,7 @@ namespace IX.Observable
                 case RemoveUndoLevel<T> rul:
                     {
                         toInvokeOutsideLock = null;
+                        state = null;
                         break;
                     }
 
@@ -398,12 +455,16 @@ namespace IX.Observable
                     {
                         this.InternalContainer.Clear();
 
-                        toInvokeOutsideLock = () =>
+                        toInvokeOutsideLock = (innerState) =>
                         {
-                            this.RaisePropertyChanged(nameof(this.Count));
-                            this.RaisePropertyChanged(Constants.ItemsName);
-                            this.RaiseCollectionReset();
+                            var convertedState = innerState as ObservableQueue<T>;
+
+                            convertedState.RaisePropertyChanged(nameof(convertedState.Count));
+                            convertedState.RaisePropertyChanged(Constants.ItemsName);
+                            convertedState.RaiseCollectionReset();
                         };
+
+                        state = this;
 
                         break;
                     }
@@ -411,6 +472,7 @@ namespace IX.Observable
                 default:
                     {
                         toInvokeOutsideLock = null;
+                        state = null;
 
                         return false;
                     }
