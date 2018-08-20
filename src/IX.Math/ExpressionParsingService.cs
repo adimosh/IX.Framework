@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using IX.Math.Extensibility;
 using IX.Math.Extraction;
 using IX.Math.Generators;
 using IX.StandardExtensions;
@@ -71,10 +72,12 @@ namespace IX.Math
         {
             this.workingDefinition = definition;
 
+#pragma warning disable IDE0009 // Member access should be qualified. - It shouldn't, but there's a bug in the analyzer
             this.assembliesToRegister = new List<Assembly>
             {
                 typeof(ExpressionParsingService).GetTypeInfo().Assembly,
             };
+#pragma warning restore IDE0009 // Member access should be qualified.
         }
 
         /// <summary>
@@ -154,7 +157,9 @@ namespace IX.Math
 
             foreach (KeyValuePair<string, Type> function in this.unaryFunctions)
             {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable here
                 foreach (ConstructorInfo constructor in GetTypeConstructors(function.Value))
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
 
@@ -176,7 +181,9 @@ namespace IX.Math
 
             foreach (KeyValuePair<string, Type> function in this.binaryFunctions)
             {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable here
                 foreach (ConstructorInfo constructor in GetTypeConstructors(function.Value))
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
 
@@ -199,7 +206,9 @@ namespace IX.Math
 
             foreach (KeyValuePair<string, Type> function in this.ternaryFunctions)
             {
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable here
                 foreach (ConstructorInfo constructor in GetTypeConstructors(function.Value))
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
 
@@ -306,19 +315,32 @@ namespace IX.Math
 
         private void InitializeExtractorsDictionary()
         {
+#pragma warning disable IDE0009 // Member access should be qualified. - It is, but there's a bug in the extractor
             this.constantExtractors = new LevelDictionary<Type, IConstantsExtractor>
             {
-                { typeof(StringExtractor), new StringExtractor(), 0 },
-                { typeof(ScientificFormatNumberExtractor), new ScientificFormatNumberExtractor(), 0 },
+                { typeof(StringExtractor), new StringExtractor(), 1000 },
+                { typeof(ScientificFormatNumberExtractor), new ScientificFormatNumberExtractor(), 2000 },
             };
+#pragma warning restore IDE0009 // Member access should be qualified.
 
-            var incrementer = 1000;
+            var incrementer = 2001;
             this.assembliesToRegister
                 .GetTypesAssignableFrom<IConstantsExtractor>()
                 .Where(p => p.IsClass && !p.IsAbstract && !p.IsGenericTypeDefinition && p.HasPublicParameterlessConstructor())
                 .Select(p => p.AsType())
-                .Where(p => !this.constantExtractors.ContainsKey(p))
-                .ForEach((Type p, ref int i) => this.constantExtractors.Add(p, (IConstantsExtractor)p.Instantiate(), Interlocked.Increment(ref i)), ref incrementer);
+                .Where((p, thisL1) => !thisL1.constantExtractors.ContainsKey(p), this)
+                .ForEach(
+                    (Type p, ref int i) =>
+                    {
+                        if (p.GetAttributeDataByTypeWithoutVersionBinding<ConstantsExtractorAttribute, int>(out var explicitLevel))
+                        {
+                            this.constantExtractors.Add(p, (IConstantsExtractor)p.Instantiate(), explicitLevel);
+                        }
+                        else
+                        {
+                            this.constantExtractors.Add(p, (IConstantsExtractor)p.Instantiate(), Interlocked.Increment(ref i));
+                        }
+                    }, ref incrementer);
         }
     }
 }

@@ -13,6 +13,7 @@ using IX.Math.Extraction;
 using IX.Math.Generators;
 using IX.Math.Nodes;
 using IX.Math.Registration;
+using IX.StandardExtensions;
 using IX.System.Collections.Generic;
 
 namespace IX.Math
@@ -118,12 +119,13 @@ namespace IX.Math
 
         internal void Initialize()
         {
-            IEnumerable<string> operators = this.AllOperatorsInOrder
-                .OrderByDescending(p => p.Length)
-                .Where(p => this.AllOperatorsInOrder.Any(q => q.Length < p.Length && p.Contains(q)));
-
             var i = 1;
-            foreach (var op in operators.OrderByDescending(p => p.Length))
+#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Acceptable in this case
+            foreach (var op in this.AllOperatorsInOrder
+                .OrderByDescending(p => p.Length)
+                .Where((p, thisL1) => thisL1.AllOperatorsInOrder.Any((q, pL2) => q.Length < pL2.Length && pL2.Contains(q), p), this)
+                .OrderByDescending(p => p.Length))
+#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
             {
                 var s = $"@op{i}@";
 
@@ -227,6 +229,7 @@ namespace IX.Math
             // ======================================
 
             // Binary operators
+#pragma warning disable IDE0009 // Member access should be qualified. - It is, but there's a bug in the analyzer
             var binaryOperators = new LevelDictionary<string, Type>
             {
                 // First tier - Comparison and equation operators
@@ -267,6 +270,7 @@ namespace IX.Math
                 { this.Definition.SubtractSymbol, typeof(Nodes.Operations.Unary.SubtractNode), 1 },
                 { this.Definition.NotSymbol, typeof(Nodes.Operations.Unary.NotNode), 1 },
             };
+#pragma warning restore IDE0009 // Member access should be qualified.
 
             this.UnaryOperators = unaryOperators;
 
