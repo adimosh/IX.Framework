@@ -503,12 +503,12 @@ namespace IX.Observable
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
                         {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - currently unavoidable
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - currently unavoidable
                             foreach (IUndoableItem ul in items.Cast<IUndoableItem>().Where((p, thisL1) => p.IsCapturedIntoUndoContext && p.ParentUndoContext == thisL1, this))
                             {
                                 ul.ReleaseFromUndoContext();
                             }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                         }
 
                         toInvokeOutsideLock = (innerState) =>
@@ -564,12 +564,12 @@ namespace IX.Observable
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
                         {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator
                             foreach (IUndoableItem ul in cul.OriginalItems.Cast<IUndoableItem>().Where(p => !p.IsCapturedIntoUndoContext))
                             {
                                 ul.CaptureIntoUndoContext(this);
                             }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                         }
 
                         toInvokeOutsideLock = (innerState) =>
@@ -692,12 +692,12 @@ namespace IX.Observable
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
                         {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator
                             foreach (IUndoableItem ul in amul.AddedItems.Cast<IUndoableItem>().Where(p => !p.IsCapturedIntoUndoContext))
                             {
                                 ul.CaptureIntoUndoContext(this);
                             }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                         }
 
                         toInvokeOutsideLock = (innerState) =>
@@ -751,9 +751,9 @@ namespace IX.Observable
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
                         {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator
                             foreach (IUndoableItem ul in cul.OriginalItems.Cast<IUndoableItem>().Where((p, thisL1) => p.IsCapturedIntoUndoContext && p.ParentUndoContext == thisL1, this))
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                             {
                                 ul.ReleaseFromUndoContext();
                             }

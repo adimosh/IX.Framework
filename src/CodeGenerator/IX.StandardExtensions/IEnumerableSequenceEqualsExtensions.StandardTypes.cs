@@ -12,7 +12,7 @@ namespace IX.StandardExtensions
     /// </summary>
     public static partial class IEnumerableSequenceEqualsExtensions
     {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
         /// </summary>
@@ -716,6 +716,6 @@ namespace IX.StandardExtensions
                 }
             }
         }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
     }
 }

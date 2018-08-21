@@ -11,7 +11,7 @@
     <PackageReference Include="ErrorProne.Net" Version="0.1.5898.41180" PrivateAssets="all" />
     <PackageReference Include="ErrorProne.Net.Structs" Version="0.1.0" PrivateAssets="all" />
 
-    <PackageReference Include="ClrHeapAllocationAnalyzer" Version="1.0.0.8" PrivateAssets="all" />
+    <PackageReference Include="ClrHeapAllocationAnalyzer" Version="1.0.0.9" PrivateAssets="all" />
 
     <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />
 

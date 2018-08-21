@@ -120,12 +120,12 @@ namespace IX.Math
         internal void Initialize()
         {
             var i = 1;
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Acceptable in this case
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Acceptable in this case
             foreach (var op in this.AllOperatorsInOrder
                 .OrderByDescending(p => p.Length)
                 .Where((p, thisL1) => thisL1.AllOperatorsInOrder.Any((q, pL2) => q.Length < pL2.Length && pL2.Contains(q), p), this)
                 .OrderByDescending(p => p.Length))
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
             {
                 var s = $"@op{i}@";
 

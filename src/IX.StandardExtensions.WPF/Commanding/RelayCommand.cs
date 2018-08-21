@@ -80,9 +80,9 @@ namespace IX.StandardExtensions.WPF.Commanding
             {
                 this.isWaitingForAction = false;
 
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable in this case
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable in this case
                 (Dispatcher.CurrentDispatcher ?? global::System.Windows.Application.Current.Dispatcher).Invoke(this.TriggerCanExecuteChanged, DispatcherPriority.ApplicationIdle);
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
         }
 

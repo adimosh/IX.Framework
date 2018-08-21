@@ -70,12 +70,12 @@ namespace IX.StandardExtensions
         /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
         public static bool SequenceEquals<T>(this T[] left, T[] right, IEqualityComparer<T> comparer)
         {
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable, as we need a closure here anyway
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable, as we need a closure here anyway
             return SequenceEqualsInternal(
                 left,
                 right,
                 EquateWithComparer);
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0603 // Delegate allocation from a method group
 
             bool EquateWithComparer(T c1, T c2)
                 => comparer.Equals(c1, c2);

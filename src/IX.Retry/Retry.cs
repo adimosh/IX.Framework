@@ -82,8 +82,9 @@ namespace IX.Retry
             await RunAsync(action, options, cancellationToken).ConfigureAwait(false);
         }
 
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure - These are expected to happen here
+#pragma warning disable HAA0301 // Closure Allocation Source
+#pragma warning disable HAA0302 // Display class allocation to capture closure - These are expected to happen here
+#pragma warning disable HAA0603 // Delegate allocation from a method group
         /// <summary>
         /// Retry an action later.
         /// </summary>
@@ -117,8 +118,9 @@ namespace IX.Retry
 
             return () => Run(action, options);
         }
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+#pragma warning restore HAA0603 // Delegate allocation from a method group
+#pragma warning restore HAA0302 // Display class allocation to capture closure
+#pragma warning restore HAA0301 // Closure Allocation Source
 
         /// <summary>
         /// Retry for a number of times.
@@ -249,7 +251,9 @@ namespace IX.Retry
             where T : Exception
         {
             var options = new RetryOptions();
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
             options.RetryOnExceptions.Add(new Tuple<Type, Func<Exception, bool>>(typeof(T), p => true));
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
             return options;
         }
 

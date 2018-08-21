@@ -227,7 +227,7 @@ namespace IX.Observable
         {
             this.ThrowIfCurrentObjectDisposed();
 
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Acceptable
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Acceptable
             if (this.SynchronizationLock == null)
             {
                 return this.InternalContainer.GetEnumerator();
@@ -245,7 +245,7 @@ namespace IX.Observable
         /// An <see cref="IEnumerator" /> object that can be used to iterate through the collection.
         /// </returns>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
 
         /// <summary>
         /// Copies the contents of the container to an array.

@@ -17,7 +17,6 @@ namespace IX.UnitTests.IX.Retry
     /// </summary>
     public class RetryUnitTests
     {
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - Acceptable in this context
         private readonly ITestOutputHelper output;
 
         /// <summary>
@@ -101,7 +100,6 @@ namespace IX.UnitTests.IX.Retry
             try
             {
                 global::IX.Retry.Retry.Now(Act, options);
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
 
                 this.output.WriteLine("Retrying has completed successfully, even though an exception was expected.");
 
@@ -126,9 +124,7 @@ namespace IX.UnitTests.IX.Retry
             }
             catch (Exception ex)
             {
-#pragma warning disable ERP023 // Only ex.Message property was observed in exception block! - Acceptable here
                 this.output.WriteLine($"Exception has been caught: {ex.GetType()}, with message {ex.Message}.");
-#pragma warning restore ERP023 // Only ex.Message property was observed in exception block!
                 throw;
             }
 
@@ -149,20 +145,15 @@ namespace IX.UnitTests.IX.Retry
         public void Success()
         {
             // Arrange
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure - Acceptable here
             var i = 0;
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
 
             // Act
             global::IX.Retry.Retry.Now(
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source - Acceptable here
                 () => i++,
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
                 (options) => options.FiveTimes());
 
             // Assert
             Assert.True(i == 1);
         }
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
     }
 }

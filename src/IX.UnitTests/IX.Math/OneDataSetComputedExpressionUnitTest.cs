@@ -17,8 +17,6 @@ namespace IX.UnitTests.IX.Math
     /// </summary>
     public class OneDataSetComputedExpressionUnitTest : IClassFixture<CachedExpressionProviderFixture>
     {
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure - This is of little importance in unit tests yet
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source - This is of little importance in unit tests yet
         private readonly CachedExpressionProviderFixture fixture;
 
         /// <summary>
@@ -326,7 +324,5 @@ namespace IX.UnitTests.IX.Math
                     throw new InvalidOperationException();
             }
         }
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
     }
 }

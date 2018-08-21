@@ -46,9 +46,9 @@ namespace IX.StandardExtensions
         public static MethodInfo GetMethodWithExactParameters(this Type typeInfo, string name, params Type[] parameters)
         {
             MethodInfo mi = null;
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable
             foreach (MethodInfo p in (typeInfo ?? throw new ArgumentNullException(nameof(typeInfo))).GetRuntimeMethods())
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
             {
                 if (p.Name != name)
                 {

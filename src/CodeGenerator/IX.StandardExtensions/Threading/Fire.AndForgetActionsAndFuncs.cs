@@ -13,8 +13,8 @@ namespace IX.StandardExtensions.Threading
     /// </summary>
     public static partial class Fire
     {
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable
-#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - The lambdas themselves rely on generics
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - The lambdas themselves rely on generics
         /// <summary>
         /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
         /// </summary>
@@ -2622,8 +2622,8 @@ namespace IX.StandardExtensions.Threading
 
             runningTask.ConfigureAwait(false);
         }
-#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning restore HAA0603 // Delegate allocation from a method group
 
     }
 }

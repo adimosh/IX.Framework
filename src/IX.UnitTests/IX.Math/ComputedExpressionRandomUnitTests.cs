@@ -43,9 +43,9 @@ namespace IX.UnitTests.IX.Math
                 object result;
                 try
                 {
-#pragma warning disable HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation - Not consequential
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Not consequential
                     result = del.Compute(100);
-#pragma warning restore HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
                 }
                 catch (Exception ex)
                 {

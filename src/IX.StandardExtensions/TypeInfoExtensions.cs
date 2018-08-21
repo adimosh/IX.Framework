@@ -67,7 +67,7 @@ namespace IX.StandardExtensions
         /// <returns>System.Boolean.</returns>
         public static bool GetAttributeDataByTypeWithoutVersionBinding<TAttribute, TReturn>(this TypeInfo typeInfo, out TReturn value)
         {
-#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning disable HAA0401 // Lambda or anonymous method in a generic method allocates a delegate instance
             CustomAttributeData attributeData = typeInfo
                 .CustomAttributes
                 .FirstOrDefault(p => p.AttributeType.FullName == typeof(TAttribute).FullName);
@@ -93,7 +93,7 @@ namespace IX.StandardExtensions
 
             value = (TReturn)arguments.First().Value;
             return true;
-#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning restore HAA0401 // Lambda or anonymous method in a generic method allocates a delegate instance
         }
     }
 }

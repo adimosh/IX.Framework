@@ -64,9 +64,9 @@ namespace IX.StandardExtensions
             return SequenceCompare(
                 left,
                 right,
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable, as we need a closure here anyway
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable, as we need a closure here anyway
                 CompareUsingComparer);
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0603 // Delegate allocation from a method group
 
             int CompareUsingComparer(T c1, T c2)
                 => comparer.Compare(c1, c2);

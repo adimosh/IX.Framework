@@ -392,9 +392,11 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
+#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
                 -1,
                 -5,
                 -12,
+#pragma warning restore IDE0009 // Member access should be qualified.
             };
 
             list.SetSlaveList(slaveCollection);
@@ -426,9 +428,11 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
+#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
                 -1,
                 -5,
                 -12,
+#pragma warning restore IDE0009 // Member access should be qualified.
             };
 
             list.SetSlaveList(slaveCollection);
@@ -461,9 +465,11 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
+#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
                 -1,
                 -5,
                 -12,
+#pragma warning restore IDE0009 // Member access should be qualified.
             };
 
             list.SetSlaveList(slaveCollection);
@@ -503,9 +509,11 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
+#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
                 -1,
                 -5,
                 -12,
+#pragma warning restore IDE0009 // Member access should be qualified.
             };
 
             list.SetSlaveList(slaveCollection);
@@ -547,9 +555,11 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
+#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
                 -1,
                 -5,
                 -12,
+#pragma warning restore IDE0009 // Member access should be qualified.
             };
 
             list.SetSlaveList(slaveCollection);
@@ -588,9 +598,11 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
+#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
                 -1,
                 -5,
                 -12,
+#pragma warning restore IDE0009 // Member access should be qualified.
             };
 
             list.SetSlaveList(slaveCollection);
@@ -619,9 +631,11 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
+#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
                 -1,
                 -5,
                 -12,
+#pragma warning restore IDE0009 // Member access should be qualified.
             };
 
             list.SetSlaveList(slaveCollection);
@@ -655,9 +669,11 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
+#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
                 -1,
                 -5,
                 -12,
+#pragma warning restore IDE0009 // Member access should be qualified.
             };
 
             list.SetSlaveList(slaveCollection);
@@ -690,9 +706,11 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
+#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
                 -1,
                 -5,
                 -12,
+#pragma warning restore IDE0009 // Member access should be qualified.
             };
 
             list.SetSlaveList(slaveCollection);
@@ -755,9 +773,11 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
+#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
                 -1,
                 -5,
                 -12,
+#pragma warning restore IDE0009 // Member access should be qualified.
             };
 
             list.SetSlaveList(slaveCollection);
@@ -801,9 +821,11 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
+#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
                 -1,
                 -5,
                 -12,
+#pragma warning restore IDE0009 // Member access should be qualified.
             };
 
             list.SetSlaveList(slaveCollection);

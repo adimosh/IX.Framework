@@ -45,9 +45,9 @@ namespace IX.Guaranteed.Collections
             this.internalQueue = new System.Collections.Generic.Queue<string>();
 
             // Initialize objects
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable
             foreach (Tuple<T, string> item in this.LoadValidItemObjectHandles())
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
             {
                 this.internalQueue.Enqueue(item.Item2);
             }

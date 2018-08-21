@@ -188,12 +188,12 @@ namespace IX.Observable
                             {
                                 locker.Upgrade();
 
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator
                                 foreach (IUndoableItem item in this.InternalContainer.Cast<IUndoableItem>())
                                 {
                                     item.CaptureIntoUndoContext(this);
                                 }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                             }
                         }
                     }
@@ -205,12 +205,12 @@ namespace IX.Observable
                             {
                                 locker.Upgrade();
 
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator
                                 foreach (IUndoableItem item in this.InternalContainer.Cast<IUndoableItem>())
                                 {
                                     item.ReleaseFromUndoContext();
                                 }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                             }
                         }
                     }

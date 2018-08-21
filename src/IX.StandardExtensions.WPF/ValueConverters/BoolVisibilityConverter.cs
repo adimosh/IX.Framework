@@ -15,7 +15,7 @@ namespace IX.StandardExtensions.WPF.ValueConverters
     /// <seealso cref="IValueConverter" />
     public class BoolVisibilityConverter : IValueConverter
     {
-#pragma warning disable HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation - Unavoidable in a WPF IValueConverter
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Unavoidable in a WPF IValueConverter
         /// <summary>
         /// Converts a value.
         /// </summary>
@@ -103,5 +103,5 @@ namespace IX.StandardExtensions.WPF.ValueConverters
             return (filter == BoolVisibilityFilter.Hidden) ? (result == Visibility.Visible || result == Visibility.Collapsed) : (result == Visibility.Visible);
         }
     }
-#pragma warning restore HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
 }

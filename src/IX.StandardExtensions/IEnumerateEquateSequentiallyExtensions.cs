@@ -102,14 +102,14 @@ namespace IX.StandardExtensions
                 yield break;
             }
 
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Currently unavoidable, will do more later
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Currently unavoidable, will do more later
 
             // TODO: #68 - Eliminate boxing from IEnumerable implementations
             using (IEnumerator<T> leftEnumerator = left.GetEnumerator())
             {
                 using (IEnumerator<T> rightEnumerator = right.GetEnumerator())
                 {
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                     if (comparer == null)
                     {
                         if (typeof(IEquatable<T>).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))

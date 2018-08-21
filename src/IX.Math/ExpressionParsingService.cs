@@ -157,9 +157,9 @@ namespace IX.Math
 
             foreach (KeyValuePair<string, Type> function in this.unaryFunctions)
             {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable here
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable here
                 foreach (ConstructorInfo constructor in GetTypeConstructors(function.Value))
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
 
@@ -181,9 +181,9 @@ namespace IX.Math
 
             foreach (KeyValuePair<string, Type> function in this.binaryFunctions)
             {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable here
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable here
                 foreach (ConstructorInfo constructor in GetTypeConstructors(function.Value))
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
 
@@ -206,9 +206,9 @@ namespace IX.Math
 
             foreach (KeyValuePair<string, Type> function in this.ternaryFunctions)
             {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable here
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable here
                 foreach (ConstructorInfo constructor in GetTypeConstructors(function.Value))
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
 
@@ -330,17 +330,19 @@ namespace IX.Math
                 .Select(p => p.AsType())
                 .Where((p, thisL1) => !thisL1.constantExtractors.ContainsKey(p), this)
                 .ForEach(
-                    (Type p, ref int i) =>
+                    (Type p, ref int i, ExpressionParsingService thisL1) =>
                     {
                         if (p.GetAttributeDataByTypeWithoutVersionBinding<ConstantsExtractorAttribute, int>(out var explicitLevel))
                         {
-                            this.constantExtractors.Add(p, (IConstantsExtractor)p.Instantiate(), explicitLevel);
+                            thisL1.constantExtractors.Add(p, (IConstantsExtractor)p.Instantiate(), explicitLevel);
                         }
                         else
                         {
-                            this.constantExtractors.Add(p, (IConstantsExtractor)p.Instantiate(), Interlocked.Increment(ref i));
+                            thisL1.constantExtractors.Add(p, (IConstantsExtractor)p.Instantiate(), Interlocked.Increment(ref i));
                         }
-                    }, ref incrementer);
+                    },
+                    ref incrementer,
+                    this);
         }
     }
 }

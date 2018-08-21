@@ -121,11 +121,11 @@ namespace IX.System.Collections.Generic
         /// Clears the observable stack.
         /// </summary>
         public void Clear() =>
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - Unavoidable at this point
+#pragma warning disable HAA0603 // Delegate allocation from a method group - Unavoidable at this point
             this.InvokeIfNotDisposed(
                 (thisL1) => thisL1.WriteLock(thisL1.internalContainer.Clear),
                 this);
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0603 // Delegate allocation from a method group
 
         /// <summary>
         /// Checks whether or not a certain item is in the stack.
@@ -159,8 +159,8 @@ namespace IX.System.Collections.Generic
                 index,
                 this);
 
-#pragma warning disable HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation - Unavoidable due to how the atomic enumerator works
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable here
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Unavoidable due to how the atomic enumerator works
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable here
 
         // TODO: #68 - Eliminate boxing from IEnumerable implementations
 
@@ -169,8 +169,8 @@ namespace IX.System.Collections.Generic
         /// </summary>
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<T> GetEnumerator() => this.SpawnAtomicEnumerator<T, List<T>.Enumerator>(this.internalContainer.GetEnumerator());
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
-#pragma warning restore HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
 
         /// <summary>
         /// Peeks in the stack to view the topmost item, without removing it.
@@ -257,7 +257,7 @@ namespace IX.System.Collections.Generic
         {
         }
 
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable at this point
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable at this point
 
         // TODO: #68 - Eliminate boxing from IEnumerable implementations
 
@@ -266,7 +266,7 @@ namespace IX.System.Collections.Generic
         /// </summary>
         /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
 
         /// <summary>
         /// Disposes in the managed context.
