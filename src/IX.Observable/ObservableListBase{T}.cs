@@ -167,7 +167,9 @@ namespace IX.Observable
         /// <returns>The item at the specified index.</returns>
         object IList.this[int index]
         {
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Nothing we can do about it
             get => this[index];
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
             set
             {
                 if (value is T v)
@@ -250,6 +252,228 @@ namespace IX.Observable
             // Contents may have changed
             this.ContentsMayHaveChanged();
         }
+
+        /// <summary>
+        /// Removes a range of items from the <see cref="ObservableCollectionBase{T}" />.
+        /// </summary>
+        /// <param name="startIndex">The start index of the range to remove.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="startIndex"/>
+        /// must be a non-negative integer, less than the size of the collection.
+        /// </exception>
+        public virtual void RemoveRange(int startIndex)
+        {
+            // PRECONDITIONS
+            if (startIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+            }
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            T[] itemsList;
+
+            // Inside a write lock
+            using (this.WriteLock())
+            {
+                if (startIndex >= this.InternalContainer.Count)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(startIndex));
+                }
+
+                itemsList = this.InternalContainer.Skip(startIndex).ToArray();
+
+                // Use an undo/redo transaction
+                using (OperationTransaction tc = this.CheckItemAutoRelease(itemsList))
+                {
+                    using (OperationTransaction ts = this.StartExplicitUndoBlockTransaction())
+                    {
+                        // Actually remove
+                        for (var index = this.InternalContainer.Count - 1; index >= startIndex; index--)
+                        {
+                            // Remove item (in reverse order)
+                            T item = this.InternalContainer[index];
+                            this.InternalContainer.RemoveAt(index);
+
+                            // Push an undo level for it
+                            this.PushUndoLevel(new RemoveUndoLevel<T> { RemovedItem = item, Index = index });
+                        }
+
+                        // Mark undo transaction as successful
+                        ts.Success();
+                    }
+
+                    // Mark the transaction as successful
+                    tc.Success();
+                }
+            }
+
+            // NOTIFICATION
+
+            // Collection changed
+            this.RaiseCollectionChangedRemoveMultiple(itemsList, startIndex);
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
+        }
+
+        /// <summary>
+        /// Removes a range of items from the <see cref="ObservableCollectionBase{T}" />.
+        /// </summary>
+        /// <param name="startIndex">The start index of the range to remove.</param>
+        /// <param name="length">The length to remove.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="startIndex"/>
+        /// must be a non-negative integer, less than the size of the collection.
+        /// AND
+        /// <paramref name="length"/>
+        /// must be a non-negative integer, and, in combination with the startIndex, must not exceed the length of the collection.
+        /// </exception>
+        public virtual void RemoveRange(int startIndex, int length)
+        {
+            // PRECONDITIONS
+            if (startIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+            }
+
+            if (length <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(length));
+            }
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            T[] itemsList;
+
+            // Inside a write lock
+            using (this.WriteLock())
+            {
+                if (startIndex >= this.InternalContainer.Count)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(startIndex));
+                }
+
+                if (startIndex + length > this.InternalContainer.Count)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(length));
+                }
+
+                itemsList = this.InternalContainer.Skip(startIndex).Take(length).ToArray();
+
+                // Use an undo/redo transaction
+                using (OperationTransaction tc = this.CheckItemAutoRelease(itemsList))
+                {
+                    using (OperationTransaction ts = this.StartExplicitUndoBlockTransaction())
+                    {
+                        // Actually remove
+                        for (var index = startIndex + length - 1; index >= startIndex; index--)
+                        {
+                            // Remove item (in reverse order)
+                            T item = this.InternalContainer[index];
+                            this.InternalContainer.RemoveAt(index);
+
+                            // Push an undo level for it
+                            this.PushUndoLevel(new RemoveUndoLevel<T> { RemovedItem = item, Index = index });
+                        }
+
+                        // Mark undo transaction as successful
+                        ts.Success();
+                    }
+
+                    // Mark the transaction as successful
+                    tc.Success();
+                }
+            }
+
+            // NOTIFICATION
+
+            // Collection changed
+            this.RaiseCollectionChangedRemoveMultiple(itemsList, startIndex);
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
+        }
+
+        /// <summary>
+        /// Removes a range of items from the <see cref="ObservableCollectionBase{T}" />.
+        /// </summary>
+        /// <param name="items">The items to remove.</param>
+        public virtual void RemoveRange(IEnumerable<T> items)
+        {
+            // PRECONDITIONS
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            // ACTION
+            // Inside a write lock
+            using (this.WriteLock())
+            {
+                if (items.Any((p, coll) => !coll.Contains(p), this.InternalContainer))
+                {
+                    throw new ArgumentException(Resources.TheGivenCollectionToRemoveIsNotContainedInTheInitialCollection, nameof(items));
+                }
+
+                var itemsToDelete = this.InternalContainer.Select((p, index) => new { Index = index, Item = p }).Where((p, coll) => coll.Contains(p.Item), items).OrderByDescending(p => p.Index);
+
+                // Use an undo/redo transaction
+                using (OperationTransaction tc = this.CheckItemAutoRelease(items))
+                {
+                    using (OperationTransaction ts = this.StartExplicitUndoBlockTransaction())
+                    {
+                        // Actually remove
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Yes, we know !!! It's a damn IEnumerable !!!
+                        foreach (var item in itemsToDelete)
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+                        {
+                            // Remove an item
+                            this.InternalContainer.RemoveAt(item.Index);
+
+                            // Push an undo level for it
+                            this.PushUndoLevel(new RemoveUndoLevel<T> { RemovedItem = item.Item, Index = item.Index });
+                        }
+
+                        // Mark undo transaction as successful
+                        ts.Success();
+                    }
+
+                    // Mark the transaction as successful
+                    tc.Success();
+                }
+            }
+
+            // NOTIFICATION
+
+            // Collection changed
+            this.RaiseCollectionReset();
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
+        }
+
+        /// <summary>
+        /// Removes a range of items from the <see cref="ObservableCollectionBase{T}" />.
+        /// </summary>
+        /// <param name="items">The items to remove.</param>
+        public virtual void RemoveRange(params T[] items) => this.RemoveRange((IEnumerable<T>)items);
 
         /// <summary>
         /// Inserts an item at the specified index.
@@ -503,12 +727,12 @@ namespace IX.Observable
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
                         {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - currently unavoidable
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - currently unavoidable
                             foreach (IUndoableItem ul in items.Cast<IUndoableItem>().Where((p, thisL1) => p.IsCapturedIntoUndoContext && p.ParentUndoContext == thisL1, this))
                             {
                                 ul.ReleaseFromUndoContext();
                             }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                         }
 
                         toInvokeOutsideLock = (innerState) =>
@@ -564,12 +788,12 @@ namespace IX.Observable
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
                         {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator
                             foreach (IUndoableItem ul in cul.OriginalItems.Cast<IUndoableItem>().Where(p => !p.IsCapturedIntoUndoContext))
                             {
                                 ul.CaptureIntoUndoContext(this);
                             }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                         }
 
                         toInvokeOutsideLock = (innerState) =>
@@ -692,12 +916,12 @@ namespace IX.Observable
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
                         {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator
                             foreach (IUndoableItem ul in amul.AddedItems.Cast<IUndoableItem>().Where(p => !p.IsCapturedIntoUndoContext))
                             {
                                 ul.CaptureIntoUndoContext(this);
                             }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                         }
 
                         toInvokeOutsideLock = (innerState) =>
@@ -751,9 +975,9 @@ namespace IX.Observable
                         if (this.ItemsAreUndoable &&
                             this.AutomaticallyCaptureSubItems)
                         {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator
                             foreach (IUndoableItem ul in cul.OriginalItems.Cast<IUndoableItem>().Where((p, thisL1) => p.IsCapturedIntoUndoContext && p.ParentUndoContext == thisL1, this))
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                             {
                                 ul.ReleaseFromUndoContext();
                             }

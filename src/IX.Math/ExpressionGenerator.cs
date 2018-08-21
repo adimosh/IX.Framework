@@ -30,37 +30,21 @@ namespace IX.Math
 
             workingSet.CancellationToken.ThrowIfCancellationRequested();
 
-            // Extract string constants - we need to do this since strings can contain, within them, mathematical expressions which should not be interpreted
-            workingSet.Expression = workingSet.Extractors[typeof(StringExtractor)].ExtractAllConstants(
-                workingSet.Expression,
-                workingSet.ConstantsTable,
-                workingSet.ReverseConstantsTable,
-                workingSet.Definition);
-
-            workingSet.CancellationToken.ThrowIfCancellationRequested();
-
-            // Cleanup
-            workingSet.Expression = SubExpressionFormatter.Cleanup(workingSet.Expression);
-
-            workingSet.CancellationToken.ThrowIfCancellationRequested();
-
-            // Extract numeric constants written in scientific notation
-            workingSet.Expression = workingSet.Extractors[typeof(ScientificFormatNumberExtractor)].ExtractAllConstants(
-                workingSet.Expression,
-                workingSet.ConstantsTable,
-                workingSet.ReverseConstantsTable,
-                workingSet.Definition);
-
-            workingSet.CancellationToken.ThrowIfCancellationRequested();
-
-            // Extract other types of constants
-            foreach (Type extractorType in workingSet.Extractors.KeysByLevel.Where(p => p.Key > 0).OrderBy(p => p.Key).SelectMany(p => p.Value))
+            // Extract constants
+            foreach (Type extractorType in workingSet.Extractors.KeysByLevel.OrderBy(p => p.Key).SelectMany(p => p.Value))
             {
                 workingSet.Expression = workingSet.Extractors[extractorType].ExtractAllConstants(
                     workingSet.Expression,
                     workingSet.ConstantsTable,
                     workingSet.ReverseConstantsTable,
                     workingSet.Definition);
+
+                if (extractorType == typeof(StringExtractor))
+                {
+                    workingSet.Expression = SubExpressionFormatter.Cleanup(workingSet.Expression);
+                }
+
+                workingSet.CancellationToken.ThrowIfCancellationRequested();
             }
 
             // Start preparing expression

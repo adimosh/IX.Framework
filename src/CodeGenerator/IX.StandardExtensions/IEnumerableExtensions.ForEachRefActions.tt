@@ -19,24 +19,34 @@ namespace IX.StandardExtensions
     /// </summary>
     public static partial class IEnumerableSequenceEqualsExtensions
     {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions<#
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions<#
 for (int i = 1; i <= 8; i++)
 {
-    string[] types = new string[i];
-    string[] names = new string[i];
-    string[] nameTypes = new string[i];
-
-    for (int j = 1; j <= i; j++)
+    for (int z = 1; z <= i; z++)
     {
-        int idx = j - 1;
-        types[idx] = $"TParam{j}";
-        names[idx] = $"ref param{j}";
-        nameTypes[idx] = $"ref TParam{j} param{j}";
-    }
+        string[] types = new string[i];
+        string[] names = new string[i];
+        string[] nameTypes = new string[i];
 
-    string paramTypes = string.Join(", ", types);
-    string paramNames = string.Join(", ", names);
-    string paramNameTypes = string.Join(", ", nameTypes);
+        for (int j = 1; j <= i; j++)
+        {
+            int idx = j - 1;
+            types[idx] = $"TParam{j}";
+            if (j <= z)
+            {
+                names[idx] = $"ref param{j}";
+                nameTypes[idx] = $"ref TParam{j} param{j}";
+            }
+            else
+            {
+                names[idx] = $"param{j}";
+                nameTypes[idx] = $"TParam{j} param{j}";
+            }
+        }
+
+        string paramTypes = string.Join(", ", types);
+        string paramNames = string.Join(", ", names);
+        string paramNameTypes = string.Join(", ", nameTypes);
 #>
 
         /// <summary>
@@ -44,25 +54,47 @@ for (int i = 1; i <= 8; i++)
         /// </summary>
         /// <typeparam name="TItem">The enumerable item type.</typeparam>
 <#
-    for (int j = 1; j <= i; j++)
-    {
+        for (int j = 1; j <= i; j++)
+        {
 #>
         /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
 <#
-    }
+        }
 #>
         /// <param name="source">The enumerable source.</param>
         /// <param name="action">The action to execute.</param>
 <#
-    for (int j = 1; j <= i; j++)
-    {
+        for (int j = 1; j <= i; j++)
+        {
+            if (j <= z)
+            {
 #>
         /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>. This parameter is passed by reference.</param>
 <#
-    }
+            }
+            else
+            {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+            }
+        }
 #>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+<#
+        if (i != z)
+        {
+#>
+        public static void ForEach<TItem, <#= paramTypes #>>(this IEnumerable<TItem> source, RefIteratorAction<#= i - z #><TItem, <#= paramTypes #>> action, <#= paramNameTypes #>)
+<#
+        }
+        else
+        {
+#>
         public static void ForEach<TItem, <#= paramTypes #>>(this IEnumerable<TItem> source, RefIteratorAction<TItem, <#= paramTypes #>> action, <#= paramNameTypes #>)
+<#
+        }
+#>
         {
             if (source == null)
             {
@@ -80,8 +112,9 @@ for (int i = 1; i <= 8; i++)
             }
         }
 <#
+    }
 }
 #>
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
     }
 }

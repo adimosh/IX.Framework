@@ -22,9 +22,9 @@ namespace IX.StandardExtensions
         /// <returns>An enumeration of types that are assignable from the given type.</returns>
         public static IEnumerable<TypeInfo> GetTypesAssignableFrom<T>(this Assembly assembly)
         {
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable for now
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable for now
             return assembly?.DefinedTypes?.Where(Filter) ?? throw new ArgumentNullException(nameof(assembly));
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0603 // Delegate allocation from a method group
 
             bool Filter(TypeInfo p)
                 => typeof(T).GetTypeInfo().IsAssignableFrom(p);
@@ -38,9 +38,9 @@ namespace IX.StandardExtensions
         /// <returns>An enumeration of types that are assignable from the given type.</returns>
         public static IEnumerable<TypeInfo> GetTypesAssignableFrom<T>(this IEnumerable<Assembly> assemblies)
         {
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable for now
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable for now
             return assemblies?.SelectMany(GetAssignableTypes) ?? throw new ArgumentNullException(nameof(assemblies));
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0603 // Delegate allocation from a method group
 
             IEnumerable<TypeInfo> GetAssignableTypes(Assembly p)
                 => p.GetTypesAssignableFrom<T>();

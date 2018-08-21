@@ -9,7 +9,7 @@ using System.Reflection;
 namespace IX.StandardExtensions
 {
     /// <summary>
-    /// Extensions for. <see cref="Type"/>
+    /// Extensions for <see cref="Type"/>.
     /// </summary>
     public static class TypeExtensions
     {
@@ -46,9 +46,9 @@ namespace IX.StandardExtensions
         public static MethodInfo GetMethodWithExactParameters(this Type typeInfo, string name, params Type[] parameters)
         {
             MethodInfo mi = null;
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable
             foreach (MethodInfo p in (typeInfo ?? throw new ArgumentNullException(nameof(typeInfo))).GetRuntimeMethods())
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
             {
                 if (p.Name != name)
                 {
@@ -86,5 +86,15 @@ namespace IX.StandardExtensions
         /// <returns>A <see cref="MethodInfo"/> object representing the found method, or <c>null</c> (<c>Nothing</c> in Visual Basic), if none is found.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="typeInfo"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
         public static MethodInfo GetMethodWithExactParameters(this Type typeInfo, string name, params TypeInfo[] parameters) => typeInfo.GetMethodWithExactParameters(name, parameters.Select(p => p.AsType()).ToArray());
+
+        /// <summary>
+        /// Gets the attribute data by type without version binding.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the t attribute.</typeparam>
+        /// <typeparam name="TReturn">The type of the t return.</typeparam>
+        /// <param name="typeInfo">The type information.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>System.Boolean.</returns>
+        public static bool GetAttributeDataByTypeWithoutVersionBinding<TAttribute, TReturn>(this Type typeInfo, out TReturn value) => typeInfo.GetTypeInfo().GetAttributeDataByTypeWithoutVersionBinding<TAttribute, TReturn>(out value);
     }
 }

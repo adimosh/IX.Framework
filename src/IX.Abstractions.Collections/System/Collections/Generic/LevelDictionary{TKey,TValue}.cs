@@ -222,11 +222,11 @@ namespace IX.System.Collections.Generic
         {
             this.ThrowIfCurrentObjectDisposed();
 
-#pragma warning disable HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation - Unavoidable at this time
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Unavoidable at this time
 
             // TODO: #68 - Eliminate boxing from IEnumerable implementations
             return this.internalDictionary.GetEnumerator();
-#pragma warning restore HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
         }
 
         /// <summary>
@@ -282,11 +282,11 @@ namespace IX.System.Collections.Generic
         {
             this.ThrowIfCurrentObjectDisposed();
 
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable at this time
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable at this time
 
             // TODO: #68 - Eliminate boxing from IEnumerable implementations
             return this.GetEnumerator();
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
         }
 
         /// <summary>

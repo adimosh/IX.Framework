@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -55,5 +56,44 @@ namespace IX.StandardExtensions
         /// <returns>A <see cref="MethodInfo"/> object representing the found method, or <c>null</c> (<c>Nothing</c> in Visual Basic), if none is found.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="typeInfo"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
         public static MethodInfo GetMethodWithExactParameters(this TypeInfo typeInfo, string name, params TypeInfo[] parameters) => typeInfo.AsType().GetMethodWithExactParameters(name, parameters.Select(p => p.AsType()).ToArray());
+
+        /// <summary>
+        /// Gets the attribute data by type without version binding.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the t attribute.</typeparam>
+        /// <typeparam name="TReturn">The type of the t return.</typeparam>
+        /// <param name="typeInfo">The type information.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>System.Boolean.</returns>
+        public static bool GetAttributeDataByTypeWithoutVersionBinding<TAttribute, TReturn>(this TypeInfo typeInfo, out TReturn value)
+        {
+#pragma warning disable HAA0401 // Lambda or anonymous method in a generic method allocates a delegate instance
+            CustomAttributeData attributeData = typeInfo
+                .CustomAttributes
+                .FirstOrDefault(p => p.AttributeType.FullName == typeof(TAttribute).FullName);
+
+            if (attributeData == null)
+            {
+                value = default;
+                return false;
+            }
+
+            IEnumerable<CustomAttributeTypedArgument> arguments = attributeData.ConstructorArguments.Where(p => p.ArgumentType == typeof(TReturn));
+
+            if (arguments.Count() != 1)
+            {
+                arguments = attributeData.NamedArguments.Where(p => p.TypedValue.ArgumentType == typeof(TReturn)).Select(p => p.TypedValue);
+            }
+
+            if (arguments.Count() != 1)
+            {
+                value = default;
+                return false;
+            }
+
+            value = (TReturn)arguments.First().Value;
+            return true;
+#pragma warning restore HAA0401 // Lambda or anonymous method in a generic method allocates a delegate instance
+        }
     }
 }

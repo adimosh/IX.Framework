@@ -22,15 +22,15 @@ namespace IX.Math.Generators
         {
             FormatParenthesis(string.Empty, openParenthesis, closeParenthesis);
 
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
+#pragma warning disable HAA0302 // Display class allocation to capture closure
             var itemsToProcess = new List<string>();
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
+#pragma warning restore HAA0302 // Display class allocation to capture closure
 
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
+#pragma warning disable HAA0301 // Closure Allocation Source
 #pragma warning disable HeapAnalyzerExplicitNewAnonymousObjectRule // Explicit new anonymous object allocation
             var itemToProcess = symbolTable.Where(p => p.Key.StartsWith("item") && !itemsToProcess.Contains(p.Key)).Select(p => new { p.Key, p.Value }).FirstOrDefault();
 #pragma warning restore HeapAnalyzerExplicitNewAnonymousObjectRule // Explicit new anonymous object allocation
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+#pragma warning restore HAA0301 // Closure Allocation Source
 
             while (itemToProcess != default)
             {
@@ -47,11 +47,11 @@ namespace IX.Math.Generators
                 {
                     itemsToProcess.Add(itemToProcess.Key);
 
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source
+#pragma warning disable HAA0301 // Closure Allocation Source
 #pragma warning disable HeapAnalyzerExplicitNewAnonymousObjectRule // Explicit new anonymous object allocation
                     itemToProcess = symbolTable.Where(p => p.Key.StartsWith("item") && !itemsToProcess.Contains(p.Key)).Select(p => new { p.Key, p.Value }).FirstOrDefault();
 #pragma warning restore HeapAnalyzerExplicitNewAnonymousObjectRule // Explicit new anonymous object allocation
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+#pragma warning restore HAA0301 // Closure Allocation Source
                 }
             }
 

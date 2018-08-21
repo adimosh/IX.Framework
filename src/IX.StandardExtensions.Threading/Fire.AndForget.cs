@@ -39,14 +39,14 @@ namespace IX.StandardExtensions.Threading
             if (exceptionHandler != null)
             {
                 // No sense in running the continuation if there's nobody listening
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
                 runningTask.ContinueWith(
                     continuationAction: StandardContinuation,
                     state: exceptionHandler,
                     continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
                     scheduler: GetCurrentTaskScheduler(),
                     cancellationToken: cancellationToken);
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
 
             runningTask.Start(TaskScheduler.Default);
@@ -91,14 +91,14 @@ namespace IX.StandardExtensions.Threading
             if (exceptionHandler != null)
             {
                 // No sense in running the continuation if there's nobody listening
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
                 runningTask.ContinueWith(
                     continuationAction: StandardContinuation,
                     state: exceptionHandler,
                     continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
                     scheduler: GetCurrentTaskScheduler(),
                     cancellationToken: cancellationToken);
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
 
             runningTask.Start(TaskScheduler.Default);
@@ -147,14 +147,14 @@ namespace IX.StandardExtensions.Threading
                             if (brokenState.Item2 != null)
                             {
                                 // No sense in running the continuation if there's nobody listening, or if it's already finished synchronously
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
                                 task.ContinueWith(
                                     continuationAction: StandardContinuation,
                                     state: brokenState.Item2,
                                     continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
                                     scheduler: brokenState.Item3,
                                     cancellationToken: brokenState.Item4);
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0603 // Delegate allocation from a method group
                             }
                         }
                     }
@@ -230,14 +230,14 @@ namespace IX.StandardExtensions.Threading
                             if (brokenState.Item2 != null)
                             {
                                 // No sense in running the continuation if there's nobody listening, or if it's already finished synchronously
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
                                 task.ContinueWith(
                                     continuationAction: StandardContinuation,
                                     state: brokenState.Item2,
                                     continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
                                     scheduler: brokenState.Item3,
                                     cancellationToken: brokenState.Item4);
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0603 // Delegate allocation from a method group
                             }
                         }
                     }

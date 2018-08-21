@@ -437,5 +437,140 @@ namespace IX.UnitTests.IX.Observable
             Assert.False(list.Contains(2));
             Assert.True(list.Contains(74));
         }
+
+        /// <summary>
+        /// Tests undo and redo with RemoveRange (explicit items) on an ObservableList.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Undo/Redo with range of epxlicit items")]
+        [MemberData(nameof(GenerateData))]
+        public void UnitTest14(ObservableList<int> list)
+        {
+            // ARRANGE
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+
+            // ACT
+
+            // Remove range
+            list.RemoveRange(1, 19, 4);
+
+            // Assert intermediary state
+            Assert.Equal(7, list[0]);
+            Assert.Equal(23, list[1]);
+            Assert.DoesNotContain(1, list);
+            Assert.DoesNotContain(19, list);
+            Assert.DoesNotContain(4, list);
+
+            // Undo
+            list.Undo();
+
+            // Assert intermediary state
+            Assert.Equal(1, list[0]);
+            Assert.Equal(7, list[1]);
+            Assert.Equal(19, list[2]);
+            Assert.Equal(23, list[3]);
+            Assert.Equal(4, list[4]);
+
+            // Redo
+            list.Redo();
+
+            // Assert intermediary state
+            Assert.Equal(7, list[0]);
+            Assert.Equal(23, list[1]);
+            Assert.DoesNotContain(1, list);
+            Assert.DoesNotContain(19, list);
+            Assert.DoesNotContain(4, list);
+        }
+
+        /// <summary>
+        /// Tests undo and redo with RemoveRange (starting index) on an ObservableList.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Undo/Redo with range of items by start index")]
+        [MemberData(nameof(GenerateData))]
+        public void UnitTest15(ObservableList<int> list)
+        {
+            // ARRANGE
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+
+            // ACT
+
+            // Remove range
+            list.RemoveRange(2);
+
+            // Assert intermediary state
+            Assert.Equal(1, list[0]);
+            Assert.Equal(7, list[1]);
+            Assert.DoesNotContain(19, list);
+            Assert.DoesNotContain(23, list);
+            Assert.DoesNotContain(4, list);
+
+            // Undo
+            list.Undo();
+
+            // Assert intermediary state
+            Assert.Equal(1, list[0]);
+            Assert.Equal(7, list[1]);
+            Assert.Equal(19, list[2]);
+            Assert.Equal(23, list[3]);
+            Assert.Equal(4, list[4]);
+
+            // Redo
+            list.Redo();
+
+            // Assert intermediary state
+            Assert.Equal(1, list[0]);
+            Assert.Equal(7, list[1]);
+            Assert.DoesNotContain(19, list);
+            Assert.DoesNotContain(23, list);
+            Assert.DoesNotContain(4, list);
+        }
+
+        /// <summary>
+        /// Tests undo and redo with RemoveRange (starting index and length) on an ObservableList.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        [Theory(DisplayName = "ObservableList, Undo/Redo with range of items by start index and length")]
+        [MemberData(nameof(GenerateData))]
+        public void UnitTest16(ObservableList<int> list)
+        {
+            // ARRANGE
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+
+            // ACT
+
+            // Remove range
+            list.RemoveRange(2, 2);
+
+            // Assert intermediary state
+            Assert.Equal(1, list[0]);
+            Assert.Equal(7, list[1]);
+            Assert.DoesNotContain(19, list);
+            Assert.DoesNotContain(23, list);
+            Assert.Equal(4, list[2]);
+
+            // Undo
+            list.Undo();
+
+            // Assert intermediary state
+            Assert.Equal(1, list[0]);
+            Assert.Equal(7, list[1]);
+            Assert.Equal(19, list[2]);
+            Assert.Equal(23, list[3]);
+            Assert.Equal(4, list[4]);
+
+            // Redo
+            list.Redo();
+
+            // Assert intermediary state
+            Assert.Equal(1, list[0]);
+            Assert.Equal(7, list[1]);
+            Assert.DoesNotContain(19, list);
+            Assert.DoesNotContain(23, list);
+            Assert.Equal(4, list[2]);
+        }
     }
 }

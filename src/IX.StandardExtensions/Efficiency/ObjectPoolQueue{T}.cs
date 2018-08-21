@@ -19,7 +19,7 @@ namespace IX.StandardExtensions.Efficiency
         private readonly CancellationToken cancellationToken;
         private readonly Func<IEnumerable<T>, int, Task<bool>> queueAction;
 
-#pragma warning disable HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure - Acceptable as counterpart of below
+#pragma warning disable HAA0302 // Display class allocation to capture closure - Acceptable as counterpart of below
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectPoolQueue{T}" /> class.
         /// </summary>
@@ -32,16 +32,16 @@ namespace IX.StandardExtensions.Efficiency
         /// <para>In order to stop retrying, a <see cref="StopRetryingException"/> should be thrown.</para>
         /// </remarks>
         public ObjectPoolQueue(Func<IEnumerable<T>, int, Task<bool>> queueAction, int objectLimit = 1000, CancellationToken cancellationToken = default)
-#pragma warning restore HeapAnalyzerClosureCaptureRule // Display class allocation to capture closure
+#pragma warning restore HAA0302 // Display class allocation to capture closure
         {
             this.objects = new Queue<T>();
             this.cancellationToken = cancellationToken;
             this.ObjectLimit = objectLimit;
             this.queueAction = queueAction;
 
-#pragma warning disable HeapAnalyzerClosureSourceRule // Closure Allocation Source - This is acceptable, as the lambda and closure will live as part of the object pool queue and provide state reference.
+#pragma warning disable HAA0301 // Closure Allocation Source - This is acceptable, as the lambda and closure will live as part of the object pool queue and provide state reference.
             Task.Run(() => this.Run(null));
-#pragma warning restore HeapAnalyzerClosureSourceRule // Closure Allocation Source
+#pragma warning restore HAA0301 // Closure Allocation Source
         }
 
         /// <summary>
@@ -63,17 +63,17 @@ namespace IX.StandardExtensions.Efficiency
 #endif
             if (this.objects.Count == 0)
             {
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable at this point
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable at this point
                 Task.Delay(1000, this.cancellationToken).ContinueWith(this.Run, TaskContinuationOptions.OnlyOnRanToCompletion);
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
             else
             {
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - This is acceptable at this point
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable at this point
                 Task.Run(
                     ProcessObjects,
                     this.cancellationToken).ContinueWith(this.Run, TaskContinuationOptions.OnlyOnRanToCompletion);
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0603 // Delegate allocation from a method group
 
                 async Task ProcessObjects()
                 {

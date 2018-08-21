@@ -12,7 +12,7 @@ namespace IX.StandardExtensions
     /// </summary>
     public static partial class IEnumerableSequenceEqualsExtensions
     {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
         /// </summary>
@@ -284,6 +284,6 @@ namespace IX.StandardExtensions
                 action(item, param1, param2, param3, param4, param5, param6, param7, param8);
             }
         }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
     }
 }

@@ -13,7 +13,7 @@ namespace IX.StandardExtensions
     /// </summary>
     public static partial class IEnumerateEquateSequentiallyExtensions
     {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions
         /// <summary>
         /// Equates two enumerable collections sequentially.
         /// </summary>
@@ -1901,6 +1901,6 @@ namespace IX.StandardExtensions
                 return true;
             }
         }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
     }
 }

@@ -194,13 +194,13 @@ namespace IX.Guaranteed.Collections
         /// </summary>
         public abstract void TrimExcess();
 
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Yeah, we know
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Yeah, we know
         /// <summary>
         /// Returns an enumerator that iterates through the queue.
         /// </summary>
         /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the queue.</returns>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
 
         /// <summary>
         /// Loads the topmost item from the folder, ensuring its deletion afterwards.

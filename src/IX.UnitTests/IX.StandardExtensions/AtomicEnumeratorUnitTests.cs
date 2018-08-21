@@ -21,7 +21,7 @@ namespace IX.UnitTests.IX.StandardExtensions
         [Fact]
         public void AtomicEnumeratorCorrectEnumerationTest()
         {
-#pragma warning disable HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation - This is acceptable for this unit test
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is acceptable for this unit test
             // ARRANGE
             var q = new List<int> { 1, 2, 3, 4, 5 };
             List<int>.Enumerator enumerator = q.GetEnumerator();
@@ -45,7 +45,7 @@ namespace IX.UnitTests.IX.StandardExtensions
             // ASSERT
             Assert.True(q.SequenceEquals(newList1));
             Assert.True(q.SequenceEquals(newList2));
-#pragma warning restore HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
         }
     }
 }

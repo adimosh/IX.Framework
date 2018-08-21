@@ -192,10 +192,10 @@ namespace IX.Retry
                 throw new ArgumentNullException(nameof(options));
             }
 
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - Unavoidable
+#pragma warning disable HAA0603 // Delegate allocation from a method group - Unavoidable
             options.RetryOnExceptions.RemoveAll(RemovePredicate<T>);
             options.RetryOnExceptions.Add(new Tuple<Type, Func<Exception, bool>>(typeof(T), AlwaysTrue));
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0603 // Delegate allocation from a method group
 
             return options;
         }
@@ -220,9 +220,9 @@ namespace IX.Retry
                 throw new ArgumentNullException(nameof(testExceptionFunc));
             }
 
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - Unavoidable
+#pragma warning disable HAA0603 // Delegate allocation from a method group - Unavoidable
             options.RetryOnExceptions.RemoveAll(RemovePredicate<T>);
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             options.RetryOnExceptions.Add(new Tuple<Type, Func<Exception, bool>>(typeof(T), testExceptionFunc));
 
             return options;

@@ -10,7 +10,7 @@ using IX.StandardExtensions;
 
 namespace IX.Observable.Adapters
 {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable right now
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable right now
     internal class MultiListMasterSlaveListAdapter<T> : ListAdapter<T>
     {
         private readonly List<IEnumerable<T>> slaves;
@@ -283,5 +283,5 @@ namespace IX.Observable.Adapters
             }
         }
     }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
 }

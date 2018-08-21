@@ -162,5 +162,201 @@ namespace IX.UnitTests.IX.Observable
 
             Assert.Single(list);
         }
+
+        /// <summary>
+        /// ObservableList complete explicit undo transaction block with captured item.
+        /// </summary>
+        [Fact(DisplayName = "ObservableList complete explicit undo transaction block with captured item")]
+        public void UnitTest5()
+        {
+            // ARRANGE
+            var list = new ObservableList<CapturedItem>(
+                new[]
+                {
+                    new CapturedItem { TestProperty = "1" },
+                    new CapturedItem { TestProperty = "2" },
+                    new CapturedItem { TestProperty = "3" },
+                    new CapturedItem { TestProperty = "4" },
+                    new CapturedItem { TestProperty = "5" },
+                })
+            {
+                AutomaticallyCaptureSubItems = true,
+            };
+
+            // ACT & ASSERT
+            list.RemoveAt(0);
+
+            Assert.Equal(4, list.Count);
+
+            using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
+            {
+                list.RemoveAt(0);
+                list.RemoveAt(0);
+                list.RemoveAt(0);
+
+                tc.Success();
+            }
+
+            Assert.Single(list);
+
+            list.Undo();
+
+            Assert.Equal(4, list.Count);
+
+            list.Redo();
+
+            Assert.Single(list);
+        }
+
+        /// <summary>
+        /// ObservableList incomplete explicit undo transaction block, throws exception with captured item.
+        /// </summary>
+        [Fact(DisplayName = "ObservableList incomplete explicit undo transaction block, throws exception with captured item")]
+        public void UnitTest6()
+        {
+            // ARRANGE
+            var list = new ObservableList<CapturedItem>(
+                new[]
+                {
+                    new CapturedItem { TestProperty = "1" },
+                    new CapturedItem { TestProperty = "2" },
+                    new CapturedItem { TestProperty = "3" },
+                    new CapturedItem { TestProperty = "4" },
+                    new CapturedItem { TestProperty = "5" },
+                })
+            {
+                AutomaticallyCaptureSubItems = true,
+            };
+
+            // ACT & ASSERT
+            list.RemoveAt(0);
+
+            Assert.Equal(4, list.Count);
+
+            list.StartExplicitUndoBlockTransaction();
+
+            list.RemoveAt(0);
+            list.RemoveAt(0);
+            list.RemoveAt(0);
+
+            Assert.Single(list);
+
+            try
+            {
+                list.Undo();
+            }
+            catch (Exception ex)
+            {
+                Assert.IsType<InvalidOperationException>(ex);
+            }
+        }
+
+        /// <summary>
+        /// ObservableList complete explicit undo transaction block then other undoable action with captured item.
+        /// </summary>
+        [Fact(DisplayName = "ObservableList complete explicit undo transaction block then other undoable action with captured item")]
+        public void UnitTest7()
+        {
+            // ARRANGE
+            var list = new ObservableList<CapturedItem>(
+                new[]
+                {
+                    new CapturedItem { TestProperty = "1" },
+                    new CapturedItem { TestProperty = "2" },
+                    new CapturedItem { TestProperty = "3" },
+                    new CapturedItem { TestProperty = "4" },
+                    new CapturedItem { TestProperty = "5" },
+                    new CapturedItem { TestProperty = "6" },
+                    new CapturedItem { TestProperty = "7" },
+                    new CapturedItem { TestProperty = "8" },
+                })
+            {
+                AutomaticallyCaptureSubItems = true,
+            };
+
+            // ACT & ASSERT
+            list.RemoveAt(0);
+
+            Assert.Equal(7, list.Count);
+
+            using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
+            {
+                list.RemoveAt(0);
+                list.RemoveAt(0);
+                list.RemoveAt(0);
+
+                tc.Success();
+            }
+
+            Assert.Equal(4, list.Count);
+
+            list.Undo();
+
+            Assert.Equal(7, list.Count);
+
+            list.Redo();
+
+            Assert.Equal(4, list.Count);
+
+            list.RemoveAt(0);
+
+            Assert.Equal(3, list.Count);
+
+            list.Undo();
+
+            Assert.Equal(4, list.Count);
+
+            list.Redo();
+
+            Assert.Equal(3, list.Count);
+
+            list.Undo();
+            list.Undo();
+            list.Undo();
+
+            Assert.Equal(8, list.Count);
+        }
+
+        /// <summary>
+        /// ObservableList complete explicit undo transaction block single with captured item.
+        /// </summary>
+        [Fact(DisplayName = "ObservableList complete explicit undo transaction block single with captured item")]
+        public void UnitTest8()
+        {
+            // ARRANGE
+            var list = new ObservableList<CapturedItem>(
+                new[]
+                {
+                    new CapturedItem { TestProperty = "1" },
+                    new CapturedItem { TestProperty = "2" },
+                    new CapturedItem { TestProperty = "3" },
+                    new CapturedItem { TestProperty = "4" },
+                    new CapturedItem { TestProperty = "5" },
+                })
+            {
+                AutomaticallyCaptureSubItems = true,
+            };
+
+            // ACT & ASSERT
+            using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
+            {
+                list.RemoveAt(0);
+                list.RemoveAt(0);
+                list.RemoveAt(0);
+                list.RemoveAt(0);
+
+                tc.Success();
+            }
+
+            Assert.Single(list);
+
+            list.Undo();
+
+            Assert.Equal(5, list.Count);
+
+            list.Redo();
+
+            Assert.Single(list);
+        }
     }
 }

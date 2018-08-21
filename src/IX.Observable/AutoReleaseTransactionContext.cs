@@ -109,7 +109,7 @@ namespace IX.Observable
             this.item = null;
             this.editableHandler = editableHandler;
 
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator
             foreach (IUndoableItem item in items)
             {
                 item.ReleaseFromUndoContext();
@@ -119,7 +119,7 @@ namespace IX.Observable
                     tei.EditCommitted -= editableHandler;
                 }
             }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
 
             this.AddFailure();
         }
@@ -150,7 +150,7 @@ namespace IX.Observable
 
                     if (thisL1.items != null)
                     {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator
                         foreach (IUndoableItem item in thisL1.items)
                         {
                             item.CaptureIntoUndoContext(thisL1.parentContext);
@@ -160,7 +160,7 @@ namespace IX.Observable
                                 tei.EditCommitted += thisL1.editableHandler;
                             }
                         }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                     }
                 }, this);
     }

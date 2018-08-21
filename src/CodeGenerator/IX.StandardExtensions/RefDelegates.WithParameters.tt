@@ -12,67 +12,116 @@ namespace IX.StandardExtensions.Efficiency
 {<#
 for (int i = 1; i <= 8; i++)
 {
-    string[] types = new string[i];
-    string[] names = new string[i];
-    string[] nameTypes = new string[i];
-
-    for (int j = 1; j <= i; j++)
+    for (int z = 1; z <= i; z++)
     {
-        int idx = j - 1;
-        types[idx] = $"TParam{j}";
-        names[idx] = $"param{j}";
-        nameTypes[idx] = $"ref TParam{j} param{j}";
-    }
+        string[] types = new string[i];
+        string[] names = new string[i];
+        string[] nameTypes = new string[i];
 
-    string paramTypes = string.Join(", ", types);
-    string paramNames = string.Join(", ", names);
-    string paramNameTypes = string.Join(", ", nameTypes);
+        for (int j = 1; j <= i; j++)
+        {
+            int idx = j - 1;
+            types[idx] = $"TParam{j}";
+            names[idx] = $"param{j}";
+            nameTypes[idx] = $"TParam{j} param{j}";
+
+            if (j <= z)
+            {
+                nameTypes[idx] = "ref " + nameTypes[idx];
+            }
+        }
+
+        string paramTypes = string.Join(", ", types);
+        string paramNames = string.Join(", ", names);
+        string paramNameTypes = string.Join(", ", nameTypes);
 #>
 
     /// <summary>
     /// A generic delegate for a method whose parameters are all marked as &quot;ref&quot;, with a return type.
     /// </summary>
 <#
-    for (int j = 1; j <= i; j++)
-    {
+        for (int j = 1; j <= i; j++)
+        {
 #>
     /// <typeparam name="TParam<#= j #>">The type of the parameter at index <#= j - 1 #>.</typeparam>
 <#
-    }
+        }
 #>
     /// <typeparam name="TResult">The type of the result.</typeparam>
 <#
-    for (int j = 1; j <= i; j++)
-    {
+        for (int j = 1; j <= i; j++)
+        {
+            if (j <= z)
+            {
 #>
     /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the method at index <#= j - 1 #>. This parameter is passed by reference.</param>
 <#
-    }
+            }
+            else
+            {
+#>
+    /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the method at index <#= j - 1 #>.</param>
+<#
+            }
+        }
 #>
     /// <returns>The result of the method.</returns>
+<#
+        if (z != i)
+        {
+#>
+    public delegate TResult RefFunc<#= i - z #><<#= paramTypes #>, TResult>(<#= paramNameTypes #>);
+<#
+        }
+        else
+        {
+#>
     public delegate TResult RefFunc<<#= paramTypes #>, TResult>(<#= paramNameTypes #>);
+<#
+        }
+#>
 
     /// <summary>
     /// A generic delegate for a method whose parameters are all marked as &quot;ref&quot;.
     /// </summary>
 <#
-    for (int j = 1; j <= i; j++)
-    {
+        for (int j = 1; j <= i; j++)
+        {
 #>
     /// <typeparam name="TParam<#= j #>">The type of the parameter at index <#= j - 1 #>.</typeparam>
 <#
-    }
+        }
 #>
 <#
-    for (int j = 1; j <= i; j++)
-    {
+        for (int j = 1; j <= i; j++)
+        {
+            if (j <= z)
+            {
 #>
     /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the method at index <#= j - 1 #>. This parameter is passed by reference.</param>
 <#
-    }
+            }
+            else
+            {
+#>
+    /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the method at index <#= j - 1 #>.</param>
+<#
+            }
+        }
+
+        if (z != i)
+        {
+#>
+    public delegate void RefAction<#= i - z #><<#= paramTypes #>>(<#= paramNameTypes #>);
+<#
+        }
+        else
+        {
 #>
     public delegate void RefAction<<#= paramTypes #>>(<#= paramNameTypes #>);
 <#
+        }
+    }
 }
 #>
 }

@@ -78,6 +78,8 @@ namespace IX.Math
             GC.SuppressFinalize(this);
         }
 
+#pragma warning disable HAA0302 // Display class allocation to capture closure - Currently unavoidable
+#pragma warning disable HAA0301 // Closure Allocation Source
         /// <summary>
         /// Computes the expression and returns a result.
         /// </summary>
@@ -791,6 +793,8 @@ namespace IX.Math
                 return this.initialExpression;
             }
         }
+#pragma warning restore HAA0301 // Closure Allocation Source
+#pragma warning restore HAA0302 // Display class allocation to capture closure
 
         /// <summary>
         /// Computes the expression and returns a result.

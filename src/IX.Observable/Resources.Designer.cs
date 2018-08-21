@@ -102,6 +102,17 @@ namespace IX.Observable
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to The given collection to remove is not contained in the initial collection..
+        /// </summary>
+        internal static string TheGivenCollectionToRemoveIsNotContainedInTheInitialCollection
+        {
+            get
+            {
+                return ResourceManager.GetString("TheGivenCollectionToRemoveIsNotContainedInTheInitialCollection", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to There already is an open undo transaction..
         /// </summary>
         internal static string ThereAlreadyIsAnOpenUndoTransaction

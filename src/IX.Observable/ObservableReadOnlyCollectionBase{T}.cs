@@ -166,35 +166,34 @@ namespace IX.Observable
         /// <param name="fromIndex">The zero-based index from which which copying begins.</param>
         /// <returns>A newly-formed array.</returns>
         /// <remarks>On concurrent collections, this method is read-synchronized.</remarks>
-        public T[] CopyToArray(int fromIndex) => this.InvokeIfNotDisposed(
-            (arrayIndexL1, thisL1) => thisL1.ReadLock(
-                (arrayIndexL2, thisL2) =>
+        public T[] CopyToArray(int fromIndex)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (this.ReadLock())
+            {
+                var clount = ((ICollection<T>)this.InternalContainer).Count;
+
+                if (fromIndex >= clount || fromIndex < 0)
                 {
-                    var clount = ((ICollection<T>)thisL2.InternalContainer).Count;
+                    throw new ArgumentOutOfRangeException(nameof(fromIndex));
+                }
 
-                    if (arrayIndexL2 >= clount || arrayIndexL2 < 0)
-                    {
-                        throw new ArgumentOutOfRangeException(nameof(fromIndex));
-                    }
+                T[] array;
 
-                    T[] array;
+                if (fromIndex == 0)
+                {
+                    array = new T[clount];
+                    this.InternalContainer.CopyTo(array, 0);
+                }
+                else
+                {
+                    array = this.InternalContainer.Skip(fromIndex).ToArray();
+                }
 
-                    if (arrayIndexL2 == 0)
-                    {
-                        array = new T[clount];
-                        thisL2.InternalContainer.CopyTo(array, 0);
-                    }
-                    else
-                    {
-                        array = thisL2.InternalContainer.Skip(arrayIndexL2).ToArray();
-                    }
-
-                    return array;
-                },
-                arrayIndexL1,
-                thisL1),
-            fromIndex,
-            this);
+                return array;
+            }
+        }
 
         /// <summary>
         /// Copies the elements of the <see cref="ObservableCollectionBase{T}" /> to a new <see cref="Array" />.
@@ -227,7 +226,7 @@ namespace IX.Observable
         {
             this.ThrowIfCurrentObjectDisposed();
 
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Acceptable
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Acceptable
             if (this.SynchronizationLock == null)
             {
                 return this.InternalContainer.GetEnumerator();
@@ -245,7 +244,7 @@ namespace IX.Observable
         /// An <see cref="IEnumerator" /> object that can be used to iterate through the collection.
         /// </returns>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
 
         /// <summary>
         /// Copies the contents of the container to an array.

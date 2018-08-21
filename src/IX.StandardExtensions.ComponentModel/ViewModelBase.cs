@@ -105,9 +105,9 @@ namespace IX.StandardExtensions.ComponentModel
                         {
                             foreach (var r in source)
                             {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable
                                 foreach (var m in r.MemberNames)
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                                 {
                                     if (m == kv.Key)
                                     {
@@ -120,14 +120,14 @@ namespace IX.StandardExtensions.ComponentModel
                         }
                     }
 
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - Unavoidable
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable
 
                     // Those properties that currently don't pass validation should have their validation results saved as messages.
                     foreach (var property in from r in validationResults
                                              from m in r.MemberNames
                                              group r by m into g
                                              select g)
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                     {
                         var messages = property.Select(r => r.ErrorMessage).ToArray();
 
@@ -155,9 +155,9 @@ namespace IX.StandardExtensions.ComponentModel
         {
             this.RaisePropertyChanged(propertyName);
 
-#pragma warning disable HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group - Expected
+#pragma warning disable HAA0603 // Delegate allocation from a method group - Expected
             this.FireAndForget(this.Validate);
-#pragma warning restore HeapAnalyzerMethodGroupAllocationRule // Delegate allocation from a method group
+#pragma warning restore HAA0603 // Delegate allocation from a method group
         }
 
         /// <summary>

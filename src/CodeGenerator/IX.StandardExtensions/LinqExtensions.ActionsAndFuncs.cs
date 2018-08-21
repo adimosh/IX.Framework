@@ -1,4 +1,4 @@
-// <copyright file="IEnumerableExtensions.ForEachActions.cs" company="Adrian Mos">
+// <copyright file="LinqExtensions.ActionsAndFuncs.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -12,7 +12,7 @@ namespace IX.StandardExtensions
     /// </summary>
     public static partial class LinqExtensions
     {
-#pragma warning disable HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions
         /// <summary>
         /// Determines whether a sequence contains any elements that match a specific predicate.
         /// </summary>
@@ -972,6 +972,6 @@ namespace IX.StandardExtensions
 
             return default;
         }
-#pragma warning restore HeapAnalyzerEnumeratorAllocationRule // Possible allocation of reference type enumerator
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
     }
 }

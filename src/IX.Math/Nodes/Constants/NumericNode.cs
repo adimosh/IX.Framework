@@ -245,10 +245,10 @@ namespace IX.Math.Nodes.Constants
         /// </summary>
         /// <returns>The expression.</returns>
         public override Expression GenerateCachedExpression() => this.isFloat ?
-#pragma warning disable HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation - This is required here, as we are generating an expression tree.
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is required here, as we are generating an expression tree.
             Expression.Constant(this.floatValue, typeof(double)) :
             Expression.Constant(this.integerValue, typeof(long));
-#pragma warning restore HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
 
         /// <summary>
         /// Generates a floating-point expression.
@@ -262,9 +262,9 @@ namespace IX.Math.Nodes.Constants
             }
             else
             {
-#pragma warning disable HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation - This is required here, as we are generating an expression tree.
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is required here, as we are generating an expression tree.
                 return Expression.Constant(Convert.ToDouble(this.floatValue), typeof(double));
-#pragma warning restore HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
             }
         }
 
@@ -286,9 +286,9 @@ namespace IX.Math.Nodes.Constants
                     throw new InvalidCastException();
                 }
 
-#pragma warning disable HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation - This is required here, as we are generating an expression tree.
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is required here, as we are generating an expression tree.
                 return Expression.Constant(Convert.ToInt64(this.floatValue), typeof(long));
-#pragma warning restore HeapAnalyzerBoxingRule // Value type to reference type conversion causing boxing allocation
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
             }
         }
 
