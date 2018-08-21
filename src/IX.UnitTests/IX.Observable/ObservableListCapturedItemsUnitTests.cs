@@ -13,10 +13,10 @@ namespace IX.UnitTests.IX.Observable
     public class ObservableListCapturedItemsUnitTests
     {
         /// <summary>
-        /// The first test in the suite.
+        /// ObservableList captured item undo/redo.
         /// </summary>
         [Fact(DisplayName = "ObservableList captured item undo/redo")]
-        public void Test1()
+        public void UnitTest1()
         {
             // ARRANGE
             var item1 = new CapturedItem();
@@ -40,10 +40,10 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// The first test in the suite.
+        /// ObservableList non-captured item undo/redo.
         /// </summary>
         [Fact(DisplayName = "ObservableList non-captured item undo/redo")]
-        public void Test2()
+        public void UnitTest2()
         {
             // ARRANGE
             var item1 = new CapturedItem();
@@ -65,6 +65,110 @@ namespace IX.UnitTests.IX.Observable
             // ASSERT
             Assert.Equal("ccc", item1.TestProperty);
             Assert.Empty(list);
+        }
+
+        /// <summary>
+        /// ObservableList captured item undo/redo and further use.
+        /// </summary>
+        [Fact(DisplayName = "ObservableList captured item undo/redo and further use")]
+        public void UnitTest3()
+        {
+            // ARRANGE
+            var list = new ObservableList<CapturedItem>
+            {
+#pragma warning disable IDE0009 // Member access should be qualified. - It shouldn't, but there is a bug in the analyzer
+                new CapturedItem { TestProperty = "1" },
+                new CapturedItem { TestProperty = "2" },
+                new CapturedItem { TestProperty = "3" },
+                new CapturedItem { TestProperty = "4" },
+                new CapturedItem { TestProperty = "5" },
+#pragma warning restore IDE0009 // Member access should be qualified.
+            };
+
+            list.AutomaticallyCaptureSubItems = true;
+
+            // ACT
+            list.AddRange(
+                new[]
+                {
+#pragma warning disable IDE0009 // Member access should be qualified. - It shouldn't, but there is a bug in the analyzer
+                    new CapturedItem { TestProperty = "6" },
+                    new CapturedItem { TestProperty = "7" },
+                    new CapturedItem { TestProperty = "8" },
+                    new CapturedItem { TestProperty = "9" },
+#pragma warning restore IDE0009 // Member access should be qualified.
+                });
+
+            // ASSERT
+            list.Undo();
+
+            Assert.Equal(5, list.Count);
+            Assert.True(list[0].TestProperty == "1");
+            Assert.True(list[1].TestProperty == "2");
+            Assert.True(list[2].TestProperty == "3");
+            Assert.True(list[3].TestProperty == "4");
+            Assert.True(list[4].TestProperty == "5");
+
+            list.Redo();
+
+            Assert.Equal(9, list.Count);
+            Assert.True(list[0].TestProperty == "1");
+            Assert.True(list[1].TestProperty == "2");
+            Assert.True(list[2].TestProperty == "3");
+            Assert.True(list[3].TestProperty == "4");
+            Assert.True(list[4].TestProperty == "5");
+            Assert.True(list[5].TestProperty == "6");
+            Assert.True(list[6].TestProperty == "7");
+            Assert.True(list[7].TestProperty == "8");
+            Assert.True(list[8].TestProperty == "9");
+
+            list.RemoveAt(6);
+
+            Assert.Equal(8, list.Count);
+            Assert.True(list[0].TestProperty == "1");
+            Assert.True(list[1].TestProperty == "2");
+            Assert.True(list[2].TestProperty == "3");
+            Assert.True(list[3].TestProperty == "4");
+            Assert.True(list[4].TestProperty == "5");
+            Assert.True(list[5].TestProperty == "6");
+            Assert.True(list[6].TestProperty == "8");
+            Assert.True(list[7].TestProperty == "9");
+
+            list[7].TestProperty = "10";
+
+            Assert.True(list[7].TestProperty == "10");
+
+            list.Undo();
+
+            Assert.Equal(8, list.Count);
+            Assert.True(list[0].TestProperty == "1");
+            Assert.True(list[1].TestProperty == "2");
+            Assert.True(list[2].TestProperty == "3");
+            Assert.True(list[3].TestProperty == "4");
+            Assert.True(list[4].TestProperty == "5");
+            Assert.True(list[5].TestProperty == "6");
+            Assert.True(list[6].TestProperty == "8");
+            Assert.True(list[7].TestProperty == "9");
+
+            list.RemoveRange(2, 4);
+
+            Assert.Equal(4, list.Count);
+            Assert.True(list[0].TestProperty == "1");
+            Assert.True(list[1].TestProperty == "2");
+            Assert.True(list[2].TestProperty == "8");
+            Assert.True(list[3].TestProperty == "9");
+
+            list.Undo();
+
+            Assert.Equal(8, list.Count);
+            Assert.True(list[0].TestProperty == "1");
+            Assert.True(list[1].TestProperty == "2");
+            Assert.True(list[2].TestProperty == "3");
+            Assert.True(list[3].TestProperty == "4");
+            Assert.True(list[4].TestProperty == "5");
+            Assert.True(list[5].TestProperty == "6");
+            Assert.True(list[6].TestProperty == "8");
+            Assert.True(list[7].TestProperty == "9");
         }
     }
 }
