@@ -132,4 +132,7 @@
   <data name="UndoAndRedoOperationsAreNotSupportedWhileAnExplicitTransactionBlockIsOpen" xml:space="preserve">
     <value>Undo and Redo operations are not supported while an explicit transaction block is open.</value>
   </data>
+  <data name="TheGivenCollectionToRemoveIsNotContainedInTheInitialCollection" xml:space="preserve">
+    <value>The given collection to remove is not contained in the initial collection.</value>
+  </data>
 </root>

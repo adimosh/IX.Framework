@@ -755,7 +755,9 @@ namespace IX.Observable
                 var states = new object[count];
                 var counter = 0;
                 var result = true;
-                foreach (StateChange sc in bsc.StateChanges)
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - OK, we're doing a Reverse anyway
+                foreach (StateChange sc in ((IEnumerable<StateChange>)bsc.StateChanges).Reverse())
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                 {
                     try
                     {

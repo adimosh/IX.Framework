@@ -9,3 +9,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Performance", "HAA0101:Array allocation for params parameter", Justification = "So params allocates an empty array anytime. So what? It's not like I have a choice.", Scope = "module")]
 [assembly: SuppressMessage("Performance", "HAA0501:Explicit new array type allocation", Justification = "Explicit array creation will be refactored at a later time, wherever necessary.", Scope = "module")]
 [assembly: SuppressMessage("Performance", "HAA0505:Initializer reference type allocation", Justification = "Explicit collection creation by initializer is usually an intended phenomenon, for now let's ignore.", Scope = "module")]
+[assembly: SuppressMessage("Performance", "HAA0503:Explicit new anonymous object allocation", Justification = "LINQ works that way, it is rare enough to be of little impact anyway.", Scope = "module")]
