@@ -199,7 +199,7 @@ namespace IX.Observable
             this);
 
         /// <summary>
-        /// Adds an item to the <see cref="ObservableCollectionBase{T}" />.
+        /// Adds a range of items to the <see cref="ObservableCollectionBase{T}" />.
         /// </summary>
         /// <param name="items">The objects to add to the <see cref="ObservableCollectionBase{T}" />.</param>
         /// <remarks>
@@ -261,6 +261,9 @@ namespace IX.Observable
         /// <paramref name="startIndex"/>
         /// must be a non-negative integer, less than the size of the collection.
         /// </exception>
+        /// <remarks>
+        /// <para>On concurrent collections, this method is write-synchronized.</para>
+        /// </remarks>
         public virtual void RemoveRange(int startIndex)
         {
             // PRECONDITIONS
@@ -334,6 +337,9 @@ namespace IX.Observable
         /// <paramref name="length"/>
         /// must be a non-negative integer, and, in combination with the startIndex, must not exceed the length of the collection.
         /// </exception>
+        /// <remarks>
+        /// <para>On concurrent collections, this method is write-synchronized.</para>
+        /// </remarks>
         public virtual void RemoveRange(int startIndex, int length)
         {
             // PRECONDITIONS
@@ -409,6 +415,9 @@ namespace IX.Observable
         /// Removes a range of items from the <see cref="ObservableCollectionBase{T}" />.
         /// </summary>
         /// <param name="items">The items to remove.</param>
+        /// <remarks>
+        /// <para>On concurrent collections, this method is write-synchronized.</para>
+        /// </remarks>
         public virtual void RemoveRange(IEnumerable<T> items)
         {
             // PRECONDITIONS
@@ -473,6 +482,9 @@ namespace IX.Observable
         /// Removes a range of items from the <see cref="ObservableCollectionBase{T}" />.
         /// </summary>
         /// <param name="items">The items to remove.</param>
+        /// <remarks>
+        /// <para>On concurrent collections, this method is write-synchronized.</para>
+        /// </remarks>
         public virtual void RemoveRange(params T[] items) => this.RemoveRange((IEnumerable<T>)items);
 
         /// <summary>
@@ -480,6 +492,9 @@ namespace IX.Observable
         /// </summary>
         /// <param name="index">The index at which to insert.</param>
         /// <param name="item">The item.</param>
+        /// <remarks>
+        /// <para>On concurrent collections, this method is write-synchronized.</para>
+        /// </remarks>
         public virtual void Insert(int index, T item)
         {
             // PRECONDITIONS
@@ -510,6 +525,72 @@ namespace IX.Observable
 
             // Collection changed
             this.RaiseCollectionChangedAdd(item, index);
+
+            // Property changed
+            this.RaisePropertyChanged(nameof(this.Count));
+
+            // Contents may have changed
+            this.ContentsMayHaveChanged();
+        }
+
+        /// <summary>
+        /// Inserts a range of items to the <see cref="ObservableCollectionBase{T}" /> at a pre-defined position.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <param name="items">The objects to add to the <see cref="ObservableCollectionBase{T}" />.</param>
+        /// <remarks>
+        /// <para>On concurrent collections, this method is write-synchronized.</para>
+        /// </remarks>
+        public virtual void InsertRange(int index, IEnumerable<T> items)
+        {
+            // PRECONDITIONS
+            if (index < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            // Current object not disposed
+            this.ThrowIfCurrentObjectDisposed();
+
+            T[] itemsList = items.ToArray();
+
+            // ACTION
+            // Inside a write lock
+            using (this.WriteLock())
+            {
+                if (index > this.InternalContainer.Count)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(index));
+                }
+
+                // Use an undo/redo transaction
+                using (OperationTransaction tc = this.CheckItemAutoCapture(itemsList))
+                {
+                    // Actually add the items
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Alternative costs more
+                    foreach (T item in ((IEnumerable<T>)itemsList).Reverse())
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+                    {
+                        this.InternalContainer.Insert(index, item);
+                    }
+
+                    // Push an undo level
+                    this.PushUndoLevel(new AddMultipleUndoLevel<T> { AddedItems = itemsList, Index = index });
+
+                    // Mark the transaction as successful
+                    tc.Success();
+                }
+            }
+
+            // NOTIFICATION
+
+            // Collection changed
+            this.RaiseCollectionChangedAddMultiple(itemsList, index);
 
             // Property changed
             this.RaisePropertyChanged(nameof(this.Count));
@@ -1045,6 +1126,17 @@ namespace IX.Observable
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Interprets the block state changes outside the write lock.
+        /// </summary>
+        /// <param name="actions">The actions to employ.</param>
+        /// <param name="states">The state objects to send to the corresponding actions.</param>
+        protected override void InterpretBlockStateChangesOutsideLock(Action<object>[] actions, object[] states)
+        {
+            this.RaiseCollectionReset();
+            this.ContentsMayHaveChanged();
         }
     }
 }

@@ -39,6 +39,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// </summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is the way event arguments work
         /// <summary>
         /// Triggers the <see cref="CollectionChanged" /> event as a collection reset event.
         /// </summary>
@@ -53,9 +54,9 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="index">The index at which the item was added.</param>
         /// <param name="item">The item that was added.</param>
         protected void RaiseCollectionAdd<T>(int index, T item) => this.Invoke(
-#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalIndex, internalItem) =>
-#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -81,9 +82,9 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="index">The index at which the items were added.</param>
         /// <param name="items">The items that were added.</param>
         protected void RaiseCollectionAdd<T>(int index, IEnumerable<T> items) => this.Invoke(
-#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalIndex, internalItems) =>
-#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -109,9 +110,9 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="index">The index at which the item was removed.</param>
         /// <param name="item">The item that was added.</param>
         protected void RaiseCollectionRemove<T>(int index, T item) => this.Invoke(
-#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalIndex, internalItem) =>
-#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -137,9 +138,9 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="index">The index at which the items were removed.</param>
         /// <param name="items">The items that were removed.</param>
         protected void RaiseCollectionRemove<T>(int index, IEnumerable<T> items) => this.Invoke(
-#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalIndex, internalItems) =>
-#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -166,9 +167,9 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="newIndex">The index at which the item was moved.</param>
         /// <param name="item">The item that was added.</param>
         protected void RaiseCollectionMove<T>(int oldIndex, int newIndex, T item) => this.Invoke(
-#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalOldIndex, internalNewIndex, internalItem) =>
-#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -196,9 +197,9 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="newIndex">The index at which the items were moved.</param>
         /// <param name="items">The items that were added.</param>
         protected void RaiseCollectionMove<T>(int oldIndex, int newIndex, IEnumerable<T> items) => this.Invoke(
-#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalOldIndex, internalNewIndex, internalItems) =>
-#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -226,9 +227,9 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="oldItem">The original item.</param>
         /// <param name="newItem">The new item.</param>
         protected void RaiseCollectionReplace<T>(int index, T oldItem, T newItem) => this.Invoke(
-#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalIndex, internalOldItem, internalNewItem) =>
-#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -256,9 +257,9 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="oldItems">The original items.</param>
         /// <param name="newItems">The new items.</param>
         protected void RaiseCollectionReplace<T>(int index, IEnumerable<T> oldItems, IEnumerable<T> newItems) => this.Invoke(
-#pragma warning disable HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
                 (invoker, internalIndex, internalOldItems, internalNewItems) =>
-#pragma warning restore HeapAnalyzerLambdaInGenericMethodRule // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
                     try
                     {
@@ -277,5 +278,6 @@ namespace IX.StandardExtensions.ComponentModel
                 index,
                 oldItems,
                 newItems);
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
     }
 }

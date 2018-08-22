@@ -779,15 +779,12 @@ namespace IX.Observable
                     }
                 }
 
-                state = new Tuple<Action<object>[], object[]>(actionsToInvoke, states);
+                state = new Tuple<Action<object>[], object[], ObservableCollectionBase<T>>(actionsToInvoke, states, this);
                 toInvokeOutsideLock = (innerState) =>
                 {
-                    var convertedState = (Tuple<Action<object>[], object[]>)innerState;
+                    var convertedState = (Tuple<Action<object>[], object[], ObservableCollectionBase<T>>)innerState;
 
-                    for (var i = 0; i < convertedState.Item1.Length; i++)
-                    {
-                        convertedState.Item1[i]?.Invoke(convertedState.Item2[i]);
-                    }
+                    convertedState.Item3.InterpretBlockStateChangesOutsideLock(convertedState.Item1, convertedState.Item2);
                 };
 
                 return result;
@@ -856,15 +853,12 @@ namespace IX.Observable
                     }
                 }
 
-                state = new Tuple<Action<object>[], object[]>(actionsToInvoke, states);
+                state = new Tuple<Action<object>[], object[], ObservableCollectionBase<T>>(actionsToInvoke, states, this);
                 toInvokeOutsideLock = (innerState) =>
                 {
-                    var convertedState = (Tuple<Action<object>[], object[]>)innerState;
+                    var convertedState = (Tuple<Action<object>[], object[], ObservableCollectionBase<T>>)innerState;
 
-                    for (var i = 0; i < convertedState.Item1.Length; i++)
-                    {
-                        convertedState.Item1[i]?.Invoke(convertedState.Item2[i]);
-                    }
+                    convertedState.Item3.InterpretBlockStateChangesOutsideLock(convertedState.Item1, convertedState.Item2);
                 };
 
                 return result;
@@ -875,6 +869,19 @@ namespace IX.Observable
                 state = null;
 
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Interprets the block state changes outside the write lock.
+        /// </summary>
+        /// <param name="actions">The actions to employ.</param>
+        /// <param name="states">The state objects to send to the corresponding actions.</param>
+        protected virtual void InterpretBlockStateChangesOutsideLock(Action<object>[] actions, object[] states)
+        {
+            for (var i = 0; i < actions.Length; i++)
+            {
+                actions[i]?.Invoke(states[i]);
             }
         }
 

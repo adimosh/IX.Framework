@@ -688,6 +688,14 @@ namespace IX.Observable
             return true;
         }
 
+        /// <summary>
+        /// Interprets the block state changes outside the write lock.
+        /// </summary>
+        /// <param name="actions">The actions to employ.</param>
+        /// <param name="states">The state objects to send to the corresponding actions.</param>
+        protected override void InterpretBlockStateChangesOutsideLock(Action<object>[] actions, object[] states)
+            => this.BroadcastChange();
+
         private void BroadcastChange()
         {
             this.RaiseCollectionReset();
