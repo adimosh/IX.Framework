@@ -702,14 +702,25 @@ namespace IX.Observable
             return transaction;
         }
 
-        internal void FinishExplicitTransaction()
+        /// <summary>
+        /// Finishes the explicit undo block transaction.
+        /// </summary>
+        internal void FinishExplicitUndoBlockTransaction()
         {
             this.undoStack.Push(this.currentUndoBlockTransaction.StateChanges);
 
             Interlocked.Exchange(ref this.currentUndoBlockTransaction, null);
+
+            this.redoStack.Clear();
+
+            this.RaisePropertyChanged(nameof(this.CanUndo));
+            this.RaisePropertyChanged(nameof(this.CanRedo));
         }
 
-        internal void FailExplicitTransaction() => Interlocked.Exchange(ref this.currentUndoBlockTransaction, null);
+        /// <summary>
+        /// Fails the explicit undo block transaction.
+        /// </summary>
+        internal void FailExplicitUndoBlockTransaction() => Interlocked.Exchange(ref this.currentUndoBlockTransaction, null);
 
         /// <summary>
         /// Disposes the managed context.

@@ -24,7 +24,7 @@ namespace IX.Observable
             this.AddRevertStep(
                 (state) =>
                 {
-                    ((ObservableCollectionBase<T>)state).FailExplicitTransaction();
+                    ((ObservableCollectionBase<T>)state).FailExplicitUndoBlockTransaction();
                 },
                 collectionBase);
 
@@ -36,6 +36,6 @@ namespace IX.Observable
 
         internal BlockStateChange StateChanges { get; }
 
-        protected override void WhenSuccessful() => this.collectionBase.FinishExplicitTransaction();
+        protected override void WhenSuccessful() => this.collectionBase.FinishExplicitUndoBlockTransaction();
     }
 }
