@@ -85,6 +85,9 @@ namespace IX.Observable
         /// <summary>
         /// Occurs when an edit on this item is committed.
         /// </summary>
+        /// <remarks>
+        /// <para>Warning! This event is invoked within the write lock on concurrent collections.</para>
+        /// </remarks>
         event EventHandler<EditCommittedEventArgs> IEditCommittableItem.EditCommitted
         {
             add { this.EditCommittedInternal += value; }
@@ -135,6 +138,11 @@ namespace IX.Observable
         {
             get
             {
+                if (this.suppressUndoable || EnvironmentSettings.DisableUndoable)
+                {
+                    return false;
+                }
+
                 this.ThrowIfCurrentObjectDisposed();
 
                 return this.ParentUndoContext?.CanUndo ?? this.ReadLock((c2This) => c2This.undoStack.Count > 0, this);
@@ -149,6 +157,11 @@ namespace IX.Observable
         {
             get
             {
+                if (this.suppressUndoable || EnvironmentSettings.DisableUndoable)
+                {
+                    return false;
+                }
+
                 this.ThrowIfCurrentObjectDisposed();
 
                 return this.ParentUndoContext?.CanRedo ?? this.ReadLock((c2This) => c2This.redoStack.Count > 0, this);
@@ -437,6 +450,11 @@ namespace IX.Observable
         /// <para>If the object is released, it is expected that this method once again starts ensuring state when called.</para></remarks>
         public void Undo()
         {
+            if (this.suppressUndoable || EnvironmentSettings.DisableUndoable)
+            {
+                return;
+            }
+
             this.ThrowIfCurrentObjectDisposed();
 
             if (this.ParentUndoContext != null)
@@ -489,6 +507,11 @@ namespace IX.Observable
         /// <para>If the object is released, it is expected that this method once again starts ensuring state when called.</para></remarks>
         public void Redo()
         {
+            if (this.suppressUndoable || EnvironmentSettings.DisableUndoable)
+            {
+                return;
+            }
+
             this.ThrowIfCurrentObjectDisposed();
 
             if (this.ParentUndoContext != null)
@@ -539,6 +562,10 @@ namespace IX.Observable
         public void UndoStateChanges(StateChange[] stateChanges)
         {
             // PRECONDITIONS
+            if (this.suppressUndoable || EnvironmentSettings.DisableUndoable)
+            {
+                return;
+            }
 
             // Current object not disposed
             this.ThrowIfCurrentObjectDisposed();
@@ -613,6 +640,10 @@ namespace IX.Observable
         public void RedoStateChanges(StateChange[] stateChanges)
         {
             // PRECONDITIONS
+            if (this.suppressUndoable || EnvironmentSettings.DisableUndoable)
+            {
+                return;
+            }
 
             // Current object not disposed
             this.ThrowIfCurrentObjectDisposed();
