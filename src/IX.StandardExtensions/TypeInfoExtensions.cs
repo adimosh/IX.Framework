@@ -67,10 +67,17 @@ namespace IX.StandardExtensions
         /// <returns>System.Boolean.</returns>
         public static bool GetAttributeDataByTypeWithoutVersionBinding<TAttribute, TReturn>(this TypeInfo typeInfo, out TReturn value)
         {
-#pragma warning disable HAA0401 // Lambda or anonymous method in a generic method allocates a delegate instance
-            CustomAttributeData attributeData = typeInfo
-                .CustomAttributes
-                .FirstOrDefault(p => p.AttributeType.FullName == typeof(TAttribute).FullName);
+            CustomAttributeData attributeData = null;
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable here
+            foreach (CustomAttributeData attribute in typeInfo.CustomAttributes)
+            {
+                if (attribute.AttributeType.FullName == typeof(TAttribute).FullName)
+                {
+                    attributeData = attribute;
+                    break;
+                }
+            }
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
 
             if (attributeData == null)
             {
@@ -78,11 +85,15 @@ namespace IX.StandardExtensions
                 return false;
             }
 
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - The delegate is generic too
             IEnumerable<CustomAttributeTypedArgument> arguments = attributeData.ConstructorArguments.Where(p => p.ArgumentType == typeof(TReturn));
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
 
             if (arguments.Count() != 1)
             {
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Select
                 arguments = attributeData.NamedArguments.Where(p => p.TypedValue.ArgumentType == typeof(TReturn)).Select(p => p.TypedValue);
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
             }
 
             if (arguments.Count() != 1)
@@ -93,7 +104,6 @@ namespace IX.StandardExtensions
 
             value = (TReturn)arguments.First().Value;
             return true;
-#pragma warning restore HAA0401 // Lambda or anonymous method in a generic method allocates a delegate instance
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="FileMock.cs" company="Adrian Mos">
+// <copyright file="FileMock.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -15,6 +15,8 @@ namespace IX.Abstractions.Moq
     /// <seealso cref="T:Moq.Mock{T}" />
     public class FileMock : Mock<IFile>
     {
+#pragma warning disable HAA0302 // Display class allocation to capture closure - Closures are unavoidable here due to the way Moq works
+#pragma warning disable HAA0301 // Closure Allocation Source
         /// <summary>
         /// Sets up a stand-alone reading operation for a self-closing and self-disposing stream.
         /// </summary>
@@ -94,5 +96,7 @@ namespace IX.Abstractions.Moq
 
             return wmw;
         }
+#pragma warning restore HAA0301 // Closure Allocation Source
+#pragma warning restore HAA0302 // Display class allocation to capture closure
     }
 }
