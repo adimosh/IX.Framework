@@ -19,15 +19,17 @@ namespace IX.UnitTests.IX.Math
         [Fact(DisplayName = "Test extractors from external libraries")]
         public void Test1()
         {
-            var eps = new ExpressionParsingService();
-            eps.RegisterFunctionsAssembly(typeof(ExternalExtractorUnitTests).GetTypeInfo().Assembly);
+            using (var eps = new ExpressionParsingService())
+            {
+                eps.RegisterFunctionsAssembly(typeof(ExternalExtractorUnitTests).GetTypeInfo().Assembly);
 
-            ComputedExpression interpreted = eps.Interpret("1+silly+3");
+                ComputedExpression interpreted = eps.Interpret("1+silly+3");
 
-            Assert.NotNull(interpreted);
-            Assert.True(interpreted.RecognizedCorrectly);
-            Assert.Contains(interpreted.ParameterNames, p => p == "stupid");
-            Assert.DoesNotContain(interpreted.ParameterNames, p => p == "silly");
+                Assert.NotNull(interpreted);
+                Assert.True(interpreted.RecognizedCorrectly);
+                Assert.Contains(interpreted.ParameterNames, p => p == "stupid");
+                Assert.DoesNotContain(interpreted.ParameterNames, p => p == "silly");
+            }
         }
 
         /// <summary>
@@ -36,15 +38,17 @@ namespace IX.UnitTests.IX.Math
         [Fact(DisplayName = "Test extractors from external libraries with ordering")]
         public void Test2()
         {
-            var eps = new ExpressionParsingService();
-            eps.RegisterFunctionsAssembly(typeof(ExternalExtractorUnitTests).GetTypeInfo().Assembly);
+            using (var eps = new ExpressionParsingService())
+            {
+                eps.RegisterFunctionsAssembly(typeof(ExternalExtractorUnitTests).GetTypeInfo().Assembly);
 
-            ComputedExpression interpreted = eps.Interpret("\"I am silly very much\"");
+                ComputedExpression interpreted = eps.Interpret("\"I am silly very much\"");
 
-            Assert.NotNull(interpreted);
-            Assert.True(interpreted.RecognizedCorrectly);
-            Assert.True(interpreted.IsConstant);
-            Assert.Equal("I am stupid very much", interpreted.Compute());
+                Assert.NotNull(interpreted);
+                Assert.True(interpreted.RecognizedCorrectly);
+                Assert.True(interpreted.IsConstant);
+                Assert.Equal("I am stupid very much", interpreted.Compute());
+            }
         }
     }
 }

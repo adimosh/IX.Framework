@@ -40,21 +40,28 @@ namespace IX.UnitTests.IX.Math
                     throw new InvalidOperationException("No computed expression was generated!");
                 }
 
-                object result;
                 try
                 {
+                    object result;
+                    try
+                    {
 #pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Not consequential
-                    result = del.Compute(100);
+                        result = del.Compute(100);
 #pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new InvalidOperationException($"The method should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
+                    }
+
+                    Assert.IsType<double>(result);
+
+                    Assert.True(((double)result) < 100);
                 }
-                catch (Exception ex)
+                finally
                 {
-                    throw new InvalidOperationException($"The method should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
+                    del.Dispose();
                 }
-
-                Assert.IsType<double>(result);
-
-                Assert.True(((double)result) < 100);
             }
         }
 
@@ -84,17 +91,24 @@ namespace IX.UnitTests.IX.Math
                     throw new InvalidOperationException("No computed expression was generated!");
                 }
 
-                object result;
                 try
                 {
-                    result = del.Compute();
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidOperationException($"The method should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
-                }
+                    object result;
+                    try
+                    {
+                        result = del.Compute();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new InvalidOperationException($"The method should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
+                    }
 
-                Assert.IsType<double>(result);
+                    Assert.IsType<double>(result);
+                }
+                finally
+                {
+                    del.Dispose();
+                }
             }
         }
 #pragma warning restore ERP023 // Only ex.Message property was observed in exception block!

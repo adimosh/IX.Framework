@@ -1,4 +1,4 @@
-﻿// <copyright file="ReaderWriterLockSlim.cs" company="Adrian Mos">
+// <copyright file="ReaderWriterLockSlim.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -11,9 +11,17 @@ namespace IX.System.Threading
     /// A wrapper over <see cref="global::System.Threading.ReaderWriterLockSlim"/>, compatible with <see cref="IReaderWriterLock"/>.
     /// </summary>
     /// <seealso cref="IX.System.Threading.IReaderWriterLock" />
-    public class ReaderWriterLockSlim : DisposableBase, IReaderWriterLock
+    public class ReaderWriterLockSlim : DisposableBase, IReaderWriterLock, IDisposable
     {
+        private readonly bool lockerLocal;
+
+#pragma warning disable IDISP002 // Dispose member. - It is disposed when neeed only
+#pragma warning disable IDISP008 // Don't assign member with injected and created disposables. - We're not, actually
+#pragma warning disable IDISP006 // Implement IDisposable. - It is
         private global::System.Threading.ReaderWriterLockSlim locker;
+#pragma warning restore IDISP006 // Implement IDisposable.
+#pragma warning restore IDISP008 // Don't assign member with injected and created disposables.
+#pragma warning restore IDISP002 // Dispose member.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReaderWriterLockSlim"/> class.
@@ -21,6 +29,7 @@ namespace IX.System.Threading
         public ReaderWriterLockSlim()
         {
             this.locker = new global::System.Threading.ReaderWriterLockSlim();
+            this.lockerLocal = true;
         }
 
         /// <summary>
@@ -30,6 +39,7 @@ namespace IX.System.Threading
         public ReaderWriterLockSlim(global::System.Threading.LockRecursionPolicy lockRecursionPolicy)
         {
             this.locker = new global::System.Threading.ReaderWriterLockSlim(lockRecursionPolicy);
+            this.lockerLocal = true;
         }
 
         /// <summary>
@@ -144,5 +154,20 @@ namespace IX.System.Threading
         /// <param name="timeout">The timeout.</param>
         /// <returns><c>true</c> if the lock has been acquired for the calling thread, <c>false</c> otherwise.</returns>
         public bool TryEnterWriteLock(TimeSpan timeout) => this.InvokeIfNotDisposed((lck, timeoutInternal) => lck.TryEnterWriteLock(timeoutInternal), this.locker, timeout);
+
+        /// <summary>
+        /// Disposes in the managed context.
+        /// </summary>
+        protected override void DisposeManagedContext()
+        {
+            base.DisposeManagedContext();
+
+#pragma warning disable IDISP007 // Don't dispose injected. - We're not, the analyzer cannot tell though
+            if (this.lockerLocal)
+            {
+                this.locker.Dispose();
+            }
+#pragma warning restore IDISP007 // Don't dispose injected.
+        }
     }
 }

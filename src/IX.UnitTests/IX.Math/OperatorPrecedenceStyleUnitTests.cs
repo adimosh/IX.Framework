@@ -28,14 +28,15 @@ namespace IX.UnitTests.IX.Math
 
             using (var service = new ExpressionParsingService())
             {
-                ComputedExpression del = service.Interpret(expression);
-
-                if (del == null)
+                using (ComputedExpression del = service.Interpret(expression))
                 {
-                    throw new InvalidOperationException("No computed expression was generated!");
-                }
+                    if (del == null)
+                    {
+                        throw new InvalidOperationException("No computed expression was generated!");
+                    }
 
-                result1 = del.Compute();
+                    result1 = del.Compute();
+                }
             }
 
             using (var service = new ExpressionParsingService(new MathDefinition
@@ -64,14 +65,15 @@ namespace IX.UnitTests.IX.Math
                 OperatorPrecedenceStyle = OperatorPrecedenceStyle.CStyle,
             }))
             {
-                ComputedExpression del = service.Interpret(expression);
-
-                if (del == null)
+                using (ComputedExpression del = service.Interpret(expression))
                 {
-                    throw new InvalidOperationException("No computed expression was generated!");
-                }
+                    if (del == null)
+                    {
+                        throw new InvalidOperationException("No computed expression was generated!");
+                    }
 
-                result2 = del.Compute();
+                    result2 = del.Compute();
+                }
             }
 
             Assert.False((bool)result1);

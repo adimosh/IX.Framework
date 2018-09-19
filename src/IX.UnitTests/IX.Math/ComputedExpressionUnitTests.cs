@@ -1391,16 +1391,17 @@ namespace IX.UnitTests.IX.Math
         {
             using (var service = new ExpressionParsingService())
             {
-                ComputedExpression del = service.Interpret(expression);
-
-                if (del == null)
+                using (ComputedExpression del = service.Interpret(expression))
                 {
-                    throw new InvalidOperationException("No computed expression was generated!");
+                    if (del == null)
+                    {
+                        throw new InvalidOperationException("No computed expression was generated!");
+                    }
+
+                    var result = del.Compute(parameters?.Values?.ToArray() ?? new object[0]);
+
+                    Assert.Equal(expectedResult, result);
                 }
-
-                var result = del.Compute(parameters?.Values?.ToArray() ?? new object[0]);
-
-                Assert.Equal(expectedResult, result);
             }
         }
 
@@ -1421,8 +1422,73 @@ namespace IX.UnitTests.IX.Math
             {
                 var finder = new Mock<IDataFinder>(MockBehavior.Loose);
 
-                ComputedExpression del = service.Interpret(expression);
+                using (ComputedExpression del = service.Interpret(expression))
+                {
+                    if (del == null)
+                    {
+                        throw new InvalidOperationException("No computed expression was generated!");
+                    }
 
+                    if (parameters != null)
+                    {
+                        foreach (KeyValuePair<string, object> parameter in parameters)
+                        {
+                            var key = parameter.Key;
+                            var value = parameter.Value;
+                            finder.Setup(p => p.TryGetData(key, out value)).Returns(true);
+                        }
+                    }
+
+                    var result = del.Compute(finder.Object);
+
+                    Assert.Equal(expectedResult, result);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Tests the cached computed expression with parameters.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="expectedResult">The expected result.</param>
+        /// <exception cref="InvalidOperationException">
+        /// No computed expression was generated.
+        /// </exception>
+        [Theory(DisplayName = "CEPSPara")]
+        [MemberData(nameof(ProvideDataForTheory))]
+        public void CachedComputedExpressionWithParameters(string expression, Dictionary<string, object> parameters, object expectedResult)
+        {
+            using (ComputedExpression del = this.fixture.Service.Interpret(expression))
+            {
+                if (del == null)
+                {
+                    throw new InvalidOperationException("No computed expression was generated!");
+                }
+
+                var result = del.Compute(parameters?.Values?.ToArray() ?? new object[0]);
+
+                Assert.Equal(expectedResult, result);
+            }
+        }
+
+        /// <summary>
+        /// Tests a cached computed expression with finder.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="expectedResult">The expected result.</param>
+        /// <exception cref="InvalidOperationException">
+        /// No computed expression was generated.
+        /// </exception>
+        [Theory(DisplayName = "CEPSFindr")]
+        [MemberData(nameof(ProvideDataForTheory))]
+        public void CachedComputedExpressionWithFinder(string expression, Dictionary<string, object> parameters, object expectedResult)
+        {
+            var finder = new Mock<IDataFinder>(MockBehavior.Loose);
+
+            using (ComputedExpression del = this.fixture.Service.Interpret(expression))
+            {
                 if (del == null)
                 {
                     throw new InvalidOperationException("No computed expression was generated!");
@@ -1445,68 +1511,6 @@ namespace IX.UnitTests.IX.Math
         }
 
         /// <summary>
-        /// Tests the cached computed expression with parameters.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <param name="parameters">The parameters.</param>
-        /// <param name="expectedResult">The expected result.</param>
-        /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated.
-        /// </exception>
-        [Theory(DisplayName = "CEPSPara")]
-        [MemberData(nameof(ProvideDataForTheory))]
-        public void CachedComputedExpressionWithParameters(string expression, Dictionary<string, object> parameters, object expectedResult)
-        {
-            ComputedExpression del = this.fixture.Service.Interpret(expression);
-
-            if (del == null)
-            {
-                throw new InvalidOperationException("No computed expression was generated!");
-            }
-
-            var result = del.Compute(parameters?.Values?.ToArray() ?? new object[0]);
-
-            Assert.Equal(expectedResult, result);
-        }
-
-        /// <summary>
-        /// Tests a cached computed expression with finder.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <param name="parameters">The parameters.</param>
-        /// <param name="expectedResult">The expected result.</param>
-        /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated.
-        /// </exception>
-        [Theory(DisplayName = "CEPSFindr")]
-        [MemberData(nameof(ProvideDataForTheory))]
-        public void CachedComputedExpressionWithFinder(string expression, Dictionary<string, object> parameters, object expectedResult)
-        {
-            var finder = new Mock<IDataFinder>(MockBehavior.Loose);
-
-            ComputedExpression del = this.fixture.Service.Interpret(expression);
-
-            if (del == null)
-            {
-                throw new InvalidOperationException("No computed expression was generated!");
-            }
-
-            if (parameters != null)
-            {
-                foreach (KeyValuePair<string, object> parameter in parameters)
-                {
-                    var key = parameter.Key;
-                    var value = parameter.Value;
-                    finder.Setup(p => p.TryGetData(key, out value)).Returns(true);
-                }
-            }
-
-            var result = del.Compute(finder.Object);
-
-            Assert.Equal(expectedResult, result);
-        }
-
-        /// <summary>
         /// Tests a computed expression with finder.
         /// </summary>
         /// <param name="expression">The expression.</param>
@@ -1523,8 +1527,47 @@ namespace IX.UnitTests.IX.Math
             {
                 var finder = new Mock<IDataFinder>(MockBehavior.Loose);
 
-                ComputedExpression del = service.Interpret(expression);
+                using (ComputedExpression del = service.Interpret(expression))
+                {
+                    if (del == null)
+                    {
+                        throw new InvalidOperationException("No computed expression was generated!");
+                    }
 
+                    if (parameters != null)
+                    {
+                        foreach (KeyValuePair<string, object> parameter in parameters)
+                        {
+                            var key = parameter.Key;
+                            var value = this.GenerateFuncOutOfParameterValue(parameter.Value);
+                            finder.Setup(p => p.TryGetData(key, out value)).Returns(true);
+                        }
+                    }
+
+                    var result = del.Compute(finder.Object);
+
+                    Assert.Equal(expectedResult, result);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Tests a cached computed expression with finder.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="expectedResult">The expected result.</param>
+        /// <exception cref="InvalidOperationException">
+        /// No computed expression was generated!.
+        /// </exception>
+        [Theory(DisplayName = "CEPSFindrFunc")]
+        [MemberData(nameof(ProvideDataForTheory))]
+        public void CachedComputedExpressionWithFunctionFinder(string expression, Dictionary<string, object> parameters, object expectedResult)
+        {
+            var finder = new Mock<IDataFinder>(MockBehavior.Loose);
+
+            using (ComputedExpression del = this.fixture.Service.Interpret(expression))
+            {
                 if (del == null)
                 {
                     throw new InvalidOperationException("No computed expression was generated!");
@@ -1544,43 +1587,6 @@ namespace IX.UnitTests.IX.Math
 
                 Assert.Equal(expectedResult, result);
             }
-        }
-
-        /// <summary>
-        /// Tests a cached computed expression with finder.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <param name="parameters">The parameters.</param>
-        /// <param name="expectedResult">The expected result.</param>
-        /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated!.
-        /// </exception>
-        [Theory(DisplayName = "CEPSFindrFunc")]
-        [MemberData(nameof(ProvideDataForTheory))]
-        public void CachedComputedExpressionWithFunctionFinder(string expression, Dictionary<string, object> parameters, object expectedResult)
-        {
-            var finder = new Mock<IDataFinder>(MockBehavior.Loose);
-
-            ComputedExpression del = this.fixture.Service.Interpret(expression);
-
-            if (del == null)
-            {
-                throw new InvalidOperationException("No computed expression was generated!");
-            }
-
-            if (parameters != null)
-            {
-                foreach (KeyValuePair<string, object> parameter in parameters)
-                {
-                    var key = parameter.Key;
-                    var value = this.GenerateFuncOutOfParameterValue(parameter.Value);
-                    finder.Setup(p => p.TryGetData(key, out value)).Returns(true);
-                }
-            }
-
-            var result = del.Compute(finder.Object);
-
-            Assert.Equal(expectedResult, result);
         }
 
         /// <summary>
@@ -1601,26 +1607,27 @@ namespace IX.UnitTests.IX.Math
             {
                 var finder = new Mock<IDataFinder>(MockBehavior.Loose);
 
-                ComputedExpression del = this.fixture.Service.Interpret(expression);
-
-                if (del == null)
+                using (ComputedExpression del = this.fixture.Service.Interpret(expression))
                 {
-                    throw new InvalidOperationException("No computed expression was generated!");
-                }
-
-                if (parameters != null)
-                {
-                    foreach (KeyValuePair<string, object> parameter in parameters)
+                    if (del == null)
                     {
-                        var key = parameter.Key;
-                        var value = this.GenerateFuncOutOfParameterValue(parameter.Value);
-                        finder.Setup(p => p.TryGetData(key, out value)).Returns(true);
+                        throw new InvalidOperationException("No computed expression was generated!");
                     }
+
+                    if (parameters != null)
+                    {
+                        foreach (KeyValuePair<string, object> parameter in parameters)
+                        {
+                            var key = parameter.Key;
+                            var value = this.GenerateFuncOutOfParameterValue(parameter.Value);
+                            finder.Setup(p => p.TryGetData(key, out value)).Returns(true);
+                        }
+                    }
+
+                    var result = del.Compute(finder.Object);
+
+                    Assert.Equal(expectedResult, result);
                 }
-
-                var result = del.Compute(finder.Object);
-
-                Assert.Equal(expectedResult, result);
             }
         }
 
