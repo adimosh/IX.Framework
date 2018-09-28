@@ -357,11 +357,6 @@ namespace IX.Math
             Interlocked.Exchange(ref this.ReverseSymbolTable, null)?.Clear();
             Interlocked.Exchange(ref this.UnaryOperators, null)?.Dispose();
             Interlocked.Exchange(ref this.BinaryOperators, null)?.Dispose();
-            Interlocked.Exchange(ref this.NonaryFunctions, null)?.Clear();
-            Interlocked.Exchange(ref this.UnaryFunctions, null)?.Clear();
-            Interlocked.Exchange(ref this.BinaryFunctions, null)?.Clear();
-            Interlocked.Exchange(ref this.TernaryFunctions, null)?.Clear();
-            Interlocked.Exchange(ref this.Extractors, null)?.Dispose();
         }
     }
 }

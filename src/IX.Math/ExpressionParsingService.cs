@@ -113,6 +113,7 @@ namespace IX.Math
                 this.InitializeExtractorsDictionary();
             }
 
+            ComputedExpression result;
             using (var workingSet = new WorkingExpressionSet(
                 expression,
                 this.workingDefinition.DeepClone(),
@@ -124,17 +125,21 @@ namespace IX.Math
                 this.constantExtractors,
                 cancellationToken))
             {
-                ExpressionGenerator.CreateBody(workingSet);
+                Tuple<Nodes.NodeBase, Registration.IParameterRegistry> body = ExpressionGenerator.CreateBody(workingSet);
 
                 if (!workingSet.Success)
                 {
-                    return new ComputedExpression(expression, null, false, null, null);
+                    result = new ComputedExpression(expression, null, false, null, null);
                 }
                 else
                 {
-                    return new ComputedExpression(expression, workingSet.Body, true, workingSet.ParameterRegistry, this.workingDefinition.AutoConvertStringFormatSpecifier);
+                    result = new ComputedExpression(expression, body.Item1, true, body.Item2, this.workingDefinition.AutoConvertStringFormatSpecifier);
                 }
+
+                Interlocked.MemoryBarrier();
             }
+
+            return result;
         }
 
         /// <summary>
@@ -162,9 +167,7 @@ namespace IX.Math
 
             foreach (KeyValuePair<string, Type> function in this.unaryFunctions)
             {
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable here
-                foreach (ConstructorInfo constructor in GetTypeConstructors(function.Value))
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+                foreach (ConstructorInfo constructor in function.Value.GetTypeInfo().DeclaredConstructors.ToArray())
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
 
@@ -186,9 +189,7 @@ namespace IX.Math
 
             foreach (KeyValuePair<string, Type> function in this.binaryFunctions)
             {
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable here
-                foreach (ConstructorInfo constructor in GetTypeConstructors(function.Value))
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+                foreach (ConstructorInfo constructor in function.Value.GetTypeInfo().DeclaredConstructors.ToArray())
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
 
@@ -211,9 +212,7 @@ namespace IX.Math
 
             foreach (KeyValuePair<string, Type> function in this.ternaryFunctions)
             {
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable here
-                foreach (ConstructorInfo constructor in GetTypeConstructors(function.Value))
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+                foreach (ConstructorInfo constructor in function.Value.GetTypeInfo().DeclaredConstructors.ToArray())
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
 
@@ -233,11 +232,6 @@ namespace IX.Math
 
                     bldr.Add($"{function.Key}({parameterNameLeft}, {parameterNameMiddle}, {parameterNameRight})");
                 }
-            }
-
-            IEnumerable<ConstructorInfo> GetTypeConstructors(Type type)
-            {
-                return type.GetTypeInfo().DeclaredConstructors;
             }
 
             return bldr.ToArray();
