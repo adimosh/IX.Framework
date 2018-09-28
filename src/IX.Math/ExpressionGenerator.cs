@@ -31,7 +31,9 @@ namespace IX.Math
             workingSet.CancellationToken.ThrowIfCancellationRequested();
 
             // Extract constants
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This is OK
             foreach (Type extractorType in workingSet.Extractors.KeysByLevel.OrderBy(p => p.Key).SelectMany(p => p.Value))
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
             {
                 workingSet.Expression = workingSet.Extractors[extractorType].ExtractAllConstants(
                     workingSet.Expression,
@@ -90,7 +92,9 @@ namespace IX.Math
             workingSet.CancellationToken.ThrowIfCancellationRequested();
 
             // Populating symbol tables
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This is OK
             foreach (var p in workingSet.SymbolTable.Where(p => !p.Value.IsFunctionCall).Select(p => p.Value.Expression))
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
             {
                 TablePopulationGenerator.PopulateTables(
                     p,
@@ -120,7 +124,9 @@ namespace IX.Math
             catch
             {
                 workingSet.Body = null;
+#pragma warning disable ERP022 // Catching everything considered harmful. - This is OK
             }
+#pragma warning restore ERP022 // Catching everything considered harmful.
 
             if (workingSet.Body == null)
             {
@@ -307,7 +313,7 @@ namespace IX.Math
             }
 
             // Check whether the expression is a unary operator
-            foreach (Tuple<int, int, string> operatorPosition in OperatorSequenceGenerator.GetOperatorsInOrderInExpression(expression, workingSet.UnaryOperators).OrderBy(p => p.Item1).ThenByDescending(p => p.Item2))
+            foreach (Tuple<int, int, string> operatorPosition in OperatorSequenceGenerator.GetOperatorsInOrderInExpression(expression, workingSet.UnaryOperators).OrderBy(p => p.Item1).ThenByDescending(p => p.Item2).ToArray())
             {
                 NodeBase exp = ExpressionByUnaryOperator(workingSet, expression, operatorPosition.Item3);
 

@@ -84,7 +84,7 @@ namespace IX.UnitTests.IX.Observable
 
             using (var list = new ObservableList<CapturedItem>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - It shouldn't, but there is a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 new CapturedItem { TestProperty = "1" },
                 new CapturedItem { TestProperty = "2" },
                 new CapturedItem { TestProperty = "3" },
@@ -103,7 +103,7 @@ namespace IX.UnitTests.IX.Observable
                 list.AddRange(
                     new[]
                     {
-#pragma warning disable IDE0009 // Member access should be qualified. - It shouldn't, but there is a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                     new CapturedItem { TestProperty = "6" },
                     new CapturedItem { TestProperty = "7" },
                     new CapturedItem { TestProperty = "8" },

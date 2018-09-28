@@ -7,7 +7,7 @@ namespace Benchmarks
     {
         private static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<ForEachExtensions>();
+            BenchmarkDotNet.Reports.Summary summary = BenchmarkRunner.Run<ForEachExtensions>();
         }
     }
 }

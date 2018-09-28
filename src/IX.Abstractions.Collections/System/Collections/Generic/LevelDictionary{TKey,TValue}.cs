@@ -160,7 +160,9 @@ namespace IX.System.Collections.Generic
             }
             else
             {
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 this.keyLevels.Add(level, new List<TKey> { key });
+#pragma warning restore IDE0009 // Member access should be qualified.
             }
 
             this.levelKeys.Add(key, level);

@@ -21,7 +21,7 @@ namespace IX.UnitTests.IX.StandardExtensions
         public void AtomicEnumeratorCorrectEnumerationTest()
         {
             // ARRANGE
-#pragma warning disable IDE0009 // Member access should be qualified. - Analyzer bug
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
             var q = new List<int> { 1, 2, 3, 4, 5 };
 #pragma warning restore IDE0009 // Member access should be qualified.
 

@@ -392,7 +392,7 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
@@ -428,7 +428,7 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
@@ -465,7 +465,7 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
@@ -509,7 +509,7 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
@@ -555,7 +555,7 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
@@ -598,7 +598,7 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
@@ -631,7 +631,7 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
@@ -669,7 +669,7 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
@@ -706,7 +706,7 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
@@ -773,7 +773,7 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
@@ -821,7 +821,7 @@ namespace IX.UnitTests.IX.Observable
 
             var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,

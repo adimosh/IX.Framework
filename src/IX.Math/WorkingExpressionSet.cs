@@ -242,7 +242,7 @@ namespace IX.Math
 
             // Operator string interpretation support
             // ======================================
-#pragma warning disable IDE0009 // Member access should be qualified. - It is, but there's a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
 #pragma warning disable IDISP003 // Dispose previous before re-assigning. - Not an issue, as Initialize is repeat-checked
 
             // Binary operators
