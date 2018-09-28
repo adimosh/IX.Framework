@@ -26,8 +26,12 @@ namespace IX.Observable
     /// <seealso cref="global::System.Collections.Generic.IEnumerable{T}" />
     public abstract class ObservableCollectionBase<T> : ObservableReadOnlyCollectionBase<T>, ICollection<T>, IUndoableItem, IEditCommittableItem
     {
+#pragma warning disable IDISP002 // Dispose member. - It is
+#pragma warning disable IDISP006 // Implement IDisposable. - It is
         private PushDownStack<StateChange> undoStack = new PushDownStack<StateChange>(EnvironmentSettings.DisableUndoable ? 0 : EnvironmentSettings.DefaultUndoRedoLevels);
         private PushDownStack<StateChange> redoStack = new PushDownStack<StateChange>(EnvironmentSettings.DisableUndoable ? 0 : EnvironmentSettings.DefaultUndoRedoLevels);
+#pragma warning restore IDISP006 // Implement IDisposable.
+#pragma warning restore IDISP002 // Dispose member.
 
         private bool suppressUndoable;
         private bool automaticallyCaptureSubItems;

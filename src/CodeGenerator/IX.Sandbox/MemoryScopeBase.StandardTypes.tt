@@ -44,7 +44,7 @@ foreach (var typ in types)
                 {
                     if (!(var is Named<#= typeName #>Variable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {

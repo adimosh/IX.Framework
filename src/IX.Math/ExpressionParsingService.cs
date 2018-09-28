@@ -30,7 +30,11 @@ namespace IX.Math
         private Dictionary<string, Type> binaryFunctions;
         private Dictionary<string, Type> ternaryFunctions;
 
+#pragma warning disable IDISP002 // Dispose member. - It is
+#pragma warning disable IDISP006 // Implement IDisposable. - It is
         private LevelDictionary<Type, IConstantsExtractor> constantExtractors;
+#pragma warning restore IDISP006 // Implement IDisposable.
+#pragma warning restore IDISP002 // Dispose member.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionParsingService"/> class with a standard math definition object.
@@ -109,7 +113,7 @@ namespace IX.Math
                 this.InitializeExtractorsDictionary();
             }
 
-            var workingSet = new WorkingExpressionSet(
+            using (var workingSet = new WorkingExpressionSet(
                 expression,
                 this.workingDefinition.DeepClone(),
                 this.assembliesToRegister,
@@ -118,17 +122,18 @@ namespace IX.Math
                 this.binaryFunctions,
                 this.ternaryFunctions,
                 this.constantExtractors,
-                cancellationToken);
-
-            ExpressionGenerator.CreateBody(workingSet);
-
-            if (!workingSet.Success)
+                cancellationToken))
             {
-                return new ComputedExpression(expression, null, false, null, null);
-            }
-            else
-            {
-                return new ComputedExpression(expression, workingSet.Body, true, workingSet.ParameterRegistry, this.workingDefinition.AutoConvertStringFormatSpecifier);
+                ExpressionGenerator.CreateBody(workingSet);
+
+                if (!workingSet.Success)
+                {
+                    return new ComputedExpression(expression, null, false, null, null);
+                }
+                else
+                {
+                    return new ComputedExpression(expression, workingSet.Body, true, workingSet.ParameterRegistry, this.workingDefinition.AutoConvertStringFormatSpecifier);
+                }
             }
         }
 
@@ -316,11 +321,13 @@ namespace IX.Math
         private void InitializeExtractorsDictionary()
         {
 #pragma warning disable IDE0009 // Member access should be qualified. - It is, but there's a bug in the extractor
+#pragma warning disable IDISP003 // Dispose previous before re-assigning. - Not necessary, as the initializer checks beforehand
             this.constantExtractors = new LevelDictionary<Type, IConstantsExtractor>
             {
                 { typeof(StringExtractor), new StringExtractor(), 1000 },
                 { typeof(ScientificFormatNumberExtractor), new ScientificFormatNumberExtractor(), 2000 },
             };
+#pragma warning restore IDISP003 // Dispose previous before re-assigning.
 #pragma warning restore IDE0009 // Member access should be qualified.
 
             var incrementer = 2001;

@@ -1,4 +1,4 @@
-﻿// <copyright file="ObservableReadOnlyCompositeList{T}.cs" company="Adrian Mos">
+// <copyright file="ObservableReadOnlyCompositeList{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -17,7 +17,11 @@ namespace IX.Observable
     /// <seealso cref="Observable.ObservableReadOnlyCollectionBase{T}" />
     public class ObservableReadOnlyCompositeList<T> : ObservableReadOnlyCollectionBase<T>
     {
+#pragma warning disable IDISP002 // Dispose member. - It is
+#pragma warning disable IDISP006 // Implement IDisposable. - It is
         private ReaderWriterLockSlim locker;
+#pragma warning restore IDISP006 // Implement IDisposable.
+#pragma warning restore IDISP002 // Dispose member.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableReadOnlyCompositeList{T}"/> class.
@@ -79,7 +83,7 @@ namespace IX.Observable
         /// </summary>
         protected override void DisposeManagedContext()
         {
-            this.locker.Dispose();
+            Interlocked.Exchange(ref this.locker, null)?.Dispose();
 
             base.DisposeManagedContext();
         }
@@ -89,7 +93,7 @@ namespace IX.Observable
         /// </summary>
         protected override void DisposeGeneralContext()
         {
-            this.locker = null;
+            Interlocked.Exchange(ref this.locker, null);
 
             base.DisposeGeneralContext();
         }
