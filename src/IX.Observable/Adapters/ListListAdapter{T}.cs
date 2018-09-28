@@ -51,7 +51,9 @@ namespace IX.Observable.Adapters
 
         public override void CopyTo(T[] array, int arrayIndex) => this.list.CopyTo(array, arrayIndex);
 
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Unavoidable here
         public override IEnumerator<T> GetEnumerator() => this.list.GetEnumerator();
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
 
         public override int IndexOf(T item) => this.list.IndexOf(item);
 

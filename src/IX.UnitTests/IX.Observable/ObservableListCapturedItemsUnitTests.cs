@@ -20,24 +20,26 @@ namespace IX.UnitTests.IX.Observable
         public void UnitTest1()
         {
             // ARRANGE
-            var item1 = new CapturedItem();
-
-            var list = new ObservableList<CapturedItem>
+            using (var item1 = new CapturedItem())
             {
-                AutomaticallyCaptureSubItems = true,
-            };
+                using (var list = new ObservableList<CapturedItem>
+                {
+                    AutomaticallyCaptureSubItems = true,
+                })
+                {
+                    // ACT
+                    list.Add(item1);
 
-            // ACT
-            list.Add(item1);
+                    item1.TestProperty = "aaa";
+                    item1.TestProperty = "bbb";
+                    item1.TestProperty = "ccc";
 
-            item1.TestProperty = "aaa";
-            item1.TestProperty = "bbb";
-            item1.TestProperty = "ccc";
+                    list.Undo();
 
-            list.Undo();
-
-            // ASSERT
-            Assert.Equal("bbb", item1.TestProperty);
+                    // ASSERT
+                    Assert.Equal("bbb", item1.TestProperty);
+                }
+            }
         }
 
         /// <summary>
@@ -47,25 +49,27 @@ namespace IX.UnitTests.IX.Observable
         public void UnitTest2()
         {
             // ARRANGE
-            var item1 = new CapturedItem();
-
-            var list = new ObservableList<CapturedItem>
+            using (var item1 = new CapturedItem())
             {
-                AutomaticallyCaptureSubItems = false,
-            };
+                using (var list = new ObservableList<CapturedItem>
+                {
+                    AutomaticallyCaptureSubItems = false,
+                })
+                {
+                    // ACT
+                    list.Add(item1);
 
-            // ACT
-            list.Add(item1);
+                    item1.TestProperty = "aaa";
+                    item1.TestProperty = "bbb";
+                    item1.TestProperty = "ccc";
 
-            item1.TestProperty = "aaa";
-            item1.TestProperty = "bbb";
-            item1.TestProperty = "ccc";
+                    list.Undo();
 
-            list.Undo();
-
-            // ASSERT
-            Assert.Equal("ccc", item1.TestProperty);
-            Assert.Empty(list);
+                    // ASSERT
+                    Assert.Equal("ccc", item1.TestProperty);
+                    Assert.Empty(list);
+                }
+            }
         }
 
         /// <summary>
@@ -78,162 +82,163 @@ namespace IX.UnitTests.IX.Observable
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
-            var list = new ObservableList<CapturedItem>
+            using (var list = new ObservableList<CapturedItem>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - It shouldn't, but there is a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 new CapturedItem { TestProperty = "1" },
                 new CapturedItem { TestProperty = "2" },
                 new CapturedItem { TestProperty = "3" },
                 new CapturedItem { TestProperty = "4" },
                 new CapturedItem { TestProperty = "5" },
 #pragma warning restore IDE0009 // Member access should be qualified.
-            };
+            })
+            {
+                list.AutomaticallyCaptureSubItems = true;
 
-            list.AutomaticallyCaptureSubItems = true;
+                NotifyCollectionChangedAction cca = NotifyCollectionChangedAction.Add;
 
-            NotifyCollectionChangedAction cca = NotifyCollectionChangedAction.Add;
+                list.CollectionChanged += (sender, e) => Assert.Equal(cca, e.Action);
 
-            list.CollectionChanged += (sender, e) => Assert.Equal(cca, e.Action);
-
-            // ACT
-            list.AddRange(
-                new[]
-                {
-#pragma warning disable IDE0009 // Member access should be qualified. - It shouldn't, but there is a bug in the analyzer
+                // ACT
+                list.AddRange(
+                    new[]
+                    {
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                     new CapturedItem { TestProperty = "6" },
                     new CapturedItem { TestProperty = "7" },
                     new CapturedItem { TestProperty = "8" },
                     new CapturedItem { TestProperty = "9" },
 #pragma warning restore IDE0009 // Member access should be qualified.
-                });
+                    });
 
-            // ASSERT
-            cca = NotifyCollectionChangedAction.Remove;
+                // ASSERT
+                cca = NotifyCollectionChangedAction.Remove;
 
-            list.Undo();
+                list.Undo();
 
-            Assert.Equal(5, list.Count);
-            Assert.True(list[0].TestProperty == "1");
-            Assert.True(list[1].TestProperty == "2");
-            Assert.True(list[2].TestProperty == "3");
-            Assert.True(list[3].TestProperty == "4");
-            Assert.True(list[4].TestProperty == "5");
+                Assert.Equal(5, list.Count);
+                Assert.True(list[0].TestProperty == "1");
+                Assert.True(list[1].TestProperty == "2");
+                Assert.True(list[2].TestProperty == "3");
+                Assert.True(list[3].TestProperty == "4");
+                Assert.True(list[4].TestProperty == "5");
 
-            cca = NotifyCollectionChangedAction.Add;
+                cca = NotifyCollectionChangedAction.Add;
 
-            list.Redo();
+                list.Redo();
 
-            Assert.Equal(9, list.Count);
-            Assert.True(list[0].TestProperty == "1");
-            Assert.True(list[1].TestProperty == "2");
-            Assert.True(list[2].TestProperty == "3");
-            Assert.True(list[3].TestProperty == "4");
-            Assert.True(list[4].TestProperty == "5");
-            Assert.True(list[5].TestProperty == "6");
-            Assert.True(list[6].TestProperty == "7");
-            Assert.True(list[7].TestProperty == "8");
-            Assert.True(list[8].TestProperty == "9");
+                Assert.Equal(9, list.Count);
+                Assert.True(list[0].TestProperty == "1");
+                Assert.True(list[1].TestProperty == "2");
+                Assert.True(list[2].TestProperty == "3");
+                Assert.True(list[3].TestProperty == "4");
+                Assert.True(list[4].TestProperty == "5");
+                Assert.True(list[5].TestProperty == "6");
+                Assert.True(list[6].TestProperty == "7");
+                Assert.True(list[7].TestProperty == "8");
+                Assert.True(list[8].TestProperty == "9");
 
-            cca = NotifyCollectionChangedAction.Remove;
-            list.RemoveAt(6);
+                cca = NotifyCollectionChangedAction.Remove;
+                list.RemoveAt(6);
 
-            Assert.Equal(8, list.Count);
-            Assert.True(list[0].TestProperty == "1");
-            Assert.True(list[1].TestProperty == "2");
-            Assert.True(list[2].TestProperty == "3");
-            Assert.True(list[3].TestProperty == "4");
-            Assert.True(list[4].TestProperty == "5");
-            Assert.True(list[5].TestProperty == "6");
-            Assert.True(list[6].TestProperty == "8");
-            Assert.True(list[7].TestProperty == "9");
+                Assert.Equal(8, list.Count);
+                Assert.True(list[0].TestProperty == "1");
+                Assert.True(list[1].TestProperty == "2");
+                Assert.True(list[2].TestProperty == "3");
+                Assert.True(list[3].TestProperty == "4");
+                Assert.True(list[4].TestProperty == "5");
+                Assert.True(list[5].TestProperty == "6");
+                Assert.True(list[6].TestProperty == "8");
+                Assert.True(list[7].TestProperty == "9");
 
-            list[7].TestProperty = "10";
+                list[7].TestProperty = "10";
 
-            Assert.True(list[7].TestProperty == "10");
+                Assert.True(list[7].TestProperty == "10");
 
-            // No collection changed here
-            list.Undo();
+                // No collection changed here
+                list.Undo();
 
-            Assert.Equal(8, list.Count);
-            Assert.True(list[0].TestProperty == "1");
-            Assert.True(list[1].TestProperty == "2");
-            Assert.True(list[2].TestProperty == "3");
-            Assert.True(list[3].TestProperty == "4");
-            Assert.True(list[4].TestProperty == "5");
-            Assert.True(list[5].TestProperty == "6");
-            Assert.True(list[6].TestProperty == "8");
-            Assert.True(list[7].TestProperty == "9");
+                Assert.Equal(8, list.Count);
+                Assert.True(list[0].TestProperty == "1");
+                Assert.True(list[1].TestProperty == "2");
+                Assert.True(list[2].TestProperty == "3");
+                Assert.True(list[3].TestProperty == "4");
+                Assert.True(list[4].TestProperty == "5");
+                Assert.True(list[5].TestProperty == "6");
+                Assert.True(list[6].TestProperty == "8");
+                Assert.True(list[7].TestProperty == "9");
 
-            cca = NotifyCollectionChangedAction.Remove;
-            list.RemoveRange(2, 4);
+                cca = NotifyCollectionChangedAction.Remove;
+                list.RemoveRange(2, 4);
 
-            Assert.Equal(4, list.Count);
-            Assert.True(list[0].TestProperty == "1");
-            Assert.True(list[1].TestProperty == "2");
-            Assert.True(list[2].TestProperty == "8");
-            Assert.True(list[3].TestProperty == "9");
+                Assert.Equal(4, list.Count);
+                Assert.True(list[0].TestProperty == "1");
+                Assert.True(list[1].TestProperty == "2");
+                Assert.True(list[2].TestProperty == "8");
+                Assert.True(list[3].TestProperty == "9");
 
-            cca = NotifyCollectionChangedAction.Reset;
-            list.Undo();
+                cca = NotifyCollectionChangedAction.Reset;
+                list.Undo();
 
-            Assert.Equal(8, list.Count);
-            Assert.True(list[0].TestProperty == "1");
-            Assert.True(list[1].TestProperty == "2");
-            Assert.True(list[2].TestProperty == "3");
-            Assert.True(list[3].TestProperty == "4");
-            Assert.True(list[4].TestProperty == "5");
-            Assert.True(list[5].TestProperty == "6");
-            Assert.True(list[6].TestProperty == "8");
-            Assert.True(list[7].TestProperty == "9");
+                Assert.Equal(8, list.Count);
+                Assert.True(list[0].TestProperty == "1");
+                Assert.True(list[1].TestProperty == "2");
+                Assert.True(list[2].TestProperty == "3");
+                Assert.True(list[3].TestProperty == "4");
+                Assert.True(list[4].TestProperty == "5");
+                Assert.True(list[5].TestProperty == "6");
+                Assert.True(list[6].TestProperty == "8");
+                Assert.True(list[7].TestProperty == "9");
 
-            cca = NotifyCollectionChangedAction.Add;
-            CapturedItem[] items = new[]
-                {
+                cca = NotifyCollectionChangedAction.Add;
+                CapturedItem[] items = new[]
+                    {
                     new CapturedItem { TestProperty = "a" },
                     new CapturedItem { TestProperty = "b" },
                 };
 
-            list.InsertRange(5, items);
+                list.InsertRange(5, items);
 
-            Assert.Equal(10, list.Count);
-            Assert.True(list[0].TestProperty == "1");
-            Assert.True(list[1].TestProperty == "2");
-            Assert.True(list[2].TestProperty == "3");
-            Assert.True(list[3].TestProperty == "4");
-            Assert.True(list[4].TestProperty == "5");
-            Assert.True(list[5].TestProperty == "a");
-            Assert.True(list[6].TestProperty == "b");
-            Assert.True(list[7].TestProperty == "6");
-            Assert.True(list[8].TestProperty == "8");
-            Assert.True(list[9].TestProperty == "9");
+                Assert.Equal(10, list.Count);
+                Assert.True(list[0].TestProperty == "1");
+                Assert.True(list[1].TestProperty == "2");
+                Assert.True(list[2].TestProperty == "3");
+                Assert.True(list[3].TestProperty == "4");
+                Assert.True(list[4].TestProperty == "5");
+                Assert.True(list[5].TestProperty == "a");
+                Assert.True(list[6].TestProperty == "b");
+                Assert.True(list[7].TestProperty == "6");
+                Assert.True(list[8].TestProperty == "8");
+                Assert.True(list[9].TestProperty == "9");
 
-            cca = NotifyCollectionChangedAction.Remove;
-            list.Undo();
+                cca = NotifyCollectionChangedAction.Remove;
+                list.Undo();
 
-            Assert.Equal(8, list.Count);
-            Assert.True(list[0].TestProperty == "1");
-            Assert.True(list[1].TestProperty == "2");
-            Assert.True(list[2].TestProperty == "3");
-            Assert.True(list[3].TestProperty == "4");
-            Assert.True(list[4].TestProperty == "5");
-            Assert.True(list[5].TestProperty == "6");
-            Assert.True(list[6].TestProperty == "8");
-            Assert.True(list[7].TestProperty == "9");
+                Assert.Equal(8, list.Count);
+                Assert.True(list[0].TestProperty == "1");
+                Assert.True(list[1].TestProperty == "2");
+                Assert.True(list[2].TestProperty == "3");
+                Assert.True(list[3].TestProperty == "4");
+                Assert.True(list[4].TestProperty == "5");
+                Assert.True(list[5].TestProperty == "6");
+                Assert.True(list[6].TestProperty == "8");
+                Assert.True(list[7].TestProperty == "9");
 
-            cca = NotifyCollectionChangedAction.Add;
-            list.Redo();
+                cca = NotifyCollectionChangedAction.Add;
+                list.Redo();
 
-            Assert.Equal(10, list.Count);
-            Assert.True(list[0].TestProperty == "1");
-            Assert.True(list[1].TestProperty == "2");
-            Assert.True(list[2].TestProperty == "3");
-            Assert.True(list[3].TestProperty == "4");
-            Assert.True(list[4].TestProperty == "5");
-            Assert.True(list[5].TestProperty == "a");
-            Assert.True(list[6].TestProperty == "b");
-            Assert.True(list[7].TestProperty == "6");
-            Assert.True(list[8].TestProperty == "8");
-            Assert.True(list[9].TestProperty == "9");
+                Assert.Equal(10, list.Count);
+                Assert.True(list[0].TestProperty == "1");
+                Assert.True(list[1].TestProperty == "2");
+                Assert.True(list[2].TestProperty == "3");
+                Assert.True(list[3].TestProperty == "4");
+                Assert.True(list[4].TestProperty == "5");
+                Assert.True(list[5].TestProperty == "a");
+                Assert.True(list[6].TestProperty == "b");
+                Assert.True(list[7].TestProperty == "6");
+                Assert.True(list[8].TestProperty == "8");
+                Assert.True(list[9].TestProperty == "9");
+            }
         }
     }
 }

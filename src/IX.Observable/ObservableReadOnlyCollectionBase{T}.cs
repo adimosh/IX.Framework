@@ -69,7 +69,7 @@ namespace IX.Observable
         /// <value>
         ///   <c>true</c> if this instance is synchronized; otherwise, <c>false</c>.
         /// </value>
-        [Obsolete]
+        [Obsolete("Please do not explicitly use these properties. The newest .NET Framework guidelines do not recommend doing collection synchronization using them.")]
         public bool IsSynchronized => false;
 
         /// <summary>
@@ -134,13 +134,15 @@ namespace IX.Observable
         /// <remarks>
         /// <para>On concurrent collections, this method is read-synchronized.</para>
         /// </remarks>
-        public bool Contains(T item) => this.InvokeIfNotDisposed(
-            (itemL1, thisL1) => thisL1.ReadLock(
-                (itemL2, thisL2) => thisL2.InternalContainer.Contains(itemL2),
-                itemL1,
-                thisL1),
-            item,
-            this);
+        public bool Contains(T item)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (this.ReadLock())
+            {
+                return this.InternalContainer.Contains(item);
+            }
+        }
 
         /// <summary>
         /// Copies the elements of the <see cref="ObservableCollectionBase{T}" /> to an <see cref="Array" />, starting at a particular <see cref="Array" /> index.
@@ -150,15 +152,15 @@ namespace IX.Observable
         /// <remarks>
         /// <para>On concurrent collections, this method is read-synchronized.</para>
         /// </remarks>
-        public void CopyTo(T[] array, int arrayIndex) => this.InvokeIfNotDisposed(
-            (arrayL1, arrayIndexL1, thisL1) => thisL1.ReadLock(
-                (arrayL2, arrayIndexL2, thisL2) => thisL2.InternalContainer.CopyTo(arrayL2, arrayIndexL2),
-                arrayL1,
-                arrayIndexL1,
-                thisL1),
-            array,
-            arrayIndex,
-            this);
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (this.ReadLock())
+            {
+                this.InternalContainer.CopyTo(array, arrayIndex);
+            }
+        }
 
         /// <summary>
         /// Copies the elements of the <see cref="ObservableCollectionBase{T}" /> to a new <see cref="Array" />, starting at a particular index.
@@ -200,16 +202,19 @@ namespace IX.Observable
         /// </summary>
         /// <returns>A newly-formed array.</returns>
         /// <remarks>On concurrent collections, this method is read-synchronized.</remarks>
-        public T[] CopyToArray() => this.InvokeIfNotDisposed(
-            (thisL1) => thisL1.ReadLock(
-                (thisL2) =>
-                {
-                    var clount = ((ICollection<T>)thisL2.InternalContainer).Count;
+        public T[] CopyToArray()
+        {
+            this.ThrowIfCurrentObjectDisposed();
 
-                    var array = new T[clount];
-                    thisL2.InternalContainer.CopyTo(array, 0);
-                    return array;
-                }, thisL1), this);
+            using (this.ReadLock())
+            {
+                var clount = ((ICollection<T>)this.InternalContainer).Count;
+
+                var array = new T[clount];
+                this.InternalContainer.CopyTo(array, 0);
+                return array;
+            }
+        }
 
         /// <summary>
         /// Returns a locking enumerator that iterates through the collection.

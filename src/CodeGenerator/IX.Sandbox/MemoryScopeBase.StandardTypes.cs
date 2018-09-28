@@ -29,7 +29,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedByteVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -68,7 +68,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedSignedByteVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -107,7 +107,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedShortVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -146,7 +146,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedUnsignedShortVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -185,7 +185,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedCharVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -224,7 +224,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedIntVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -263,7 +263,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedUnsignedIntVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -302,7 +302,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedLongVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -341,7 +341,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedUnsignedLongVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -380,7 +380,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedFloatVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -419,7 +419,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedDoubleVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -458,7 +458,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedDecimalVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -497,7 +497,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedDateTimeVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -536,7 +536,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedBooleanVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -575,7 +575,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedTimeSpanVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -614,7 +614,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedStringVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {
@@ -653,7 +653,7 @@ namespace IX.Sandbox.Memory
                 {
                     if (!(var is NamedByteArrayVariable nbv))
                     {
-                        throw new ArgumentInvalidTypeException(nameof(name));
+                        throw new ArgumentInvalidTypeException();
                     }
                     else
                     {

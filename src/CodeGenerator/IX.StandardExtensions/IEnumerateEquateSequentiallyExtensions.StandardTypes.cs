@@ -1465,8 +1465,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default;
-                        var rightCompare = rightBool ? rightEnumerator.Current : default;
+                        DateTime leftCompare = leftBool ? leftEnumerator.Current : default;
+                        DateTime rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1518,8 +1518,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default;
-                        var rightCompare = rightBool ? rightEnumerator.Current : default;
+                        DateTime leftCompare = leftBool ? leftEnumerator.Current : default;
+                        DateTime rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1701,8 +1701,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default;
-                        var rightCompare = rightBool ? rightEnumerator.Current : default;
+                        TimeSpan leftCompare = leftBool ? leftEnumerator.Current : default;
+                        TimeSpan rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 
@@ -1754,8 +1754,8 @@ namespace IX.StandardExtensions
 
                     while (leftBool || rightBool)
                     {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default;
-                        var rightCompare = rightBool ? rightEnumerator.Current : default;
+                        TimeSpan leftCompare = leftBool ? leftEnumerator.Current : default;
+                        TimeSpan rightCompare = rightBool ? rightEnumerator.Current : default;
 
                         yield return leftCompare == rightCompare;
 

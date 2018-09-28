@@ -59,7 +59,9 @@ namespace IX.StandardExtensions.Efficiency
         private void Run(Task originalTask)
         {
 #if NET45
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation
             Thread.CurrentThread.Name = $"Object pool queue {Thread.CurrentThread.ManagedThreadId}";
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
 #endif
             if (this.objects.Count == 0)
             {
@@ -107,7 +109,9 @@ namespace IX.StandardExtensions.Efficiency
                         catch (Exception)
                         {
                             // Do nothing, as a retry is necessary at this point
+#pragma warning disable ERP022 // Catching everything considered harmful.
                         }
+#pragma warning restore ERP022 // Catching everything considered harmful.
                     }
                 }
             }

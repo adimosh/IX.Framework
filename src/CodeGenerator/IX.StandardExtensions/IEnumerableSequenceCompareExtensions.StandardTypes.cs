@@ -676,8 +676,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default;
-                        var c2 = b2 ? e2.Current : default;
+                        DateTime c1 = b1 ? e1.Current : default;
+                        DateTime c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)
@@ -780,8 +780,8 @@ namespace IX.StandardExtensions
                             return 0;
                         }
 
-                        var c1 = b1 ? e1.Current : default;
-                        var c2 = b2 ? e2.Current : default;
+                        TimeSpan c1 = b1 ? e1.Current : default;
+                        TimeSpan c2 = b2 ? e2.Current : default;
 
                         var cr = c1.CompareTo(c2);
                         if (cr != 0)

@@ -35,14 +35,18 @@ namespace IX.StandardExtensions
                 comparer = SequenceComparerWithIComparable;
 
                 int SequenceComparerWithIComparable(T c1, T c2)
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Unavoidable here
                     => ((IComparable)c1).CompareTo(c2);
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
             }
             else
             {
                 comparer = SequenceCompareWithObjectEquality;
 
                 int SequenceCompareWithObjectEquality(T c1, T c2)
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation Unavoidable here
                     => c1.Equals(c2) ? 0 : -1;
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
             }
 
             return SequenceCompare(

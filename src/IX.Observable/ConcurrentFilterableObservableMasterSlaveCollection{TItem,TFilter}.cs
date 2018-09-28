@@ -22,7 +22,12 @@ namespace IX.Observable
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     public class ConcurrentFilterableObservableMasterSlaveCollection<TItem, TFilter> : ConcurrentObservableMasterSlaveCollection<TItem>
     {
-        private readonly IReaderWriterLock cacheLocker;
+#pragma warning disable IDISP002 // Dispose member.
+#pragma warning disable IDISP006 // Implement IDisposable.
+        private IReaderWriterLock cacheLocker;
+#pragma warning restore IDISP006 // Implement IDisposable.
+#pragma warning restore IDISP002 // Dispose member.
+
         private TFilter filter;
         private IList<TItem> cachedFilteredElements;
 
@@ -194,6 +199,16 @@ namespace IX.Observable
             {
                 base.RaiseCollectionChangedRemove(removedItem, index);
             }
+        }
+
+        /// <summary>
+        /// Disposes the managed context.
+        /// </summary>
+        protected override void DisposeManagedContext()
+        {
+            base.DisposeManagedContext();
+
+            GlobalThreading.Interlocked.Exchange(ref this.cacheLocker, null)?.Dispose();
         }
 
         private IEnumerator<TItem> EnumerateFiltered()

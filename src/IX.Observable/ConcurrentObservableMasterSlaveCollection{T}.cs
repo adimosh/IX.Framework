@@ -18,7 +18,11 @@ namespace IX.Observable
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     public class ConcurrentObservableMasterSlaveCollection<T> : ObservableMasterSlaveCollection<T>
     {
+#pragma warning disable IDISP002 // Dispose member. - It is
+#pragma warning disable IDISP006 // Implement IDisposable. - It is
         private ReaderWriterLockSlim locker;
+#pragma warning restore IDISP006 // Implement IDisposable.
+#pragma warning restore IDISP002 // Dispose member.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConcurrentObservableMasterSlaveCollection{T}"/> class.

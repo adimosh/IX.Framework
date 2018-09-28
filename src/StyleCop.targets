@@ -6,6 +6,10 @@
     <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="IDisposableAnalyzers" Version="2.0.3.3" PrivateAssets="all" />
+  </ItemGroup>
+
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
 
     <PackageReference Include="ErrorProne.Net" Version="0.1.5898.41180" PrivateAssets="all" />

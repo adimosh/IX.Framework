@@ -43,14 +43,18 @@ namespace IX.StandardExtensions
                 comparer = EquateWithIComparable;
 
                 bool EquateWithIComparable(T c1, T c2)
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation
                     => ((IComparable)c1).CompareTo(c2) == 0;
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
             }
             else
             {
                 comparer = EquateAsObjects;
 
                 bool EquateAsObjects(T c1, T c2)
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation
                     => c1.Equals(c2);
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
             }
 
             return SequenceEqualsInternal(

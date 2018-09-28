@@ -273,8 +273,7 @@ namespace IX.Math.Registration
         /// </summary>
         /// <returns>A deep clone.</returns>
         /// <remarks>
-        /// <para>Warning!</para>
-        /// <para>This method does not copy the compilation result!</para>
+        /// <para>Warning! This method does not copy the compilation result.</para>
         /// <para>When called on a compiled expression, the resulting context will not be itself compiled.</para>
         /// </remarks>
         public ParameterContext DeepClone() => new ParameterContext(this.Name)

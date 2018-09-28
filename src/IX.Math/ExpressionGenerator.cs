@@ -13,12 +13,13 @@ using IX.Math.Generators;
 using IX.Math.Nodes;
 using IX.Math.Nodes.Operations.Binary;
 using IX.Math.Nodes.Operations.Unary;
+using IX.Math.Registration;
 
 namespace IX.Math
 {
     internal static class ExpressionGenerator
     {
-        internal static void CreateBody(
+        internal static Tuple<NodeBase, IParameterRegistry> CreateBody(
             WorkingExpressionSet workingSet)
         {
 #if DEBUG
@@ -31,7 +32,7 @@ namespace IX.Math
             workingSet.CancellationToken.ThrowIfCancellationRequested();
 
             // Extract constants
-            foreach (Type extractorType in workingSet.Extractors.KeysByLevel.OrderBy(p => p.Key).SelectMany(p => p.Value))
+            foreach (Type extractorType in workingSet.Extractors.KeysByLevel.OrderBy(p => p.Key).SelectMany(p => p.Value).ToArray())
             {
                 workingSet.Expression = workingSet.Extractors[extractorType].ExtractAllConstants(
                     workingSet.Expression,
@@ -90,7 +91,9 @@ namespace IX.Math
             workingSet.CancellationToken.ThrowIfCancellationRequested();
 
             // Populating symbol tables
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This is OK
             foreach (var p in workingSet.SymbolTable.Where(p => !p.Value.IsFunctionCall).Select(p => p.Value.Expression))
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
             {
                 TablePopulationGenerator.PopulateTables(
                     p,
@@ -113,48 +116,53 @@ namespace IX.Math
             workingSet.CancellationToken.ThrowIfCancellationRequested();
 
             // Generate expressions
+            NodeBase body;
             try
             {
-                workingSet.Body = GenerateExpression(workingSet.SymbolTable[string.Empty].Expression, workingSet);
+                body = GenerateExpression(workingSet.SymbolTable[string.Empty].Expression, workingSet);
             }
             catch
             {
-                workingSet.Body = null;
+                body = null;
+#pragma warning disable ERP022 // Catching everything considered harmful. - This is OK
             }
+#pragma warning restore ERP022 // Catching everything considered harmful.
 
-            if (workingSet.Body == null)
+            if (body == null)
             {
-                return;
+                return null;
             }
 
             workingSet.CancellationToken.ThrowIfCancellationRequested();
 
             // Set success values and possibly constant values
-            if (workingSet.Body is ConstantNodeBase)
+            if (body is ConstantNodeBase)
             {
                 if (workingSet.ParameterRegistry.Populated)
                 {
                     // Cannot have external parameters if the expression is itself constant; something somewhere doesn't make sense
-                    return;
+                    return null;
                 }
                 else
                 {
-                    workingSet.ValueIfConstant = ((ConstantNodeBase)workingSet.Body).DistillValue();
+                    workingSet.ValueIfConstant = ((ConstantNodeBase)body).DistillValue();
                     workingSet.Constant = true;
                 }
             }
-            else if (workingSet.Body is ParameterNode)
+            else if (body is ParameterNode)
             {
                 workingSet.PossibleString = true;
             }
 
             workingSet.InternallyValid = true;
             workingSet.Success = true;
+
+            return new Tuple<NodeBase, IParameterRegistry>(body, workingSet.ParameterRegistry);
         }
 
         private static NodeBase GenerateExpression(
-            in string expression,
-            in WorkingExpressionSet workingSet)
+            string expression,
+            WorkingExpressionSet workingSet)
         {
 #if DEBUG
             if (string.IsNullOrWhiteSpace(expression))
@@ -212,7 +220,7 @@ namespace IX.Math
             }
 
             // Check whether the expression is a binary operator
-            foreach (Tuple<int, int, string> operatorPosition in OperatorSequenceGenerator.GetOperatorsInOrderInExpression(expression, workingSet.BinaryOperators).OrderBy(p => p.Item1).ThenByDescending(p => p.Item2))
+            foreach (Tuple<int, int, string> operatorPosition in OperatorSequenceGenerator.GetOperatorsInOrderInExpression(expression, workingSet.BinaryOperators).OrderBy(p => p.Item1).ThenByDescending(p => p.Item2).ToArray())
             {
                 NodeBase exp = ExpressionByBinaryOperator(workingSet, expression, operatorPosition.Item2, operatorPosition.Item3);
 
@@ -222,18 +230,6 @@ namespace IX.Math
                     int position,
                     string op)
                 {
-#if DEBUG
-                    if (innerWorkingSet == null)
-                    {
-                        throw new ArgumentNullException(nameof(workingSet));
-                    }
-
-                    if (string.IsNullOrWhiteSpace(s))
-                    {
-                        throw new ArgumentNullException(nameof(s));
-                    }
-#endif
-
                     if (position == 0)
                     {
                         // We certainly have an unary operator if the operator is at the beginning of the expression. We therefore cannot continue with binary
@@ -307,7 +303,7 @@ namespace IX.Math
             }
 
             // Check whether the expression is a unary operator
-            foreach (Tuple<int, int, string> operatorPosition in OperatorSequenceGenerator.GetOperatorsInOrderInExpression(expression, workingSet.UnaryOperators).OrderBy(p => p.Item1).ThenByDescending(p => p.Item2))
+            foreach (Tuple<int, int, string> operatorPosition in OperatorSequenceGenerator.GetOperatorsInOrderInExpression(expression, workingSet.UnaryOperators).OrderBy(p => p.Item1).ThenByDescending(p => p.Item2).ToArray())
             {
                 NodeBase exp = ExpressionByUnaryOperator(workingSet, expression, operatorPosition.Item3);
 
@@ -316,18 +312,6 @@ namespace IX.Math
                     string s,
                     string op)
                 {
-#if DEBUG
-                    if (innerWorkingSet == null)
-                    {
-                        throw new ArgumentNullException(nameof(workingSet));
-                    }
-
-                    if (string.IsNullOrWhiteSpace(s))
-                    {
-                        throw new ArgumentNullException(nameof(s));
-                    }
-#endif
-
                     innerWorkingSet.CancellationToken.ThrowIfCancellationRequested();
 
                     if (s.StartsWith(op) && innerWorkingSet.UnaryOperators.TryGetValue(op, out Type t))
@@ -375,18 +359,6 @@ namespace IX.Math
 
             NodeBase GenerateFunctionCallExpression(string possibleFunctionCallExpression, WorkingExpressionSet innerWorkingSet)
             {
-#if DEBUG
-                if (innerWorkingSet == null)
-                {
-                    throw new ArgumentNullException(nameof(workingSet));
-                }
-
-                if (string.IsNullOrWhiteSpace(possibleFunctionCallExpression))
-                {
-                    throw new ArgumentNullException(nameof(possibleFunctionCallExpression));
-                }
-#endif
-
                 Match match = innerWorkingSet.FunctionRegex.Match(possibleFunctionCallExpression);
 
                 try

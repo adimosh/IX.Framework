@@ -190,13 +190,15 @@ namespace IX.Observable
         /// </summary>
         /// <param name="item">The item.</param>
         /// <returns>The index of the item, or <c>-1</c> if not found.</returns>
-        public virtual int IndexOf(T item) => this.InvokeIfNotDisposed(
-            (itemL1, thisL1) => thisL1.ReadLock(
-                (itemL2, thisL2) => thisL2.InternalContainer.IndexOf(itemL2),
-                itemL1,
-                thisL1),
-            item,
-            this);
+        public virtual int IndexOf(T item)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (this.ReadLock())
+            {
+                return this.InternalContainer.IndexOf(item);
+            }
+        }
 
         /// <summary>
         /// Adds a range of items to the <see cref="ObservableCollectionBase{T}" />.
@@ -438,7 +440,7 @@ namespace IX.Observable
                     throw new ArgumentException(Resources.TheGivenCollectionToRemoveIsNotContainedInTheInitialCollection, nameof(items));
                 }
 
-                var itemsToDelete = this.InternalContainer.Select((p, index) => new { Index = index, Item = p }).Where((p, coll) => coll.Contains(p.Item), items).OrderByDescending(p => p.Index);
+                var itemsToDelete = this.InternalContainer.Select((p, index) => new { Index = index, Item = p }).Where((p, coll) => coll.Contains(p.Item), items).OrderByDescending(p => p.Index).ToArray();
 
                 // Use an undo/redo transaction
                 using (OperationTransaction tc = this.CheckItemAutoRelease(items))

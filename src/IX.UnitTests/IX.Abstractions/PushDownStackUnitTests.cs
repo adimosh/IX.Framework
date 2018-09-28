@@ -20,16 +20,17 @@ namespace IX.UnitTests.IX.Abstractions
         public void Test1()
         {
             // Arrange
-            var pds = new PushDownStack<int>(0);
+            using (var pds = new PushDownStack<int>(0))
+            {
+                // Act
+                pds.Push(DataGenerator.RandomInteger());
+                pds.Push(DataGenerator.RandomInteger());
+                pds.Push(DataGenerator.RandomInteger());
+                pds.Push(DataGenerator.RandomInteger());
 
-            // Act
-            pds.Push(DataGenerator.RandomInteger());
-            pds.Push(DataGenerator.RandomInteger());
-            pds.Push(DataGenerator.RandomInteger());
-            pds.Push(DataGenerator.RandomInteger());
-
-            // Assert
-            Assert.Empty(pds);
+                // Assert
+                Assert.Empty(pds);
+            }
         }
 
         /// <summary>
@@ -39,16 +40,17 @@ namespace IX.UnitTests.IX.Abstractions
         public void Test2()
         {
             // Arrange
-            var pds = new PushDownStack<int>(12);
+            using (var pds = new PushDownStack<int>(12))
+            {
+                // Act
+                pds.Push(DataGenerator.RandomInteger());
+                pds.Push(DataGenerator.RandomInteger());
+                pds.Push(DataGenerator.RandomInteger());
+                pds.Push(DataGenerator.RandomInteger());
 
-            // Act
-            pds.Push(DataGenerator.RandomInteger());
-            pds.Push(DataGenerator.RandomInteger());
-            pds.Push(DataGenerator.RandomInteger());
-            pds.Push(DataGenerator.RandomInteger());
-
-            // Assert
-            Assert.Equal(4, pds.Count);
+                // Assert
+                Assert.Equal(4, pds.Count);
+            }
         }
 
         /// <summary>
@@ -58,24 +60,26 @@ namespace IX.UnitTests.IX.Abstractions
         public void Test3()
         {
             // Arrange
-            var pds = new PushDownStack<int>(3);
-            var v1 = DataGenerator.RandomInteger();
-            var v2 = DataGenerator.RandomInteger();
-            var v3 = DataGenerator.RandomInteger();
-            var v4 = DataGenerator.RandomInteger();
+            using (var pds = new PushDownStack<int>(3))
+            {
+                var v1 = DataGenerator.RandomInteger();
+                var v2 = DataGenerator.RandomInteger();
+                var v3 = DataGenerator.RandomInteger();
+                var v4 = DataGenerator.RandomInteger();
 
-            // Act
-            pds.Push(v1);
-            pds.Push(v2);
-            pds.Push(v3);
-            pds.Push(v4);
+                // Act
+                pds.Push(v1);
+                pds.Push(v2);
+                pds.Push(v3);
+                pds.Push(v4);
 
-            // Assert
-            Assert.Equal(3, pds.Count);
-            Assert.Equal(v4, pds.Pop());
-            Assert.Equal(v3, pds.Pop());
-            Assert.Equal(v2, pds.Pop());
-            Assert.Equal(default(int), pds.Pop());
+                // Assert
+                Assert.Equal(3, pds.Count);
+                Assert.Equal(v4, pds.Pop());
+                Assert.Equal(v3, pds.Pop());
+                Assert.Equal(v2, pds.Pop());
+                Assert.Equal(default(int), pds.Pop());
+            }
         }
 
         /// <summary>
@@ -85,29 +89,31 @@ namespace IX.UnitTests.IX.Abstractions
         public void Test4()
         {
             // Arrange
-            var pds = new PushDownStack<int>(12);
-            var v1 = DataGenerator.RandomInteger();
-            var v2 = DataGenerator.RandomInteger();
-            var v3 = DataGenerator.RandomInteger();
-            var v4 = DataGenerator.RandomInteger();
+            using (var pds = new PushDownStack<int>(12))
+            {
+                var v1 = DataGenerator.RandomInteger();
+                var v2 = DataGenerator.RandomInteger();
+                var v3 = DataGenerator.RandomInteger();
+                var v4 = DataGenerator.RandomInteger();
 
-            pds.Push(v1);
-            pds.Push(v2);
-            pds.Push(v3);
-            pds.Push(v4);
+                pds.Push(v1);
+                pds.Push(v2);
+                pds.Push(v3);
+                pds.Push(v4);
 
-            // Assert correct arrangement
-            Assert.Equal(4, pds.Count);
+                // Assert correct arrangement
+                Assert.Equal(4, pds.Count);
 
-            // Act
-            pds.Limit = 3;
+                // Act
+                pds.Limit = 3;
 
-            // Assert
-            Assert.Equal(3, pds.Count);
-            Assert.Equal(v4, pds.Pop());
-            Assert.Equal(v3, pds.Pop());
-            Assert.Equal(v2, pds.Pop());
-            Assert.Equal(default(int), pds.Pop());
+                // Assert
+                Assert.Equal(3, pds.Count);
+                Assert.Equal(v4, pds.Pop());
+                Assert.Equal(v3, pds.Pop());
+                Assert.Equal(v2, pds.Pop());
+                Assert.Equal(default(int), pds.Pop());
+            }
         }
     }
 }

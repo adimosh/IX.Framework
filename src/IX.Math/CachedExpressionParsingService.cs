@@ -17,7 +17,12 @@ namespace IX.Math
     /// </remarks>
     public class CachedExpressionParsingService : DisposableBase, IExpressionParsingService
     {
+#pragma warning disable IDISP002 // Dispose member. - It is
+#pragma warning disable IDISP006 // Implement IDisposable. - It is
         private ExpressionParsingService eps;
+#pragma warning restore IDISP006 // Implement IDisposable.
+#pragma warning restore IDISP002 // Dispose member.
+
         private ConcurrentDictionary<string, ComputedExpression> cachedComputedExpressions;
 
         /// <summary>
@@ -98,7 +103,7 @@ namespace IX.Math
             base.DisposeGeneralContext();
 
             Interlocked.Exchange(ref this.cachedComputedExpressions, null);
-            Interlocked.Exchange(ref this.eps, null);
+            Interlocked.Exchange(ref this.eps, null)?.Dispose();
         }
     }
 }

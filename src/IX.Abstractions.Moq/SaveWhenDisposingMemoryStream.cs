@@ -1,4 +1,4 @@
-﻿// <copyright file="SaveWhenDisposingMemoryStream.cs" company="Adrian Mos">
+// <copyright file="SaveWhenDisposingMemoryStream.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -123,7 +123,9 @@ namespace IX.Abstractions.Moq
                 }
                 catch
                 {
+#pragma warning disable ERP022 // Catching everything considered harmful.
                 }
+#pragma warning restore ERP022 // Catching everything considered harmful.
             }
 
             base.Dispose(disposing);

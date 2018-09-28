@@ -30,7 +30,11 @@ namespace IX.Math
         private Dictionary<string, Type> binaryFunctions;
         private Dictionary<string, Type> ternaryFunctions;
 
+#pragma warning disable IDISP002 // Dispose member. - It is
+#pragma warning disable IDISP006 // Implement IDisposable. - It is
         private LevelDictionary<Type, IConstantsExtractor> constantExtractors;
+#pragma warning restore IDISP006 // Implement IDisposable.
+#pragma warning restore IDISP002 // Dispose member.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionParsingService"/> class with a standard math definition object.
@@ -72,7 +76,7 @@ namespace IX.Math
         {
             this.workingDefinition = definition;
 
-#pragma warning disable IDE0009 // Member access should be qualified. - It shouldn't, but there's a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
             this.assembliesToRegister = new List<Assembly>
             {
                 typeof(ExpressionParsingService).GetTypeInfo().Assembly,
@@ -109,7 +113,8 @@ namespace IX.Math
                 this.InitializeExtractorsDictionary();
             }
 
-            var workingSet = new WorkingExpressionSet(
+            ComputedExpression result;
+            using (var workingSet = new WorkingExpressionSet(
                 expression,
                 this.workingDefinition.DeepClone(),
                 this.assembliesToRegister,
@@ -118,18 +123,23 @@ namespace IX.Math
                 this.binaryFunctions,
                 this.ternaryFunctions,
                 this.constantExtractors,
-                cancellationToken);
-
-            ExpressionGenerator.CreateBody(workingSet);
-
-            if (!workingSet.Success)
+                cancellationToken))
             {
-                return new ComputedExpression(expression, null, false, null, null);
+                Tuple<Nodes.NodeBase, Registration.IParameterRegistry> body = ExpressionGenerator.CreateBody(workingSet);
+
+                if (!workingSet.Success)
+                {
+                    result = new ComputedExpression(expression, null, false, null, null);
+                }
+                else
+                {
+                    result = new ComputedExpression(expression, body.Item1, true, body.Item2, this.workingDefinition.AutoConvertStringFormatSpecifier);
+                }
+
+                Interlocked.MemoryBarrier();
             }
-            else
-            {
-                return new ComputedExpression(expression, workingSet.Body, true, workingSet.ParameterRegistry, this.workingDefinition.AutoConvertStringFormatSpecifier);
-            }
+
+            return result;
         }
 
         /// <summary>
@@ -157,9 +167,7 @@ namespace IX.Math
 
             foreach (KeyValuePair<string, Type> function in this.unaryFunctions)
             {
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable here
-                foreach (ConstructorInfo constructor in GetTypeConstructors(function.Value))
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+                foreach (ConstructorInfo constructor in function.Value.GetTypeInfo().DeclaredConstructors.ToArray())
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
 
@@ -181,9 +189,7 @@ namespace IX.Math
 
             foreach (KeyValuePair<string, Type> function in this.binaryFunctions)
             {
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable here
-                foreach (ConstructorInfo constructor in GetTypeConstructors(function.Value))
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+                foreach (ConstructorInfo constructor in function.Value.GetTypeInfo().DeclaredConstructors.ToArray())
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
 
@@ -206,9 +212,7 @@ namespace IX.Math
 
             foreach (KeyValuePair<string, Type> function in this.ternaryFunctions)
             {
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable here
-                foreach (ConstructorInfo constructor in GetTypeConstructors(function.Value))
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+                foreach (ConstructorInfo constructor in function.Value.GetTypeInfo().DeclaredConstructors.ToArray())
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
 
@@ -228,11 +232,6 @@ namespace IX.Math
 
                     bldr.Add($"{function.Key}({parameterNameLeft}, {parameterNameMiddle}, {parameterNameRight})");
                 }
-            }
-
-            IEnumerable<ConstructorInfo> GetTypeConstructors(Type type)
-            {
-                return type.GetTypeInfo().DeclaredConstructors;
             }
 
             return bldr.ToArray();
@@ -315,12 +314,14 @@ namespace IX.Math
 
         private void InitializeExtractorsDictionary()
         {
-#pragma warning disable IDE0009 // Member access should be qualified. - It is, but there's a bug in the extractor
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
+#pragma warning disable IDISP003 // Dispose previous before re-assigning. - Not necessary, as the initializer checks beforehand
             this.constantExtractors = new LevelDictionary<Type, IConstantsExtractor>
             {
                 { typeof(StringExtractor), new StringExtractor(), 1000 },
                 { typeof(ScientificFormatNumberExtractor), new ScientificFormatNumberExtractor(), 2000 },
             };
+#pragma warning restore IDISP003 // Dispose previous before re-assigning.
 #pragma warning restore IDE0009 // Member access should be qualified.
 
             var incrementer = 2001;

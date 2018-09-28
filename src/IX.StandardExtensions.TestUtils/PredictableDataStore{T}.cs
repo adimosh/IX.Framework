@@ -29,7 +29,19 @@ namespace IX.StandardExtensions.TestUtils
         {
         }
 
-#pragma warning disable HAA0302 // Display class allocation to capture closure
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PredictableDataStore{T}" /> class.
+        /// </summary>
+        /// <param name="capacity">The capacity.</param>
+        /// <param name="generator">The sateful generator.</param>
+        /// <param name="state">The state.</param>
+        public PredictableDataStore(int capacity, Func<object, T> generator, object state)
+            : this(capacity, generator, state, false)
+        {
+        }
+
+#pragma warning disable HAA0302 // Display class allocation to capture closure - The closures here are acceptable
+#pragma warning disable HAA0301 // Closure Allocation Source
         /// <summary>
         /// Initializes a new instance of the <see cref="PredictableDataStore{T}"/> class.
         /// </summary>
@@ -37,7 +49,6 @@ namespace IX.StandardExtensions.TestUtils
         /// <param name="generator">The generator.</param>
         /// <param name="parallelGenerate">if set to <c>true</c>, run generation of items in parallel.</param>
         public PredictableDataStore(int capacity, Func<T> generator, bool parallelGenerate)
-#pragma warning restore HAA0302 // Display class allocation to capture closure
         {
             this.items = new T[capacity];
 
@@ -46,14 +57,12 @@ namespace IX.StandardExtensions.TestUtils
                 Parallel.For(
                     0,
                     capacity,
-#pragma warning disable HAA0301 // Closure Allocation Source
                     index =>
                     {
                         T item = generator();
 
                         this.items[index] = item;
                     });
-#pragma warning restore HAA0301 // Closure Allocation Source
             }
             else
             {
@@ -63,6 +72,40 @@ namespace IX.StandardExtensions.TestUtils
                 }
             }
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PredictableDataStore{T}" /> class.
+        /// </summary>
+        /// <param name="capacity">The capacity.</param>
+        /// <param name="generator">The generator.</param>
+        /// <param name="state">The state.</param>
+        /// <param name="parallelGenerate">if set to <c>true</c>, run generation of items in parallel.</param>
+        public PredictableDataStore(int capacity, Func<object, T> generator, object state, bool parallelGenerate)
+        {
+            this.items = new T[capacity];
+
+            if (parallelGenerate)
+            {
+                Parallel.For(
+                    0,
+                    capacity,
+                    index =>
+                    {
+                        T item = generator(state);
+
+                        this.items[index] = item;
+                    });
+            }
+            else
+            {
+                for (var i = 0; i < capacity; i++)
+                {
+                    this.items[i] = generator(state);
+                }
+            }
+        }
+#pragma warning restore HAA0301 // Closure Allocation Source
+#pragma warning restore HAA0302 // Display class allocation to capture closure
 
         /// <summary>
         /// Gets the count.

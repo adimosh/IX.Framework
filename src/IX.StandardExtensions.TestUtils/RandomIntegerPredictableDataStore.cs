@@ -2,6 +2,8 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using System;
+
 namespace IX.StandardExtensions.TestUtils
 {
     /// <summary>
@@ -15,7 +17,9 @@ namespace IX.StandardExtensions.TestUtils
         /// </summary>
         /// <param name="capacity">The capacity.</param>
         public RandomIntegerPredictableDataStore(int capacity)
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
             : base(capacity, DataGenerator.RandomInteger)
+#pragma warning restore HAA0603 // Delegate allocation from a method group
         {
         }
 
@@ -25,7 +29,9 @@ namespace IX.StandardExtensions.TestUtils
         /// <param name="capacity">The capacity.</param>
         /// <param name="maximumValue">The maximum value.</param>
         public RandomIntegerPredictableDataStore(int capacity, int maximumValue)
-            : base(capacity, () => DataGenerator.RandomInteger(maximumValue))
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is unavoidable, as we cannot have a generic type parameter in a constructor
+            : base(capacity, (state) => DataGenerator.RandomInteger((int)state), maximumValue)
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
         {
         }
 
@@ -36,7 +42,14 @@ namespace IX.StandardExtensions.TestUtils
         /// <param name="minimumValue">The minimum value.</param>
         /// <param name="maximumValue">The maximum value.</param>
         public RandomIntegerPredictableDataStore(int capacity, int minimumValue, int maximumValue)
-            : base(capacity, () => DataGenerator.RandomInteger(minimumValue, maximumValue))
+            : base(
+                capacity,
+                (state) =>
+                {
+                    var expandedState = (Tuple<int, int>)state;
+                    return DataGenerator.RandomInteger(expandedState.Item1, expandedState.Item2);
+                },
+                new Tuple<int, int>(minimumValue, maximumValue))
         {
         }
     }

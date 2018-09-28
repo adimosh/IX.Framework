@@ -95,7 +95,9 @@ namespace IX.Sandbox.Memory
         /// <para>For this reason, please refrain from using this property if you don't absolutely have to.</para></remarks>
         object IVariable.BoxedValue
         {
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - That is the point of this property
             get => this.value;
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
 
             set
             {

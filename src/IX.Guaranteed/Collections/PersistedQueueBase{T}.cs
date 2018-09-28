@@ -583,7 +583,7 @@ namespace IX.Guaranteed.Collections
 
                 do
                 {
-                    filePath = this.PathShim.Combine(this.DataFolderPath, $"{now.ToString("yyyy.MM.dd.HH.mm.ss.fffffff")}.{i}.dat");
+                    filePath = this.PathShim.Combine(this.DataFolderPath, $"{now.ToString("yyyy.MM.dd.HH.mm.ss.fffffff")}.{i.ToString()}.dat");
                     i++;
 
                     if (i == int.MaxValue)
@@ -595,7 +595,9 @@ namespace IX.Guaranteed.Collections
 
                 using (global::System.IO.Stream stream = this.FileShim.Create(filePath))
                 {
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is unavoidable
                     this.Serializer.WriteObject(stream, item);
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
                 }
 
                 return filePath;

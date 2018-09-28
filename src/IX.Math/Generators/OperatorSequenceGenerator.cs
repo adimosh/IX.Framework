@@ -1,4 +1,4 @@
-﻿// <copyright file="OperatorSequenceGenerator.cs" company="Adrian Mos">
+// <copyright file="OperatorSequenceGenerator.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -16,7 +16,7 @@ namespace IX.Math.Generators
         {
             var indexes = new List<Tuple<int, int, string>>();
 
-            foreach (var level in operators.KeysByLevel)
+            foreach (KeyValuePair<int, IEnumerable<string>> level in operators.KeysByLevel)
             {
                 foreach (var op in level.Value)
                 {

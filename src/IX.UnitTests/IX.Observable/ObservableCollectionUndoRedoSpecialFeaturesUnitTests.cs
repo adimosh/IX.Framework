@@ -344,15 +344,16 @@ namespace IX.UnitTests.IX.Observable
         public void UnitTest7()
         {
             // ARRANGE
-            var capturingList = new ObservableList<CapturedItem>(new[] { new CapturedItem() });
+            using (var capturingList = new ObservableList<CapturedItem>(new[] { new CapturedItem() }))
+            {
+                Assert.Null(capturingList[0].ParentUndoContext);
 
-            Assert.Null(capturingList[0].ParentUndoContext);
+                // ACT
+                capturingList.AutomaticallyCaptureSubItems = true;
 
-            // ACT
-            capturingList.AutomaticallyCaptureSubItems = true;
-
-            // ASSERT
-            Assert.Equal(capturingList, capturingList[0].ParentUndoContext);
+                // ASSERT
+                Assert.Equal(capturingList, capturingList[0].ParentUndoContext);
+            }
         }
 
         /// <summary>
@@ -363,20 +364,21 @@ namespace IX.UnitTests.IX.Observable
         public void UnitTest8()
         {
             // ARRANGE
-            var capturingList = new ObservableList<CapturedItem>
+            using (var capturingList = new ObservableList<CapturedItem>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - It should not, but there is a bug in the analyzer
+#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 new CapturedItem(),
 #pragma warning restore IDE0009 // Member access should be qualified.
-            };
+            })
+            {
+                Assert.Null(capturingList[0].ParentUndoContext);
 
-            Assert.Null(capturingList[0].ParentUndoContext);
+                // ACT
+                capturingList.AutomaticallyCaptureSubItems = true;
 
-            // ACT
-            capturingList.AutomaticallyCaptureSubItems = true;
-
-            // ASSERT
-            Assert.Equal(capturingList, capturingList[0].ParentUndoContext);
+                // ASSERT
+                Assert.Equal(capturingList, capturingList[0].ParentUndoContext);
+            }
         }
 
         /// <summary>
@@ -395,26 +397,28 @@ namespace IX.UnitTests.IX.Observable
             Assert.False(list.CanRedo);
 
             // Capture into a parent context
-            var capturingList = new ObservableList<ObservableList<int>> { AutomaticallyCaptureSubItems = true };
-            Assert.Null(list.ParentUndoContext);
-            capturingList.Add(list);
-            Assert.Equal(capturingList, list.ParentUndoContext);
+            using (var capturingList = new ObservableList<ObservableList<int>> { AutomaticallyCaptureSubItems = true })
+            {
+                Assert.Null(list.ParentUndoContext);
+                capturingList.Add(list);
+                Assert.Equal(capturingList, list.ParentUndoContext);
 
-            // ACT 1
-            list.Undo();
+                // ACT 1
+                list.Undo();
 
-            // ASSERT 1
-            Assert.Equal(5, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                // ASSERT 1
+                Assert.Equal(5, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
 
-            // ACT 2
-            list.Redo();
+                // ACT 2
+                list.Redo();
 
-            // ASSERT 2
-            Assert.Equal(5, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                // ASSERT 2
+                Assert.Equal(5, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
+            }
         }
 
         /// <summary>
@@ -433,26 +437,28 @@ namespace IX.UnitTests.IX.Observable
             Assert.False(list.CanRedo);
 
             // Capture into a parent context
-            var capturingList = new ObservableList<ObservableList<int>> { AutomaticallyCaptureSubItems = true };
-            Assert.Null(list.ParentUndoContext);
-            capturingList.Add(list);
-            Assert.Equal(capturingList, list.ParentUndoContext);
+            using (var capturingList = new ObservableList<ObservableList<int>> { AutomaticallyCaptureSubItems = true })
+            {
+                Assert.Null(list.ParentUndoContext);
+                capturingList.Add(list);
+                Assert.Equal(capturingList, list.ParentUndoContext);
 
-            // ACT 1
-            list.Undo();
+                // ACT 1
+                list.Undo();
 
-            // ASSERT 1
-            Assert.Equal(5, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                // ASSERT 1
+                Assert.Equal(5, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
 
-            // ACT 2
-            list.Redo();
+                // ACT 2
+                list.Redo();
 
-            // ASSERT 2
-            Assert.Equal(5, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                // ASSERT 2
+                Assert.Equal(5, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
+            }
         }
 
         /// <summary>
@@ -471,26 +477,28 @@ namespace IX.UnitTests.IX.Observable
             Assert.False(list.CanRedo);
 
             // Capture into a parent context
-            var capturingList = new ObservableList<ObservableList<int>> { AutomaticallyCaptureSubItems = true };
-            Assert.Null(list.ParentUndoContext);
-            capturingList.Add(list);
-            Assert.Equal(capturingList, list.ParentUndoContext);
+            using (var capturingList = new ObservableList<ObservableList<int>> { AutomaticallyCaptureSubItems = true })
+            {
+                Assert.Null(list.ParentUndoContext);
+                capturingList.Add(list);
+                Assert.Equal(capturingList, list.ParentUndoContext);
 
-            // ACT
-            list.StartUndo();
+                // ACT
+                list.StartUndo();
 
-            // ASSERT
-            list.Undo();
+                // ASSERT
+                list.Undo();
 
-            Assert.Equal(5, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                Assert.Equal(5, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
 
-            list.Redo();
+                list.Redo();
 
-            Assert.Equal(5, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                Assert.Equal(5, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
+            }
         }
 
         /// <summary>
@@ -521,26 +529,28 @@ namespace IX.UnitTests.IX.Observable
             Assert.False(list.CanRedo);
 
             // Capture into a parent context
-            var capturingList = new ObservableList<ObservableList<int>> { AutomaticallyCaptureSubItems = true };
-            Assert.Null(list.ParentUndoContext);
-            capturingList.Add(list);
-            Assert.Equal(capturingList, list.ParentUndoContext);
+            using (var capturingList = new ObservableList<ObservableList<int>> { AutomaticallyCaptureSubItems = true })
+            {
+                Assert.Null(list.ParentUndoContext);
+                capturingList.Add(list);
+                Assert.Equal(capturingList, list.ParentUndoContext);
 
-            // ACT
-            list.StartUndo();
+                // ACT
+                list.StartUndo();
 
-            // ASSERT
-            list.Undo();
+                // ASSERT
+                list.Undo();
 
-            Assert.Equal(5, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                Assert.Equal(5, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
 
-            list.Redo();
+                list.Redo();
 
-            Assert.Equal(5, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                Assert.Equal(5, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
+            }
         }
 
         /// <summary>
@@ -559,40 +569,42 @@ namespace IX.UnitTests.IX.Observable
             Assert.False(list.CanRedo);
 
             // Capture into a parent context
-            var capturingList = new ObservableList<ObservableList<int>> { AutomaticallyCaptureSubItems = true };
-            Assert.Null(list.ParentUndoContext);
-            capturingList.Add(list);
-            Assert.Equal(capturingList, list.ParentUndoContext);
+            using (var capturingList = new ObservableList<ObservableList<int>> { AutomaticallyCaptureSubItems = true })
+            {
+                Assert.Null(list.ParentUndoContext);
+                capturingList.Add(list);
+                Assert.Equal(capturingList, list.ParentUndoContext);
 
-            // ACT
-            list.RemoveAt(0);
+                // ACT
+                list.RemoveAt(0);
 
-            // ASSERT
-            list.Undo();
+                // ASSERT
+                list.Undo();
 
-            Assert.Equal(4, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                Assert.Equal(4, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
 
-            list.Redo();
+                list.Redo();
 
-            Assert.Equal(4, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                Assert.Equal(4, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
 
-            list.StartUndo();
+                list.StartUndo();
 
-            list.Undo();
+                list.Undo();
 
-            Assert.Equal(4, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                Assert.Equal(4, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
 
-            list.Redo();
+                list.Redo();
 
-            Assert.Equal(4, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                Assert.Equal(4, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
+            }
         }
 
         /// <summary>
@@ -611,70 +623,72 @@ namespace IX.UnitTests.IX.Observable
             Assert.False(list.CanRedo);
 
             // Capture into a parent context
-            var capturingList = new ObservableList<ObservableList<int>> { AutomaticallyCaptureSubItems = true };
-            Assert.Null(list.ParentUndoContext);
-            capturingList.Add(list);
-            Assert.Equal(capturingList, list.ParentUndoContext);
+            using (var capturingList = new ObservableList<ObservableList<int>> { AutomaticallyCaptureSubItems = true })
+            {
+                Assert.Null(list.ParentUndoContext);
+                capturingList.Add(list);
+                Assert.Equal(capturingList, list.ParentUndoContext);
 
-            // ACT
-            list.RemoveAt(0);
+                // ACT
+                list.RemoveAt(0);
 
-            list.Undo();
+                list.Undo();
 
-            Assert.Equal(4, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                Assert.Equal(4, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
 
-            list.Redo();
+                list.Redo();
 
-            Assert.Equal(4, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                Assert.Equal(4, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
 
-            list.StartUndo();
+                list.StartUndo();
 
-            list.Undo();
+                list.Undo();
 
-            Assert.Equal(4, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                Assert.Equal(4, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
 
-            list.Redo();
+                list.Redo();
 
-            Assert.Equal(4, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.False(list.CanRedo);
+                Assert.Equal(4, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.False(list.CanRedo);
 
-            list.RemoveAt(0);
+                list.RemoveAt(0);
 
-            // ASSERT
-            Assert.Equal(3, list.Count);
-            Assert.True(list.CanUndo);
-            Assert.False(list.CanRedo);
+                // ASSERT
+                Assert.Equal(3, list.Count);
+                Assert.True(list.CanUndo);
+                Assert.False(list.CanRedo);
 
-            list.Undo();
+                list.Undo();
 
-            Assert.Equal(4, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.True(list.CanRedo);
+                Assert.Equal(4, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.True(list.CanRedo);
 
-            list.Undo();
+                list.Undo();
 
-            Assert.Equal(4, list.Count);
-            Assert.False(list.CanUndo);
-            Assert.True(list.CanRedo);
+                Assert.Equal(4, list.Count);
+                Assert.False(list.CanUndo);
+                Assert.True(list.CanRedo);
 
-            list.Redo();
+                list.Redo();
 
-            Assert.Equal(3, list.Count);
-            Assert.True(list.CanUndo);
-            Assert.False(list.CanRedo);
+                Assert.Equal(3, list.Count);
+                Assert.True(list.CanUndo);
+                Assert.False(list.CanRedo);
 
-            list.Redo();
+                list.Redo();
 
-            Assert.Equal(3, list.Count);
-            Assert.True(list.CanUndo);
-            Assert.False(list.CanRedo);
+                Assert.Equal(3, list.Count);
+                Assert.True(list.CanUndo);
+                Assert.False(list.CanRedo);
+            }
         }
 
         /// <summary>
@@ -685,21 +699,24 @@ namespace IX.UnitTests.IX.Observable
         public void UnitTest17()
         {
             // ARRANGE
-            var capturingList = new ObservableList<CapturedItem>(new[] { new CapturedItem() });
+            using (var capturingList = new ObservableList<CapturedItem>(new[] { new CapturedItem() }))
+            {
+                // Capture into a parent context
+                using (var upperCapturingList = new ObservableList<ObservableList<CapturedItem>> { AutomaticallyCaptureSubItems = true })
+                {
+                    Assert.Null(capturingList.ParentUndoContext);
+                    upperCapturingList.Add(capturingList);
+                    Assert.Equal(upperCapturingList, capturingList.ParentUndoContext);
 
-            // Capture into a parent context
-            var upperCapturingList = new ObservableList<ObservableList<CapturedItem>> { AutomaticallyCaptureSubItems = true };
-            Assert.Null(capturingList.ParentUndoContext);
-            upperCapturingList.Add(capturingList);
-            Assert.Equal(upperCapturingList, capturingList.ParentUndoContext);
+                    Assert.Null(capturingList[0].ParentUndoContext);
 
-            Assert.Null(capturingList[0].ParentUndoContext);
+                    // ACT
+                    capturingList.AutomaticallyCaptureSubItems = true;
 
-            // ACT
-            capturingList.AutomaticallyCaptureSubItems = true;
-
-            // ASSERT
-            Assert.Equal(capturingList, capturingList[0].ParentUndoContext);
+                    // ASSERT
+                    Assert.Equal(capturingList, capturingList[0].ParentUndoContext);
+                }
+            }
         }
 
         /// <summary>
@@ -710,24 +727,25 @@ namespace IX.UnitTests.IX.Observable
         public void UnitTest18()
         {
             // ARRANGE
-            var capturingList = new ObservableList<CapturedItem>
+            using (var capturingList = new ObservableList<CapturedItem>
             {
                 new CapturedItem(),
-            };
+            })
+            {
+                // Capture into a parent context
+                var upperCapturingList = new ObservableList<ObservableList<CapturedItem>> { AutomaticallyCaptureSubItems = true };
+                Assert.Null(capturingList.ParentUndoContext);
+                upperCapturingList.Add(capturingList);
+                Assert.Equal(upperCapturingList, capturingList.ParentUndoContext);
 
-            // Capture into a parent context
-            var upperCapturingList = new ObservableList<ObservableList<CapturedItem>> { AutomaticallyCaptureSubItems = true };
-            Assert.Null(capturingList.ParentUndoContext);
-            upperCapturingList.Add(capturingList);
-            Assert.Equal(upperCapturingList, capturingList.ParentUndoContext);
+                Assert.Null(capturingList[0].ParentUndoContext);
 
-            Assert.Null(capturingList[0].ParentUndoContext);
+                // ACT
+                capturingList.AutomaticallyCaptureSubItems = true;
 
-            // ACT
-            capturingList.AutomaticallyCaptureSubItems = true;
-
-            // ASSERT
-            Assert.Equal(capturingList, capturingList[0].ParentUndoContext);
+                // ASSERT
+                Assert.Equal(capturingList, capturingList[0].ParentUndoContext);
+            }
         }
     }
 }

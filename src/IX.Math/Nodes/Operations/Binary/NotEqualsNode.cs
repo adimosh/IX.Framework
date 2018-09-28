@@ -60,7 +60,9 @@ namespace IX.Math.Nodes.Operations.Binary
                         typeof(ArraySequenceEqualsWithMsbExtensions).GetMethodWithExactParameters(nameof(ArraySequenceEqualsWithMsbExtensions.SequenceEqualsWithMsb), typeof(byte[]), typeof(byte[])),
                         pars.Item1,
                         pars.Item2),
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is desired
                     Expression.Constant(false, typeof(bool)));
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
             }
             else
             {

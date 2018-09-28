@@ -86,11 +86,13 @@ namespace IX.Observable.Adapters
         /// <returns>The index of the removed item, or <c>-1</c> if removal was not successful.</returns>
         public override int Remove(T item) => -1;
 
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Unavoidable here
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public override IEnumerator<T> GetEnumerator() => this.queue.GetEnumerator();
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
 
         /// <summary>
         /// Dequeues an item from the queue.
