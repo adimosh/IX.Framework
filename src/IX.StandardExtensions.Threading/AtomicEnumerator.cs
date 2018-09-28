@@ -77,11 +77,13 @@ namespace IX.StandardExtensions.Threading
             }
         }
 
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - We cannot do anything about this at this time
         /// <summary>
         /// Gets the element in the collection at the current position of the enumerator.
         /// </summary>
         /// <value>The current element.</value>
         object IEnumerator.Current => this.Current;
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
 
         /// <summary>
         /// Advances the enumerator to the next element of the collection.
@@ -144,7 +146,9 @@ namespace IX.StandardExtensions.Threading
             {
                 if (disposing)
                 {
+#pragma warning disable IDISP007 // Don't dispose injected. - This class owns the injected enumerator
                     this.existingEnumerator.Dispose();
+#pragma warning restore IDISP007 // Don't dispose injected.
                 }
 
                 this.readLock = null;

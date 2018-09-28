@@ -131,14 +131,18 @@ namespace IX.StandardExtensions
                             comparer = EquateSequentiallyWithIComparable;
 
                             bool EquateSequentiallyWithIComparable(T l, T r)
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Unavoidable here
                                  => ((l as IComparable)?.CompareTo(r) ?? (r as IComparable)?.CompareTo(l) ?? 0) == 0;
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
                         }
                         else
                         {
                             comparer = EquateSequentiallyAsObjects;
 
                             bool EquateSequentiallyAsObjects(T l, T r)
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Unavoidable here
                                 => l?.Equals(r) ?? r?.Equals(l) ?? true;
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
                         }
                     }
 

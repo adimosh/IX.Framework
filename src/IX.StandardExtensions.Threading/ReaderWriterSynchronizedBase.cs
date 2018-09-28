@@ -18,7 +18,14 @@ namespace IX.StandardExtensions.Threading
     public abstract partial class ReaderWriterSynchronizedBase : DisposableBase
     {
         private readonly bool lockInherited;
+
+#pragma warning disable IDISP008 // Don't assign member with injected and created disposables. - This is the specific working case of this class
+#pragma warning disable IDISP002 // Dispose member.
+#pragma warning disable IDISP006 // Implement IDisposable.
         private IReaderWriterLock locker;
+#pragma warning restore IDISP006 // Implement IDisposable.
+#pragma warning restore IDISP002 // Dispose member.
+#pragma warning restore IDISP008 // Don't assign member with injected and created disposables.
 
         [DataMember]
         private TimeSpan lockerTimeout;
@@ -179,7 +186,9 @@ namespace IX.StandardExtensions.Threading
         {
             if (!this.lockInherited)
             {
+#pragma warning disable IDISP007 // Don't dispose injected. - Injection is checked in the line above.
                 this.locker.Dispose();
+#pragma warning restore IDISP007 // Don't dispose injected.
             }
 
             base.DisposeManagedContext();

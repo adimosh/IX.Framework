@@ -12,10 +12,14 @@ namespace IX.System.Threading
     /// <seealso cref="IX.System.Threading.ISetResetEvent" />
     public class ManualResetEventSlim : ISetResetEvent
     {
+        private readonly bool eventLocal;
+
+#pragma warning disable IDISP008 // Don't assign member with injected and created disposables. - This is how this class works
         /// <summary>
         /// The manual reset event.
         /// </summary>
         private global::System.Threading.ManualResetEventSlim sre;
+#pragma warning restore IDISP008 // Don't assign member with injected and created disposables.
 
         /// <summary>
         /// A value that is used to detect redundant calls to <see cref="Dispose()"/>.
@@ -158,7 +162,12 @@ namespace IX.System.Threading
         {
             if (!this.disposedValue)
             {
-                this.sre.Dispose();
+                if (this.eventLocal)
+                {
+#pragma warning disable IDISP007 // Don't dispose injected. - We do the injection check above
+                    this.sre.Dispose();
+#pragma warning restore IDISP007 // Don't dispose injected.
+                }
 
                 this.disposedValue = true;
             }

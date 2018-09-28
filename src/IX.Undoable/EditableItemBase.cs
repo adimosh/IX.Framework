@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Threading;
 using IX.StandardExtensions.ComponentModel;
 using IX.System.Collections.Generic;
 
@@ -15,9 +16,14 @@ namespace IX.Undoable
     /// <seealso cref="IX.Undoable.IUndoableItem" />
     public abstract class EditableItemBase : ViewModelBase, ITransactionEditableItem, IUndoableItem
     {
-        private readonly PushDownStack<StateChange[]> undoStack;
-        private readonly PushDownStack<StateChange[]> redoStack;
         private readonly global::System.Collections.Generic.List<StateChange> stateChanges;
+
+#pragma warning disable IDISP006 // Implement IDisposable. - It is
+#pragma warning disable IDISP002 // Dispose member. - They are
+        private PushDownStack<StateChange[]> undoStack;
+        private PushDownStack<StateChange[]> redoStack;
+#pragma warning restore IDISP002 // Dispose member.
+#pragma warning restore IDISP006 // Implement IDisposable.
 
         /// <summary>
         /// The history levels.
@@ -428,11 +434,22 @@ namespace IX.Undoable
         /// <param name="oldValue">The old value.</param>
         /// <param name="newValue">The new value.</param>
         protected void AdvertisePropertyChange<T>(string propertyName, T oldValue, T newValue) => this.AdvertiseStateChange(new PropertyStateChange<T>
-            {
-                PropertyName = propertyName,
-                OldValue = oldValue,
-                NewValue = newValue,
-            });
+        {
+            PropertyName = propertyName,
+            OldValue = oldValue,
+            NewValue = newValue,
+        });
+
+        /// <summary>
+        /// Disposes in the managed context.
+        /// </summary>
+        protected override void DisposeManagedContext()
+        {
+            base.DisposeManagedContext();
+
+            Interlocked.Exchange(ref this.undoStack, null)?.Dispose();
+            Interlocked.Exchange(ref this.redoStack, null)?.Dispose();
+        }
 
         /// <summary>
         /// Called when a list of state changes are canceled and must be reverted.

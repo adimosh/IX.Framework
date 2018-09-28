@@ -1,4 +1,4 @@
-﻿// <copyright file="IEnumeratorExtensions.cs" company="Adrian Mos">
+// <copyright file="IEnumeratorExtensions.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -32,12 +32,9 @@ namespace IX.StandardExtensions
                 throw new ArgumentNullException(nameof(action));
             }
 
-            using (source)
+            while (source.MoveNext())
             {
-                while (source.MoveNext())
-                {
-                    action(source.Current);
-                }
+                action(source.Current);
             }
         }
 
@@ -59,25 +56,9 @@ namespace IX.StandardExtensions
                 throw new ArgumentNullException(nameof(action));
             }
 
-            var disposableSource = source as IDisposable;
-            if (disposableSource == null)
+            while (source.MoveNext())
             {
-                DoForEach();
-            }
-            else
-            {
-                using (disposableSource)
-                {
-                    DoForEach();
-                }
-            }
-
-            void DoForEach()
-            {
-                while (source.MoveNext())
-                {
-                    action(source.Current);
-                }
+                action(source.Current);
             }
         }
     }

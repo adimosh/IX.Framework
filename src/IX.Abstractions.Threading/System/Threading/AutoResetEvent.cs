@@ -1,4 +1,4 @@
-﻿// <copyright file="AutoResetEvent.cs" company="Adrian Mos">
+// <copyright file="AutoResetEvent.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -12,10 +12,14 @@ namespace IX.System.Threading
     /// <seealso cref="IX.System.Threading.ISetResetEvent" />
     public class AutoResetEvent : ISetResetEvent
     {
+        private readonly bool eventLocal;
+
+#pragma warning disable IDISP008 // Don't assign member with injected and created disposables. - This is how this class works
         /// <summary>
         /// The manual reset event.
         /// </summary>
         private global::System.Threading.AutoResetEvent sre;
+#pragma warning restore IDISP008 // Don't assign member with injected and created disposables.
 
         /// <summary>
         /// A value that is used to detect redundant calls to <see cref="Dispose()"/>.
@@ -37,6 +41,7 @@ namespace IX.System.Threading
         public AutoResetEvent(bool initialState)
         {
             this.sre = new global::System.Threading.AutoResetEvent(initialState);
+            this.eventLocal = true;
         }
 
         /// <summary>
@@ -46,7 +51,9 @@ namespace IX.System.Threading
         /// <exception cref="ArgumentNullException"><paramref name="autoResetEvent"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
         public AutoResetEvent(global::System.Threading.AutoResetEvent autoResetEvent)
         {
+#pragma warning disable IDISP003 // Dispose previous before re-assigning. - Analyzer bug - this is the constructor
             this.sre = autoResetEvent ?? throw new ArgumentNullException(nameof(autoResetEvent));
+#pragma warning restore IDISP003 // Dispose previous before re-assigning.
         }
 
         /// <summary>
@@ -161,7 +168,12 @@ namespace IX.System.Threading
         {
             if (!this.disposedValue)
             {
-                this.sre.Dispose();
+                if (this.eventLocal)
+                {
+#pragma warning disable IDISP007 // Don't dispose injected. - We do the injection check above
+                    this.sre.Dispose();
+#pragma warning restore IDISP007 // Don't dispose injected.
+                }
 
                 this.disposedValue = true;
             }
