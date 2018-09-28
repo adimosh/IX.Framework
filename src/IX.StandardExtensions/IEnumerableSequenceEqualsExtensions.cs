@@ -22,7 +22,7 @@ namespace IX.StandardExtensions
         /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
         public static bool SequenceEquals<T>(this IEnumerable<IEquatable<T>> left, IEnumerable<T> right)
         {
-            if ((left == null) ? (right == null) : (right != null))
+            if ((left == null) ? (right != null) : (right == null))
             {
                 return false;
             }
@@ -69,7 +69,7 @@ namespace IX.StandardExtensions
         /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
         public static bool SequenceEquals<T>(this IEnumerable<IComparable<T>> left, IEnumerable<T> right)
         {
-            if ((left == null) ? (right == null) : (right != null))
+            if ((left == null) ? (right != null) : (right == null))
             {
                 return false;
             }
@@ -115,7 +115,7 @@ namespace IX.StandardExtensions
         /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<IComparable> left, IEnumerable<object> right)
         {
-            if ((left == null) ? (right == null) : (right != null))
+            if ((left == null) ? (right != null) : (right == null))
             {
                 return false;
             }
@@ -163,7 +163,7 @@ namespace IX.StandardExtensions
         /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
         public static bool SequenceEquals<T>(this IEnumerable<T> left, IEnumerable<T> right, IEqualityComparer<T> comparer)
         {
-            if ((left == null) ? (right == null) : (right != null))
+            if ((left == null) ? (right != null) : (right == null))
             {
                 return false;
             }
@@ -211,7 +211,7 @@ namespace IX.StandardExtensions
         /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
         public static bool SequenceEquals<T>(this IEnumerable<T> left, IEnumerable<T> right, IComparer<T> comparer)
         {
-            if ((left == null) ? (right == null) : (right != null))
+            if ((left == null) ? (right != null) : (right == null))
             {
                 return false;
             }
@@ -259,7 +259,7 @@ namespace IX.StandardExtensions
         /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
         public static bool SequenceEquals<T>(this IEnumerable<T> left, IEnumerable<T> right, Func<T, T, bool> comparer)
         {
-            if ((left == null) ? (right == null) : (right != null))
+            if ((left == null) ? (right != null) : (right == null))
             {
                 return false;
             }
@@ -307,7 +307,7 @@ namespace IX.StandardExtensions
         /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
         public static bool SequenceEquals<T>(this IEnumerable<T> left, IEnumerable<T> right, Func<T, T, int> comparer)
         {
-            if ((left == null) ? (right == null) : (right != null))
+            if ((left == null) ? (right != null) : (right == null))
             {
                 return false;
             }
@@ -354,7 +354,7 @@ namespace IX.StandardExtensions
         /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
         public static bool SequenceEqualsByObjectComparison<T>(this IEnumerable<object> left, IEnumerable<object> right)
         {
-            if ((left == null) ? (right == null) : (right != null))
+            if ((left == null) ? (right != null) : (right == null))
             {
                 return false;
             }
@@ -401,7 +401,7 @@ namespace IX.StandardExtensions
         /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
         public static bool SequenceEqualsByReference<T>(this IEnumerable<object> left, IEnumerable<object> right)
         {
-            if ((left == null) ? (right == null) : (right != null))
+            if ((left == null) ? (right != null) : (right == null))
             {
                 return false;
             }
