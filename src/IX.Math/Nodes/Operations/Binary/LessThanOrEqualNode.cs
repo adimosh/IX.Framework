@@ -51,6 +51,7 @@ namespace IX.Math.Nodes.Operations.Binary
 
         protected override Expression GenerateExpressionInternal()
         {
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is desired
             Tuple<Expression, Expression> pars = this.GetExpressionsOfSameTypeFromOperands();
             if (pars.Item1.Type == typeof(string))
             {
@@ -79,6 +80,7 @@ namespace IX.Math.Nodes.Operations.Binary
             {
                 return Expression.LessThanOrEqual(pars.Item1, pars.Item2);
             }
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
         }
     }
 }

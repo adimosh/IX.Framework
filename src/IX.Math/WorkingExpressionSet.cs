@@ -14,11 +14,12 @@ using IX.Math.Generators;
 using IX.Math.Nodes;
 using IX.Math.Registration;
 using IX.StandardExtensions;
+using IX.StandardExtensions.ComponentModel;
 using IX.System.Collections.Generic;
 
 namespace IX.Math
 {
-    internal class WorkingExpressionSet
+    internal class WorkingExpressionSet : DisposableBase
     {
         private readonly IEnumerable<Assembly> assembliesForFunctions;
 
@@ -44,15 +45,20 @@ namespace IX.Math
         internal IParameterRegistry ParameterRegistry;
 
         // Scrap
+#pragma warning disable IDISP002 // Dispose member.
+#pragma warning disable IDISP006 // Implement IDisposable.
+#pragma warning disable IDISP008 // Don't assign member with injected and created disposables.
         internal LevelDictionary<string, Type> UnaryOperators;
         internal LevelDictionary<string, Type> BinaryOperators;
+        internal LevelDictionary<Type, IConstantsExtractor> Extractors;
+#pragma warning restore IDISP008 // Don't assign member with injected and created disposables.
+#pragma warning restore IDISP006 // Implement IDisposable.
+#pragma warning restore IDISP002 // Dispose member.
 
         internal Dictionary<string, Type> NonaryFunctions;
         internal Dictionary<string, Type> UnaryFunctions;
         internal Dictionary<string, Type> BinaryFunctions;
         internal Dictionary<string, Type> TernaryFunctions;
-
-        internal LevelDictionary<Type, IConstantsExtractor> Extractors;
 
         // Results
         internal object ValueIfConstant;
@@ -61,6 +67,8 @@ namespace IX.Math
         internal bool Constant = false;
         internal bool PossibleString = false;
 #pragma warning restore SA1401 // Fields must be private
+
+        private bool initialized;
 
         internal WorkingExpressionSet(
             string expression,
@@ -119,6 +127,13 @@ namespace IX.Math
 
         internal void Initialize()
         {
+            if (this.initialized)
+            {
+                return;
+            }
+
+            this.initialized = true;
+
             var i = 1;
 #pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Acceptable in this case
             foreach (var op in this.AllOperatorsInOrder
@@ -127,7 +142,7 @@ namespace IX.Math
                 .OrderByDescending(p => p.Length))
 #pragma warning restore HAA0401 // Possible allocation of reference type enumerator
             {
-                var s = $"@op{i}@";
+                var s = $"@op{i.ToString()}@";
 
                 this.Expression = this.Expression.Replace(op, s);
 
@@ -227,10 +242,11 @@ namespace IX.Math
 
             // Operator string interpretation support
             // ======================================
+#pragma warning disable IDE0009 // Member access should be qualified. - It is, but there's a bug in the analyzer
+#pragma warning disable IDISP003 // Dispose previous before re-assigning. - Not an issue, as Initialize is repeat-checked
 
             // Binary operators
-#pragma warning disable IDE0009 // Member access should be qualified. - It is, but there's a bug in the analyzer
-            var binaryOperators = new LevelDictionary<string, Type>
+            this.BinaryOperators = new LevelDictionary<string, Type>
             {
                 // First tier - Comparison and equation operators
                 { this.Definition.GreaterThanOrEqualSymbol, typeof(Nodes.Operations.Binary.GreaterThanOrEqualNode), 10 },
@@ -261,18 +277,15 @@ namespace IX.Math
                 { this.Definition.RightShiftSymbol, typeof(Nodes.Operations.Binary.RightShiftNode), 60 },
             };
 
-            this.BinaryOperators = binaryOperators;
-
             // Unary operators
-            var unaryOperators = new LevelDictionary<string, Type>
+            this.UnaryOperators = new LevelDictionary<string, Type>
             {
                 // First tier - Negation and inversion
                 { this.Definition.SubtractSymbol, typeof(Nodes.Operations.Unary.SubtractNode), 1 },
                 { this.Definition.NotSymbol, typeof(Nodes.Operations.Unary.NotNode), 1 },
             };
+#pragma warning restore IDISP003 // Dispose previous before re-assigning.
 #pragma warning restore IDE0009 // Member access should be qualified.
-
-            this.UnaryOperators = unaryOperators;
 
             // All symbols
             this.AllSymbols = this.AllOperatorsInOrder
@@ -332,6 +345,23 @@ namespace IX.Math
                 "λ",
                 0.3036630028987326,
                 $"{this.Definition.SpecialSymbolIndicators.Item1}lambda{this.Definition.SpecialSymbolIndicators.Item2}");
+        }
+
+        protected override void DisposeManagedContext()
+        {
+            base.DisposeManagedContext();
+
+            Interlocked.Exchange(ref this.ConstantsTable, null).Clear();
+            Interlocked.Exchange(ref this.ReverseConstantsTable, null).Clear();
+            Interlocked.Exchange(ref this.SymbolTable, null)?.Clear();
+            Interlocked.Exchange(ref this.ReverseSymbolTable, null)?.Clear();
+            Interlocked.Exchange(ref this.UnaryOperators, null)?.Dispose();
+            Interlocked.Exchange(ref this.BinaryOperators, null)?.Dispose();
+            Interlocked.Exchange(ref this.NonaryFunctions, null)?.Clear();
+            Interlocked.Exchange(ref this.UnaryFunctions, null)?.Clear();
+            Interlocked.Exchange(ref this.BinaryFunctions, null)?.Clear();
+            Interlocked.Exchange(ref this.TernaryFunctions, null)?.Clear();
+            Interlocked.Exchange(ref this.Extractors, null)?.Dispose();
         }
     }
 }

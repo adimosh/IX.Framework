@@ -133,7 +133,7 @@ namespace IX.Math.Generators
                                         var expr2 = SymbolExpressionGenerator.GenerateSymbolExpression(
                                             symbolTableL2,
                                             reverseSymbolTableL2,
-                                            $"{expr6}{openParenthesisL2}item{symbolTableL2.Count - 1}{closeParenthesisL2}",
+                                            $"{expr6}{openParenthesisL2}item{(symbolTableL2.Count - 1).ToString()}{closeParenthesisL2}",
                                             false);
 
                                         if (expr6 == expr4)
@@ -145,7 +145,7 @@ namespace IX.Math.Generators
                                             expr4 = expr4.Substring(0, expr4.Length - expr6.Length);
                                         }
 
-                                        resultingSubExpression = resultingSubExpression.Replace($"item{symbolTableL2.Count - 1}", $"item{symbolTableL2.Count}");
+                                        resultingSubExpression = resultingSubExpression.Replace($"item{(symbolTableL2.Count - 1).ToString()}", $"item{symbolTableL2.Count.ToString()}");
                                     }
 
                                     src = $"{expr4}{resultingSubExpression}";

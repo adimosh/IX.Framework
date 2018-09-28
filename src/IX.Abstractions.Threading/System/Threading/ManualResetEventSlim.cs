@@ -32,6 +32,7 @@ namespace IX.System.Threading
         public ManualResetEventSlim()
         {
             this.sre = new global::System.Threading.ManualResetEventSlim();
+            this.eventLocal = true;
         }
 
         /// <summary>
@@ -41,6 +42,7 @@ namespace IX.System.Threading
         public ManualResetEventSlim(bool initialState)
         {
             this.sre = new global::System.Threading.ManualResetEventSlim(initialState);
+            this.eventLocal = true;
         }
 
         /// <summary>

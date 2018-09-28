@@ -78,11 +78,13 @@ namespace IX.Math.Nodes.Constants
         /// <value>Always <see cref="SupportedValueType.Numeric"/>.</value>
         public override SupportedValueType ReturnType => SupportedValueType.Numeric;
 
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is actually desired
         /// <summary>
         /// Gets the value.
         /// </summary>
         /// <value>The value.</value>
         public object Value => this.isFloat ? this.floatValue : this.integerValue;
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
 
         /// <summary>
         /// Does an addition between two numeric nodes.

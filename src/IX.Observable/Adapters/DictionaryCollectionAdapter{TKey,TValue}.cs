@@ -61,7 +61,9 @@ namespace IX.Observable.Adapters
 
         public override void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) => ((ICollection<KeyValuePair<TKey, TValue>>)this.dictionary).CopyTo(array, arrayIndex);
 
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Unavoidable here
         public override IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => this.dictionary.GetEnumerator();
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
 
         public override int Remove(KeyValuePair<TKey, TValue> item)
         {

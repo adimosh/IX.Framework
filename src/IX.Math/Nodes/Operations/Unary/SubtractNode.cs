@@ -55,6 +55,8 @@ namespace IX.Math.Nodes.Operations.Unary
         /// <returns>A deep clone.</returns>
         public override NodeBase DeepClone(NodeCloningContext context) => new SubtractNode(this.Operand.DeepClone(context));
 
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is desired
         protected override Expression GenerateExpressionInternal() => Expression.Subtract(Expression.Constant(0, typeof(long)), this.Operand.GenerateExpression());
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
     }
 }

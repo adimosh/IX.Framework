@@ -48,7 +48,9 @@ namespace IX.Observable.Adapters
         /// <returns>The item.</returns>
         object IList.this[int index]
         {
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Unavoidable here
             get => this[index];
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
             set
             {
                 if (value is T)

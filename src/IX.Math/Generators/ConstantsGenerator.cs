@@ -246,9 +246,9 @@ namespace IX.Math.Generators
             {
                 index++;
             }
-            while (originalExpression.Contains($"Const{index}"));
+            while (originalExpression.Contains($"Const{index.ToString()}"));
 
-            return $"Const{index}";
+            return $"Const{index.ToString()}";
         }
     }
 }

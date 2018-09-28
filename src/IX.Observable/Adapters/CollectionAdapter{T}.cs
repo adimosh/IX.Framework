@@ -110,11 +110,13 @@ namespace IX.Observable.Adapters
         /// <returns><c>true</c> if the removal was a success, <c>false</c> otherwise.</returns>
         bool ICollection<T>.Remove(T item) => this.Remove(item) != -1;
 
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable here, this pattern is highly not recommended
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
 
         /// <summary>
         /// Copies the contents of the container to an array.

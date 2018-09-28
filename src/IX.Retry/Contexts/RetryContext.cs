@@ -116,17 +116,17 @@ namespace IX.Retry.Contexts
 
                 exceptions.Add(ex);
 
-                if (this.options.Type.HasFlag(RetryType.Times) && retries >= this.options.RetryTimes - 1)
+                if ((this.options.Type & RetryType.Times) != 0 && retries >= this.options.RetryTimes - 1)
                 {
                     shouldRetry = false;
                 }
 
-                if (shouldRetry && this.options.Type.HasFlag(RetryType.For) && (DateTime.UtcNow - now) > this.options.RetryFor)
+                if (shouldRetry && (this.options.Type & RetryType.For) != 0 && (DateTime.UtcNow - now) > this.options.RetryFor)
                 {
                     shouldRetry = false;
                 }
 
-                if (shouldRetry && this.options.Type.HasFlag(RetryType.Until) && this.options.RetryUntil(retries, now, exceptions, this.options))
+                if (shouldRetry && (this.options.Type & RetryType.Until) != 0 && this.options.RetryUntil(retries, now, exceptions, this.options))
                 {
                     shouldRetry = false;
                 }

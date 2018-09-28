@@ -6,24 +6,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using IX.Math.Formatters;
 using IX.Math.Nodes;
 using IX.Math.Registration;
 using IX.StandardExtensions;
+using IX.StandardExtensions.ComponentModel;
 
 namespace IX.Math
 {
     /// <summary>
     /// A representation of a computed expression, resulting from a string expression.
     /// </summary>
-    public class ComputedExpression : IDeepCloneable<ComputedExpression>, IDisposable
+    public class ComputedExpression : DisposableBase, IDeepCloneable<ComputedExpression>, IDisposable
     {
         private readonly IParameterRegistry parametersRegistry;
 
         private readonly string defaultStringFormat;
         private readonly string initialExpression;
         private NodeBase body;
-        private bool disposedValue;
 
         internal ComputedExpression(string initialExpression, NodeBase body, bool isRecognized, IParameterRegistry parameterRegistry, string defaultStringFormat)
         {
@@ -34,15 +35,6 @@ namespace IX.Math
             this.RecognizedCorrectly = isRecognized;
             this.IsConstant = body?.IsConstant ?? false;
             this.defaultStringFormat = string.IsNullOrWhiteSpace(defaultStringFormat) ? defaultStringFormat : null;
-        }
-
-        /// <summary>
-        /// Finalizes an instance of the <see cref="ComputedExpression"/> class.
-        /// </summary>
-        ~ComputedExpression()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing).
-            this.Dispose(false);
         }
 
         /// <summary>
@@ -68,16 +60,6 @@ namespace IX.Math
         /// </summary>
         public string[] ParameterNames => this.parametersRegistry.Dump().Select(p => p.Name).ToArray();
 
-        /// <summary>
-        /// Disposes an instance of the <see cref="ComputedExpression"/> class.
-        /// </summary>
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing).
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
 #pragma warning disable HAA0302 // Display class allocation to capture closure - Currently unavoidable
 #pragma warning disable HAA0301 // Closure Allocation Source
         /// <summary>
@@ -87,10 +69,7 @@ namespace IX.Math
         /// <returns>The computed result, or, if the expression is not recognized correctly, the expression as a <see cref="string"/>.</returns>
         public object Compute(params object[] arguments)
         {
-            if (this.disposedValue)
-            {
-                throw new ObjectDisposedException(nameof(ComputedExpression));
-            }
+            this.ThrowIfCurrentObjectDisposed();
 
             if (!this.RecognizedCorrectly)
             {
@@ -711,11 +690,14 @@ namespace IX.Math
                             return null;
                     }
 
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is unavoidable now
                     object CreateValue<T>(ParameterContext parameterContext, T value)
                     {
                         if (parameterContext.FuncParameter)
                         {
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Unavoidable here
                             return new Func<T>(() => value);
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                         }
                         else
                         {
@@ -734,6 +716,7 @@ namespace IX.Math
                             return value();
                         }
                     }
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
 
                     if (paramValue == null)
                     {
@@ -775,7 +758,9 @@ namespace IX.Math
             catch
             {
                 del = null;
+#pragma warning disable ERP022 // Catching everything considered harmful. - This is the intention
             }
+#pragma warning restore ERP022 // Catching everything considered harmful.
 
             if (del == null)
             {
@@ -790,7 +775,9 @@ namespace IX.Math
             catch
             {
                 // Dynamic invocation of generated expression failed.
+#pragma warning disable ERP022 // Catching everything considered harmful. - This is the intention
                 return this.initialExpression;
+#pragma warning restore ERP022 // Catching everything considered harmful.
             }
         }
 #pragma warning restore HAA0301 // Closure Allocation Source
@@ -803,10 +790,7 @@ namespace IX.Math
         /// <returns>The computed result, or, if the expression is not recognized correctly, the expression as a <see cref="string"/>.</returns>
         public object Compute(IDataFinder dataFinder)
         {
-            if (this.disposedValue)
-            {
-                throw new ObjectDisposedException(nameof(ComputedExpression));
-            }
+            this.ThrowIfCurrentObjectDisposed();
 
             if (!this.RecognizedCorrectly)
             {
@@ -846,17 +830,13 @@ namespace IX.Math
         }
 
         /// <summary>
-        /// Disposes an instance of the <see cref="ComputedExpression"/> class.
+        /// Disposes in the general (managed and unmanaged) context.
         /// </summary>
-        /// <param name="disposing">Indicates whether or not disposal is a result of a normal dispose usage.</param>
-        protected virtual void Dispose(bool disposing)
+        protected override void DisposeGeneralContext()
         {
-            if (!this.disposedValue)
-            {
-                this.body = null;
+            base.DisposeGeneralContext();
 
-                this.disposedValue = true;
-            }
+            Interlocked.Exchange(ref this.body, null);
         }
     }
 }

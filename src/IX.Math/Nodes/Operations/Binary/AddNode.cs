@@ -55,11 +55,11 @@ namespace IX.Math.Nodes.Operations.Binary
             }
             else if (this.Left is BoolNode bn4Left && this.Right is StringNode sn4Right)
             {
-                return new StringNode($"{bn4Left.Value}{sn4Right.Value}");
+                return new StringNode($"{bn4Left.Value.ToString()}{sn4Right.Value}");
             }
             else if (this.Left is StringNode sn5Left && this.Right is BoolNode bn5Right)
             {
-                return new StringNode($"{sn5Left.Value}{bn5Right.Value}");
+                return new StringNode($"{sn5Left.Value}{bn5Right.Value.ToString()}");
             }
 
             return this;
