@@ -1,10 +1,10 @@
-// <copyright file="PersistedQueue{T}.cs" company="Adrian Mos">
+// <copyright file="InMemoryLimitedPersistedQueue.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using global::System;
 using IX.StandardExtensions;
 using IX.System.IO;
 
@@ -14,13 +14,14 @@ namespace IX.Guaranteed.Collections
     /// A queue that guarantees delivery within disaster recovery scenarios.
     /// </summary>
     /// <typeparam name="T">The type of object in the queue.</typeparam>
-    /// <remarks>This persisted queue type does not hold anything in memory. All operations are done directly on disk, and, therefore, do not negatively impact RAM memory.</remarks>
     /// <seealso cref="IX.StandardExtensions.ComponentModel.DisposableBase" />
     /// <seealso cref="IX.System.Collections.Generic.IQueue{T}" />
-    public class PersistedQueue<T> : PersistedQueueBase<T>
+    public class InMemoryLimitedPersistedQueue<T> : PersistedQueueBase<T>
     {
+        private readonly System.Collections.Generic.Queue<string> internalQueue;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="PersistedQueue{T}"/> class.
+        /// Initializes a new instance of the <see cref="InMemoryLimitedPersistedQueue{T}"/> class.
         /// </summary>
         /// <param name="persistenceFolderPath">The persistence folder path.</param>
         /// <param name="fileShim">The file shim.</param>
@@ -37,9 +38,21 @@ namespace IX.Guaranteed.Collections
         /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
         /// </exception>
         /// <exception cref="ArgumentInvalidPathException">The folder at <paramref name="persistenceFolderPath"/> does not exist, or is not accessible.</exception>
-        public PersistedQueue(string persistenceFolderPath, IFile fileShim, IDirectory directoryShim, IPath pathShim)
+        public InMemoryLimitedPersistedQueue(string persistenceFolderPath, IFile fileShim, IDirectory directoryShim, IPath pathShim)
             : base(persistenceFolderPath, fileShim, directoryShim, pathShim, new DataContractSerializer(typeof(T)))
         {
+            // Internal state
+            this.internalQueue = new System.Collections.Generic.Queue<string>();
+
+            // Initialize objects
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable
+            foreach (Tuple<T, string> item in this.LoadValidItemObjectHandles())
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+            {
+                this.internalQueue.Enqueue(item.Item2);
+            }
+
+            GC.Collect();
         }
 
         /// <summary>
@@ -49,23 +62,16 @@ namespace IX.Guaranteed.Collections
         /// <remarks>
         /// <para>This property is not synchronized in any way, and therefore might not reflect the true count, should there be many threads accessing it in parallel.</para>
         /// </remarks>
-        public override int Count
-        {
-            get
-            {
-                this.ThrowIfCurrentObjectDisposed();
-
-                using (this.ReadLock())
-                {
-                    return this.GetPossibleDataFiles().Length;
-                }
-            }
-        }
+        public override int Count => this.InvokeIfNotDisposed((reference) => reference.ReadLock((referenceL2) => referenceL2.internalQueue.Count, reference), this);
 
         /// <summary>
         /// Clears the queue of all elements.
         /// </summary>
-        public override void Clear() => this.ClearData();
+        public override void Clear()
+        {
+            this.internalQueue.Clear();
+            this.ClearData();
+        }
 
         /// <summary>
         /// This method should not be called, as it will always throw an <see cref="InvalidOperationException"/>.
@@ -85,7 +91,27 @@ namespace IX.Guaranteed.Collections
         /// Dequeues an item and removes it from the queue.
         /// </summary>
         /// <returns>The item that has been dequeued.</returns>
-        public override T Dequeue() => this.LoadTopmostItem();
+        public override T Dequeue()
+        {
+            var success = true;
+
+            try
+            {
+                return this.LoadTopmostItem();
+            }
+            catch (Exception)
+            {
+                success = false;
+                throw;
+            }
+            finally
+            {
+                if (success)
+                {
+                    this.internalQueue.Dequeue();
+                }
+            }
+        }
 
         /// <summary>
         /// Tries the load topmost item and execute an action on it, deleting the topmost object data if the operation is successful.
@@ -99,7 +125,29 @@ namespace IX.Guaranteed.Collections
         /// <para>Warning! This method has the potential of overrunning its read/write lock timeouts. Please ensure that the <paramref name="predicate"/> method
         /// filters out items in a way that limits the amount of data passing through.</para>
         /// </remarks>
-        public int DequeueWhilePredicateWithAction<TState>(Func<TState, T, bool> predicate, Action<TState, IEnumerable<T>> actionToInvoke, TState state) => this.TryLoadWhilePredicateWithAction(predicate, actionToInvoke, state);
+        public int DequeueWhilePredicateWithAction<TState>(Func<TState, T, bool> predicate, Action<TState, IEnumerable<T>> actionToInvoke, TState state)
+        {
+            var success = 0;
+
+            try
+            {
+                success = this.TryLoadWhilePredicateWithAction(predicate, actionToInvoke, state);
+            }
+            catch (Exception)
+            {
+                success = 0;
+                throw;
+            }
+            finally
+            {
+                for (var i = 0; i < success; i++)
+                {
+                    this.internalQueue.Dequeue();
+                }
+            }
+
+            return success;
+        }
 
         /// <summary>
         /// Dequeues an item from the queue, and executes the specified action on it.
@@ -108,13 +156,40 @@ namespace IX.Guaranteed.Collections
         /// <param name="actionToInvoke">The action to invoke.</param>
         /// <param name="state">The state object to pass to the action.</param>
         /// <returns><c>true</c> if the dequeuing is successful, and the action performed, <c>false</c> otherwise.</returns>
-        public bool DequeueWithAction<TState>(Action<TState, T> actionToInvoke, TState state) => this.TryLoadTopmostItemWithAction(actionToInvoke, state);
+        public bool DequeueWithAction<TState>(Action<TState, T> actionToInvoke, TState state)
+        {
+            var success = true;
+
+            try
+            {
+                success = this.TryLoadTopmostItemWithAction(actionToInvoke, state);
+            }
+            catch (Exception)
+            {
+                success = false;
+                throw;
+            }
+            finally
+            {
+                if (success)
+                {
+                    this.internalQueue.Dequeue();
+                }
+            }
+
+            return success;
+        }
 
         /// <summary>
         /// Enqueues an item, adding it to the queue.
         /// </summary>
         /// <param name="item">The item to enqueue.</param>
-        public override void Enqueue(T item) => this.SaveNewItem(item);
+        public override void Enqueue(T item)
+        {
+            var filePath = this.SaveNewItem(item);
+
+            this.internalQueue.Enqueue(filePath);
+        }
 
         /// <summary>
         /// This method should not be called, as it will always throw an <see cref="InvalidOperationException"/>.
@@ -133,5 +208,10 @@ namespace IX.Guaranteed.Collections
         /// </summary>
         /// <returns>The created array with all element of the queue.</returns>
         public override T[] ToArray() => throw new InvalidOperationException();
+
+        /// <summary>
+        /// Trims the excess free space from within the queue, reducing the capacity to the actual number of elements.
+        /// </summary>
+        public override void TrimExcess() => this.internalQueue.TrimExcess();
     }
 }
