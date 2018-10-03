@@ -41,7 +41,6 @@ namespace IX.Math
         internal Dictionary<string, ExpressionSymbol> SymbolTable;
         internal Dictionary<string, string> ReverseSymbolTable;
         internal string Expression;
-        internal NodeBase Body;
         internal IParameterRegistry ParameterRegistry;
 
         // Scrap

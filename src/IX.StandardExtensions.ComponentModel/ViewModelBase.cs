@@ -10,7 +10,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace IX.StandardExtensions.ComponentModel
 {
@@ -109,7 +108,7 @@ namespace IX.StandardExtensions.ComponentModel
                                 foreach (var m in r.MemberNames)
 #pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                                 {
-                                    if (m == kv.Key)
+                                    if (m == key)
                                     {
                                         return false;
                                     }
