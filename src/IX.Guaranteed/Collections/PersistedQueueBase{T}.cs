@@ -192,7 +192,9 @@ namespace IX.Guaranteed.Collections
         /// <summary>
         /// Trims the excess free space from within the queue, reducing the capacity to the actual number of elements.
         /// </summary>
-        public abstract void TrimExcess();
+        public virtual void TrimExcess()
+        {
+        }
 
 #pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Yeah, we know
         /// <summary>
@@ -531,6 +533,10 @@ namespace IX.Guaranteed.Collections
         /// Loads the items from the folder.
         /// </summary>
         /// <returns>An item, if one exists and can be loaded, a default value otherwise.</returns>
+        /// <remarks>
+        /// <para>Warning! Not synchronized.</para>
+        /// <para>This method is not synchronized between threads. Please ensure that you only use this method in a guaranteed one-time-access manner (such as a constructor).</para>
+        /// </remarks>
         /// <exception cref="InvalidOperationException">There are no more valid items in the folder.</exception>
         protected IEnumerable<Tuple<T, string>> LoadValidItemObjectHandles()
         {
@@ -622,7 +628,11 @@ namespace IX.Guaranteed.Collections
             this.FixUnmovableReferences();
         }
 
-        private string[] GetPossibleDataFiles() => this.DirectoryShim.EnumerateFiles(this.DataFolderPath, "*.dat").Except(this.poisonedUnremovableFiles).ToArray();
+        /// <summary>
+        /// Gets the possible data files.
+        /// </summary>
+        /// <returns>An array of data file names.</returns>
+        protected string[] GetPossibleDataFiles() => this.DirectoryShim.EnumerateFiles(this.DataFolderPath, "*.dat").Except(this.poisonedUnremovableFiles).ToArray();
 
         private void HandleFileLoadProblem(string possibleFilePath)
         {

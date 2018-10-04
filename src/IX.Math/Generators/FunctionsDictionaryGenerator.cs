@@ -30,9 +30,11 @@ namespace IX.Math.Generators
         {
             var typeDictionary = new Dictionary<string, Type>();
 
-            assemblies.GetTypesAssignableFrom<T>().ForEach(AddToTypeDictionary);
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+            assemblies.GetTypesAssignableFrom<T>().ForEach(AddToTypeDictionary, typeDictionary);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
 
-            void AddToTypeDictionary(TypeInfo p)
+            void AddToTypeDictionary(TypeInfo p, Dictionary<string, Type> td)
             {
                 CallableMathematicsFunctionAttribute attr;
                 try
@@ -42,7 +44,9 @@ namespace IX.Math.Generators
                 catch
                 {
                     // We need not do anything special here.
+#pragma warning disable ERP022 // Catching everything considered harmful. - This is acceptable
                     return;
+#pragma warning restore ERP022 // Catching everything considered harmful.
                 }
 
                 if (attr == null)
@@ -50,15 +54,18 @@ namespace IX.Math.Generators
                     return;
                 }
 
-                attr.Names.ForEach(q =>
-                {
-                    if (typeDictionary.ContainsKey(q))
+                attr.Names.ForEach(
+                    (q, p2, td2) =>
                     {
-                        return;
-                    }
+                        if (td2.ContainsKey(q))
+                        {
+                            return;
+                        }
 
-                    typeDictionary.Add(q, p.AsType());
-                });
+                        td2.Add(q, p2.AsType());
+                    },
+                    p,
+                    td);
             }
 
             return typeDictionary;
