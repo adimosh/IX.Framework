@@ -1,10 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard1.1;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net45;net461;netstandard1.2;netstandard2.0</TargetFrameworks>
+    <FailObsoleteTargetFrameworks>true</FailObsoleteTargetFrameworks>
   </PropertyGroup>
 
-  <Import Project="..\DefaultPackageVersionSystem.props" />
+  <Import Project="..\IXTargets.targets" />
 
   <PropertyGroup>
     <Version>0.5.0.0</Version>
@@ -18,14 +19,6 @@
   </PropertyGroup>
 
   <Import Project="..\Branding.props" />
-
-  <Import Project="..\TargetSymbols.props" />
-
-  <Import Project="..\DocumentationFile.props" />
-
-  <Import Project="..\PackageSettings.props" />
-
-  <Import Project="..\VsCodeRemove.targets" />
 
   <Import Project="..\StyleCop.targets" />
 
@@ -49,13 +42,13 @@
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\RefIteratorDelegates.WithParameters.cs" Link="Efficiency\RefIteratorDelegates.WithParameters.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+  <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'!='net45'">
+  <ItemGroup Condition="'$(TargetFrameworkIsStandard)'=='true'">
     <PackageReference Include="System.Collections" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />

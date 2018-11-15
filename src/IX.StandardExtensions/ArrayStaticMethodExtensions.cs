@@ -13,7 +13,7 @@ namespace IX.StandardExtensions
     /// </summary>
     public static class ArrayStaticMethodExtensions
     {
-#if NET45
+#if !NETSTANDARD1_2
         /// <summary>
         /// Converts all elements of an array into elements of a different type.
         /// </summary>
@@ -511,7 +511,7 @@ namespace IX.StandardExtensions
         /// <param name="comparer">The <see cref="IComparer{T}"/> implementation to use when comparing elements.-or-<c>null</c> to use the <see cref="IComparable{T}"/> implementation of each element.</param>
         public static void Sort<T>(this T[] array, int index, int length, IComparer<T> comparer) => Array.Sort(array, index, length, comparer);
 
-#if !NETSTANDARD1_0 && !NETSTANDARD1_1
+#if !NETSTANDARD1_2
         /// <summary>
         /// Sorts a pair of <see cref="Array"/> objects (one contains the keys and the other contains
         /// the corresponding items) based on the keys in the first <see cref="Array"/> using the
@@ -543,7 +543,7 @@ namespace IX.StandardExtensions
         /// <param name="comparer">The <see cref="IComparer"/> implementation to use when comparing elements.-or-<c>null</c> to use the <see cref="IComparable"/> implementation of each element.</param>
         public static void Sort(this Array array, IComparer comparer) => Array.Sort(array, comparer);
 
-#if !NETSTANDARD1_0 && !NETSTANDARD1_1
+#if !NETSTANDARD1_2
         /// <summary>
         /// Sorts a range of elements in a pair of <see cref="Array"/> objects (one contains the
         /// keys and the other contains the corresponding items) based on the keys in the
@@ -619,7 +619,7 @@ namespace IX.StandardExtensions
         /// <param name="length">The number of elements in the range to sort.</param>
         public static void Sort<T>(this T[] array, int index, int length) => Array.Sort(array, index, length);
 
-#if !NETSTANDARD1_0 && !NETSTANDARD1_1
+#if !NETSTANDARD1_2
         /// <summary>
         /// Sorts a range of elements in a pair of one-dimensional <see cref="Array"/> objects (one
         /// contains the keys and the other contains the corresponding items) based on the

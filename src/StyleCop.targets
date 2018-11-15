@@ -17,8 +17,9 @@
 
     <PackageReference Include="ClrHeapAllocationAnalyzer" Version="1.0.0.9" PrivateAssets="all" />
 
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFrameworkIsStandard)'=='true' And '$(Configuration)'=='Debug'">
     <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />
-
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">

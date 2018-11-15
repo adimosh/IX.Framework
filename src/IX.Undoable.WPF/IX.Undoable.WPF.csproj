@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net45</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="..\DefaultPackageVersionSystem.props" />
+  <Import Project="..\IXTargets.targets" />
 
   <PropertyGroup>
     <Version>0.5.0.0</Version>
@@ -19,21 +19,13 @@
 
   <Import Project="..\Branding.props" />
 
-  <Import Project="..\TargetSymbols.props" />
-
-  <Import Project="..\DocumentationFile.props" />
-
-  <Import Project="..\PackageSettings.props" />
-
-  <Import Project="..\VsCodeRemove.targets" />
-
   <Import Project="..\StyleCop.targets" />
 
   <ItemGroup>
     <ProjectReference Include="..\IX.Undoable\IX.Undoable.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
     <Reference Include="WindowsBase" />
   </ItemGroup>
 
