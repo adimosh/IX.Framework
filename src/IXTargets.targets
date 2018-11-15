@@ -1,0 +1,167 @@
+<Project>
+
+  <!-- Language version -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <!-- Documentation file -->
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <!-- Debug and packaging -->
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <!-- Targets and symbols -->
+  
+  <!-- .NET Framework -->
+  <PropertyGroup Condition="'$(TargetFramework)'=='net11'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <TargetFrameworkIsObsolete>true</TargetFrameworkIsObsolete>
+    <DefineConstants>NET11</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net20'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <TargetFrameworkIsObsolete>true</TargetFrameworkIsObsolete>
+    <DefineConstants>NET20</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net35'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <TargetFrameworkIsObsolete>true</TargetFrameworkIsObsolete>
+    <DefineConstants>NET35</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net40'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <TargetFrameworkIsObsolete>true</TargetFrameworkIsObsolete>
+    <DefineConstants>NET40</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net403'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <TargetFrameworkIsObsolete>true</TargetFrameworkIsObsolete>
+    <DefineConstants>NET403</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>NET45</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net451'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>NET451</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net452'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>NET452</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net46'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>NET46</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net461'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>NET461</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net462'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>NET462</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net47'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>NET47</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net471'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>NET471</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net472'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>NET472</DefineConstants>
+  </PropertyGroup>
+
+  <!-- .NET Standard -->
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.0'">
+    <TargetFrameworkIsStandard>true</TargetFrameworkIsStandard>
+    <TargetFrameworkIsObsolete>true</TargetFrameworkIsObsolete>
+    <DefineConstants>NETSTANDARD1_0</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.1'">
+    <TargetFrameworkIsStandard>true</TargetFrameworkIsStandard>
+    <TargetFrameworkIsObsolete>true</TargetFrameworkIsObsolete>
+    <DefineConstants>NETSTANDARD1_1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.2'">
+    <TargetFrameworkIsStandard>true</TargetFrameworkIsStandard>
+    <DefineConstants>NETSTANDARD1_2</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
+    <TargetFrameworkIsStandard>true</TargetFrameworkIsStandard>
+    <DefineConstants>NETSTANDARD1_3</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.4'">
+    <TargetFrameworkIsStandard>true</TargetFrameworkIsStandard>
+    <DefineConstants>NETSTANDARD1_4</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.5'">
+    <TargetFrameworkIsStandard>true</TargetFrameworkIsStandard>
+    <DefineConstants>NETSTANDARD1_5</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
+    <TargetFrameworkIsStandard>true</TargetFrameworkIsStandard>
+    <DefineConstants>NETSTANDARD1_6</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <TargetFrameworkIsStandard2>true</TargetFrameworkIsStandard2>
+    <DefineConstants>NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFrameworkIsStandard2)'!='true'">
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DefineConstants>RELEASE</DefineConstants>
+  </PropertyGroup>
+
+  <!-- Error on obsolete target frameworks, if it was requested -->
+  <Target Name="ErrorOnObsoleteFrameworks" BeforeTargets="Build;Rebuild">
+    <Error Condition="'$(TargetFrameworkIsObsolete)|$(FailObsoleteTargetFrameworks)'=='true|true'" Text="The target framework $(TargetFramework) is considered obsolete, and should be avoided." />
+  </Target>
+
+  <!-- Do not include VS Code-specific files -->
+  <ItemGroup>
+    <Compile Remove=".vscode\**" />
+    <EmbeddedResource Remove=".vscode\**" />
+    <None Remove=".vscode\**" />
+  </ItemGroup>
+
+</Project>

@@ -64,12 +64,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{6AE6F3F7
 	ProjectSection(SolutionItems) = preProject
 		Branding.props = Branding.props
 		CliToolsReference.Normal.targets = CliToolsReference.Normal.targets
-		DefaultPackageVersionSystem.props = DefaultPackageVersionSystem.props
-		DocumentationFile.props = DocumentationFile.props
-		PackageSettings.props = PackageSettings.props
+		IXTargets.targets = IXTargets.targets
 		StyleCop.targets = StyleCop.targets
-		TargetSymbols.props = TargetSymbols.props
-		VsCodeRemove.targets = VsCodeRemove.targets
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub Documentation", "GitHub Documentation", "{CF1DED9F-4975-4D48-91D3-0FA13BBC9EBD}"
