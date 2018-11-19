@@ -11,12 +11,12 @@ namespace IX.Math.Generators
     internal class OperatorSequenceGenerator
     {
         internal static List<Tuple<int, int, string>> GetOperatorsInOrderInExpression(
-            in string expression,
-            in LevelDictionary<string, Type> operators)
+            string expression,
+            LevelDictionary<string, Type> operators)
         {
             var indexes = new List<Tuple<int, int, string>>();
 
-            foreach (KeyValuePair<int, IEnumerable<string>> level in operators.KeysByLevel)
+            foreach (KeyValuePair<int, string[]> level in operators.KeysByLevel)
             {
                 foreach (var op in level.Value)
                 {

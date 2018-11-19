@@ -66,13 +66,13 @@ namespace IX.System.Collections.Generic
         /// Gets the keys by level.
         /// </summary>
         /// <value>The keys by level.</value>
-        public IEnumerable<KeyValuePair<int, IEnumerable<TKey>>> KeysByLevel
+        public KeyValuePair<int, TKey[]>[] KeysByLevel
         {
             get
             {
                 this.ThrowIfCurrentObjectDisposed();
 
-                return this.keyLevels.OrderBy(p => p.Key).Select(p => new KeyValuePair<int, IEnumerable<TKey>>(p.Key, p.Value));
+                return this.keyLevels.OrderBy(p => p.Key).Select(p => new KeyValuePair<int, TKey[]>(p.Key, p.Value.ToArray())).ToArray();
             }
         }
 
@@ -160,9 +160,7 @@ namespace IX.System.Collections.Generic
             }
             else
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 this.keyLevels.Add(level, new List<TKey> { key });
-#pragma warning restore IDE0009 // Member access should be qualified.
             }
 
             this.levelKeys.Add(key, level);
