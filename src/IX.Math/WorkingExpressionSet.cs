@@ -241,7 +241,6 @@ namespace IX.Math
 
             // Operator string interpretation support
             // ======================================
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
 #pragma warning disable IDISP003 // Dispose previous before re-assigning. - Not an issue, as Initialize is repeat-checked
 
             // Binary operators
@@ -284,7 +283,6 @@ namespace IX.Math
                 { this.Definition.NotSymbol, typeof(Nodes.Operations.Unary.NotNode), 1 },
             };
 #pragma warning restore IDISP003 // Dispose previous before re-assigning.
-#pragma warning restore IDE0009 // Member access should be qualified.
 
             // All symbols
             this.AllSymbols = this.AllOperatorsInOrder
