@@ -1,9 +1,9 @@
-﻿// <copyright file="ExpressionNotValidLogicallyException.cs" company="Adrian Mos">
+// <copyright file="ExpressionNotValidLogicallyException.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
-#if NET45
+#if !STANDARD
 using System.Runtime.Serialization;
 #endif
 
@@ -12,7 +12,7 @@ namespace IX.Math
     /// <summary>
     /// Thrown when an expression is not internally logical or consistent.
     /// </summary>
-#if NET45
+#if !STANDARD
     [Serializable]
 #endif
     public class ExpressionNotValidLogicallyException : Exception
@@ -53,7 +53,7 @@ namespace IX.Math
         {
         }
 
-#if NET45
+#if !STANDARD
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionNotValidLogicallyException"/> class.
         /// </summary>

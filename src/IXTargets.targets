@@ -154,15 +154,15 @@
   
   <!-- Extra debug symbols for target framework type -->
   <PropertyGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
-    <DefineConstants>$(DefineConstants);NETFRAMEWORK</DefineConstants>
+    <DefineConstants>$(DefineConstants);FRAMEWORK</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFrameworkIsStandard)'=='true'">
-    <DefineConstants>$(DefineConstants);NETSTANDARD</DefineConstants>
+    <DefineConstants>$(DefineConstants);STANDARD</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFrameworkIsStandard2)'=='true'">
-    <DefineConstants>$(DefineConstants);NETSTANDARD2</DefineConstants>
+    <DefineConstants>$(DefineConstants);STANDARD2</DefineConstants>
   </PropertyGroup>
 
   <!-- Do not include VS Code-specific files -->

@@ -1,9 +1,9 @@
-﻿// <copyright file="ArgumentInvalidTypeException.cs" company="Adrian Mos">
+// <copyright file="ArgumentInvalidTypeException.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
-#if NET45
+#if !STANDARD
 using System.Runtime.Serialization;
 #endif
 
@@ -13,7 +13,7 @@ namespace IX.StandardExtensions
     /// An argument exception representing a boxed or polymorphic argument being passed as the wrong type.
     /// </summary>
     /// <seealso cref="System.ArgumentException" />
-#if NET45
+#if !STANDARD
     [Serializable]
 #endif
     public class ArgumentInvalidTypeException : ArgumentException
@@ -75,7 +75,7 @@ namespace IX.StandardExtensions
         {
         }
 
-#if NET45
+#if !STANDARD
         /// <summary>
         /// Initializes a new instance of the <see cref="ArgumentInvalidTypeException"/> class.
         /// </summary>
