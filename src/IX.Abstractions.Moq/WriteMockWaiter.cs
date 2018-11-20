@@ -22,11 +22,15 @@ namespace IX.Abstractions.Moq
 
         private byte[] data;
 
+#pragma warning disable HAA0302 // Display class allocation to capture closure - We'll let it slide
         internal WriteMockWaiter()
+#pragma warning restore HAA0302 // Display class allocation to capture closure
         {
             this.mre.Reset();
 
+#pragma warning disable HAA0301 // Closure Allocation Source - We'll let it slide
             this.MemoryStream = new SaveWhenDisposingMemoryStream((savedData) =>
+#pragma warning restore HAA0301 // Closure Allocation Source
             {
                 this.data = savedData;
                 this.isAwaited = true;
