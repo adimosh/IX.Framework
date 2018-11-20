@@ -40,54 +40,59 @@ namespace IX.UnitTests.IX.Observable
             var ddc4 = new DummyDataContract { RandomValue = r.Next() };
 
             // The original observable list
-            var l1 = new ObservableList<DummyDataContract>
+            using (var l1 = new ObservableList<DummyDataContract>
             {
                 ddc1,
                 ddc2,
                 ddc3,
                 ddc4,
-            };
-
-            // The deserialized list
-            ObservableList<DummyDataContract> l2;
-
-            // The serialization content
-            string content;
-
-            // ACT
-            // ===
-            using (var ms = new MemoryStream())
+            })
             {
-                dcs.WriteObject(ms, l1);
+                // The deserialized list
+                ObservableList<DummyDataContract> l2;
 
-                ms.Seek(0, SeekOrigin.Begin);
+                // The serialization content
+                string content;
 
-                using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                // ACT
+                // ===
+                using (var ms = new MemoryStream())
                 {
-                    content = textReader.ReadToEnd();
+                    dcs.WriteObject(ms, l1);
+
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                    {
+                        content = textReader.ReadToEnd();
+                    }
+
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    l2 = dcs.ReadObject(ms) as ObservableList<DummyDataContract>;
                 }
 
-                ms.Seek(0, SeekOrigin.Begin);
+                try
+                {
+                    // ASSERT
+                    // ======
 
-                l2 = dcs.ReadObject(ms) as ObservableList<DummyDataContract>;
+                    // Serialization content is OK
+                    Assert.False(string.IsNullOrWhiteSpace(content));
+                    Assert.Equal(
+                        $@"<ObservableDDCList xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><Item><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Item></ObservableDDCList>",
+                        content);
+
+                    // Deserialized object is OK
+                    Assert.NotNull(l2);
+                    Assert.Equal(l1.Count, l2.Count);
+                    Assert.True(l1.SequenceEquals(l2));
+                }
+                finally
+                {
+                    l2.Dispose();
+                }
             }
-
-            // ASSERT
-            // ======
-
-            // Serialization content is OK
-            Assert.False(string.IsNullOrWhiteSpace(content));
-            Assert.Equal(
-                $@"<ObservableDDCList xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><Item><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Item></ObservableDDCList>",
-                content);
-
-            // Deserialized object is OK
-            Assert.NotNull(l2);
-            Assert.Equal(l1.Count, l2.Count);
-            Assert.True(l1.SequenceEquals(l2));
-
-            l1.Dispose();
-            l2.Dispose();
         }
 
         /// <summary>
@@ -112,54 +117,59 @@ namespace IX.UnitTests.IX.Observable
             var ddc4 = new DummyDataContract { RandomValue = r.Next() };
 
             // The original observable list
-            var l1 = new ConcurrentObservableList<DummyDataContract>
+            using (var l1 = new ConcurrentObservableList<DummyDataContract>
             {
                 ddc1,
                 ddc2,
                 ddc3,
                 ddc4,
-            };
-
-            // The deserialized list
-            ConcurrentObservableList<DummyDataContract> l2;
-
-            // The serialization content
-            string content;
-
-            // ACT
-            // ===
-            using (var ms = new MemoryStream())
+            })
             {
-                dcs.WriteObject(ms, l1);
+                // The deserialized list
+                ConcurrentObservableList<DummyDataContract> l2;
 
-                ms.Seek(0, SeekOrigin.Begin);
+                // The serialization content
+                string content;
 
-                using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                // ACT
+                // ===
+                using (var ms = new MemoryStream())
                 {
-                    content = textReader.ReadToEnd();
+                    dcs.WriteObject(ms, l1);
+
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                    {
+                        content = textReader.ReadToEnd();
+                    }
+
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    l2 = dcs.ReadObject(ms) as ConcurrentObservableList<DummyDataContract>;
                 }
 
-                ms.Seek(0, SeekOrigin.Begin);
+                try
+                {
+                    // ASSERT
+                    // ======
 
-                l2 = dcs.ReadObject(ms) as ConcurrentObservableList<DummyDataContract>;
+                    // Serialization content is OK
+                    Assert.False(string.IsNullOrWhiteSpace(content));
+                    Assert.Equal(
+                        $@"<ConcurrentObservableDDCList xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><Item><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Item></ConcurrentObservableDDCList>",
+                        content);
+
+                    // Deserialized object is OK
+                    Assert.NotNull(l2);
+                    Assert.Equal(l1.Count, l2.Count);
+                    Assert.True(l1.SequenceEquals(l2));
+                }
+                finally
+                {
+                    l2.Dispose();
+                }
             }
-
-            // ASSERT
-            // ======
-
-            // Serialization content is OK
-            Assert.False(string.IsNullOrWhiteSpace(content));
-            Assert.Equal(
-                $@"<ConcurrentObservableDDCList xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><Item><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Item></ConcurrentObservableDDCList>",
-                content);
-
-            // Deserialized object is OK
-            Assert.NotNull(l2);
-            Assert.Equal(l1.Count, l2.Count);
-            Assert.True(l1.SequenceEquals(l2));
-
-            l1.Dispose();
-            l2.Dispose();
         }
 
         /// <summary>
@@ -184,60 +194,65 @@ namespace IX.UnitTests.IX.Observable
             var ddc4 = new DummyDataContract { RandomValue = r.Next() };
 
             // The original observable list
-            var l1 = new ObservableDictionary<int, DummyDataContract>
+            using (var l1 = new ObservableDictionary<int, DummyDataContract>
             {
                 [ddc1.RandomValue] = ddc1,
                 [ddc2.RandomValue] = ddc2,
                 [ddc3.RandomValue] = ddc3,
                 [ddc4.RandomValue] = ddc4,
-            };
-
-            // The deserialized list
-            ObservableDictionary<int, DummyDataContract> l2;
-
-            // The serialization content
-            string content;
-
-            // ACT
-            // ===
-            using (var ms = new MemoryStream())
+            })
             {
-                dcs.WriteObject(ms, l1);
+                // The deserialized list
+                ObservableDictionary<int, DummyDataContract> l2;
 
-                ms.Seek(0, SeekOrigin.Begin);
+                // The serialization content
+                string content;
 
-                using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                // ACT
+                // ===
+                using (var ms = new MemoryStream())
                 {
-                    content = textReader.ReadToEnd();
+                    dcs.WriteObject(ms, l1);
+
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                    {
+                        content = textReader.ReadToEnd();
+                    }
+
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    l2 = dcs.ReadObject(ms) as ObservableDictionary<int, DummyDataContract>;
                 }
 
-                ms.Seek(0, SeekOrigin.Begin);
+                try
+                {
+                    // ASSERT
+                    // ======
 
-                l2 = dcs.ReadObject(ms) as ObservableDictionary<int, DummyDataContract>;
-            }
+                    // Serialization content is OK
+                    Assert.False(string.IsNullOrWhiteSpace(content));
+                    Assert.Equal(
+                        $@"<ObservableDDCDictionaryByint xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><Entry><Key>{ddc1.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc2.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc3.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc4.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Value></Entry></ObservableDDCDictionaryByint>",
+                        content);
 
-            // ASSERT
-            // ======
-
-            // Serialization content is OK
-            Assert.False(string.IsNullOrWhiteSpace(content));
-            Assert.Equal(
-                $@"<ObservableDDCDictionaryByint xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><Entry><Key>{ddc1.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc2.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc3.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc4.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Value></Entry></ObservableDDCDictionaryByint>",
-                content);
-
-            // Deserialized object is OK
-            Assert.NotNull(l2);
-            Assert.Equal(l1.Count, l2.Count);
+                    // Deserialized object is OK
+                    Assert.NotNull(l2);
+                    Assert.Equal(l1.Count, l2.Count);
 
 #pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Acceptable in this unit test
-            foreach (var key in l1.Keys)
+                    foreach (var key in l1.Keys)
 #pragma warning restore HAA0401 // Possible allocation of reference type enumerator
-            {
-                Assert.True(l1[key].Equals(l2[key]));
+                    {
+                        Assert.True(l1[key].Equals(l2[key]));
+                    }
+                }
+                finally
+                {
+                    l2.Dispose();
+                }
             }
-
-            l1.Dispose();
-            l2.Dispose();
         }
 
         /// <summary>
@@ -262,60 +277,65 @@ namespace IX.UnitTests.IX.Observable
             var ddc4 = new DummyDataContract { RandomValue = r.Next() };
 
             // The original observable list
-            var l1 = new ConcurrentObservableDictionary<int, DummyDataContract>
+            using (var l1 = new ConcurrentObservableDictionary<int, DummyDataContract>
             {
                 [ddc1.RandomValue] = ddc1,
                 [ddc2.RandomValue] = ddc2,
                 [ddc3.RandomValue] = ddc3,
                 [ddc4.RandomValue] = ddc4,
-            };
-
-            // The deserialized list
-            ConcurrentObservableDictionary<int, DummyDataContract> l2;
-
-            // The serialization content
-            string content;
-
-            // ACT
-            // ===
-            using (var ms = new MemoryStream())
+            })
             {
-                dcs.WriteObject(ms, l1);
+                // The deserialized list
+                ConcurrentObservableDictionary<int, DummyDataContract> l2;
 
-                ms.Seek(0, SeekOrigin.Begin);
+                // The serialization content
+                string content;
 
-                using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                // ACT
+                // ===
+                using (var ms = new MemoryStream())
                 {
-                    content = textReader.ReadToEnd();
+                    dcs.WriteObject(ms, l1);
+
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                    {
+                        content = textReader.ReadToEnd();
+                    }
+
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    l2 = dcs.ReadObject(ms) as ConcurrentObservableDictionary<int, DummyDataContract>;
                 }
 
-                ms.Seek(0, SeekOrigin.Begin);
+                try
+                {
+                    // ASSERT
+                    // ======
 
-                l2 = dcs.ReadObject(ms) as ConcurrentObservableDictionary<int, DummyDataContract>;
-            }
+                    // Serialization content is OK
+                    Assert.False(string.IsNullOrWhiteSpace(content));
+                    Assert.Equal(
+                        $@"<ConcurrentObservableDDCDictionaryByint xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><Entry><Key>{ddc1.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc2.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc3.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc4.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Value></Entry></ConcurrentObservableDDCDictionaryByint>",
+                        content);
 
-            // ASSERT
-            // ======
-
-            // Serialization content is OK
-            Assert.False(string.IsNullOrWhiteSpace(content));
-            Assert.Equal(
-                $@"<ConcurrentObservableDDCDictionaryByint xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><Entry><Key>{ddc1.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc2.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc3.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Value></Entry><Entry><Key>{ddc4.RandomValue}</Key><Value xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Value></Entry></ConcurrentObservableDDCDictionaryByint>",
-                content);
-
-            // Deserialized object is OK
-            Assert.NotNull(l2);
-            Assert.Equal(l1.Count, l2.Count);
+                    // Deserialized object is OK
+                    Assert.NotNull(l2);
+                    Assert.Equal(l1.Count, l2.Count);
 
 #pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Acceptable in this unit test
-            foreach (var key in l1.Keys)
+                    foreach (var key in l1.Keys)
 #pragma warning restore HAA0401 // Possible allocation of reference type enumerator
-            {
-                Assert.True(l1[key].Equals(l2[key]));
+                    {
+                        Assert.True(l1[key].Equals(l2[key]));
+                    }
+                }
+                finally
+                {
+                    l2.Dispose();
+                }
             }
-
-            l1.Dispose();
-            l2.Dispose();
         }
 
         /// <summary>
@@ -340,54 +360,59 @@ namespace IX.UnitTests.IX.Observable
             var ddc4 = new DummyDataContract { RandomValue = r.Next() };
 
             // The original observable list
-            var l1 = new ObservableQueue<DummyDataContract>
+            using (var l1 = new ObservableQueue<DummyDataContract>
             {
                 ddc1,
                 ddc2,
                 ddc3,
                 ddc4,
-            };
-
-            // The deserialized list
-            ObservableQueue<DummyDataContract> l2;
-
-            // The serialization content
-            string content;
-
-            // ACT
-            // ===
-            using (var ms = new MemoryStream())
+            })
             {
-                dcs.WriteObject(ms, l1);
+                // The deserialized list
+                ObservableQueue<DummyDataContract> l2;
 
-                ms.Seek(0, SeekOrigin.Begin);
+                // The serialization content
+                string content;
 
-                using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                // ACT
+                // ===
+                using (var ms = new MemoryStream())
                 {
-                    content = textReader.ReadToEnd();
+                    dcs.WriteObject(ms, l1);
+
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                    {
+                        content = textReader.ReadToEnd();
+                    }
+
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    l2 = dcs.ReadObject(ms) as ObservableQueue<DummyDataContract>;
                 }
 
-                ms.Seek(0, SeekOrigin.Begin);
+                try
+                {
+                    // ASSERT
+                    // ======
 
-                l2 = dcs.ReadObject(ms) as ObservableQueue<DummyDataContract>;
+                    // Serialization content is OK
+                    Assert.False(string.IsNullOrWhiteSpace(content));
+                    Assert.Equal(
+                        $@"<ObservableDDCQueue xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><Item><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Item></ObservableDDCQueue>",
+                        content);
+
+                    // Deserialized object is OK
+                    Assert.NotNull(l2);
+                    Assert.Equal(l1.Count, l2.Count);
+                    Assert.True(l1.SequenceEquals(l2));
+                }
+                finally
+                {
+                    l2.Dispose();
+                }
             }
-
-            // ASSERT
-            // ======
-
-            // Serialization content is OK
-            Assert.False(string.IsNullOrWhiteSpace(content));
-            Assert.Equal(
-                $@"<ObservableDDCQueue xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><Item><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Item></ObservableDDCQueue>",
-                content);
-
-            // Deserialized object is OK
-            Assert.NotNull(l2);
-            Assert.Equal(l1.Count, l2.Count);
-            Assert.True(l1.SequenceEquals(l2));
-
-            l1.Dispose();
-            l2.Dispose();
         }
 
         /// <summary>
@@ -412,54 +437,59 @@ namespace IX.UnitTests.IX.Observable
             var ddc4 = new DummyDataContract { RandomValue = r.Next() };
 
             // The original observable list
-            var l1 = new ConcurrentObservableQueue<DummyDataContract>
+            using (var l1 = new ConcurrentObservableQueue<DummyDataContract>
             {
                 ddc1,
                 ddc2,
                 ddc3,
                 ddc4,
-            };
-
-            // The deserialized list
-            ConcurrentObservableQueue<DummyDataContract> l2;
-
-            // The serialization content
-            string content;
-
-            // ACT
-            // ===
-            using (var ms = new MemoryStream())
+            })
             {
-                dcs.WriteObject(ms, l1);
+                // The deserialized list
+                ConcurrentObservableQueue<DummyDataContract> l2;
 
-                ms.Seek(0, SeekOrigin.Begin);
+                // The serialization content
+                string content;
 
-                using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                // ACT
+                // ===
+                using (var ms = new MemoryStream())
                 {
-                    content = textReader.ReadToEnd();
+                    dcs.WriteObject(ms, l1);
+
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                    {
+                        content = textReader.ReadToEnd();
+                    }
+
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    l2 = dcs.ReadObject(ms) as ConcurrentObservableQueue<DummyDataContract>;
                 }
 
-                ms.Seek(0, SeekOrigin.Begin);
+                try
+                {
+                    // ASSERT
+                    // ======
 
-                l2 = dcs.ReadObject(ms) as ConcurrentObservableQueue<DummyDataContract>;
+                    // Serialization content is OK
+                    Assert.False(string.IsNullOrWhiteSpace(content));
+                    Assert.Equal(
+                        $@"<ConcurrentObservableDDCQueue xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><Item><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Item></ConcurrentObservableDDCQueue>",
+                        content);
+
+                    // Deserialized object is OK
+                    Assert.NotNull(l2);
+                    Assert.Equal(l1.Count, l2.Count);
+                    Assert.True(l1.SequenceEquals(l2));
+                }
+                finally
+                {
+                    l2.Dispose();
+                }
             }
-
-            // ASSERT
-            // ======
-
-            // Serialization content is OK
-            Assert.False(string.IsNullOrWhiteSpace(content));
-            Assert.Equal(
-                $@"<ConcurrentObservableDDCQueue xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><Item><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Item></ConcurrentObservableDDCQueue>",
-                content);
-
-            // Deserialized object is OK
-            Assert.NotNull(l2);
-            Assert.Equal(l1.Count, l2.Count);
-            Assert.True(l1.SequenceEquals(l2));
-
-            l1.Dispose();
-            l2.Dispose();
         }
 
         /// <summary>

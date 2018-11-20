@@ -117,11 +117,15 @@ namespace IX.Observable
                 }
                 else
                 {
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable at this point
                     return this.filteredElements.GetEnumerator();
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                 }
             }
 
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable
             return base.GetEnumerator();
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
         }
 
         /// <summary>
@@ -180,7 +184,9 @@ namespace IX.Observable
         {
             TFilter filter = this.Filter;
 
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable
             using (IEnumerator<TItem> enumerator = base.GetEnumerator())
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
             {
                 while (enumerator.MoveNext())
                 {
@@ -199,7 +205,9 @@ namespace IX.Observable
         {
             this.filteredElements = new List<TItem>(base.Count);
 
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable
             using (IEnumerator<TItem> enumerator = this.EnumerateFiltered())
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
             {
                 while (enumerator.MoveNext())
                 {

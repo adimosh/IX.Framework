@@ -21,31 +21,32 @@ namespace IX.UnitTests.IX.Observable
         public void UnitTest1()
         {
             // ARRANGE
-            var list = new ObservableList<int>(new[] { 1, 2, 3, 4, 5 });
-
-            // ACT & ASSERT
-            list.RemoveAt(0);
-
-            Assert.Equal(4, list.Count);
-
-            using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
+            using (var list = new ObservableList<int>(new[] { 1, 2, 3, 4, 5 }))
             {
-                list.RemoveAt(0);
-                list.RemoveAt(0);
+                // ACT & ASSERT
                 list.RemoveAt(0);
 
-                tc.Success();
+                Assert.Equal(4, list.Count);
+
+                using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
+                {
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
+
+                    tc.Success();
+                }
+
+                Assert.Single(list);
+
+                list.Undo();
+
+                Assert.Equal(4, list.Count);
+
+                list.Redo();
+
+                Assert.Single(list);
             }
-
-            Assert.Single(list);
-
-            list.Undo();
-
-            Assert.Equal(4, list.Count);
-
-            list.Redo();
-
-            Assert.Single(list);
         }
 
         /// <summary>
@@ -55,28 +56,29 @@ namespace IX.UnitTests.IX.Observable
         public void UnitTest2()
         {
             // ARRANGE
-            var list = new ObservableList<int>(new[] { 1, 2, 3, 4, 5 });
-
-            // ACT & ASSERT
-            list.RemoveAt(0);
-
-            Assert.Equal(4, list.Count);
-
-            list.StartExplicitUndoBlockTransaction();
-
-            list.RemoveAt(0);
-            list.RemoveAt(0);
-            list.RemoveAt(0);
-
-            Assert.Single(list);
-
-            try
+            using (var list = new ObservableList<int>(new[] { 1, 2, 3, 4, 5 }))
             {
-                list.Undo();
-            }
-            catch (Exception ex)
-            {
-                Assert.IsType<InvalidOperationException>(ex);
+                // ACT & ASSERT
+                list.RemoveAt(0);
+
+                Assert.Equal(4, list.Count);
+
+                list.StartExplicitUndoBlockTransaction();
+
+                list.RemoveAt(0);
+                list.RemoveAt(0);
+                list.RemoveAt(0);
+
+                Assert.Single(list);
+
+                try
+                {
+                    list.Undo();
+                }
+                catch (Exception ex)
+                {
+                    Assert.IsType<InvalidOperationException>(ex);
+                }
             }
         }
 
@@ -87,49 +89,50 @@ namespace IX.UnitTests.IX.Observable
         public void UnitTest3()
         {
             // ARRANGE
-            var list = new ObservableList<int>(new[] { 1, 2, 3, 4, 5, 6, 7, 8 });
-
-            // ACT & ASSERT
-            list.RemoveAt(0);
-
-            Assert.Equal(7, list.Count);
-
-            using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
+            using (var list = new ObservableList<int>(new[] { 1, 2, 3, 4, 5, 6, 7, 8 }))
             {
-                list.RemoveAt(0);
-                list.RemoveAt(0);
+                // ACT & ASSERT
                 list.RemoveAt(0);
 
-                tc.Success();
+                Assert.Equal(7, list.Count);
+
+                using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
+                {
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
+
+                    tc.Success();
+                }
+
+                Assert.Equal(4, list.Count);
+
+                list.Undo();
+
+                Assert.Equal(7, list.Count);
+
+                list.Redo();
+
+                Assert.Equal(4, list.Count);
+
+                list.RemoveAt(0);
+
+                Assert.Equal(3, list.Count);
+
+                list.Undo();
+
+                Assert.Equal(4, list.Count);
+
+                list.Redo();
+
+                Assert.Equal(3, list.Count);
+
+                list.Undo();
+                list.Undo();
+                list.Undo();
+
+                Assert.Equal(8, list.Count);
             }
-
-            Assert.Equal(4, list.Count);
-
-            list.Undo();
-
-            Assert.Equal(7, list.Count);
-
-            list.Redo();
-
-            Assert.Equal(4, list.Count);
-
-            list.RemoveAt(0);
-
-            Assert.Equal(3, list.Count);
-
-            list.Undo();
-
-            Assert.Equal(4, list.Count);
-
-            list.Redo();
-
-            Assert.Equal(3, list.Count);
-
-            list.Undo();
-            list.Undo();
-            list.Undo();
-
-            Assert.Equal(8, list.Count);
         }
 
         /// <summary>
@@ -139,28 +142,29 @@ namespace IX.UnitTests.IX.Observable
         public void UnitTest4()
         {
             // ARRANGE
-            var list = new ObservableList<int>(new[] { 1, 2, 3, 4, 5 });
-
-            // ACT & ASSERT
-            using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
+            using (var list = new ObservableList<int>(new[] { 1, 2, 3, 4, 5 }))
             {
-                list.RemoveAt(0);
-                list.RemoveAt(0);
-                list.RemoveAt(0);
-                list.RemoveAt(0);
+                // ACT & ASSERT
+                using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
+                {
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
 
-                tc.Success();
+                    tc.Success();
+                }
+
+                Assert.Single(list);
+
+                list.Undo();
+
+                Assert.Equal(5, list.Count);
+
+                list.Redo();
+
+                Assert.Single(list);
             }
-
-            Assert.Single(list);
-
-            list.Undo();
-
-            Assert.Equal(5, list.Count);
-
-            list.Redo();
-
-            Assert.Single(list);
         }
 
         /// <summary>
@@ -170,7 +174,7 @@ namespace IX.UnitTests.IX.Observable
         public void UnitTest5()
         {
             // ARRANGE
-            var list = new ObservableList<CapturedItem>(
+            using (var list = new ObservableList<CapturedItem>(
                 new[]
                 {
                     new CapturedItem { TestProperty = "1" },
@@ -181,31 +185,32 @@ namespace IX.UnitTests.IX.Observable
                 })
             {
                 AutomaticallyCaptureSubItems = true,
-            };
-
-            // ACT & ASSERT
-            list.RemoveAt(0);
-
-            Assert.Equal(4, list.Count);
-
-            using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
+            })
             {
-                list.RemoveAt(0);
-                list.RemoveAt(0);
+                // ACT & ASSERT
                 list.RemoveAt(0);
 
-                tc.Success();
+                Assert.Equal(4, list.Count);
+
+                using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
+                {
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
+
+                    tc.Success();
+                }
+
+                Assert.Single(list);
+
+                list.Undo();
+
+                Assert.Equal(4, list.Count);
+
+                list.Redo();
+
+                Assert.Single(list);
             }
-
-            Assert.Single(list);
-
-            list.Undo();
-
-            Assert.Equal(4, list.Count);
-
-            list.Redo();
-
-            Assert.Single(list);
         }
 
         /// <summary>
@@ -215,7 +220,7 @@ namespace IX.UnitTests.IX.Observable
         public void UnitTest6()
         {
             // ARRANGE
-            var list = new ObservableList<CapturedItem>(
+            using (var list = new ObservableList<CapturedItem>(
                 new[]
                 {
                     new CapturedItem { TestProperty = "1" },
@@ -226,28 +231,29 @@ namespace IX.UnitTests.IX.Observable
                 })
             {
                 AutomaticallyCaptureSubItems = true,
-            };
-
-            // ACT & ASSERT
-            list.RemoveAt(0);
-
-            Assert.Equal(4, list.Count);
-
-            list.StartExplicitUndoBlockTransaction();
-
-            list.RemoveAt(0);
-            list.RemoveAt(0);
-            list.RemoveAt(0);
-
-            Assert.Single(list);
-
-            try
+            })
             {
-                list.Undo();
-            }
-            catch (Exception ex)
-            {
-                Assert.IsType<InvalidOperationException>(ex);
+                // ACT & ASSERT
+                list.RemoveAt(0);
+
+                Assert.Equal(4, list.Count);
+
+                list.StartExplicitUndoBlockTransaction();
+
+                list.RemoveAt(0);
+                list.RemoveAt(0);
+                list.RemoveAt(0);
+
+                Assert.Single(list);
+
+                try
+                {
+                    list.Undo();
+                }
+                catch (Exception ex)
+                {
+                    Assert.IsType<InvalidOperationException>(ex);
+                }
             }
         }
 
@@ -258,7 +264,7 @@ namespace IX.UnitTests.IX.Observable
         public void UnitTest7()
         {
             // ARRANGE
-            var list = new ObservableList<CapturedItem>(
+            using (var list = new ObservableList<CapturedItem>(
                 new[]
                 {
                     new CapturedItem { TestProperty = "1" },
@@ -272,49 +278,50 @@ namespace IX.UnitTests.IX.Observable
                 })
             {
                 AutomaticallyCaptureSubItems = true,
-            };
-
-            // ACT & ASSERT
-            list.RemoveAt(0);
-
-            Assert.Equal(7, list.Count);
-
-            using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
+            })
             {
-                list.RemoveAt(0);
-                list.RemoveAt(0);
+                // ACT & ASSERT
                 list.RemoveAt(0);
 
-                tc.Success();
+                Assert.Equal(7, list.Count);
+
+                using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
+                {
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
+
+                    tc.Success();
+                }
+
+                Assert.Equal(4, list.Count);
+
+                list.Undo();
+
+                Assert.Equal(7, list.Count);
+
+                list.Redo();
+
+                Assert.Equal(4, list.Count);
+
+                list.RemoveAt(0);
+
+                Assert.Equal(3, list.Count);
+
+                list.Undo();
+
+                Assert.Equal(4, list.Count);
+
+                list.Redo();
+
+                Assert.Equal(3, list.Count);
+
+                list.Undo();
+                list.Undo();
+                list.Undo();
+
+                Assert.Equal(8, list.Count);
             }
-
-            Assert.Equal(4, list.Count);
-
-            list.Undo();
-
-            Assert.Equal(7, list.Count);
-
-            list.Redo();
-
-            Assert.Equal(4, list.Count);
-
-            list.RemoveAt(0);
-
-            Assert.Equal(3, list.Count);
-
-            list.Undo();
-
-            Assert.Equal(4, list.Count);
-
-            list.Redo();
-
-            Assert.Equal(3, list.Count);
-
-            list.Undo();
-            list.Undo();
-            list.Undo();
-
-            Assert.Equal(8, list.Count);
         }
 
         /// <summary>
@@ -324,7 +331,7 @@ namespace IX.UnitTests.IX.Observable
         public void UnitTest8()
         {
             // ARRANGE
-            var list = new ObservableList<CapturedItem>(
+            using (var list = new ObservableList<CapturedItem>(
                 new[]
                 {
                     new CapturedItem { TestProperty = "1" },
@@ -335,28 +342,29 @@ namespace IX.UnitTests.IX.Observable
                 })
             {
                 AutomaticallyCaptureSubItems = true,
-            };
-
-            // ACT & ASSERT
-            using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
+            })
             {
-                list.RemoveAt(0);
-                list.RemoveAt(0);
-                list.RemoveAt(0);
-                list.RemoveAt(0);
+                // ACT & ASSERT
+                using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
+                {
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
+                    list.RemoveAt(0);
 
-                tc.Success();
+                    tc.Success();
+                }
+
+                Assert.Single(list);
+
+                list.Undo();
+
+                Assert.Equal(5, list.Count);
+
+                list.Redo();
+
+                Assert.Single(list);
             }
-
-            Assert.Single(list);
-
-            list.Undo();
-
-            Assert.Equal(5, list.Count);
-
-            list.Redo();
-
-            Assert.Single(list);
         }
     }
 }

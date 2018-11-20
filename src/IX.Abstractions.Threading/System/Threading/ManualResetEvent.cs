@@ -120,7 +120,7 @@ namespace IX.System.Threading
         /// <param name="millisecondsTimeout">The timeout period, in milliseconds.</param>
         /// <param name="exitSynchronizationDomain">If set to <c>true</c>, the synchronization domain is exited before the call.</param>
         public void WaitOne(int millisecondsTimeout, bool exitSynchronizationDomain) =>
-#if NET45
+#if !STANDARD
             this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout), exitSynchronizationDomain);
 #else
             this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout));
@@ -132,7 +132,7 @@ namespace IX.System.Threading
         /// <param name="millisecondsTimeout">The timeout period, in milliseconds.</param>
         /// <param name="exitSynchronizationDomain">If set to <c>true</c>, the synchronization domain is exited before the call.</param>
         public void WaitOne(double millisecondsTimeout, bool exitSynchronizationDomain) =>
-#if NET45
+#if !STANDARD
             this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout), exitSynchronizationDomain);
 #else
             this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout));
@@ -144,7 +144,7 @@ namespace IX.System.Threading
         /// <param name="timeout">The timeout period.</param>
         /// <param name="exitSynchronizationDomain">If set to <c>true</c>, the synchronization domain is exited before the call.</param>
         public void WaitOne(TimeSpan timeout, bool exitSynchronizationDomain) =>
-#if NET45
+#if !STANDARD
             this.sre.WaitOne(timeout, exitSynchronizationDomain);
 #else
             this.sre.WaitOne(timeout);

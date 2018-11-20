@@ -35,13 +35,13 @@ namespace IX.UnitTests.IX.Math
                     throw new InvalidOperationException($"The generation process should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
                 }
 
-                if (del == null)
-                {
-                    throw new InvalidOperationException("No computed expression was generated!");
-                }
-
                 try
                 {
+                    if (del == null)
+                    {
+                        throw new InvalidOperationException("No computed expression was generated!");
+                    }
+
                     object result;
                     try
                     {
@@ -86,13 +86,13 @@ namespace IX.UnitTests.IX.Math
                     throw new InvalidOperationException($"The generation process should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
                 }
 
-                if (del == null)
-                {
-                    throw new InvalidOperationException("No computed expression was generated!");
-                }
-
                 try
                 {
+                    if (del == null)
+                    {
+                        throw new InvalidOperationException("No computed expression was generated!");
+                    }
+
                     object result;
                     try
                     {

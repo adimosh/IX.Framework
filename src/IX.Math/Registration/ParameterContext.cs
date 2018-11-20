@@ -242,7 +242,7 @@ namespace IX.Math.Registration
                 this.expression :
                 Expression.Call(this.expression, typeof(object).GetMethodWithExactParameters(
                     nameof(object.ToString),
-#if NETSTANDARD2_0
+#if STANDARD2 || NET461
                     Array.Empty<Type>()));
 #else
                     new Type[0]));
