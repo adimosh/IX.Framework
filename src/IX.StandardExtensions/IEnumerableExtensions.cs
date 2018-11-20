@@ -65,7 +65,7 @@ namespace IX.StandardExtensions
             }
         }
 
-#if !NETSTANDARD1_0
+#if !STANDARD
         /// <summary>
         /// Executes an independent action for each one of the elements of an enumerable, in parallel.
         /// </summary>
@@ -144,7 +144,7 @@ namespace IX.StandardExtensions
             }
         }
 
-#if !NETSTANDARD1_0
+#if !STANDARD
         /// <summary>
         /// Executes an independent action in parallel, with an iterator that respects the original sequence.
         /// </summary>
