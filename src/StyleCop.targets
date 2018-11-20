@@ -7,13 +7,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IDisposableAnalyzers" Version="2.0.3.3" PrivateAssets="all" />
+    <PackageReference Include="IDisposableAnalyzers" Version="2.0.6" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
 
     <PackageReference Include="ErrorProne.Net" Version="0.1.5898.41180" PrivateAssets="all" />
-    <PackageReference Include="ErrorProne.Net.Structs" Version="0.1.0" PrivateAssets="all" />
+    <PackageReference Include="ErrorProne.Net.Structs" Version="0.1.2" PrivateAssets="all" />
 
     <PackageReference Include="ClrHeapAllocationAnalyzer" Version="1.0.0.9" PrivateAssets="all" />
 

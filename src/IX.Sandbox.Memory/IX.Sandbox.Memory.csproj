@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net45;net461;netstandard1.2;netstandard1.3;netstandard2.0</TargetFrameworks>
@@ -14,7 +14,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <Title>IX Abstractions</Title>
-    <Description>A library for abstracting away the common classes that have originally been implemented as static or non-abstractable classes in the .NET Framework.</Description>
+    <Description>A library for creating a memory-simulating sandbox environment for use in isolated scenarios.</Description>
   </PropertyGroup>
 
   <Import Project="..\Branding.props" />
@@ -30,6 +30,10 @@
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
     <Reference Include="System" />
     <Reference Include="System.Core" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFrameworkIsStandard)'=='true'">
+    <PackageReference Include="System.Reflection.Extensions" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
