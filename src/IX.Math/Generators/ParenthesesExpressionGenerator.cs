@@ -22,15 +22,9 @@ namespace IX.Math.Generators
         {
             FormatParenthesis(string.Empty, openParenthesis, closeParenthesis, parameterSeparator, allOperatorsInOrder, symbolTable, reverseSymbolTable);
 
-#pragma warning disable HAA0302 // Display class allocation to capture closure
             var itemsToProcess = new List<string>();
-#pragma warning restore HAA0302 // Display class allocation to capture closure
 
-#pragma warning disable HAA0301 // Closure Allocation Source
-#pragma warning disable HeapAnalyzerExplicitNewAnonymousObjectRule // Explicit new anonymous object allocation
-            var itemToProcess = symbolTable.Where(p => p.Key.StartsWith("item") && !itemsToProcess.Contains(p.Key)).Select(p => new { p.Key, p.Value }).FirstOrDefault();
-#pragma warning restore HeapAnalyzerExplicitNewAnonymousObjectRule // Explicit new anonymous object allocation
-#pragma warning restore HAA0301 // Closure Allocation Source
+            var itemToProcess = symbolTable.Where((p, itemsToProcessL1) => p.Key.StartsWith("item") && !itemsToProcessL1.Contains(p.Key), itemsToProcess).Select(p => new { p.Key, p.Value }).FirstOrDefault();
 
             while (itemToProcess != default)
             {
@@ -47,11 +41,7 @@ namespace IX.Math.Generators
                 {
                     itemsToProcess.Add(itemToProcess.Key);
 
-#pragma warning disable HAA0301 // Closure Allocation Source
-#pragma warning disable HeapAnalyzerExplicitNewAnonymousObjectRule // Explicit new anonymous object allocation
-                    itemToProcess = symbolTable.Where(p => p.Key.StartsWith("item") && !itemsToProcess.Contains(p.Key)).Select(p => new { p.Key, p.Value }).FirstOrDefault();
-#pragma warning restore HeapAnalyzerExplicitNewAnonymousObjectRule // Explicit new anonymous object allocation
-#pragma warning restore HAA0301 // Closure Allocation Source
+                    itemToProcess = symbolTable.Where((p, itemsToProcessL1) => p.Key.StartsWith("item") && !itemsToProcessL1.Contains(p.Key), itemsToProcess).Select(p => new { p.Key, p.Value }).FirstOrDefault();
                 }
             }
 
@@ -125,7 +115,9 @@ namespace IX.Math.Generators
                                     if (!allOperatorsInOrderSymbolsL2.Any((p, expr4L1) => expr4L1.EndsWith(p), expr4))
                                     {
                                         // We have a function call
-                                        var inx = allOperatorsInOrderSymbolsL2.Max(p => expr4.LastIndexOf(p));
+#pragma warning disable HAA0603 // Delegate allocation from a method group - Acceptable here
+                                        var inx = allOperatorsInOrderSymbolsL2.Max(expr4.LastIndexOf);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
                                         var expr5 = inx == -1 ? expr4 : expr4.Substring(inx);
                                         var op1 = allOperatorsInOrderSymbolsL2.OrderByDescending(p => p.Length).FirstOrDefault((p, expr5L1) => expr5L1.StartsWith(p), expr5);
                                         var expr6 = op1 == null ? expr5 : expr5.Substring(op1.Length);

@@ -1,4 +1,4 @@
-﻿// <copyright file="WriteMockWaiter.cs" company="Adrian Mos">
+// <copyright file="WriteMockWaiter.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -81,10 +81,7 @@ namespace IX.Abstractions.Moq
         /// Waits for the write operation to finish.
         /// </summary>
         /// <exception cref="T:System.ObjectDisposedException">Occurs when the object has already been disposed and should no longer be used.</exception>
-        public void WaitForWriteFinished()
-        {
-            this.WaitForWriteFinished(Timeout.InfiniteTimeSpan);
-        }
+        public void WaitForWriteFinished() => this.WaitForWriteFinished(Timeout.InfiniteTimeSpan);
 
         /// <summary>
         /// Waits for the write operation to finish.

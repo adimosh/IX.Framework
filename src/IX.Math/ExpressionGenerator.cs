@@ -428,7 +428,9 @@ namespace IX.Math
                 }
                 catch (Exception)
                 {
+#pragma warning disable ERP022 // Catching everything considered harmful. - We actually want this to happen
                     return null;
+#pragma warning restore ERP022 // Catching everything considered harmful.
                 }
 
                 return null;

@@ -26,54 +26,58 @@ namespace IX.UnitTests.IX.StandardExtensions
             // ARRANGE
             // =======
             var item1 = DataGenerator.RandomNonNegativeInteger();
-            var l1 = new BasicSynchronizedSerializationClass
+            using (var l1 = new BasicSynchronizedSerializationClass
             {
                 Setty = item1,
-            };
-
-            // The serializer
-            var dcs = new DataContractSerializer(typeof(BasicSynchronizedSerializationClass));
-
-            // The deserialization variable
-            BasicSynchronizedSerializationClass l2;
-
-            // The serialization content
-            string content;
-
-            // ACT
-            // ===
-            using (var ms = new MemoryStream())
+            })
             {
-                dcs.WriteObject(ms, l1);
+                // The serializer
+                var dcs = new DataContractSerializer(typeof(BasicSynchronizedSerializationClass));
 
-                ms.Seek(0, SeekOrigin.Begin);
+                // The deserialization variable
+                BasicSynchronizedSerializationClass l2;
 
-                using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                // The serialization content
+                string content;
+
+                // ACT
+                // ===
+                using (var ms = new MemoryStream())
                 {
-                    content = textReader.ReadToEnd();
+                    dcs.WriteObject(ms, l1);
+
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                    {
+                        content = textReader.ReadToEnd();
+                    }
+
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    l2 = dcs.ReadObject(ms) as BasicSynchronizedSerializationClass;
                 }
+                try
+                {
+                    // ASSERT
+                    // ======
+                    var threadingNS = Constants.DataContractNamespace;
 
-                ms.Seek(0, SeekOrigin.Begin);
+                    // Serialization content is OK
+                    Assert.False(string.IsNullOrWhiteSpace(content));
+                    Assert.Equal(
+                        $@"<BasicSynchronizedSerializationClass xmlns=""http://test.namespaces.org/butter"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><lockerTimeout xmlns=""{threadingNS}"">PT0.1S</lockerTimeout><Setty>{item1}</Setty></BasicSynchronizedSerializationClass>",
+                        content);
 
-                l2 = dcs.ReadObject(ms) as BasicSynchronizedSerializationClass;
+                    // Deserialized object is OK
+                    Assert.NotNull(l2);
+                    Assert.Equal(l1.Setty, l2.Setty);
+                }
+                finally
+                {
+                    l2.Dispose();
+                }
             }
-
-            // ASSERT
-            // ======
-            var threadingNS = Constants.DataContractNamespace;
-
-            // Serialization content is OK
-            Assert.False(string.IsNullOrWhiteSpace(content));
-            Assert.Equal(
-                $@"<BasicSynchronizedSerializationClass xmlns=""http://test.namespaces.org/butter"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><lockerTimeout xmlns=""{threadingNS}"">PT0.1S</lockerTimeout><Setty>{item1}</Setty></BasicSynchronizedSerializationClass>",
-                content);
-
-            // Deserialized object is OK
-            Assert.NotNull(l2);
-            Assert.Equal(l1.Setty, l2.Setty);
-
-            l1.Dispose();
-            l2.Dispose();
         }
     }
 }
