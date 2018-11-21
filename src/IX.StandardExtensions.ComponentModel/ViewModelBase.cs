@@ -54,7 +54,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// <summary>
         /// Gets a value indicating whether the entity has validation errors.
         /// </summary>
-        /// <value><c>true</c> if this instance has errors; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance has errors; otherwise, <see langword="false"/>.</value>
         public bool HasErrors => this.entityErrors.Values.Any(p => p.Count > 0);
 
         /// <summary>

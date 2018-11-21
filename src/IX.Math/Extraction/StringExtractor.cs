@@ -28,7 +28,7 @@ namespace IX.Math.Extraction
         /// <paramref name="constantsTable"/>
         /// or
         /// <paramref name="reverseConstantsTable"/>
-        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
         public string ExtractAllConstants(string originalExpression, IDictionary<string, ConstantNodeBase> constantsTable, IDictionary<string, string> reverseConstantsTable, MathDefinition mathDefinition)
         {

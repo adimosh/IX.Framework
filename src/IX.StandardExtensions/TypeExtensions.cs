@@ -17,7 +17,7 @@ namespace IX.StandardExtensions
         /// Determines whether a type has a public parameterless constructor.
         /// </summary>
         /// <param name="type">The type.</param>
-        /// <returns><c>true</c> if there is a parameterless constructor; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if there is a parameterless constructor; otherwise, <see langword="false"/>.</returns>
         public static bool HasPublicParameterlessConstructor(this Type type) => type.GetTypeInfo().HasPublicParameterlessConstructor();
 
         /// <summary>
@@ -41,8 +41,8 @@ namespace IX.StandardExtensions
         /// <param name="typeInfo">The type information.</param>
         /// <param name="name">The name of the method to find.</param>
         /// <param name="parameters">The parameters list, if any.</param>
-        /// <returns>A <see cref="MethodInfo"/> object representing the found method, or <c>null</c> (<c>Nothing</c> in Visual Basic), if none is found.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="typeInfo"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <returns>A <see cref="MethodInfo"/> object representing the found method, or <see langword="null"/> (<see langword="Nothing"/> in Visual Basic), if none is found.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="typeInfo"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static MethodInfo GetMethodWithExactParameters(this Type typeInfo, string name, params Type[] parameters)
         {
             MethodInfo mi = null;
@@ -83,8 +83,8 @@ namespace IX.StandardExtensions
         /// <param name="typeInfo">The type information.</param>
         /// <param name="name">The name of the method to find.</param>
         /// <param name="parameters">The parameters list, if any.</param>
-        /// <returns>A <see cref="MethodInfo"/> object representing the found method, or <c>null</c> (<c>Nothing</c> in Visual Basic), if none is found.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="typeInfo"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <returns>A <see cref="MethodInfo"/> object representing the found method, or <see langword="null"/> (<see langword="Nothing"/> in Visual Basic), if none is found.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="typeInfo"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static MethodInfo GetMethodWithExactParameters(this Type typeInfo, string name, params TypeInfo[] parameters) => typeInfo.GetMethodWithExactParameters(name, parameters.Select(p => p.AsType()).ToArray());
 
         /// <summary>

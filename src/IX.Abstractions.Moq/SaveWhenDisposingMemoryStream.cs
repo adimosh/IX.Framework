@@ -18,7 +18,7 @@ namespace IX.Abstractions.Moq
         /// Initializes a new instance of the <see cref="SaveWhenDisposingMemoryStream"/> class.
         /// </summary>
         /// <param name="saveFile">The file save action that should be invoked when this instance is correctly disposed.</param>
-        /// <exception cref="T:System.ArgumentNullException">Occurs when the <paramref name="saveFile"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="T:System.ArgumentNullException">Occurs when the <paramref name="saveFile"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public SaveWhenDisposingMemoryStream(Action<byte[]> saveFile)
             : base()
         {
@@ -30,7 +30,7 @@ namespace IX.Abstractions.Moq
         /// </summary>
         /// <param name="buffer">The array of unsigned bytes from which to create this stream.</param>
         /// <param name="saveFile">The file save action that should be invoked when this instance is correctly disposed.</param>
-        /// <exception cref="T:System.ArgumentNullException">Occurs when the <paramref name="saveFile"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="T:System.ArgumentNullException">Occurs when the <paramref name="saveFile"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public SaveWhenDisposingMemoryStream(byte[] buffer, Action<byte[]> saveFile)
             : base(buffer)
         {
@@ -42,7 +42,7 @@ namespace IX.Abstractions.Moq
         /// </summary>
         /// <param name="capacity">The initial size of the internal array in bytes.</param>
         /// <param name="saveFile">The file save action that should be invoked when this instance is correctly disposed.</param>
-        /// <exception cref="T:System.ArgumentNullException">Occurs when the <paramref name="saveFile"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="T:System.ArgumentNullException">Occurs when the <paramref name="saveFile"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public SaveWhenDisposingMemoryStream(int capacity, Action<byte[]> saveFile)
             : base(capacity)
         {
@@ -55,7 +55,7 @@ namespace IX.Abstractions.Moq
         /// <param name="buffer">The array of unsigned bytes from which to create this stream.</param>
         /// <param name="writable">The setting of the <see cref="M:System.IO.MemoryStream.CanWrite"/> property, which determines whether the stream supports writing.</param>
         /// <param name="saveFile">The file save action that should be invoked when this instance is correctly disposed.</param>
-        /// <exception cref="T:System.ArgumentNullException">Occurs when the <paramref name="saveFile"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="T:System.ArgumentNullException">Occurs when the <paramref name="saveFile"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public SaveWhenDisposingMemoryStream(byte[] buffer, bool writable, Action<byte[]> saveFile)
             : base(buffer, writable)
         {
@@ -69,7 +69,7 @@ namespace IX.Abstractions.Moq
         /// <param name="index">The index into buffer at which the stream begins.</param>
         /// <param name="count">The length of the stream in bytes.</param>
         /// <param name="saveFile">The file save action that should be invoked when this instance is correctly disposed.</param>
-        /// <exception cref="T:System.ArgumentNullException">Occurs when the <paramref name="saveFile"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="T:System.ArgumentNullException">Occurs when the <paramref name="saveFile"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public SaveWhenDisposingMemoryStream(byte[] buffer, int index, int count, Action<byte[]> saveFile)
             : base(buffer, index, count)
         {
@@ -84,7 +84,7 @@ namespace IX.Abstractions.Moq
         /// <param name="count">The length of the stream in bytes.</param>
         /// <param name="writable">The setting of the <see cref="M:System.IO.MemoryStream.CanWrite"/> property, which determines whether the stream supports writing.</param>
         /// <param name="saveFile">The file save action that should be invoked when this instance is correctly disposed.</param>
-        /// <exception cref="T:System.ArgumentNullException">Occurs when the <paramref name="saveFile"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="T:System.ArgumentNullException">Occurs when the <paramref name="saveFile"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public SaveWhenDisposingMemoryStream(byte[] buffer, int index, int count, bool writable, Action<byte[]> saveFile)
             : base(buffer, index, count, writable)
         {
@@ -99,10 +99,10 @@ namespace IX.Abstractions.Moq
         /// <param name="count">The length of the stream in bytes.</param>
         /// <param name="writable">The setting of the <see cref="M:System.IO.MemoryStream.CanWrite"/> property, which determines whether the stream supports writing.</param>
         /// <param name="publiclyVisible">
-        /// <c>true</c> to enable <see cref="M:System.IO.MemoryStream.GetBuffer"/>, which returns the unsigned byte array from which the stream was created; otherwise, <c>false</c>.
+        /// <see langword="true"/> to enable <see cref="M:System.IO.MemoryStream.GetBuffer"/>, which returns the unsigned byte array from which the stream was created; otherwise, <see langword="false"/>.
         /// </param>
         /// <param name="saveFile">The file save action that should be invoked when this instance is correctly disposed.</param>
-        /// <exception cref="T:System.ArgumentNullException">Occurs when the <paramref name="saveFile"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="T:System.ArgumentNullException">Occurs when the <paramref name="saveFile"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public SaveWhenDisposingMemoryStream(byte[] buffer, int index, int count, bool writable, bool publiclyVisible, Action<byte[]> saveFile)
             : base(buffer, index, count, writable, publiclyVisible)
         {
@@ -112,7 +112,7 @@ namespace IX.Abstractions.Moq
         /// <summary>
         /// Releases the unmanaged resources used by the <see cref="T:System.IO.MemoryStream" /> class and optionally releases the managed resources.
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        /// <param name="disposing"><see langword="true"/> to release both managed and unmanaged resources; <see langword="false"/> to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -69,8 +69,8 @@ namespace IX.StandardExtensions
         /// <param name="determineEmpty">A function that determines whether an item is &quot;empty&quot; or not.</param>
         /// <returns>An enumerable stating which item is equal to its correspondent.</returns>
         /// <remarks>
-        /// <para>If the <paramref name="comparer"/> is not <c>null</c> (<c>Nothing</c> in Visual Basic), it will be used regardless of the type of the elements.</para>
-        /// <para>If it is <c>null</c> (<c>Nothing</c> in Visual Basic), the method will try to infer some comparison that is possible between the items of the type
+        /// <para>If the <paramref name="comparer"/> is not <see langword="null"/> (<see langword="Nothing"/> in Visual Basic), it will be used regardless of the type of the elements.</para>
+        /// <para>If it is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic), the method will try to infer some comparison that is possible between the items of the type
         /// specified.</para>
         /// <para>It will first check whether or not the type is <see cref="IEquatable{T}"/>. If it is, it will use its <see cref="IEquatable{T}.Equals(T)"/> method
         /// to determine equality.</para>
@@ -79,7 +79,7 @@ namespace IX.StandardExtensions
         /// <para>It will then check whether or not the type is <see cref="IComparable"/>. If it is, it will use its <see cref="IComparable.CompareTo(object)"/> method
         /// to determine equality.</para>
         /// <para>It will then use the default object comparison to attempt to determine equality.</para>
-        /// <para>If the <paramref name="determineEmpty"/> function is not <c>null</c> (<c>Nothing</c> in Visual Basic), then any item which is considered &quot;empty&quot;
+        /// <para>If the <paramref name="determineEmpty"/> function is not <see langword="null"/> (<see langword="Nothing"/> in Visual Basic), then any item which is considered &quot;empty&quot;
         /// is going to be skipped over when comparing. The definition of &quot;empty&quot; depends on the implementation of the function.</para>
         /// </remarks>
         public static IEnumerable<bool> EquateSequentially<T>(this IEnumerable<T> left, IEnumerable<T> right, Func<T, T, bool> comparer, Func<T, bool> determineEmpty)

@@ -19,7 +19,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<byte> DeepClone(this List<byte> list)
         {
             if (list == null)
@@ -37,7 +37,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<sbyte> DeepClone(this List<sbyte> list)
         {
             if (list == null)
@@ -55,7 +55,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<short> DeepClone(this List<short> list)
         {
             if (list == null)
@@ -73,7 +73,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<ushort> DeepClone(this List<ushort> list)
         {
             if (list == null)
@@ -91,7 +91,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<char> DeepClone(this List<char> list)
         {
             if (list == null)
@@ -109,7 +109,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<int> DeepClone(this List<int> list)
         {
             if (list == null)
@@ -127,7 +127,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<uint> DeepClone(this List<uint> list)
         {
             if (list == null)
@@ -145,7 +145,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<long> DeepClone(this List<long> list)
         {
             if (list == null)
@@ -163,7 +163,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<ulong> DeepClone(this List<ulong> list)
         {
             if (list == null)
@@ -181,7 +181,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<float> DeepClone(this List<float> list)
         {
             if (list == null)
@@ -199,7 +199,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<double> DeepClone(this List<double> list)
         {
             if (list == null)
@@ -217,7 +217,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<decimal> DeepClone(this List<decimal> list)
         {
             if (list == null)
@@ -235,7 +235,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<DateTime> DeepClone(this List<DateTime> list)
         {
             if (list == null)
@@ -253,7 +253,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<bool> DeepClone(this List<bool> list)
         {
             if (list == null)
@@ -271,7 +271,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<TimeSpan> DeepClone(this List<TimeSpan> list)
         {
             if (list == null)
@@ -289,7 +289,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<string> DeepClone(this List<string> list)
         {
             if (list == null)

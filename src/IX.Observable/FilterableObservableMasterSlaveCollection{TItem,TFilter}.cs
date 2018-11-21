@@ -27,7 +27,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="FilterableObservableMasterSlaveCollection{TItem, TFilter}" /> class.
         /// </summary>
         /// <param name="filteringPredicate">The filtering predicate.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <c>null</c> (<c>Nothing</c>) in Visual Basic.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <see langword="null"/> (<see langword="Nothing"/>) in Visual Basic.</exception>
         public FilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate)
             : base()
         {
@@ -39,7 +39,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="filteringPredicate">The filtering predicate.</param>
         /// <param name="context">The synchronization context to use, if any.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <c>null</c> (<c>Nothing</c>) in Visual Basic.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <see langword="null"/> (<see langword="Nothing"/>) in Visual Basic.</exception>
         public FilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate, SynchronizationContext context)
             : base(context)
         {

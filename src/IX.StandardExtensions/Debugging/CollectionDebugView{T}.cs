@@ -23,7 +23,7 @@ namespace IX.StandardExtensions.Debugging
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <exception cref="ArgumentNullException"><paramref name="collection"/>
-        /// is <c>null</c> (<c>Nothing</c> in Visual Studio).</exception>
+        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Studio).</exception>
         public CollectionDebugView(ICollection<T> collection)
         {
             this.collection = collection ?? throw new ArgumentNullException(nameof(collection));

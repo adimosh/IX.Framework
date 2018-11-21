@@ -16,7 +16,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static byte[] DeepClone(this byte[] source)
         {
             if (source == null)
@@ -41,7 +41,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static sbyte[] DeepClone(this sbyte[] source)
         {
             if (source == null)
@@ -66,7 +66,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static short[] DeepClone(this short[] source)
         {
             if (source == null)
@@ -91,7 +91,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static ushort[] DeepClone(this ushort[] source)
         {
             if (source == null)
@@ -116,7 +116,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static char[] DeepClone(this char[] source)
         {
             if (source == null)
@@ -141,7 +141,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static int[] DeepClone(this int[] source)
         {
             if (source == null)
@@ -166,7 +166,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static uint[] DeepClone(this uint[] source)
         {
             if (source == null)
@@ -191,7 +191,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static long[] DeepClone(this long[] source)
         {
             if (source == null)
@@ -216,7 +216,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static ulong[] DeepClone(this ulong[] source)
         {
             if (source == null)
@@ -241,7 +241,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static float[] DeepClone(this float[] source)
         {
             if (source == null)
@@ -266,7 +266,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static double[] DeepClone(this double[] source)
         {
             if (source == null)
@@ -291,7 +291,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static decimal[] DeepClone(this decimal[] source)
         {
             if (source == null)
@@ -316,7 +316,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static DateTime[] DeepClone(this DateTime[] source)
         {
             if (source == null)
@@ -341,7 +341,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static bool[] DeepClone(this bool[] source)
         {
             if (source == null)
@@ -366,7 +366,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static TimeSpan[] DeepClone(this TimeSpan[] source)
         {
             if (source == null)
@@ -391,7 +391,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static string[] DeepClone(this string[] source)
         {
             if (source == null)

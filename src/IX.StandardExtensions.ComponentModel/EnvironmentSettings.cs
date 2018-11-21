@@ -12,7 +12,7 @@ namespace IX.StandardExtensions.ComponentModel
     public static class EnvironmentSettings
     {
         /// <summary>
-        /// Gets or sets the backup synchronization context. the default is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// Gets or sets the backup synchronization context. the default is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </summary>
         /// <value>The backup synchronization context.</value>
         /// <remarks>
@@ -21,14 +21,14 @@ namespace IX.StandardExtensions.ComponentModel
         /// <para>The way in which synchronization contexts are chosen to be used is in this order:</para>
         /// <list>
         /// <item>The explicit synchronization context sent via the constructor.</item>
-        /// <item>If the property <see cref="AlwaysSuppressCurrentSynchronizationContext"/> is set to <c>true</c>, then the synchronization context set at
+        /// <item>If the property <see cref="AlwaysSuppressCurrentSynchronizationContext"/> is set to <see langword="true"/>, then the synchronization context set at
         /// <see cref="BackupSynchronizationContext"/>.</item>
         /// <item>The synchronization context at <see cref="SynchronizationContext.Current"/>.</item>
-        /// <item>If the property <see cref="AlwaysSuppressCurrentSynchronizationContext"/> is set to <c>false</c>, then the synchronization context set at
+        /// <item>If the property <see cref="AlwaysSuppressCurrentSynchronizationContext"/> is set to <see langword="false"/>, then the synchronization context set at
         /// <see cref="BackupSynchronizationContext"/></item>
         /// <item>The default synchronization context for the respective type of operation (such as the <see cref="T:ThreadPoolSynchronizationContext"/>), where
         /// applicable.</item>
-        /// <item><c>null</c> (<c>Nothing</c> in Visual Basic).</item>
+        /// <item><see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</item>
         /// </list>
         /// </remarks>
         public static SynchronizationContext BackupSynchronizationContext { get; set; }
@@ -36,7 +36,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// <summary>
         /// Gets or sets a value indicating whether to always suppress the current synchronization context. The default is false.
         /// </summary>
-        /// <value><c>true</c> in order to always suppress the current synchronization context; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> in order to always suppress the current synchronization context; otherwise, <see langword="false"/>.</value>
         /// <remarks>
         /// <para>If this property is set, the <see cref="SynchronizationContext.Current"/> property will be ignored, and the synchronization context at
         /// <see cref="BackupSynchronizationContext"/> will always be used, if it is set.</para>
@@ -46,19 +46,19 @@ namespace IX.StandardExtensions.ComponentModel
         /// <summary>
         /// Gets or sets a value indicating whether invocations should be performed on the calling thread instead of a synchronization context.
         /// </summary>
-        /// <value><c>true</c> to invoke synchronously on current thread; otherwise, to use the synchronization context, <c>false</c>.</value>
+        /// <value><see langword="true"/> to invoke synchronously on current thread; otherwise, to use the synchronization context, <see langword="false"/>.</value>
         public static bool InvokeSynchronouslyOnCurrentThread { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to invoke synchronously on the synchronization context. The default is false.
         /// </summary>
-        /// <value><c>true</c> if invocations should be done synchronously; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if invocations should be done synchronously; otherwise, <see langword="false"/>.</value>
         public static bool InvokeSynchronously { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to send a notification of reset if there is an exception on collection change notification. The default is false.
         /// </summary>
-        /// <value><c>true</c> if a reset on collection change notification exception should be sent; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if a reset on collection change notification exception should be sent; otherwise, <see langword="false"/>.</value>
         public static bool ResetOnCollectionChangeNotificationException { get; set; }
 
         /// <summary>

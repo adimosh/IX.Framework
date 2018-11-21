@@ -16,7 +16,7 @@ namespace IX.System.Threading
         /// </summary>
         /// <param name="source">The source locker.</param>
         /// <returns>The abstracted version of the same event.</returns>
-        /// <exception cref="global::System.ArgumentNullException"><paramref name="source"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="global::System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static IReaderWriterLock AsAbstraction(this global::System.Threading.ReaderWriterLockSlim source) => new ReaderWriterLockSlim(source ?? throw new ArgumentNullException(nameof(source)));
     }
 }

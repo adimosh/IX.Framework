@@ -14,7 +14,7 @@ namespace IX.Math
         /// </summary>
         /// <param name="dataKey">The data key to search data for.</param>
         /// <param name="data">The data output, if found.</param>
-        /// <returns><c>true</c> if data was found, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if data was found, <see langword="false"/> otherwise.</returns>
         bool TryGetData(string dataKey, out object data);
     }
 }

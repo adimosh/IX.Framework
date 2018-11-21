@@ -58,7 +58,7 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static void ForEach<TItem, <#= paramTypes #>>(this TItem[] source, Action<TItem, <#= paramTypes #>> action, <#= paramNameTypes #>)
         {
             if (source == null)

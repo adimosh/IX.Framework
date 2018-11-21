@@ -32,7 +32,7 @@ namespace IX.Observable.Adapters
         /// Gets a value indicating whether this instance is read only.
         /// </summary>
         /// <value>
-        /// <c>true</c> if this instance is read only; otherwise, <c>false</c>.
+        /// <see langword="true"/> if this instance is read only; otherwise, <see langword="false"/>.
         /// </value>
         public abstract bool IsReadOnly { get; }
 
@@ -40,9 +40,9 @@ namespace IX.Observable.Adapters
         /// Gets a value indicating whether this instance is synchronized.
         /// </summary>
         /// <value>
-        /// <c>true</c> if this instance is synchronized; otherwise, <c>false</c>.
+        /// <see langword="true"/> if this instance is synchronized; otherwise, <see langword="false"/>.
         /// </value>
-        /// <remarks>This is obsolete, and should not be used anymore. Returns <c>false</c> always.</remarks>
+        /// <remarks>This is obsolete, and should not be used anymore. Returns <see langword="false"/> always.</remarks>
         [Obsolete]
         public bool IsSynchronized => false;
 
@@ -52,7 +52,7 @@ namespace IX.Observable.Adapters
         /// <value>
         /// The synchronize root.
         /// </value>
-        /// <remarks>This is obsolete, and should not be used anymore. Returns <c>null</c> always.</remarks>
+        /// <remarks>This is obsolete, and should not be used anymore. Returns <see langword="null"/> always.</remarks>
         [Obsolete]
         public object SyncRoot => null;
 
@@ -79,7 +79,7 @@ namespace IX.Observable.Adapters
         /// </summary>
         /// <param name="item">The item.</param>
         /// <returns>
-        ///   <c>true</c> if the container list contains the specified item; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the container list contains the specified item; otherwise, <see langword="false"/>.
         /// </returns>
         public abstract bool Contains(T item);
 
@@ -107,7 +107,7 @@ namespace IX.Observable.Adapters
         /// Removes the specified item.
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <returns><c>true</c> if the removal was a success, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the removal was a success, <see langword="false"/> otherwise.</returns>
         bool ICollection<T>.Remove(T item) => this.Remove(item) != -1;
 
 #pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable here, this pattern is highly not recommended

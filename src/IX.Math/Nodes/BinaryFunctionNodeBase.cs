@@ -24,7 +24,7 @@ namespace IX.Math.Nodes
         /// <paramref name="firstParameter"/>
         /// or
         /// <paramref name="secondParameter"/>
-        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
         protected BinaryFunctionNodeBase(NodeBase firstParameter, NodeBase secondParameter)
         {

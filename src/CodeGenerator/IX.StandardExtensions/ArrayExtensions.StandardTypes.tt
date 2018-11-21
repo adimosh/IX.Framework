@@ -30,7 +30,7 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static <#= fullTypeName #>[] DeepClone(this <#= fullTypeName #>[] source)
         {
             if (source == null)

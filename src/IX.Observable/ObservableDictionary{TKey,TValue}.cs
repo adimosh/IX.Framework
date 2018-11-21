@@ -144,7 +144,7 @@ namespace IX.Observable
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
         /// </summary>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableDictionary(bool suppressUndoable)
             : base(new DictionaryCollectionAdapter<TKey, TValue>(), suppressUndoable)
         {
@@ -154,7 +154,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
         /// </summary>
         /// <param name="capacity">The initial capacity of the dictionary.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableDictionary(int capacity, bool suppressUndoable)
             : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(capacity)), suppressUndoable)
         {
@@ -164,7 +164,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
         /// </summary>
         /// <param name="equalityComparer">A comparer object to use for equality comparison.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableDictionary(IEqualityComparer<TKey> equalityComparer, bool suppressUndoable)
             : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(equalityComparer)), suppressUndoable)
         {
@@ -175,7 +175,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="capacity">The initial capacity of the dictionary.</param>
         /// <param name="equalityComparer">A comparer object to use for equality comparison.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableDictionary(int capacity, IEqualityComparer<TKey> equalityComparer, bool suppressUndoable)
             : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(capacity, equalityComparer)), suppressUndoable)
         {
@@ -185,7 +185,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
         /// </summary>
         /// <param name="dictionary">A dictionary of items to copy from.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableDictionary(IDictionary<TKey, TValue> dictionary, bool suppressUndoable)
             : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(dictionary)), suppressUndoable)
         {
@@ -196,7 +196,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="dictionary">A dictionary of items to copy from.</param>
         /// <param name="comparer">A comparer object to use for equality comparison.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer, bool suppressUndoable)
             : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(dictionary, comparer)), suppressUndoable)
         {
@@ -206,7 +206,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ObservableDictionary{TKey, TValue}" /> class.
         /// </summary>
         /// <param name="context">The synchronization context top use when posting observable messages.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableDictionary(SynchronizationContext context, bool suppressUndoable)
             : base(new DictionaryCollectionAdapter<TKey, TValue>(), context, suppressUndoable)
         {
@@ -217,7 +217,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="context">The synchronization context top use when posting observable messages.</param>
         /// <param name="capacity">The initial capacity of the dictionary.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableDictionary(SynchronizationContext context, int capacity, bool suppressUndoable)
             : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(capacity)), context, suppressUndoable)
         {
@@ -228,7 +228,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="context">The synchronization context top use when posting observable messages.</param>
         /// <param name="equalityComparer">A comparer object to use for equality comparison.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableDictionary(SynchronizationContext context, IEqualityComparer<TKey> equalityComparer, bool suppressUndoable)
             : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(equalityComparer)), context, suppressUndoable)
         {
@@ -240,7 +240,7 @@ namespace IX.Observable
         /// <param name="context">The synchronization context top use when posting observable messages.</param>
         /// <param name="capacity">The initial capacity of the dictionary.</param>
         /// <param name="equalityComparer">A comparer object to use for equality comparison.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableDictionary(SynchronizationContext context, int capacity, IEqualityComparer<TKey> equalityComparer, bool suppressUndoable)
             : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(capacity, equalityComparer)), context, suppressUndoable)
         {
@@ -251,7 +251,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="context">The synchronization context top use when posting observable messages.</param>
         /// <param name="dictionary">A dictionary of items to copy from.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableDictionary(SynchronizationContext context, IDictionary<TKey, TValue> dictionary, bool suppressUndoable)
             : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(dictionary)), context, suppressUndoable)
         {
@@ -263,7 +263,7 @@ namespace IX.Observable
         /// <param name="context">The synchronization context top use when posting observable messages.</param>
         /// <param name="dictionary">A dictionary of items to copy from.</param>
         /// <param name="comparer">A comparer object to use for equality comparison.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableDictionary(SynchronizationContext context, IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer, bool suppressUndoable)
             : base(new DictionaryCollectionAdapter<TKey, TValue>(new Dictionary<TKey, TValue>(dictionary, comparer)), context, suppressUndoable)
         {
@@ -403,7 +403,7 @@ namespace IX.Observable
         /// Determines whether the dictionary contains a specific key.
         /// </summary>
         /// <param name="key">The key to look for.</param>
-        /// <returns><c>true</c> whether a key has been found, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> whether a key has been found, <see langword="false"/> otherwise.</returns>
         public bool ContainsKey(TKey key)
         {
             this.ThrowIfCurrentObjectDisposed();
@@ -418,7 +418,7 @@ namespace IX.Observable
         /// Attempts to remove all info related to a key from the dictionary.
         /// </summary>
         /// <param name="key">The key to remove data from.</param>
-        /// <returns><c>true</c> if the removal was successful, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the removal was successful, <see langword="false"/> otherwise.</returns>
         public bool Remove(TKey key)
         {
             // PRECONDITIONS
@@ -466,7 +466,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
-        /// <returns><c>true</c> if the value was successfully fetched, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the value was successfully fetched, <see langword="false"/> otherwise.</returns>
         public bool TryGetValue(TKey key, out TValue value)
         {
             this.ThrowIfCurrentObjectDisposed();
@@ -493,7 +493,7 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <param name="state">The state object to pass to the invocation.</param>
-        /// <returns><c>true</c> if the undo was successful, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the undo was successful, <see langword="false"/> otherwise.</returns>
         protected override bool UndoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
             if (base.UndoInternally(undoRedoLevel, out toInvokeOutsideLock, out state))
@@ -596,7 +596,7 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <param name="state">The state object to pass to the invocation.</param>
-        /// <returns><c>true</c> if the redo was successful, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the redo was successful, <see langword="false"/> otherwise.</returns>
         protected override bool RedoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
             if (base.RedoInternally(undoRedoLevel, out toInvokeOutsideLock, out state))

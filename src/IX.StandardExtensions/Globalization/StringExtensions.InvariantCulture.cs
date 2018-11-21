@@ -17,7 +17,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string contains the specified value string; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string contains the specified value string; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool InvariantCultureContains(this string source, string value) => source.InvariantCultureIndexOf(value) >= 0;
 
@@ -27,7 +27,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string contains the specified value string; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string contains the specified value string; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool InvariantCultureContainsInsensitive(this string source, string value) => source.InvariantCultureIndexOfInsensitive(value) >= 0;
 
@@ -115,7 +115,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string is equal to the value; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string is equal to the value; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool InvariantCultureEquals(this string source, string value) => source.InvariantCultureCompareTo(value) == 0;
 
@@ -125,7 +125,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string is equal to the value; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string is equal to the value; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool InvariantCultureEqualsInsensitive(this string source, string value) => source.InvariantCultureCompareToInsensitive(value) == 0;
 
@@ -135,7 +135,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string is equal to the value; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string is equal to the value; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool InvariantCultureStartsWith(this string source, string value) => CultureInfo.InvariantCulture?.CompareInfo.IsPrefix(source, value, CompareOptions.None) ?? false;
 
@@ -145,7 +145,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string is equal to the value; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string is equal to the value; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool InvariantCultureStartsWithInsensitive(this string source, string value) => CultureInfo.InvariantCulture?.CompareInfo.IsPrefix(source, value, CompareOptions.IgnoreCase) ?? false;
 
@@ -155,7 +155,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string is equal to the value; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string is equal to the value; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool InvariantCultureEndsWith(this string source, string value) => CultureInfo.InvariantCulture?.CompareInfo.IsSuffix(source, value, CompareOptions.None) ?? false;
 
@@ -165,7 +165,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string is equal to the value; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string is equal to the value; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool InvariantCultureEndsWithInsensitive(this string source, string value) => CultureInfo.InvariantCulture?.CompareInfo.IsSuffix(source, value, CompareOptions.IgnoreCase) ?? false;
     }

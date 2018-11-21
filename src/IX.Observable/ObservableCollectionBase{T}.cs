@@ -62,7 +62,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ObservableCollectionBase{T}" /> class.
         /// </summary>
         /// <param name="internalContainer">The internal container of items.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         protected ObservableCollectionBase(ICollectionAdapter<T> internalContainer, bool suppressUndoable)
             : base(internalContainer)
         {
@@ -74,7 +74,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="internalContainer">The internal container of items.</param>
         /// <param name="context">The synchronization context to use, if any.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         protected ObservableCollectionBase(ICollectionAdapter<T> internalContainer, SynchronizationContext context, bool suppressUndoable)
             : base(internalContainer, context)
         {
@@ -137,7 +137,7 @@ namespace IX.Observable
         /// <summary>
         /// Gets a value indicating whether or not the implementer can perform an undo.
         /// </summary>
-        /// <value><c>true</c> if the call to the <see cref="M:IX.Undoable.IUndoableItem.Undo" /> method would result in a state change, <c>false</c> otherwise.</value>
+        /// <value><see langword="true"/> if the call to the <see cref="M:IX.Undoable.IUndoableItem.Undo" /> method would result in a state change, <see langword="false"/> otherwise.</value>
         public bool CanUndo
         {
             get
@@ -156,7 +156,7 @@ namespace IX.Observable
         /// <summary>
         /// Gets a value indicating whether or not the implementer can perform a redo.
         /// </summary>
-        /// <value><c>true</c> if the call to the <see cref="M:IX.Undoable.IUndoableItem.Redo" /> method would result in a state change, <c>false</c> otherwise.</value>
+        /// <value><see langword="true"/> if the call to the <see cref="M:IX.Undoable.IUndoableItem.Redo" /> method would result in a state change, <see langword="false"/> otherwise.</value>
         public bool CanRedo
         {
             get
@@ -186,7 +186,7 @@ namespace IX.Observable
         /// <summary>
         /// Gets or sets a value indicating whether to automatically capture sub items in the current undo/redo context.
         /// </summary>
-        /// <value><c>true</c> to automatically capture sub items; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> to automatically capture sub items; otherwise, <see langword="false"/>.</value>
         public bool AutomaticallyCaptureSubItems
         {
             get => this.automaticallyCaptureSubItems;
@@ -238,13 +238,13 @@ namespace IX.Observable
         /// <summary>
         /// Gets a value indicating whether items are undoable.
         /// </summary>
-        /// <value><c>true</c> if items are undoable; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if items are undoable; otherwise, <see langword="false"/>.</value>
         public bool ItemsAreUndoable { get; } = typeof(IUndoableItem).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo());
 
         /// <summary>
         /// Gets a value indicating whether items are key/value pairs.
         /// </summary>
-        /// <value><c>true</c> if items are key/value pairs; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if items are key/value pairs; otherwise, <see langword="false"/>.</value>
         public bool ItemsAreKeyValuePairs { get; }
 
         /// <summary>
@@ -332,7 +332,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="item">The object to remove from the <see cref="ObservableCollectionBase{T}" />.</param>
         /// <returns>
-        /// <c>true</c> if <paramref name="item" /> was successfully removed from the <see cref="ObservableCollectionBase{T}" />; otherwise, <c>false</c>.
+        /// <see langword="true"/> if <paramref name="item" /> was successfully removed from the <see cref="ObservableCollectionBase{T}" />; otherwise, <see langword="false"/>.
         /// This method also returns false if <paramref name="item" /> is not found in the original <see cref="ObservableCollectionBase{T}" />.
         /// </returns>
         /// <remarks>
@@ -413,7 +413,7 @@ namespace IX.Observable
         /// can be coordinated across a larger scope.
         /// </summary>
         /// <param name="parent">The parent undo and redo context.</param>
-        /// <param name="automaticallyCaptureSubItems">if set to <c>true</c>, the collection automatically captures sub-items into its undo/redo context.</param>
+        /// <param name="automaticallyCaptureSubItems">if set to <see langword="true"/>, the collection automatically captures sub-items into its undo/redo context.</param>
         public void CaptureIntoUndoContext(IUndoableItem parent, bool automaticallyCaptureSubItems)
         {
             this.ThrowIfCurrentObjectDisposed();
@@ -774,7 +774,7 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <param name="state">The state object to pass to the invocation.</param>
-        /// <returns><c>true</c> if the undo was successful, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the undo was successful, <see langword="false"/> otherwise.</returns>
         protected virtual bool UndoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
             if (undoRedoLevel is SubItemStateChange lvl)
@@ -850,7 +850,7 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <param name="state">The state object to pass to the invocation.</param>
-        /// <returns><c>true</c> if the redo was successful, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the redo was successful, <see langword="false"/> otherwise.</returns>
         protected virtual bool RedoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
             if (undoRedoLevel is SubItemStateChange lvl)

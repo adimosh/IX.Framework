@@ -100,25 +100,25 @@ namespace IX.Undoable
         /// <summary>
         /// Gets a value indicating whether this instance is in edit mode.
         /// </summary>
-        /// <value><c>true</c> if this instance is in edit mode; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is in edit mode; otherwise, <see langword="false"/>.</value>
         public bool IsInEditMode { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is captured in undo context.
         /// </summary>
-        /// <value><c>true</c> if this instance is captured in undo context; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is captured in undo context; otherwise, <see langword="false"/>.</value>
         public bool IsCapturedIntoUndoContext => this.ParentUndoContext != null;
 
         /// <summary>
         /// Gets a value indicating whether or not an undo can be performed on this item.
         /// </summary>
-        /// <value><c>true</c> if the call to the <see cref="Undo" /> method would result in a state change, <c>false</c> otherwise.</value>
+        /// <value><see langword="true"/> if the call to the <see cref="Undo" /> method would result in a state change, <see langword="false"/> otherwise.</value>
         public bool CanUndo => this.IsCapturedIntoUndoContext || this.undoStack.Count > 0;
 
         /// <summary>
         /// Gets a value indicating whether or not a redo can be performed on this item.
         /// </summary>
-        /// <value><c>true</c> if the call to the <see cref="Redo" /> method would result in a state change, <c>false</c> otherwise.</value>
+        /// <value><see langword="true"/> if the call to the <see cref="Redo" /> method would result in a state change, <see langword="false"/> otherwise.</value>
         public bool CanRedo => this.IsCapturedIntoUndoContext || this.redoStack.Count > 0;
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace IX.Undoable
         /// can be coordinated across a larger scope.
         /// </summary>
         /// <param name="parent">The parent undo and redo context.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="parent" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="parent" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         /// <exception cref="IX.Undoable.ItemIsInEditModeException">The item is in edit mode, and this operation cannot be performed at this time.</exception>
         /// <remarks>This method is meant to be used by containers, and should not be called directly.</remarks>
         public void CaptureIntoUndoContext(IUndoableItem parent)
@@ -319,7 +319,7 @@ namespace IX.Undoable
         /// Has the state changes received undone from the object.
         /// </summary>
         /// <param name="stateChanges">The state changes to undo.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="stateChanges"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="stateChanges"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         /// <exception cref="ItemNotCapturedIntoUndoContextException">The item is not captured into an undo/redo context, and this operation is illegal.</exception>
         public void UndoStateChanges(StateChange[] stateChanges)
         {
@@ -343,7 +343,7 @@ namespace IX.Undoable
         /// Has the state changes received redone into the object.
         /// </summary>
         /// <param name="stateChanges">The state changes to redo.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="stateChanges"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="stateChanges"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         /// <exception cref="ItemNotCapturedIntoUndoContextException">The item is not captured into an undo/redo context, and this operation is illegal.</exception>
         public void RedoStateChanges(StateChange[] stateChanges)
         {
@@ -370,7 +370,7 @@ namespace IX.Undoable
         /// <param name="item">The item.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="item"/>
-        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
         /// <remarks>This method is intended to capture only objects that are directly sub-objects that can have their own internal state and undo/redo
         /// capabilities and are also transactional in nature when being edited. Using this method on any other object may yield unwanted
@@ -395,7 +395,7 @@ namespace IX.Undoable
         /// <param name="item">The item.</param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="item"/>
-        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
         protected void ReleaseSubItemFromPresentContext<TSubItem>(TSubItem item)
             where TSubItem : IUndoableItem, IEditCommittableItem

@@ -21,8 +21,8 @@ namespace IX.StandardExtensions
         /// <param name="source">The <see cref="System.Collections.Generic.IEnumerable{T}" /> to check for emptiness.</param>
         /// <param name="action">The predicate to check items with.</param>
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked predicate at index 0.</param>
-        /// <returns><c>true</c> if the source sequence contains any elements; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static bool Any<TItem, TParam1>(this IEnumerable<TItem> source, Func<TItem, TParam1, bool> action, TParam1 param1)
         {
             if (source == null)
@@ -55,7 +55,7 @@ namespace IX.StandardExtensions
         /// <param name="action">The predicate to check items with.</param>
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked predicate at index 0.</param>
         /// <returns>The filtered enumerable.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static IEnumerable<TItem> Where<TItem, TParam1>(this IEnumerable<TItem> source, Func<TItem, TParam1, bool> action, TParam1 param1)
         {
             if (source == null)
@@ -88,7 +88,7 @@ namespace IX.StandardExtensions
         /// <param name="action">The predicate to check items with.</param>
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked predicate at index 0.</param>
         /// <returns>The first filtered item, or a default value.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static TItem FirstOrDefault<TItem, TParam1>(this IEnumerable<TItem> source, Func<TItem, TParam1, bool> action, TParam1 param1)
         {
             if (source == null)
@@ -122,8 +122,8 @@ namespace IX.StandardExtensions
         /// <param name="action">The predicate to check items with.</param>
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked predicate at index 0.</param>
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked predicate at index 1.</param>
-        /// <returns><c>true</c> if the source sequence contains any elements; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static bool Any<TItem, TParam1, TParam2>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, bool> action, TParam1 param1, TParam2 param2)
         {
             if (source == null)
@@ -158,7 +158,7 @@ namespace IX.StandardExtensions
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked predicate at index 0.</param>
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked predicate at index 1.</param>
         /// <returns>The filtered enumerable.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static IEnumerable<TItem> Where<TItem, TParam1, TParam2>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, bool> action, TParam1 param1, TParam2 param2)
         {
             if (source == null)
@@ -193,7 +193,7 @@ namespace IX.StandardExtensions
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked predicate at index 0.</param>
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked predicate at index 1.</param>
         /// <returns>The first filtered item, or a default value.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static TItem FirstOrDefault<TItem, TParam1, TParam2>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, bool> action, TParam1 param1, TParam2 param2)
         {
             if (source == null)
@@ -229,8 +229,8 @@ namespace IX.StandardExtensions
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked predicate at index 0.</param>
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked predicate at index 1.</param>
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked predicate at index 2.</param>
-        /// <returns><c>true</c> if the source sequence contains any elements; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static bool Any<TItem, TParam1, TParam2, TParam3>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, bool> action, TParam1 param1, TParam2 param2, TParam3 param3)
         {
             if (source == null)
@@ -267,7 +267,7 @@ namespace IX.StandardExtensions
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked predicate at index 1.</param>
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked predicate at index 2.</param>
         /// <returns>The filtered enumerable.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static IEnumerable<TItem> Where<TItem, TParam1, TParam2, TParam3>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, bool> action, TParam1 param1, TParam2 param2, TParam3 param3)
         {
             if (source == null)
@@ -304,7 +304,7 @@ namespace IX.StandardExtensions
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked predicate at index 1.</param>
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked predicate at index 2.</param>
         /// <returns>The first filtered item, or a default value.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static TItem FirstOrDefault<TItem, TParam1, TParam2, TParam3>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, bool> action, TParam1 param1, TParam2 param2, TParam3 param3)
         {
             if (source == null)
@@ -342,8 +342,8 @@ namespace IX.StandardExtensions
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked predicate at index 1.</param>
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked predicate at index 2.</param>
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked predicate at index 3.</param>
-        /// <returns><c>true</c> if the source sequence contains any elements; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static bool Any<TItem, TParam1, TParam2, TParam3, TParam4>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
         {
             if (source == null)
@@ -382,7 +382,7 @@ namespace IX.StandardExtensions
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked predicate at index 2.</param>
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked predicate at index 3.</param>
         /// <returns>The filtered enumerable.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static IEnumerable<TItem> Where<TItem, TParam1, TParam2, TParam3, TParam4>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
         {
             if (source == null)
@@ -421,7 +421,7 @@ namespace IX.StandardExtensions
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked predicate at index 2.</param>
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked predicate at index 3.</param>
         /// <returns>The first filtered item, or a default value.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static TItem FirstOrDefault<TItem, TParam1, TParam2, TParam3, TParam4>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
         {
             if (source == null)
@@ -461,8 +461,8 @@ namespace IX.StandardExtensions
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked predicate at index 2.</param>
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked predicate at index 3.</param>
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked predicate at index 4.</param>
-        /// <returns><c>true</c> if the source sequence contains any elements; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static bool Any<TItem, TParam1, TParam2, TParam3, TParam4, TParam5>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
         {
             if (source == null)
@@ -503,7 +503,7 @@ namespace IX.StandardExtensions
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked predicate at index 3.</param>
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked predicate at index 4.</param>
         /// <returns>The filtered enumerable.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static IEnumerable<TItem> Where<TItem, TParam1, TParam2, TParam3, TParam4, TParam5>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
         {
             if (source == null)
@@ -544,7 +544,7 @@ namespace IX.StandardExtensions
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked predicate at index 3.</param>
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked predicate at index 4.</param>
         /// <returns>The first filtered item, or a default value.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static TItem FirstOrDefault<TItem, TParam1, TParam2, TParam3, TParam4, TParam5>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
         {
             if (source == null)
@@ -586,8 +586,8 @@ namespace IX.StandardExtensions
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked predicate at index 3.</param>
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked predicate at index 4.</param>
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked predicate at index 5.</param>
-        /// <returns><c>true</c> if the source sequence contains any elements; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static bool Any<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6)
         {
             if (source == null)
@@ -630,7 +630,7 @@ namespace IX.StandardExtensions
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked predicate at index 4.</param>
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked predicate at index 5.</param>
         /// <returns>The filtered enumerable.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static IEnumerable<TItem> Where<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6)
         {
             if (source == null)
@@ -673,7 +673,7 @@ namespace IX.StandardExtensions
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked predicate at index 4.</param>
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked predicate at index 5.</param>
         /// <returns>The first filtered item, or a default value.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static TItem FirstOrDefault<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6)
         {
             if (source == null)
@@ -717,8 +717,8 @@ namespace IX.StandardExtensions
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked predicate at index 4.</param>
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked predicate at index 5.</param>
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked predicate at index 6.</param>
-        /// <returns><c>true</c> if the source sequence contains any elements; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static bool Any<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7)
         {
             if (source == null)
@@ -763,7 +763,7 @@ namespace IX.StandardExtensions
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked predicate at index 5.</param>
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked predicate at index 6.</param>
         /// <returns>The filtered enumerable.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static IEnumerable<TItem> Where<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7)
         {
             if (source == null)
@@ -808,7 +808,7 @@ namespace IX.StandardExtensions
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked predicate at index 5.</param>
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked predicate at index 6.</param>
         /// <returns>The first filtered item, or a default value.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static TItem FirstOrDefault<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7)
         {
             if (source == null)
@@ -854,8 +854,8 @@ namespace IX.StandardExtensions
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked predicate at index 5.</param>
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked predicate at index 6.</param>
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked predicate at index 7.</param>
-        /// <returns><c>true</c> if the source sequence contains any elements; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static bool Any<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8)
         {
             if (source == null)
@@ -902,7 +902,7 @@ namespace IX.StandardExtensions
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked predicate at index 6.</param>
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked predicate at index 7.</param>
         /// <returns>The filtered enumerable.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static IEnumerable<TItem> Where<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8)
         {
             if (source == null)
@@ -949,7 +949,7 @@ namespace IX.StandardExtensions
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked predicate at index 6.</param>
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked predicate at index 7.</param>
         /// <returns>The first filtered item, or a default value.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static TItem FirstOrDefault<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8)
         {
             if (source == null)

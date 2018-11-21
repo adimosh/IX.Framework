@@ -17,7 +17,7 @@ namespace IX.StandardExtensions
         /// <typeparam name="T">The type of the items of the array to clone.</typeparam>
         /// <param name="source">The source array.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static T[] DeepClone<T>(this T[] source)
             where T : IDeepCloneable<T>
         {
@@ -44,7 +44,7 @@ namespace IX.StandardExtensions
         /// <typeparam name="T">The type of the items of the array to clone.</typeparam>
         /// <param name="source">The source array.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static T[] CopyWithShallowClones<T>(this T[] source)
             where T : IShallowCloneable<T>
         {
@@ -76,7 +76,7 @@ namespace IX.StandardExtensions
         /// <para>If deep cloning is required, please use the <see cref="DeepClone{T}(T[])"/> instead of this method.</para>
         /// <para>Value types are value-copied.</para>
         /// </remarks>
-        /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static T[] Copy<T>(this T[] source)
         {
             if (source == null)
@@ -100,7 +100,7 @@ namespace IX.StandardExtensions
         /// <param name="source">The source array.</param>
         /// <param name="length">The length of the sub-array to copy.</param>
         /// <returns>A new array with items copied.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         /// <exception cref="System.ArgumentException">
         /// <paramref name="length" /> is greater than 0
         /// or
@@ -141,7 +141,7 @@ namespace IX.StandardExtensions
         /// <param name="sourceIndex">The index at which to start.</param>
         /// <param name="length">The length of the sub-array to copy.</param>
         /// <returns>A new array with items copied.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="source" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         /// <exception cref="System.ArgumentException">
         /// <paramref name="sourceIndex" /> is less than 0 or greater than the size of the array
         /// or
@@ -187,7 +187,7 @@ namespace IX.StandardExtensions
         /// <typeparam name="T">The array type.</typeparam>
         /// <param name="source">The array to run on.</param>
         /// <param name="action">The action to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static void ForEach<T>(this T[] source, Action<T> action)
         {
             if (source == null)

@@ -23,7 +23,7 @@ namespace IX.StandardExtensions.Threading
         }
 
         /// <summary>
-        /// Gets the reader/writer lock to use. This property can be <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// Gets the reader/writer lock to use. This property can be <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </summary>
         protected IReaderWriterLock Locker { get; private set; }
 

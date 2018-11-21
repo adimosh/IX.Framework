@@ -91,7 +91,7 @@ namespace IX.Abstractions.Moq
         /// Waits for the write operation to finish.
         /// </summary>
         /// <param name="timeToWait">The time to wait.</param>
-        /// <returns><c>true</c> if the wait was terminated successfully, <c>false</c> if there was a timeout.</returns>
+        /// <returns><see langword="true"/> if the wait was terminated successfully, <see langword="false"/> if there was a timeout.</returns>
         /// <exception cref="T:System.ObjectDisposedException">Occurs when the object has already been disposed and should no longer be used.</exception>
         public bool WaitForWriteFinished(TimeSpan timeToWait)
         {
@@ -115,7 +115,7 @@ namespace IX.Abstractions.Moq
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        /// <param name="disposing"><see langword="true"/> to release both managed and unmanaged resources; <see langword="false"/> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (!this.isDisposed)

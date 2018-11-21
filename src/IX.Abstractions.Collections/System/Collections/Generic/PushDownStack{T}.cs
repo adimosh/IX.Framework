@@ -108,7 +108,7 @@ namespace IX.System.Collections.Generic
         /// <summary>
         /// Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection" /> is synchronized (thread safe).
         /// </summary>
-        /// <value><c>true</c> if this instance is synchronized; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is synchronized; otherwise, <see langword="false"/>.</value>
         public bool IsSynchronized => ((ICollection)this.internalContainer).IsSynchronized;
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace IX.System.Collections.Generic
         /// Checks whether or not a certain item is in the stack.
         /// </summary>
         /// <param name="item">The item to check for.</param>
-        /// <returns><c>true</c> if the item was found, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the item was found, <see langword="false"/> otherwise.</returns>
         public bool Contains(T item) =>
             this.InvokeIfNotDisposed(
                 (itemL2, thisL2) =>

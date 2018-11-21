@@ -35,7 +35,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ConcurrentFilterableObservableMasterSlaveCollection{TItem, TFilter}" /> class.
         /// </summary>
         /// <param name="filteringPredicate">The filtering predicate.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <c>null</c> (<c>Nothing</c>) in Visual Basic.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <see langword="null"/> (<see langword="Nothing"/>) in Visual Basic.</exception>
         public ConcurrentFilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate)
             : base()
         {
@@ -48,7 +48,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="filteringPredicate">The filtering predicate.</param>
         /// <param name="context">The synchronization context to use, if any.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <c>null</c> (<c>Nothing</c>) in Visual Basic.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <see langword="null"/> (<see langword="Nothing"/>) in Visual Basic.</exception>
         public ConcurrentFilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate, GlobalThreading.SynchronizationContext context)
             : base(context)
         {
@@ -60,8 +60,8 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ConcurrentFilterableObservableMasterSlaveCollection{TItem, TFilter}" /> class.
         /// </summary>
         /// <param name="filteringPredicate">The filtering predicate.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <c>null</c> (<c>Nothing</c>) in Visual Basic.</exception>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <see langword="null"/> (<see langword="Nothing"/>) in Visual Basic.</exception>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ConcurrentFilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate, bool suppressUndoable)
             : base(suppressUndoable)
         {
@@ -74,8 +74,8 @@ namespace IX.Observable
         /// </summary>
         /// <param name="filteringPredicate">The filtering predicate.</param>
         /// <param name="context">The synchronization context to use, if any.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <c>null</c> (<c>Nothing</c>) in Visual Basic.</exception>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="filteringPredicate"/> is <see langword="null"/> (<see langword="Nothing"/>) in Visual Basic.</exception>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ConcurrentFilterableObservableMasterSlaveCollection(Func<TItem, TFilter, bool> filteringPredicate, GlobalThreading.SynchronizationContext context, bool suppressUndoable)
             : base(context, suppressUndoable)
         {

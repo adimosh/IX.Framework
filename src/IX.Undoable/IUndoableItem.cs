@@ -23,19 +23,19 @@ namespace IX.Undoable
         /// <summary>
         /// Gets a value indicating whether or not the implementer can perform an undo.
         /// </summary>
-        /// <value><c>true</c> if the call to the <see cref="Undo"/> method would result in a state change, <c>false</c> otherwise.</value>
+        /// <value><see langword="true"/> if the call to the <see cref="Undo"/> method would result in a state change, <see langword="false"/> otherwise.</value>
         bool CanUndo { get; }
 
         /// <summary>
         /// Gets a value indicating whether or not the implementer can perform a redo.
         /// </summary>
-        /// <value><c>true</c> if the call to the <see cref="Redo"/> method would result in a state change, <c>false</c> otherwise.</value>
+        /// <value><see langword="true"/> if the call to the <see cref="Redo"/> method would result in a state change, <see langword="false"/> otherwise.</value>
         bool CanRedo { get; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is captured into an undo/redo context.
         /// </summary>
-        /// <value><c>true</c> if this instance is captured into an undo/redo context; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is captured into an undo/redo context; otherwise, <see langword="false"/>.</value>
         bool IsCapturedIntoUndoContext { get; }
 
         /// <summary>

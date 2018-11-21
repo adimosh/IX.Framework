@@ -80,7 +80,7 @@ namespace IX.Observable
         /// <summary>
         /// Initializes a new instance of the <see cref="ConcurrentObservableQueue{T}"/> class.
         /// </summary>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ConcurrentObservableQueue(bool suppressUndoable)
             : base(suppressUndoable)
         {
@@ -90,7 +90,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ConcurrentObservableQueue{T}"/> class.
         /// </summary>
         /// <param name="collection">A collection of items to copy from.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ConcurrentObservableQueue(IEnumerable<T> collection, bool suppressUndoable)
             : base(collection, suppressUndoable)
         {
@@ -100,7 +100,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ConcurrentObservableQueue{T}"/> class.
         /// </summary>
         /// <param name="capacity">The initial capacity of the queue.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ConcurrentObservableQueue(int capacity, bool suppressUndoable)
             : base(capacity, suppressUndoable)
         {
@@ -110,7 +110,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ConcurrentObservableQueue{T}"/> class.
         /// </summary>
         /// <param name="context">The synchronization context top use when posting observable messages.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ConcurrentObservableQueue(GlobalThreading.SynchronizationContext context, bool suppressUndoable)
             : base(context, suppressUndoable)
         {
@@ -121,7 +121,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="context">The synchronization context top use when posting observable messages.</param>
         /// <param name="collection">A collection of items to copy from.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ConcurrentObservableQueue(GlobalThreading.SynchronizationContext context, IEnumerable<T> collection, bool suppressUndoable)
             : base(context, collection, suppressUndoable)
         {
@@ -132,7 +132,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="context">The synchronization context top use when posting observable messages.</param>
         /// <param name="capacity">The initial capacity of the queue.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ConcurrentObservableQueue(GlobalThreading.SynchronizationContext context, int capacity, bool suppressUndoable)
             : base(context, capacity, suppressUndoable)
         {

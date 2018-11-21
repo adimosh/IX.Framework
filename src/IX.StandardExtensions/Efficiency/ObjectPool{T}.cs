@@ -27,7 +27,7 @@ namespace IX.StandardExtensions.Efficiency
         /// Initializes a new instance of the <see cref="ObjectPool{T}"/> class.
         /// </summary>
         /// <param name="objectFactory">An object factory for when objects need to be created.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="objectFactory"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="objectFactory"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public ObjectPool(Func<T> objectFactory)
         {
             this.objectFactory = objectFactory ?? throw new ArgumentNullException(nameof(objectFactory));

@@ -22,7 +22,7 @@ namespace IX.System.IO
         /// Deletes a directory.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
-        /// <param name="recursive"><c>true</c> if deletion should be recursive to all subdirectories.</param>
+        /// <param name="recursive"><see langword="true"/> if deletion should be recursive to all subdirectories.</param>
         void Delete(string path, bool recursive = false);
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace IX.System.IO
         /// Checks whether a directory exists and is accessible.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
-        /// <returns>Returns <c>true</c> if the specified directory exists and is accessible, <c>false</c> otherwise.</returns>
+        /// <returns>Returns <see langword="true"/> if the specified directory exists and is accessible, <see langword="false"/> otherwise.</returns>
         bool Exists(string path);
 
         /// <summary>

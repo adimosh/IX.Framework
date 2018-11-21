@@ -54,19 +54,19 @@ namespace IX.System.Threading
         /// <summary>
         /// Gets a value indicating whether the current thread has a write lock held.
         /// </summary>
-        /// <value><c>true</c> if the current thread has a write lock held; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if the current thread has a write lock held; otherwise, <see langword="false"/>.</value>
         public bool IsWriteLockHeld => this.InvokeIfNotDisposed((lck) => lck.IsWriteLockHeld, this.locker);
 
         /// <summary>
         /// Gets a value indicating whether the current thread has an upgradeable lock held.
         /// </summary>
-        /// <value><c>true</c> if the current thread has an upgradeable lock held; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if the current thread has an upgradeable lock held; otherwise, <see langword="false"/>.</value>
         public bool IsUpgradeableReadLockHeld => this.InvokeIfNotDisposed((lck) => lck.IsUpgradeableReadLockHeld, this.locker);
 
         /// <summary>
         /// Gets a value indicating whether the current thread has a read lock held.
         /// </summary>
-        /// <value><c>true</c> if the current thread has a read lock held; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if the current thread has a read lock held; otherwise, <see langword="false"/>.</value>
         public bool IsReadLockHeld => this.InvokeIfNotDisposed((lck) => lck.IsReadLockHeld, this.locker);
 
         /// <summary>
@@ -117,42 +117,42 @@ namespace IX.System.Threading
         /// Tries to enter a read lock.
         /// </summary>
         /// <param name="millisecondsTimeout">The timeout, in milliseconds.</param>
-        /// <returns><c>true</c> if the lock has been acquired for the calling thread, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the lock has been acquired for the calling thread, <see langword="false"/> otherwise.</returns>
         public bool TryEnterReadLock(int millisecondsTimeout) => this.InvokeIfNotDisposed((lck, timeout) => lck.TryEnterReadLock(timeout), this.locker, millisecondsTimeout);
 
         /// <summary>
         /// Tries to enter a read lock.
         /// </summary>
         /// <param name="timeout">The timeout.</param>
-        /// <returns><c>true</c> if the lock has been acquired for the calling thread, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the lock has been acquired for the calling thread, <see langword="false"/> otherwise.</returns>
         public bool TryEnterReadLock(TimeSpan timeout) => this.InvokeIfNotDisposed((lck, timeoutInternal) => lck.TryEnterReadLock(timeoutInternal), this.locker, timeout);
 
         /// <summary>
         /// Tries to enter an upgradeable read lock.
         /// </summary>
         /// <param name="millisecondsTimeout">The timeout, in milliseconds.</param>
-        /// <returns><c>true</c> if the lock has been acquired for the calling thread, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the lock has been acquired for the calling thread, <see langword="false"/> otherwise.</returns>
         public bool TryEnterUpgradeableReadLock(int millisecondsTimeout) => this.InvokeIfNotDisposed((lck, timeout) => lck.TryEnterUpgradeableReadLock(timeout), this.locker, millisecondsTimeout);
 
         /// <summary>
         /// Tries to enter an upgradeable read lock.
         /// </summary>
         /// <param name="timeout">The timeout.</param>
-        /// <returns><c>true</c> if the lock has been acquired for the calling thread, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the lock has been acquired for the calling thread, <see langword="false"/> otherwise.</returns>
         public bool TryEnterUpgradeableReadLock(TimeSpan timeout) => this.InvokeIfNotDisposed((lck, timeoutInternal) => lck.TryEnterUpgradeableReadLock(timeoutInternal), this.locker, timeout);
 
         /// <summary>
         /// Tries to enter a write lock.
         /// </summary>
         /// <param name="millisecondsTimeout">The timeout, in milliseconds.</param>
-        /// <returns><c>true</c> if the lock has been acquired for the calling thread, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the lock has been acquired for the calling thread, <see langword="false"/> otherwise.</returns>
         public bool TryEnterWriteLock(int millisecondsTimeout) => this.InvokeIfNotDisposed((lck, timeout) => lck.TryEnterWriteLock(timeout), this.locker, millisecondsTimeout);
 
         /// <summary>
         /// Tries to enter a write lock.
         /// </summary>
         /// <param name="timeout">The timeout.</param>
-        /// <returns><c>true</c> if the lock has been acquired for the calling thread, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the lock has been acquired for the calling thread, <see langword="false"/> otherwise.</returns>
         public bool TryEnterWriteLock(TimeSpan timeout) => this.InvokeIfNotDisposed((lck, timeoutInternal) => lck.TryEnterWriteLock(timeoutInternal), this.locker, timeout);
 
         /// <summary>

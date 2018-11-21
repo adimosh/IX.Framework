@@ -93,7 +93,7 @@ namespace IX.System.Collections.Generic
         /// <summary>
         /// Gets a value indicating whether this instance is read only.
         /// </summary>
-        /// <value><c>true</c> if this instance is read only; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is read only; otherwise, <see langword="false"/>.</value>
         public bool IsReadOnly => false;
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace IX.System.Collections.Generic
         /// Determines whether the specified item is contained in the dictionary.
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <returns><c>true</c> if the dictionary contains the specified item; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the dictionary contains the specified item; otherwise, <see langword="false"/>.</returns>
         bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
         {
             this.ThrowIfCurrentObjectDisposed();
@@ -194,7 +194,7 @@ namespace IX.System.Collections.Generic
         /// Determines whether the dictionary contains they key.
         /// </summary>
         /// <param name="key">The key.</param>
-        /// <returns><c>true</c> if the dictionary contains the key; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the dictionary contains the key; otherwise, <see langword="false"/>.</returns>
         public bool ContainsKey(TKey key)
         {
             this.ThrowIfCurrentObjectDisposed();
@@ -233,7 +233,7 @@ namespace IX.System.Collections.Generic
         /// Removes the specified key.
         /// </summary>
         /// <param name="key">The key.</param>
-        /// <returns><c>true</c> if the key has been removed, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the key has been removed, <see langword="false"/> otherwise.</returns>
         public bool Remove(TKey key)
         {
             this.ThrowIfCurrentObjectDisposed();
@@ -258,7 +258,7 @@ namespace IX.System.Collections.Generic
         /// Removes the specified item from the dictionary.
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <returns><c>true</c> if the removal was a success, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the removal was a success, <see langword="false"/> otherwise.</returns>
         bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item) => this.Remove(item.Key);
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace IX.System.Collections.Generic
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
-        /// <returns><c>true</c> if the value was found, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the value was found, <see langword="false"/> otherwise.</returns>
         public bool TryGetValue(TKey key, out TValue value)
         {
             this.ThrowIfCurrentObjectDisposed();

@@ -25,7 +25,7 @@ namespace IX.StandardExtensions.WPF.Commanding
         private readonly Predicate<object> canExecuteAction;
 
         /// <summary>
-        /// <c>true</c> if the command is waiting for an action, <c>false</c> if it is idle.
+        /// <see langword="true"/> if the command is waiting for an action, <see langword="false"/> if it is idle.
         /// </summary>
         private bool isWaitingForAction;
 

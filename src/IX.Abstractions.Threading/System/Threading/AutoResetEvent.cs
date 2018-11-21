@@ -48,7 +48,7 @@ namespace IX.System.Threading
         /// Initializes a new instance of the <see cref="AutoResetEvent" /> class.
         /// </summary>
         /// <param name="autoResetEvent">The automatic reset event to wrap around.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="autoResetEvent"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="autoResetEvent"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public AutoResetEvent(global::System.Threading.AutoResetEvent autoResetEvent)
         {
 #pragma warning disable IDISP003 // Dispose previous before re-assigning. - Analyzer bug - this is the constructor
@@ -82,13 +82,13 @@ namespace IX.System.Threading
         /// <summary>
         /// Sets the state of this event instance to non-signaled. Any thread entering a wait from this point will block.
         /// </summary>
-        /// <returns><c>true</c> if the signal has been reset, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the signal has been reset, <see langword="false"/> otherwise.</returns>
         public bool Reset() => this.sre.Reset();
 
         /// <summary>
         /// Sets the state of this event instance to signaled. Any waiting thread will unblock.
         /// </summary>
-        /// <returns><c>true</c> if the signal has been set, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the signal has been set, <see langword="false"/> otherwise.</returns>
         public bool Set() => this.sre.Set();
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace IX.System.Threading
         /// Enters a wait period and, should there be no signal set, blocks the thread calling.
         /// </summary>
         /// <param name="millisecondsTimeout">The timeout period, in milliseconds.</param>
-        /// <param name="exitSynchronizationDomain">If set to <c>true</c>, the synchronization domain is exited before the call.</param>
+        /// <param name="exitSynchronizationDomain">If set to <see langword="true"/>, the synchronization domain is exited before the call.</param>
         public void WaitOne(int millisecondsTimeout, bool exitSynchronizationDomain) =>
 #if !STANDARD
             this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout), exitSynchronizationDomain);
@@ -130,7 +130,7 @@ namespace IX.System.Threading
         /// Enters a wait period and, should there be no signal set, blocks the thread calling.
         /// </summary>
         /// <param name="millisecondsTimeout">The timeout period, in milliseconds.</param>
-        /// <param name="exitSynchronizationDomain">If set to <c>true</c>, the synchronization domain is exited before the call.</param>
+        /// <param name="exitSynchronizationDomain">If set to <see langword="true"/>, the synchronization domain is exited before the call.</param>
         public void WaitOne(double millisecondsTimeout, bool exitSynchronizationDomain) =>
 #if !STANDARD
             this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout), exitSynchronizationDomain);
@@ -142,7 +142,7 @@ namespace IX.System.Threading
         /// Enters a wait period and, should there be no signal set, blocks the thread calling.
         /// </summary>
         /// <param name="timeout">The timeout period.</param>
-        /// <param name="exitSynchronizationDomain">If set to <c>true</c>, the synchronization domain is exited before the call.</param>
+        /// <param name="exitSynchronizationDomain">If set to <see langword="true"/>, the synchronization domain is exited before the call.</param>
         public void WaitOne(TimeSpan timeout, bool exitSynchronizationDomain) =>
 #if !STANDARD
             this.sre.WaitOne(timeout, exitSynchronizationDomain);
@@ -163,7 +163,7 @@ namespace IX.System.Threading
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        /// <param name="disposing"><see langword="true"/> to release both managed and unmanaged resources; <see langword="false"/> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (!this.disposedValue)

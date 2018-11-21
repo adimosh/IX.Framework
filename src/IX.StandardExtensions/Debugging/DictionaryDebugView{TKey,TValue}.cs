@@ -25,7 +25,7 @@ namespace IX.StandardExtensions.Debugging
         /// </summary>
         /// <param name="dictionary">The dictionary.</param>
         /// <exception cref="ArgumentNullException"><paramref name="dictionary"/>
-        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public DictionaryDebugView(IDictionary<TKey, TValue> dictionary)
         {
             this.dict = dictionary ?? throw new ArgumentNullException(nameof(dictionary));

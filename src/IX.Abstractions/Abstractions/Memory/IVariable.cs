@@ -34,7 +34,7 @@ namespace IX.Abstractions.Memory
         /// <summary>
         /// Gets a value indicating whether the value stored in this variable is the default value for this type.
         /// </summary>
-        /// <value><c>true</c> if the contained value is default for the type; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if the contained value is default for the type; otherwise, <see langword="false"/>.</value>
         bool IsDefault { get; }
 
         /// <summary>

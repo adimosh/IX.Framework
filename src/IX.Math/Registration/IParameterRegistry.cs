@@ -14,14 +14,14 @@ namespace IX.Math.Registration
         /// <summary>
         /// Gets a value indicating whether this <see cref="IParameterRegistry"/> is populated.
         /// </summary>
-        /// <value><c>true</c> if populated; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if populated; otherwise, <see langword="false"/>.</value>
         bool Populated { get; }
 
         /// <summary>
         /// Checks whether a specific parameter name exists.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <returns><c>true</c> if the parameter exists, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the parameter exists, <see langword="false"/> otherwise.</returns>
         bool Exists(string name);
 
         /// <summary>

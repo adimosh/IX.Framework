@@ -20,7 +20,7 @@ namespace IX.StandardExtensions
         /// <typeparam name="T">The enumerable type.</typeparam>
         /// <param name="source">The enumerable source.</param>
         /// <param name="action">The action to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
             if (source == null)
@@ -46,7 +46,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The enumerable source.</param>
         /// <param name="action">The action to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static void ForEach(this IEnumerable source, Action<object> action)
         {
             if (source == null)
@@ -72,7 +72,7 @@ namespace IX.StandardExtensions
         /// <typeparam name="T">The enumerable type.</typeparam>
         /// <param name="source">The enumerable source.</param>
         /// <param name="action">The action to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static void ParallelForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
             if (source == null)
@@ -95,7 +95,7 @@ namespace IX.StandardExtensions
         /// <typeparam name="T">The enumerable type.</typeparam>
         /// <param name="source">The enumerable source.</param>
         /// <param name="action">The action to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static void For<T>(this IEnumerable<T> source, Action<int, T> action)
         {
             if (source == null)
@@ -123,7 +123,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The enumerable source.</param>
         /// <param name="action">The action to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static void For(this IEnumerable source, Action<int, object> action)
         {
             if (source == null)
@@ -151,7 +151,7 @@ namespace IX.StandardExtensions
         /// <typeparam name="T">The enumerable type.</typeparam>
         /// <param name="source">The enumerable source.</param>
         /// <param name="action">The action to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static void ParallelFor<T>(this IEnumerable<T> source, Action<int, T> action)
         {
             if (source == null)

@@ -30,14 +30,14 @@ namespace IX.StandardExtensions.ComponentModel
         /// <summary>
         /// Gets a value indicating whether the target is alive.
         /// </summary>
-        /// <value><c>true</c> if the target hasn't been either disposed or collected; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if the target hasn't been either disposed or collected; otherwise, <see langword="false"/>.</value>
         public bool TargetAlive => this.TryGetTarget(out _);
 
         /// <summary>
         /// Tries to retrieve the target object that is weakly referenced by the current <see cref="SmartDisposableWeakReference{T}"/> instance.
         /// </summary>
         /// <param name="target">The target, if one isn't already dead or disposed.</param>
-        /// <returns><c>true</c> if the target is both not disposed and not collected, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the target is both not disposed and not collected, <see langword="false"/> otherwise.</returns>
         public bool TryGetTarget(out T target)
         {
             if (!this.reference.TryGetTarget(out T intermediateTarget))

@@ -42,7 +42,7 @@ namespace IX.Guaranteed.Collections
         /// <paramref name="pathShim" />
         /// or
         /// <paramref name="serializer" />
-        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         /// <exception cref="ArgumentInvalidPathException">The folder at <paramref name="persistenceFolderPath" /> does not exist, or is not accessible.</exception>
         protected PersistedQueueBase(string persistenceFolderPath, IFile fileShim, IDirectory directoryShim, IPath pathShim, DataContractSerializer serializer)
             : base(EnvironmentSettings.PersistedCollectionsLockTimeout)
@@ -149,7 +149,7 @@ namespace IX.Guaranteed.Collections
         /// Verifies whether or not an item is contained in the queue.
         /// </summary>
         /// <param name="item">The item to verify.</param>
-        /// <returns><c>true</c> if the item is queued, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the item is queued, <see langword="false"/> otherwise.</returns>
         public abstract bool Contains(T item);
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace IX.Guaranteed.Collections
         /// <typeparam name="TState">The type of the state object to send to the action.</typeparam>
         /// <param name="actionToInvoke">The action to invoke.</param>
         /// <param name="state">The state object to pass to the invoked action.</param>
-        /// <returns><c>true</c> if dequeuing and executing is successful, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if dequeuing and executing is successful, <see langword="false"/> otherwise.</returns>
         protected bool TryLoadTopmostItemWithAction<TState>(Action<TState, T> actionToInvoke, TState state)
         {
             this.ThrowIfCurrentObjectDisposed();

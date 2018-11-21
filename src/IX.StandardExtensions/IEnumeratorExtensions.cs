@@ -19,7 +19,7 @@ namespace IX.StandardExtensions
         /// <typeparam name="T">The enumerator type.</typeparam>
         /// <param name="source">The enumerator source.</param>
         /// <param name="action">The action to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static void ForEach<T>(this IEnumerator<T> source, Action<T> action)
         {
             if (source == null)
@@ -43,7 +43,7 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="source">The enumerator source.</param>
         /// <param name="action">The action to execute.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static void ForEach(this IEnumerator source, Action<object> action)
         {
             if (source == null)

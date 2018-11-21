@@ -1,4 +1,4 @@
-﻿// <copyright file="Directory.cs" company="Adrian Mos">
+// <copyright file="Directory.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -21,7 +21,7 @@ namespace IX.System.IO
         /// Creates a new directory.
         /// </summary>
         /// <param name="path">The path of the new directory.</param>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public void CreateDirectory(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -36,8 +36,8 @@ namespace IX.System.IO
         /// Deletes a directory, optionally also doing a recursive delete.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
-        /// <param name="recursive">If set to <c>true</c>, does a recursive delete. This is <c>false</c> by default.</param>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <param name="recursive">If set to <see langword="true"/>, does a recursive delete. This is <see langword="false"/> by default.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public void Delete(string path, bool recursive = false)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -62,7 +62,7 @@ namespace IX.System.IO
         /// <returns>
         /// An enumerable of <c>string</c> values with the paths of the subdirectories of this directory.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateDirectories(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -81,11 +81,11 @@ namespace IX.System.IO
         /// <returns>
         /// An enumerable of <c>string</c> values with the paths of the subdirectories of this directory.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="path"/>
         /// or
         /// <paramref name="searchPattern"/>
-        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
         public IEnumerable<string> EnumerateDirectories(string path, string searchPattern)
         {
@@ -107,7 +107,7 @@ namespace IX.System.IO
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <returns>An enumerable of directory paths.</returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateDirectoriesRecursively(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -124,11 +124,11 @@ namespace IX.System.IO
         /// <param name="path">The path of the directory.</param>
         /// <param name="searchPattern">The search pattern to use.</param>
         /// <returns>An enumerable of directory paths.</returns>
-        /// <exception cref="T:System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="path"/>
         /// or
         /// <paramref name="searchPattern"/>
-        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
         public IEnumerable<string> EnumerateDirectoriesRecursively(string path, string searchPattern)
         {
@@ -152,7 +152,7 @@ namespace IX.System.IO
         /// <returns>
         /// An enumerable of <c>string</c> values with the paths of the files of this directory.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFiles(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -171,7 +171,7 @@ namespace IX.System.IO
         /// <returns>
         /// An enumerable of <c>string</c> values with the paths of the files of this directory.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFiles(string path, string searchPattern)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -192,7 +192,7 @@ namespace IX.System.IO
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <returns>An enumerable of file paths.</returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFilesRecursively(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -209,7 +209,7 @@ namespace IX.System.IO
         /// <param name="path">The path of the directory.</param>
         /// <param name="searchPattern">The search pattern to use.</param>
         /// <returns>An enumerable of file paths.</returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFilesRecursively(string path, string searchPattern)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -232,7 +232,7 @@ namespace IX.System.IO
         /// <returns>
         /// An enumerable of <c>string</c> values with the paths of the file system entries of this directory.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFileSystemEntries(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -251,7 +251,7 @@ namespace IX.System.IO
         /// <returns>
         /// An enumerable of <c>string</c> values with the paths of the file system entries of this directory.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFileSystemEntries(string path, string searchPattern)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -272,7 +272,7 @@ namespace IX.System.IO
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <returns>An enumerable of file system entry paths.</returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFileSystemEntriesRecursively(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -289,7 +289,7 @@ namespace IX.System.IO
         /// <param name="path">The path of the directory.</param>
         /// <param name="searchPattern">The search pattern to use.</param>
         /// <returns>An enumerable of file system entry paths.</returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFileSystemEntriesRecursively(string path, string searchPattern)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -310,9 +310,9 @@ namespace IX.System.IO
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <returns>
-        ///   <c>true</c> if the directory exists, <c>false</c> otherwise.
+        ///   <see langword="true"/> if the directory exists, <see langword="false"/> otherwise.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public bool Exists(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -328,9 +328,9 @@ namespace IX.System.IO
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <returns>
-        /// A <see cref="T:System.DateTime" /> in UTC.
+        /// A <see cref="DateTime" /> in UTC.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public DateTime GetCreationTime(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -354,7 +354,7 @@ namespace IX.System.IO
         /// <returns>
         /// An array of directory paths.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public string[] GetDirectories(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -373,7 +373,7 @@ namespace IX.System.IO
         /// <returns>
         /// An array of directory paths.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public string[] GetDirectories(string path, string searchPattern)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -396,7 +396,7 @@ namespace IX.System.IO
         /// <returns>
         /// An array of file paths.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public string[] GetFiles(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -415,7 +415,7 @@ namespace IX.System.IO
         /// <returns>
         /// An array of file paths.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public string[] GetFiles(string path, string searchPattern)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -438,7 +438,7 @@ namespace IX.System.IO
         /// <returns>
         /// An array of filesystem entry paths.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public string[] GetFileSystemEntries(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -457,7 +457,7 @@ namespace IX.System.IO
         /// <returns>
         /// An array of filesystem entries paths.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public string[] GetFileSystemEntries(string path, string searchPattern)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -478,9 +478,9 @@ namespace IX.System.IO
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <returns>
-        /// A <see cref="T:System.DateTime" /> in UTC.
+        /// A <see cref="DateTime" /> in UTC.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public DateTime GetLastAccessTime(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -496,9 +496,9 @@ namespace IX.System.IO
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <returns>
-        /// A <see cref="T:System.DateTime" /> in UTC.
+        /// A <see cref="DateTime" /> in UTC.
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public DateTime GetLastWriteTime(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -514,8 +514,8 @@ namespace IX.System.IO
         /// </summary>
         /// <param name="sourceDirName">The source directory name.</param>
         /// <param name="destDirName">The destination directory name.</param>
-        /// <exception cref="T:System.ArgumentNullException">
-        /// <paramref name="destDirName"/> or <paramref name="sourceDirName"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="destDirName"/> or <paramref name="sourceDirName"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
         public void Move(string sourceDirName, string destDirName)
         {
@@ -536,8 +536,8 @@ namespace IX.System.IO
         /// Sets the directory's creation time.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
-        /// <param name="creationTime">A <see cref="T:System.DateTime" /> with the directory attribute to set.</param>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <param name="creationTime">A <see cref="DateTime" /> with the directory attribute to set.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public void SetCreationTime(string path, DateTime creationTime)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -552,8 +552,8 @@ namespace IX.System.IO
         /// Sets the directory's last access time.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
-        /// <param name="lastAccessTime">A <see cref="T:System.DateTime" /> with the directory attribute to set.</param>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <param name="lastAccessTime">A <see cref="DateTime" /> with the directory attribute to set.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public void SetLastAccessTime(string path, DateTime lastAccessTime)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -568,8 +568,8 @@ namespace IX.System.IO
         /// Sets the directory's last write time.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
-        /// <param name="lastWriteTime">A <see cref="T:System.DateTime" /> with the directory attribute to set.</param>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="path"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <param name="lastWriteTime">A <see cref="DateTime" /> with the directory attribute to set.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public void SetLastWriteTime(string path, DateTime lastWriteTime)
         {
             if (string.IsNullOrWhiteSpace(path))

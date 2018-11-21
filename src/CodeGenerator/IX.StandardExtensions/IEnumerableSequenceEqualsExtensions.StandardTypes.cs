@@ -18,8 +18,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<byte> left, IEnumerable<byte> right)
         {
             if ((left == null) ? (right != null) : (right == null))
@@ -62,8 +62,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<sbyte> left, IEnumerable<sbyte> right)
         {
             if ((left == null) ? (right != null) : (right == null))
@@ -106,8 +106,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<short> left, IEnumerable<short> right)
         {
             if ((left == null) ? (right != null) : (right == null))
@@ -150,8 +150,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<ushort> left, IEnumerable<ushort> right)
         {
             if ((left == null) ? (right != null) : (right == null))
@@ -194,8 +194,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<char> left, IEnumerable<char> right)
         {
             if ((left == null) ? (right != null) : (right == null))
@@ -238,8 +238,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<int> left, IEnumerable<int> right)
         {
             if ((left == null) ? (right != null) : (right == null))
@@ -282,8 +282,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<uint> left, IEnumerable<uint> right)
         {
             if ((left == null) ? (right != null) : (right == null))
@@ -326,8 +326,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<long> left, IEnumerable<long> right)
         {
             if ((left == null) ? (right != null) : (right == null))
@@ -370,8 +370,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<ulong> left, IEnumerable<ulong> right)
         {
             if ((left == null) ? (right != null) : (right == null))
@@ -414,8 +414,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<float> left, IEnumerable<float> right)
         {
             if ((left == null) ? (right != null) : (right == null))
@@ -458,8 +458,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<double> left, IEnumerable<double> right)
         {
             if ((left == null) ? (right != null) : (right == null))
@@ -502,8 +502,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<decimal> left, IEnumerable<decimal> right)
         {
             if ((left == null) ? (right != null) : (right == null))
@@ -546,8 +546,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<DateTime> left, IEnumerable<DateTime> right)
         {
             if ((left == null) ? (right != null) : (right == null))
@@ -590,8 +590,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<bool> left, IEnumerable<bool> right)
         {
             if ((left == null) ? (right != null) : (right == null))
@@ -634,8 +634,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<TimeSpan> left, IEnumerable<TimeSpan> right)
         {
             if ((left == null) ? (right != null) : (right == null))
@@ -678,8 +678,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<string> left, IEnumerable<string> right)
         {
             if ((left == null) ? (right != null) : (right == null))

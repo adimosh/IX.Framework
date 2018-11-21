@@ -14,7 +14,7 @@ namespace IX.Retry
     /// <param name="retryingSince">The date and time (in UTC) when retrying started.</param>
     /// <param name="exceptions">The exceptions that have been thrown until now.</param>
     /// <param name="options">The retry options.</param>
-    /// <returns><c>true</c> whether retrying should occur, <c>false</c> otherwise.</returns>
+    /// <returns><see langword="true"/> whether retrying should occur, <see langword="false"/> otherwise.</returns>
     public delegate bool RetryConditionDelegate(int retriedTimes, DateTime retryingSince, IEnumerable<Exception> exceptions, RetryOptions options);
 
     /// <summary>

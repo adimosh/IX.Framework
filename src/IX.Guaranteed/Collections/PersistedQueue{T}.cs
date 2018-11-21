@@ -34,7 +34,7 @@ namespace IX.Guaranteed.Collections
         /// <paramref name="directoryShim"/>
         /// or
         /// <paramref name="pathShim"/>
-        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
         /// <exception cref="ArgumentInvalidPathException">The folder at <paramref name="persistenceFolderPath"/> does not exist, or is not accessible.</exception>
         public PersistedQueue(string persistenceFolderPath, IFile fileShim, IDirectory directoryShim, IPath pathShim)
@@ -71,7 +71,7 @@ namespace IX.Guaranteed.Collections
         /// This method should not be called, as it will always throw an <see cref="InvalidOperationException"/>.
         /// </summary>
         /// <param name="item">The item to verify.</param>
-        /// <returns><c>true</c> if the item is queued, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the item is queued, <see langword="false"/> otherwise.</returns>
         public override bool Contains(T item) => throw new InvalidOperationException();
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace IX.Guaranteed.Collections
         /// <typeparam name="TState">The type of the state object to pass to the action.</typeparam>
         /// <param name="actionToInvoke">The action to invoke.</param>
         /// <param name="state">The state object to pass to the action.</param>
-        /// <returns><c>true</c> if the dequeuing is successful, and the action performed, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the dequeuing is successful, and the action performed, <see langword="false"/> otherwise.</returns>
         public bool DequeueWithAction<TState>(Action<TState, T> actionToInvoke, TState state) => this.TryLoadTopmostItemWithAction(actionToInvoke, state);
 
         /// <summary>

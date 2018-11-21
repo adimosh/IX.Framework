@@ -31,7 +31,7 @@ namespace IX.Guaranteed
         /// <summary>
         /// Gets a value indicating whether this <see cref="OperationTransaction"/> is successful.
         /// </summary>
-        /// <value><c>true</c> if successful; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if successful; otherwise, <see langword="false"/>.</value>
         public bool Successful { get; private set; }
 
         /// <summary>

@@ -12,7 +12,7 @@ namespace IX.Undoable
         /// <summary>
         /// Gets a value indicating whether this instance is in edit mode.
         /// </summary>
-        /// <value><c>true</c> if this instance is in edit mode; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is in edit mode; otherwise, <see langword="false"/>.</value>
         bool IsInEditMode { get; }
 
         /// <summary>

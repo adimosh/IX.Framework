@@ -49,7 +49,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ObservableListBase{T}"/> class.
         /// </summary>
         /// <param name="internalContainer">The internal container.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         protected ObservableListBase(IListAdapter<T> internalContainer, bool suppressUndoable)
             : base(internalContainer, suppressUndoable)
         {
@@ -60,7 +60,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="internalContainer">The internal container.</param>
         /// <param name="context">The context.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         protected ObservableListBase(IListAdapter<T> internalContainer, SynchronizationContext context, bool suppressUndoable)
             : base(internalContainer, context, suppressUndoable)
         {
@@ -755,7 +755,7 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <param name="state">The state object to pass to the invocation.</param>
-        /// <returns><c>true</c> if the undo was successful, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the undo was successful, <see langword="false"/> otherwise.</returns>
         protected override bool UndoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
             if (base.UndoInternally(undoRedoLevel, out toInvokeOutsideLock, out state))
@@ -950,7 +950,7 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <param name="state">The state object to pass to the invocation.</param>
-        /// <returns><c>true</c> if the redo was successful, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the redo was successful, <see langword="false"/> otherwise.</returns>
         protected override bool RedoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
             if (base.RedoInternally(undoRedoLevel, out toInvokeOutsideLock, out state))

@@ -83,7 +83,7 @@ namespace IX.Observable
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableStack{T}"/> class.
         /// </summary>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableStack(bool suppressUndoable)
             : base(new StackCollectionAdapter<T>(new System.Collections.Generic.Stack<T>()), suppressUndoable)
         {
@@ -93,7 +93,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ObservableStack{T}"/> class.
         /// </summary>
         /// <param name="capacity">The initial capacity of the stack.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableStack(int capacity, bool suppressUndoable)
             : base(new StackCollectionAdapter<T>(new System.Collections.Generic.Stack<T>(capacity)), suppressUndoable)
         {
@@ -103,7 +103,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ObservableStack{T}"/> class.
         /// </summary>
         /// <param name="collection">A collection of items to copy into the stack.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableStack(IEnumerable<T> collection, bool suppressUndoable)
             : base(new StackCollectionAdapter<T>(new System.Collections.Generic.Stack<T>(collection)), suppressUndoable)
         {
@@ -113,7 +113,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ObservableStack{T}"/> class.
         /// </summary>
         /// <param name="context">The synchronization context top use when posting observable messages.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableStack(SynchronizationContext context, bool suppressUndoable)
             : base(new StackCollectionAdapter<T>(new System.Collections.Generic.Stack<T>()), context, suppressUndoable)
         {
@@ -124,7 +124,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="context">The synchronization context top use when posting observable messages.</param>
         /// <param name="capacity">The initial capacity of the stack.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableStack(SynchronizationContext context, int capacity, bool suppressUndoable)
             : base(new StackCollectionAdapter<T>(new System.Collections.Generic.Stack<T>(capacity)), context, suppressUndoable)
         {
@@ -135,7 +135,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="context">The synchronization context top use when posting observable messages.</param>
         /// <param name="collection">A collection of items to copy into the stack.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableStack(SynchronizationContext context, IEnumerable<T> collection, bool suppressUndoable)
             : base(new StackCollectionAdapter<T>(new System.Collections.Generic.Stack<T>(collection)), context, suppressUndoable)
         {
@@ -235,7 +235,7 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <param name="state">The state object to pass to the invocation.</param>
-        /// <returns><c>true</c> if the redo was successful, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the redo was successful, <see langword="false"/> otherwise.</returns>
         protected override bool RedoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
             if (base.UndoInternally(undoRedoLevel, out toInvokeOutsideLock, out state))
@@ -352,7 +352,7 @@ namespace IX.Observable
         /// <param name="undoRedoLevel">A level of undo, with contents.</param>
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <param name="state">The state object to pass to the invocation.</param>
-        /// <returns><c>true</c> if the undo was successful, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the undo was successful, <see langword="false"/> otherwise.</returns>
         protected override bool UndoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
         {
             if (base.RedoInternally(undoRedoLevel, out toInvokeOutsideLock, out state))

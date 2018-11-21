@@ -21,7 +21,7 @@ namespace IX.Observable.Adapters
         /// Gets a value indicating whether this instance is fixed size.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this instance is fixed size; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if this instance is fixed size; otherwise, <see langword="false"/>.
         /// </value>
         /// <remarks>
         /// <para>Since this is an adapter, this property always returns false.</para>
@@ -93,7 +93,7 @@ namespace IX.Observable.Adapters
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>
-        ///   <c>true</c> if the collection contains the specified value; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the collection contains the specified value; otherwise, <see langword="false"/>.
         /// </returns>
         bool IList.Contains(object value) => this.Contains(this.GetItemOfProperTypeFromObject(value));
 
