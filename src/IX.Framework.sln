@@ -91,6 +91,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{3F348EC4-7C5
 		..\doc\IX.Undoable.md = ..\doc\IX.Undoable.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickDirtyTests", "QuickDirtyTests\QuickDirtyTests.csproj", "{BAA6E305-5617-4322-A709-BBE812A5F998}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -173,6 +175,8 @@ Global
 		{EE8BE730-7219-4FE1-B975-248FB6255DB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE8BE730-7219-4FE1-B975-248FB6255DB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE8BE730-7219-4FE1-B975-248FB6255DB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAA6E305-5617-4322-A709-BBE812A5F998}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAA6E305-5617-4322-A709-BBE812A5F998}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -199,6 +203,7 @@ Global
 		{D747734D-B1AE-4757-BAC6-13785805626D} = {B5529E7C-26C5-4A91-BA0E-EDEA9D367DA3}
 		{EE8BE730-7219-4FE1-B975-248FB6255DB1} = {B5529E7C-26C5-4A91-BA0E-EDEA9D367DA3}
 		{3F348EC4-7C52-46AA-B13D-67DAC513EE48} = {CF1DED9F-4975-4D48-91D3-0FA13BBC9EBD}
+		{BAA6E305-5617-4322-A709-BBE812A5F998} = {B5529E7C-26C5-4A91-BA0E-EDEA9D367DA3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E982D088-16DA-46BF-A043-B1326577DB77}
