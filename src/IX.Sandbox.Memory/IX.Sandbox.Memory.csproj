@@ -21,12 +21,6 @@
 
   <Import Project="..\StyleCop.targets" />
 
-  <ItemGroup>
-    <Compile Include="..\CodeGenerator\IX.Sandbox\MemoryScopeBase.StandardTypes.cs" Link="MemoryScopeBase.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.Sandbox\NamedVariable.StandardTypes.cs" Link="NamedVariable.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.Sandbox\Variable.StandardTypes.cs" Link="Variable.StandardTypes.cs" />
-  </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -34,6 +28,12 @@
 
   <ItemGroup Condition="'$(TargetFrameworkIsStandard)'=='true'">
     <PackageReference Include="System.Reflection.Extensions" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CodeGenerator\IX.Sandbox\MemoryScopeBase.StandardTypes.cs" Link="MemoryScopeBase.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.Sandbox\NamedVariable.StandardTypes.cs" Link="NamedVariable.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.Sandbox\Variable.StandardTypes.cs" Link="Variable.StandardTypes.cs" />
   </ItemGroup>
 
   <ItemGroup>
