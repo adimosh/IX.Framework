@@ -12,12 +12,14 @@ namespace IX.Sandbox.Memory
     /// A base class for named variable containers.
     /// </summary>
     /// <typeparam name="T">The discreet type of data contained in the variable.</typeparam>
+    [Obsolete("This class is about to be removed, please do not use it anymore.")]
     public abstract class NamedVariableBase<T> : VariableBase<T>, INamedVariable<T>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NamedVariableBase{T}"/> class.
         /// </summary>
         /// <param name="name">The name.</param>
+        [Obsolete("The class that this method belongs to is about to be removed, please do not use it anymore.")]
         protected NamedVariableBase(string name)
         {
             this.InitializeInternalContext(name);
@@ -28,6 +30,7 @@ namespace IX.Sandbox.Memory
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="synchronizationContext">The synchronization context.</param>
+        [Obsolete("The class that this method belongs to is about to be removed, please do not use it anymore.")]
         protected NamedVariableBase(string name, SynchronizationContext synchronizationContext)
             : base(synchronizationContext)
         {
@@ -38,6 +41,7 @@ namespace IX.Sandbox.Memory
         /// Gets the name of the variable.
         /// </summary>
         /// <value>The name of the variable.</value>
+        [Obsolete("The class that this property belongs to is about to be removed, please do not use it anymore.")]
         public string Name { get; private set; }
 
         /// <summary>
@@ -45,6 +49,7 @@ namespace IX.Sandbox.Memory
         /// </summary>
         /// <param name="other">The named variable to compare to.</param>
         /// <returns>An integer value showing the difference between the two, or 0 if they are identical.</returns>
+        [Obsolete("The class that this method belongs to is about to be removed, please do not use it anymore.")]
         public abstract int CompareTo(INamedVariable<T> other);
 
         /// <summary>
@@ -52,6 +57,7 @@ namespace IX.Sandbox.Memory
         /// </summary>
         /// <param name="other">The named variable to equate to.</param>
         /// <returns><c>true</c> if the variables are identical, <c>false</c> otherwise.</returns>
+        [Obsolete("The class that this method belongs to is about to be removed, please do not use it anymore.")]
         public abstract bool Equals(INamedVariable<T> other);
 
         private void InitializeInternalContext(in string name)
@@ -63,7 +69,9 @@ namespace IX.Sandbox.Memory
             }
 
             // Set parameters
+#pragma warning disable CS0618 // Type or member is obsolete
             this.Name = name;
+#pragma warning restore CS0618 // Type or member is obsolete
         }
     }
 }

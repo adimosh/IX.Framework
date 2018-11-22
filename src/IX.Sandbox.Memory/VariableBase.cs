@@ -16,6 +16,7 @@ namespace IX.Sandbox.Memory
     /// <typeparam name="T">The discreet type of data contained in the variable.</typeparam>
     /// <seealso cref="IX.StandardExtensions.ComponentModel.ViewModelBase" />
     /// <seealso cref="IX.Abstractions.Memory.IVariable{T}" />
+    [Obsolete("This class is about to be removed, please do not use it anymore.")]
     public abstract class VariableBase<T> : ViewModelBase, IVariable<T>, IDeepCloneable<VariableBase<T>>
     {
         private T value;
@@ -23,6 +24,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Initializes a new instance of the <see cref="VariableBase{T}"/> class.
         /// </summary>
+        [Obsolete("The class that this method belongs to is about to be removed, please do not use it anymore.")]
         protected VariableBase()
         {
         }
@@ -31,6 +33,7 @@ namespace IX.Sandbox.Memory
         /// Initializes a new instance of the <see cref="VariableBase{T}"/> class.
         /// </summary>
         /// <param name="synchronizationContext">The synchronization context.</param>
+        [Obsolete("The class that this method belongs to is about to be removed, please do not use it anymore.")]
         protected VariableBase(SynchronizationContext synchronizationContext)
             : base(synchronizationContext)
         {
@@ -40,6 +43,7 @@ namespace IX.Sandbox.Memory
         /// Gets or sets the value of the variable.
         /// </summary>
         /// <value>The value.</value>
+        [Obsolete("The class that this property belongs to is about to be removed, please do not use it anymore.")]
         public virtual T Value
         {
             get => this.value;
@@ -59,6 +63,7 @@ namespace IX.Sandbox.Memory
         /// </summary>
         /// <value>The raw value for the debugger.</value>
         /// <remarks>The getter of this property should not involve state changes within the variable.</remarks>
+        [Obsolete("The class that this property belongs to is about to be removed, please do not use it anymore.")]
         public virtual T RawDebuggerValue
         {
             get => this.value;
@@ -79,12 +84,14 @@ namespace IX.Sandbox.Memory
         /// <value>The debugger value.</value>
         /// <remarks><para>Implementations of this property should treat converting to/from string representations of values.</para>
         /// <para>The getter of this property should not involve state changes within the variable.</para></remarks>
+        [Obsolete("The class that this property belongs to is about to be removed, please do not use it anymore.")]
         public abstract string DebuggerValue { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the value stored in this variable is the default value for this type.
         /// </summary>
         /// <value><c>true</c> if the contained value is default for the type; otherwise, <c>false</c>.</value>
+        [Obsolete("The class that this property belongs to is about to be removed, please do not use it anymore.")]
         public abstract bool IsDefault { get; }
 
         /// <summary>
@@ -93,6 +100,7 @@ namespace IX.Sandbox.Memory
         /// <value>The boxed value.</value>
         /// <remarks><para>This property will box/unbox values as required by the caller, based on the abilities of the implementing class.</para>
         /// <para>For this reason, please refrain from using this property if you don't absolutely have to.</para></remarks>
+        [Obsolete("The class that this property belongs to is about to be removed, please do not use it anymore.")]
         object IVariable.BoxedValue
         {
 #pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - That is the point of this property
@@ -114,6 +122,7 @@ namespace IX.Sandbox.Memory
         /// Gets or sets the value, internally.
         /// </summary>
         /// <value>The value.</value>
+        [Obsolete("The class that this property belongs to is about to be removed, please do not use it anymore.")]
         protected T InternalValue
         {
             get => this.value;
@@ -126,12 +135,14 @@ namespace IX.Sandbox.Memory
         /// </summary>
         /// <param name="other">An object to compare with this instance.</param>
         /// <returns>A value that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance precedes <paramref name="other" /> in the sort order.  Zero This instance occurs in the same position in the sort order as <paramref name="other" />. Greater than zero This instance follows <paramref name="other" /> in the sort order.</returns>
+        [Obsolete("The class that this method belongs to is about to be removed, please do not use it anymore.")]
         public abstract int CompareTo(IVariable<T> other);
 
         /// <summary>
         /// Creates a deep clone of the source object.
         /// </summary>
         /// <returns>A deep clone.</returns>
+        [Obsolete("The class that this method belongs to is about to be removed, please do not use it anymore.")]
         VariableBase<T> IDeepCloneable<VariableBase<T>>.DeepClone() => this.DeepCloneImplementation();
 
         /// <summary>
@@ -139,18 +150,21 @@ namespace IX.Sandbox.Memory
         /// </summary>
         /// <param name="other">An object to compare with this object.</param>
         /// <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
+        [Obsolete("The class that this method belongs to is about to be removed, please do not use it anymore.")]
         public abstract bool Equals(IVariable<T> other);
 
         /// <summary>
         /// Gets the discreet type of the data contained within the variable.
         /// </summary>
         /// <returns>The data type.</returns>
+        [Obsolete("The class that this method belongs to is about to be removed, please do not use it anymore.")]
         public Type GetDataType() => typeof(T);
 
         /// <summary>
         /// Creates a deep clone of the source object. This method implements the actual operation.
         /// </summary>
         /// <returns>A deep clone.</returns>
+        [Obsolete("The class that this method belongs to is about to be removed, please do not use it anymore.")]
         protected abstract VariableBase<T> DeepCloneImplementation();
     }
 }
