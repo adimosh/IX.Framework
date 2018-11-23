@@ -8,10 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Reflection;
-
 namespace IX.Sandbox.Memory
 {
+    using global::System.Reflection;
 
 
     /// <summary>
@@ -115,6 +114,17 @@ namespace IX.Sandbox.Memory
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to The sandbox heap has already been disposed..
+        /// </summary>
+        internal static string TheSandboxHeapHasAlreadyBeenDisposed
+        {
+            get
+            {
+                return ResourceManager.GetString("TheSandboxHeapHasAlreadyBeenDisposed", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to The supplied object key is invalid..
         /// </summary>
         internal static string TheSuppliedObjectKeyIsInvalid
@@ -122,6 +132,29 @@ namespace IX.Sandbox.Memory
             get
             {
                 return ResourceManager.GetString("TheSuppliedObjectKeyIsInvalid", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The symbol was already created..
+        /// </summary>
+        internal static string TheSymbolWasAlreadyCreated
+        {
+            get
+            {
+                return ResourceManager.GetString("TheSymbolWasAlreadyCreated", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The value type is not suppported, since an attempt was made to assign an array of values to a single value symbol..
+        /// </summary>
+        internal static string TheValueTypeIsNotSuppportedSinceAnAttemptWasMadeToAssignAnArrayOfValuesToASingleValueSymbol
+        {
+            get
+            {
+                return ResourceManager.GetString("TheValueTypeIsNotSuppportedSinceAnAttemptWasMadeToAssignAnArrayOfValuesToASingleV" +
+                        "alueSymbol", resourceCulture);
             }
         }
 
