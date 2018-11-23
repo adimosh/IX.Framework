@@ -60,8 +60,8 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
-        /// <returns><c>true</c> if the source sequence contains any elements; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static bool Any<TItem, <#= paramTypes #>>(this IEnumerable<TItem> source, Func<TItem, <#= paramTypes #>, bool> action, <#= paramNameTypes #>)
         {
             if (source == null)
@@ -108,7 +108,7 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <returns>The filtered enumerable.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static IEnumerable<TItem> Where<TItem, <#= paramTypes #>>(this IEnumerable<TItem> source, Func<TItem, <#= paramTypes #>, bool> action, <#= paramNameTypes #>)
         {
             if (source == null)
@@ -155,7 +155,7 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <returns>The first filtered item, or a default value.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static TItem FirstOrDefault<TItem, <#= paramTypes #>>(this IEnumerable<TItem> source, Func<TItem, <#= paramTypes #>, bool> action, <#= paramNameTypes #>)
         {
             if (source == null)

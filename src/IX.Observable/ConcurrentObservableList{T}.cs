@@ -61,7 +61,7 @@ namespace IX.Observable
         /// <summary>
         /// Initializes a new instance of the <see cref="ConcurrentObservableList{T}"/> class.
         /// </summary>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ConcurrentObservableList(bool suppressUndoable)
             : base(suppressUndoable)
         {
@@ -71,7 +71,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ConcurrentObservableList{T}"/> class.
         /// </summary>
         /// <param name="source">The source.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ConcurrentObservableList(IEnumerable<T> source, bool suppressUndoable)
             : base(source, suppressUndoable)
         {
@@ -81,7 +81,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ConcurrentObservableList{T}"/> class.
         /// </summary>
         /// <param name="context">The synchronization context to use, if any.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ConcurrentObservableList(GlobalThreading.SynchronizationContext context, bool suppressUndoable)
             : base(context, suppressUndoable)
         {
@@ -92,7 +92,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="source">The source.</param>
         /// <param name="context">The context.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ConcurrentObservableList(IEnumerable<T> source, GlobalThreading.SynchronizationContext context, bool suppressUndoable)
             : base(source, context, suppressUndoable)
         {

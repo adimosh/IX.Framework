@@ -19,7 +19,7 @@ namespace IX.StandardExtensions
         /// <typeparam name="TValue">The type of the value.</typeparam>
         /// <param name="source">The source.</param>
         /// <returns>A deeply-cloned dictionary.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, TValue> DeepClone<TKey, TValue>(this Dictionary<TKey, TValue> source)
             where TValue : IDeepCloneable<TValue>
         {
@@ -45,7 +45,7 @@ namespace IX.StandardExtensions
         /// <typeparam name="TValue">The type of the value.</typeparam>
         /// <param name="source">The source.</param>
         /// <returns>A cloned dictionary with shallow clones.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, TValue> CopyWithShallowClones<TKey, TValue>(this Dictionary<TKey, TValue> source)
             where TValue : IShallowCloneable<TValue>
         {

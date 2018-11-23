@@ -23,7 +23,7 @@ namespace IX.Math.Nodes
         /// <paramref name="secondParameter" />
         /// or
         /// <paramref name="thirdParameter" />
-        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         protected TernaryFunctionNodeBase(NodeBase firstParameter, NodeBase secondParameter, NodeBase thirdParameter)
         {
             this.FirstParameter = firstParameter ?? throw new ArgumentNullException(nameof(firstParameter));

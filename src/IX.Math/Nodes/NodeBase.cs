@@ -29,7 +29,7 @@ namespace IX.Math.Nodes
         /// <summary>
         /// Gets a value indicating whether or not this node is actually a constant.
         /// </summary>
-        /// <value><c>true</c> if the node is a constant, <c>false</c> otherwise.</value>
+        /// <value><see langword="true"/> if the node is a constant, <see langword="false"/> otherwise.</value>
         public abstract bool IsConstant { get; }
 
         /// <summary>

@@ -16,31 +16,32 @@ namespace IX.UnitTests.IX.Observable
         /// Generates the test data.
         /// </summary>
         /// <returns>The test data.</returns>
-        public static object[][] GenerateData() => new object[][]
+        public static object[][] GenerateData() =>
+            new object[][]
+            {
+                new object[]
+                {
+                    new ObservableMasterSlaveCollection<int>
                     {
-                        new object[]
-                        {
-                            new ObservableMasterSlaveCollection<int>
-                            {
-                                1,
-                                7,
-                                19,
-                                23,
-                                4,
-                            },
-                        },
-                        new object[]
-                        {
-                            new ConcurrentObservableMasterSlaveCollection<int>
-                            {
-                                1,
-                                7,
-                                19,
-                                23,
-                                4,
-                            },
-                        },
-                    };
+                        1,
+                        7,
+                        19,
+                        23,
+                        4,
+                    },
+                },
+                new object[]
+                {
+                    new ConcurrentObservableMasterSlaveCollection<int>
+                    {
+                        1,
+                        7,
+                        19,
+                        23,
+                        4,
+                    },
+                },
+            };
 
         /// <summary>
         /// Observables the master slave collection undo at add.
@@ -390,28 +391,27 @@ namespace IX.UnitTests.IX.Observable
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
-            var slaveCollection = new ObservableList<int>
+            using (var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
-#pragma warning restore IDE0009 // Member access should be qualified.
-            };
+            })
+            {
+                list.SetSlaveList(slaveCollection);
 
-            list.SetSlaveList(slaveCollection);
+                // ACT
+                list.Add(6);
 
-            // ACT
-            list.Add(6);
+                Assert.True(list.Contains(6));
 
-            Assert.True(list.Contains(6));
+                list.Undo();
 
-            list.Undo();
+                // ASSERT
+                Assert.False(list.Contains(6));
 
-            // ASSERT
-            Assert.False(list.Contains(6));
-
-            Assert.True(list.Contains(-5));
+                Assert.True(list.Contains(-5));
+            }
         }
 
         /// <summary>
@@ -426,29 +426,28 @@ namespace IX.UnitTests.IX.Observable
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
-            var slaveCollection = new ObservableList<int>
+            using (var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
-#pragma warning restore IDE0009 // Member access should be qualified.
-            };
+            })
+            {
+                list.SetSlaveList(slaveCollection);
 
-            list.SetSlaveList(slaveCollection);
+                list.Add(6);
+                Assert.True(list.Contains(6));
+                list.Undo();
+                Assert.False(list.Contains(6));
 
-            list.Add(6);
-            Assert.True(list.Contains(6));
-            list.Undo();
-            Assert.False(list.Contains(6));
+                // ACT
+                list.Redo();
 
-            // ACT
-            list.Redo();
+                // ASSERT
+                Assert.True(list.Contains(6));
 
-            // ASSERT
-            Assert.True(list.Contains(6));
-
-            Assert.True(list.Contains(-5));
+                Assert.True(list.Contains(-5));
+            }
         }
 
         /// <summary>
@@ -463,36 +462,35 @@ namespace IX.UnitTests.IX.Observable
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
-            var slaveCollection = new ObservableList<int>
+            using (var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
-#pragma warning restore IDE0009 // Member access should be qualified.
-            };
+            })
+            {
+                list.SetSlaveList(slaveCollection);
 
-            list.SetSlaveList(slaveCollection);
+                list.Clear();
 
-            list.Clear();
+                Assert.False(list.Contains(1));
+                Assert.False(list.Contains(7));
+                Assert.False(list.Contains(19));
+                Assert.False(list.Contains(23));
+                Assert.False(list.Contains(4));
 
-            Assert.False(list.Contains(1));
-            Assert.False(list.Contains(7));
-            Assert.False(list.Contains(19));
-            Assert.False(list.Contains(23));
-            Assert.False(list.Contains(4));
+                // ACT
+                list.Undo();
 
-            // ACT
-            list.Undo();
+                // ASSERT
+                Assert.True(list.Contains(1));
+                Assert.True(list.Contains(7));
+                Assert.True(list.Contains(19));
+                Assert.True(list.Contains(23));
+                Assert.True(list.Contains(4));
 
-            // ASSERT
-            Assert.True(list.Contains(1));
-            Assert.True(list.Contains(7));
-            Assert.True(list.Contains(19));
-            Assert.True(list.Contains(23));
-            Assert.True(list.Contains(4));
-
-            Assert.True(list.Contains(-5));
+                Assert.True(list.Contains(-5));
+            }
         }
 
         /// <summary>
@@ -507,38 +505,37 @@ namespace IX.UnitTests.IX.Observable
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
-            var slaveCollection = new ObservableList<int>
+            using (var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
-#pragma warning restore IDE0009 // Member access should be qualified.
-            };
+            })
+            {
+                list.SetSlaveList(slaveCollection);
 
-            list.SetSlaveList(slaveCollection);
+                list.Clear();
 
-            list.Clear();
+                list.Undo();
 
-            list.Undo();
+                Assert.True(list.Contains(1));
+                Assert.True(list.Contains(7));
+                Assert.True(list.Contains(19));
+                Assert.True(list.Contains(23));
+                Assert.True(list.Contains(4));
 
-            Assert.True(list.Contains(1));
-            Assert.True(list.Contains(7));
-            Assert.True(list.Contains(19));
-            Assert.True(list.Contains(23));
-            Assert.True(list.Contains(4));
+                // ACT
+                list.Redo();
 
-            // ACT
-            list.Redo();
+                // ASSERT
+                Assert.False(list.Contains(1));
+                Assert.False(list.Contains(7));
+                Assert.False(list.Contains(19));
+                Assert.False(list.Contains(23));
+                Assert.False(list.Contains(4));
 
-            // ASSERT
-            Assert.False(list.Contains(1));
-            Assert.False(list.Contains(7));
-            Assert.False(list.Contains(19));
-            Assert.False(list.Contains(23));
-            Assert.False(list.Contains(4));
-
-            Assert.True(list.Contains(-5));
+                Assert.True(list.Contains(-5));
+            }
         }
 
         /// <summary>
@@ -553,30 +550,29 @@ namespace IX.UnitTests.IX.Observable
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
-            var slaveCollection = new ObservableList<int>
+            using (var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
-#pragma warning restore IDE0009 // Member access should be qualified.
-            };
+            })
+            {
+                list.SetSlaveList(slaveCollection);
 
-            list.SetSlaveList(slaveCollection);
+                // ACT
+                list.Insert(2, 6);
 
-            // ACT
-            list.Insert(2, 6);
+                Assert.True(list[2] == 6);
+                Assert.True(list[3] == 19);
 
-            Assert.True(list[2] == 6);
-            Assert.True(list[3] == 19);
+                list.Undo();
 
-            list.Undo();
+                // ASSERT
+                Assert.False(list.Contains(6));
+                Assert.True(list[2] == 19);
 
-            // ASSERT
-            Assert.False(list.Contains(6));
-            Assert.True(list[2] == 19);
-
-            Assert.True(list.Contains(-5));
+                Assert.True(list.Contains(-5));
+            }
         }
 
         /// <summary>
@@ -596,25 +592,24 @@ namespace IX.UnitTests.IX.Observable
             list.Undo();
             Assert.False(list.Contains(6));
 
-            var slaveCollection = new ObservableList<int>
+            using (var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
-#pragma warning restore IDE0009 // Member access should be qualified.
-            };
+            })
+            {
+                list.SetSlaveList(slaveCollection);
 
-            list.SetSlaveList(slaveCollection);
+                // ACT
+                list.Redo();
 
-            // ACT
-            list.Redo();
+                // ASSERT
+                Assert.True(list[2] == 6);
+                Assert.True(list[3] == 19);
 
-            // ASSERT
-            Assert.True(list[2] == 6);
-            Assert.True(list[3] == 19);
-
-            Assert.True(list.Contains(-5));
+                Assert.True(list.Contains(-5));
+            }
         }
 
         /// <summary>
@@ -629,30 +624,29 @@ namespace IX.UnitTests.IX.Observable
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
-            var slaveCollection = new ObservableList<int>
+            using (var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
-#pragma warning restore IDE0009 // Member access should be qualified.
-            };
+            })
+            {
+                list.SetSlaveList(slaveCollection);
 
-            list.SetSlaveList(slaveCollection);
+                // ACT
+                list.RemoveAt(2);
 
-            // ACT
-            list.RemoveAt(2);
+                Assert.True(list[2] == 23);
+                Assert.True(list[3] == 4);
 
-            Assert.True(list[2] == 23);
-            Assert.True(list[3] == 4);
+                list.Undo();
 
-            list.Undo();
+                // ASSERT
+                Assert.True(list[2] == 19);
+                Assert.True(list[3] == 23);
 
-            // ASSERT
-            Assert.True(list[2] == 19);
-            Assert.True(list[3] == 23);
-
-            Assert.True(list.Contains(-5));
+                Assert.True(list.Contains(-5));
+            }
         }
 
         /// <summary>
@@ -667,29 +661,28 @@ namespace IX.UnitTests.IX.Observable
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
-            var slaveCollection = new ObservableList<int>
+            using (var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
-#pragma warning restore IDE0009 // Member access should be qualified.
-            };
+            })
+            {
+                list.SetSlaveList(slaveCollection);
 
-            list.SetSlaveList(slaveCollection);
+                list.RemoveAt(2);
+                Assert.True(list[2] == 23);
+                list.Undo();
+                Assert.True(list[2] == 19);
 
-            list.RemoveAt(2);
-            Assert.True(list[2] == 23);
-            list.Undo();
-            Assert.True(list[2] == 19);
+                // ACT
+                list.Redo();
 
-            // ACT
-            list.Redo();
+                // ASSERT
+                Assert.True(list[2] == 23);
 
-            // ASSERT
-            Assert.True(list[2] == 23);
-
-            Assert.True(list.Contains(-5));
+                Assert.True(list.Contains(-5));
+            }
         }
 
         /// <summary>
@@ -704,59 +697,58 @@ namespace IX.UnitTests.IX.Observable
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
-            var slaveCollection = new ObservableList<int>
+            using (var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
-#pragma warning restore IDE0009 // Member access should be qualified.
-            };
+            })
+            {
+                list.SetSlaveList(slaveCollection);
 
-            list.SetSlaveList(slaveCollection);
+                list.Add(18);
+                list.RemoveAt(1);
+                list.Insert(3, 5);
+                list.Clear();
+                list.Add(7);
 
-            list.Add(18);
-            list.RemoveAt(1);
-            list.Insert(3, 5);
-            list.Clear();
-            list.Add(7);
+                // Act & Assert groups
+                Assert.True(list.Count == 4);
+                Assert.True(list[0] == 7);
 
-            // Act & Assert groups
-            Assert.True(list.Count == 4);
-            Assert.True(list[0] == 7);
+                // Level one
+                list.Undo();
+                Assert.True(list.Count == 3);
 
-            // Level one
-            list.Undo();
-            Assert.True(list.Count == 3);
+                // Level two
+                list.Undo();
+                Assert.True(list.Count == 9);
+                Assert.True(list[3] == 5);
 
-            // Level two
-            list.Undo();
-            Assert.True(list.Count == 9);
-            Assert.True(list[3] == 5);
+                // Level three
+                list.Undo();
+                Assert.True(list.Count == 8);
+                Assert.True(list[3] == 4);
 
-            // Level three
-            list.Undo();
-            Assert.True(list.Count == 8);
-            Assert.True(list[3] == 4);
+                // Level four
+                list.Undo();
+                Assert.True(list.Count == 9);
+                Assert.True(list[1] == 7);
 
-            // Level four
-            list.Undo();
-            Assert.True(list.Count == 9);
-            Assert.True(list[1] == 7);
+                // Level two
+                list.Undo();
+                Assert.True(list.Count == 8);
+                Assert.False(list.Contains(18));
 
-            // Level two
-            list.Undo();
-            Assert.True(list.Count == 8);
-            Assert.False(list.Contains(18));
+                // Redo
+                list.Redo();
+                list.Redo();
+                list.Redo();
+                list.Redo();
+                Assert.True(list.Count == 3);
 
-            // Redo
-            list.Redo();
-            list.Redo();
-            list.Redo();
-            list.Redo();
-            Assert.True(list.Count == 3);
-
-            Assert.True(list.Contains(-5));
+                Assert.True(list.Contains(-5));
+            }
         }
 
         /// <summary>
@@ -771,40 +763,39 @@ namespace IX.UnitTests.IX.Observable
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
-            var slaveCollection = new ObservableList<int>
+            using (var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
-#pragma warning restore IDE0009 // Member access should be qualified.
-            };
+            })
+            {
+                list.SetSlaveList(slaveCollection);
 
-            list.SetSlaveList(slaveCollection);
+                list.HistoryLevels = 3;
 
-            list.HistoryLevels = 3;
+                list.Add(15);
+                list.Add(89);
+                list.Add(3);
+                list.Add(2);
+                list.Add(57);
 
-            list.Add(15);
-            list.Add(89);
-            list.Add(3);
-            list.Add(2);
-            list.Add(57);
+                // ACT
+                list.Undo();
+                list.Undo();
+                list.Undo();
+                list.Undo();
+                list.Undo();
+                list.Undo();
 
-            // ACT
-            list.Undo();
-            list.Undo();
-            list.Undo();
-            list.Undo();
-            list.Undo();
-            list.Undo();
+                // ASSERT
+                Assert.True(list.Contains(89));
+                Assert.False(list.Contains(57));
+                Assert.False(list.Contains(2));
+                Assert.False(list.Contains(3));
 
-            // ASSERT
-            Assert.True(list.Contains(89));
-            Assert.False(list.Contains(57));
-            Assert.False(list.Contains(2));
-            Assert.False(list.Contains(3));
-
-            Assert.True(list.Contains(-5));
+                Assert.True(list.Contains(-5));
+            }
         }
 
         /// <summary>
@@ -819,42 +810,41 @@ namespace IX.UnitTests.IX.Observable
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
             global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
-            var slaveCollection = new ObservableList<int>
+            using (var slaveCollection = new ObservableList<int>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 -1,
                 -5,
                 -12,
-#pragma warning restore IDE0009 // Member access should be qualified.
-            };
+            })
+            {
+                list.SetSlaveList(slaveCollection);
 
-            list.SetSlaveList(slaveCollection);
+                list.Add(15);
+                list.Add(89);
+                list.Add(3);
+                list.Add(2);
+                list.Add(57);
 
-            list.Add(15);
-            list.Add(89);
-            list.Add(3);
-            list.Add(2);
-            list.Add(57);
+                // ACT
+                list.Undo();
+                list.Undo();
+                list.Undo();
+                list.Redo();
 
-            // ACT
-            list.Undo();
-            list.Undo();
-            list.Undo();
-            list.Redo();
+                list.Add(74);
 
-            list.Add(74);
+                list.Redo();
+                list.Redo();
+                list.Redo();
 
-            list.Redo();
-            list.Redo();
-            list.Redo();
+                // ASSERT
+                Assert.True(list.Contains(3));
+                Assert.False(list.Contains(57));
+                Assert.False(list.Contains(2));
+                Assert.True(list.Contains(74));
 
-            // ASSERT
-            Assert.True(list.Contains(3));
-            Assert.False(list.Contains(57));
-            Assert.False(list.Contains(2));
-            Assert.True(list.Contains(74));
-
-            Assert.True(list.Contains(-5));
+                Assert.True(list.Contains(-5));
+            }
         }
     }
 }

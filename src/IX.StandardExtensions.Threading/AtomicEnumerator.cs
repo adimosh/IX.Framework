@@ -33,7 +33,7 @@ namespace IX.StandardExtensions.Threading
         /// <paramref name="existingEnumerator"/>
         /// or
         /// <paramref name="readLock"/>
-        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
         public AtomicEnumerator(TEnumerator existingEnumerator, Func<ReadOnlySynchronizationLocker> readLock)
         {
@@ -88,7 +88,7 @@ namespace IX.StandardExtensions.Threading
         /// <summary>
         /// Advances the enumerator to the next element of the collection.
         /// </summary>
-        /// <returns><c>true</c> if the enumerator was successfully advanced to the next element; <c>false</c> if the enumerator has passed the end of the collection.</returns>
+        /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the collection.</returns>
         public bool MoveNext()
         {
             if (this.disposedValue)

@@ -38,12 +38,12 @@ namespace IX.System.IO
         /// Changes the extension of a path string.
         /// </summary>
         /// <param name="path">The path information to modify. The path cannot contain any of the characters defined in <see cref="GetInvalidPathChars"/>.</param>
-        /// <param name="extension">The new extension (with or without a leading period). Specify <c>null</c> (<c>Nothing</c> in Visual Basic) to remove an existing extension from path.</param>
+        /// <param name="extension">The new extension (with or without a leading period). Specify <see langword="null"/> (<see langword="Nothing"/> in Visual Basic) to remove an existing extension from path.</param>
         /// <returns>The modified path information.</returns>
         /// <exception cref="T:System.ArgumentException"><paramref name="path"/> contains one or more of the invalid characters defined in <see cref="GetInvalidPathChars"/>.</exception>
         /// <remarks>
-        /// <para>On Windows-based desktop platforms, if path is <c>null</c> or an empty string (""), the path information is returned unmodified.</para>
-        /// <para> If extension is <c>null</c>, the returned string contains the specified path with its extension removed. If path has no extension, and extension is not <c>null</c>, the returned path string contains extension appended to the end of path.</para>
+        /// <para>On Windows-based desktop platforms, if path is <see langword="null"/> or an empty string (""), the path information is returned unmodified.</para>
+        /// <para> If extension is <see langword="null"/>, the returned string contains the specified path with its extension removed. If path has no extension, and extension is not <see langword="null"/>, the returned path string contains extension appended to the end of path.</para>
         /// </remarks>
         public string ChangeExtension(string path, string extension) => FSPath.ChangeExtension(path, extension);
 
@@ -53,14 +53,14 @@ namespace IX.System.IO
         /// <param name="paths">An array of parts of the path.</param>
         /// <returns>The combined paths.</returns>
         /// <exception cref="ArgumentException">One of the strings in the array contains one or more of the invalid characters defined in <see cref="GetInvalidPathChars"/>.</exception>
-        /// <exception cref="ArgumentNullException">One of the strings in the array is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">One of the strings in the array is <see langword="null"/>.</exception>
         public string Combine(params string[] paths) => FSPath.Combine(paths);
 
         /// <summary>
         /// Returns the directory information for the specified path string.
         /// </summary>
         /// <param name="path">The path of a file or directory.</param>
-        /// <returns>Directory information for path, or <c>null</c> if path denotes a root directory or is <c>null</c>. Returns <see cref="string.Empty"/> if path does not contain directory information.</returns>
+        /// <returns>Directory information for path, or <see langword="null"/> if path denotes a root directory or is <see langword="null"/>. Returns <see cref="string.Empty"/> if path does not contain directory information.</returns>
         /// <exception cref="ArgumentException">The <paramref name="path"/> contains invalid characters, is empty, or contains only white spaces.</exception>
         /// <exception cref="global::System.IO.PathTooLongException">In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <see cref="global::System.IO.IOException" />, instead.The path parameter is longer than the system-defined maximum length.</exception>
         public string GetDirectoryName(string path) => FSPath.GetDirectoryName(path);
@@ -69,14 +69,14 @@ namespace IX.System.IO
         /// Returns the extension of the specified path string.
         /// </summary>
         /// <param name="path">The path string from which to get the extension.</param>
-        /// <returns>The extension of the specified path (including the period &quot;.&quot;), or <c>null</c>, or <see cref="string.Empty"/>. If path is <c>null</c>, the method returns <c>null</c>. If path does not have extension information, the method returns <see cref="string.Empty"/>.</returns>
+        /// <returns>The extension of the specified path (including the period &quot;.&quot;), or <see langword="null"/>, or <see cref="string.Empty"/>. If path is <see langword="null"/>, the method returns <see langword="null"/>. If path does not have extension information, the method returns <see cref="string.Empty"/>.</returns>
         public string GetExtension(string path) => FSPath.GetExtension(path);
 
         /// <summary>
         /// Returns the file name and extension of the specified path string.
         /// </summary>
         /// <param name="path">The path string from which to obtain the file name and extension.</param>
-        /// <returns>The characters after the last directory character in path. If the last character of path is a directory or volume separator character, this method returns <see cref="string.Empty"/>. If path is <c>null</c>, this method returns <c>null</c>.</returns>
+        /// <returns>The characters after the last directory character in path. If the last character of path is a directory or volume separator character, this method returns <see cref="string.Empty"/>. If path is <see langword="null"/>, this method returns <see langword="null"/>.</returns>
         /// <exception cref="ArgumentException"><paramref name="path"/> contains one or more of the invalid characters defined in <see cref="GetInvalidPathChars" />.</exception>
         public string GetFileName(string path) => FSPath.GetFileName(path);
 
@@ -95,7 +95,7 @@ namespace IX.System.IO
         /// <returns>The fully qualified location of path, such as &quot;C:\MyFile.txt&quot;.</returns>
         /// <exception cref="ArgumentException"><paramref name="path"/> is a zero-length string, contains only white space, or contains one or more of the invalid characters defined in <see cref="GetInvalidPathChars" />. -or- The system could not retrieve the absolute path.</exception>
         /// <exception cref="global::System.Security.SecurityException">The caller does not have the required permissions.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/>.</exception>
         /// <exception cref="NotSupportedException"><paramref name="path"/> contains a colon (&quot;:&quot;) that is not part of a volume identifier (for example, &quot;c:\&quot;).</exception>
         /// <exception cref="global::System.IO.PathTooLongException">The specified path, file name, or both exceed the system-defined maximum length. For example, on Windows-based platforms, paths must be less than 248 characters, and file names must be less than 260 characters.</exception>
         public string GetFullPath(string path) => FSPath.GetFullPath(path);
@@ -116,7 +116,7 @@ namespace IX.System.IO
         /// Gets the root directory information of the specified path.
         /// </summary>
         /// <param name="path">The path from which to obtain root directory information.</param>
-        /// <returns>The root directory of path, such as &quot;C:\&quot;, or <c>null</c> if <paramref name="path"/> is <c>null</c>, or an empty string if <paramref name="path"/> does not contain root directory information.</returns>
+        /// <returns>The root directory of path, such as &quot;C:\&quot;, or <see langword="null"/> if <paramref name="path"/> is <see langword="null"/>, or an empty string if <paramref name="path"/> does not contain root directory information.</returns>
         /// <exception cref="ArgumentException"><paramref name="path"/> contains one or more of the invalid characters defined in <see cref="GetInvalidPathChars" />. -or- <see cref="string.Empty"/> was passed to <paramref name="path"/>.</exception>
         public string GetPathRoot(string path) => FSPath.GetPathRoot(path);
 
@@ -144,7 +144,7 @@ namespace IX.System.IO
         /// Determines whether a path includes a file name extension.
         /// </summary>
         /// <param name="path">The path to search for an extension.</param>
-        /// <returns><c>true</c> if the characters that follow the last directory separator (\\ or /) or volume separator (:) in the path include a period (.) followed by one or more characters; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the characters that follow the last directory separator (\\ or /) or volume separator (:) in the path include a period (.) followed by one or more characters; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="ArgumentException"><paramref name="path"/> contains one or more of the invalid characters defined in <see cref="GetInvalidPathChars" />.</exception>
         public bool HasExtension(string path) => FSPath.HasExtension(path);
 
@@ -152,7 +152,7 @@ namespace IX.System.IO
         /// Gets a value indicating whether the specified path string contains a root.
         /// </summary>
         /// <param name="path">The path to test.</param>
-        /// <returns><c>true</c> if path contains a root; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if path contains a root; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="ArgumentException"><paramref name="path"/> contains one or more of the invalid characters defined in <see cref="GetInvalidPathChars" />.</exception>
         public bool IsPathRooted(string path) => FSPath.IsPathRooted(path);
     }

@@ -191,7 +191,7 @@ else if (typ == typeof(char))
 {
 #>
 
-#if NETSTANDARD1_2
+#if STANDARD
                     string.IsNullOrEmpty(value) ? default : value.ToCharArray(0, 1)[0];
 #else
                     <#= fullTypeName #>.Parse(value);
@@ -216,7 +216,7 @@ else
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
 <#
 if (typ == typeof(byte[]))
 {
@@ -322,7 +322,7 @@ else
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<<#= fullTypeName #>> other)
         {
             if (other == null)
@@ -348,7 +348,7 @@ else
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(INamedVariable<<#= fullTypeName #>> other)
         {
             if (other == null)

@@ -14,7 +14,13 @@ namespace IX.Observable.Adapters
     internal class MultiListMasterSlaveListAdapter<T> : ListAdapter<T>
     {
         private readonly List<IEnumerable<T>> slaves;
+#pragma warning disable IDISP002 // Dispose member. - Not disposable
+#pragma warning disable IDISP006 // Implement IDisposable.
+#pragma warning disable IDISP008 // Don't assign member with injected and created disposables.
         private IList<T> master;
+#pragma warning restore IDISP008 // Don't assign member with injected and created disposables.
+#pragma warning restore IDISP006 // Implement IDisposable.
+#pragma warning restore IDISP002 // Dispose member.
 
         internal MultiListMasterSlaveListAdapter()
         {
@@ -245,7 +251,9 @@ namespace IX.Observable.Adapters
 #pragma warning restore ERP022 // Catching everything considered harmful.
             }
 
+#pragma warning disable IDISP003 // Dispose previous before re-assigning. - We can't do that, really
             this.master = newMaster;
+#pragma warning restore IDISP003 // Dispose previous before re-assigning.
             masterList.CollectionChanged += this.List_CollectionChanged;
         }
 

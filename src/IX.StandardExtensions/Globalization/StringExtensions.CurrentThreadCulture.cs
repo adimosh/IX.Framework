@@ -17,7 +17,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string contains the specified value string; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string contains the specified value string; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool CurrentThreadCultureContains(this string source, string value) => source.CurrentCultureIndexOf(value) >= 0;
 
@@ -27,7 +27,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string contains the specified value string; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string contains the specified value string; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool CurrentThreadCultureContainsInsensitive(this string source, string value) => source.CurrentCultureIndexOfInsensitive(value) >= 0;
 
@@ -115,7 +115,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string is equal to the value; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string is equal to the value; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool CurrentThreadCultureEquals(this string source, string value) => source.CurrentCultureCompareTo(value) == 0;
 
@@ -125,7 +125,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string is equal to the value; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string is equal to the value; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool CurrentThreadCultureEqualsInsensitive(this string source, string value) => source.CurrentCultureCompareToInsensitive(value) == 0;
 
@@ -135,7 +135,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string is equal to the value; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string is equal to the value; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool CurrentThreadCultureStartsWith(this string source, string value) => CultureInfo.CurrentCulture?.CompareInfo.IsPrefix(source, value, CompareOptions.None) ?? false;
 
@@ -145,7 +145,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string is equal to the value; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string is equal to the value; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool CurrentThreadCultureStartsWithInsensitive(this string source, string value) => CultureInfo.CurrentCulture?.CompareInfo.IsPrefix(source, value, CompareOptions.IgnoreCase) ?? false;
 
@@ -155,7 +155,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string is equal to the value; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string is equal to the value; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool CurrentThreadCultureEndsWith(this string source, string value) => CultureInfo.CurrentCulture?.CompareInfo.IsSuffix(source, value, CompareOptions.None) ?? false;
 
@@ -165,7 +165,7 @@ namespace IX.StandardExtensions.Globalization
         /// <param name="source">The source to search in.</param>
         /// <param name="value">The string value to do the evaluation.</param>
         /// <returns>
-        ///   <c>true</c> if the source string is equal to the value; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the source string is equal to the value; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool CurrentThreadCultureEndsWithInsensitive(this string source, string value) => CultureInfo.CurrentCulture?.CompareInfo.IsSuffix(source, value, CompareOptions.IgnoreCase) ?? false;
     }

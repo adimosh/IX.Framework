@@ -46,7 +46,7 @@ namespace IX.Observable
         /// <summary>
         /// Initializes a new instance of the <see cref="ConcurrentObservableMasterSlaveCollection{T}"/> class.
         /// </summary>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ConcurrentObservableMasterSlaveCollection(bool suppressUndoable)
             : base(suppressUndoable)
         {
@@ -57,7 +57,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ConcurrentObservableMasterSlaveCollection{T}"/> class.
         /// </summary>
         /// <param name="context">The synchronization context to use, if any.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ConcurrentObservableMasterSlaveCollection(GlobalThreading.SynchronizationContext context, bool suppressUndoable)
             : base(context, suppressUndoable)
         {

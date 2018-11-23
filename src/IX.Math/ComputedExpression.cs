@@ -38,21 +38,21 @@ namespace IX.Math
         }
 
         /// <summary>
-        /// Gets a value indicating whether or not the expression was actually recognized. <c>true</c> can possibly return an actual expression or a static value.
+        /// Gets a value indicating whether or not the expression was actually recognized. <see langword="true"/> can possibly return an actual expression or a static value.
         /// </summary>
-        /// <value><c>true</c> if the expression is recognized correctly, <c>false</c> otherwise.</value>
+        /// <value><see langword="true"/> if the expression is recognized correctly, <see langword="false"/> otherwise.</value>
         public bool RecognizedCorrectly { get; }
 
         /// <summary>
         /// Gets a value indicating whether or not the expression is constant.
         /// </summary>
-        /// <value><c>true</c> if the expression is constant, <c>false</c> otherwise.</value>
+        /// <value><see langword="true"/> if the expression is constant, <see langword="false"/> otherwise.</value>
         public bool IsConstant { get; }
 
         /// <summary>
         /// Gets a value indicating whether or not the expression has undefined parameters.
         /// </summary>
-        /// <value><c>true</c> if the expression has undefined parameters, <c>false</c> otherwise.</value>
+        /// <value><see langword="true"/> if the expression has undefined parameters, <see langword="false"/> otherwise.</value>
         public bool HasUndefinedParameters => this.parametersRegistry.Dump().Any(p => p.ReturnType == SupportedValueType.Unknown);
 
         /// <summary>

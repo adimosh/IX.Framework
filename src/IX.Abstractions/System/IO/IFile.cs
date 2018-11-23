@@ -21,7 +21,7 @@ namespace IX.System.IO
         /// <param name="contents">The contents.</param>
         /// <param name="encoding">The encoding to use.</param>
         /// <remarks>
-        /// <para>This operation always requires an encoding to be used. If <paramref name="encoding"/> is set to <c>null</c>, an implementation-specific
+        /// <para>This operation always requires an encoding to be used. If <paramref name="encoding"/> is set to <see langword="null"/>, an implementation-specific
         /// encoding will be used.</para>
         /// </remarks>
         void AppendAllLines(string path, IEnumerable<string> contents, Encoding encoding = null);
@@ -33,7 +33,7 @@ namespace IX.System.IO
         /// <param name="contents">The contents.</param>
         /// <param name="encoding">The encoding to use.</param>
         /// <remarks>
-        /// <para>This operation always requires an encoding to be used. If <paramref name="encoding"/> is set to <c>null</c>, an implementation-specific
+        /// <para>This operation always requires an encoding to be used. If <paramref name="encoding"/> is set to <see langword="null"/>, an implementation-specific
         /// encoding will be used.</para>
         /// </remarks>
         void AppendAllText(string path, string contents, Encoding encoding = null);
@@ -50,7 +50,7 @@ namespace IX.System.IO
         /// </summary>
         /// <param name="sourceFileName">The source file.</param>
         /// <param name="destinationFileName">The destination file.</param>
-        /// <param name="overwrite">If <c>true</c>, overwrites the destination file, if one exists, otherwise throws an exception. If a destination file doesn't
+        /// <param name="overwrite">If <see langword="true"/>, overwrites the destination file, if one exists, otherwise throws an exception. If a destination file doesn't
         /// exist, this parameter is ignored.</param>
         void Copy(string sourceFileName, string destinationFileName, bool overwrite = false);
 
@@ -79,7 +79,7 @@ namespace IX.System.IO
         /// Checks whether a file exists and is accessible.
         /// </summary>
         /// <param name="path">The path of the file.</param>
-        /// <returns>Returns <c>true</c> if the specified file exists and is accessible, <c>false</c> otherwise.</returns>
+        /// <returns>Returns <see langword="true"/> if the specified file exists and is accessible, <see langword="false"/> otherwise.</returns>
         bool Exists(string path);
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace IX.System.IO
         /// <param name="encoding">The encoding to use.</param>
         /// <returns>An array of <see cref="string"/>.</returns>
         /// <remarks>
-        /// <para>This operation always requires an encoding to be used. If <paramref name="encoding"/> is set to <c>null</c>, an implementation-specific
+        /// <para>This operation always requires an encoding to be used. If <paramref name="encoding"/> is set to <see langword="null"/>, an implementation-specific
         /// encoding will be used.</para>
         /// </remarks>
         string[] ReadAllLines(string path, Encoding encoding = null);
@@ -157,7 +157,7 @@ namespace IX.System.IO
         /// <param name="encoding">The encoding to use.</param>
         /// <returns>The entire file contents as a string.</returns>
         /// <remarks>
-        /// <para>This operation always requires an encoding to be used. If <paramref name="encoding"/> is set to <c>null</c>, an implementation-specific
+        /// <para>This operation always requires an encoding to be used. If <paramref name="encoding"/> is set to <see langword="null"/>, an implementation-specific
         /// encoding will be used.</para>
         /// </remarks>
         string ReadAllText(string path, Encoding encoding = null);
@@ -169,7 +169,7 @@ namespace IX.System.IO
         /// <param name="encoding">The encoding to use.</param>
         /// <returns>An enumerable of strings, each representing one line of text.</returns>
         /// <remarks>
-        /// <para>This operation always requires an encoding to be used. If <paramref name="encoding"/> is set to <c>null</c>, an implementation-specific
+        /// <para>This operation always requires an encoding to be used. If <paramref name="encoding"/> is set to <see langword="null"/>, an implementation-specific
         /// encoding will be used.</para>
         /// </remarks>
         IEnumerable<string> ReadLines(string path, Encoding encoding = null);
@@ -209,7 +209,7 @@ namespace IX.System.IO
         /// <param name="contents">The contents to write.</param>
         /// <param name="encoding">The encoding to use.</param>
         /// <remarks>
-        /// <para>This operation always requires an encoding to be used. If <paramref name="encoding"/> is set to <c>null</c>, an implementation-specific
+        /// <para>This operation always requires an encoding to be used. If <paramref name="encoding"/> is set to <see langword="null"/>, an implementation-specific
         /// encoding will be used.</para>
         /// </remarks>
         void WriteAllLines(string path, IEnumerable<string> contents, Encoding encoding = null);
@@ -221,7 +221,7 @@ namespace IX.System.IO
         /// <param name="contents">The contents to write.</param>
         /// <param name="encoding">The encoding to use.</param>
         /// <remarks>
-        /// <para>This operation always requires an encoding to be used. If <paramref name="encoding"/> is set to <c>null</c>, an implementation-specific
+        /// <para>This operation always requires an encoding to be used. If <paramref name="encoding"/> is set to <see langword="null"/>, an implementation-specific
         /// encoding will be used.</para>
         /// </remarks>
         void WriteAllText(string path, string contents, Encoding encoding = null);

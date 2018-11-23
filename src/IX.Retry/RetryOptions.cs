@@ -39,7 +39,7 @@ namespace IX.Retry
         /// <summary>
         /// Gets a value indicating whether whether or not to throw an exception at the end of the retrying process, if it is unsuccessful.
         /// </summary>
-        /// <returns><c>true</c> if an exception should be thrown, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if an exception should be thrown, <see langword="false"/> otherwise.</returns>
         public bool ThrowExceptionOnLastRetry { get; internal set; }
 
         /// <summary>

@@ -366,9 +366,7 @@ namespace IX.UnitTests.IX.Observable
             // ARRANGE
             using (var capturingList = new ObservableList<CapturedItem>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 new CapturedItem(),
-#pragma warning restore IDE0009 // Member access should be qualified.
             })
             {
                 Assert.Null(capturingList[0].ParentUndoContext);

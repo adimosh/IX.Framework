@@ -42,7 +42,7 @@ namespace IX.Math.Registration
         /// <summary>
         /// Gets a value indicating whether this parameter is float.
         /// </summary>
-        /// <value><c>null</c> if the setting is not defined, <c>true</c> if this parameter is float; otherwise, <c>false</c>.</value>
+        /// <value><see langword="null"/> if the setting is not defined, <see langword="true"/> if this parameter is float; otherwise, <see langword="false"/>.</value>
         /// <remarks>
         /// <para>This setting only has an effect if the parameter is already numeric.</para>
         /// <para>Otherwise, it will determine the parameter to be a float or an integer only if switched to numeric.</para>
@@ -59,7 +59,7 @@ namespace IX.Math.Registration
         /// <summary>
         /// Gets a value indicating whether the parameter is a function.
         /// </summary>
-        /// <value><c>true</c> if the parameter is a function; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if the parameter is a function; otherwise, <see langword="false"/>.</value>
         public bool FuncParameter { get; private set; }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace IX.Math.Registration
         /// Compiles this instance.
         /// </summary>
         /// <returns>A LINQ expression representing the parameter.</returns>
-        /// <exception cref="InvalidOperationException">The parameter was already compiled, but it is <c>null</c>.</exception>
+        /// <exception cref="InvalidOperationException">The parameter was already compiled, but it is <see langword="null"/>.</exception>
         /// <exception cref="IX.Math.ExpressionNotValidLogicallyException">The parameter is still undefined.</exception>
         public Expression Compile()
         {
@@ -242,7 +242,7 @@ namespace IX.Math.Registration
                 this.expression :
                 Expression.Call(this.expression, typeof(object).GetMethodWithExactParameters(
                     nameof(object.ToString),
-#if NETSTANDARD2_0
+#if STANDARD2 || NET461
                     Array.Empty<Type>()));
 #else
                     new Type[0]));

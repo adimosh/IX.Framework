@@ -129,7 +129,7 @@ namespace IX.Math.Generators
         /// <param name="reverseConstantsTable">The reverse constants table.</param>
         /// <param name="originalExpression">The original expression.</param>
         /// <param name="content">The content.</param>
-        /// <returns>The name of the new constant, or <c>null</c> (<c>Nothing</c> in Visual Basic) if a suitable type is not found.</returns>
+        /// <returns>The name of the new constant, or <see langword="null"/> (<see langword="Nothing"/> in Visual Basic) if a suitable type is not found.</returns>
         public static string CheckAndAdd(
             IDictionary<string, ConstantNodeBase> constantsTable,
             IDictionary<string, string> reverseConstantsTable,

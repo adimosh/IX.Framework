@@ -19,8 +19,8 @@ namespace IX.StandardExtensions
         /// <typeparam name="T">The type of the enumerable item.</typeparam>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals<T>(this T[] left, T[] right)
         {
             Func<T, T, bool> comparer;
@@ -70,8 +70,8 @@ namespace IX.StandardExtensions
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
         /// <param name="comparer">The comparer to use when equating items.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals<T>(this T[] left, T[] right, IEqualityComparer<T> comparer)
         {
 #pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable, as we need a closure here anyway

@@ -46,7 +46,7 @@ namespace IX.Observable.Adapters
         /// <summary>
         /// Gets a value indicating whether this instance is read only.
         /// </summary>
-        /// <value><c>true</c> if this instance is read only; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is read only; otherwise, <see langword="false"/>.</value>
         public override bool IsReadOnly => false;
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace IX.Observable.Adapters
         /// Determines whether the container list contains the specified item.
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <returns><c>true</c> if the container list contains the specified item; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the container list contains the specified item; otherwise, <see langword="false"/>.</returns>
         public override bool Contains(T item) => this.stack.Contains(item);
 
         /// <summary>

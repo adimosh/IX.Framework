@@ -15,13 +15,13 @@ namespace IX.System.Threading
         /// <summary>
         /// Sets the state of this event instance to signaled. Any waiting thread will unblock.
         /// </summary>
-        /// <returns><c>true</c> if the signal has been set, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the signal has been set, <see langword="false"/> otherwise.</returns>
         bool Set();
 
         /// <summary>
         /// Sets the state of this event instance to non-signaled. Any thread entering a wait from this point will block.
         /// </summary>
-        /// <returns><c>true</c> if the signal has been reset, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the signal has been reset, <see langword="false"/> otherwise.</returns>
         bool Reset();
 
         /// <summary>
@@ -51,21 +51,21 @@ namespace IX.System.Threading
         /// Enters a wait period and, should there be no signal set, blocks the thread calling.
         /// </summary>
         /// <param name="millisecondsTimeout">The timeout period, in milliseconds.</param>
-        /// <param name="exitSynchronizationDomain">If set to <c>true</c>, the synchronization domain is exited before the call.</param>
+        /// <param name="exitSynchronizationDomain">If set to <see langword="true"/>, the synchronization domain is exited before the call.</param>
         void WaitOne(int millisecondsTimeout, bool exitSynchronizationDomain);
 
         /// <summary>
         /// Enters a wait period and, should there be no signal set, blocks the thread calling.
         /// </summary>
         /// <param name="millisecondsTimeout">The timeout period, in milliseconds.</param>
-        /// <param name="exitSynchronizationDomain">If set to <c>true</c>, the synchronization domain is exited before the call.</param>
+        /// <param name="exitSynchronizationDomain">If set to <see langword="true"/>, the synchronization domain is exited before the call.</param>
         void WaitOne(double millisecondsTimeout, bool exitSynchronizationDomain);
 
         /// <summary>
         /// Enters a wait period and, should there be no signal set, blocks the thread calling.
         /// </summary>
         /// <param name="timeout">The timeout period.</param>
-        /// <param name="exitSynchronizationDomain">If set to <c>true</c>, the synchronization domain is exited before the call.</param>
+        /// <param name="exitSynchronizationDomain">If set to <see langword="true"/>, the synchronization domain is exited before the call.</param>
         void WaitOne(TimeSpan timeout, bool exitSynchronizationDomain);
     }
 }

@@ -57,7 +57,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// Invokes an action if the current instance is not disposed.
         /// </summary>
         /// <param name="action">The action.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         protected void InvokeIfNotDisposed(Action action)
         {
             this.ThrowIfCurrentObjectDisposed();
@@ -71,7 +71,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// <typeparam name="TReturn">The return type.</typeparam>
         /// <param name="action">The action.</param>
         /// <returns>The object returned by the action.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         protected TReturn InvokeIfNotDisposed<TReturn>(Func<TReturn> action)
         {
             this.ThrowIfCurrentObjectDisposed();

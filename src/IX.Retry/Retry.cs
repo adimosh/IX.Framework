@@ -225,8 +225,8 @@ namespace IX.Retry
         /// <param name="conditionMethod">The condition method to evaluate.</param>
         /// <returns>The configured retry options.</returns>
         /// <remarks>
-        /// <para>Retrying happens while the <paramref name="conditionMethod" /> method, when executed, returns <c>true</c>.</para>
-        /// <para>On first instance that the method return is <c>false</c>, retrying stops.</para>
+        /// <para>Retrying happens while the <paramref name="conditionMethod" /> method, when executed, returns <see langword="true"/>.</para>
+        /// <para>On first instance that the method return is <see langword="false"/>, retrying stops.</para>
         /// </remarks>
         public static RetryOptions Until(RetryConditionDelegate conditionMethod)
         {

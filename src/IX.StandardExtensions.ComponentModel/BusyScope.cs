@@ -28,7 +28,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// Initializes a new instance of the <see cref="BusyScope"/> class.
         /// </summary>
         /// <param name="description">The scope description.</param>
-        /// <exception cref="global::System.ArgumentNullException"><paramref name="description"/> is <c>null</c>.</exception>
+        /// <exception cref="global::System.ArgumentNullException"><paramref name="description"/> is <see langword="null"/>.</exception>
         public BusyScope(string description)
         {
             this.initialDescription = description ?? throw new ArgumentNullException(nameof(description));
@@ -55,7 +55,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="initialBusyCount">The initial busy count.</param>
         /// <param name="description">The scope description.</param>
         /// <exception cref="global::System.ArgumentOutOfRangeException"><paramref name="initialBusyCount"/> is an integer value less than 0.</exception>
-        /// <exception cref="global::System.ArgumentNullException"><paramref name="description"/> is <c>null</c>.</exception>
+        /// <exception cref="global::System.ArgumentNullException"><paramref name="description"/> is <see langword="null"/>.</exception>
         public BusyScope(int initialBusyCount, string description)
         {
             if (initialBusyCount < 0)

@@ -339,7 +339,6 @@ namespace IX.UnitTests.IX.Math
         [MemberData(nameof(ProvideDataForTheory), DisableDiscoveryEnumeration = true)]
         public void ComputedExpressionWithParameters(string expression, object[] parameters, object expectedResult)
         {
-#pragma warning disable ERP023 // Only ex.Message property was observed in exception block! - Not consequential
             using (var service = new ExpressionParsingService())
             {
                 ComputedExpression del;
@@ -376,7 +375,6 @@ namespace IX.UnitTests.IX.Math
                     del.Dispose();
                 }
             }
-#pragma warning restore ERP023 // Only ex.Message property was observed in exception block!
         }
     }
 }

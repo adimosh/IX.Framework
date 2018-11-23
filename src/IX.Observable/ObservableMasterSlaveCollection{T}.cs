@@ -49,7 +49,7 @@ namespace IX.Observable
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableMasterSlaveCollection{T}"/> class.
         /// </summary>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableMasterSlaveCollection(bool suppressUndoable)
             : base(new MultiListMasterSlaveListAdapter<T>(), suppressUndoable)
         {
@@ -59,7 +59,7 @@ namespace IX.Observable
         /// Initializes a new instance of the <see cref="ObservableMasterSlaveCollection{T}"/> class.
         /// </summary>
         /// <param name="context">The synchronization context to use, if any.</param>
-        /// <param name="suppressUndoable">If set to <c>true</c>, suppresses undoable capabilities of this collection.</param>
+        /// <param name="suppressUndoable">If set to <see langword="true"/>, suppresses undoable capabilities of this collection.</param>
         public ObservableMasterSlaveCollection(SynchronizationContext context, bool suppressUndoable)
             : base(new MultiListMasterSlaveListAdapter<T>(), context, suppressUndoable)
         {
@@ -159,7 +159,7 @@ namespace IX.Observable
         /// Removes the first occurrence of a specific object from the <see cref="T:IX.Observable.ObservableCollectionBase`1" />.
         /// </summary>
         /// <param name="item">The object to remove from the <see cref="T:IX.Observable.ObservableCollectionBase`1" />.</param>
-        /// <returns><c>true</c> if <paramref name="item" /> was successfully removed from the <see cref="T:IX.Observable.ObservableCollectionBase`1" />; otherwise, <c>false</c>.
+        /// <returns><see langword="true"/> if <paramref name="item" /> was successfully removed from the <see cref="T:IX.Observable.ObservableCollectionBase`1" />; otherwise, <see langword="false"/>.
         /// This method also returns false if <paramref name="item" /> is not found in the original <see cref="T:IX.Observable.ObservableCollectionBase`1" />.</returns>
         /// <remarks>On concurrent collections, this method is write-synchronized.</remarks>
         public override bool Remove(T item)

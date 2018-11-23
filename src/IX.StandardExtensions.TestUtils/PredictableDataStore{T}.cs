@@ -47,7 +47,7 @@ namespace IX.StandardExtensions.TestUtils
         /// </summary>
         /// <param name="capacity">The capacity.</param>
         /// <param name="generator">The generator.</param>
-        /// <param name="parallelGenerate">if set to <c>true</c>, run generation of items in parallel.</param>
+        /// <param name="parallelGenerate">if set to <see langword="true"/>, run generation of items in parallel.</param>
         public PredictableDataStore(int capacity, Func<T> generator, bool parallelGenerate)
         {
             this.items = new T[capacity];
@@ -79,7 +79,7 @@ namespace IX.StandardExtensions.TestUtils
         /// <param name="capacity">The capacity.</param>
         /// <param name="generator">The generator.</param>
         /// <param name="state">The state.</param>
-        /// <param name="parallelGenerate">if set to <c>true</c>, run generation of items in parallel.</param>
+        /// <param name="parallelGenerate">if set to <see langword="true"/>, run generation of items in parallel.</param>
         public PredictableDataStore(int capacity, Func<object, T> generator, object state, bool parallelGenerate)
         {
             this.items = new T[capacity];

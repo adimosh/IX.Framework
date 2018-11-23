@@ -49,7 +49,7 @@ namespace IX.Math.Nodes
 
             MethodInfo mi = t.GetMethodWithExactParameters(
                 functionName,
-#if NETSTANDARD2_0
+#if STANDARD2
                 Array.Empty<Type>())
 #else
                 new Type[0])

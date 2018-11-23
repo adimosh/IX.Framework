@@ -2,10 +2,11 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
-using System.Collections.Concurrent;
+using System;
 using System.Reflection;
 using System.Threading;
 using IX.StandardExtensions.ComponentModel;
+using IX.StandardExtensions.Efficiency;
 
 namespace IX.Math
 {
@@ -62,7 +63,7 @@ namespace IX.Math
         /// </remarks>
         public ComputedExpression Interpret(string expression, CancellationToken cancellationToken = default)
         {
-            ComputedExpression expr = this.cachedComputedExpressions.GetOrAdd(expression, ex => this.eps.Interpret(ex, cancellationToken));
+            ComputedExpression expr = this.cachedComputedExpressions.GetOrAdd(expression, (ex, st) => st.Item1.eps.Interpret(ex, st.Item2), new Tuple<CachedExpressionParsingService, CancellationToken>(this, cancellationToken));
 
             if (!expr.RecognizedCorrectly || expr.IsConstant)
             {

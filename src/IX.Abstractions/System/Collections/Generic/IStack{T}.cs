@@ -25,7 +25,7 @@ namespace IX.System.Collections.Generic
         /// Checks whether or not a certain item is in the stack.
         /// </summary>
         /// <param name="item">The item to check for.</param>
-        /// <returns><c>true</c> if the item was found, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the item was found, <see langword="false"/> otherwise.</returns>
         bool Contains(T item);
 
         /// <summary>

@@ -67,7 +67,7 @@ namespace IX.Observable
         /// Gets a value indicating whether this instance is synchronized.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this instance is synchronized; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if this instance is synchronized; otherwise, <see langword="false"/>.
         /// </value>
         [Obsolete("Please do not explicitly use these properties. The newest .NET Framework guidelines do not recommend doing collection synchronization using them.")]
         public bool IsSynchronized => false;
@@ -129,7 +129,7 @@ namespace IX.Observable
         /// </summary>
         /// <param name="item">The object to locate in the <see cref="ObservableCollectionBase{T}" />.</param>
         /// <returns>
-        /// <c>true</c> if <paramref name="item" /> is found in the <see cref="ObservableCollectionBase{T}" />; otherwise, <c>false</c>.
+        /// <see langword="true"/> if <paramref name="item" /> is found in the <see cref="ObservableCollectionBase{T}" />; otherwise, <see langword="false"/>.
         /// </returns>
         /// <remarks>
         /// <para>On concurrent collections, this method is read-synchronized.</para>

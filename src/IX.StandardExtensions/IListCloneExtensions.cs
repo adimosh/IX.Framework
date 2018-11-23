@@ -20,7 +20,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<T> DeepClone<T>(this List<T> list)
             where T : IDeepCloneable<T>
         {
@@ -47,7 +47,7 @@ namespace IX.StandardExtensions
         /// <returns>
         /// A list .
         /// </returns>
-        /// <exception cref="ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<T> CopyWithShallowClones<T>(this List<T> list)
             where T : IShallowCloneable<T>
         {

@@ -75,7 +75,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<byte> other)
         {
             if (other == null)
@@ -198,7 +198,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -234,7 +234,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<sbyte> other)
         {
             if (other == null)
@@ -321,7 +321,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -357,7 +357,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<short> other)
         {
             if (other == null)
@@ -444,7 +444,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -480,7 +480,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<ushort> other)
         {
             if (other == null)
@@ -558,7 +558,7 @@ namespace IX.Sandbox.Memory
             set
             {
                 this.Value =
-#if NETSTANDARD1_2
+#if STANDARD
                     string.IsNullOrEmpty(value) ? default : value.ToCharArray(0, 1)[0];
 #else
                     char.Parse(value);
@@ -572,7 +572,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -608,7 +608,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<char> other)
         {
             if (other == null)
@@ -695,7 +695,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -731,7 +731,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<int> other)
         {
             if (other == null)
@@ -818,7 +818,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -854,7 +854,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<uint> other)
         {
             if (other == null)
@@ -941,7 +941,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -977,7 +977,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<long> other)
         {
             if (other == null)
@@ -1064,7 +1064,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -1100,7 +1100,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<ulong> other)
         {
             if (other == null)
@@ -1187,7 +1187,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -1223,7 +1223,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<float> other)
         {
             if (other == null)
@@ -1310,7 +1310,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -1346,7 +1346,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<double> other)
         {
             if (other == null)
@@ -1433,7 +1433,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -1469,7 +1469,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<decimal> other)
         {
             if (other == null)
@@ -1556,7 +1556,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -1592,7 +1592,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<DateTime> other)
         {
             if (other == null)
@@ -1679,7 +1679,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -1715,7 +1715,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<bool> other)
         {
             if (other == null)
@@ -1802,7 +1802,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -1838,7 +1838,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<TimeSpan> other)
         {
             if (other == null)
@@ -1925,7 +1925,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => this.Value == default;
 
         /// <summary>
@@ -1954,7 +1954,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<string> other)
         {
             if (other == null)
@@ -2093,7 +2093,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets a value indicating whether this instance is default.
         /// </summary>
-        /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this instance is default; otherwise, <see langword="false"/>.</value>
         public override bool IsDefault => (this.Value?.Length ?? 0) == 0;
 
         /// <summary>
@@ -2129,7 +2129,7 @@ namespace IX.Sandbox.Memory
         /// Equates this variable with another variable.
         /// </summary>
         /// <param name="other">The variable to compare to.</param>
-        /// <returns><c>true</c> if the variables are equal, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the variables are equal, <see langword="false"/> otherwise.</returns>
         public override bool Equals(IVariable<byte[]> other)
         {
             if (other == null)

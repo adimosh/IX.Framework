@@ -18,7 +18,7 @@ namespace IX.StandardExtensions.WPF.Extensions
         /// </summary>
         /// <typeparam name="T">The type of the visual parent to get.</typeparam>
         /// <param name="childObject">The child object.</param>
-        /// <returns>A visual object of the specified type, or <c>null</c> (<c>Nothing</c> in Visual Basic) if one does not exist.</returns>
+        /// <returns>A visual object of the specified type, or <see langword="null"/> (<see langword="Nothing"/> in Visual Basic) if one does not exist.</returns>
         public static T GetTopmostVisualParent<T>(this DependencyObject childObject)
             where T : DependencyObject
         {
@@ -82,7 +82,7 @@ namespace IX.StandardExtensions.WPF.Extensions
         /// </summary>
         /// <typeparam name="T">The type of the visual child to get.</typeparam>
         /// <param name="parent">The parent.</param>
-        /// <returns>The visual child, if found, or <c>null</c> otherwise.</returns>
+        /// <returns>The visual child, if found, or <see langword="null"/> otherwise.</returns>
         public static T GetVisualChild<T>(this DependencyObject parent)
             where T : DependencyObject
         {

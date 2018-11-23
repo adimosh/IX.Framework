@@ -32,7 +32,7 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
         /// <typeparam name="TKey">The type of the key.</typeparam>
         /// <param name="source">The source.</param>
         /// <returns>A deeply-cloned dictionary.</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, <#= fullTypeName #>> DeepClone<TKey>(this Dictionary<TKey, <#= fullTypeName #>> source)
         {
             if (source == null)

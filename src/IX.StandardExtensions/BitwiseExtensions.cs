@@ -19,7 +19,7 @@ namespace IX.StandardExtensions
         /// <param name="howManyBits">How many bits to shift by.</param>
         /// <returns>The shifted bit array.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="data"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// <paramref name="data"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="howManyBits"/> is less than zero.
@@ -53,7 +53,7 @@ namespace IX.StandardExtensions
         /// <param name="howManyBits">How many bits to shift by.</param>
         /// <returns>The shifted bit array.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="data"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// <paramref name="data"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="howManyBits"/> is less than zero.
@@ -87,7 +87,7 @@ namespace IX.StandardExtensions
         /// <param name="howManyBits">How many bits to shift by.</param>
         /// <returns>The shifted byte array.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="data"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// <paramref name="data"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="howManyBits"/> is less than zero.
@@ -111,7 +111,7 @@ namespace IX.StandardExtensions
         /// <param name="howManyBits">How many bits to shift by.</param>
         /// <returns>The shifted byte array.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="data"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// <paramref name="data"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="howManyBits"/> is less than zero.

@@ -57,7 +57,7 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
-        /// <exception cref="ArgumentNullException"><paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         protected void InvokeIfNotDisposed<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>)
         {
             this.ThrowIfCurrentObjectDisposed();
@@ -87,7 +87,7 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <returns>A return value, as defined by the invoked method.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="action" /> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         protected TReturn InvokeIfNotDisposed<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> action, <#= paramNameTypes #>)
         {
             this.ThrowIfCurrentObjectDisposed();

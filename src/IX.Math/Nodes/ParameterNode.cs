@@ -51,13 +51,13 @@ namespace IX.Math.Nodes
         /// <summary>
         /// Gets a value indicating whether or not this node is actually a constant.
         /// </summary>
-        /// <value><c>true</c> if the node is a constant, <c>false</c> otherwise.</value>
+        /// <value><see langword="true"/> if the node is a constant, <see langword="false"/> otherwise.</value>
         public override bool IsConstant => false;
 
         /// <summary>
         /// Gets a value indicating whether this instance is float.
         /// </summary>
-        /// <value><c>null</c> if not set, <c>true</c> if is float; otherwise, <c>false</c>.</value>
+        /// <value><see langword="null"/> if not set, <see langword="true"/> if is float; otherwise, <see langword="false"/>.</value>
         public bool? IsFloat => this.parametersRegistry.AdvertiseParameter(this.Name).IsFloat;
 
         /// <summary>

@@ -25,7 +25,7 @@ namespace IX.System.Collections.Generic
         /// Verifies whether or not an item is contained in the queue.
         /// </summary>
         /// <param name="item">The item to verify.</param>
-        /// <returns><c>true</c> if the item is queued, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the item is queued, <see langword="false"/> otherwise.</returns>
         bool Contains(T item);
 
         /// <summary>

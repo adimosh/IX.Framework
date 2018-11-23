@@ -33,7 +33,7 @@ namespace IX.System.IO
         /// Changes the extension of a path string.
         /// </summary>
         /// <param name="path">The path information to modify. The path cannot contain any of the characters defined in <see cref="GetInvalidPathChars"/>.</param>
-        /// <param name="extension">The new extension (with or without a leading period). Specify <c>null</c> (<c>Nothing</c> in Visual Basic) to remove an existing extension from path.</param>
+        /// <param name="extension">The new extension (with or without a leading period). Specify <see langword="null"/> (<see langword="Nothing"/> in Visual Basic) to remove an existing extension from path.</param>
         /// <returns>The modified path information.</returns>
         string ChangeExtension(string path, string extension);
 
@@ -48,21 +48,21 @@ namespace IX.System.IO
         /// Returns the directory information for the specified path string.
         /// </summary>
         /// <param name="path">The path of a file or directory.</param>
-        /// <returns>Directory information for path, or <c>null</c> if path denotes a root directory or is <c>null</c>. Returns <see cref="string.Empty"/> if path does not contain directory information.</returns>
+        /// <returns>Directory information for path, or <see langword="null"/> if path denotes a root directory or is <see langword="null"/>. Returns <see cref="string.Empty"/> if path does not contain directory information.</returns>
         string GetDirectoryName(string path);
 
         /// <summary>
         /// Returns the extension of the specified path string.
         /// </summary>
         /// <param name="path">The path string from which to get the extension.</param>
-        /// <returns>The extension of the specified path (including the period &quot;.&quot;), or <c>null</c>, or <see cref="string.Empty"/>. If path is <c>null</c>, the method returns <c>null</c>. If path does not have extension information, the method returns <see cref="string.Empty"/>.</returns>
+        /// <returns>The extension of the specified path (including the period &quot;.&quot;), or <see langword="null"/>, or <see cref="string.Empty"/>. If path is <see langword="null"/>, the method returns <see langword="null"/>. If path does not have extension information, the method returns <see cref="string.Empty"/>.</returns>
         string GetExtension(string path);
 
         /// <summary>
         /// Returns the file name and extension of the specified path string.
         /// </summary>
         /// <param name="path">The path string from which to obtain the file name and extension.</param>
-        /// <returns>The characters after the last directory character in path. If the last character of path is a directory or volume separator character, this method returns <see cref="string.Empty"/>. If path is <c>null</c>, this method returns <c>null</c>.</returns>
+        /// <returns>The characters after the last directory character in path. If the last character of path is a directory or volume separator character, this method returns <see cref="string.Empty"/>. If path is <see langword="null"/>, this method returns <see langword="null"/>.</returns>
         /// <exception cref="global::System.ArgumentException"><paramref name="path"/> contains one or more of the invalid characters defined in <see cref="GetInvalidPathChars" />.</exception>
         string GetFileName(string path);
 
@@ -96,7 +96,7 @@ namespace IX.System.IO
         /// Gets the root directory information of the specified path.
         /// </summary>
         /// <param name="path">The path from which to obtain root directory information.</param>
-        /// <returns>The root directory of path, such as &quot;C:\&quot;, or <c>null</c> if <paramref name="path"/> is <c>null</c>, or an empty string if <paramref name="path"/> does not contain root directory information.</returns>
+        /// <returns>The root directory of path, such as &quot;C:\&quot;, or <see langword="null"/> if <paramref name="path"/> is <see langword="null"/>, or an empty string if <paramref name="path"/> does not contain root directory information.</returns>
         string GetPathRoot(string path);
 
         /// <summary>
@@ -121,14 +121,14 @@ namespace IX.System.IO
         /// Determines whether a path includes a file name extension.
         /// </summary>
         /// <param name="path">The path to search for an extension.</param>
-        /// <returns><c>true</c> if the characters that follow the last directory separator (\\ or /) or volume separator (:) in the path include a period (.) followed by one or more characters; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the characters that follow the last directory separator (\\ or /) or volume separator (:) in the path include a period (.) followed by one or more characters; otherwise, <see langword="false"/>.</returns>
         bool HasExtension(string path);
 
         /// <summary>
         /// Gets a value indicating whether the specified path string contains a root.
         /// </summary>
         /// <param name="path">The path to test.</param>
-        /// <returns><c>true</c> if path contains a root; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if path contains a root; otherwise, <see langword="false"/>.</returns>
         bool IsPathRooted(string path);
     }
 }

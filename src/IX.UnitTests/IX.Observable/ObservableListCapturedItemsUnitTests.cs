@@ -84,13 +84,11 @@ namespace IX.UnitTests.IX.Observable
 
             using (var list = new ObservableList<CapturedItem>
             {
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
                 new CapturedItem { TestProperty = "1" },
                 new CapturedItem { TestProperty = "2" },
                 new CapturedItem { TestProperty = "3" },
                 new CapturedItem { TestProperty = "4" },
                 new CapturedItem { TestProperty = "5" },
-#pragma warning restore IDE0009 // Member access should be qualified.
             })
             {
                 list.AutomaticallyCaptureSubItems = true;
@@ -103,12 +101,10 @@ namespace IX.UnitTests.IX.Observable
                 list.AddRange(
                     new[]
                     {
-#pragma warning disable IDE0009 // Member access should be qualified. - #88
                     new CapturedItem { TestProperty = "6" },
                     new CapturedItem { TestProperty = "7" },
                     new CapturedItem { TestProperty = "8" },
                     new CapturedItem { TestProperty = "9" },
-#pragma warning restore IDE0009 // Member access should be qualified.
                     });
 
                 // ASSERT

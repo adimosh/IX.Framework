@@ -31,7 +31,7 @@ namespace IX.Math.ExpressionState
         /// <summary>
         /// Gets a value indicating whether this symbol represents a function call.
         /// </summary>
-        /// <value><c>true</c> if this symbol is a function call; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if this symbol is a function call; otherwise, <see langword="false"/>.</value>
         public bool IsFunctionCall { get; private set; }
 
         /// <summary>

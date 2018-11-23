@@ -13,7 +13,6 @@ namespace IX.UnitTests.IX.Math
     /// </summary>
     public class ComputedExpressionRandomUnitTests
     {
-#pragma warning disable ERP023 // Only ex.Message property was observed in exception block! - Not consequential
         /// <summary>
         /// Computes the unary random function call expression, for testing.
         /// </summary>
@@ -25,23 +24,13 @@ namespace IX.UnitTests.IX.Math
         {
             using (var service = new ExpressionParsingService())
             {
-                ComputedExpression del;
-                try
+                using (ComputedExpression del = service.Interpret("random(x)"))
                 {
-                    del = service.Interpret("random(x)");
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidOperationException($"The generation process should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
-                }
+                    if (del == null)
+                    {
+                        throw new InvalidOperationException("No computed expression was generated!");
+                    }
 
-                if (del == null)
-                {
-                    throw new InvalidOperationException("No computed expression was generated!");
-                }
-
-                try
-                {
                     object result;
                     try
                     {
@@ -58,10 +47,6 @@ namespace IX.UnitTests.IX.Math
 
                     Assert.True(((double)result) < 100);
                 }
-                finally
-                {
-                    del.Dispose();
-                }
             }
         }
 
@@ -76,23 +61,13 @@ namespace IX.UnitTests.IX.Math
         {
             using (var service = new ExpressionParsingService())
             {
-                ComputedExpression del;
-                try
+                using (ComputedExpression del = service.Interpret("random()"))
                 {
-                    del = service.Interpret("random()");
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidOperationException($"The generation process should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
-                }
+                    if (del == null)
+                    {
+                        throw new InvalidOperationException("No computed expression was generated!");
+                    }
 
-                if (del == null)
-                {
-                    throw new InvalidOperationException("No computed expression was generated!");
-                }
-
-                try
-                {
                     object result;
                     try
                     {
@@ -105,12 +80,7 @@ namespace IX.UnitTests.IX.Math
 
                     Assert.IsType<double>(result);
                 }
-                finally
-                {
-                    del.Dispose();
-                }
             }
         }
-#pragma warning restore ERP023 // Only ex.Message property was observed in exception block!
     }
 }

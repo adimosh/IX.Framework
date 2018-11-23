@@ -15,7 +15,7 @@ namespace IX.StandardExtensions.Threading
         /// <summary>
         /// Enters a read lock.
         /// </summary>
-        /// <returns><c>true</c> if the lock is entered, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the lock is entered, <see langword="false"/> otherwise.</returns>
         protected bool EnterReadLock()
         {
             this.locker.TryEnterReadLock(EnvironmentSettings.LockAcquisitionTimeout);
@@ -26,7 +26,7 @@ namespace IX.StandardExtensions.Threading
         /// Enters a read lock.
         /// </summary>
         /// <param name="millisecondsTimeout">The timeout, in milliseconds.</param>
-        /// <returns><c>true</c> if the lock is entered, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the lock is entered, <see langword="false"/> otherwise.</returns>
         protected bool EnterReadLock(int millisecondsTimeout)
         {
             this.locker.TryEnterReadLock(millisecondsTimeout);
@@ -37,7 +37,7 @@ namespace IX.StandardExtensions.Threading
         /// Enters a read lock.
         /// </summary>
         /// <param name="timeout">The timeout.</param>
-        /// <returns><c>true</c> if the lock is entered, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the lock is entered, <see langword="false"/> otherwise.</returns>
         protected bool EnterReadLock(TimeSpan timeout)
         {
             this.locker.TryEnterReadLock(timeout);
@@ -52,7 +52,7 @@ namespace IX.StandardExtensions.Threading
         /// <summary>
         /// Enters a read lock.
         /// </summary>
-        /// <returns><c>true</c> if the lock is entered, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the lock is entered, <see langword="false"/> otherwise.</returns>
         protected bool EnterWriteLock()
         {
             this.locker.TryEnterWriteLock(EnvironmentSettings.LockAcquisitionTimeout);
@@ -63,7 +63,7 @@ namespace IX.StandardExtensions.Threading
         /// Enters a read lock.
         /// </summary>
         /// <param name="millisecondsTimeout">The timeout, in milliseconds.</param>
-        /// <returns><c>true</c> if the lock is entered, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the lock is entered, <see langword="false"/> otherwise.</returns>
         protected bool EnterWriteLock(int millisecondsTimeout)
         {
             this.locker.TryEnterWriteLock(millisecondsTimeout);
@@ -74,7 +74,7 @@ namespace IX.StandardExtensions.Threading
         /// Enters a read lock.
         /// </summary>
         /// <param name="timeout">The timeout.</param>
-        /// <returns><c>true</c> if the lock is entered, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the lock is entered, <see langword="false"/> otherwise.</returns>
         protected bool EnterWriteLock(TimeSpan timeout)
         {
             this.locker.TryEnterWriteLock(timeout);
@@ -89,7 +89,7 @@ namespace IX.StandardExtensions.Threading
         /// <summary>
         /// Enters an upgradeable read lock.
         /// </summary>
-        /// <returns><c>true</c> if the lock is entered, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the lock is entered, <see langword="false"/> otherwise.</returns>
         protected bool EnterUpgradeableReadLock()
         {
             this.locker.TryEnterUpgradeableReadLock(EnvironmentSettings.LockAcquisitionTimeout);
@@ -100,7 +100,7 @@ namespace IX.StandardExtensions.Threading
         /// Enters an upgradeable read lock.
         /// </summary>
         /// <param name="millisecondsTimeout">The timeout, in milliseconds.</param>
-        /// <returns><c>true</c> if the lock is entered, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the lock is entered, <see langword="false"/> otherwise.</returns>
         protected bool EnterUpgradeableReadLock(int millisecondsTimeout)
         {
             this.locker.TryEnterUpgradeableReadLock(millisecondsTimeout);
@@ -111,7 +111,7 @@ namespace IX.StandardExtensions.Threading
         /// Enters an upgradeable read lock.
         /// </summary>
         /// <param name="timeout">The timeout.</param>
-        /// <returns><c>true</c> if the lock is entered, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the lock is entered, <see langword="false"/> otherwise.</returns>
         protected bool EnterUpgradeableReadLock(TimeSpan timeout)
         {
             this.locker.TryEnterUpgradeableReadLock(timeout);

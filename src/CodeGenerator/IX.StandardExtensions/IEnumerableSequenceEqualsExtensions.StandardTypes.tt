@@ -32,8 +32,8 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><c>true</c> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <c>false</c> otherwise.</returns>
+        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
+        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
         public static bool SequenceEquals(this IEnumerable<<#= fullTypeName #>> left, IEnumerable<<#= fullTypeName #>> right)
         {
             if ((left == null) ? (right != null) : (right == null))

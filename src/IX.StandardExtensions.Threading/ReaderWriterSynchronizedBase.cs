@@ -44,7 +44,7 @@ namespace IX.StandardExtensions.Threading
         /// </summary>
         /// <param name="locker">The locker.</param>
         /// <exception cref="ArgumentNullException"><paramref name="locker"/>
-        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
         protected ReaderWriterSynchronizedBase(IReaderWriterLock locker)
         {
@@ -69,7 +69,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="locker">The locker.</param>
         /// <param name="timeout">The lock timeout duration.</param>
         /// <exception cref="ArgumentNullException"><paramref name="locker"/>
-        /// is <c>null</c> (<c>Nothing</c> in Visual Basic).
+        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
         protected ReaderWriterSynchronizedBase(IReaderWriterLock locker, TimeSpan timeout)
         {

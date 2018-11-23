@@ -33,7 +33,7 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
         /// <returns>
         /// A cloned list.
         /// </returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <c>null</c> (<c>Nothing</c> in Visual Basic).</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static List<<#= fullTypeName #>> DeepClone(this List<<#= fullTypeName #>> list)
         {
             if (list == null)
