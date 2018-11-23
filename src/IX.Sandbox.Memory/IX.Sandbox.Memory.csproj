@@ -31,12 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\CodeGenerator\IX.Sandbox\MemoryScopeBase.StandardTypes.cs" Link="MemoryScopeBase.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.Sandbox\NamedVariable.StandardTypes.cs" Link="NamedVariable.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.Sandbox\Variable.StandardTypes.cs" Link="Variable.StandardTypes.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\IX.Abstractions\IX.Abstractions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions.ComponentModel\IX.StandardExtensions.ComponentModel.csproj" />

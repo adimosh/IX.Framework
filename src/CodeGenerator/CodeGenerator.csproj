@@ -58,11 +58,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IEnumerateEquateSequentiallyExtensions.StandardTypes.tt</DependentUpon>
     </None>
-    <None Include="IX.Sandbox\Variable.StandardTypes.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Variable.StandardTypes.tt</DependentUpon>
-    </None>
     <None Include="IX.StandardExtensions\ArraySequenceEqualsExtensions.StandardTypes.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -103,10 +98,6 @@
     <None Include="IX.StandardExtensions\ArrayExtensions.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ArrayExtensions.StandardTypes.cs</LastGenOutput>
-    </None>
-    <None Include="IX.Sandbox\Variable.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Variable.StandardTypes.cs</LastGenOutput>
     </None>
     <None Include="Fixture.tt" />
     <None Include="IX.StandardExtensions\ArraySequenceCompareExtensions.StandardTypes.tt">
@@ -226,32 +217,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.Sandbox\NamedVariable.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>NamedVariable.StandardTypes.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.Sandbox\NamedVariable.StandardTypes.cs">
-      <DependentUpon>NamedVariable.StandardTypes.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.Sandbox\MemoryScopeBase.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MemoryScopeBase.StandardTypes.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.Sandbox\MemoryScopeBase.StandardTypes.cs">
-      <DependentUpon>MemoryScopeBase.StandardTypes.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="IX.StandardExtensions\Threading\ReaderWriterSynchronizedBase.ActionsAndFuncs.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ReaderWriterSynchronizedBase.ActionsAndFuncs.cs</LastGenOutput>
@@ -367,6 +332,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LinqExtensions.ActionsAndFuncs.tt</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="IX.Sandbox\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
