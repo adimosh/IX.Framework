@@ -56,6 +56,13 @@ namespace IX.StandardExtensions.WPF.Commanding
         public event EventHandler CanExecuteChanged;
 
         /// <summary>
+        /// Gets a value indicating whether this relay command is in design mode.
+        /// </summary>
+        /// <value><see langword="true" /> if this relay command is in design mode; otherwise, <see langword="false"/>.</value>
+        [global::System.ComponentModel.Browsable(false)]
+        public bool IsInDesignMode => DesignMode.IsInDesignMode;
+
+        /// <summary>
         /// Defines the method that determines whether the command can execute in its current state.
         /// </summary>
         /// <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>

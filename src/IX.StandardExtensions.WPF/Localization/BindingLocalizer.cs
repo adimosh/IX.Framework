@@ -1,18 +1,18 @@
-﻿// <copyright file="BindingLocalizer.cs" company="Adrian Mos">
+// <copyright file="BindingLocalizer.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
 using System.Globalization;
-using System.Windows.Data;
+using IX.StandardExtensions.WPF.ValueConverters;
 
 namespace IX.StandardExtensions.WPF.Localization
 {
     /// <summary>
     /// A localizer converter.
     /// </summary>
-    /// <seealso cref="IValueConverter" />
-    public class BindingLocalizer : IValueConverter
+    /// <seealso cref="ValueConverterBase" />
+    public class BindingLocalizer : ValueConverterBase
     {
         /// <summary>
         /// Converts a value.
@@ -21,12 +21,17 @@ namespace IX.StandardExtensions.WPF.Localization
         /// <param name="targetType">The type of the binding target property.</param>
         /// <param name="parameter">The converter parameter to use.</param>
         /// <param name="culture">The culture to use in the converter.</param>
-        /// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        /// <returns>A converted value. If the method returns <see langword="null" />, the valid <see langword="null" /> value is used.</returns>
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(parameter is string))
             {
                 throw new ArgumentInvalidTypeException(nameof(parameter));
+            }
+
+            if (this.IsInDesignMode)
+            {
+                return parameter;
             }
 
             if (!(value is BindingAssemblyResourceReader))
@@ -39,16 +44,5 @@ namespace IX.StandardExtensions.WPF.Localization
 
             return reader.GetLocalizedResource(key);
         }
-
-        /// <summary>
-        /// Converts a value.
-        /// </summary>
-        /// <param name="value">The value that is produced by the binding target.</param>
-        /// <param name="targetType">The type to convert to.</param>
-        /// <param name="parameter">The converter parameter to use.</param>
-        /// <param name="culture">The culture to use in the converter.</param>
-        /// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
-        /// <exception cref="global::System.InvalidOperationException">This method should NEVER be called.</exception>
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedByDesignException();
     }
 }
