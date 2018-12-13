@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 using IX.Math.Extensibility;
 using IX.Math.Generators;
-using IX.Math.Nodes.Constants;
 
 namespace IX.Math.Nodes.Operations.Function.Unary
 {
@@ -21,15 +20,7 @@ namespace IX.Math.Nodes.Operations.Function.Unary
 
         public static double GenerateRandom(double max) => RandomNumberGenerator.Generate(max);
 
-        public override NodeBase Simplify()
-        {
-            if (this.Parameter is NumericNode stringParam)
-            {
-                return new NumericNode(GenerateRandom(stringParam.ExtractFloat()));
-            }
-
-            return this;
-        }
+        public override NodeBase Simplify() => this;
 
         public override NodeBase DeepClone(NodeCloningContext context) => new FunctionNodeRandom(this.Parameter.DeepClone(context));
 

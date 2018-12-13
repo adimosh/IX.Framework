@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net45</TargetFramework>
@@ -23,9 +23,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IX.Undoable\IX.Undoable.csproj" />
+    <ProjectReference Include="..\IX.StandardExtensions.WPF\IX.StandardExtensions.WPF.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
+    <Reference Include="System" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
 

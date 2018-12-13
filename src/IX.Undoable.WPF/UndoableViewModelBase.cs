@@ -2,6 +2,9 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using System.ComponentModel;
+using IX.StandardExtensions.WPF;
+
 namespace IX.Undoable.WPF
 {
     /// <summary>
@@ -25,5 +28,12 @@ namespace IX.Undoable.WPF
             : base(limit)
         {
         }
+
+        /// <summary>
+        /// Gets a value indicating whether this view model is in design mode.
+        /// </summary>
+        /// <value><see langword="true" /> if this view model is in design mode; otherwise, <see langword="false"/>.</value>
+        [Browsable(false)]
+        public bool IsInDesignMode => DesignMode.IsInDesignMode;
     }
 }
