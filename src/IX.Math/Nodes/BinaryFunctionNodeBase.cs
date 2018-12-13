@@ -85,34 +85,26 @@ namespace IX.Math.Nodes
 
             if (mi == null)
             {
-                if ((firstParameterType == typeof(long) && secondParameterType == typeof(double)) ||
-                    (firstParameterType == typeof(double) && secondParameterType == typeof(long)))
+                firstParameterType = typeof(double);
+                secondParameterType = typeof(double);
+
+                mi = t.GetMethodWithExactParameters(functionName, firstParameterType, secondParameterType);
+
+                if (mi == null)
                 {
-                    firstParameterType = typeof(double);
-                    secondParameterType = typeof(double);
+                    firstParameterType = typeof(long);
+                    secondParameterType = typeof(long);
 
                     mi = t.GetMethodWithExactParameters(functionName, firstParameterType, secondParameterType);
 
                     if (mi == null)
                     {
-                        firstParameterType = typeof(long);
-                        secondParameterType = typeof(long);
+                        firstParameterType = typeof(int);
+                        secondParameterType = typeof(int);
 
-                        mi = t.GetMethodWithExactParameters(functionName, firstParameterType, secondParameterType);
-
-                        if (mi == null)
-                        {
-                            firstParameterType = typeof(int);
-                            secondParameterType = typeof(int);
-
-                            mi = t.GetMethodWithExactParameters(functionName, firstParameterType, secondParameterType) ??
-                                throw new ArgumentException(string.Format(Resources.FunctionCouldNotBeFound, functionName), nameof(functionName));
-                        }
+                        mi = t.GetMethodWithExactParameters(functionName, firstParameterType, secondParameterType) ??
+                            throw new ArgumentException(string.Format(Resources.FunctionCouldNotBeFound, functionName), nameof(functionName));
                     }
-                }
-                else
-                {
-                    throw new ArgumentException(string.Format(Resources.FunctionCouldNotBeFound, functionName), nameof(functionName));
                 }
             }
 

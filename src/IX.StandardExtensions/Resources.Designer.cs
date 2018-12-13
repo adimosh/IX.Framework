@@ -20,7 +20,7 @@ namespace IX.StandardExtensions {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -58,6 +58,24 @@ namespace IX.StandardExtensions {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An invalid set of arguments was specified. Argument names: {0}.
+        /// </summary>
+        internal static string AnInvalidSetOfArgumentsWasSpecifiedArgumentNames {
+            get {
+                return ResourceManager.GetString("AnInvalidSetOfArgumentsWasSpecifiedArgumentNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The argument {0} is not a positive number..
+        /// </summary>
+        internal static string ErrorArgumentNotPositive {
+            get {
+                return ResourceManager.GetString("ErrorArgumentNotPositive", resourceCulture);
             }
         }
         
@@ -130,6 +148,15 @@ namespace IX.StandardExtensions {
         internal static string SingleOrDefaultMultipleElements {
             get {
                 return ResourceManager.GetString("SingleOrDefaultMultipleElements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The provided arguments do not form a valid range of values. Arguments: {0}.
+        /// </summary>
+        internal static string TheProvidedArgumentsDoNotFormAValidRangeOfValuesArguments {
+            get {
+                return ResourceManager.GetString("TheProvidedArgumentsDoNotFormAValidRangeOfValuesArguments", resourceCulture);
             }
         }
     }

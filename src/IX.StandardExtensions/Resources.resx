@@ -141,4 +141,13 @@
   <data name="SingleOrDefaultMultipleElements" xml:space="preserve">
     <value>The input sequence contains more than one element.</value>
   </data>
+  <data name="AnInvalidSetOfArgumentsWasSpecifiedArgumentNames" xml:space="preserve">
+    <value>An invalid set of arguments was specified. Argument names: {0}</value>
+  </data>
+  <data name="TheProvidedArgumentsDoNotFormAValidRangeOfValuesArguments" xml:space="preserve">
+    <value>The provided arguments do not form a valid range of values. Arguments: {0}</value>
+  </data>
+  <data name="ErrorArgumentNotPositive" xml:space="preserve">
+    <value>The argument {0} is not a positive number.</value>
+  </data>
 </root>
