@@ -88,7 +88,7 @@ namespace IX.Guaranteed.Collections
         public override void CopyTo(Array array, int index) => throw new InvalidOperationException();
 
         /// <summary>
-        /// Dequeues an item and removes it from the queue.
+        /// De-queues an item and removes it from the queue.
         /// </summary>
         /// <returns>The item that has been dequeued.</returns>
         public override T Dequeue()
@@ -150,7 +150,7 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
-        /// Dequeues an item from the queue, and executes the specified action on it.
+        /// De-queues an item from the queue, and executes the specified action on it.
         /// </summary>
         /// <typeparam name="TState">The type of the state object to pass to the action.</typeparam>
         /// <param name="actionToInvoke">The action to invoke.</param>

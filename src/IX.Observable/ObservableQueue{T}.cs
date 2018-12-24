@@ -142,7 +142,7 @@ namespace IX.Observable
         }
 
         /// <summary>
-        /// Dequeues and removes an item from the queue.
+        /// De-queues and removes an item from the queue.
         /// </summary>
         /// <returns>The dequeued item.</returns>
         public T Dequeue()

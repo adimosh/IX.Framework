@@ -29,7 +29,7 @@ namespace IX.System.Collections.Generic
         bool Contains(T item);
 
         /// <summary>
-        /// Dequeues an item and removes it from the queue.
+        /// De-queues an item and removes it from the queue.
         /// </summary>
         /// <returns>The item that has been dequeued.</returns>
         T Dequeue();

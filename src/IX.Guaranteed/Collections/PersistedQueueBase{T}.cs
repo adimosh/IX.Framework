@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using IX.StandardExtensions;
@@ -18,8 +19,8 @@ namespace IX.Guaranteed.Collections
     /// A base class for persisted queues.
     /// </summary>
     /// <typeparam name="T">The type of object in the queue.</typeparam>
-    /// <seealso cref="IX.StandardExtensions.ComponentModel.DisposableBase" />
-    /// <seealso cref="IX.System.Collections.Generic.IQueue{T}" />
+    /// <seealso cref="StandardExtensions.ComponentModel.DisposableBase" />
+    /// <seealso cref="System.Collections.Generic.IQueue{T}" />
     public abstract class PersistedQueueBase<T> : ReaderWriterSynchronizedBase, IQueue<T>
     {
         private readonly object syncLocker;
@@ -160,7 +161,7 @@ namespace IX.Guaranteed.Collections
         public abstract void CopyTo(Array array, int index);
 
         /// <summary>
-        /// Dequeues an item and removes it from the queue.
+        /// De-queues an item and removes it from the queue.
         /// </summary>
         /// <returns>The item that has been dequeued.</returns>
         public abstract T Dequeue();
@@ -231,30 +232,27 @@ namespace IX.Guaranteed.Collections
 
                     try
                     {
-                        using (global::System.IO.Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
                         {
                             obj = (T)this.Serializer.ReadObject(stream);
                         }
 
                         break;
                     }
-                    catch (global::System.IO.IOException)
+                    catch (IOException)
                     {
                         this.HandleFileLoadProblem(possibleFilePath);
                         i++;
-                        continue;
                     }
                     catch (UnauthorizedAccessException)
                     {
                         this.HandleFileLoadProblem(possibleFilePath);
                         i++;
-                        continue;
                     }
                     catch (SerializationException)
                     {
                         this.HandleFileLoadProblem(possibleFilePath);
                         i++;
-                        continue;
                     }
                 }
 
@@ -262,7 +260,7 @@ namespace IX.Guaranteed.Collections
                 {
                     this.FileShim.Delete(possibleFilePath);
                 }
-                catch (global::System.IO.IOException)
+                catch (IOException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
                 }
@@ -309,30 +307,27 @@ namespace IX.Guaranteed.Collections
 
                     try
                     {
-                        using (global::System.IO.Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
                         {
                             obj = (T)this.Serializer.ReadObject(stream);
                         }
 
                         break;
                     }
-                    catch (global::System.IO.IOException)
+                    catch (IOException)
                     {
                         this.HandleFileLoadProblem(possibleFilePath);
                         i++;
-                        continue;
                     }
                     catch (UnauthorizedAccessException)
                     {
                         this.HandleFileLoadProblem(possibleFilePath);
                         i++;
-                        continue;
                     }
                     catch (SerializationException)
                     {
                         this.HandleFileLoadProblem(possibleFilePath);
                         i++;
-                        continue;
                     }
                 }
 
@@ -353,7 +348,7 @@ namespace IX.Guaranteed.Collections
                 {
                     this.FileShim.Delete(possibleFilePath);
                 }
-                catch (global::System.IO.IOException)
+                catch (IOException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
                 }
@@ -402,7 +397,7 @@ namespace IX.Guaranteed.Collections
                     {
                         T obj;
 
-                        using (global::System.IO.Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
                         {
                             obj = (T)this.Serializer.ReadObject(stream);
                         }
@@ -417,23 +412,20 @@ namespace IX.Guaranteed.Collections
 
                         i++;
                     }
-                    catch (global::System.IO.IOException)
+                    catch (IOException)
                     {
                         this.HandleFileLoadProblem(possibleFilePath);
                         i++;
-                        continue;
                     }
                     catch (UnauthorizedAccessException)
                     {
                         this.HandleFileLoadProblem(possibleFilePath);
                         i++;
-                        continue;
                     }
                     catch (SerializationException)
                     {
                         this.HandleFileLoadProblem(possibleFilePath);
                         i++;
-                        continue;
                     }
                 }
 
@@ -458,7 +450,7 @@ namespace IX.Guaranteed.Collections
                         {
                             this.FileShim.Delete(possibleFilePath);
                         }
-                        catch (global::System.IO.IOException)
+                        catch (IOException)
                         {
                             this.HandleFileLoadProblem(possibleFilePath);
                         }
@@ -502,28 +494,25 @@ namespace IX.Guaranteed.Collections
 
                     try
                     {
-                        using (global::System.IO.Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
                         {
                             return (T)this.Serializer.ReadObject(stream);
                         }
                     }
-                    catch (global::System.IO.IOException)
+                    catch (IOException)
                     {
                         this.HandleFileLoadProblem(possibleFilePath);
                         i++;
-                        continue;
                     }
                     catch (UnauthorizedAccessException)
                     {
                         this.HandleFileLoadProblem(possibleFilePath);
                         i++;
-                        continue;
                     }
                     catch (SerializationException)
                     {
                         this.HandleFileLoadProblem(possibleFilePath);
                         i++;
-                        continue;
                     }
                 }
             }
@@ -545,12 +534,12 @@ namespace IX.Guaranteed.Collections
                 T obj;
                 try
                 {
-                    using (global::System.IO.Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                    using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
                     {
                         obj = (T)this.Serializer.ReadObject(stream);
                     }
                 }
-                catch (global::System.IO.IOException)
+                catch (IOException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
                     continue;
@@ -583,13 +572,15 @@ namespace IX.Guaranteed.Collections
             using (this.WriteLock())
             {
                 var i = 1;
-                string filePath = null;
+                string filePath;
 
                 DateTime now = DateTime.UtcNow;
 
                 do
                 {
-                    filePath = this.PathShim.Combine(this.DataFolderPath, $"{now.ToString("yyyy.MM.dd.HH.mm.ss.fffffff")}.{i.ToString()}.dat");
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - We're cool with it here
+                    filePath = this.PathShim.Combine(this.DataFolderPath, $"{now:yyyy.MM.dd.HH.mm.ss.fffffff}.{i.ToString()}.dat");
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
                     i++;
 
                     if (i == int.MaxValue)
@@ -599,7 +590,7 @@ namespace IX.Guaranteed.Collections
                 }
                 while (this.FileShim.Exists(filePath));
 
-                using (global::System.IO.Stream stream = this.FileShim.Create(filePath))
+                using (Stream stream = this.FileShim.Create(filePath))
                 {
 #pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is unavoidable
                     this.Serializer.WriteObject(stream, item);
@@ -649,7 +640,7 @@ namespace IX.Guaranteed.Collections
                     this.FileShim.Delete(newFilePath);
                 }
             }
-            catch (global::System.IO.IOException)
+            catch (IOException)
             {
                 this.HandleImpossibleMoveToPoison(possibleFilePath);
                 return;
@@ -664,18 +655,14 @@ namespace IX.Guaranteed.Collections
             {
                 // Move to poison queue
                 this.FileShim.Move(possibleFilePath, newFilePath);
-
-                return;
             }
-            catch (global::System.IO.IOException)
+            catch (IOException)
             {
                 this.HandleImpossibleMoveToPoison(possibleFilePath);
-                return;
             }
             catch (UnauthorizedAccessException)
             {
                 this.HandleImpossibleMoveToPoison(possibleFilePath);
-                return;
             }
         }
 
@@ -686,7 +673,7 @@ namespace IX.Guaranteed.Collections
                 // If deletion was not possible, delete the offending item
                 this.FileShim.Delete(possibleFilePath);
             }
-            catch (global::System.IO.IOException)
+            catch (IOException)
             {
                 this.poisonedUnremovableFiles.Add(possibleFilePath);
             }
@@ -707,13 +694,11 @@ namespace IX.Guaranteed.Collections
                         this.poisonedUnremovableFiles.Remove(file);
                     }
                 }
-                catch (global::System.IO.IOException)
+                catch (IOException)
                 {
-                    continue;
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    continue;
                 }
             }
         }

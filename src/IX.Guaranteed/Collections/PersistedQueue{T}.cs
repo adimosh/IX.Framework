@@ -17,7 +17,7 @@ namespace IX.Guaranteed.Collections
     /// <remarks>This persisted queue type does not hold anything in memory. All operations are done directly on disk, and, therefore, do not negatively impact RAM memory.</remarks>
     /// <seealso cref="IX.StandardExtensions.ComponentModel.DisposableBase" />
     /// <seealso cref="IX.System.Collections.Generic.IQueue{T}" />
-    public class PersistedQueue<T> : PersistedQueueBase<T>
+    public class PersistedQueue<T> : PersistedQueueBase<T>, IPersistedQueue<T>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PersistedQueue{T}"/> class.
@@ -82,7 +82,7 @@ namespace IX.Guaranteed.Collections
         public override void CopyTo(Array array, int index) => throw new InvalidOperationException();
 
         /// <summary>
-        /// Dequeues an item and removes it from the queue.
+        /// De-queues an item and removes it from the queue.
         /// </summary>
         /// <returns>The item that has been dequeued.</returns>
         public override T Dequeue() => this.LoadTopmostItem();
@@ -102,7 +102,7 @@ namespace IX.Guaranteed.Collections
         public int DequeueWhilePredicateWithAction<TState>(Func<TState, T, bool> predicate, Action<TState, IEnumerable<T>> actionToInvoke, TState state) => this.TryLoadWhilePredicateWithAction(predicate, actionToInvoke, state);
 
         /// <summary>
-        /// Dequeues an item from the queue, and executes the specified action on it.
+        /// De-queues an item from the queue, and executes the specified action on it.
         /// </summary>
         /// <typeparam name="TState">The type of the state object to pass to the action.</typeparam>
         /// <param name="actionToInvoke">The action to invoke.</param>

@@ -95,7 +95,7 @@ namespace IX.Observable.Adapters
 #pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
 
         /// <summary>
-        /// Dequeues an item from the queue.
+        /// De-queues an item from the queue.
         /// </summary>
         /// <returns>An item.</returns>
         public T Dequeue() => this.queue.Dequeue();
