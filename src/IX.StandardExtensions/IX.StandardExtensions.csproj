@@ -40,6 +40,7 @@
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\LinqExtensions.ActionsAndFuncs.cs" Link="LinqExtensions.ActionsAndFuncs.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\RefDelegates.WithParameters.cs" Link="Efficiency\RefDelegates.WithParameters.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\RefIteratorDelegates.WithParameters.cs" Link="Efficiency\RefIteratorDelegates.WithParameters.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\Fire.AndForgetActionsAndFuncs.cs" Link="Threading\Fire.AndForgetActionsAndFuncs.cs" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
@@ -61,6 +62,7 @@
     <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Threading" Version="4.3.0" />
     <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
+    <PackageReference Include="System.Threading.Timer" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
