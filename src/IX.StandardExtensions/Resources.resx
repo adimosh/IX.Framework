@@ -150,4 +150,10 @@
   <data name="ErrorArgumentNotPositive" xml:space="preserve">
     <value>The argument {0} is not a positive number.</value>
   </data>
+  <data name="ErrorArgumentNullOrEmpty" xml:space="preserve">
+    <value>The string argument {0} is null (Nothing in Visual Basic) or empty.</value>
+  </data>
+  <data name="ErrorArgumentNullOrWhitespace" xml:space="preserve">
+    <value>The string argument {0} is null (Nothing in Visual Basic), empty or whitespace-only.</value>
+  </data>
 </root>

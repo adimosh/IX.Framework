@@ -6,6 +6,7 @@ using System;
 #if !STANDARD
 using System.Runtime.Serialization;
 #endif
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions
 {
@@ -15,6 +16,7 @@ namespace IX.StandardExtensions
 #if !STANDARD
     [Serializable]
 #endif
+    [PublicAPI]
     public class ArgumentsException : Exception
     {
         /// <summary>
