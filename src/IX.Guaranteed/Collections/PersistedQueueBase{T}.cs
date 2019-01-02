@@ -12,6 +12,7 @@ using IX.StandardExtensions;
 using IX.StandardExtensions.Threading;
 using IX.System.Collections.Generic;
 using IX.System.IO;
+using JetBrains.Annotations;
 
 namespace IX.Guaranteed.Collections
 {
@@ -45,7 +46,7 @@ namespace IX.Guaranteed.Collections
         /// <paramref name="serializer" />
         /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         /// <exception cref="ArgumentInvalidPathException">The folder at <paramref name="persistenceFolderPath" /> does not exist, or is not accessible.</exception>
-        protected PersistedQueueBase(string persistenceFolderPath, IFile fileShim, IDirectory directoryShim, IPath pathShim, DataContractSerializer serializer)
+        protected PersistedQueueBase([NotNull] string persistenceFolderPath, [NotNull] IFile fileShim, [NotNull] IDirectory directoryShim, [NotNull] IPath pathShim, [NotNull] DataContractSerializer serializer)
             : base(EnvironmentSettings.PersistedCollectionsLockTimeout)
         {
             // Parameter validation
@@ -158,16 +159,23 @@ namespace IX.Guaranteed.Collections
         /// </summary>
         /// <param name="array">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="PersistedQueueBase{T}" />. The <see cref="T:System.Array" /> must have zero-based indexing.</param>
         /// <param name="index">The zero-based index in <paramref name="array" /> at which copying begins.</param>
-        public abstract void CopyTo(Array array, int index);
+        public abstract void CopyTo([NotNull] Array array, int index);
 
         /// <summary>
         /// De-queues an item and removes it from the queue.
         /// </summary>
-        /// <returns>The item that has been dequeued.</returns>
+        /// <returns>The item that has been de-queued.</returns>
         public abstract T Dequeue();
 
         /// <summary>
-        /// Enqueues an item, adding it to the queue.
+        /// Attempts to de-queue an item and to remove it from queue.
+        /// </summary>
+        /// <param name="item">The item that has been de-queued, default if unsuccessful.</param>
+        /// <returns><see langword="true" /> if an item is de-queued successfully, <see langword="false"/> otherwise, or if the queue is empty.</returns>
+        public abstract bool TryDequeue(out T item);
+
+        /// <summary>
+        /// Queues an item, adding it to the queue.
         /// </summary>
         /// <param name="item">The item to enqueue.</param>
         public abstract void Enqueue(T item);
@@ -283,9 +291,14 @@ namespace IX.Guaranteed.Collections
         /// <typeparam name="TState">The type of the state object to send to the action.</typeparam>
         /// <param name="actionToInvoke">The action to invoke.</param>
         /// <param name="state">The state object to pass to the invoked action.</param>
-        /// <returns><see langword="true"/> if dequeuing and executing is successful, <see langword="false"/> otherwise.</returns>
-        protected bool TryLoadTopmostItemWithAction<TState>(Action<TState, T> actionToInvoke, TState state)
+        /// <returns><see langword="true"/> if de-queuing and executing is successful, <see langword="false"/> otherwise.</returns>
+        protected bool TryLoadTopmostItemWithAction<TState>([NotNull] Action<TState, T> actionToInvoke, TState state)
         {
+            if (actionToInvoke == null)
+            {
+                throw new ArgumentNullException(nameof(actionToInvoke));
+            }
+
             this.ThrowIfCurrentObjectDisposed();
 
             using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
@@ -372,13 +385,23 @@ namespace IX.Guaranteed.Collections
         /// <param name="predicate">The predicate.</param>
         /// <param name="actionToInvoke">The action to invoke.</param>
         /// <param name="state">The state object to pass to the invoked action.</param>
-        /// <returns>The number of items that have been dequeued.</returns>
+        /// <returns>The number of items that have been de-queued.</returns>
         /// <remarks>
         /// <para>Warning! This method has the potential of overrunning its read/write lock timeouts. Please ensure that the <paramref name="predicate"/> method
         /// filters out items in a way that limits the amount of data passing through.</para>
         /// </remarks>
-        protected int TryLoadWhilePredicateWithAction<TState>(Func<TState, T, bool> predicate, Action<TState, IEnumerable<T>> actionToInvoke, TState state)
+        protected int TryLoadWhilePredicateWithAction<TState>([NotNull] Func<TState, T, bool> predicate, [NotNull] Action<TState, IEnumerable<T>> actionToInvoke, TState state)
         {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            if (actionToInvoke == null)
+            {
+                throw new ArgumentNullException(nameof(actionToInvoke));
+            }
+
             this.ThrowIfCurrentObjectDisposed();
 
             using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
@@ -578,9 +601,7 @@ namespace IX.Guaranteed.Collections
 
                 do
                 {
-#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - We're cool with it here
-                    filePath = this.PathShim.Combine(this.DataFolderPath, $"{now:yyyy.MM.dd.HH.mm.ss.fffffff}.{i.ToString()}.dat");
-#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
+                    filePath = this.PathShim.Combine(this.DataFolderPath, $"{now:yyyy.MM.dd.HH.mm.ss.fffffff}.{i}.dat");
                     i++;
 
                     if (i == int.MaxValue)

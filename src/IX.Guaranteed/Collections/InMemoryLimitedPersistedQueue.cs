@@ -8,6 +8,8 @@ using System.Runtime.Serialization;
 using IX.StandardExtensions;
 using IX.System.IO;
 
+using JetBrains.Annotations;
+
 namespace IX.Guaranteed.Collections
 {
     /// <summary>
@@ -111,6 +113,27 @@ namespace IX.Guaranteed.Collections
                     this.internalQueue.Dequeue();
                 }
             }
+        }
+
+        /// <summary>
+        /// Attempts to de-queue an item and to remove it from queue.
+        /// </summary>
+        /// <param name="item">The item that has been de-queued, default if unsuccessful.</param>
+        /// <returns><see langword="true" /> if an item is de-queued successfully, <see langword="false"/> otherwise, or if the queue is empty.</returns>
+        public override bool TryDequeue([CanBeNull] out T item)
+        {
+            try
+            {
+                item = this.LoadTopmostItem();
+            }
+            catch (Exception)
+            {
+                item = default;
+                return false;
+            }
+
+            this.internalQueue.Dequeue();
+            return true;
         }
 
         /// <summary>

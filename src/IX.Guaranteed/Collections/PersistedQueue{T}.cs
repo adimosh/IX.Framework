@@ -8,6 +8,8 @@ using global::System;
 using IX.StandardExtensions;
 using IX.System.IO;
 
+using JetBrains.Annotations;
+
 namespace IX.Guaranteed.Collections
 {
     /// <summary>
@@ -84,8 +86,27 @@ namespace IX.Guaranteed.Collections
         /// <summary>
         /// De-queues an item and removes it from the queue.
         /// </summary>
-        /// <returns>The item that has been dequeued.</returns>
+        /// <returns>The item that has been de-queued.</returns>
         public override T Dequeue() => this.LoadTopmostItem();
+
+        /// <summary>
+        /// Attempts to de-queue an item and to remove it from queue.
+        /// </summary>
+        /// <param name="item">The item that has been de-queued, default if unsuccessful.</param>
+        /// <returns><see langword="true" /> if an item is de-queued successfully, <see langword="false"/> otherwise, or if the queue is empty.</returns>
+        public override bool TryDequeue([CanBeNull] out T item)
+        {
+            try
+            {
+                item = this.LoadTopmostItem();
+                return true;
+            }
+            catch (Exception)
+            {
+                item = default;
+                return false;
+            }
+        }
 
         /// <summary>
         /// Tries the load topmost item and execute an action on it, deleting the topmost object data if the operation is successful.
@@ -94,7 +115,7 @@ namespace IX.Guaranteed.Collections
         /// <param name="predicate">The predicate.</param>
         /// <param name="actionToInvoke">The action to invoke.</param>
         /// <param name="state">The state object to pass to the invoked action.</param>
-        /// <returns>The number of items that have been dequeued.</returns>
+        /// <returns>The number of items that have been de-queued.</returns>
         /// <remarks>
         /// <para>Warning! This method has the potential of overrunning its read/write lock timeouts. Please ensure that the <paramref name="predicate"/> method
         /// filters out items in a way that limits the amount of data passing through.</para>
@@ -107,11 +128,11 @@ namespace IX.Guaranteed.Collections
         /// <typeparam name="TState">The type of the state object to pass to the action.</typeparam>
         /// <param name="actionToInvoke">The action to invoke.</param>
         /// <param name="state">The state object to pass to the action.</param>
-        /// <returns><see langword="true"/> if the dequeuing is successful, and the action performed, <see langword="false"/> otherwise.</returns>
+        /// <returns><see langword="true"/> if the de-queuing is successful, and the action performed, <see langword="false"/> otherwise.</returns>
         public bool DequeueWithAction<TState>(Action<TState, T> actionToInvoke, TState state) => this.TryLoadTopmostItemWithAction(actionToInvoke, state);
 
         /// <summary>
-        /// Enqueues an item, adding it to the queue.
+        /// Queues an item, adding it to the queue.
         /// </summary>
         /// <param name="item">The item to enqueue.</param>
         public override void Enqueue(T item) => this.SaveNewItem(item);

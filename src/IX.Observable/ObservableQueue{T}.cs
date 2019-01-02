@@ -8,11 +8,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
+
 using IX.Observable.Adapters;
 using IX.Observable.DebugAide;
 using IX.Observable.UndoLevels;
 using IX.System.Collections.Generic;
 using IX.Undoable;
+
+using JetBrains.Annotations;
 
 namespace IX.Observable
 {
@@ -144,7 +147,7 @@ namespace IX.Observable
         /// <summary>
         /// De-queues and removes an item from the queue.
         /// </summary>
-        /// <returns>The dequeued item.</returns>
+        /// <returns>The de-queued item.</returns>
         public T Dequeue()
         {
             this.ThrowIfCurrentObjectDisposed();
@@ -165,9 +168,41 @@ namespace IX.Observable
         }
 
         /// <summary>
-        /// Enqueues an item into the queue.
+        /// Attempts to de-queue an item and to remove it from queue.
         /// </summary>
-        /// <param name="item">The item to enqueue.</param>
+        /// <param name="item">The item that has been de-queued, default if unsuccessful.</param>
+        /// <returns><see langword="true" /> if an item is de-queued successfully, <see langword="false"/> otherwise, or if the queue is empty.</returns>
+        public bool TryDequeue([CanBeNull] out T item)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            using (var locker = this.ReadWriteLock())
+            {
+                var adapter = (QueueCollectionAdapter<T>)this.InternalContainer;
+
+                if (adapter.Count == 0)
+                {
+                    item = default;
+                    return false;
+                }
+
+                locker.Upgrade();
+
+                item = adapter.Dequeue();
+                this.PushUndoLevel(new DequeueUndoLevel<T> { DequeuedItem = item });
+            }
+
+            this.RaisePropertyChanged(nameof(this.Count));
+            this.RaisePropertyChanged(Constants.ItemsName);
+            this.RaiseCollectionChangedRemove(item, 0);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Queues an item into the queue.
+        /// </summary>
+        /// <param name="item">The item to queue.</param>
         public void Enqueue(T item)
         {
             this.ThrowIfCurrentObjectDisposed();
@@ -188,7 +223,7 @@ namespace IX.Observable
         }
 
         /// <summary>
-        /// Peeks at the topmost item in the queue without dequeuing it.
+        /// Peeks at the topmost item in the queue without de-queuing it.
         /// </summary>
         /// <returns>The topmost item in the queue.</returns>
         public T Peek()
@@ -235,7 +270,7 @@ namespace IX.Observable
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <param name="state">The state object to pass to the invocation.</param>
         /// <returns><see langword="true"/> if the undo was successful, <see langword="false"/> otherwise.</returns>
-        protected override bool UndoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
+        protected override bool UndoInternally(StateChange undoRedoLevel, [CanBeNull] out Action<object> toInvokeOutsideLock, [CanBeNull] out object state)
         {
             if (base.UndoInternally(undoRedoLevel, out toInvokeOutsideLock, out state))
             {
@@ -244,7 +279,7 @@ namespace IX.Observable
 
             switch (undoRedoLevel)
             {
-                case AddUndoLevel<T> aul:
+                case AddUndoLevel<T> _:
                     {
                         var container = (QueueCollectionAdapter<T>)this.InternalContainer;
                         var array = new T[container.Count];
@@ -272,7 +307,7 @@ namespace IX.Observable
                         break;
                     }
 
-                case EnqueueUndoLevel<T> eul:
+                case EnqueueUndoLevel<T> _:
                     {
                         var container = (QueueCollectionAdapter<T>)this.InternalContainer;
                         var array = new T[container.Count];
@@ -321,7 +356,7 @@ namespace IX.Observable
                         break;
                     }
 
-                case RemoveUndoLevel<T> rul:
+                case RemoveUndoLevel<T> _:
                     {
                         toInvokeOutsideLock = null;
                         state = null;
@@ -369,7 +404,7 @@ namespace IX.Observable
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <param name="state">The state object to pass to the invocation.</param>
         /// <returns><see langword="true"/> if the redo was successful, <see langword="false"/> otherwise.</returns>
-        protected override bool RedoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
+        protected override bool RedoInternally([NotNull] StateChange undoRedoLevel, [CanBeNull] out Action<object> toInvokeOutsideLock, [CanBeNull] out object state)
         {
             if (base.RedoInternally(undoRedoLevel, out toInvokeOutsideLock, out state))
             {
@@ -444,14 +479,14 @@ namespace IX.Observable
                         break;
                     }
 
-                case RemoveUndoLevel<T> rul:
+                case RemoveUndoLevel<T> _:
                     {
                         toInvokeOutsideLock = null;
                         state = null;
                         break;
                     }
 
-                case ClearUndoLevel<T> cul:
+                case ClearUndoLevel<T> _:
                     {
                         this.InternalContainer.Clear();
 
