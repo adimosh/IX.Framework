@@ -70,6 +70,17 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to A contract condition is not being met..
+        /// </summary>
+        internal static string AContractConditionIsNotBeingMet
+        {
+            get
+            {
+                return ResourceManager.GetString("AContractConditionIsNotBeingMet", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to An invalid set of arguments was specified. Argument names: {0}.
         /// </summary>
         internal static string AnInvalidSetOfArgumentsWasSpecifiedArgumentNames
@@ -110,6 +121,28 @@ namespace IX.StandardExtensions
             get
             {
                 return ResourceManager.GetString("ErrorArgumentNullOrEmpty", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The argument {0} is null (Nothing in Visual Basic) or an empty byte array..
+        /// </summary>
+        internal static string ErrorArgumentNullOrEmptyBinaryCollection
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorArgumentNullOrEmptyBinaryCollection", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The collection argument {0} is null (Nothing in Visual Basic) or empty..
+        /// </summary>
+        internal static string ErrorArgumentNullOrEmptyCollection
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorArgumentNullOrEmptyCollection", resourceCulture);
             }
         }
 
