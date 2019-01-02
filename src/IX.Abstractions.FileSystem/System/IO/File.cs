@@ -6,8 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+
+using IX.StandardExtensions.Contracts;
+
 using FSFile = System.IO.File;
 
+// ReSharper disable once CheckNamespace
 namespace IX.System.IO
 {
     /// <summary>
@@ -32,15 +36,8 @@ namespace IX.System.IO
         /// </remarks>
         public void AppendAllLines(string path, IEnumerable<string> contents, Encoding encoding = null)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            if (contents == null)
-            {
-                throw new ArgumentNullException(nameof(contents));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNull(contents, nameof(contents));
 
             if (encoding == null)
             {
@@ -67,15 +64,8 @@ namespace IX.System.IO
         /// </remarks>
         public void AppendAllText(string path, string contents, Encoding encoding = null)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            if (string.IsNullOrWhiteSpace(contents))
-            {
-                throw new ArgumentNullException(nameof(contents));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNullOrWhitespace(contents, nameof(contents));
 
             if (encoding == null)
             {
@@ -99,10 +89,7 @@ namespace IX.System.IO
         /// </exception>
         public StreamWriter AppendText(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSFile.AppendText(path);
         }
@@ -119,15 +106,8 @@ namespace IX.System.IO
         /// </exception>
         public void Copy(string sourceFileName, string destFileName, bool overwrite = false)
         {
-            if (string.IsNullOrWhiteSpace(sourceFileName))
-            {
-                throw new ArgumentNullException(nameof(sourceFileName));
-            }
-
-            if (string.IsNullOrWhiteSpace(destFileName))
-            {
-                throw new ArgumentNullException(nameof(destFileName));
-            }
+            Contract.RequiresNotNullOrWhitespace(sourceFileName, nameof(sourceFileName));
+            Contract.RequiresNotNullOrWhitespace(destFileName, nameof(destFileName));
 
             FSFile.Copy(sourceFileName, destFileName, overwrite);
         }
@@ -148,10 +128,8 @@ namespace IX.System.IO
         /// </exception>
         public Stream Create(string path, int bufferSize = 4096)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresPositiveNumber(bufferSize, nameof(bufferSize));
 
             if (bufferSize <= 0)
             {
@@ -173,10 +151,7 @@ namespace IX.System.IO
         /// </exception>
         public StreamWriter CreateText(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSFile.CreateText(path);
         }
@@ -190,10 +165,7 @@ namespace IX.System.IO
         /// </exception>
         public void Delete(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             FSFile.Delete(path);
         }
@@ -210,10 +182,7 @@ namespace IX.System.IO
         /// </exception>
         public bool Exists(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSFile.Exists(path);
         }
@@ -230,10 +199,7 @@ namespace IX.System.IO
         /// </exception>
         public DateTime GetCreationTime(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSFile.GetCreationTimeUtc(path);
         }
@@ -250,10 +216,7 @@ namespace IX.System.IO
         /// </exception>
         public DateTime GetLastAccessTime(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSFile.GetLastAccessTimeUtc(path);
         }
@@ -270,10 +233,7 @@ namespace IX.System.IO
         /// </exception>
         public DateTime GetLastWriteTime(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSFile.GetLastWriteTimeUtc(path);
         }
@@ -288,15 +248,8 @@ namespace IX.System.IO
         /// </exception>
         public void Move(string sourceFileName, string destFileName)
         {
-            if (string.IsNullOrWhiteSpace(sourceFileName))
-            {
-                throw new ArgumentNullException(nameof(sourceFileName));
-            }
-
-            if (string.IsNullOrWhiteSpace(destFileName))
-            {
-                throw new ArgumentNullException(nameof(destFileName));
-            }
+            Contract.RequiresNotNullOrWhitespace(sourceFileName, nameof(sourceFileName));
+            Contract.RequiresNotNullOrWhitespace(destFileName, nameof(destFileName));
 
             FSFile.Move(sourceFileName, destFileName);
         }
@@ -313,10 +266,7 @@ namespace IX.System.IO
         /// </exception>
         public Stream OpenRead(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSFile.OpenRead(path);
         }
@@ -333,10 +283,7 @@ namespace IX.System.IO
         /// </exception>
         public StreamReader OpenText(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSFile.OpenText(path);
         }
@@ -353,10 +300,7 @@ namespace IX.System.IO
         /// </exception>
         public Stream OpenWrite(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSFile.OpenWrite(path);
         }
@@ -373,10 +317,7 @@ namespace IX.System.IO
         /// </exception>
         public byte[] ReadAllBytes(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSFile.ReadAllBytes(path);
         }
@@ -398,19 +339,9 @@ namespace IX.System.IO
         /// </remarks>
         public string[] ReadAllLines(string path, Encoding encoding = null)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
-            if (encoding == null)
-            {
-                return FSFile.ReadAllLines(path);
-            }
-            else
-            {
-                return FSFile.ReadAllLines(path, encoding);
-            }
+            return encoding == null ? FSFile.ReadAllLines(path) : FSFile.ReadAllLines(path, encoding);
         }
 
         /// <summary>
@@ -430,19 +361,9 @@ namespace IX.System.IO
         /// </remarks>
         public string ReadAllText(string path, Encoding encoding = null)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
-            if (encoding == null)
-            {
-                return FSFile.ReadAllText(path);
-            }
-            else
-            {
-                return FSFile.ReadAllText(path, encoding);
-            }
+            return encoding == null ? FSFile.ReadAllText(path) : FSFile.ReadAllText(path, encoding);
         }
 
         /// <summary>
@@ -462,19 +383,9 @@ namespace IX.System.IO
         /// </remarks>
         public IEnumerable<string> ReadLines(string path, Encoding encoding = null)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
-            if (encoding == null)
-            {
-                return FSFile.ReadLines(path);
-            }
-            else
-            {
-                return FSFile.ReadLines(path, encoding);
-            }
+            return encoding == null ? FSFile.ReadLines(path) : FSFile.ReadLines(path, encoding);
         }
 
         /// <summary>
@@ -487,10 +398,7 @@ namespace IX.System.IO
         /// </exception>
         public void SetCreationTime(string path, DateTime creationTime)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             FSFile.SetCreationTimeUtc(path, creationTime);
         }
@@ -505,10 +413,7 @@ namespace IX.System.IO
         /// </exception>
         public void SetLastAccessTime(string path, DateTime lastAccessTime)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             FSFile.SetLastAccessTimeUtc(path, lastAccessTime);
         }
@@ -523,10 +428,7 @@ namespace IX.System.IO
         /// </exception>
         public void SetLastWriteTime(string path, DateTime lastWriteTime)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             FSFile.SetLastWriteTimeUtc(path, lastWriteTime);
         }
@@ -541,15 +443,8 @@ namespace IX.System.IO
         /// </exception>
         public void WriteAllBytes(string path, byte[] bytes)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            if (bytes == null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNullOrEmptyBinary(bytes, nameof(bytes));
 
             FSFile.WriteAllBytes(path, bytes);
         }
@@ -569,15 +464,8 @@ namespace IX.System.IO
         /// </remarks>
         public void WriteAllLines(string path, IEnumerable<string> contents, Encoding encoding = null)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            if (contents == null)
-            {
-                throw new ArgumentNullException(nameof(contents));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNull(contents, nameof(contents));
 
             if (encoding == null)
             {
@@ -604,15 +492,8 @@ namespace IX.System.IO
         /// </remarks>
         public void WriteAllText(string path, string contents, Encoding encoding = null)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            if (string.IsNullOrWhiteSpace(contents))
-            {
-                throw new ArgumentNullException(nameof(contents));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNullOrWhitespace(contents, nameof(contents));
 
             if (encoding == null)
             {

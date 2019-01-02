@@ -4,8 +4,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+
+using IX.StandardExtensions.Contracts;
+
 using FSDir = System.IO.Directory;
 
+// ReSharper disable once CheckNamespace
 namespace IX.System.IO
 {
     /// <summary>
@@ -15,6 +20,9 @@ namespace IX.System.IO
     /// <seealso cref="System.IO.Directory" />
     public class Directory : IDirectory
     {
+        /// <summary>
+        /// The all file default search pattern.
+        /// </summary>
         private const string AllFilePattern = "*.*";
 
         /// <summary>
@@ -24,10 +32,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public void CreateDirectory(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             FSDir.CreateDirectory(path);
         }
@@ -40,10 +45,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public void Delete(string path, bool recursive = false)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             if (recursive)
             {
@@ -65,10 +67,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateDirectories(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return this.EnumerateDirectoriesInternal(path, AllFilePattern, false);
         }
@@ -89,15 +88,8 @@ namespace IX.System.IO
         /// </exception>
         public IEnumerable<string> EnumerateDirectories(string path, string searchPattern)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            if (string.IsNullOrWhiteSpace(searchPattern))
-            {
-                throw new ArgumentNullException(nameof(searchPattern));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNullOrWhitespace(searchPattern, nameof(searchPattern));
 
             return this.EnumerateDirectoriesInternal(path, searchPattern, false);
         }
@@ -110,10 +102,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateDirectoriesRecursively(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return this.EnumerateDirectoriesInternal(path, AllFilePattern, true);
         }
@@ -132,15 +121,8 @@ namespace IX.System.IO
         /// </exception>
         public IEnumerable<string> EnumerateDirectoriesRecursively(string path, string searchPattern)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            if (string.IsNullOrWhiteSpace(searchPattern))
-            {
-                throw new ArgumentNullException(nameof(searchPattern));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNullOrWhitespace(searchPattern, nameof(searchPattern));
 
             return this.EnumerateDirectoriesInternal(path, searchPattern, true);
         }
@@ -155,10 +137,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFiles(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return this.EnumerateFilesInternal(path, AllFilePattern, false);
         }
@@ -174,15 +153,8 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFiles(string path, string searchPattern)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            if (string.IsNullOrWhiteSpace(searchPattern))
-            {
-                throw new ArgumentNullException(nameof(searchPattern));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNullOrWhitespace(searchPattern, nameof(searchPattern));
 
             return this.EnumerateFilesInternal(path, searchPattern, false);
         }
@@ -195,10 +167,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFilesRecursively(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return this.EnumerateFilesInternal(path, AllFilePattern, true);
         }
@@ -212,15 +181,8 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFilesRecursively(string path, string searchPattern)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            if (string.IsNullOrWhiteSpace(searchPattern))
-            {
-                throw new ArgumentNullException(nameof(searchPattern));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNullOrWhitespace(searchPattern, nameof(searchPattern));
 
             return this.EnumerateFilesInternal(path, searchPattern, true);
         }
@@ -235,10 +197,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFileSystemEntries(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return this.EnumerateFileSystemEntriesInternal(path, AllFilePattern, false);
         }
@@ -254,15 +213,8 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFileSystemEntries(string path, string searchPattern)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            if (string.IsNullOrWhiteSpace(searchPattern))
-            {
-                throw new ArgumentNullException(nameof(searchPattern));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNullOrWhitespace(searchPattern, nameof(searchPattern));
 
             return this.EnumerateFileSystemEntriesInternal(path, searchPattern, false);
         }
@@ -275,10 +227,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFileSystemEntriesRecursively(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return this.EnumerateFileSystemEntriesInternal(path, AllFilePattern, true);
         }
@@ -292,15 +241,8 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public IEnumerable<string> EnumerateFileSystemEntriesRecursively(string path, string searchPattern)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            if (string.IsNullOrWhiteSpace(searchPattern))
-            {
-                throw new ArgumentNullException(nameof(searchPattern));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNullOrWhitespace(searchPattern, nameof(searchPattern));
 
             return this.EnumerateFileSystemEntriesInternal(path, searchPattern, true);
         }
@@ -315,10 +257,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public bool Exists(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSDir.Exists(path);
         }
@@ -333,10 +272,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public DateTime GetCreationTime(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSDir.GetCreationTimeUtc(path);
         }
@@ -357,10 +293,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public string[] GetDirectories(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSDir.GetDirectories(path);
         }
@@ -376,15 +309,8 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public string[] GetDirectories(string path, string searchPattern)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            if (string.IsNullOrWhiteSpace(searchPattern))
-            {
-                throw new ArgumentNullException(nameof(searchPattern));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNullOrWhitespace(searchPattern, nameof(searchPattern));
 
             return FSDir.GetDirectories(path, searchPattern);
         }
@@ -399,10 +325,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public string[] GetFiles(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSDir.GetFiles(path);
         }
@@ -418,57 +341,40 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public string[] GetFiles(string path, string searchPattern)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            if (string.IsNullOrWhiteSpace(searchPattern))
-            {
-                throw new ArgumentNullException(nameof(searchPattern));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNullOrWhitespace(searchPattern, nameof(searchPattern));
 
             return FSDir.GetFiles(path, searchPattern);
         }
 
         /// <summary>
-        /// Lists all the filesystem entries contained at a certain directory.
+        /// Lists all the file-system entries contained at a certain directory.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <returns>
-        /// An array of filesystem entry paths.
+        /// An array of file-system entry paths.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public string[] GetFileSystemEntries(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSDir.GetFileSystemEntries(path);
         }
 
         /// <summary>
-        /// Lists all the filesystem entries contained at a certain directory with a specific search pattern.
+        /// Lists all the file-system entries contained at a certain directory with a specific search pattern.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="searchPattern">The search pattern to use.</param>
         /// <returns>
-        /// An array of filesystem entries paths.
+        /// An array of file-system entries paths.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="path"/> or <paramref name="searchPattern"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public string[] GetFileSystemEntries(string path, string searchPattern)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
-            if (string.IsNullOrWhiteSpace(searchPattern))
-            {
-                throw new ArgumentNullException(nameof(searchPattern));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNullOrWhitespace(searchPattern, nameof(searchPattern));
 
             return FSDir.GetFileSystemEntries(path, searchPattern);
         }
@@ -483,10 +389,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public DateTime GetLastAccessTime(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSDir.GetLastAccessTimeUtc(path);
         }
@@ -501,10 +404,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public DateTime GetLastWriteTime(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSDir.GetLastWriteTimeUtc(path);
         }
@@ -519,15 +419,8 @@ namespace IX.System.IO
         /// </exception>
         public void Move(string sourceDirName, string destDirName)
         {
-            if (string.IsNullOrWhiteSpace(sourceDirName))
-            {
-                throw new ArgumentNullException(nameof(sourceDirName));
-            }
-
-            if (string.IsNullOrWhiteSpace(destDirName))
-            {
-                throw new ArgumentNullException(nameof(destDirName));
-            }
+            Contract.RequiresNotNullOrWhitespace(sourceDirName, nameof(sourceDirName));
+            Contract.RequiresNotNullOrWhitespace(destDirName, nameof(destDirName));
 
             FSDir.Move(sourceDirName, destDirName);
         }
@@ -540,10 +433,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public void SetCreationTime(string path, DateTime creationTime)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             FSDir.SetCreationTime(path, creationTime);
         }
@@ -556,10 +446,7 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public void SetLastAccessTime(string path, DateTime lastAccessTime)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             FSDir.SetLastAccessTime(path, lastAccessTime);
         }
@@ -572,21 +459,93 @@ namespace IX.System.IO
         /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public void SetLastWriteTime(string path, DateTime lastWriteTime)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             FSDir.SetLastWriteTime(path, lastWriteTime);
         }
 
+        /// <summary>
+        /// Enumerates directories.
+        /// </summary>
+        /// <param name="path">
+        /// The path.
+        /// </param>
+        /// <param name="searchPattern">
+        /// The search pattern.
+        /// </param>
+        /// <param name="recursively">
+        /// The recursively.
+        /// </param>
+        /// <returns>
+        /// The The enumerated directories.
+        /// </returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private IEnumerable<string> EnumerateDirectoriesInternal(string path, string searchPattern, bool recursively)
-            => FSDir.EnumerateDirectories(path, searchPattern, recursively ? global::System.IO.SearchOption.AllDirectories : global::System.IO.SearchOption.TopDirectoryOnly);
+        {
+            Contract.RequiresNotNullOrWhitespacePrivate(path, nameof(path));
+            Contract.RequiresNotNullOrWhitespacePrivate(searchPattern, nameof(searchPattern));
 
+            return FSDir.EnumerateDirectories(
+                path,
+                searchPattern,
+                recursively ? global::System.IO.SearchOption.AllDirectories : global::System.IO.SearchOption.TopDirectoryOnly);
+        }
+
+        /// <summary>
+        /// Enumerates files.
+        /// </summary>
+        /// <param name="path">
+        /// The path.
+        /// </param>
+        /// <param name="searchPattern">
+        /// The search pattern.
+        /// </param>
+        /// <param name="recursively">
+        /// The recursively.
+        /// </param>
+        /// <returns>
+        /// The The enumerated files.
+        /// </returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private IEnumerable<string> EnumerateFilesInternal(string path, string searchPattern, bool recursively)
-            => FSDir.EnumerateFiles(path, searchPattern, recursively ? global::System.IO.SearchOption.AllDirectories : global::System.IO.SearchOption.TopDirectoryOnly);
+        {
+            Contract.RequiresNotNullOrWhitespacePrivate(path, nameof(path));
+            Contract.RequiresNotNullOrWhitespacePrivate(searchPattern, nameof(searchPattern));
 
-        private IEnumerable<string> EnumerateFileSystemEntriesInternal(string path, string searchPattern, bool recursively)
-            => FSDir.EnumerateFileSystemEntries(path, searchPattern, recursively ? global::System.IO.SearchOption.AllDirectories : global::System.IO.SearchOption.TopDirectoryOnly);
+            return FSDir.EnumerateFiles(
+                path,
+                searchPattern,
+                recursively ? global::System.IO.SearchOption.AllDirectories : global::System.IO.SearchOption.TopDirectoryOnly);
+        }
+
+        /// <summary>
+        /// Enumerates file system entries.
+        /// </summary>
+        /// <param name="path">
+        /// The path.
+        /// </param>
+        /// <param name="searchPattern">
+        /// The search pattern.
+        /// </param>
+        /// <param name="recursively">
+        /// The recursively.
+        /// </param>
+        /// <returns>
+        /// The The enumerated file system entries.
+        /// </returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private IEnumerable<string> EnumerateFileSystemEntriesInternal(
+            string path,
+            string searchPattern,
+            bool recursively)
+        {
+            Contract.RequiresNotNullOrWhitespacePrivate(path, nameof(path));
+            Contract.RequiresNotNullOrWhitespacePrivate(searchPattern, nameof(searchPattern));
+
+            return FSDir.EnumerateFileSystemEntries(
+                path,
+                searchPattern,
+                recursively ? global::System.IO.SearchOption.AllDirectories : global::System.IO.SearchOption.TopDirectoryOnly);
+        }
     }
 }
