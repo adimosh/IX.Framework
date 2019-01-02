@@ -71,7 +71,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNullOrEmptyException">
         /// The argument is <see langword="null" /> or empty.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -94,7 +94,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNullOrEmptyException">
         /// The argument is <see langword="null" /> or empty.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -117,7 +117,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNullOrWhitespaceException">
         /// The argument is <see langword="null" /> or empty.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -140,7 +140,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNullOrWhitespaceException">
         /// The argument is <see langword="null" /> or empty.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -166,7 +166,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNullOrEmptyCollectionException">
         /// The argument is <see langword="null"/> or empty.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -192,7 +192,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNullOrEmptyCollectionException">
         /// The argument is <see langword="null" /> or empty.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -215,7 +215,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNullOrEmptyBinaryException">
         /// The argument is <see langword="null"/> or empty.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -238,7 +238,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNullOrEmptyBinaryException">
         /// The argument is <see langword="null" /> or empty.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -261,7 +261,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is negative or 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -284,7 +284,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is negative or 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -307,7 +307,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -330,7 +330,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -353,7 +353,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is negative or 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -376,7 +376,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is negative or 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -399,7 +399,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -422,7 +422,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -445,7 +445,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is negative or 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -468,7 +468,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is negative or 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -491,7 +491,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -514,7 +514,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -537,7 +537,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is negative or 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -560,7 +560,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is negative or 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -583,7 +583,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -606,7 +606,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveIntegerException">
         /// The argument is 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -629,7 +629,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveException">
         /// The argument is negative or 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -675,7 +675,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveException">
         /// The argument is negative or 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -698,7 +698,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveException">
         /// The argument is negative or 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -721,7 +721,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveException">
         /// The argument is negative or 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -744,7 +744,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentNotPositiveException">
         /// The argument is negative or 0.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -767,7 +767,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentException">
         /// The condition is not being met.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -790,7 +790,7 @@ namespace IX.StandardExtensions.Contracts
         /// <param name="argumentName">
         /// The argument name.
         /// </param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="ArgumentException">
         /// The condition is not being met.
         /// </exception>
         [Conditional(Constants.ContractsAllSymbol)]
@@ -801,6 +801,58 @@ namespace IX.StandardExtensions.Contracts
             if (!condition)
             {
                 throw new ArgumentException(Resources.AContractConditionIsNotBeingMet, argumentName);
+            }
+        }
+
+        /// <summary>
+        /// Called when a contract requires that an argument is of a specific type.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type to check the argument for.
+        /// </typeparam>
+        /// <param name="argument">
+        /// The argument.
+        /// </param>
+        /// <param name="argumentName">
+        /// The argument name.
+        /// </param>
+        /// <exception cref="ArgumentInvalidTypeException">
+        /// The condition is not being met.
+        /// </exception>
+        [Conditional(Constants.ContractsAllSymbol)]
+        [Conditional(Constants.ContractsPublicSymbol)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RequiresArgumentOfType<T>(object argument, string argumentName)
+        {
+            if (argument is T)
+            {
+                throw new ArgumentInvalidTypeException(argumentName);
+            }
+        }
+
+        /// <summary>
+        /// Called when a contract requires that an argument is of a specific type.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type to check the argument for.
+        /// </typeparam>
+        /// <param name="argument">
+        /// The argument.
+        /// </param>
+        /// <param name="argumentName">
+        /// The argument name.
+        /// </param>
+        /// <exception cref="ArgumentInvalidTypeException">
+        /// The condition is not being met.
+        /// </exception>
+        [Conditional(Constants.ContractsAllSymbol)]
+        [Conditional(Constants.ContractsNonPublicSymbol)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RequiresArgumentOfTypePrivate<T>(object argument, string argumentName)
+        {
+            if (argument is T)
+            {
+                throw new ArgumentInvalidTypeException(argumentName);
             }
         }
     }
