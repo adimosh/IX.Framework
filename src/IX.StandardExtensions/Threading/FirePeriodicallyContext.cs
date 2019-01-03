@@ -16,7 +16,7 @@ namespace IX.StandardExtensions.Threading
     /// <param name="state">The state.</param>
     public delegate void FirePeriodicallyTicker(int tick, IInterruptible interruptor, object state);
 
-    internal sealed class FirePeriodicallyContext : DisposableBase, IInterruptible, IDisposable
+    internal sealed class FirePeriodicallyContext : DisposableBase, IInterruptible
     {
         private readonly object state;
         private readonly TimeSpan timeSpan;
@@ -63,9 +63,9 @@ namespace IX.StandardExtensions.Threading
             Interlocked.Exchange(ref this.timer, null)?.Dispose();
         }
 
-        private void TimerTick(object state)
+        private void TimerTick(object stateObject)
         {
-            var ticker = (FirePeriodicallyTicker)state;
+            var ticker = (FirePeriodicallyTicker)stateObject;
 
             Interlocked.Increment(ref this.iteration);
 

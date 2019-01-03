@@ -12,12 +12,9 @@ namespace IX.StandardExtensions.Threading
     public static class EnvironmentSettings
     {
         /// <summary>
-        /// Gets or sets the lock acquisition timeout.
+        /// Gets or sets a default unhandled exception handler for fire-and-forget scenarios.
         /// </summary>
-        /// <value>The lock acquisition timeout.</value>
-        /// <remarks>
-        /// <para>This timeout is generally applied to synchronization lockers, in absence of a specified value.</para>
-        /// </remarks>
-        public static TimeSpan LockAcquisitionTimeout { get; set; } = TimeSpan.FromMilliseconds(Constants.DefaultLockAcquisitionTimeout);
+        /// <value>The default unhandled exception handler.</value>
+        public static Action<Exception> DefaultFireAndForgetUnhandledExceptionHandler { get; set; }
     }
 }

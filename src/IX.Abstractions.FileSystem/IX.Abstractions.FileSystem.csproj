@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IX.Abstractions\IX.Abstractions.csproj" />
+    <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">

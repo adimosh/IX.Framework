@@ -6,6 +6,8 @@ using System;
 using System.Runtime.Serialization;
 using System.Threading;
 
+using JetBrains.Annotations;
+
 namespace IX.StandardExtensions.ComponentModel
 {
     /// <summary>
@@ -13,8 +15,11 @@ namespace IX.StandardExtensions.ComponentModel
     /// </summary>
     /// <seealso cref="System.IDisposable" />
     [DataContract]
-    public abstract partial class DisposableBase : IDisposable
+    public abstract partial class DisposableBase
     {
+        /// <summary>
+        /// The thread-safe dispose signal.
+        /// </summary>
         private volatile int disposeSignaled;
 
         /// <summary>
@@ -25,6 +30,12 @@ namespace IX.StandardExtensions.ComponentModel
             this.Dispose(false);
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="DisposableBase"/> is disposed.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if disposed; otherwise, <c>false</c>.
+        /// </value>
         internal bool Disposed { get; private set; }
 
         /// <summary>
@@ -45,7 +56,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// Throws if the current object is disposed.
         /// </summary>
         /// <exception cref="ObjectDisposedException">If the current object is disposed, this exception will be thrown.</exception>
-        protected void ThrowIfCurrentObjectDisposed()
+        protected internal void ThrowIfCurrentObjectDisposed()
         {
             if (this.Disposed)
             {
@@ -58,7 +69,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// </summary>
         /// <param name="action">The action.</param>
         /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
-        protected void InvokeIfNotDisposed(Action action)
+        protected void InvokeIfNotDisposed([NotNull] Action action)
         {
             this.ThrowIfCurrentObjectDisposed();
 
@@ -93,19 +104,25 @@ namespace IX.StandardExtensions.ComponentModel
         {
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         private void Dispose(bool disposing)
         {
-            if (!this.Disposed)
+            if (this.Disposed)
             {
-                if (disposing)
-                {
-                    this.DisposeManagedContext();
-                }
-
-                this.DisposeGeneralContext();
-
-                this.Disposed = true;
+                return;
             }
+
+            if (disposing)
+            {
+                this.DisposeManagedContext();
+            }
+
+            this.DisposeGeneralContext();
+
+            this.Disposed = true;
         }
     }
 }

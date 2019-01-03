@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.Efficiency
 {
@@ -28,7 +29,7 @@ namespace IX.StandardExtensions.Efficiency
         /// </summary>
         /// <param name="objectFactory">An object factory for when objects need to be created.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="objectFactory"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
-        public ObjectPool(Func<T> objectFactory)
+        public ObjectPool([NotNull]Func<T> objectFactory)
         {
             this.objectFactory = objectFactory ?? throw new ArgumentNullException(nameof(objectFactory));
 
@@ -57,14 +58,7 @@ namespace IX.StandardExtensions.Efficiency
 
             lock (this.locker)
             {
-                if (this.availableObjects.Count > 0)
-                {
-                    @object = this.availableObjects.Dequeue();
-                }
-                else
-                {
-                    @object = this.objectFactory();
-                }
+                @object = this.availableObjects.Count > 0 ? this.availableObjects.Dequeue() : this.objectFactory();
             }
 
             return new PooledObject<T>(this, @object);

@@ -8,6 +8,8 @@ using System.Runtime.Serialization;
 using IX.StandardExtensions;
 using IX.System.IO;
 
+using JetBrains.Annotations;
+
 namespace IX.Guaranteed.Collections
 {
     /// <summary>
@@ -39,7 +41,7 @@ namespace IX.Guaranteed.Collections
         /// </exception>
         /// <exception cref="ArgumentInvalidPathException">The folder at <paramref name="persistenceFolderPath"/> does not exist, or is not accessible.</exception>
         public InMemoryLimitedPersistedQueue(string persistenceFolderPath, IFile fileShim, IDirectory directoryShim, IPath pathShim)
-            : base(persistenceFolderPath, fileShim, directoryShim, pathShim, new DataContractSerializer(typeof(T)))
+            : base(persistenceFolderPath, fileShim, directoryShim, pathShim, new DataContractSerializer(typeof(T)), EnvironmentSettings.PersistedCollectionsLockTimeout)
         {
             // Internal state
             this.internalQueue = new System.Collections.Generic.Queue<string>();
@@ -88,7 +90,7 @@ namespace IX.Guaranteed.Collections
         public override void CopyTo(Array array, int index) => throw new InvalidOperationException();
 
         /// <summary>
-        /// Dequeues an item and removes it from the queue.
+        /// De-queues an item and removes it from the queue.
         /// </summary>
         /// <returns>The item that has been dequeued.</returns>
         public override T Dequeue()
@@ -111,6 +113,29 @@ namespace IX.Guaranteed.Collections
                     this.internalQueue.Dequeue();
                 }
             }
+        }
+
+        /// <summary>
+        /// Attempts to de-queue an item and to remove it from queue.
+        /// </summary>
+        /// <param name="item">The item that has been de-queued, default if unsuccessful.</param>
+        /// <returns><see langword="true" /> if an item is de-queued successfully, <see langword="false"/> otherwise, or if the queue is empty.</returns>
+        public override bool TryDequeue([CanBeNull] out T item)
+        {
+            try
+            {
+                item = this.LoadTopmostItem();
+            }
+            catch (Exception)
+            {
+                item = default;
+#pragma warning disable ERP022 // Unobserved exception in generic exception handler - That's the point of Try...
+                return false;
+#pragma warning restore ERP022 // Unobserved exception in generic exception handler
+            }
+
+            this.internalQueue.Dequeue();
+            return true;
         }
 
         /// <summary>
@@ -150,7 +175,7 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
-        /// Dequeues an item from the queue, and executes the specified action on it.
+        /// De-queues an item from the queue, and executes the specified action on it.
         /// </summary>
         /// <typeparam name="TState">The type of the state object to pass to the action.</typeparam>
         /// <param name="actionToInvoke">The action to invoke.</param>

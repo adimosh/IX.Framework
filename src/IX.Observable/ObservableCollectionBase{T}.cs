@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -15,15 +16,17 @@ using IX.StandardExtensions.Threading;
 using IX.System.Collections.Generic;
 using IX.Undoable;
 
+using JetBrains.Annotations;
+
 namespace IX.Observable
 {
     /// <summary>
     /// A base class for collections that are observable.
     /// </summary>
     /// <typeparam name="T">The type of the item.</typeparam>
-    /// <seealso cref="global::System.ComponentModel.INotifyPropertyChanged" />
+    /// <seealso cref="INotifyPropertyChanged" />
     /// <seealso cref="INotifyCollectionChanged" />
-    /// <seealso cref="global::System.Collections.Generic.IEnumerable{T}" />
+    /// <seealso cref="IEnumerable{T}" />
     public abstract class ObservableCollectionBase<T> : ObservableReadOnlyCollectionBase<T>, ICollection<T>, IUndoableItem, IEditCommittableItem
     {
 #pragma warning disable IDISP002 // Dispose member. - It is
@@ -94,8 +97,8 @@ namespace IX.Observable
         /// </remarks>
         event EventHandler<EditCommittedEventArgs> IEditCommittableItem.EditCommitted
         {
-            add { this.EditCommittedInternal += value; }
-            remove { this.EditCommittedInternal -= value; }
+            add => this.EditCommittedInternal += value;
+            remove => this.EditCommittedInternal -= value;
         }
 
         /// <summary>
@@ -149,7 +152,7 @@ namespace IX.Observable
 
                 this.ThrowIfCurrentObjectDisposed();
 
-                return this.ParentUndoContext?.CanUndo ?? this.ReadLock((c2This) => c2This.undoStack.Count > 0, this);
+                return this.ParentUndoContext?.CanUndo ?? this.ReadLock(c2This => c2This.undoStack.Count > 0, this);
             }
         }
 
@@ -168,7 +171,7 @@ namespace IX.Observable
 
                 this.ThrowIfCurrentObjectDisposed();
 
-                return this.ParentUndoContext?.CanRedo ?? this.ReadLock((c2This) => c2This.redoStack.Count > 0, this);
+                return this.ParentUndoContext?.CanRedo ?? this.ReadLock(c2This => c2This.redoStack.Count > 0, this);
             }
         }
 
@@ -187,6 +190,10 @@ namespace IX.Observable
         /// Gets or sets a value indicating whether to automatically capture sub items in the current undo/redo context.
         /// </summary>
         /// <value><see langword="true"/> to automatically capture sub items; otherwise, <see langword="false"/>.</value>
+        /// <remarks>
+        /// <para>This property does nothing if the items of the observable collection are not undoable themselves.</para>
+        /// <para>To check whether or not the items are undoable at runtime, please use the <see cref="ItemsAreUndoable"/> property.</para>
+        /// </remarks>
         public bool AutomaticallyCaptureSubItems
         {
             get => this.automaticallyCaptureSubItems;
@@ -195,40 +202,44 @@ namespace IX.Observable
             {
                 this.automaticallyCaptureSubItems = value;
 
-                if (this.ItemsAreUndoable)
+                if (!this.ItemsAreUndoable)
                 {
-                    if (value)
+                    return;
+                }
+
+                if (value)
+                {
+                    // At this point we start capturing
+                    using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
                     {
-                        using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+                        if (((ICollection<T>)this.InternalContainer).Count > 0)
                         {
-                            if (((ICollection<T>)this.InternalContainer).Count > 0)
-                            {
-                                locker.Upgrade();
+                            locker.Upgrade();
 
 #pragma warning disable HAA0401 // Possible allocation of reference type enumerator
-                                foreach (IUndoableItem item in this.InternalContainer.Cast<IUndoableItem>())
-                                {
-                                    item.CaptureIntoUndoContext(this);
-                                }
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+                            foreach (IUndoableItem item in this.InternalContainer.Cast<IUndoableItem>())
+                            {
+                                item.CaptureIntoUndoContext(this);
                             }
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                         }
                     }
-                    else
+                }
+                else
+                {
+                    // At this point we release the captures
+                    using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
                     {
-                        using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+                        if (((ICollection<T>)this.InternalContainer).Count > 0)
                         {
-                            if (((ICollection<T>)this.InternalContainer).Count > 0)
-                            {
-                                locker.Upgrade();
+                            locker.Upgrade();
 
 #pragma warning disable HAA0401 // Possible allocation of reference type enumerator
-                                foreach (IUndoableItem item in this.InternalContainer.Cast<IUndoableItem>())
-                                {
-                                    item.ReleaseFromUndoContext();
-                                }
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+                            foreach (IUndoableItem item in this.InternalContainer.Cast<IUndoableItem>())
+                            {
+                                item.ReleaseFromUndoContext();
                             }
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                         }
                     }
                 }
@@ -775,7 +786,7 @@ namespace IX.Observable
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <param name="state">The state object to pass to the invocation.</param>
         /// <returns><see langword="true"/> if the undo was successful, <see langword="false"/> otherwise.</returns>
-        protected virtual bool UndoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
+        protected virtual bool UndoInternally([NotNull] StateChange undoRedoLevel, [CanBeNull] out Action<object> toInvokeOutsideLock, [CanBeNull] out object state)
         {
             if (undoRedoLevel is SubItemStateChange lvl)
             {
@@ -826,7 +837,7 @@ namespace IX.Observable
                 }
 
                 state = new Tuple<Action<object>[], object[], ObservableCollectionBase<T>>(actionsToInvoke, states, this);
-                toInvokeOutsideLock = (innerState) =>
+                toInvokeOutsideLock = innerState =>
                 {
                     var convertedState = (Tuple<Action<object>[], object[], ObservableCollectionBase<T>>)innerState;
 
@@ -851,7 +862,7 @@ namespace IX.Observable
         /// <param name="toInvokeOutsideLock">An action to invoke outside of the lock.</param>
         /// <param name="state">The state object to pass to the invocation.</param>
         /// <returns><see langword="true"/> if the redo was successful, <see langword="false"/> otherwise.</returns>
-        protected virtual bool RedoInternally(StateChange undoRedoLevel, out Action<object> toInvokeOutsideLock, out object state)
+        protected virtual bool RedoInternally([NotNull] StateChange undoRedoLevel, [CanBeNull] out Action<object> toInvokeOutsideLock, [CanBeNull] out object state)
         {
             if (undoRedoLevel is SubItemStateChange lvl)
             {
@@ -900,7 +911,7 @@ namespace IX.Observable
                 }
 
                 state = new Tuple<Action<object>[], object[], ObservableCollectionBase<T>>(actionsToInvoke, states, this);
-                toInvokeOutsideLock = (innerState) =>
+                toInvokeOutsideLock = innerState =>
                 {
                     var convertedState = (Tuple<Action<object>[], object[], ObservableCollectionBase<T>>)innerState;
 

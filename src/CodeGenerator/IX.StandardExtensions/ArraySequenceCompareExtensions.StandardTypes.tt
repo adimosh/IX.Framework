@@ -70,6 +70,8 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
                 {
                     return cr;
                 }
+
+                i++;
             }
         }
 <#
