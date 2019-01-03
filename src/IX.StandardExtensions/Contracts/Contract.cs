@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
+using IX.StandardExtensions.ComponentModel;
+
 using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.Contracts
@@ -14,6 +16,7 @@ namespace IX.StandardExtensions.Contracts
     /// <summary>
     /// Methods for approximating the works of contract-oriented programming.
     /// </summary>
+    [PublicAPI]
     public static class Contract
     {
         /// <summary>
@@ -31,6 +34,7 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsAllSymbol)]
         [Conditional(Constants.ContractsPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [ContractAnnotation("argument:null => halt")]
         public static void RequiresNotNull(object argument, string argumentName)
         {
             if (argument == null)
@@ -54,6 +58,7 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsAllSymbol)]
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [ContractAnnotation("argument:null => halt")]
         public static void RequiresNotNullPrivate(object argument, string argumentName)
         {
             if (argument == null)
@@ -77,6 +82,7 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsAllSymbol)]
         [Conditional(Constants.ContractsPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [ContractAnnotation("argument:null => halt")]
         public static void RequiresNotNullOrEmpty(string argument, string argumentName)
         {
             if (string.IsNullOrEmpty(argument))
@@ -100,6 +106,7 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsAllSymbol)]
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [ContractAnnotation("argument:null => halt")]
         public static void RequiresNotNullOrEmptyPrivate(string argument, string argumentName)
         {
             if (string.IsNullOrEmpty(argument))
@@ -123,6 +130,7 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsAllSymbol)]
         [Conditional(Constants.ContractsPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [ContractAnnotation("argument:null => halt")]
         public static void RequiresNotNullOrWhitespace(string argument, string argumentName)
         {
             if (string.IsNullOrWhiteSpace(argument))
@@ -146,6 +154,7 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsAllSymbol)]
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [ContractAnnotation("argument:null => halt")]
         public static void RequiresNotNullOrWhitespacePrivate(string argument, string argumentName)
         {
             if (string.IsNullOrWhiteSpace(argument))
@@ -172,6 +181,7 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsAllSymbol)]
         [Conditional(Constants.ContractsPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [ContractAnnotation("argument:null => halt")]
         public static void RequiresNotNullOrEmptyCollection<T>([CanBeNull]ICollection<T> argument, string argumentName)
         {
             if ((argument?.Count ?? 0) == 0)
@@ -198,6 +208,7 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsAllSymbol)]
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [ContractAnnotation("argument:null => halt")]
         public static void RequiresNotNullOrEmptyCollectionPrivate<T>([CanBeNull]ICollection<T> argument, string argumentName)
         {
             if ((argument?.Count ?? 0) == 0)
@@ -221,6 +232,7 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsAllSymbol)]
         [Conditional(Constants.ContractsPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [ContractAnnotation("argument:null => halt")]
         public static void RequiresNotNullOrEmptyBinary([CanBeNull] byte[] argument, string argumentName)
         {
             if ((argument?.Length ?? 0) == 0)
@@ -244,6 +256,7 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsAllSymbol)]
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [ContractAnnotation("argument:null => halt")]
         public static void RequiresNotNullOrEmptyBinaryPrivate([CanBeNull] byte[] argument, string argumentName)
         {
             if ((argument?.Length ?? 0) == 0)
@@ -855,5 +868,29 @@ namespace IX.StandardExtensions.Contracts
                 throw new ArgumentInvalidTypeException(argumentName);
             }
         }
+
+        /// <summary>
+        /// Called when a contract requires that an argument is of a specific type.
+        /// </summary>
+        /// <param name="reference">
+        /// The object reference to check for disposed.
+        /// </param>
+        /// <exception cref="ObjectDisposedException">If the reference object is disposed, this exception will be thrown.</exception>
+        [Conditional(Constants.ContractsAllSymbol)]
+        [Conditional(Constants.ContractsPublicSymbol)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RequiresNotDisposed([NotNull] this DisposableBase reference) => reference.ThrowIfCurrentObjectDisposed();
+
+        /// <summary>
+        /// Called when a contract requires that an argument is of a specific type.
+        /// </summary>
+        /// <param name="reference">
+        /// The object reference to check for disposed.
+        /// </param>
+        /// <exception cref="ObjectDisposedException">If the reference object is disposed, this exception will be thrown.</exception>
+        [Conditional(Constants.ContractsAllSymbol)]
+        [Conditional(Constants.ContractsNonPublicSymbol)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RequiresNotDisposedPrivate([NotNull] this DisposableBase reference) => reference.ThrowIfCurrentObjectDisposed();
     }
 }
