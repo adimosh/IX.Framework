@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using IX.StandardExtensions;
+using IX.StandardExtensions.Contracts;
 using IX.StandardExtensions.Threading;
 using IX.System.Collections.Generic;
 using IX.System.IO;
@@ -24,30 +25,49 @@ namespace IX.Guaranteed.Collections
     /// <seealso cref="System.Collections.Generic.IQueue{T}" />
     public abstract class PersistedQueueBase<T> : ReaderWriterSynchronizedBase, IQueue<T>
     {
-        private readonly object syncLocker;
+        /// <summary>
+        /// The poisoned non-removable files list.
+        /// </summary>
         private readonly List<string> poisonedUnremovableFiles;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PersistedQueueBase{T}" /> class.
+        /// Initializes a new instance of the <see cref="PersistedQueueBase{T}"/> class.
         /// </summary>
-        /// <param name="persistenceFolderPath">The persistence folder path.</param>
-        /// <param name="fileShim">The file shim.</param>
-        /// <param name="directoryShim">The directory shim.</param>
-        /// <param name="pathShim">The path shim.</param>
-        /// <param name="serializer">The serializer.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="persistenceFolderPath" />
+        /// <param name="persistenceFolderPath">
+        /// The persistence folder path.
+        /// </param>
+        /// <param name="fileShim">
+        /// The file shim.
+        /// </param>
+        /// <param name="directoryShim">
+        /// The directory shim.
+        /// </param>
+        /// <param name="pathShim">
+        /// The path shim.
+        /// </param>
+        /// <param name="serializer">
+        /// The serializer.
+        /// </param>
+        /// <param name="timeout">
+        /// The timeout.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="persistenceFolderPath"/>
         /// or
-        /// <paramref name="fileShim" />
+        /// <paramref name="fileShim"/>
         /// or
-        /// <paramref name="directoryShim" />
+        /// <paramref name="directoryShim"/>
         /// or
-        /// <paramref name="pathShim" />
+        /// <paramref name="pathShim"/>
         /// or
-        /// <paramref name="serializer" />
-        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
-        /// <exception cref="ArgumentInvalidPathException">The folder at <paramref name="persistenceFolderPath" /> does not exist, or is not accessible.</exception>
-        protected PersistedQueueBase([NotNull] string persistenceFolderPath, [NotNull] IFile fileShim, [NotNull] IDirectory directoryShim, [NotNull] IPath pathShim, [NotNull] DataContractSerializer serializer)
-            : base(EnvironmentSettings.PersistedCollectionsLockTimeout)
+        /// <paramref name="serializer"/>
+        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
+        /// </exception>
+        /// <exception cref="ArgumentInvalidPathException">
+        /// The folder at <paramref name="persistenceFolderPath"/> does not exist, or is not accessible.
+        /// </exception>
+        protected PersistedQueueBase([NotNull] string persistenceFolderPath, [NotNull] IFile fileShim, [NotNull] IDirectory directoryShim, [NotNull] IPath pathShim, [NotNull] DataContractSerializer serializer, TimeSpan timeout)
+            : base(timeout)
         {
             // Parameter validation
             if (string.IsNullOrWhiteSpace(persistenceFolderPath))
@@ -60,14 +80,13 @@ namespace IX.Guaranteed.Collections
                 throw new ArgumentInvalidPathException(nameof(persistenceFolderPath));
             }
 
-            // Dependent state
+            // Dependencies
             this.FileShim = fileShim ?? throw new ArgumentNullException(nameof(fileShim));
             this.DirectoryShim = directoryShim;
             this.PathShim = pathShim ?? throw new ArgumentNullException(nameof(pathShim));
             this.Serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
 
             // Internal state
-            this.syncLocker = new object();
             this.poisonedUnremovableFiles = new List<string>();
 
             // Persistence folder paths
@@ -98,7 +117,7 @@ namespace IX.Guaranteed.Collections
         /// Gets an object that can be used to synchronize access to the <see cref="PersistedQueueBase{T}" />.
         /// </summary>
         /// <value>The synchronize root.</value>
-        object ICollection.SyncRoot => this.syncLocker;
+        object ICollection.SyncRoot { get; } = new object();
 
         /// <summary>
         /// Gets a value indicating whether access to the <see cref="PersistedQueueBase{T}" /> is synchronized (thread safe).
@@ -172,7 +191,7 @@ namespace IX.Guaranteed.Collections
         /// </summary>
         /// <param name="item">The item that has been de-queued, default if unsuccessful.</param>
         /// <returns><see langword="true" /> if an item is de-queued successfully, <see langword="false"/> otherwise, or if the queue is empty.</returns>
-        public abstract bool TryDequeue(out T item);
+        public abstract bool TryDequeue([CanBeNull] out T item);
 
         /// <summary>
         /// Queues an item, adding it to the queue.
@@ -390,17 +409,10 @@ namespace IX.Guaranteed.Collections
         /// <para>Warning! This method has the potential of overrunning its read/write lock timeouts. Please ensure that the <paramref name="predicate"/> method
         /// filters out items in a way that limits the amount of data passing through.</para>
         /// </remarks>
-        protected int TryLoadWhilePredicateWithAction<TState>([NotNull] Func<TState, T, bool> predicate, [NotNull] Action<TState, IEnumerable<T>> actionToInvoke, TState state)
+        protected int TryLoadWhilePredicateWithAction<TState>([NotNull] Func<TState, T, bool> predicate, [NotNull] Action<TState, IEnumerable<T>> actionToInvoke, [CanBeNull] TState state)
         {
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
-            if (actionToInvoke == null)
-            {
-                throw new ArgumentNullException(nameof(actionToInvoke));
-            }
+            Contract.RequiresNotNullPrivate(predicate, nameof(predicate));
+            Contract.RequiresNotNullPrivate(actionToInvoke, nameof(actionToInvoke));
 
             this.ThrowIfCurrentObjectDisposed();
 
@@ -452,39 +464,41 @@ namespace IX.Guaranteed.Collections
                     }
                 }
 
-                if (accumulatedObjects.Count > 0)
+                if (accumulatedObjects.Count <= 0)
+                {
+                    return accumulatedPaths.Count;
+                }
+
+                try
+                {
+                    actionToInvoke(state, accumulatedObjects);
+                }
+                catch (Exception)
+                {
+#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
+                    return 0;
+#pragma warning restore ERP022 // Catching everything considered harmful.
+                }
+
+                locker.Upgrade();
+
+                foreach (var possibleFilePath in accumulatedPaths)
                 {
                     try
                     {
-                        actionToInvoke(state, accumulatedObjects);
+                        this.FileShim.Delete(possibleFilePath);
                     }
-                    catch (Exception)
+                    catch (IOException)
                     {
-#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
-                        return 0;
-#pragma warning restore ERP022 // Catching everything considered harmful.
+                        this.HandleFileLoadProblem(possibleFilePath);
                     }
-
-                    locker.Upgrade();
-
-                    foreach (var possibleFilePath in accumulatedPaths)
+                    catch (UnauthorizedAccessException)
                     {
-                        try
-                        {
-                            this.FileShim.Delete(possibleFilePath);
-                        }
-                        catch (IOException)
-                        {
-                            this.HandleFileLoadProblem(possibleFilePath);
-                        }
-                        catch (UnauthorizedAccessException)
-                        {
-                            this.HandleFileLoadProblem(possibleFilePath);
-                        }
-                        catch (SerializationException)
-                        {
-                            this.HandleFileLoadProblem(possibleFilePath);
-                        }
+                        this.HandleFileLoadProblem(possibleFilePath);
+                    }
+                    catch (SerializationException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
                     }
                 }
 
@@ -646,6 +660,10 @@ namespace IX.Guaranteed.Collections
         /// <returns>An array of data file names.</returns>
         protected string[] GetPossibleDataFiles() => this.DirectoryShim.EnumerateFiles(this.DataFolderPath, "*.dat").Except(this.poisonedUnremovableFiles).ToArray();
 
+        /// <summary>
+        /// Handles the file load problem.
+        /// </summary>
+        /// <param name="possibleFilePath">The possible file path.</param>
         private void HandleFileLoadProblem(string possibleFilePath)
         {
             var newFilePath = this.PathShim.Combine(this.PoisonFolderPath, this.PathShim.GetFileName(possibleFilePath));
@@ -687,6 +705,10 @@ namespace IX.Guaranteed.Collections
             }
         }
 
+        /// <summary>
+        /// Handles the situation where it is impossible to move a file to poison.
+        /// </summary>
+        /// <param name="possibleFilePath">The possible file path.</param>
         private void HandleImpossibleMoveToPoison(string possibleFilePath)
         {
             try
@@ -704,6 +726,9 @@ namespace IX.Guaranteed.Collections
             }
         }
 
+        /// <summary>
+        /// Fixes the unmovable references.
+        /// </summary>
         private void FixUnmovableReferences()
         {
             foreach (var file in this.poisonedUnremovableFiles.ToArray())

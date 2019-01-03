@@ -41,7 +41,7 @@ namespace IX.Guaranteed.Collections
         /// </exception>
         /// <exception cref="ArgumentInvalidPathException">The folder at <paramref name="persistenceFolderPath"/> does not exist, or is not accessible.</exception>
         public InMemoryLimitedPersistedQueue(string persistenceFolderPath, IFile fileShim, IDirectory directoryShim, IPath pathShim)
-            : base(persistenceFolderPath, fileShim, directoryShim, pathShim, new DataContractSerializer(typeof(T)))
+            : base(persistenceFolderPath, fileShim, directoryShim, pathShim, new DataContractSerializer(typeof(T)), EnvironmentSettings.PersistedCollectionsLockTimeout)
         {
             // Internal state
             this.internalQueue = new System.Collections.Generic.Queue<string>();
@@ -129,7 +129,9 @@ namespace IX.Guaranteed.Collections
             catch (Exception)
             {
                 item = default;
+#pragma warning disable ERP022 // Unobserved exception in generic exception handler - That's the point of Try...
                 return false;
+#pragma warning restore ERP022 // Unobserved exception in generic exception handler
             }
 
             this.internalQueue.Dequeue();
