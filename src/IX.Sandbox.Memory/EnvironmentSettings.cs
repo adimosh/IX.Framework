@@ -12,7 +12,7 @@ namespace IX.Sandbox.Memory
         /// <summary>
         /// Gets or sets a value indicating whether to treat special arrays (such as byte or char arrays) as multiple elements.
         /// </summary>
-        /// <value><see langword="true"> to treat special arrays as multiple elements; otherwise, <see langword="false" />.</value>
+        /// <value><see langword="true" /> to treat special arrays as multiple elements; otherwise, <see langword="false" />.</value>
         public static bool TreatSpecialArraysAsMultipleElements { get; set; }
 
         /// <summary>
