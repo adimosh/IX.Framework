@@ -4,7 +4,7 @@
 
 using System;
 
-namespace IX.StandardExtensions.Threading
+namespace IX.StandardExtensions
 {
     /// <summary>
     /// Environment settings for the standard extensions.
