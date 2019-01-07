@@ -6,6 +6,8 @@ using System;
 using System.Threading;
 using IX.StandardExtensions.Threading;
 
+using JetBrains.Annotations;
+
 namespace IX.StandardExtensions.ComponentModel
 {
     /// <summary>
@@ -28,7 +30,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// Initializes a new instance of the <see cref="SynchronizationContextInvokerBase"/> class.
         /// </summary>
         /// <param name="synchronizationContext">The specific synchronization context to use.</param>
-        protected SynchronizationContextInvokerBase(SynchronizationContext synchronizationContext)
+        protected SynchronizationContextInvokerBase([CanBeNull] SynchronizationContext synchronizationContext)
         {
             this.synchronizationContext = synchronizationContext;
         }
