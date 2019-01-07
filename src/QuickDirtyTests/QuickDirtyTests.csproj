@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ObservableCollections\ObservableListAndReadOnlyCompositeCollectionBenchmarks.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -50,9 +51,25 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IX.Observable\IX.Observable.csproj">
+      <Project>{a4f3fdd5-cc81-4fe8-aebe-4e6bf1d77ec0}</Project>
+      <Name>IX.Observable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IX.StandardExtensions.ComponentModel\IX.StandardExtensions.ComponentModel.csproj">
+      <Project>{B68675D0-0D50-4E02-A673-0A0837DFBDE3}</Project>
+      <Name>IX.StandardExtensions.ComponentModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IX.StandardExtensions.TestUtils\IX.StandardExtensions.TestUtils.csproj">
+      <Project>{1f5ece36-cbe7-43f3-bd0b-d0e00fe11c34}</Project>
+      <Name>IX.StandardExtensions.TestUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj">
       <Project>{a3d15d3a-bd82-4d19-bc32-56148d879ff4}</Project>
       <Name>IX.StandardExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IX.Undoable\IX.Undoable.csproj">
+      <Project>{b1b35f4a-031f-477e-8061-290c5c6f55d2}</Project>
+      <Name>IX.Undoable</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
