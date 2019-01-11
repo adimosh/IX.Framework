@@ -26,12 +26,11 @@
 
   <!-- Debug and packaging -->
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <DefineConstants>$(DefineConstants);IXCONTRACTSALL</DefineConstants>
+    <DefineConstants>$(DefineConstants);IXCONTRACTSNONPUBLIC</DefineConstants>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <DefineConstants>$(DefineConstants);IXCONTRACTSPUBLIC</DefineConstants>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 

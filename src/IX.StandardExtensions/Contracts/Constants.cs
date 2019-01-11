@@ -10,18 +10,8 @@ namespace IX.StandardExtensions.Contracts
     public static class Constants
     {
         /// <summary>
-        /// The public contracts symbol.
-        /// </summary>
-        public const string ContractsPublicSymbol = "IXCONTRACTSPUBLIC";
-
-        /// <summary>
         /// The non-public contracts symbol.
         /// </summary>
         public const string ContractsNonPublicSymbol = "IXCONTRACTSNONPUBLIC";
-
-        /// <summary>
-        /// The all contracts symbol.
-        /// </summary>
-        public const string ContractsAllSymbol = "IXCONTRACTSALL";
     }
 }
