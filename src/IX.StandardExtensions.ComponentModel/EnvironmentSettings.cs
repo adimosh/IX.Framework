@@ -4,6 +4,8 @@
 
 using System.Threading;
 
+using JetBrains.Annotations;
+
 namespace IX.StandardExtensions.ComponentModel
 {
     /// <summary>
@@ -65,6 +67,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// Gets the currently usable synchronization context, according to the framework rules, except for the explicit synchronization context.
         /// </summary>
         /// <returns>The currently usable synchronization context, according to the framework rules.</returns>
+        [CanBeNull]
         public static SynchronizationContext GetUsableSynchronizationContext()
         {
             if (AlwaysSuppressCurrentSynchronizationContext)

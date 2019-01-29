@@ -7,11 +7,16 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
+using IX.StandardExtensions.Contracts;
+
+using JetBrains.Annotations;
+
 namespace IX.StandardExtensions.Threading
 {
     /// <summary>
     /// A class that provides methods and extensions to fire events.
     /// </summary>
+    [PublicAPI]
     public static partial class Fire
     {
         /// <summary>
@@ -19,7 +24,7 @@ namespace IX.StandardExtensions.Threading
         /// </summary>
         /// <param name="action">The action.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget(Action action, CancellationToken cancellationToken = default) => AndForget(action, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
+        public static void AndForget([CanBeNull] Action action, CancellationToken cancellationToken = default) => AndForget(action, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
 
         /// <summary>
         /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
@@ -27,12 +32,9 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">The action.</param>
         /// <param name="exceptionHandler">The exception handler. This parameter can be null.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget(Action action, Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
+        public static void AndForget([CanBeNull] Action action, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            Contract.RequiresNotNull(action, nameof(action));
 
             var runningTask = new Task(action, cancellationToken);
 
@@ -64,7 +66,7 @@ namespace IX.StandardExtensions.Threading
         /// </summary>
         /// <param name="action">The action.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget(Action<CancellationToken> action, CancellationToken cancellationToken = default) => AndForget(action, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
+        public static void AndForget([CanBeNull] Action<CancellationToken> action, CancellationToken cancellationToken = default) => AndForget(action, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
 
         /// <summary>
         /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
@@ -72,15 +74,12 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">The action.</param>
         /// <param name="exceptionHandler">The exception handler. This parameter can be null.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget(Action<CancellationToken> action, Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
+        public static void AndForget([CanBeNull] Action<CancellationToken> action, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            Contract.RequiresNotNull(action, nameof(action));
 
             var runningTask = new Task(
-                (state) =>
+                state =>
                 {
                     var brokenState = (Tuple<Action<CancellationToken>, CancellationToken>)state;
                     brokenState.Item1(brokenState.Item2);
@@ -116,7 +115,7 @@ namespace IX.StandardExtensions.Threading
         /// </summary>
         /// <param name="action">The action.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget(Func<Task> action, CancellationToken cancellationToken = default) => AndForget(action, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
+        public static void AndForget([CanBeNull] Func<Task> action, CancellationToken cancellationToken = default) => AndForget(action, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
 
         /// <summary>
         /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
@@ -124,12 +123,9 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">The action.</param>
         /// <param name="exceptionHandler">The exception handler. This parameter can be null.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget(Func<Task> action, Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
+        public static void AndForget([CanBeNull] Func<Task> action, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            Contract.RequiresNotNull(action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = new Task(
@@ -140,22 +136,24 @@ namespace IX.StandardExtensions.Threading
                     {
                         Task task = brokenState.Item1();
 
-                        if (!task.IsCompleted)
+                        if (task.IsCompleted)
                         {
-                            task.ConfigureAwait(false);
+                            return;
+                        }
 
-                            if (brokenState.Item2 != null)
-                            {
-                                // No sense in running the continuation if there's nobody listening, or if it's already finished synchronously
+                        task.ConfigureAwait(false);
+
+                        if (brokenState.Item2 != null)
+                        {
+                            // No sense in running the continuation if there's nobody listening, or if it's already finished synchronously
 #pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item2,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item3,
-                                    cancellationToken: brokenState.Item4);
+                            task.ContinueWith(
+                                continuationAction: StandardContinuation,
+                                state: brokenState.Item2,
+                                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
+                                scheduler: brokenState.Item3,
+                                cancellationToken: brokenState.Item4);
 #pragma warning restore HAA0603 // Delegate allocation from a method group
-                            }
                         }
                     }
                     catch (Exception ex)
@@ -199,7 +197,7 @@ namespace IX.StandardExtensions.Threading
         /// </summary>
         /// <param name="action">The action.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget(Func<CancellationToken, Task> action, CancellationToken cancellationToken = default) => AndForget(action, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
+        public static void AndForget([CanBeNull] Func<CancellationToken, Task> action, CancellationToken cancellationToken = default) => AndForget(action, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
 
         /// <summary>
         /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
@@ -207,7 +205,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">The action.</param>
         /// <param name="exceptionHandler">The exception handler. This parameter can be null.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget(Func<CancellationToken, Task> action, Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
+        public static void AndForget([CanBeNull] Func<CancellationToken, Task> action, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
             if (action == null)
             {
@@ -278,6 +276,7 @@ namespace IX.StandardExtensions.Threading
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [NotNull]
         private static TaskScheduler GetCurrentTaskScheduler()
         {
             try

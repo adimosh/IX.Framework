@@ -1,15 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using QuickDirtyTests.ObservableCollections;
 
 namespace QuickDirtyTests
 {
-    static class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
+            ObservableListAndReadOnlyCompositeCollectionBenchmarks.Test();
+
+            Console.ReadLine();
         }
     }
 }

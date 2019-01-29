@@ -12,6 +12,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
+using IX.StandardExtensions.Contracts;
+
+using JetBrains.Annotations;
+
 namespace IX.StandardExtensions.Threading
 {
     /// <summary>
@@ -71,7 +75,7 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        public static void AndForget<<#= paramTypes #>>([CanBeNull] Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
             => AndForget(action, <#= paramNames #>, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
 
         /// <summary>
@@ -96,12 +100,9 @@ for (int i = 1; i <= 8; i++)
 #>
         /// <param name="exceptionHandler">The exception handler. This parameter can be null.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
+        public static void AndForget<<#= paramTypes #>>([CanBeNull] Action<<#= paramTypes #>> action, <#= paramNameTypes #>, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            Contract.RequiresNotNull(action, nameof(action));
 
             var state = new Tuple<Action<<#= paramTypes #>>, Tuple<<#= paramTypes #>>>(action, new Tuple<<#= paramTypes #>>(<#= paramNames #>));
             var runningTask = new Task(ExecuteAction, state, cancellationToken);
@@ -152,7 +153,7 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget<<#= paramTypes #>>(Action<<#= paramTypes #>, CancellationToken> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        public static void AndForget<<#= paramTypes #>>([CanBeNull] Action<<#= paramTypes #>, CancellationToken> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
             => AndForget(action, <#= paramNames #>, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
 
         /// <summary>
@@ -177,12 +178,9 @@ for (int i = 1; i <= 8; i++)
 #>
         /// <param name="exceptionHandler">The exception handler. This parameter can be null.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget<<#= paramTypes #>>(Action<<#= paramTypes #>, CancellationToken> action, <#= paramNameTypes #>, Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
+        public static void AndForget<<#= paramTypes #>>([CanBeNull] Action<<#= paramTypes #>, CancellationToken> action, <#= paramNameTypes #>, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            Contract.RequiresNotNull(action, nameof(action));
 
             var state = new Tuple<Action<<#= paramTypes #>, CancellationToken>, Tuple<<#= paramTypes #>>, CancellationToken>(action, new Tuple<<#= paramTypes #>>(<#= paramNames #>), cancellationToken);
             var runningTask = new Task(ExecuteAction, state, cancellationToken);
@@ -233,7 +231,7 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget<<#= paramTypes #>>(Func<<#= paramTypes #>, Task> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        public static void AndForget<<#= paramTypes #>>([CanBeNull] Func<<#= paramTypes #>, Task> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
             => AndForget(action, <#= paramNames #>, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
 
         /// <summary>
@@ -258,12 +256,9 @@ for (int i = 1; i <= 8; i++)
 #>
         /// <param name="exceptionHandler">The exception handler. This parameter can be null.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget<<#= paramTypes #>>(Func<<#= paramTypes #>, Task> action, <#= paramNameTypes #>, Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
+        public static void AndForget<<#= paramTypes #>>([CanBeNull] Func<<#= paramTypes #>, Task> action, <#= paramNameTypes #>, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            Contract.RequiresNotNull(action, nameof(action));
 
             var runningTask = new Task(
                 (state) =>
@@ -343,7 +338,7 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget<<#= paramTypes #>>(Func<<#= paramTypes #>, CancellationToken, Task> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        public static void AndForget<<#= paramTypes #>>([CanBeNull] Func<<#= paramTypes #>, CancellationToken, Task> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
             => AndForget(action, <#= paramNames #>, EnvironmentSettings.DefaultFireAndForgetUnhandledExceptionHandler, cancellationToken);
 
         /// <summary>
@@ -368,12 +363,9 @@ for (int i = 1; i <= 8; i++)
 #>
         /// <param name="exceptionHandler">The exception handler. This parameter can be null.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public static void AndForget<<#= paramTypes #>>(Func<<#= paramTypes #>, CancellationToken, Task> action, <#= paramNameTypes #>, Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
+        public static void AndForget<<#= paramTypes #>>([CanBeNull] Func<<#= paramTypes #>, CancellationToken, Task> action, <#= paramNameTypes #>, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            Contract.RequiresNotNull(action, nameof(action));
 
             var runningTask = new Task(
                 (state) =>

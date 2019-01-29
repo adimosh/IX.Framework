@@ -2,10 +2,14 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading;
+
 using IX.Observable.Adapters;
+
+using JetBrains.Annotations;
 
 namespace IX.Observable
 {
@@ -13,12 +17,16 @@ namespace IX.Observable
     /// An observable, composite, thread-safe and read-only list made of multiple lists of the same rank.
     /// </summary>
     /// <typeparam name="T">The type of the list item.</typeparam>
-    /// <seealso cref="global::System.IDisposable" />
+    /// <seealso cref="IDisposable" />
     /// <seealso cref="Observable.ObservableReadOnlyCollectionBase{T}" />
+    [PublicAPI]
     public class ObservableReadOnlyCompositeList<T> : ObservableReadOnlyCollectionBase<T>
     {
 #pragma warning disable IDISP002 // Dispose member. - It is
 #pragma warning disable IDISP006 // Implement IDisposable. - It is
+        /// <summary>
+        /// The thread synchronization locker.
+        /// </summary>
         private ReaderWriterLockSlim locker;
 #pragma warning restore IDISP006 // Implement IDisposable.
 #pragma warning restore IDISP002 // Dispose member.
