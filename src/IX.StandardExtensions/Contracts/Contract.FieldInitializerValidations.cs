@@ -1,4 +1,4 @@
-// <copyright file="Contract.cs" company="Adrian Mos">
+// <copyright file="Contract.FieldInitializerValidations.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-using IX.StandardExtensions.ComponentModel;
-
 using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.Contracts
@@ -16,13 +14,15 @@ namespace IX.StandardExtensions.Contracts
     /// <summary>
     /// Methods for approximating the works of contract-oriented programming.
     /// </summary>
-    [PublicAPI]
     public static partial class Contract
     {
         /// <summary>
-        /// Called when a contract requires that an argument is not null.
+        /// Called when a contract requires that an argument initializing a field is not null.
         /// </summary>
         /// <typeparam name="T">The type of argument to validate.</typeparam>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The argument.
         /// </param>
@@ -34,19 +34,16 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNull<T>([CanBeNull] T argument, [NotNull] string argumentName)
-            where T : class
-        {
-            if (argument == null)
-            {
-                throw new ArgumentNullException(argumentName);
-            }
-        }
+        public static void RequiresNotNull<T>(ref T field, [CanBeNull] T argument, [NotNull] string argumentName)
+            where T : class => field = argument ?? throw new ArgumentNullException(argumentName);
 
         /// <summary>
-        /// Called when a contract requires that an argument is not null. Use this method for non-public contracts.
+        /// Called when a contract requires that an argument initializing a field is not null. Use this method for non-public contracts.
         /// </summary>
         /// <typeparam name="T">The type of argument to validate.</typeparam>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The argument.
         /// </param>
@@ -59,18 +56,15 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullPrivate<T>([CanBeNull] T argument, [NotNull] string argumentName)
-            where T : class
-        {
-            if (argument == null)
-            {
-                throw new ArgumentNullException(argumentName);
-            }
-        }
+        public static void RequiresNotNullPrivate<T>(ref T field, [CanBeNull] T argument, [NotNull] string argumentName)
+            where T : class => field = argument ?? throw new ArgumentNullException(argumentName);
 
         /// <summary>
-        /// Called when a contract requires that a string argument is not null or empty.
+        /// Called when a contract requires that a string argument initializing a field is not null or empty.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The string argument.
         /// </param>
@@ -82,17 +76,22 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmpty([CanBeNull] string argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmpty(ref string field, [CanBeNull] string argument, [NotNull] string argumentName)
         {
             if (string.IsNullOrEmpty(argument))
             {
                 throw new ArgumentNullOrEmptyException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a string argument is not null or empty. Use this method for non-public contracts.
+        /// Called when a contract requires that a string argument initializing a field is not null or empty. Use this method for non-public contracts.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The string argument.
         /// </param>
@@ -105,17 +104,22 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmptyPrivate([CanBeNull] string argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmptyPrivate(ref string field, [CanBeNull] string argument, [NotNull] string argumentName)
         {
             if (string.IsNullOrEmpty(argument))
             {
                 throw new ArgumentNullOrEmptyException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a string argument is not null or empty.
+        /// Called when a contract requires that a string argument initializing a field is not null or empty.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The string argument.
         /// </param>
@@ -127,17 +131,22 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrWhitespace([CanBeNull] string argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrWhitespace(ref string field, [CanBeNull] string argument, [NotNull] string argumentName)
         {
             if (string.IsNullOrWhiteSpace(argument))
             {
                 throw new ArgumentNullOrWhitespaceException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a string argument is not null or empty. Use this method for non-public contracts.
+        /// Called when a contract requires that a string argument initializing a field is not null or empty. Use this method for non-public contracts.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The string argument.
         /// </param>
@@ -150,20 +159,25 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrWhitespacePrivate([CanBeNull] string argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrWhitespacePrivate(ref string field, [CanBeNull] string argument, [NotNull] string argumentName)
         {
             if (string.IsNullOrWhiteSpace(argument))
             {
                 throw new ArgumentNullOrWhitespaceException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a collection argument is not null or empty.
+        /// Called when a contract requires that a collection argument initializing a field is not null or empty.
         /// </summary>
         /// <typeparam name="T">
         /// The type of the collection.
         /// </typeparam>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The collection argument.
         /// </param>
@@ -175,20 +189,25 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmptyCollection<T>([CanBeNull] ICollection<T> argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmptyCollection<T>(ref ICollection<T> field, [CanBeNull] ICollection<T> argument, [NotNull] string argumentName)
         {
             if ((argument?.Count ?? 0) == 0)
             {
                 throw new ArgumentNullOrEmptyCollectionException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a collection argument is not null or empty. Use this method for non-public contracts.
+        /// Called when a contract requires that a collection argument initializing a field is not null or empty. Use this method for non-public contracts.
         /// </summary>
         /// <typeparam name="T">
         /// The type of the collection.
         /// </typeparam>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The collection argument.
         /// </param>
@@ -201,17 +220,22 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmptyCollectionPrivate<T>([CanBeNull] ICollection<T> argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmptyCollectionPrivate<T>(ref ICollection<T> field, [CanBeNull] ICollection<T> argument, [NotNull] string argumentName)
         {
             if ((argument?.Count ?? 0) == 0)
             {
                 throw new ArgumentNullOrEmptyCollectionException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a collection argument is not null or empty.
+        /// Called when a contract requires that a collection argument initializing a field is not null or empty.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The byte array argument.
         /// </param>
@@ -223,17 +247,22 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmptyBinary([CanBeNull] byte[] argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmptyBinary(ref byte[] field, [CanBeNull] byte[] argument, [NotNull] string argumentName)
         {
             if ((argument?.Length ?? 0) == 0)
             {
                 throw new ArgumentNullOrEmptyBinaryException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a collection argument is not null or empty. Use this method for non-public contracts.
+        /// Called when a contract requires that a collection argument initializing a field is not null or empty. Use this method for non-public contracts.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The byte array argument.
         /// </param>
@@ -246,17 +275,22 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmptyBinaryPrivate([CanBeNull] byte[] argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmptyBinaryPrivate(ref byte[] field, [CanBeNull] byte[] argument, [NotNull] string argumentName)
         {
             if ((argument?.Length ?? 0) == 0)
             {
                 throw new ArgumentNullOrEmptyBinaryException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive.
+        /// Called when a contract requires that a numeric argument initializing a field is positive.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The numeric argument.
         /// </param>
@@ -267,17 +301,22 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumber(sbyte argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumber(ref sbyte field, sbyte argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
                 throw new ArgumentNotPositiveIntegerException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
+        /// Called when a contract requires that a numeric argument initializing a field is positive. Use this method for non-public contracts.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The byte array argument.
         /// </param>
@@ -289,17 +328,22 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumberPrivate(sbyte argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumberPrivate(ref sbyte field, sbyte argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
                 throw new ArgumentNotPositiveIntegerException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive.
+        /// Called when a contract requires that a numeric argument initializing a field is positive.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The numeric argument.
         /// </param>
@@ -310,17 +354,22 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumber(byte argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumber(ref byte field, byte argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
                 throw new ArgumentNotPositiveIntegerException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
+        /// Called when a contract requires that a numeric argument initializing a field is positive. Use this method for non-public contracts.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The byte array argument.
         /// </param>
@@ -332,17 +381,22 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumberPrivate(byte argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumberPrivate(ref byte field, byte argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
                 throw new ArgumentNotPositiveIntegerException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive.
+        /// Called when a contract requires that a numeric argument initializing a field is positive.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The numeric argument.
         /// </param>
@@ -353,103 +407,22 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumber(short argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumber(ref short field, short argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
                 throw new ArgumentNotPositiveIntegerException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
+        /// Called when a contract requires that a numeric argument initializing a field is positive. Use this method for non-public contracts.
         /// </summary>
-        /// <param name="argument">
-        /// The byte array argument.
+        /// <param name="field">
+        /// The field that this argument is initializing.
         /// </param>
-        /// <param name="argumentName">
-        /// The argument name.
-        /// </param>
-        /// <exception cref="ArgumentNotPositiveIntegerException">
-        /// The argument is negative or 0.
-        /// </exception>
-        [Conditional(Constants.ContractsNonPublicSymbol)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumberPrivate(short argument, [NotNull] string argumentName)
-        {
-            if (argument <= 0)
-            {
-                throw new ArgumentNotPositiveIntegerException(argumentName);
-            }
-        }
-
-        /// <summary>
-        /// Called when a contract requires that a numeric argument is positive.
-        /// </summary>
-        /// <param name="argument">
-        /// The numeric argument.
-        /// </param>
-        /// <param name="argumentName">
-        /// The argument name.
-        /// </param>
-        /// <exception cref="ArgumentNotPositiveIntegerException">
-        /// The argument is 0.
-        /// </exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumber(ushort argument, [NotNull] string argumentName)
-        {
-            if (argument == 0)
-            {
-                throw new ArgumentNotPositiveIntegerException(argumentName);
-            }
-        }
-
-        /// <summary>
-        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
-        /// </summary>
-        /// <param name="argument">
-        /// The byte array argument.
-        /// </param>
-        /// <param name="argumentName">
-        /// The argument name.
-        /// </param>
-        /// <exception cref="ArgumentNotPositiveIntegerException">
-        /// The argument is 0.
-        /// </exception>
-        [Conditional(Constants.ContractsNonPublicSymbol)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumberPrivate(ushort argument, [NotNull] string argumentName)
-        {
-            if (argument == 0)
-            {
-                throw new ArgumentNotPositiveIntegerException(argumentName);
-            }
-        }
-
-        /// <summary>
-        /// Called when a contract requires that a numeric argument is positive.
-        /// </summary>
-        /// <param name="argument">
-        /// The numeric argument.
-        /// </param>
-        /// <param name="argumentName">
-        /// The argument name.
-        /// </param>
-        /// <exception cref="ArgumentNotPositiveIntegerException">
-        /// The argument is negative or 0.
-        /// </exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumber(int argument, [NotNull] string argumentName)
-        {
-            if (argument <= 0)
-            {
-                throw new ArgumentNotPositiveIntegerException(argumentName);
-            }
-        }
-
-        /// <summary>
-        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
-        /// </summary>
         /// <param name="argument">
         /// The byte array argument.
         /// </param>
@@ -461,17 +434,22 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumberPrivate(int argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumberPrivate(ref short field, short argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
                 throw new ArgumentNotPositiveIntegerException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive.
+        /// Called when a contract requires that a numeric argument initializing a field is positive.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The numeric argument.
         /// </param>
@@ -482,17 +460,22 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumber(uint argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumber(ref ushort field, ushort argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
                 throw new ArgumentNotPositiveIntegerException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
+        /// Called when a contract requires that a numeric argument initializing a field is positive. Use this method for non-public contracts.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The byte array argument.
         /// </param>
@@ -504,17 +487,22 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumberPrivate(uint argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumberPrivate(ref ushort field, ushort argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
                 throw new ArgumentNotPositiveIntegerException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive.
+        /// Called when a contract requires that a numeric argument initializing a field is positive.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The numeric argument.
         /// </param>
@@ -525,17 +513,22 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumber(long argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumber(ref int field, int argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
                 throw new ArgumentNotPositiveIntegerException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
+        /// Called when a contract requires that a numeric argument initializing a field is positive. Use this method for non-public contracts.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The byte array argument.
         /// </param>
@@ -547,17 +540,22 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumberPrivate(long argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumberPrivate(ref int field, int argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
                 throw new ArgumentNotPositiveIntegerException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive.
+        /// Called when a contract requires that a numeric argument initializing a field is positive.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The numeric argument.
         /// </param>
@@ -568,17 +566,22 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumber(ulong argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumber(ref uint field, uint argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
                 throw new ArgumentNotPositiveIntegerException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
+        /// Called when a contract requires that a numeric argument initializing a field is positive. Use this method for non-public contracts.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The byte array argument.
         /// </param>
@@ -590,17 +593,128 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumberPrivate(ulong argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumberPrivate(ref uint field, uint argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
                 throw new ArgumentNotPositiveIntegerException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive.
+        /// Called when a contract requires that a numeric argument initializing a field is positive.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
+        /// <param name="argument">
+        /// The numeric argument.
+        /// </param>
+        /// <param name="argumentName">
+        /// The argument name.
+        /// </param>
+        /// <exception cref="ArgumentNotPositiveIntegerException">
+        /// The argument is negative or 0.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RequiresPositiveNumber(ref long field, long argument, [NotNull] string argumentName)
+        {
+            if (argument <= 0)
+            {
+                throw new ArgumentNotPositiveIntegerException(argumentName);
+            }
+
+            field = argument;
+        }
+
+        /// <summary>
+        /// Called when a contract requires that a numeric argument initializing a field is positive. Use this method for non-public contracts.
+        /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
+        /// <param name="argument">
+        /// The byte array argument.
+        /// </param>
+        /// <param name="argumentName">
+        /// The argument name.
+        /// </param>
+        /// <exception cref="ArgumentNotPositiveIntegerException">
+        /// The argument is negative or 0.
+        /// </exception>
+        [Conditional(Constants.ContractsNonPublicSymbol)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RequiresPositiveNumberPrivate(ref long field, long argument, [NotNull] string argumentName)
+        {
+            if (argument <= 0)
+            {
+                throw new ArgumentNotPositiveIntegerException(argumentName);
+            }
+
+            field = argument;
+        }
+
+        /// <summary>
+        /// Called when a contract requires that a numeric argument initializing a field is positive.
+        /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
+        /// <param name="argument">
+        /// The numeric argument.
+        /// </param>
+        /// <param name="argumentName">
+        /// The argument name.
+        /// </param>
+        /// <exception cref="ArgumentNotPositiveIntegerException">
+        /// The argument is 0.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RequiresPositiveNumber(ref ulong field, ulong argument, [NotNull] string argumentName)
+        {
+            if (argument == 0)
+            {
+                throw new ArgumentNotPositiveIntegerException(argumentName);
+            }
+
+            field = argument;
+        }
+
+        /// <summary>
+        /// Called when a contract requires that a numeric argument initializing a field is positive. Use this method for non-public contracts.
+        /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
+        /// <param name="argument">
+        /// The byte array argument.
+        /// </param>
+        /// <param name="argumentName">
+        /// The argument name.
+        /// </param>
+        /// <exception cref="ArgumentNotPositiveIntegerException">
+        /// The argument is 0.
+        /// </exception>
+        [Conditional(Constants.ContractsNonPublicSymbol)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RequiresPositiveNumberPrivate(ref ulong field, ulong argument, [NotNull] string argumentName)
+        {
+            if (argument == 0)
+            {
+                throw new ArgumentNotPositiveIntegerException(argumentName);
+            }
+
+            field = argument;
+        }
+
+        /// <summary>
+        /// Called when a contract requires that a numeric argument initializing a field is positive.
+        /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The numeric argument.
         /// </param>
@@ -611,17 +725,22 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumber(float argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumber(ref float field, float argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
                 throw new ArgumentNotPositiveException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
+        /// Called when a contract requires that a numeric argument initializing a field is positive. Use this method for non-public contracts.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The byte array argument.
         /// </param>
@@ -633,17 +752,22 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumberPrivate(float argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumberPrivate(ref float field, float argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
                 throw new ArgumentNotPositiveException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive.
+        /// Called when a contract requires that a numeric argument initializing a field is positive.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The numeric argument.
         /// </param>
@@ -654,17 +778,22 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumber(double argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumber(ref double field, double argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
                 throw new ArgumentNotPositiveException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
+        /// Called when a contract requires that a numeric argument initializing a field is positive. Use this method for non-public contracts.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The byte array argument.
         /// </param>
@@ -676,17 +805,22 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumberPrivate(double argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumberPrivate(ref double field, double argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
                 throw new ArgumentNotPositiveException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive.
+        /// Called when a contract requires that a numeric argument initializing a field is positive.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The numeric argument.
         /// </param>
@@ -697,17 +831,22 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumber(decimal argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumber(ref decimal field, decimal argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
                 throw new ArgumentNotPositiveException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
+        /// Called when a contract requires that a numeric argument initializing a field is positive. Use this method for non-public contracts.
         /// </summary>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The byte array argument.
         /// </param>
@@ -719,63 +858,25 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositiveNumberPrivate(decimal argument, [NotNull] string argumentName)
+        public static void RequiresPositiveNumberPrivate(ref decimal field, decimal argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
                 throw new ArgumentNotPositiveException(argumentName);
             }
+
+            field = argument;
         }
 
         /// <summary>
-        /// Called when a contract requires that a numeric argument is positive.
-        /// </summary>
-        /// <param name="condition">
-        /// The condition that should be evaluated.
-        /// </param>
-        /// <param name="argumentName">
-        /// The argument name.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        /// The condition is not being met.
-        /// </exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Requires(bool condition, [NotNull] string argumentName)
-        {
-            if (!condition)
-            {
-                throw new ArgumentException(Resources.AContractConditionIsNotBeingMet, argumentName);
-            }
-        }
-
-        /// <summary>
-        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
-        /// </summary>
-        /// <param name="condition">
-        /// The condition that should be evaluated.
-        /// </param>
-        /// <param name="argumentName">
-        /// The argument name.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        /// The condition is not being met.
-        /// </exception>
-        [Conditional(Constants.ContractsNonPublicSymbol)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPrivate(bool condition, [NotNull] string argumentName)
-        {
-            if (!condition)
-            {
-                throw new ArgumentException(Resources.AContractConditionIsNotBeingMet, argumentName);
-            }
-        }
-
-        /// <summary>
-        /// Called when a contract requires that an argument is of a specific type.
+        /// Called when a contract requires that an argument initializing a field is of a specific type.
         /// </summary>
         /// <typeparam name="T">
         /// The type to check the argument for.
         /// </typeparam>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The argument.
         /// </param>
@@ -786,20 +887,25 @@ namespace IX.StandardExtensions.Contracts
         /// The condition is not being met.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresArgumentOfType<T>([CanBeNull] object argument, [NotNull] string argumentName)
+        public static void RequiresArgumentOfType<T>(ref T field, [CanBeNull] object argument, [NotNull] string argumentName)
         {
-            if (!(argument is T))
+            if (!(argument is T convertedArgument))
             {
                 throw new ArgumentInvalidTypeException(argumentName);
             }
+
+            field = convertedArgument;
         }
 
         /// <summary>
-        /// Called when a contract requires that an argument is of a specific type. Use this method for non-public contracts.
+        /// Called when a contract requires that an argument initializing a field is of a specific type. Use this method for non-public contracts.
         /// </summary>
         /// <typeparam name="T">
         /// The type to check the argument for.
         /// </typeparam>
+        /// <param name="field">
+        /// The field that this argument is initializing.
+        /// </param>
         /// <param name="argument">
         /// The argument.
         /// </param>
@@ -811,33 +917,14 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresArgumentOfTypePrivate<T>([CanBeNull] object argument, [NotNull] string argumentName)
+        public static void RequiresArgumentOfTypePrivate<T>(ref T field, [CanBeNull] object argument, [NotNull] string argumentName)
         {
-            if (!(argument is T))
+            if (!(argument is T convertedArgument))
             {
                 throw new ArgumentInvalidTypeException(argumentName);
             }
+
+            field = convertedArgument;
         }
-
-        /// <summary>
-        /// Called when a contract requires that an argument is not disposed.
-        /// </summary>
-        /// <param name="reference">
-        /// The object reference to check for disposed.
-        /// </param>
-        /// <exception cref="ObjectDisposedException">If the reference object is disposed, this exception will be thrown.</exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNotDisposed([NotNull] this DisposableBase reference) => reference.ThrowIfCurrentObjectDisposed();
-
-        /// <summary>
-        /// Called when a contract requires that an argument is not disposed. Use this method for non-public contracts.
-        /// </summary>
-        /// <param name="reference">
-        /// The object reference to check for disposed.
-        /// </param>
-        /// <exception cref="ObjectDisposedException">If the reference object is disposed, this exception will be thrown.</exception>
-        [Conditional(Constants.ContractsNonPublicSymbol)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNotDisposedPrivate([NotNull] this DisposableBase reference) => reference.ThrowIfCurrentObjectDisposed();
     }
 }
