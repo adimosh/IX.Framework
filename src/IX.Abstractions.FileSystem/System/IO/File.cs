@@ -129,12 +129,7 @@ namespace IX.System.IO
         public Stream Create(string path, int bufferSize = 4096)
         {
             Contract.RequiresNotNullOrWhitespace(path, nameof(path));
-            Contract.RequiresPositiveNumber(bufferSize, nameof(bufferSize));
-
-            if (bufferSize <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(bufferSize));
-            }
+            Contract.RequiresPositive(bufferSize, nameof(bufferSize));
 
             return FSFile.Create(path, bufferSize);
         }

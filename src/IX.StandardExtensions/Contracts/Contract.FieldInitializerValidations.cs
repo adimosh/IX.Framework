@@ -34,7 +34,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNull<T>(ref T field, [CanBeNull] T argument, [NotNull] string argumentName)
+        public static void RequiresNotNull<T>(ref T field, [CanBeNull, NoEnumeration] T argument, [NotNull] string argumentName)
             where T : class => field = argument ?? throw new ArgumentNullException(argumentName);
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullPrivate<T>(ref T field, [CanBeNull] T argument, [NotNull] string argumentName)
+        public static void RequiresNotNullPrivate<T>(ref T field, [CanBeNull, NoEnumeration] T argument, [NotNull] string argumentName)
             where T : class => field = argument ?? throw new ArgumentNullException(argumentName);
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmptyCollection<T>(ref ICollection<T> field, [CanBeNull] ICollection<T> argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmptyCollection<T>(ref ICollection<T> field, [CanBeNull, NoEnumeration] ICollection<T> argument, [NotNull] string argumentName)
         {
             if ((argument?.Count ?? 0) == 0)
             {
@@ -220,7 +220,7 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmptyCollectionPrivate<T>(ref ICollection<T> field, [CanBeNull] ICollection<T> argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmptyCollectionPrivate<T>(ref ICollection<T> field, [CanBeNull, NoEnumeration] ICollection<T> argument, [NotNull] string argumentName)
         {
             if ((argument?.Count ?? 0) == 0)
             {

@@ -34,7 +34,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNull<T>([CanBeNull] T argument, [NotNull] string argumentName)
+        public static void RequiresNotNull<T>([CanBeNull, NoEnumeration] T argument, [NotNull] string argumentName)
             where T : class
         {
             if (argument == null)
@@ -59,7 +59,7 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullPrivate<T>([CanBeNull] T argument, [NotNull] string argumentName)
+        public static void RequiresNotNullPrivate<T>([CanBeNull, NoEnumeration] T argument, [NotNull] string argumentName)
             where T : class
         {
             if (argument == null)
@@ -175,7 +175,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmptyCollection<T>([CanBeNull] ICollection<T> argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmptyCollection<T>([CanBeNull, NoEnumeration] ICollection<T> argument, [NotNull] string argumentName)
         {
             if ((argument?.Count ?? 0) == 0)
             {
@@ -201,7 +201,7 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmptyCollectionPrivate<T>([CanBeNull] ICollection<T> argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmptyCollectionPrivate<T>([CanBeNull, NoEnumeration] ICollection<T> argument, [NotNull] string argumentName)
         {
             if ((argument?.Count ?? 0) == 0)
             {
