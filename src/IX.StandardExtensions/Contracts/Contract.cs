@@ -34,7 +34,8 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNull<T>([CanBeNull, NoEnumeration] T argument, [NotNull] string argumentName)
+        [AssertionMethod]
+        public static void RequiresNotNull<T>([CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] T argument, [NotNull] string argumentName)
             where T : class
         {
             if (argument == null)
@@ -59,7 +60,8 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullPrivate<T>([CanBeNull, NoEnumeration] T argument, [NotNull] string argumentName)
+        [AssertionMethod]
+        public static void RequiresNotNullPrivate<T>([CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] T argument, [NotNull] string argumentName)
             where T : class
         {
             if (argument == null)
@@ -82,7 +84,8 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmpty([CanBeNull] string argument, [NotNull] string argumentName)
+        [AssertionMethod]
+        public static void RequiresNotNullOrEmpty([CanBeNull, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] string argument, [NotNull] string argumentName)
         {
             if (string.IsNullOrEmpty(argument))
             {
@@ -105,7 +108,8 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmptyPrivate([CanBeNull] string argument, [NotNull] string argumentName)
+        [AssertionMethod]
+        public static void RequiresNotNullOrEmptyPrivate([CanBeNull, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] string argument, [NotNull] string argumentName)
         {
             if (string.IsNullOrEmpty(argument))
             {
@@ -127,7 +131,8 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrWhitespace([CanBeNull] string argument, [NotNull] string argumentName)
+        [AssertionMethod]
+        public static void RequiresNotNullOrWhitespace([CanBeNull, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] string argument, [NotNull] string argumentName)
         {
             if (string.IsNullOrWhiteSpace(argument))
             {
@@ -150,7 +155,8 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrWhitespacePrivate([CanBeNull] string argument, [NotNull] string argumentName)
+        [AssertionMethod]
+        public static void RequiresNotNullOrWhitespacePrivate([CanBeNull, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] string argument, [NotNull] string argumentName)
         {
             if (string.IsNullOrWhiteSpace(argument))
             {
@@ -175,7 +181,8 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmptyCollection<T>([CanBeNull, NoEnumeration] ICollection<T> argument, [NotNull] string argumentName)
+        [AssertionMethod]
+        public static void RequiresNotNullOrEmptyCollection<T>([CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] ICollection<T> argument, [NotNull] string argumentName)
         {
             if ((argument?.Count ?? 0) == 0)
             {
@@ -201,7 +208,8 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmptyCollectionPrivate<T>([CanBeNull, NoEnumeration] ICollection<T> argument, [NotNull] string argumentName)
+        [AssertionMethod]
+        public static void RequiresNotNullOrEmptyCollectionPrivate<T>([CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] ICollection<T> argument, [NotNull] string argumentName)
         {
             if ((argument?.Count ?? 0) == 0)
             {
@@ -223,7 +231,8 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmptyBinary([CanBeNull] byte[] argument, [NotNull] string argumentName)
+        [AssertionMethod]
+        public static void RequiresNotNullOrEmptyBinary([CanBeNull, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] byte[] argument, [NotNull] string argumentName)
         {
             if ((argument?.Length ?? 0) == 0)
             {
@@ -246,7 +255,8 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
-        public static void RequiresNotNullOrEmptyBinaryPrivate([CanBeNull] byte[] argument, [NotNull] string argumentName)
+        [AssertionMethod]
+        public static void RequiresNotNullOrEmptyBinaryPrivate([CanBeNull, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] byte[] argument, [NotNull] string argumentName)
         {
             if ((argument?.Length ?? 0) == 0)
             {
@@ -1127,7 +1137,8 @@ namespace IX.StandardExtensions.Contracts
         /// The condition is not being met.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Requires(bool condition, [NotNull] string argumentName)
+        [AssertionMethod]
+        public static void Requires([AssertionCondition(AssertionConditionType.IS_TRUE)] bool condition, [NotNull] string argumentName)
         {
             if (!condition)
             {
@@ -1149,7 +1160,8 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPrivate(bool condition, [NotNull] string argumentName)
+        [AssertionMethod]
+        public static void RequiresPrivate([AssertionCondition(AssertionConditionType.IS_TRUE)] bool condition, [NotNull] string argumentName)
         {
             if (!condition)
             {
