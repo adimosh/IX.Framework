@@ -12,6 +12,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using IX.Retry.Contexts;
+using IX.StandardExtensions.Contracts;
 
 namespace IX.Retry
 {
@@ -63,7 +64,13 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
-        public static void Now<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>) => Run(action, <#= paramNames #>, new RetryOptions());
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
+        public static void Now<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(action, nameof(action));
+
+            Run(action, <#= paramNames #>, new RetryOptions(), cancellationToken);
+        }
 
         /// <summary>
         /// Retry now, asynchronously, with an optional cancellation token.
@@ -87,7 +94,12 @@ for (int i = 1; i <= 8; i++)
 #>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
-        public static Task NowAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default) => RunAsync(action, <#= paramNames #>, new RetryOptions(), cancellationToken);
+        public static Task NowAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(action, nameof(action));
+
+            return RunAsync(action, <#= paramNames #>, new RetryOptions(), cancellationToken);
+        }
 
         /// <summary>
         /// Retry now, with specified options.
@@ -110,7 +122,14 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <param name="options">The retry options.</param>
-        public static void Now<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options) => Run(action, <#= paramNames #>, options);
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
+        public static void Now<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(options, nameof(options));
+
+            Run(action, <#= paramNames #>, options, cancellationToken);
+        }
 
         /// <summary>
         /// Retry now, asynchronously, with specified options and an optional cancellation token.
@@ -135,7 +154,13 @@ for (int i = 1; i <= 8; i++)
         /// <param name="options">The retry options.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
-        public static Task NowAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default) => RunAsync(action, <#= paramNames #>, options, cancellationToken);
+        public static Task NowAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(options, nameof(options));
+
+            return RunAsync(action, <#= paramNames #>, options, cancellationToken);
+        }
 
         /// <summary>
         /// Retry now, with a method to build up options.
@@ -158,17 +183,16 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
-        public static void Now<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter)
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
+        public static void Now<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            if (optionsSetter == null)
-            {
-                throw new ArgumentNullException(nameof(optionsSetter));
-            }
+            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
 
-            Run(action, <#= paramNames #>, options);
+            Run(action, <#= paramNames #>, options, cancellationToken);
         }
 
         /// <summary>
@@ -196,10 +220,8 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            if (optionsSetter == null)
-            {
-                throw new ArgumentNullException(nameof(optionsSetter));
-            }
+            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -227,13 +249,19 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>An <see cref="System.Action" /> that can be executed whenever required.</returns>
         /// <remarks>
         /// <para>Please be advised that, in order to properly function, this method creates a closure.</para>
         /// <para>For now, this is unavoidable.</para>
-        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>}(Action{<#= paramTypes #>}, <#= paramTypes #>)"/> method and implement the delay of action yourself.</para>
+        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>}(Action{<#= paramTypes #>}, <#= paramTypes #>, CancellationToken)"/> method and implement the delay of action yourself.</para>
         /// </remarks>
-        public static Action Later<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>) => () => Run(action, <#= paramNames #>, new RetryOptions());
+        public static Action Later<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(action, nameof(action));
+
+            return () => Run(action, <#= paramNames #>, new RetryOptions(), cancellationToken);
+        }
 
         /// <summary>
         /// Retry an action later, with retry options.
@@ -256,13 +284,20 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <param name="options">The retry options.</param>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>An <see cref="System.Action" /> that can be executed whenever required.</returns>
         /// <remarks>
         /// <para>Please be advised that, in order to properly function, this method creates a closure.</para>
         /// <para>For now, this is unavoidable.</para>
-        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>}(Action{<#= paramTypes #>}, <#= paramTypes #>, RetryOptions)"/> method and implement the delay of action yourself.</para>
+        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>}(Action{<#= paramTypes #>}, <#= paramTypes #>, RetryOptions, CancellationToken)"/> method and implement the delay of action yourself.</para>
         /// </remarks>
-        public static Action Later<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options) => () => Run(action, <#= paramNames #>, options);
+        public static Action Later<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(options, nameof(options));
+
+            return () => Run(action, <#= paramNames #>, options, cancellationToken);
+        }
 
         /// <summary>
         /// Retry an action later, with a method to build up options.
@@ -285,18 +320,17 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>An <see cref="System.Action" /> that can be executed whenever required.</returns>
         /// <remarks>
         /// <para>Please be advised that, in order to properly function, this method creates a closure.</para>
         /// <para>For now, this is unavoidable.</para>
-        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>}(Action{<#= paramTypes #>}, <#= paramTypes #>, Action{RetryOptions})"/> method and implement the delay of action yourself.</para>
+        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>}(Action{<#= paramTypes #>}, <#= paramTypes #>, Action{RetryOptions}, CancellationToken)"/> method and implement the delay of action yourself.</para>
         /// </remarks>
-        public static Action Later<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter)
+        public static Action Later<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            if (optionsSetter == null)
-            {
-                throw new ArgumentNullException(nameof(optionsSetter));
-            }
+            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -325,8 +359,14 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A return value, as defined by the invoked method.</returns>
-        public static TReturn Now<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>) => Run(func, <#= paramNames #>, new RetryOptions());
+        public static TReturn Now<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(func, nameof(func));
+
+            return Run(func, <#= paramNames #>, new RetryOptions(), cancellationToken);
+        }
 
         /// <summary>
         /// Retry now, asynchronously, with an optional cancellation token.
@@ -351,7 +391,12 @@ for (int i = 1; i <= 8; i++)
 #>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
-        public static Task<TReturn> NowAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, CancellationToken cancellationToken = default) => RunAsync(func, <#= paramNames #>, new RetryOptions(), cancellationToken);
+        public static Task<TReturn> NowAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(func, nameof(func));
+
+            return RunAsync(func, <#= paramNames #>, new RetryOptions(), cancellationToken);
+        }
 
         /// <summary>
         /// Retry now, with specified options.
@@ -375,8 +420,15 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <param name="options">The retry options.</param>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A return value, as defined by the invoked method.</returns>
-        public static TReturn Now<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options) => Run(func, <#= paramNames #>, options);
+        public static TReturn Now<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(options, nameof(options));
+
+            return Run(func, <#= paramNames #>, options, cancellationToken);
+        }
 
         /// <summary>
         /// Retry now, asynchronously, with specified options and an optional cancellation token.
@@ -402,7 +454,13 @@ for (int i = 1; i <= 8; i++)
         /// <param name="options">The retry options.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
-        public static Task<TReturn> NowAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default) => RunAsync(func, <#= paramNames #>, options, cancellationToken);
+        public static Task<TReturn> NowAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(options, nameof(options));
+
+            return RunAsync(func, <#= paramNames #>, options, cancellationToken);
+        }
 
         /// <summary>
         /// Retry now, with a method to build up options.
@@ -426,18 +484,17 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A return value, as defined by the invoked method.</returns>
-        public static TReturn Now<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter)
+        public static TReturn Now<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            if (optionsSetter == null)
-            {
-                throw new ArgumentNullException(nameof(optionsSetter));
-            }
+            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
 
-            return Run(func, <#= paramNames #>, options);
+            return Run(func, <#= paramNames #>, options, cancellationToken);
         }
 
         /// <summary>
@@ -466,10 +523,8 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            if (optionsSetter == null)
-            {
-                throw new ArgumentNullException(nameof(optionsSetter));
-            }
+            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -498,13 +553,19 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>An <see cref="System.Func{TResult}" /> that can be executed whenever required.</returns>
         /// <remarks>
         /// <para>Please be advised that, in order to properly function, this method creates a closure.</para>
         /// <para>For now, this is unavoidable.</para>
-        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>, TReturn}(Func{<#= paramTypes #>, TReturn}, <#= paramTypes #>)"/> method and implement the delay of action yourself.</para>
+        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>, TReturn}(Func{<#= paramTypes #>, TReturn}, <#= paramTypes #>, CancellationToken)"/> method and implement the delay of action yourself.</para>
         /// </remarks>
-        public static Func<TReturn> Later<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>) => () => Run(func, <#= paramNames #>, new RetryOptions());
+        public static Func<TReturn> Later<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(func, nameof(func));
+
+            return () => Run(func, <#= paramNames #>, new RetryOptions(), cancellationToken);
+        }
 
         /// <summary>
         /// Retry an action later, with retry options.
@@ -528,13 +589,20 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <param name="options">The retry options.</param>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>An <see cref="System.Func{TResult}" /> that can be executed whenever required.</returns>
         /// <remarks>
         /// <para>Please be advised that, in order to properly function, this method creates a closure.</para>
         /// <para>For now, this is unavoidable.</para>
-        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>, TReturn}(Func{<#= paramTypes #>, TReturn}, <#= paramTypes #>, RetryOptions)"/> method and implement the delay of action yourself.</para>
+        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>, TReturn}(Func{<#= paramTypes #>, TReturn}, <#= paramTypes #>, RetryOptions, CancellationToken)"/> method and implement the delay of action yourself.</para>
         /// </remarks>
-        public static Func<TReturn> Later<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options) => () => Run(func, <#= paramNames #>, options);
+        public static Func<TReturn> Later<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(options, nameof(options));
+
+            return () => Run(func, <#= paramNames #>, options, cancellationToken);
+        }
 
         /// <summary>
         /// Retry an action later, with a method to build up options.
@@ -558,23 +626,22 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>An <see cref="System.Func{TResult}" /> that can be executed whenever required.</returns>
         /// <remarks>
         /// <para>Please be advised that, in order to properly function, this method creates a closure.</para>
         /// <para>For now, this is unavoidable.</para>
-        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>, TReturn}(Func{<#= paramTypes #>, TReturn}, <#= paramTypes #>, Action{RetryOptions})"/> method and implement the delay of action yourself.</para>
+        /// <para>If you would like to avoid the creation of a closure, please use, instead, the <see cref="Now{<#= paramTypes #>, TReturn}(Func{<#= paramTypes #>, TReturn}, <#= paramTypes #>, Action{RetryOptions}, CancellationToken)"/> method and implement the delay of action yourself.</para>
         /// </remarks>
-        public static Func<TReturn> Later<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter)
+        public static Func<TReturn> Later<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            if (optionsSetter == null)
-            {
-                throw new ArgumentNullException(nameof(optionsSetter));
-            }
+            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
 
-            return () => Run(func, <#= paramNames #>, options);
+            return () => Run(func, <#= paramNames #>, options, cancellationToken);
         }
 <#
 }
@@ -599,7 +666,10 @@ for (int i = 1; i <= 8; i++)
 
         private static async Task RunAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken)
         {
-            ValidateRunning(action, options, cancellationToken);
+            Contract.RequiresNotNullPrivate(action, nameof(action));
+            Contract.RequiresNotNullPrivate(options, nameof(options));
+
+            cancellationToken.ThrowIfCancellationRequested();
 
             using (var context = new ActionWith<#= i #>ParamRetryContext<<#= paramTypes #>>(action, <#= paramNames #>, options))
             {
@@ -607,19 +677,25 @@ for (int i = 1; i <= 8; i++)
             }
         }
 
-        private static void Run<<#= paramTypes #>>(in Action<<#= paramTypes #>> action, <#= paramNameTypes #>, in RetryOptions options)
+        private static void Run<<#= paramTypes #>>(in Action<<#= paramTypes #>> action, <#= paramNameTypes #>, in RetryOptions options, CancellationToken cancellationToken = default)
         {
-            ValidateRunning(action, options, default);
+            Contract.RequiresNotNullPrivate(action, nameof(action));
+            Contract.RequiresNotNullPrivate(options, nameof(options));
+
+            cancellationToken.ThrowIfCancellationRequested();
 
             using (var context = new ActionWith<#= i #>ParamRetryContext<<#= paramTypes #>>(action, <#= paramNames #>, options))
             {
-                context.BeginRetryProcess();
+                context.BeginRetryProcess(cancellationToken);
             }
         }
 
         private static async Task<TReturn> RunAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken)
         {
-            ValidateRunning(func, options, cancellationToken);
+            Contract.RequiresNotNullPrivate(func, nameof(func));
+            Contract.RequiresNotNullPrivate(options, nameof(options));
+
+            cancellationToken.ThrowIfCancellationRequested();
 
             using (var context = new FuncWith<#= i #>ParamRetryContext<<#= paramTypes #>, TReturn>(func, <#= paramNames #>, options))
             {
@@ -629,13 +705,16 @@ for (int i = 1; i <= 8; i++)
             }
         }
 
-        private static TReturn Run<<#= paramTypes #>, TReturn>(in Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, in RetryOptions options)
+        private static TReturn Run<<#= paramTypes #>, TReturn>(in Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, in RetryOptions options, CancellationToken cancellationToken = default)
         {
-            ValidateRunning(func, options, default);
+            Contract.RequiresNotNullPrivate(func, nameof(func));
+            Contract.RequiresNotNullPrivate(options, nameof(options));
+
+            cancellationToken.ThrowIfCancellationRequested();
 
             using (var context = new FuncWith<#= i #>ParamRetryContext<<#= paramTypes #>, TReturn>(func, <#= paramNames #>, options))
             {
-                context.BeginRetryProcess();
+                context.BeginRetryProcess(cancellationToken);
 
                 return context.GetReturnValue();
             }
