@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net45;net461;netstandard1.2;netstandard2.0</TargetFrameworks>
@@ -42,6 +42,7 @@
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\RefDelegates.WithParameters.cs" Link="Efficiency\RefDelegates.WithParameters.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\RefIteratorDelegates.WithParameters.cs" Link="Efficiency\RefIteratorDelegates.WithParameters.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\Fire.AndForgetActionsAndFuncs.cs" Link="Threading\Fire.AndForgetActionsAndFuncs.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\TaskFactoryExtensions.Actions.cs" Link="Threading\TaskFactoryExtensions.Actions.cs" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
