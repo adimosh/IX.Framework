@@ -336,5 +336,18 @@
   <ItemGroup>
     <Folder Include="IX.Sandbox\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="IX.StandardExtensions\Efficiency\ImmutableValueTuple.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ImmutableValueTuple.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IX.StandardExtensions\Efficiency\ImmutableValueTuple.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImmutableValueTuple.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
