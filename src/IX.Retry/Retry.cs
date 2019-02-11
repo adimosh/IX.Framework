@@ -6,375 +6,499 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using IX.Retry.Contexts;
+using IX.StandardExtensions.Contracts;
+using JetBrains.Annotations;
 
 namespace IX.Retry
 {
     /// <summary>
-    /// A class for containing retry operations.
+    ///     A class for containing retry operations.
     /// </summary>
+    [PublicAPI]
     public static partial class Retry
     {
         /// <summary>
-        /// Retry now, with a default set of options.
+        ///     Retry now, with a default set of options.
         /// </summary>
         /// <param name="action">The action to try and retry.</param>
-        public static void Now(Action action) => Run(action, new RetryOptions());
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
+        public static void Now(
+            [CanBeNull] Action action,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(
+                action,
+                nameof(action));
+
+            Run(
+                action,
+                new RetryOptions(),
+                cancellationToken);
+        }
 
         /// <summary>
-        /// Retry now, asynchronously, with an optional cancellation token.
+        ///     Retry now, asynchronously, with an optional cancellation token.
         /// </summary>
         /// <param name="action">The action to try and retry.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
-        public static Task NowAsync(Action action, CancellationToken cancellationToken = default) => RunAsync(action, new RetryOptions(), cancellationToken);
+        public static Task NowAsync(
+            [CanBeNull] Action action,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(
+                action,
+                nameof(action));
+
+            return RunAsync(
+                action,
+                new RetryOptions(),
+                cancellationToken);
+        }
 
         /// <summary>
-        /// Retry now, with specified options.
+        ///     Retry now, with specified options.
         /// </summary>
         /// <param name="action">The action to try and retry.</param>
         /// <param name="options">The retry options.</param>
-        public static void Now(Action action, RetryOptions options) => Run(action, options);
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
+        public static void Now(
+            [CanBeNull] Action action,
+            [CanBeNull] RetryOptions options,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(
+                action,
+                nameof(action));
+            Contract.RequiresNotNull(
+                options,
+                nameof(options));
+
+            Run(
+                action,
+                options,
+                cancellationToken);
+        }
 
         /// <summary>
-        /// Retry now, asynchronously, with specified options and an optional cancellation token.
+        ///     Retry now, asynchronously, with specified options and an optional cancellation token.
         /// </summary>
         /// <param name="action">The action to try and retry.</param>
         /// <param name="options">The retry options.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
-        public static Task NowAsync(Action action, RetryOptions options, CancellationToken cancellationToken = default) => RunAsync(action, options, cancellationToken);
+        public static Task NowAsync(
+            [CanBeNull] Action action,
+            [CanBeNull] RetryOptions options,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(
+                action,
+                nameof(action));
+            Contract.RequiresNotNull(
+                options,
+                nameof(options));
+
+            return RunAsync(
+                action,
+                options,
+                cancellationToken);
+        }
 
         /// <summary>
-        /// Retry now, with a method to build up options.
+        ///     Retry now, with a method to build up options.
         /// </summary>
         /// <param name="action">The action to try and retry.</param>
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
-        public static void Now(Action action, Action<RetryOptions> optionsSetter)
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
+        public static void Now(
+            [CanBeNull] Action action,
+            [CanBeNull] Action<RetryOptions> optionsSetter,
+            CancellationToken cancellationToken = default)
         {
-            if (optionsSetter == null)
-            {
-                throw new ArgumentNullException(nameof(optionsSetter));
-            }
+            Contract.RequiresNotNull(
+                action,
+                nameof(action));
+            Contract.RequiresNotNull(
+                optionsSetter,
+                nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
 
-            Run(action, options);
+            Run(
+                action,
+                options,
+                cancellationToken);
         }
 
         /// <summary>
-        /// Retry now, asynchronously, with a method to build up options and an optional cancellation token.
+        ///     Retry now, asynchronously, with a method to build up options and an optional cancellation token.
         /// </summary>
         /// <param name="action">The action to try and retry.</param>
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
-        public static async Task NowAsync(Action action, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
+        public static async Task NowAsync(
+            [CanBeNull] Action action,
+            [CanBeNull] Action<RetryOptions> optionsSetter,
+            CancellationToken cancellationToken = default)
         {
-            if (optionsSetter == null)
-            {
-                throw new ArgumentNullException(nameof(optionsSetter));
-            }
+            Contract.RequiresNotNull(
+                action,
+                nameof(action));
+            Contract.RequiresNotNull(
+                optionsSetter,
+                nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
 
-            await RunAsync(action, options, cancellationToken).ConfigureAwait(false);
+            await RunAsync(
+                action,
+                options,
+                cancellationToken).ConfigureAwait(false);
         }
-
 #pragma warning disable HAA0301 // Closure Allocation Source
 #pragma warning disable HAA0302 // Display class allocation to capture closure - These are expected to happen here
 #pragma warning disable HAA0603 // Delegate allocation from a method group
         /// <summary>
-        /// Retry an action later.
+        ///     Retry an action later.
         /// </summary>
         /// <param name="action">The action to retry.</param>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>An <see cref="System.Action" /> that can be executed whenever required.</returns>
-        public static Action Later(Action action) => () => Run(action, new RetryOptions());
+        public static Action Later(
+            [CanBeNull] Action action,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(
+                action,
+                nameof(action));
+
+            return () => Run(
+                action,
+                new RetryOptions(),
+                cancellationToken);
+        }
 
         /// <summary>
-        /// Retry an action later, with retry options.
+        ///     Retry an action later, with retry options.
         /// </summary>
         /// <param name="action">The action to retry.</param>
         /// <param name="options">The retry options.</param>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>An <see cref="System.Action" /> that can be executed whenever required.</returns>
-        public static Action Later(Action action, RetryOptions options) => () => Run(action, options);
+        public static Action Later(
+            [CanBeNull] Action action,
+            [CanBeNull] RetryOptions options,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(
+                action,
+                nameof(action));
+            Contract.RequiresNotNull(
+                options,
+                nameof(options));
+
+            return () => Run(
+                action,
+                options,
+                cancellationToken);
+        }
 
         /// <summary>
-        /// Retry an action later, with a method to build up options.
+        ///     Retry an action later, with a method to build up options.
         /// </summary>
         /// <param name="action">The action to retry.</param>
         /// <param name="optionsSetter">A method to build up options on the fly.</param>
+        /// <param name="cancellationToken">The current operation's cancellation token.</param>
         /// <returns>An <see cref="System.Action" /> that can be executed whenever required.</returns>
-        public static Action Later(Action action, Action<RetryOptions> optionsSetter)
+        public static Action Later(
+            [CanBeNull] Action action,
+            [CanBeNull] Action<RetryOptions> optionsSetter,
+            CancellationToken cancellationToken = default)
         {
-            if (optionsSetter == null)
-            {
-                throw new ArgumentNullException(nameof(optionsSetter));
-            }
+            Contract.RequiresNotNull(
+                action,
+                nameof(action));
+            Contract.RequiresNotNull(
+                optionsSetter,
+                nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
 
-            return () => Run(action, options);
+            return () => Run(
+                action,
+                options,
+                cancellationToken);
         }
 #pragma warning restore HAA0603 // Delegate allocation from a method group
 #pragma warning restore HAA0302 // Display class allocation to capture closure
 #pragma warning restore HAA0301 // Closure Allocation Source
 
         /// <summary>
-        /// Retry for a number of times.
+        ///     Retry for a number of times.
         /// </summary>
         /// <param name="times">The number of times to retry. Has to be greater than 0.</param>
         /// <returns>The configured retry options.</returns>
         public static RetryOptions Times(int times)
         {
-            if (times <= 0)
-            {
-                throw new ArgumentException(nameof(times));
-            }
+            Contract.RequiresPositive(
+                times,
+                nameof(times));
 
-            return new RetryOptions()
+            return new RetryOptions
             {
                 Type = RetryType.Times,
-                RetryTimes = times,
+                RetryTimes = times
             };
         }
 
         /// <summary>
-        /// Retry once.
+        ///     Retry once.
         /// </summary>
         /// <returns>The configured retry options.</returns>
-        public static RetryOptions Once() => new RetryOptions()
+        public static RetryOptions Once() => new RetryOptions
         {
             Type = RetryType.Times,
-            RetryTimes = 1,
+            RetryTimes = 1
         };
 
         /// <summary>
-        /// Retry twice.
+        ///     Retry twice.
         /// </summary>
         /// <returns>The configured retry options.</returns>
-        public static RetryOptions Twice() => new RetryOptions()
+        public static RetryOptions Twice() => new RetryOptions
         {
             Type = RetryType.Times,
-            RetryTimes = 2,
+            RetryTimes = 2
         };
 
         /// <summary>
-        /// Retry three times.
+        ///     Retry three times.
         /// </summary>
         /// <returns>The configured retry options.</returns>
-        public static RetryOptions ThreeTimes() => new RetryOptions()
+        public static RetryOptions ThreeTimes() => new RetryOptions
         {
             Type = RetryType.Times,
-            RetryTimes = 3,
+            RetryTimes = 3
         };
 
         /// <summary>
-        /// Retry five times.
+        ///     Retry five times.
         /// </summary>
         /// <returns>The configured retry options.</returns>
-        public static RetryOptions FiveTimes() => new RetryOptions()
+        public static RetryOptions FiveTimes() => new RetryOptions
         {
             Type = RetryType.Times,
-            RetryTimes = 5,
+            RetryTimes = 5
         };
 
         /// <summary>
-        /// Retries for a specific time span.
+        ///     Retries for a specific time span.
         /// </summary>
         /// <param name="timeSpan">How long to retry, as a time span.</param>
         /// <returns>The configured retry options.</returns>
         public static RetryOptions For(TimeSpan timeSpan)
         {
-            if (timeSpan < TimeSpan.Zero)
-            {
-                throw new ArgumentException(nameof(timeSpan));
-            }
+            Contract.RequiresPositive(
+                timeSpan,
+                nameof(timeSpan));
 
-            return new RetryOptions()
+            return new RetryOptions
             {
                 Type = RetryType.For,
-                RetryFor = timeSpan,
+                RetryFor = timeSpan
             };
         }
 
         /// <summary>
-        /// Retries for a specific number of milliseconds.
+        ///     Retries for a specific number of milliseconds.
         /// </summary>
         /// <param name="milliseconds">How long to retry, in milliseconds.</param>
         /// <returns>The configured retry options.</returns>
         public static RetryOptions For(int milliseconds)
         {
-            if (milliseconds <= 0)
-            {
-                throw new ArgumentException(nameof(milliseconds));
-            }
+            Contract.RequiresNonNegative(
+                milliseconds,
+                nameof(milliseconds));
 
-            return new RetryOptions()
+            return new RetryOptions
             {
                 Type = RetryType.For,
-                RetryFor = TimeSpan.FromMilliseconds(milliseconds),
+                RetryFor = TimeSpan.FromMilliseconds(milliseconds)
             };
         }
 
         /// <summary>
-        /// Retries until a specific condition is reached.
+        ///     Retries until a specific condition is reached.
         /// </summary>
         /// <param name="conditionMethod">The condition method to evaluate.</param>
         /// <returns>The configured retry options.</returns>
         /// <remarks>
-        /// <para>Retrying happens while the <paramref name="conditionMethod" /> method, when executed, returns <see langword="true"/>.</para>
-        /// <para>On first instance that the method return is <see langword="false"/>, retrying stops.</para>
+        ///     <para>
+        ///         Retrying happens while the <paramref name="conditionMethod" /> method, when executed, returns
+        ///         <see langword="true" />.
+        ///     </para>
+        ///     <para>On first instance that the method return is <see langword="false" />, retrying stops.</para>
         /// </remarks>
-        public static RetryOptions Until(RetryConditionDelegate conditionMethod)
+        public static RetryOptions Until([CanBeNull] RetryConditionDelegate conditionMethod)
         {
-            if (conditionMethod == null)
-            {
-                throw new ArgumentNullException(nameof(conditionMethod));
-            }
+            Contract.RequiresNotNull(
+                conditionMethod,
+                nameof(conditionMethod));
 
-            return new RetryOptions()
+            return new RetryOptions
             {
                 Type = RetryType.Until,
-                RetryUntil = conditionMethod,
+                RetryUntil = conditionMethod
             };
         }
 
         /// <summary>
-        /// Configures an exception that, when thrown by the code being retried, prompts a retry.
+        ///     Configures an exception that, when thrown by the code being retried, prompts a retry.
         /// </summary>
         /// <typeparam name="T">The exception type to configure.</typeparam>
         /// <returns>The configured retry options.</returns>
-        public static RetryOptions OnException<T>()
-            where T : Exception
+        public static RetryOptions OnException<T>() where T : Exception
         {
             var options = new RetryOptions();
 #pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
-            options.RetryOnExceptions.Add(new Tuple<Type, Func<Exception, bool>>(typeof(T), p => true));
+            options.RetryOnExceptions.Add(
+                new Tuple<Type, Func<Exception, bool>>(
+                    typeof(T),
+                    null));
 #pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
             return options;
         }
 
         /// <summary>
-        /// Configures an exception that, when thrown by the code being retried, prompts a retry, if the method to test for it allows it.
+        ///     Configures an exception that, when thrown by the code being retried, prompts a retry, if the method to test for it
+        ///     allows it.
         /// </summary>
         /// <typeparam name="T">The exception type to configure.</typeparam>
         /// <param name="testExceptionFunc">The method to test the exceptions with.</param>
         /// <returns>The configured retry options.</returns>
-        public static RetryOptions OnException<T>(Func<Exception, bool> testExceptionFunc)
+        public static RetryOptions OnException<T>([CanBeNull] Func<Exception, bool> testExceptionFunc)
             where T : Exception
         {
-            if (testExceptionFunc == null)
-            {
-                throw new ArgumentNullException(nameof(testExceptionFunc));
-            }
+            Contract.RequiresNotNull(
+                testExceptionFunc,
+                nameof(testExceptionFunc));
 
             var options = new RetryOptions();
-            options.RetryOnExceptions.Add(new Tuple<Type, Func<Exception, bool>>(typeof(T), testExceptionFunc));
+            options.RetryOnExceptions.Add(
+                new Tuple<Type, Func<Exception, bool>>(
+                    typeof(T),
+                    testExceptionFunc));
             return options;
         }
 
         /// <summary>
-        /// Configures retry options to throw an exception at the end of the retrying process, if it was unsuccessful.
+        ///     Configures retry options to throw an exception at the end of the retrying process, if it was unsuccessful.
         /// </summary>
         /// <returns>The configured retry options.</returns>
-        public static RetryOptions ThrowException() => new RetryOptions()
+        public static RetryOptions ThrowException() => new RetryOptions
         {
-            ThrowExceptionOnLastRetry = true,
+            ThrowExceptionOnLastRetry = true
         };
 
         /// <summary>
-        /// Waiting time between retries.
+        ///     Waiting time between retries.
         /// </summary>
         /// <param name="milliseconds">The number of milliseconds to wait for.</param>
         /// <returns>The configured retry options.</returns>
         public static RetryOptions WaitFor(int milliseconds)
         {
-            if (milliseconds <= 0)
-            {
-                throw new ArgumentException(nameof(milliseconds));
-            }
+            Contract.RequiresPositive(
+                milliseconds,
+                nameof(milliseconds));
 
-            return new RetryOptions()
+            return new RetryOptions
             {
                 WaitBetweenRetriesType = WaitType.For,
-                WaitForDuration = TimeSpan.FromMilliseconds(milliseconds),
+                WaitForDuration = TimeSpan.FromMilliseconds(milliseconds)
             };
         }
 
         /// <summary>
-        /// Waiting time between retries.
+        ///     Waiting time between retries.
         /// </summary>
         /// <param name="timeSpan">The time span to wait between retries.</param>
         /// <returns>The configured retry options.</returns>
         public static RetryOptions WaitFor(TimeSpan timeSpan)
         {
-            if (timeSpan < TimeSpan.Zero)
-            {
-                throw new ArgumentException(nameof(timeSpan));
-            }
+            Contract.RequiresPositive(
+                timeSpan,
+                nameof(timeSpan));
 
-            return new RetryOptions()
+            return new RetryOptions
             {
                 WaitBetweenRetriesType = WaitType.For,
-                WaitForDuration = timeSpan,
+                WaitForDuration = timeSpan
             };
         }
 
         /// <summary>
-        /// Waits a time span that is configured by a given delegate.
+        ///     Waits a time span that is configured by a given delegate.
         /// </summary>
         /// <param name="waitMethod">The waiting delegate to give the time span.</param>
         /// <returns>The configured retry options.</returns>
-        public static RetryOptions WaitUntil(RetryWaitDelegate waitMethod)
+        public static RetryOptions WaitUntil([CanBeNull] RetryWaitDelegate waitMethod)
         {
-            if (waitMethod == null)
-            {
-                throw new ArgumentNullException(nameof(waitMethod));
-            }
+            Contract.RequiresNotNull(
+                waitMethod,
+                nameof(waitMethod));
 
-            return new RetryOptions()
+            return new RetryOptions
             {
                 WaitBetweenRetriesType = WaitType.Until,
-                WaitUntilDelegate = waitMethod,
+                WaitUntilDelegate = waitMethod
             };
         }
 
-        private static async Task RunAsync(Action action, RetryOptions options, CancellationToken cancellationToken)
+        private static async Task RunAsync(
+            [CanBeNull] Action action,
+            [CanBeNull] RetryOptions options,
+            CancellationToken cancellationToken)
         {
-            ValidateRunning(action, options, cancellationToken);
+            Contract.RequiresNotNullPrivate(
+                action,
+                nameof(action));
+            Contract.RequiresNotNullPrivate(
+                options,
+                nameof(options));
+            cancellationToken.ThrowIfCancellationRequested();
 
-            using (var context = new ActionRetryContext(action, options))
+            using (var context = new ActionRetryContext(
+                action,
+                options))
             {
                 await context.BeginRetryProcessAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
-        private static void Run(Action action, RetryOptions options)
+        private static void Run(
+            [CanBeNull] Action action,
+            [CanBeNull] RetryOptions options,
+            CancellationToken cancellationToken)
         {
-            ValidateRunning(action, options, default);
-
-            using (var context = new ActionRetryContext(action, options))
-            {
-                context.BeginRetryProcess();
-            }
-        }
-
-        private static void ValidateRunning(Delegate action, RetryOptions options, CancellationToken cancellationToken)
-        {
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
-
-            if (options == null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
-
+            Contract.RequiresNotNullPrivate(
+                action,
+                nameof(action));
+            Contract.RequiresNotNullPrivate(
+                options,
+                nameof(options));
             cancellationToken.ThrowIfCancellationRequested();
+
+            using (var context = new ActionRetryContext(
+                action,
+                options))
+            {
+                context.BeginRetryProcess(cancellationToken);
+            }
         }
     }
 }

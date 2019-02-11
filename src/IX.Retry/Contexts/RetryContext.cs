@@ -4,11 +4,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using IX.StandardExtensions;
 using IX.StandardExtensions.ComponentModel;
+using IX.StandardExtensions.Contracts;
 
 namespace IX.Retry.Contexts
 {
@@ -18,67 +18,101 @@ namespace IX.Retry.Contexts
 
         internal RetryContext(RetryOptions options)
         {
+            Contract.RequiresNotNullPrivate(
+                options,
+                nameof(options));
+
             this.options = options;
         }
 
         /// <summary>
-        /// Begins the retry process asynchronously.
+        ///     Begins the retry process asynchronously.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>System.Threading.Tasks.Task.</returns>
-        internal async Task BeginRetryProcessAsync(CancellationToken cancellationToken = default)
+        internal async Task BeginRetryProcessAsync(CancellationToken cancellationToken)
         {
-            this.ThrowIfCurrentObjectDisposed();
+            this.RequiresNotDisposedPrivate();
 
             DateTime now = DateTime.UtcNow;
             var retries = 0;
             var exceptions = new List<Exception>();
-            var shouldRetry = true;
+            bool shouldRetry;
 
             do
             {
-                shouldRetry = this.RunOnce(exceptions, now, ref retries);
+                shouldRetry = this.RunOnce(
+                    exceptions,
+                    now,
+                    ref retries);
 
-                if (shouldRetry && this.options.WaitBetweenRetriesType != WaitType.None)
+                cancellationToken.ThrowIfCancellationRequested();
+
+                if (!shouldRetry || this.options.WaitBetweenRetriesType == WaitType.None)
                 {
-                    TimeSpan waitFor = this.GetRetryTimeSpan(retries, now);
-                    await Task.Delay((int)waitFor.TotalMilliseconds, cancellationToken).ConfigureAwait(false);
+                    continue;
                 }
+
+                TimeSpan waitFor = this.GetRetryTimeSpan(
+                    retries,
+                    now);
+                await Task.Delay(
+                    (int) waitFor.TotalMilliseconds,
+                    cancellationToken).ConfigureAwait(false);
             }
             while (shouldRetry);
 
-            this.ThrowExceptions(shouldRetry, exceptions);
+            if (this.options.ThrowExceptionOnLastRetry)
+            {
+                throw new AggregateException(exceptions);
+            }
         }
 
         /// <summary>
-        /// Begins the retry process.
+        ///     Begins the retry process.
         /// </summary>
-        internal void BeginRetryProcess()
+        internal void BeginRetryProcess(CancellationToken cancellationToken)
         {
-            this.ThrowIfCurrentObjectDisposed();
+            this.RequiresNotDisposedPrivate();
 
             DateTime now = DateTime.UtcNow;
             var retries = 0;
             var exceptions = new List<Exception>();
-            var shouldRetry = true;
+            bool shouldRetry;
 
             do
             {
-                shouldRetry = this.RunOnce(exceptions, now, ref retries);
+                shouldRetry = this.RunOnce(
+                    exceptions,
+                    now,
+                    ref retries);
 
-                if (shouldRetry && this.options.WaitBetweenRetriesType != WaitType.None)
+                cancellationToken.ThrowIfCancellationRequested();
+
+                if (!shouldRetry || this.options.WaitBetweenRetriesType == WaitType.None)
                 {
-                    TimeSpan waitFor = this.GetRetryTimeSpan(retries, now);
-                    Task.Delay((int)waitFor.TotalMilliseconds).Wait();
+                    continue;
                 }
+
+                TimeSpan waitFor = this.GetRetryTimeSpan(
+                    retries,
+                    now);
+#if NETSTANDARD1_2
+                Task.Factory.StartNew(async state => await Task.Delay((int)state).ConfigureAwait(false), waitFor.TotalMilliseconds, cancellationToken, TaskCreationOptions.HideScheduler | TaskCreationOptions.DenyChildAttach, TaskScheduler.Default).ConfigureAwait(false);
+#else
+                Thread.Sleep((int) waitFor.TotalMilliseconds);
+#endif
             }
             while (shouldRetry);
 
-            this.ThrowExceptions(shouldRetry, exceptions);
+            if (this.options.ThrowExceptionOnLastRetry)
+            {
+                throw new AggregateException(exceptions);
+            }
         }
 
         /// <summary>
-        /// Disposes in the general (managed and unmanaged) context.
+        ///     Disposes in the general (managed and unmanaged) context.
         /// </summary>
         protected override void DisposeGeneralContext()
         {
@@ -88,12 +122,19 @@ namespace IX.Retry.Contexts
         }
 
         /// <summary>
-        /// Invokes the method that needs retrying.
+        ///     Invokes the method that needs retrying.
         /// </summary>
         private protected abstract void Invoke();
 
-        private bool RunOnce(IList<Exception> exceptions, DateTime now, ref int retries)
+        private bool RunOnce(
+            ICollection<Exception> exceptions,
+            DateTime now,
+            ref int retries)
         {
+            Contract.RequiresNotNullPrivate(
+                exceptions,
+                nameof(exceptions));
+
             var shouldRetry = true;
 
             try
@@ -108,8 +149,11 @@ namespace IX.Retry.Contexts
             }
             catch (Exception ex)
             {
-                if (this.options.RetryOnExceptions.Count > 0 &&
-                    !this.options.RetryOnExceptions.Any((p, exL1) => p.Item1 == exL1.GetType() && p.Item2(exL1), ex))
+                List<Tuple<Type, Func<Exception, bool>>> retryOnExceptions = this.options.RetryOnExceptions;
+                if (retryOnExceptions.Count > 0 && !this.options.RetryOnExceptions.Any(
+                        (
+                                p,
+                                exL1) => p.Item1 == exL1.GetType() && (p.Item2 == null || p.Item2(exL1)), ex))
                 {
                     throw;
                 }
@@ -121,12 +165,17 @@ namespace IX.Retry.Contexts
                     shouldRetry = false;
                 }
 
-                if (shouldRetry && (this.options.Type & RetryType.For) != 0 && (DateTime.UtcNow - now) > this.options.RetryFor)
+                if (shouldRetry && (this.options.Type & RetryType.For) != 0 &&
+                    DateTime.UtcNow - now > this.options.RetryFor)
                 {
                     shouldRetry = false;
                 }
 
-                if (shouldRetry && (this.options.Type & RetryType.Until) != 0 && this.options.RetryUntil(retries, now, exceptions, this.options))
+                if (shouldRetry && (this.options.Type & RetryType.Until) != 0 && this.options.RetryUntil(
+                        retries,
+                        now,
+                        exceptions,
+                        this.options))
                 {
                     shouldRetry = false;
                 }
@@ -140,30 +189,23 @@ namespace IX.Retry.Contexts
             return shouldRetry;
         }
 
-        private TimeSpan GetRetryTimeSpan(int retries, DateTime now)
+        private TimeSpan GetRetryTimeSpan(
+            int retries,
+            DateTime now)
         {
-            TimeSpan waitFor;
-            if (this.options.WaitBetweenRetriesType == WaitType.For && this.options.WaitForDuration.HasValue)
+            switch (this.options.WaitBetweenRetriesType)
             {
-                waitFor = this.options.WaitForDuration.Value;
-            }
-            else if (this.options.WaitBetweenRetriesType == WaitType.Until)
-            {
-                waitFor = this.options.WaitUntilDelegate.Invoke(retries, now, this.options);
-            }
-            else
-            {
-                waitFor = TimeSpan.Zero;
-            }
+                case WaitType.For when this.options.WaitForDuration.HasValue:
+                    return this.options.WaitForDuration.Value;
 
-            return waitFor;
-        }
+                case WaitType.Until:
+                    return this.options.WaitUntilDelegate.Invoke(
+                        retries,
+                        now,
+                        this.options);
 
-        private void ThrowExceptions(bool shouldRetry, IEnumerable<Exception> exceptions)
-        {
-            if (!shouldRetry && this.options.ThrowExceptionOnLastRetry)
-            {
-                throw new AggregateException(exceptions);
+                default:
+                    return TimeSpan.Zero;
             }
         }
     }

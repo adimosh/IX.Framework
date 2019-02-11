@@ -1,0 +1,285 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+// <copyright file="TaskFactoryExtensions.Actions.cs" company="Adrian Mos">
+// Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
+// </copyright>
+
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+using IX.StandardExtensions.Contracts;
+
+namespace IX.StandardExtensions.Threading
+{
+    /// <summary>
+    /// A class containing extension methods for <see cref="TaskFactory"/>, mostly intended for use with <see cref="Task.Factory"/>.
+    /// </summary>
+    public static partial class TaskFactoryExtensions
+    {
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance<#
+for (int i = 1; i <= 8; i++)
+{
+    string[] types = new string[i];
+    string[] names = new string[i];
+    string[] nameTypes = new string[i];
+    string[] parameters = new string[i];
+
+    for (int j = 1; j <= i; j++)
+    {
+        int idx = j - 1;
+        types[idx] = $"TParam{j}";
+        names[idx] = $"param{j}";
+        nameTypes[idx] = $"TParam{j} param{j}";
+        parameters[idx] = $"item{j}";
+    }
+
+    string paramTypes = string.Join(", ", types);
+    string paramNames = string.Join(", ", names);
+    string paramNameTypes = string.Join(", ", nameTypes);
+    string paramParameters = string.Join(", ", parameters);
+#>
+
+        /// <summary>
+        /// Starts a task on a new thread.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="taskFactory">The task factory to extend.</param>
+        /// <param name="action">The action to start on a new thread.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="cancellationToken">The cancellation token for this operation.</param>
+        /// <returns>A <see cref="Task"/> that represents the started task.</returns>
+        public static Task StartOnNewThread<<#= paramTypes #>>(this TaskFactory taskFactory, Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(action, nameof(action));
+
+            return StartWithStateOnNewThread(
+                taskFactory,
+                rawState =>
+                {
+                    var innerState = (Tuple<Action<<#= paramTypes #>>, Tuple<<#= paramTypes #>>>)rawState;
+
+<#
+    for (int j = 1; j <= i; j++)
+    {
+        if (j == 8)
+        {
+#>
+                    var item<#= j #> = innerState.Item2.Rest;
+<#
+        }
+        else
+        {
+#>
+                    var item<#= j #> = innerState.Item2.Item<#= j #>;
+<#
+        }
+    }
+#>
+
+                    innerState.Item1(<#= paramParameters #>);
+                },
+                new Tuple<Action<<#= paramTypes #>>, Tuple<<#= paramTypes #>>>(action, new Tuple<<#= paramTypes #>>(<#= paramNames #>)),
+                false,
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Starts a long-running task on a new thread.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="taskFactory">The task factory to extend.</param>
+        /// <param name="action">The action to start on a new thread.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="cancellationToken">The cancellation token for this operation.</param>
+        /// <returns>A <see cref="Task"/> that represents the started task.</returns>
+        public static Task StartLongRunning<<#= paramTypes #>>(this TaskFactory taskFactory, Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(action, nameof(action));
+
+            return StartWithStateOnNewThread(
+                taskFactory,
+                rawState =>
+                {
+                    var innerState = (Tuple<Action<<#= paramTypes #>>, Tuple<<#= paramTypes #>>>)rawState;
+
+<#
+    for (int j = 1; j <= i; j++)
+    {
+        if (j == 8)
+        {
+#>
+                    var item<#= j #> = innerState.Item2.Rest;
+<#
+        }
+        else
+        {
+#>
+                    var item<#= j #> = innerState.Item2.Item<#= j #>;
+<#
+        }
+    }
+#>
+
+                    innerState.Item1(<#= paramParameters #>);
+                },
+                new Tuple<Action<<#= paramTypes #>>, Tuple<<#= paramTypes #>>>(action, new Tuple<<#= paramTypes #>>(<#= paramNames #>)),
+                true,
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Starts a task on a new thread.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <typeparam name="TResult">The type of the return value.</typeparam>
+        /// <param name="taskFactory">The task factory to extend.</param>
+        /// <param name="action">The action to start on a new thread.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="cancellationToken">The cancellation token for this operation.</param>
+        /// <returns>A <see cref="Task"/> that represents the started task.</returns>
+        public static Task<TResult> StartOnNewThread<<#= paramTypes #>, TResult>(this TaskFactory taskFactory, Func<<#= paramTypes #>, TResult> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(action, nameof(action));
+
+            return StartWithStateOnNewThread(
+                taskFactory,
+                rawState =>
+                {
+                    var innerState = (Tuple<Func<<#= paramTypes #>, TResult>, Tuple<<#= paramTypes #>>>)rawState;
+
+<#
+    for (int j = 1; j <= i; j++)
+    {
+        if (j == 8)
+        {
+#>
+                    var item<#= j #> = innerState.Item2.Rest;
+<#
+        }
+        else
+        {
+#>
+                    var item<#= j #> = innerState.Item2.Item<#= j #>;
+<#
+        }
+    }
+#>
+
+                    return innerState.Item1(<#= paramParameters #>);
+                },
+                new Tuple<Func<<#= paramTypes #>, TResult>, Tuple<<#= paramTypes #>>>(action, new Tuple<<#= paramTypes #>>(<#= paramNames #>)),
+                false,
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Starts a long-running task on a new thread.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <typeparam name="TResult">The type of the return value.</typeparam>
+        /// <param name="taskFactory">The task factory to extend.</param>
+        /// <param name="action">The action to start on a new thread.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        /// <param name="cancellationToken">The cancellation token for this operation.</param>
+        /// <returns>A <see cref="Task"/> that represents the started task.</returns>
+        public static Task<TResult> StartLongRunning<<#= paramTypes #>, TResult>(this TaskFactory taskFactory, Func<<#= paramTypes #>, TResult> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(action, nameof(action));
+
+            return StartWithStateOnNewThread(
+                taskFactory,
+                rawState =>
+                {
+                    var innerState = (Tuple<Func<<#= paramTypes #>, TResult>, Tuple<<#= paramTypes #>>>)rawState;
+
+<#
+    for (int j = 1; j <= i; j++)
+    {
+        if (j == 8)
+        {
+#>
+                    var item<#= j #> = innerState.Item2.Rest;
+<#
+        }
+        else
+        {
+#>
+                    var item<#= j #> = innerState.Item2.Item<#= j #>;
+<#
+        }
+    }
+#>
+
+                    return innerState.Item1(<#= paramParameters #>);
+                },
+                new Tuple<Func<<#= paramTypes #>, TResult>, Tuple<<#= paramTypes #>>>(action, new Tuple<<#= paramTypes #>>(<#= paramNames #>)),
+                true,
+                cancellationToken);
+        }
+<#
+}
+#>
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
+    }
+}

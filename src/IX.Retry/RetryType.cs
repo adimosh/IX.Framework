@@ -7,28 +7,28 @@ using System;
 namespace IX.Retry
 {
     /// <summary>
-    /// The type of retry procedure.
+    ///     The type of retry procedure.
     /// </summary>
     [Flags]
     public enum RetryType
     {
         /// <summary>
-        /// No retry.
+        ///     No retry.
         /// </summary>
         None = 0,
 
         /// <summary>
-        /// Retry a specific number of times.
+        ///     Retry a specific number of times.
         /// </summary>
         Times = 1,
 
         /// <summary>
-        /// Retry until a specific condition is met.
+        ///     Retry until a specific condition is met.
         /// </summary>
         Until = 2,
 
         /// <summary>
-        /// Retry for a specific period of time.
+        ///     Retry for a specific period of time.
         /// </summary>
         For = 4,
     }

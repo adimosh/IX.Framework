@@ -17,7 +17,7 @@ namespace IX.StandardExtensions.Efficiency
     /// <typeparam name="TValue">The type of the value.</typeparam>
     /// <seealso cref="System.Collections.Concurrent.ConcurrentDictionary{TKey, TValue}" />
     [ComVisible(false)]
-    [DebuggerDisplay("Count = {Count}")]
+    [DebuggerDisplay("Count = {" + nameof(Count) + "}")]
     [DebuggerTypeProxy(typeof(DictionaryDebugView<,>))]
     [DefaultMember("Item")]
     public partial class ConcurrentDictionary<TKey, TValue> : global::System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>

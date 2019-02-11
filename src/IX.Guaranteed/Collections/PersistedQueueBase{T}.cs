@@ -30,6 +30,11 @@ namespace IX.Guaranteed.Collections
         /// </summary>
         private readonly List<string> poisonedUnremovableFiles;
 
+        private readonly IFile fileShim;
+        private readonly IDirectory directoryShim;
+        private readonly IPath pathShim;
+        private readonly DataContractSerializer serializer;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PersistedQueueBase{T}"/> class.
         /// </summary>
@@ -69,22 +74,19 @@ namespace IX.Guaranteed.Collections
         protected PersistedQueueBase([NotNull] string persistenceFolderPath, [NotNull] IFile fileShim, [NotNull] IDirectory directoryShim, [NotNull] IPath pathShim, [NotNull] DataContractSerializer serializer, TimeSpan timeout)
             : base(timeout)
         {
-            // Parameter validation
-            if (string.IsNullOrWhiteSpace(persistenceFolderPath))
-            {
-                throw new ArgumentNullException(nameof(persistenceFolderPath));
-            }
+            // Dependency validation
+            Contract.RequiresNotNull(ref this.fileShim, fileShim, nameof(fileShim));
+            Contract.RequiresNotNull(ref this.pathShim, pathShim, nameof(pathShim));
+            Contract.RequiresNotNull(ref this.directoryShim, directoryShim, nameof(directoryShim));
+            Contract.RequiresNotNull(ref this.serializer, serializer, nameof(serializer));
 
-            if (!(directoryShim ?? throw new ArgumentNullException(nameof(directoryShim))).Exists(persistenceFolderPath))
+            // Parameter validation
+            Contract.RequiresNotNullOrWhitespace(persistenceFolderPath, nameof(persistenceFolderPath));
+
+            if (!directoryShim.Exists(persistenceFolderPath))
             {
                 throw new ArgumentInvalidPathException(nameof(persistenceFolderPath));
             }
-
-            // Dependencies
-            this.FileShim = fileShim ?? throw new ArgumentNullException(nameof(fileShim));
-            this.DirectoryShim = directoryShim;
-            this.PathShim = pathShim ?? throw new ArgumentNullException(nameof(pathShim));
-            this.Serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
 
             // Internal state
             this.poisonedUnremovableFiles = new List<string>();
@@ -129,19 +131,19 @@ namespace IX.Guaranteed.Collections
         /// Gets the path shim.
         /// </summary>
         /// <value>The path shim.</value>
-        protected IPath PathShim { get; }
+        protected IPath PathShim => pathShim;
 
         /// <summary>
         /// Gets the file shim.
         /// </summary>
         /// <value>The file shim.</value>
-        protected IFile FileShim { get; }
+        protected IFile FileShim => fileShim;
 
         /// <summary>
         /// Gets the folder shim.
         /// </summary>
         /// <value>The folder shim.</value>
-        protected IDirectory DirectoryShim { get; }
+        protected IDirectory DirectoryShim => directoryShim;
 
         /// <summary>
         /// Gets the data folder path.
@@ -159,7 +161,7 @@ namespace IX.Guaranteed.Collections
         /// Gets the serializer.
         /// </summary>
         /// <value>The serializer.</value>
-        protected DataContractSerializer Serializer { get; }
+        protected DataContractSerializer Serializer => serializer;
 
         /// <summary>
         /// Clears the queue of all elements.

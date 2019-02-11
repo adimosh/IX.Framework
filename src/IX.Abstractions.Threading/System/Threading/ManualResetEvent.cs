@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using JetBrains.Annotations;
 
 namespace IX.System.Threading
 {
@@ -10,6 +11,7 @@ namespace IX.System.Threading
     /// A set/reset event class that implements methods to block and unblock threads based on manual signal interaction.
     /// </summary>
     /// <seealso cref="IX.System.Threading.ISetResetEvent" />
+    [PublicAPI]
     public class ManualResetEvent : ISetResetEvent
     {
         private readonly bool eventLocal;
@@ -24,7 +26,7 @@ namespace IX.System.Threading
         /// <summary>
         /// A value that is used to detect redundant calls to <see cref="Dispose()"/>.
         /// </summary>
-        private bool disposedValue = false;
+        private bool disposedValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ManualResetEvent"/> class.
@@ -100,26 +102,30 @@ namespace IX.System.Threading
         /// Enters a wait period and, should there be no signal set, blocks the thread calling.
         /// </summary>
         /// <param name="millisecondsTimeout">The timeout period, in milliseconds.</param>
-        public void WaitOne(int millisecondsTimeout) => this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout));
+        /// <returns><see langword="true" /> if the event is set within the timeout period, <see langword="false" /> if the timeout is reached.</returns>
+        public bool WaitOne(int millisecondsTimeout) => this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout));
 
         /// <summary>
         /// Enters a wait period and, should there be no signal set, blocks the thread calling.
         /// </summary>
         /// <param name="millisecondsTimeout">The timeout period, in milliseconds.</param>
-        public void WaitOne(double millisecondsTimeout) => this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout));
+        /// <returns><see langword="true" /> if the event is set within the timeout period, <see langword="false" /> if the timeout is reached.</returns>
+        public bool WaitOne(double millisecondsTimeout) => this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout));
 
         /// <summary>
         /// Enters a wait period and, should there be no signal set, blocks the thread calling.
         /// </summary>
         /// <param name="timeout">The timeout period.</param>
-        public void WaitOne(TimeSpan timeout) => this.sre.WaitOne(timeout);
+        /// <returns><see langword="true" /> if the event is set within the timeout period, <see langword="false" /> if the timeout is reached.</returns>
+        public bool WaitOne(TimeSpan timeout) => this.sre.WaitOne(timeout);
 
         /// <summary>
         /// Enters a wait period and, should there be no signal set, blocks the thread calling.
         /// </summary>
         /// <param name="millisecondsTimeout">The timeout period, in milliseconds.</param>
         /// <param name="exitSynchronizationDomain">If set to <see langword="true"/>, the synchronization domain is exited before the call.</param>
-        public void WaitOne(int millisecondsTimeout, bool exitSynchronizationDomain) =>
+        /// <returns><see langword="true" /> if the event is set within the timeout period, <see langword="false" /> if the timeout is reached.</returns>
+        public bool WaitOne(int millisecondsTimeout, bool exitSynchronizationDomain) =>
 #if !STANDARD
             this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout), exitSynchronizationDomain);
 #else
@@ -131,7 +137,8 @@ namespace IX.System.Threading
         /// </summary>
         /// <param name="millisecondsTimeout">The timeout period, in milliseconds.</param>
         /// <param name="exitSynchronizationDomain">If set to <see langword="true"/>, the synchronization domain is exited before the call.</param>
-        public void WaitOne(double millisecondsTimeout, bool exitSynchronizationDomain) =>
+        /// <returns><see langword="true" /> if the event is set within the timeout period, <see langword="false" /> if the timeout is reached.</returns>
+        public bool WaitOne(double millisecondsTimeout, bool exitSynchronizationDomain) =>
 #if !STANDARD
             this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout), exitSynchronizationDomain);
 #else
@@ -143,7 +150,8 @@ namespace IX.System.Threading
         /// </summary>
         /// <param name="timeout">The timeout period.</param>
         /// <param name="exitSynchronizationDomain">If set to <see langword="true"/>, the synchronization domain is exited before the call.</param>
-        public void WaitOne(TimeSpan timeout, bool exitSynchronizationDomain) =>
+        /// <returns><see langword="true" /> if the event is set within the timeout period, <see langword="false" /> if the timeout is reached.</returns>
+        public bool WaitOne(TimeSpan timeout, bool exitSynchronizationDomain) =>
 #if !STANDARD
             this.sre.WaitOne(timeout, exitSynchronizationDomain);
 #else

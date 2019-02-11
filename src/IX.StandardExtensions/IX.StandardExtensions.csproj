@@ -28,6 +28,7 @@
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArraySequenceCompareExtensions.StandardTypes.cs" Link="ArraySequenceCompareExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArraySequenceEqualsExtensions.StandardTypes.cs" Link="ArraySequenceEqualsExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\DisposableBase.InvokeIfNotDisposed.cs" Link="ComponentModel\DisposableBase.InvokeIfNotDisposed.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Efficiency\ImmutableValueTuple.cs" Link="Efficiency\ImmutableValueTuple.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\IDictionaryExtensions.StandardTypes.cs" Link="IDictionaryExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableExtensions.ForEachRefActions.cs" Link="IEnumerableExtensions.ForEachRefActions.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableSequenceCompareExtensions.StandardTypes.cs" Link="IEnumerableSequenceCompareExtensions.StandardTypes.cs" />
@@ -41,6 +42,7 @@
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\RefDelegates.WithParameters.cs" Link="Efficiency\RefDelegates.WithParameters.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\RefIteratorDelegates.WithParameters.cs" Link="Efficiency\RefIteratorDelegates.WithParameters.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\Fire.AndForgetActionsAndFuncs.cs" Link="Threading\Fire.AndForgetActionsAndFuncs.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\TaskFactoryExtensions.Actions.cs" Link="Threading\TaskFactoryExtensions.Actions.cs" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">

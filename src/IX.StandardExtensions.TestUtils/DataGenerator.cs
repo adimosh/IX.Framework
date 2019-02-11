@@ -5,20 +5,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.TestUtils
 {
     /// <summary>
-    /// A static class that is used for generating random data for testing.
+    ///     A static class that is used for generating random data for testing.
     /// </summary>
+    [PublicAPI]
     public static partial class DataGenerator
     {
         // Random generator
-        private static Random r;
+        private static readonly Random R;
 
         static DataGenerator()
         {
-            r = new Random();
+            R = new Random();
 
             var tempList = new List<char>();
 
@@ -27,7 +29,7 @@ namespace IX.StandardExtensions.TestUtils
                 tempList.Add(c);
             }
 
-            lowerCaseAlphaCharacters = tempList.ToArray();
+            LowerCaseAlphaCharacters = tempList.ToArray();
 
             tempList.Clear();
 
@@ -36,7 +38,7 @@ namespace IX.StandardExtensions.TestUtils
                 tempList.Add(c);
             }
 
-            upperCaseAlphaCharacters = tempList.ToArray();
+            UpperCaseAlphaCharacters = tempList.ToArray();
 
             tempList.Clear();
 
@@ -45,37 +47,49 @@ namespace IX.StandardExtensions.TestUtils
                 tempList.Add(c);
             }
 
-            numericCharacters = tempList.ToArray();
+            NumericCharacters = tempList.ToArray();
 
-            basicSymbolCharacters = new char[] { '`', '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', ';', ':', '\'', '"', '\\', '|', ',', '.', '<', '>' };
+            BasicSymbolCharacters = new[]
+            {
+                '`', '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', ';',
+                ':', '\'', '"', '\\', '|', ',', '.', '<', '>',
+            };
 
-            alphaCharacters = lowerCaseAlphaCharacters.Union(upperCaseAlphaCharacters).ToArray();
-            alphaNumericCharacters = alphaCharacters.Union(numericCharacters).ToArray();
-            allCharacters = alphaNumericCharacters.Union(basicSymbolCharacters).ToArray();
+            AlphaCharacters = LowerCaseAlphaCharacters.Union(UpperCaseAlphaCharacters).ToArray();
+            AlphaNumericCharacters = AlphaCharacters.Union(NumericCharacters).ToArray();
+            AllCharacters = AlphaNumericCharacters.Union(BasicSymbolCharacters).ToArray();
         }
 
         /// <summary>
-        /// Generates an array of random integers of the specified size.
+        ///     Generates an array of random integers of the specified size.
         /// </summary>
         /// <param name="limit">The size limit of the array.</param>
         /// <returns>An array of random integers.</returns>
-        public static int[] RandomIntegerArray(int limit) => RandomIntegerArray(limit, r);
+        public static int[] RandomIntegerArray(int limit) => RandomIntegerArray(
+            limit,
+            R);
 
         /// <summary>
-        /// Generates an array of predictable random integers of the specified size.
+        ///     Generates an array of predictable random integers of the specified size.
         /// </summary>
         /// <param name="limit">The size limit of the array.</param>
         /// <param name="seed">The seed for the random number generator.</param>
         /// <returns>An array of predictable random integers.</returns>
-        public static int[] RandomIntegerArray(int limit, int seed) => RandomIntegerArray(limit, new Random(seed));
+        public static int[] RandomIntegerArray(
+            int limit,
+            int seed) => RandomIntegerArray(
+            limit,
+            new Random(seed));
 
         /// <summary>
-        /// Generates an array of predictable random integers of the specified size.
+        ///     Generates an array of predictable random integers of the specified size.
         /// </summary>
         /// <param name="limit">The size limit of the array.</param>
         /// <param name="random">The random generator to use.</param>
         /// <returns>An array of predictable random integers.</returns>
-        public static int[] RandomIntegerArray(int limit, Random random)
+        public static int[] RandomIntegerArray(
+            int limit,
+            Random random)
         {
             var array = new int[limit];
 

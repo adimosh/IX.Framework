@@ -57,19 +57,13 @@ namespace IX.Guaranteed.Collections
         public DisasterRecoveryPersistedQueue([NotNull] string persistenceFolderPath, [NotNull] IFile fileShim, [NotNull] IDirectory directoryShim, [NotNull] IPath pathShim)
             : base(Timeout.InfiniteTimeSpan)
         {
-            // Validate parameters
-            Contract.RequiresNotNullOrWhitespace(persistenceFolderPath, nameof(persistenceFolderPath));
-            Contract.RequiresNotNull(fileShim, nameof(fileShim));
-            Contract.RequiresNotNull(directoryShim, nameof(directoryShim));
-            Contract.RequiresNotNull(pathShim, nameof(pathShim));
-
             // External state
-            this.persistenceFolderPath = persistenceFolderPath;
+            Contract.RequiresNotNullOrWhitespace(ref this.persistenceFolderPath, persistenceFolderPath, nameof(persistenceFolderPath));
 
             // Dependencies
-            this.fileShim = fileShim;
-            this.directoryShim = directoryShim;
-            this.pathShim = pathShim;
+            Contract.RequiresNotNull(ref this.fileShim, fileShim, nameof(fileShim));
+            Contract.RequiresNotNull(ref this.directoryShim, directoryShim, nameof(directoryShim));
+            Contract.RequiresNotNull(ref this.pathShim, pathShim, nameof(pathShim));
 
 #if !STANDARD
             // Automatic disaster detection logic - Only for .NET Framework and .NET Standard 2.0
