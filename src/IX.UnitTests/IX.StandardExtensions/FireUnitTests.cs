@@ -2,7 +2,9 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using System;
 using System.Threading;
+using IX.StandardExtensions;
 using IX.StandardExtensions.TestUtils;
 using IX.StandardExtensions.Threading;
 using Xunit;
@@ -71,6 +73,46 @@ namespace IX.UnitTests.IX.StandardExtensions
             }
 
             Assert.NotEqual(initialValue, floatingValue);
+        }
+
+        /// <summary>
+        /// Test Fire.AndForget eexception mechanism.
+        /// </summary>
+        [Fact(DisplayName = "Test Fire.AndForget exception mechanism")]
+        public void Test3()
+        {
+            string argumentName = DataGenerator.RandomLowercaseString(
+                DataGenerator.RandomInteger(
+                    5,
+                    10));
+
+            Exception ex = null;
+
+            using (var mre = new ManualResetEventSlim())
+            {
+                Fire.AndForget(
+                    () =>
+                    {
+                        Thread.Sleep(DataGenerator.RandomNonNegativeInteger(300) + 1);
+
+                        throw new ArgumentNotPositiveIntegerException(argumentName);
+                    },
+                    exception =>
+                    {
+                        Interlocked.Exchange(
+                            ref ex,
+                            exception);
+
+                        // ReSharper disable once AccessToDisposedClosure - Guaranteed to either not be disposed or not relevant to context anymore at this point
+                        mre.Set();
+                    });
+
+                Assert.True(mre.WaitOne(1000));
+            }
+
+            Assert.NotNull(ex);
+            Assert.IsType<ArgumentNotPositiveIntegerException>(ex);
+            Assert.Equal(argumentName, ((ArgumentNotPositiveIntegerException)ex).ParamName);
         }
     }
 }
