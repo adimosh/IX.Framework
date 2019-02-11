@@ -13,12 +13,12 @@ using Xunit;
 namespace IX.UnitTests.IX.StandardExtensions
 {
     /// <summary>
-    /// Serialization unit tests.
+    ///     Serialization unit tests.
     /// </summary>
     public class SerializationUnitTests
     {
         /// <summary>
-        /// Tests the push down stack serialization.
+        ///     Tests the push down stack serialization.
         /// </summary>
         [Fact(DisplayName = "Serialization tests for inherited ReaderWriterSynchronizedBase")]
         public void TestInheritedReaderWriterSynchronizedBaseSerialization()
@@ -44,19 +44,31 @@ namespace IX.UnitTests.IX.StandardExtensions
                 // ===
                 using (var ms = new MemoryStream())
                 {
-                    dcs.WriteObject(ms, l1);
+                    dcs.WriteObject(
+                        ms,
+                        l1);
 
-                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Seek(
+                        0,
+                        SeekOrigin.Begin);
 
-                    using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                    using (var textReader = new StreamReader(
+                        ms,
+                        Encoding.UTF8,
+                        false,
+                        32768,
+                        true))
                     {
                         content = textReader.ReadToEnd();
                     }
 
-                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Seek(
+                        0,
+                        SeekOrigin.Begin);
 
                     l2 = dcs.ReadObject(ms) as BasicSynchronizedSerializationClass;
                 }
+
                 try
                 {
                     // ASSERT
@@ -71,11 +83,13 @@ namespace IX.UnitTests.IX.StandardExtensions
 
                     // Deserialized object is OK
                     Assert.NotNull(l2);
-                    Assert.Equal(l1.Setty, l2.Setty);
+                    Assert.Equal(
+                        l1.Setty,
+                        l2.Setty);
                 }
                 finally
                 {
-                    l2.Dispose();
+                    l2?.Dispose();
                 }
             }
         }
