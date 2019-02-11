@@ -17,7 +17,6 @@ namespace IX.StandardExtensions.Threading
     /// </summary>
     public static partial class Fire
     {
-#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
 #pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - The lambdas themselves rely on generics
         /// <summary>
         /// Fires a method on a separate thread, and forgets about it completely, only invoking a continuation if there was an exception.
@@ -41,32 +40,25 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1>, Tuple<TParam1>>(action, new Tuple<TParam1>(param1));
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters) => actionL1(unpackedParameters.Item1),
+                action,
+                new Tuple<TParam1>(param1),
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1>, Tuple<TParam1>>)innerState;
-                Tuple<TParam1> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -91,32 +83,29 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1, CancellationToken>, Tuple<TParam1>, CancellationToken>(action, new Tuple<TParam1>(param1), cancellationToken);
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
+                {
+                    actionL1(unpackedParameters.Item1, cancellationTokenL1);
+                },
+                action,
+                new Tuple<TParam1>(param1),
+                cancellationToken,
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1, CancellationToken>, Tuple<TParam1>, CancellationToken>)innerState;
-                Tuple<TParam1> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1, unpackedState.Item3);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -141,61 +130,30 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, Task>, Tuple<TParam1>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, Task>, Tuple<TParam1>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1>(param1), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1>(param1),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -220,61 +178,30 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, CancellationToken, Task>, Tuple<TParam1>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1, brokenState.Item5);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1, cancellationTokenL1);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, CancellationToken, Task>, Tuple<TParam1>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1>(param1), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1>(param1),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -303,32 +230,25 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1, TParam2>, Tuple<TParam1, TParam2>>(action, new Tuple<TParam1, TParam2>(param1, param2));
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters) => actionL1(unpackedParameters.Item1, unpackedParameters.Item2),
+                action,
+                new Tuple<TParam1, TParam2>(param1, param2),
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1, TParam2>, Tuple<TParam1, TParam2>>)innerState;
-                Tuple<TParam1, TParam2> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1, unpackedParameters.Item2);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -357,32 +277,29 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1, TParam2, CancellationToken>, Tuple<TParam1, TParam2>, CancellationToken>(action, new Tuple<TParam1, TParam2>(param1, param2), cancellationToken);
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
+                {
+                    actionL1(unpackedParameters.Item1, unpackedParameters.Item2, cancellationTokenL1);
+                },
+                action,
+                new Tuple<TParam1, TParam2>(param1, param2),
+                cancellationToken,
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1, TParam2, CancellationToken>, Tuple<TParam1, TParam2>, CancellationToken>)innerState;
-                Tuple<TParam1, TParam2> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedState.Item3);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -411,61 +328,30 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, TParam2, Task>, Tuple<TParam1, TParam2>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1, TParam2> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1, unpackedParameters.Item2);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1, unpackedParameters.Item2);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, TParam2, Task>, Tuple<TParam1, TParam2>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1, TParam2>(param1, param2), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1, TParam2>(param1, param2),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -494,61 +380,30 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, TParam2, CancellationToken, Task>, Tuple<TParam1, TParam2>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1, TParam2> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, brokenState.Item5);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1, unpackedParameters.Item2, cancellationTokenL1);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, TParam2, CancellationToken, Task>, Tuple<TParam1, TParam2>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1, TParam2>(param1, param2), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1, TParam2>(param1, param2),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -581,32 +436,25 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1, TParam2, TParam3>, Tuple<TParam1, TParam2, TParam3>>(action, new Tuple<TParam1, TParam2, TParam3>(param1, param2, param3));
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters) => actionL1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3),
+                action,
+                new Tuple<TParam1, TParam2, TParam3>(param1, param2, param3),
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1, TParam2, TParam3>, Tuple<TParam1, TParam2, TParam3>>)innerState;
-                Tuple<TParam1, TParam2, TParam3> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -639,32 +487,29 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1, TParam2, TParam3, CancellationToken>, Tuple<TParam1, TParam2, TParam3>, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3>(param1, param2, param3), cancellationToken);
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
+                {
+                    actionL1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, cancellationTokenL1);
+                },
+                action,
+                new Tuple<TParam1, TParam2, TParam3>(param1, param2, param3),
+                cancellationToken,
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1, TParam2, TParam3, CancellationToken>, Tuple<TParam1, TParam2, TParam3>, CancellationToken>)innerState;
-                Tuple<TParam1, TParam2, TParam3> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedState.Item3);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -697,61 +542,30 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, TParam2, TParam3, Task>, Tuple<TParam1, TParam2, TParam3>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1, TParam2, TParam3> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, TParam2, TParam3, Task>, Tuple<TParam1, TParam2, TParam3>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3>(param1, param2, param3), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1, TParam2, TParam3>(param1, param2, param3),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -784,61 +598,30 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, TParam2, TParam3, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1, TParam2, TParam3> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, brokenState.Item5);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, cancellationTokenL1);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, TParam2, TParam3, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3>(param1, param2, param3), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1, TParam2, TParam3>(param1, param2, param3),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -875,32 +658,25 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1, TParam2, TParam3, TParam4>, Tuple<TParam1, TParam2, TParam3, TParam4>>(action, new Tuple<TParam1, TParam2, TParam3, TParam4>(param1, param2, param3, param4));
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters) => actionL1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4),
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4>(param1, param2, param3, param4),
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4>, Tuple<TParam1, TParam2, TParam3, TParam4>>)innerState;
-                Tuple<TParam1, TParam2, TParam3, TParam4> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -937,32 +713,29 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1, TParam2, TParam3, TParam4, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4>, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3, TParam4>(param1, param2, param3, param4), cancellationToken);
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
+                {
+                    actionL1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, cancellationTokenL1);
+                },
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4>(param1, param2, param3, param4),
+                cancellationToken,
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4>, CancellationToken>)innerState;
-                Tuple<TParam1, TParam2, TParam3, TParam4> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedState.Item3);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -999,61 +772,30 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, Task>, Tuple<TParam1, TParam2, TParam3, TParam4>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1, TParam2, TParam3, TParam4> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, TParam2, TParam3, TParam4, Task>, Tuple<TParam1, TParam2, TParam3, TParam4>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3, TParam4>(param1, param2, param3, param4), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4>(param1, param2, param3, param4),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1090,61 +832,30 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1, TParam2, TParam3, TParam4> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, brokenState.Item5);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, cancellationTokenL1);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, TParam2, TParam3, TParam4, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3, TParam4>(param1, param2, param3, param4), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4>(param1, param2, param3, param4),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1185,32 +896,25 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>(param1, param2, param3, param4, param5));
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters) => actionL1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5),
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>(param1, param2, param3, param4, param5),
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>)innerState;
-                Tuple<TParam1, TParam2, TParam3, TParam4, TParam5> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1251,32 +955,29 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>(param1, param2, param3, param4, param5), cancellationToken);
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
+                {
+                    actionL1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, cancellationTokenL1);
+                },
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>(param1, param2, param3, param4, param5),
+                cancellationToken,
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>, CancellationToken>)innerState;
-                Tuple<TParam1, TParam2, TParam3, TParam4, TParam5> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedState.Item3);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1317,61 +1018,30 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1, TParam2, TParam3, TParam4, TParam5> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>(param1, param2, param3, param4, param5), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>(param1, param2, param3, param4, param5),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1412,61 +1082,30 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1, TParam2, TParam3, TParam4, TParam5> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, brokenState.Item5);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, cancellationTokenL1);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>(param1, param2, param3, param4, param5), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>(param1, param2, param3, param4, param5),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1511,32 +1150,25 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(param1, param2, param3, param4, param5, param6));
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters) => actionL1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6),
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(param1, param2, param3, param4, param5, param6),
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>)innerState;
-                Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1581,32 +1213,29 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(param1, param2, param3, param4, param5, param6), cancellationToken);
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
+                {
+                    actionL1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, cancellationTokenL1);
+                },
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(param1, param2, param3, param4, param5, param6),
+                cancellationToken,
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>, CancellationToken>)innerState;
-                Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedState.Item3);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1651,61 +1280,30 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(param1, param2, param3, param4, param5, param6), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(param1, param2, param3, param4, param5, param6),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1750,61 +1348,30 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, brokenState.Item5);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, cancellationTokenL1);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(param1, param2, param3, param4, param5, param6), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(param1, param2, param3, param4, param5, param6),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1853,32 +1420,25 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(param1, param2, param3, param4, param5, param6, param7));
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters) => actionL1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7),
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(param1, param2, param3, param4, param5, param6, param7),
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>)innerState;
-                Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1927,32 +1487,29 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(param1, param2, param3, param4, param5, param6, param7), cancellationToken);
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
+                {
+                    actionL1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7, cancellationTokenL1);
+                },
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(param1, param2, param3, param4, param5, param6, param7),
+                cancellationToken,
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>, CancellationToken>)innerState;
-                Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7, unpackedState.Item3);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2001,61 +1558,30 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(param1, param2, param3, param4, param5, param6, param7), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(param1, param2, param3, param4, param5, param6, param7),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2104,61 +1630,30 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7, brokenState.Item5);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7, cancellationTokenL1);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(param1, param2, param3, param4, param5, param6, param7), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(param1, param2, param3, param4, param5, param6, param7),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2211,32 +1706,25 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(param1, param2, param3, param4, param5, param6, param7, param8));
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters) => actionL1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7, unpackedParameters.Rest),
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(param1, param2, param3, param4, param5, param6, param7, param8),
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>)innerState;
-                Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7, unpackedParameters.Rest);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2289,32 +1777,29 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var state = new Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(param1, param2, param3, param4, param5, param6, param7, param8), cancellationToken);
-            var runningTask = new Task(ExecuteAction, state, cancellationToken);
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
+                {
+                    actionL1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7, unpackedParameters.Rest, cancellationTokenL1);
+                },
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(param1, param2, param3, param4, param5, param6, param7, param8),
+                cancellationToken,
+                cancellationToken);
 
-            void ExecuteAction(object innerState)
+            if (exceptionHandler != null)
             {
-                var unpackedState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>, CancellationToken>)innerState;
-                Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> unpackedParameters = unpackedState.Item2;
-
-                unpackedState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7, unpackedParameters.Rest, unpackedState.Item3);
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ContinueWith(
-                continuationAction: StandardContinuation,
-                state: exceptionHandler,
-                continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                scheduler: GetCurrentTaskScheduler(),
-                cancellationToken: cancellationToken);
-
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
-            {
-                return;
-            }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2367,61 +1852,30 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7, unpackedParameters.Rest);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7, unpackedParameters.Rest);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(param1, param2, param3, param4, param5, param6, param7, param8), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(param1, param2, param3, param4, param5, param6, param7, param8),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2474,64 +1928,32 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = new Task(
-                (state) =>
+            // We invoke our task-yielding operation in a different thread, guaranteed
+            var runningTask = Task.Factory.StartOnNewThread(
+                (actionL1, unpackedParameters, cancellationTokenL1) =>
                 {
-                    var brokenState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>, Action<Exception>, TaskScheduler, CancellationToken>)state;
-                    try
-                    {
-                        Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> unpackedParameters = brokenState.Item2;
-                        Task task = brokenState.Item1(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7, unpackedParameters.Rest, brokenState.Item5);
-
-                        if (!task.IsCompleted)
-                        {
-                            task.ConfigureAwait(false);
-
-                            if (brokenState.Item3 != null)
-                            {
-                                task.ContinueWith(
-                                    continuationAction: StandardContinuation,
-                                    state: brokenState.Item3,
-                                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
-                                    scheduler: brokenState.Item4,
-                                    cancellationToken: brokenState.Item5);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (brokenState.Item3 != null)
-                        {
-                            var task = new Task(
-                            (state2) =>
-                            {
-                                var brokenState2 = (Tuple<Exception, Action<Exception>>)state2;
-
-                                brokenState2.Item2(brokenState2.Item1);
-                            },
-                            new Tuple<Exception, Action<Exception>>(ex, brokenState.Item3),
-                            brokenState.Item5);
-
-                            task.ConfigureAwait(false);
-
-                            task.Start(brokenState.Item4);
-                        }
-                    }
+                    var innerTask = actionL1.Invoke(unpackedParameters.Item1, unpackedParameters.Item2, unpackedParameters.Item3, unpackedParameters.Item4, unpackedParameters.Item5, unpackedParameters.Item6, unpackedParameters.Item7, unpackedParameters.Rest, cancellationTokenL1);
+                    innerTask.Wait(cancellationTokenL1);
                 },
-                new Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>, Action<Exception>, TaskScheduler, CancellationToken>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(param1, param2, param3, param4, param5, param6, param7, param8), exceptionHandler, GetCurrentTaskScheduler(), cancellationToken),
+                action,
+                new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(param1, param2, param3, param4, param5, param6, param7, param8),
+                cancellationToken,
                 cancellationToken);
 
-            runningTask.Start(TaskScheduler.Default);
-
-            if (runningTask.IsCompleted)
+            if (exceptionHandler != null)
             {
-                return;
+                // No sense in running the continuation if there's nobody listening
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
+                runningTask.ContinueWith(
+                    continuationAction: StandardContinuation,
+                    state: exceptionHandler,
+                    continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
+                    scheduler: GetCurrentTaskScheduler(),
+                    cancellationToken: cancellationToken);
+#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
-
-            runningTask.ConfigureAwait(false);
         }
 #pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
-#pragma warning restore HAA0603 // Delegate allocation from a method group
 
     }
 }

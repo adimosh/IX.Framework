@@ -129,6 +129,7 @@ namespace IX.StandardExtensions.Threading
                 new Tuple<Action<object>, CultureInfo, CultureInfo, object>(action, CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture, state),
 #else
                 action,
+                state,
 #endif
                 cancellationToken,
                 creationOptions,
@@ -172,6 +173,7 @@ namespace IX.StandardExtensions.Threading
                 new Tuple<Func<object, TResult>, CultureInfo, CultureInfo, object>(action, CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture, state),
 #else
                 action,
+                state,
 #endif
                 cancellationToken,
                 creationOptions,

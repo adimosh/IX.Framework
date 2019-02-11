@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using IX.StandardExtensions.Contracts;
 
 namespace IX.StandardExtensions.Threading
 {
@@ -65,6 +66,15 @@ namespace IX.StandardExtensions.Threading
         /// <returns>An interruptible handle for external control of the ticker.</returns>
         public static IInterruptible Periodically(FirePeriodicallyTicker tickerDelegate, object payload, TimeSpan initialDelay, TimeSpan timeSpan) => new FirePeriodicallyContext(tickerDelegate, payload, initialDelay, timeSpan);
 
-        private static void StandardContinuation(Task task, object innerState) => (innerState as Action<Exception>)?.Invoke(task.Exception.GetBaseException());
+        private static void StandardContinuation(
+            Task task,
+            object innerState)
+        {
+            Contract.RequiresNotNullPrivate(task, nameof(task));
+            Contract.RequiresNotNullPrivate(task.Exception, nameof(task));
+            Contract.RequiresArgumentOfTypePrivate<Action<Exception>>(innerState, nameof(innerState));
+
+            (innerState as Action<Exception>)?.Invoke(task.Exception.GetBaseException());
+        }
     }
 }
