@@ -123,4 +123,13 @@
   <data name="OperationItemTypeError" xml:space="preserve">
     <value>Tipul de argument nu este un tip compatibil cu lista.</value>
   </data>
+  <data name="TheCollectionIsCapturedIntoAContextItCannotStartAnExplicitTransaction" xml:space="preserve">
+    <value>Colecția este capturată în context, nu poate începe o tranzacție explicită.</value>
+  </data>
+  <data name="TheGivenCollectionToRemoveIsNotContainedInTheInitialCollection" xml:space="preserve">
+    <value>Colecția dată pentru a fi eliminată nu este inclusă în colecția inițială.</value>
+  </data>
+  <data name="ThereAlreadyIsAnOpenUndoTransaction" xml:space="preserve">
+    <value>Există deja o tranzacție de anulare deschisă.</value>
+  </data>
 </root>

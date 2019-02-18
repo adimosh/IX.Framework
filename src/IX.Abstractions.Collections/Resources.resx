@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrorKeyFoundInDictionary" xml:space="preserve">
+    <value>The given key was already present in the dictionary.</value>
+  </data>
   <data name="LimitArgumentNegativeExceptionDefaultTextNoArgument" xml:space="preserve">
     <value>Limit argument must be a non-negative integer.</value>
   </data>
@@ -125,8 +128,5 @@
   </data>
   <data name="MoveNextNotInvoked" xml:space="preserve">
     <value>You must first invoke the MoveNext method before you can call Current.</value>
-  </data>
-  <data name="ErrorKeyFoundInDictionary" xml:space="preserve">
-    <value>The given key was already present in the dictionary.</value>
   </data>
 </root>

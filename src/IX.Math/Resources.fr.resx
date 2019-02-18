@@ -117,22 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NotValidInternally" xml:space="preserve">
-    <value>L’expression est soit pas logiquement sonore, à l’interne valide ou son appel a été fait avec des données incorrectes.</value>
-  </data>
-  <data name="NumericTypeInvalid" xml:space="preserve">
-    <value>Le type numérique n’est pas un type numérique, ou n’est pas encore supporté.</value>
-  </data>
   <data name="FunctionCallNotValid" xml:space="preserve">
-    <value>La fonction demandée ne peut pas être appelée avec les opérandes spécifiés, soit parce que leur nombre ne correspond pas le nombre d’opérandes requis, soit car ils ont incompatible types. !</value>
+    <value>La fonction demandée ne peut pas être appelée avec les opérandes spécifiés, soit parce que leur nombre ne correspond pas le nombre d’opérandes requis,soit parce que leurs types ne correspondent pas.</value>
   </data>
   <data name="FunctionCouldNotBeFound" xml:space="preserve">
-    <value>La fonction "{0}" ne peut pas être trouvé.</value>
+    <value>La fonction "{0}" ne peut pas être trouvée  ( est introuvable) .</value>
+  </data>
+  <data name="NotValidInternally" xml:space="preserve">
+    <value>L'expression est logiquement incorrecte, non valide ou appelée avec des données incorrectes.</value>
+  </data>
+  <data name="NumericTypeInvalid" xml:space="preserve">
+    <value> Le type numérique n'est pas un type numérique ou n'est pas encore supporté/ mis en œuvre. .</value>
+  </data>
+  <data name="ParameterAlreadyAdvertised" xml:space="preserve">
+    <value>Le paramètre {0} a déjà été annoncé dans cette étendue. Le contexte ne peut pas reprendre le contexte.</value>
+  </data>
+  <data name="ParameterAlreadyCompiled" xml:space="preserve">
+    <value>Le paramètre {0} a déjà été compilé.</value>
+  </data>
+  <data name="ParameterAlreadyCompiledButCompilationIsNull" xml:space="preserve">
+    <value>Le paramètre {0} a déjà été compilé, mais le résultat est perdu ou n'est pas initialisé correctement.</value>
   </data>
   <data name="ParameterMustBeFloatButAlreadyRequiredToBeInteger" xml:space="preserve">
-    <value>Le paramètre {0} doit être une valeur flottante de peur que l&amp;#39;expression n&amp;#39;a pas de sens, mais il est déjà défini comme entier obligatoire.</value>
+    <value>Le paramètre {0} doit être un nombre réel, sinon l'expression n'a pas de sens mais est déjà définie comme un entier obligatoire.</value>
   </data>
   <data name="ParameterMustBeIntegerButAlreadyRequiredToBeFloat" xml:space="preserve">
-    <value>Le paramètre {0} doit être une valeur entière de peur que l&amp;#39;expression n&amp;#39;a pas de sens, mais il est déjà défini comme float obligatoire.</value>
+    <value>Le paramètre {0} doit être un nombre entier, sinon l'expression n'a pas de sens mais est déjà définie comme un nombre réel obligatoire.</value>
+  </data>
+  <data name="ParameterRegistryReturnedNull" xml:space="preserve">
+    <value>Le registre de paramètres a renvoyé une valeur null.</value>
+  </data>
+  <data name="ParameterRequiredOfMismatchedTypes" xml:space="preserve">
+    <value>Le paramètre {0} est utilisé comme deux types distincts et incompatibles.</value>
   </data>
 </root>

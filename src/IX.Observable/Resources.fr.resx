@@ -121,6 +121,18 @@
     <value>Un élément possédant la même clé existe déjà dans ce dictionnaire.</value>
   </data>
   <data name="OperationItemTypeError" xml:space="preserve">
-    <value>Le type de l’argument n’est pas un type compatible à la liste.</value>
+    <value>Le type de l’argument n’est pas un type compatible avec la liste.</value>
+  </data>
+  <data name="TheCollectionIsCapturedIntoAContextItCannotStartAnExplicitTransaction" xml:space="preserve">
+    <value>La collection est capturée dans un contexte, elle ne peut pas démarrer une transaction explicite.</value>
+  </data>
+  <data name="TheGivenCollectionToRemoveIsNotContainedInTheInitialCollection" xml:space="preserve">
+    <value>La collection à supprimer n'est pas incluse dans la collection d'origine.</value>
+  </data>
+  <data name="ThereAlreadyIsAnOpenUndoTransaction" xml:space="preserve">
+    <value>Il y a déjà une transaction d'annulation ouverte.</value>
+  </data>
+  <data name="UndoAndRedoOperationsAreNotSupportedWhileAnExplicitTransactionBlockIsOpen" xml:space="preserve">
+    <value>Les opérations d'annulation et de rétablissement ne sont pas prises en charge lorsqu'un bloc de transaction explicite est ouvert.</value>
   </data>
 </root>

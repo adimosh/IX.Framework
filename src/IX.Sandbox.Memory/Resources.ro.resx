@@ -117,16 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="VariableNotFound" xml:space="preserve">
-    <value>Variabila nu a fost găsită.</value>
-  </data>
-  <data name="VariableDifferentThanStored" xml:space="preserve">
-    <value>Variabila este diferită de ce a fost deja stocat în acest spațiu.</value>
+  <data name="SubScopeDifferentThanStored" xml:space="preserve">
+    <value>Sub-spațiul este diferit față de ce a fost deja stocat în acest spațiu.</value>
   </data>
   <data name="SubScopeNotFound" xml:space="preserve">
     <value>Sub-spațiul nu a fost găsit.</value>
   </data>
-  <data name="SubScopeDifferentThanStored" xml:space="preserve">
-    <value>Sub-spațiul este diferit față de ce a fost deja stocat în acest spațiu.</value>
+  <data name="VariableDifferentThanStored" xml:space="preserve">
+    <value>Variabila este diferită de ce a fost deja stocat în acest spațiu.</value>
+  </data>
+  <data name="VariableNotFound" xml:space="preserve">
+    <value>Variabila nu a fost găsită.</value>
   </data>
 </root>

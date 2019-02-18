@@ -123,16 +123,16 @@
   <data name="OperationItemTypeError" xml:space="preserve">
     <value>The type of the argument is not a compatible type to the list.</value>
   </data>
-  <data name="ThereAlreadyIsAnOpenUndoTransaction" xml:space="preserve">
-    <value>There already is an open undo transaction.</value>
-  </data>
   <data name="TheCollectionIsCapturedIntoAContextItCannotStartAnExplicitTransaction" xml:space="preserve">
     <value>The collection is captured into a context, it cannot start an explicit transaction.</value>
   </data>
-  <data name="UndoAndRedoOperationsAreNotSupportedWhileAnExplicitTransactionBlockIsOpen" xml:space="preserve">
-    <value>Undo and Redo operations are not supported while an explicit transaction block is open.</value>
-  </data>
   <data name="TheGivenCollectionToRemoveIsNotContainedInTheInitialCollection" xml:space="preserve">
     <value>The given collection to remove is not contained in the initial collection.</value>
+  </data>
+  <data name="ThereAlreadyIsAnOpenUndoTransaction" xml:space="preserve">
+    <value>There already is an open undo transaction.</value>
+  </data>
+  <data name="UndoAndRedoOperationsAreNotSupportedWhileAnExplicitTransactionBlockIsOpen" xml:space="preserve">
+    <value>Undo and Redo operations are not supported while an explicit transaction block is open.</value>
   </data>
 </root>

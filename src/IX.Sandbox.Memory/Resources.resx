@@ -123,28 +123,28 @@
   <data name="SubScopeNotFound" xml:space="preserve">
     <value>The sub-scope was not found.</value>
   </data>
+  <data name="TheContainedValueTypeIsNotSupported" xml:space="preserve">
+    <value>The contained value type is not supported.</value>
+  </data>
+  <data name="TheObjectHasAlreadyBeenMarkedForCollection" xml:space="preserve">
+    <value>The object has already been marked for collection.</value>
+  </data>
+  <data name="TheSandboxHeapHasAlreadyBeenDisposed" xml:space="preserve">
+    <value>The sandbox heap has already been disposed.</value>
+  </data>
+  <data name="TheSuppliedObjectKeyIsInvalid" xml:space="preserve">
+    <value>The supplied object key is invalid.</value>
+  </data>
+  <data name="TheSymbolWasAlreadyCreated" xml:space="preserve">
+    <value>The symbol was already created.</value>
+  </data>
+  <data name="TheValueTypeIsNotSuppportedSinceAnAttemptWasMadeToAssignAnArrayOfValuesToASingleValueSymbol" xml:space="preserve">
+    <value>The value type is not suppported, since an attempt was made to assign an array of values to a single value symbol.</value>
+  </data>
   <data name="VariableDifferentThanStored" xml:space="preserve">
     <value>The variable is different from what has already been stored in this scope.</value>
   </data>
   <data name="VariableNotFound" xml:space="preserve">
     <value>The variable was not found.</value>
-  </data>
-  <data name="TheObjectHasAlreadyBeenMarkedForCollection" xml:space="preserve">
-    <value>The object has already been marked for collection.</value>
-  </data>
-  <data name="TheSuppliedObjectKeyIsInvalid" xml:space="preserve">
-    <value>The supplied object key is invalid.</value>
-  </data>
-  <data name="TheContainedValueTypeIsNotSupported" xml:space="preserve">
-    <value>The contained value type is not supported.</value>
-  </data>
-  <data name="TheSandboxHeapHasAlreadyBeenDisposed" xml:space="preserve">
-    <value>The sandbox heap has already been disposed.</value>
-  </data>
-  <data name="TheValueTypeIsNotSuppportedSinceAnAttemptWasMadeToAssignAnArrayOfValuesToASingleValueSymbol" xml:space="preserve">
-    <value>The value type is not suppported, since an attempt was made to assign an array of values to a single value symbol.</value>
-  </data>
-  <data name="TheSymbolWasAlreadyCreated" xml:space="preserve">
-    <value>The symbol was already created.</value>
   </data>
 </root>

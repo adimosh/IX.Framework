@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MoveNextNotInvoked" xml:space="preserve">
-    <value>Mai întâi trebuie să invocați MoveNext înainte să puteți apela Current.</value>
+  <data name="ErrorKeyFoundInDictionary" xml:space="preserve">
+    <value>Cheia introdusă este deja prezentă în dicționar.</value>
   </data>
   <data name="LimitArgumentNegativeExceptionDefaultTextNoArgument" xml:space="preserve">
     <value>Parametrul limită trebuie să fie un întreg non-negativ.</value>
@@ -126,7 +126,7 @@
   <data name="LimitArgumentNegativeExceptionDefaultTextWithArgument" xml:space="preserve">
     <value>Parametrul limită trebuie să fie un întreg non-negativ. Numele parametrului: {0}</value>
   </data>
-  <data name="ErrorKeyFoundInDictionary" xml:space="preserve">
-    <value>Cheia introdusă este deja prezentă în dicționar.</value>
+  <data name="MoveNextNotInvoked" xml:space="preserve">
+    <value>Mai întâi trebuie să invocați MoveNext înainte să puteți apela Current.</value>
   </data>
 </root>
