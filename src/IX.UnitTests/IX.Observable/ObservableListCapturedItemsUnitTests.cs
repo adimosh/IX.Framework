@@ -5,16 +5,17 @@
 using System.Collections.Specialized;
 using IX.Observable;
 using Xunit;
+using EnvironmentSettings = IX.StandardExtensions.ComponentModel.EnvironmentSettings;
 
 namespace IX.UnitTests.IX.Observable
 {
     /// <summary>
-    /// Captured items test for ObservableList.
+    ///     Captured items test for ObservableList.
     /// </summary>
     public class ObservableListCapturedItemsUnitTests
     {
         /// <summary>
-        /// ObservableList captured item undo/redo.
+        ///     ObservableList captured item undo/redo.
         /// </summary>
         [Fact(DisplayName = "ObservableList captured item undo/redo")]
         public void UnitTest1()
@@ -37,13 +38,15 @@ namespace IX.UnitTests.IX.Observable
                     list.Undo();
 
                     // ASSERT
-                    Assert.Equal("bbb", item1.TestProperty);
+                    Assert.Equal(
+                        "bbb",
+                        item1.TestProperty);
                 }
             }
         }
 
         /// <summary>
-        /// ObservableList non-captured item undo/redo.
+        ///     ObservableList non-captured item undo/redo.
         /// </summary>
         [Fact(DisplayName = "ObservableList non-captured item undo/redo")]
         public void UnitTest2()
@@ -66,21 +69,23 @@ namespace IX.UnitTests.IX.Observable
                     list.Undo();
 
                     // ASSERT
-                    Assert.Equal("ccc", item1.TestProperty);
+                    Assert.Equal(
+                        "ccc",
+                        item1.TestProperty);
                     Assert.Empty(list);
                 }
             }
         }
 
         /// <summary>
-        /// ObservableList captured item undo/redo and further use.
+        ///     ObservableList captured item undo/redo and further use.
         /// </summary>
         [Fact(DisplayName = "ObservableList captured item undo/redo and further use")]
         public void UnitTest3()
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             using (var list = new ObservableList<CapturedItem>
             {
@@ -93,18 +98,25 @@ namespace IX.UnitTests.IX.Observable
             {
                 list.AutomaticallyCaptureSubItems = true;
 
-                NotifyCollectionChangedAction cca = NotifyCollectionChangedAction.Add;
+                var cca = NotifyCollectionChangedAction.Add;
 
-                list.CollectionChanged += (sender, e) => Assert.Equal(cca, e.Action);
+                list.CollectionChanged += (
+                    sender,
+                    e) => Assert.Equal(
+#pragma warning disable SA1515 // Single-line comment should be preceded by blank line - R# warning
+                    // ReSharper disable once AccessToModifiedClosure - That's the point of the test
+                    cca,
+#pragma warning restore SA1515 // Single-line comment should be preceded by blank line
+                    e.Action);
 
                 // ACT
                 list.AddRange(
                     new[]
                     {
-                    new CapturedItem { TestProperty = "6" },
-                    new CapturedItem { TestProperty = "7" },
-                    new CapturedItem { TestProperty = "8" },
-                    new CapturedItem { TestProperty = "9" },
+                        new CapturedItem { TestProperty = "6" },
+                        new CapturedItem { TestProperty = "7" },
+                        new CapturedItem { TestProperty = "8" },
+                        new CapturedItem { TestProperty = "9" },
                     });
 
                 // ASSERT
@@ -112,7 +124,9 @@ namespace IX.UnitTests.IX.Observable
 
                 list.Undo();
 
-                Assert.Equal(5, list.Count);
+                Assert.Equal(
+                    5,
+                    list.Count);
                 Assert.True(list[0].TestProperty == "1");
                 Assert.True(list[1].TestProperty == "2");
                 Assert.True(list[2].TestProperty == "3");
@@ -123,7 +137,9 @@ namespace IX.UnitTests.IX.Observable
 
                 list.Redo();
 
-                Assert.Equal(9, list.Count);
+                Assert.Equal(
+                    9,
+                    list.Count);
                 Assert.True(list[0].TestProperty == "1");
                 Assert.True(list[1].TestProperty == "2");
                 Assert.True(list[2].TestProperty == "3");
@@ -137,7 +153,9 @@ namespace IX.UnitTests.IX.Observable
                 cca = NotifyCollectionChangedAction.Remove;
                 list.RemoveAt(6);
 
-                Assert.Equal(8, list.Count);
+                Assert.Equal(
+                    8,
+                    list.Count);
                 Assert.True(list[0].TestProperty == "1");
                 Assert.True(list[1].TestProperty == "2");
                 Assert.True(list[2].TestProperty == "3");
@@ -154,7 +172,9 @@ namespace IX.UnitTests.IX.Observable
                 // No collection changed here
                 list.Undo();
 
-                Assert.Equal(8, list.Count);
+                Assert.Equal(
+                    8,
+                    list.Count);
                 Assert.True(list[0].TestProperty == "1");
                 Assert.True(list[1].TestProperty == "2");
                 Assert.True(list[2].TestProperty == "3");
@@ -165,9 +185,13 @@ namespace IX.UnitTests.IX.Observable
                 Assert.True(list[7].TestProperty == "9");
 
                 cca = NotifyCollectionChangedAction.Remove;
-                list.RemoveRange(2, 4);
+                list.RemoveRange(
+                    2,
+                    4);
 
-                Assert.Equal(4, list.Count);
+                Assert.Equal(
+                    4,
+                    list.Count);
                 Assert.True(list[0].TestProperty == "1");
                 Assert.True(list[1].TestProperty == "2");
                 Assert.True(list[2].TestProperty == "8");
@@ -176,7 +200,9 @@ namespace IX.UnitTests.IX.Observable
                 cca = NotifyCollectionChangedAction.Reset;
                 list.Undo();
 
-                Assert.Equal(8, list.Count);
+                Assert.Equal(
+                    8,
+                    list.Count);
                 Assert.True(list[0].TestProperty == "1");
                 Assert.True(list[1].TestProperty == "2");
                 Assert.True(list[2].TestProperty == "3");
@@ -187,15 +213,19 @@ namespace IX.UnitTests.IX.Observable
                 Assert.True(list[7].TestProperty == "9");
 
                 cca = NotifyCollectionChangedAction.Add;
-                CapturedItem[] items = new[]
-                    {
+                CapturedItem[] items =
+                {
                     new CapturedItem { TestProperty = "a" },
                     new CapturedItem { TestProperty = "b" },
                 };
 
-                list.InsertRange(5, items);
+                list.InsertRange(
+                    5,
+                    items);
 
-                Assert.Equal(10, list.Count);
+                Assert.Equal(
+                    10,
+                    list.Count);
                 Assert.True(list[0].TestProperty == "1");
                 Assert.True(list[1].TestProperty == "2");
                 Assert.True(list[2].TestProperty == "3");
@@ -210,7 +240,9 @@ namespace IX.UnitTests.IX.Observable
                 cca = NotifyCollectionChangedAction.Remove;
                 list.Undo();
 
-                Assert.Equal(8, list.Count);
+                Assert.Equal(
+                    8,
+                    list.Count);
                 Assert.True(list[0].TestProperty == "1");
                 Assert.True(list[1].TestProperty == "2");
                 Assert.True(list[2].TestProperty == "3");
@@ -223,7 +255,9 @@ namespace IX.UnitTests.IX.Observable
                 cca = NotifyCollectionChangedAction.Add;
                 list.Redo();
 
-                Assert.Equal(10, list.Count);
+                Assert.Equal(
+                    10,
+                    list.Count);
                 Assert.True(list[0].TestProperty == "1");
                 Assert.True(list[1].TestProperty == "2");
                 Assert.True(list[2].TestProperty == "3");

@@ -18,6 +18,7 @@ namespace IX.Guaranteed.Collections
     /// <typeparam name="T">The type of object in the queue.</typeparam>
     /// <seealso cref="IX.StandardExtensions.ComponentModel.DisposableBase" />
     /// <seealso cref="IX.System.Collections.Generic.IQueue{T}" />
+    [PublicAPI]
     public class InMemoryLimitedPersistedQueue<T> : PersistedQueueBase<T>
     {
         private readonly System.Collections.Generic.Queue<string> internalQueue;

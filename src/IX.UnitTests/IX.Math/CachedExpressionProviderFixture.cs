@@ -8,13 +8,13 @@ using IX.Math;
 namespace IX.UnitTests.IX.Math
 {
     /// <summary>
-    /// A fixture for a cached expression provider test suite.
+    ///     A fixture for a cached expression provider test suite.
     /// </summary>
     /// <seealso cref="IDisposable" />
     public class CachedExpressionProviderFixture : IDisposable
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CachedExpressionProviderFixture"/> class.
+        ///     Initializes a new instance of the <see cref="CachedExpressionProviderFixture" /> class.
         /// </summary>
         public CachedExpressionProviderFixture()
         {
@@ -22,13 +22,13 @@ namespace IX.UnitTests.IX.Math
         }
 
         /// <summary>
-        /// Gets the service.
+        ///     Gets the service.
         /// </summary>
         /// <value>The service.</value>
         public CachedExpressionParsingService Service { get; }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose() => this.Service.Dispose();
     }

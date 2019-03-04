@@ -57,7 +57,7 @@ namespace IX.Retry.Contexts
                     retries,
                     now);
                 await Task.Delay(
-                    (int) waitFor.TotalMilliseconds,
+                    (int)waitFor.TotalMilliseconds,
                     cancellationToken).ConfigureAwait(false);
             }
             while (shouldRetry);
@@ -100,7 +100,7 @@ namespace IX.Retry.Contexts
 #if NETSTANDARD1_2
                 Task.Factory.StartNew(async state => await Task.Delay((int)state).ConfigureAwait(false), waitFor.TotalMilliseconds, cancellationToken, TaskCreationOptions.HideScheduler | TaskCreationOptions.DenyChildAttach, TaskScheduler.Default).ConfigureAwait(false);
 #else
-                Thread.Sleep((int) waitFor.TotalMilliseconds);
+                Thread.Sleep((int)waitFor.TotalMilliseconds);
 #endif
             }
             while (shouldRetry);

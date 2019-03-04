@@ -14,89 +14,12 @@ using Xunit;
 namespace IX.UnitTests.IX.Observable
 {
     /// <summary>
-    /// Serialization tests.
+    ///     Serialization tests.
     /// </summary>
     public class SerializationUnitTests
     {
         /// <summary>
-        /// Observables the list serialization test.
-        /// </summary>
-        [Fact(DisplayName = "ObservableList serialization")]
-        public void ObservableListSerializationTest()
-        {
-            // ARRANGE
-            // =======
-
-            // A random generator (we'll test random values to avoid hard-codings)
-            var r = new Random();
-
-            // The data contract serializer we'll use to serialize and deserialize
-            var dcs = new DataContractSerializer(typeof(ObservableList<DummyDataContract>));
-
-            // The dummy data
-            var ddc1 = new DummyDataContract { RandomValue = r.Next() };
-            var ddc2 = new DummyDataContract { RandomValue = r.Next() };
-            var ddc3 = new DummyDataContract { RandomValue = r.Next() };
-            var ddc4 = new DummyDataContract { RandomValue = r.Next() };
-
-            // The original observable list
-            using (var l1 = new ObservableList<DummyDataContract>
-            {
-                ddc1,
-                ddc2,
-                ddc3,
-                ddc4,
-            })
-            {
-                // The deserialized list
-                ObservableList<DummyDataContract> l2;
-
-                // The serialization content
-                string content;
-
-                // ACT
-                // ===
-                using (var ms = new MemoryStream())
-                {
-                    dcs.WriteObject(ms, l1);
-
-                    ms.Seek(0, SeekOrigin.Begin);
-
-                    using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
-                    {
-                        content = textReader.ReadToEnd();
-                    }
-
-                    ms.Seek(0, SeekOrigin.Begin);
-
-                    l2 = dcs.ReadObject(ms) as ObservableList<DummyDataContract>;
-                }
-
-                try
-                {
-                    // ASSERT
-                    // ======
-
-                    // Serialization content is OK
-                    Assert.False(string.IsNullOrWhiteSpace(content));
-                    Assert.Equal(
-                        $@"<ObservableDDCList xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><Item><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Item></ObservableDDCList>",
-                        content);
-
-                    // Deserialized object is OK
-                    Assert.NotNull(l2);
-                    Assert.Equal(l1.Count, l2.Count);
-                    Assert.True(l1.SequenceEquals(l2));
-                }
-                finally
-                {
-                    l2.Dispose();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Observables the list serialization test.
+        ///     Observables the list serialization test.
         /// </summary>
         [Fact(DisplayName = "ConcurrentObservableList serialization")]
         public void ConcurrentObservableListSerializationTest()
@@ -135,16 +58,27 @@ namespace IX.UnitTests.IX.Observable
                 // ===
                 using (var ms = new MemoryStream())
                 {
-                    dcs.WriteObject(ms, l1);
+                    dcs.WriteObject(
+                        ms,
+                        l1);
 
-                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Seek(
+                        0,
+                        SeekOrigin.Begin);
 
-                    using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                    using (var textReader = new StreamReader(
+                        ms,
+                        Encoding.UTF8,
+                        false,
+                        32768,
+                        true))
                     {
                         content = textReader.ReadToEnd();
                     }
 
-                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Seek(
+                        0,
+                        SeekOrigin.Begin);
 
                     l2 = dcs.ReadObject(ms) as ConcurrentObservableList<DummyDataContract>;
                 }
@@ -162,18 +96,110 @@ namespace IX.UnitTests.IX.Observable
 
                     // Deserialized object is OK
                     Assert.NotNull(l2);
-                    Assert.Equal(l1.Count, l2.Count);
+                    Assert.Equal(
+                        l1.Count,
+                        l2.Count);
                     Assert.True(l1.SequenceEquals(l2));
                 }
                 finally
                 {
-                    l2.Dispose();
+                    l2?.Dispose();
                 }
             }
         }
 
         /// <summary>
-        /// Observables the list serialization test.
+        ///     Observables the list serialization test.
+        /// </summary>
+        [Fact(DisplayName = "ObservableList serialization")]
+        public void ObservableListSerializationTest()
+        {
+            // ARRANGE
+            // =======
+
+            // A random generator (we'll test random values to avoid hard-codings)
+            var r = new Random();
+
+            // The data contract serializer we'll use to serialize and deserialize
+            var dcs = new DataContractSerializer(typeof(ObservableList<DummyDataContract>));
+
+            // The dummy data
+            var ddc1 = new DummyDataContract { RandomValue = r.Next() };
+            var ddc2 = new DummyDataContract { RandomValue = r.Next() };
+            var ddc3 = new DummyDataContract { RandomValue = r.Next() };
+            var ddc4 = new DummyDataContract { RandomValue = r.Next() };
+
+            // The original observable list
+            using (var l1 = new ObservableList<DummyDataContract>
+            {
+                ddc1,
+                ddc2,
+                ddc3,
+                ddc4,
+            })
+            {
+                // The deserialized list
+                ObservableList<DummyDataContract> l2;
+
+                // The serialization content
+                string content;
+
+                // ACT
+                // ===
+                using (var ms = new MemoryStream())
+                {
+                    dcs.WriteObject(
+                        ms,
+                        l1);
+
+                    ms.Seek(
+                        0,
+                        SeekOrigin.Begin);
+
+                    using (var textReader = new StreamReader(
+                        ms,
+                        Encoding.UTF8,
+                        false,
+                        32768,
+                        true))
+                    {
+                        content = textReader.ReadToEnd();
+                    }
+
+                    ms.Seek(
+                        0,
+                        SeekOrigin.Begin);
+
+                    l2 = dcs.ReadObject(ms) as ObservableList<DummyDataContract>;
+                }
+
+                try
+                {
+                    // ASSERT
+                    // ======
+
+                    // Serialization content is OK
+                    Assert.False(string.IsNullOrWhiteSpace(content));
+                    Assert.Equal(
+                        $@"<ObservableDDCList xmlns=""{Constants.DataContractNamespace}"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:a=""http://schemas.datacontract.org/2004/07/IX.UnitTests.IX.Observable""><Item><a:RandomValue>{ddc1.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc2.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc3.RandomValue}</a:RandomValue></Item><Item><a:RandomValue>{ddc4.RandomValue}</a:RandomValue></Item></ObservableDDCList>",
+                        content);
+
+                    // Deserialized object is OK
+                    Assert.NotNull(l2);
+                    Assert.Equal(
+                        l1.Count,
+                        l2.Count);
+                    Assert.True(l1.SequenceEquals(l2));
+                }
+                finally
+                {
+                    l2?.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Observables the list serialization test.
         /// </summary>
         [Fact(DisplayName = "ObservableDictionary serialization")]
         public void ObservableDictionarySerializationTest()
@@ -212,16 +238,27 @@ namespace IX.UnitTests.IX.Observable
                 // ===
                 using (var ms = new MemoryStream())
                 {
-                    dcs.WriteObject(ms, l1);
+                    dcs.WriteObject(
+                        ms,
+                        l1);
 
-                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Seek(
+                        0,
+                        SeekOrigin.Begin);
 
-                    using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                    using (var textReader = new StreamReader(
+                        ms,
+                        Encoding.UTF8,
+                        false,
+                        32768,
+                        true))
                     {
                         content = textReader.ReadToEnd();
                     }
 
-                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Seek(
+                        0,
+                        SeekOrigin.Begin);
 
                     l2 = dcs.ReadObject(ms) as ObservableDictionary<int, DummyDataContract>;
                 }
@@ -239,7 +276,9 @@ namespace IX.UnitTests.IX.Observable
 
                     // Deserialized object is OK
                     Assert.NotNull(l2);
-                    Assert.Equal(l1.Count, l2.Count);
+                    Assert.Equal(
+                        l1.Count,
+                        l2.Count);
 
 #pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Acceptable in this unit test
                     foreach (var key in l1.Keys)
@@ -250,13 +289,13 @@ namespace IX.UnitTests.IX.Observable
                 }
                 finally
                 {
-                    l2.Dispose();
+                    l2?.Dispose();
                 }
             }
         }
 
         /// <summary>
-        /// Observables the list serialization test.
+        ///     Observables the list serialization test.
         /// </summary>
         [Fact(DisplayName = "ConcurrentObservableDictionary serialization")]
         public void ConcurrentObservableDictionarySerializationTest()
@@ -295,16 +334,27 @@ namespace IX.UnitTests.IX.Observable
                 // ===
                 using (var ms = new MemoryStream())
                 {
-                    dcs.WriteObject(ms, l1);
+                    dcs.WriteObject(
+                        ms,
+                        l1);
 
-                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Seek(
+                        0,
+                        SeekOrigin.Begin);
 
-                    using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                    using (var textReader = new StreamReader(
+                        ms,
+                        Encoding.UTF8,
+                        false,
+                        32768,
+                        true))
                     {
                         content = textReader.ReadToEnd();
                     }
 
-                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Seek(
+                        0,
+                        SeekOrigin.Begin);
 
                     l2 = dcs.ReadObject(ms) as ConcurrentObservableDictionary<int, DummyDataContract>;
                 }
@@ -322,7 +372,9 @@ namespace IX.UnitTests.IX.Observable
 
                     // Deserialized object is OK
                     Assert.NotNull(l2);
-                    Assert.Equal(l1.Count, l2.Count);
+                    Assert.Equal(
+                        l1.Count,
+                        l2.Count);
 
 #pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Acceptable in this unit test
                     foreach (var key in l1.Keys)
@@ -333,13 +385,13 @@ namespace IX.UnitTests.IX.Observable
                 }
                 finally
                 {
-                    l2.Dispose();
+                    l2?.Dispose();
                 }
             }
         }
 
         /// <summary>
-        /// Observables the list serialization test.
+        ///     Observables the list serialization test.
         /// </summary>
         [Fact(DisplayName = "ObservableQueue serialization")]
         public void ObservableQueueSerializationTest()
@@ -378,16 +430,27 @@ namespace IX.UnitTests.IX.Observable
                 // ===
                 using (var ms = new MemoryStream())
                 {
-                    dcs.WriteObject(ms, l1);
+                    dcs.WriteObject(
+                        ms,
+                        l1);
 
-                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Seek(
+                        0,
+                        SeekOrigin.Begin);
 
-                    using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                    using (var textReader = new StreamReader(
+                        ms,
+                        Encoding.UTF8,
+                        false,
+                        32768,
+                        true))
                     {
                         content = textReader.ReadToEnd();
                     }
 
-                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Seek(
+                        0,
+                        SeekOrigin.Begin);
 
                     l2 = dcs.ReadObject(ms) as ObservableQueue<DummyDataContract>;
                 }
@@ -405,18 +468,20 @@ namespace IX.UnitTests.IX.Observable
 
                     // Deserialized object is OK
                     Assert.NotNull(l2);
-                    Assert.Equal(l1.Count, l2.Count);
+                    Assert.Equal(
+                        l1.Count,
+                        l2.Count);
                     Assert.True(l1.SequenceEquals(l2));
                 }
                 finally
                 {
-                    l2.Dispose();
+                    l2?.Dispose();
                 }
             }
         }
 
         /// <summary>
-        /// Observables the list serialization test.
+        ///     Observables the list serialization test.
         /// </summary>
         [Fact(DisplayName = "ConcurrentObservableQueue serialization")]
         public void ConcurrentObservableQueueSerializationTest()
@@ -455,16 +520,27 @@ namespace IX.UnitTests.IX.Observable
                 // ===
                 using (var ms = new MemoryStream())
                 {
-                    dcs.WriteObject(ms, l1);
+                    dcs.WriteObject(
+                        ms,
+                        l1);
 
-                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Seek(
+                        0,
+                        SeekOrigin.Begin);
 
-                    using (var textReader = new StreamReader(ms, Encoding.UTF8, false, 32768, true))
+                    using (var textReader = new StreamReader(
+                        ms,
+                        Encoding.UTF8,
+                        false,
+                        32768,
+                        true))
                     {
                         content = textReader.ReadToEnd();
                     }
 
-                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.Seek(
+                        0,
+                        SeekOrigin.Begin);
 
                     l2 = dcs.ReadObject(ms) as ConcurrentObservableQueue<DummyDataContract>;
                 }
@@ -482,33 +558,35 @@ namespace IX.UnitTests.IX.Observable
 
                     // Deserialized object is OK
                     Assert.NotNull(l2);
-                    Assert.Equal(l1.Count, l2.Count);
+                    Assert.Equal(
+                        l1.Count,
+                        l2.Count);
                     Assert.True(l1.SequenceEquals(l2));
                 }
                 finally
                 {
-                    l2.Dispose();
+                    l2?.Dispose();
                 }
             }
         }
 
         /// <summary>
-        /// Class DummyDataContract.
+        ///     Class DummyDataContract.
         /// </summary>
-        /// <seealso cref="global::System.IEquatable{T}" />
-        [DebuggerDisplay("DDC {RandomValue}")]
+        /// <seealso cref="IEquatable{T}" />
+        [DebuggerDisplay("DDC {" + nameof(RandomValue) + "}")]
         [DataContract(Name = "DDC")]
         private class DummyDataContract : IEquatable<DummyDataContract>
         {
             /// <summary>
-            /// Gets or sets the random value.
+            ///     Gets or sets the random value.
             /// </summary>
             /// <value>The random value.</value>
             [DataMember]
             public int RandomValue { get; set; }
 
             /// <summary>
-            /// Indicates whether the current object is equal to another object of the same type.
+            ///     Indicates whether the current object is equal to another object of the same type.
             /// </summary>
             /// <param name="other">An object to compare with this object.</param>
             /// <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>

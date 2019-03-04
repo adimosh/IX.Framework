@@ -3,12 +3,14 @@
 // </copyright>
 
 using System;
+using JetBrains.Annotations;
 
 namespace IX.Guaranteed.Collections
 {
     /// <summary>
     /// Environment settings for guaranteed collections.
     /// </summary>
+    [PublicAPI]
     public static class EnvironmentSettings
     {
         /// <summary>

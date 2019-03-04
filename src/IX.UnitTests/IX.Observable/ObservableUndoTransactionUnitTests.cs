@@ -10,12 +10,12 @@ using Xunit;
 namespace IX.UnitTests.IX.Observable
 {
     /// <summary>
-    /// Unit tests for explicit transactions.
+    ///     Unit tests for explicit transactions.
     /// </summary>
     public class ObservableUndoTransactionUnitTests
     {
         /// <summary>
-        /// ObservableList complete explicit undo transaction block.
+        ///     ObservableList complete explicit undo transaction block.
         /// </summary>
         [Fact(DisplayName = "ObservableList complete explicit undo transaction block")]
         public void UnitTest1()
@@ -26,7 +26,9 @@ namespace IX.UnitTests.IX.Observable
                 // ACT & ASSERT
                 list.RemoveAt(0);
 
-                Assert.Equal(4, list.Count);
+                Assert.Equal(
+                    4,
+                    list.Count);
 
                 using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
                 {
@@ -41,7 +43,9 @@ namespace IX.UnitTests.IX.Observable
 
                 list.Undo();
 
-                Assert.Equal(4, list.Count);
+                Assert.Equal(
+                    4,
+                    list.Count);
 
                 list.Redo();
 
@@ -50,7 +54,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// ObservableList incomplete explicit undo transaction block, throws exception.
+        ///     ObservableList incomplete explicit undo transaction block, throws exception.
         /// </summary>
         [Fact(DisplayName = "ObservableList incomplete explicit undo transaction block, throws exception")]
         public void UnitTest2()
@@ -61,9 +65,11 @@ namespace IX.UnitTests.IX.Observable
                 // ACT & ASSERT
                 list.RemoveAt(0);
 
-                Assert.Equal(4, list.Count);
+                Assert.Equal(
+                    4,
+                    list.Count);
 
-                list.StartExplicitUndoBlockTransaction();
+                _ = list.StartExplicitUndoBlockTransaction();
 
                 list.RemoveAt(0);
                 list.RemoveAt(0);
@@ -83,7 +89,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// ObservableList complete explicit undo transaction block then other undoable action.
+        ///     ObservableList complete explicit undo transaction block then other undoable action.
         /// </summary>
         [Fact(DisplayName = "ObservableList complete explicit undo transaction block then other undoable action")]
         public void UnitTest3()
@@ -94,7 +100,9 @@ namespace IX.UnitTests.IX.Observable
                 // ACT & ASSERT
                 list.RemoveAt(0);
 
-                Assert.Equal(7, list.Count);
+                Assert.Equal(
+                    7,
+                    list.Count);
 
                 using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
                 {
@@ -105,38 +113,52 @@ namespace IX.UnitTests.IX.Observable
                     tc.Success();
                 }
 
-                Assert.Equal(4, list.Count);
+                Assert.Equal(
+                    4,
+                    list.Count);
 
                 list.Undo();
 
-                Assert.Equal(7, list.Count);
+                Assert.Equal(
+                    7,
+                    list.Count);
 
                 list.Redo();
 
-                Assert.Equal(4, list.Count);
+                Assert.Equal(
+                    4,
+                    list.Count);
 
                 list.RemoveAt(0);
 
-                Assert.Equal(3, list.Count);
+                Assert.Equal(
+                    3,
+                    list.Count);
 
                 list.Undo();
 
-                Assert.Equal(4, list.Count);
+                Assert.Equal(
+                    4,
+                    list.Count);
 
                 list.Redo();
 
-                Assert.Equal(3, list.Count);
+                Assert.Equal(
+                    3,
+                    list.Count);
 
                 list.Undo();
                 list.Undo();
                 list.Undo();
 
-                Assert.Equal(8, list.Count);
+                Assert.Equal(
+                    8,
+                    list.Count);
             }
         }
 
         /// <summary>
-        /// ObservableList complete explicit undo transaction block single.
+        ///     ObservableList complete explicit undo transaction block single.
         /// </summary>
         [Fact(DisplayName = "ObservableList complete explicit undo transaction block single")]
         public void UnitTest4()
@@ -159,7 +181,9 @@ namespace IX.UnitTests.IX.Observable
 
                 list.Undo();
 
-                Assert.Equal(5, list.Count);
+                Assert.Equal(
+                    5,
+                    list.Count);
 
                 list.Redo();
 
@@ -168,7 +192,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// ObservableList complete explicit undo transaction block with captured item.
+        ///     ObservableList complete explicit undo transaction block with captured item.
         /// </summary>
         [Fact(DisplayName = "ObservableList complete explicit undo transaction block with captured item")]
         public void UnitTest5()
@@ -190,7 +214,9 @@ namespace IX.UnitTests.IX.Observable
                 // ACT & ASSERT
                 list.RemoveAt(0);
 
-                Assert.Equal(4, list.Count);
+                Assert.Equal(
+                    4,
+                    list.Count);
 
                 using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
                 {
@@ -205,7 +231,9 @@ namespace IX.UnitTests.IX.Observable
 
                 list.Undo();
 
-                Assert.Equal(4, list.Count);
+                Assert.Equal(
+                    4,
+                    list.Count);
 
                 list.Redo();
 
@@ -214,9 +242,11 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// ObservableList incomplete explicit undo transaction block, throws exception with captured item.
+        ///     ObservableList incomplete explicit undo transaction block, throws exception with captured item.
         /// </summary>
-        [Fact(DisplayName = "ObservableList incomplete explicit undo transaction block, throws exception with captured item")]
+        [Fact(
+            DisplayName =
+                "ObservableList incomplete explicit undo transaction block, throws exception with captured item")]
         public void UnitTest6()
         {
             // ARRANGE
@@ -236,7 +266,9 @@ namespace IX.UnitTests.IX.Observable
                 // ACT & ASSERT
                 list.RemoveAt(0);
 
-                Assert.Equal(4, list.Count);
+                Assert.Equal(
+                    4,
+                    list.Count);
 
                 list.StartExplicitUndoBlockTransaction();
 
@@ -258,9 +290,11 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// ObservableList complete explicit undo transaction block then other undoable action with captured item.
+        ///     ObservableList complete explicit undo transaction block then other undoable action with captured item.
         /// </summary>
-        [Fact(DisplayName = "ObservableList complete explicit undo transaction block then other undoable action with captured item")]
+        [Fact(
+            DisplayName =
+                "ObservableList complete explicit undo transaction block then other undoable action with captured item")]
         public void UnitTest7()
         {
             // ARRANGE
@@ -283,7 +317,9 @@ namespace IX.UnitTests.IX.Observable
                 // ACT & ASSERT
                 list.RemoveAt(0);
 
-                Assert.Equal(7, list.Count);
+                Assert.Equal(
+                    7,
+                    list.Count);
 
                 using (OperationTransaction tc = list.StartExplicitUndoBlockTransaction())
                 {
@@ -294,38 +330,52 @@ namespace IX.UnitTests.IX.Observable
                     tc.Success();
                 }
 
-                Assert.Equal(4, list.Count);
+                Assert.Equal(
+                    4,
+                    list.Count);
 
                 list.Undo();
 
-                Assert.Equal(7, list.Count);
+                Assert.Equal(
+                    7,
+                    list.Count);
 
                 list.Redo();
 
-                Assert.Equal(4, list.Count);
+                Assert.Equal(
+                    4,
+                    list.Count);
 
                 list.RemoveAt(0);
 
-                Assert.Equal(3, list.Count);
+                Assert.Equal(
+                    3,
+                    list.Count);
 
                 list.Undo();
 
-                Assert.Equal(4, list.Count);
+                Assert.Equal(
+                    4,
+                    list.Count);
 
                 list.Redo();
 
-                Assert.Equal(3, list.Count);
+                Assert.Equal(
+                    3,
+                    list.Count);
 
                 list.Undo();
                 list.Undo();
                 list.Undo();
 
-                Assert.Equal(8, list.Count);
+                Assert.Equal(
+                    8,
+                    list.Count);
             }
         }
 
         /// <summary>
-        /// ObservableList complete explicit undo transaction block single with captured item.
+        ///     ObservableList complete explicit undo transaction block single with captured item.
         /// </summary>
         [Fact(DisplayName = "ObservableList complete explicit undo transaction block single with captured item")]
         public void UnitTest8()
@@ -359,7 +409,9 @@ namespace IX.UnitTests.IX.Observable
 
                 list.Undo();
 
-                Assert.Equal(5, list.Count);
+                Assert.Equal(
+                    5,
+                    list.Count);
 
                 list.Redo();
 
