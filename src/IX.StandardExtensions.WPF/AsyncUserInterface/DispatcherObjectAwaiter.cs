@@ -12,7 +12,8 @@ namespace IX.StandardExtensions.WPF.AsyncUserInterface
 {
     internal class DispatcherObjectAwaiter : INotifyCompletion
     {
-        [NotNull] private readonly DispatcherObject sourceObject;
+        [NotNull]
+        private readonly DispatcherObject sourceObject;
 
         public DispatcherObjectAwaiter([NotNull] DispatcherObject sourceObject)
         {

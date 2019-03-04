@@ -15,9 +15,11 @@ namespace IX.System.Collections.Generic
     /// <seealso cref="IEnumerable{T}" />
     /// <seealso cref="ICollection" />
     /// <seealso cref="IReadOnlyCollection{T}" />
+#pragma warning disable SA1515 // Single-line comment should be preceded by blank line - We suppress this because of a ReSharper comment warning
     [PublicAPI]
     // ReSharper disable once PossibleInterfaceMemberAmbiguity
     public interface IQueue<T> : ICollection, IReadOnlyCollection<T>
+#pragma warning restore SA1515 // Single-line comment should be preceded by blank line
     {
         /// <summary>
         /// Clears the queue of all elements.

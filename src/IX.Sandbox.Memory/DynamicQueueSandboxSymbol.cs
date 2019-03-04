@@ -51,12 +51,11 @@ namespace IX.Sandbox.Memory
                     throw new SandboxHeapDisposedException();
                 }
 
-                ConcurrentQueue<SandboxValue> newValue = null;
-
                 if (value != null)
                 {
-                    newValue = new ConcurrentQueue<SandboxValue>();
+                    var newValue = new ConcurrentQueue<SandboxValue>();
 
+#pragma warning disable IDISP004 // Don't ignore return value of type IDisposable. - They're not, this is a false positive
                     if (EnvironmentSettings.TreatSpecialArraysAsMultipleElements)
                     {
                         switch (value)
@@ -111,6 +110,7 @@ namespace IX.Sandbox.Memory
                                 break;
                         }
                     }
+#pragma warning restore IDISP004 // Don't ignore return value of type IDisposable.
 
                     ConcurrentQueue<SandboxValue> oldValue = Interlocked.Exchange(ref this.value, newValue);
 

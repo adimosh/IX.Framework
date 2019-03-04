@@ -252,7 +252,7 @@ namespace IX.Retry
             return new RetryOptions
             {
                 Type = RetryType.Times,
-                RetryTimes = times
+                RetryTimes = times,
             };
         }
 
@@ -263,7 +263,7 @@ namespace IX.Retry
         public static RetryOptions Once() => new RetryOptions
         {
             Type = RetryType.Times,
-            RetryTimes = 1
+            RetryTimes = 1,
         };
 
         /// <summary>
@@ -273,7 +273,7 @@ namespace IX.Retry
         public static RetryOptions Twice() => new RetryOptions
         {
             Type = RetryType.Times,
-            RetryTimes = 2
+            RetryTimes = 2,
         };
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace IX.Retry
         public static RetryOptions ThreeTimes() => new RetryOptions
         {
             Type = RetryType.Times,
-            RetryTimes = 3
+            RetryTimes = 3,
         };
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace IX.Retry
         public static RetryOptions FiveTimes() => new RetryOptions
         {
             Type = RetryType.Times,
-            RetryTimes = 5
+            RetryTimes = 5,
         };
 
         /// <summary>
@@ -310,7 +310,7 @@ namespace IX.Retry
             return new RetryOptions
             {
                 Type = RetryType.For,
-                RetryFor = timeSpan
+                RetryFor = timeSpan,
             };
         }
 
@@ -328,7 +328,7 @@ namespace IX.Retry
             return new RetryOptions
             {
                 Type = RetryType.For,
-                RetryFor = TimeSpan.FromMilliseconds(milliseconds)
+                RetryFor = TimeSpan.FromMilliseconds(milliseconds),
             };
         }
 
@@ -353,7 +353,7 @@ namespace IX.Retry
             return new RetryOptions
             {
                 Type = RetryType.Until,
-                RetryUntil = conditionMethod
+                RetryUntil = conditionMethod,
             };
         }
 
@@ -362,7 +362,8 @@ namespace IX.Retry
         /// </summary>
         /// <typeparam name="T">The exception type to configure.</typeparam>
         /// <returns>The configured retry options.</returns>
-        public static RetryOptions OnException<T>() where T : Exception
+        public static RetryOptions OnException<T>()
+            where T : Exception
         {
             var options = new RetryOptions();
 #pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
@@ -402,7 +403,7 @@ namespace IX.Retry
         /// <returns>The configured retry options.</returns>
         public static RetryOptions ThrowException() => new RetryOptions
         {
-            ThrowExceptionOnLastRetry = true
+            ThrowExceptionOnLastRetry = true,
         };
 
         /// <summary>
@@ -419,7 +420,7 @@ namespace IX.Retry
             return new RetryOptions
             {
                 WaitBetweenRetriesType = WaitType.For,
-                WaitForDuration = TimeSpan.FromMilliseconds(milliseconds)
+                WaitForDuration = TimeSpan.FromMilliseconds(milliseconds),
             };
         }
 
@@ -437,7 +438,7 @@ namespace IX.Retry
             return new RetryOptions
             {
                 WaitBetweenRetriesType = WaitType.For,
-                WaitForDuration = timeSpan
+                WaitForDuration = timeSpan,
             };
         }
 
@@ -455,7 +456,7 @@ namespace IX.Retry
             return new RetryOptions
             {
                 WaitBetweenRetriesType = WaitType.Until,
-                WaitUntilDelegate = waitMethod
+                WaitUntilDelegate = waitMethod,
             };
         }
 

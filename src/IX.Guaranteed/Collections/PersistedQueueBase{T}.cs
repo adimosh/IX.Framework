@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 using IX.StandardExtensions;
 using IX.StandardExtensions.Contracts;
 using IX.StandardExtensions.Threading;
@@ -18,70 +20,91 @@ using JetBrains.Annotations;
 namespace IX.Guaranteed.Collections
 {
     /// <summary>
-    /// A base class for persisted queues.
+    ///     A base class for persisted queues.
     /// </summary>
     /// <typeparam name="T">The type of object in the queue.</typeparam>
     /// <seealso cref="StandardExtensions.ComponentModel.DisposableBase" />
     /// <seealso cref="System.Collections.Generic.IQueue{T}" />
     public abstract class PersistedQueueBase<T> : ReaderWriterSynchronizedBase, IQueue<T>
     {
+        private readonly IDirectory directoryShim;
+        private readonly IFile fileShim;
+        private readonly IPath pathShim;
+
         /// <summary>
-        /// The poisoned non-removable files list.
+        ///     The poisoned non-removable files list.
         /// </summary>
         private readonly List<string> poisonedUnremovableFiles;
 
-        private readonly IFile fileShim;
-        private readonly IDirectory directoryShim;
-        private readonly IPath pathShim;
         private readonly DataContractSerializer serializer;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PersistedQueueBase{T}"/> class.
+        ///     Initializes a new instance of the <see cref="PersistedQueueBase{T}" /> class.
         /// </summary>
         /// <param name="persistenceFolderPath">
-        /// The persistence folder path.
+        ///     The persistence folder path.
         /// </param>
         /// <param name="fileShim">
-        /// The file shim.
+        ///     The file shim.
         /// </param>
         /// <param name="directoryShim">
-        /// The directory shim.
+        ///     The directory shim.
         /// </param>
         /// <param name="pathShim">
-        /// The path shim.
+        ///     The path shim.
         /// </param>
         /// <param name="serializer">
-        /// The serializer.
+        ///     The serializer.
         /// </param>
         /// <param name="timeout">
-        /// The timeout.
+        ///     The timeout.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="persistenceFolderPath"/>
-        /// or
-        /// <paramref name="fileShim"/>
-        /// or
-        /// <paramref name="directoryShim"/>
-        /// or
-        /// <paramref name="pathShim"/>
-        /// or
-        /// <paramref name="serializer"/>
-        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
+        ///     <paramref name="persistenceFolderPath" />
+        ///     or
+        ///     <paramref name="fileShim" />
+        ///     or
+        ///     <paramref name="directoryShim" />
+        ///     or
+        ///     <paramref name="pathShim" />
+        ///     or
+        ///     <paramref name="serializer" />
+        ///     is <see langword="null" /> (<see langword="Nothing" /> in Visual Basic).
         /// </exception>
         /// <exception cref="ArgumentInvalidPathException">
-        /// The folder at <paramref name="persistenceFolderPath"/> does not exist, or is not accessible.
+        ///     The folder at <paramref name="persistenceFolderPath" /> does not exist, or is not accessible.
         /// </exception>
-        protected PersistedQueueBase([NotNull] string persistenceFolderPath, [NotNull] IFile fileShim, [NotNull] IDirectory directoryShim, [NotNull] IPath pathShim, [NotNull] DataContractSerializer serializer, TimeSpan timeout)
+        protected PersistedQueueBase(
+            [NotNull] string persistenceFolderPath,
+            [NotNull] IFile fileShim,
+            [NotNull] IDirectory directoryShim,
+            [NotNull] IPath pathShim,
+            [NotNull] DataContractSerializer serializer,
+            TimeSpan timeout)
             : base(timeout)
         {
             // Dependency validation
-            Contract.RequiresNotNull(ref this.fileShim, fileShim, nameof(fileShim));
-            Contract.RequiresNotNull(ref this.pathShim, pathShim, nameof(pathShim));
-            Contract.RequiresNotNull(ref this.directoryShim, directoryShim, nameof(directoryShim));
-            Contract.RequiresNotNull(ref this.serializer, serializer, nameof(serializer));
+            Contract.RequiresNotNull(
+                ref this.fileShim,
+                fileShim,
+                nameof(fileShim));
+            Contract.RequiresNotNull(
+                ref this.pathShim,
+                pathShim,
+                nameof(pathShim));
+            Contract.RequiresNotNull(
+                ref this.directoryShim,
+                directoryShim,
+                nameof(directoryShim));
+            Contract.RequiresNotNull(
+                ref this.serializer,
+                serializer,
+                nameof(serializer));
 
             // Parameter validation
-            Contract.RequiresNotNullOrWhitespace(persistenceFolderPath, nameof(persistenceFolderPath));
+            Contract.RequiresNotNullOrWhitespace(
+                persistenceFolderPath,
+                nameof(persistenceFolderPath));
 
             if (!directoryShim.Exists(persistenceFolderPath))
             {
@@ -92,9 +115,13 @@ namespace IX.Guaranteed.Collections
             this.poisonedUnremovableFiles = new List<string>();
 
             // Persistence folder paths
-            var dataFolderPath = pathShim.Combine(persistenceFolderPath, "Data");
+            var dataFolderPath = pathShim.Combine(
+                persistenceFolderPath,
+                "Data");
             this.DataFolderPath = dataFolderPath;
-            var poisonFolderPath = pathShim.Combine(persistenceFolderPath, "Poison");
+            var poisonFolderPath = pathShim.Combine(
+                persistenceFolderPath,
+                "Poison");
             this.PoisonFolderPath = poisonFolderPath;
 
             // Initialize folder paths
@@ -110,142 +137,150 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
-        /// Gets the number of elements contained in the <see cref="PersistedQueueBase{T}" />.
-        /// </summary>
-        /// <value>The count.</value>
-        public abstract int Count { get; }
-
-        /// <summary>
-        /// Gets an object that can be used to synchronize access to the <see cref="PersistedQueueBase{T}" />.
-        /// </summary>
-        /// <value>The synchronize root.</value>
-        object ICollection.SyncRoot { get; } = new object();
-
-        /// <summary>
-        /// Gets a value indicating whether access to the <see cref="PersistedQueueBase{T}" /> is synchronized (thread safe).
-        /// </summary>
-        /// <value>The is synchronized.</value>
-        bool ICollection.IsSynchronized => true;
-
-        /// <summary>
-        /// Gets the path shim.
-        /// </summary>
-        /// <value>The path shim.</value>
-        protected IPath PathShim => pathShim;
-
-        /// <summary>
-        /// Gets the file shim.
-        /// </summary>
-        /// <value>The file shim.</value>
-        protected IFile FileShim => fileShim;
-
-        /// <summary>
-        /// Gets the folder shim.
-        /// </summary>
-        /// <value>The folder shim.</value>
-        protected IDirectory DirectoryShim => directoryShim;
-
-        /// <summary>
-        /// Gets the data folder path.
+        ///     Gets the data folder path.
         /// </summary>
         /// <value>The data folder path.</value>
         protected string DataFolderPath { get; }
 
         /// <summary>
-        /// Gets the poison folder path.
+        ///     Gets the folder shim.
+        /// </summary>
+        /// <value>The folder shim.</value>
+        protected IDirectory DirectoryShim => this.directoryShim;
+
+        /// <summary>
+        ///     Gets the file shim.
+        /// </summary>
+        /// <value>The file shim.</value>
+        protected IFile FileShim => this.fileShim;
+
+        /// <summary>
+        ///     Gets the path shim.
+        /// </summary>
+        /// <value>The path shim.</value>
+        protected IPath PathShim => this.pathShim;
+
+        /// <summary>
+        ///     Gets the poison folder path.
         /// </summary>
         /// <value>The poison folder path.</value>
         protected string PoisonFolderPath { get; }
 
         /// <summary>
-        /// Gets the serializer.
+        ///     Gets the serializer.
         /// </summary>
         /// <value>The serializer.</value>
-        protected DataContractSerializer Serializer => serializer;
+        protected DataContractSerializer Serializer => this.serializer;
 
         /// <summary>
-        /// Clears the queue of all elements.
+        ///     Gets the number of elements contained in the <see cref="PersistedQueueBase{T}" />.
+        /// </summary>
+        /// <value>The count.</value>
+        public abstract int Count { get; }
+
+        /// <summary>
+        ///     Gets an object that can be used to synchronize access to the <see cref="PersistedQueueBase{T}" />.
+        /// </summary>
+        /// <value>The synchronize root.</value>
+        object ICollection.SyncRoot { get; } = new object();
+
+        /// <summary>
+        ///     Gets a value indicating whether access to the <see cref="PersistedQueueBase{T}" /> is synchronized (thread safe).
+        /// </summary>
+        /// <value>The is synchronized.</value>
+        bool ICollection.IsSynchronized => true;
+
+        /// <summary>
+        ///     Clears the queue of all elements.
         /// </summary>
         public abstract void Clear();
 
         /// <summary>
-        /// Verifies whether or not an item is contained in the queue.
+        ///     Verifies whether or not an item is contained in the queue.
         /// </summary>
         /// <param name="item">The item to verify.</param>
-        /// <returns><see langword="true"/> if the item is queued, <see langword="false"/> otherwise.</returns>
+        /// <returns><see langword="true" /> if the item is queued, <see langword="false" /> otherwise.</returns>
         public abstract bool Contains(T item);
 
         /// <summary>
-        /// Copies the elements of the <see cref="PersistedQueueBase{T}" /> to an <see cref="T:System.Array" />, starting at a particular <see cref="T:System.Array" /> index.
+        ///     Copies the elements of the <see cref="PersistedQueueBase{T}" /> to an <see cref="T:System.Array" />, starting at a
+        ///     particular <see cref="T:System.Array" /> index.
         /// </summary>
-        /// <param name="array">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="PersistedQueueBase{T}" />. The <see cref="T:System.Array" /> must have zero-based indexing.</param>
+        /// <param name="array">
+        ///     The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied
+        ///     from <see cref="PersistedQueueBase{T}" />. The <see cref="T:System.Array" /> must have zero-based indexing.
+        /// </param>
         /// <param name="index">The zero-based index in <paramref name="array" /> at which copying begins.</param>
-        public abstract void CopyTo([NotNull] Array array, int index);
+        public abstract void CopyTo(
+            Array array,
+            int index);
 
         /// <summary>
-        /// De-queues an item and removes it from the queue.
+        ///     De-queues an item and removes it from the queue.
         /// </summary>
         /// <returns>The item that has been de-queued.</returns>
         public abstract T Dequeue();
 
         /// <summary>
-        /// Attempts to de-queue an item and to remove it from queue.
+        ///     Attempts to de-queue an item and to remove it from queue.
         /// </summary>
         /// <param name="item">The item that has been de-queued, default if unsuccessful.</param>
-        /// <returns><see langword="true" /> if an item is de-queued successfully, <see langword="false"/> otherwise, or if the queue is empty.</returns>
-        public abstract bool TryDequeue([CanBeNull] out T item);
+        /// <returns>
+        ///     <see langword="true" /> if an item is de-queued successfully, <see langword="false" /> otherwise, or if the
+        ///     queue is empty.
+        /// </returns>
+        public abstract bool TryDequeue(out T item);
 
         /// <summary>
-        /// Queues an item, adding it to the queue.
+        ///     Queues an item, adding it to the queue.
         /// </summary>
         /// <param name="item">The item to enqueue.</param>
         public abstract void Enqueue(T item);
 
         /// <summary>
-        /// Returns an enumerator that iterates through the queue.
+        ///     Returns an enumerator that iterates through the queue.
         /// </summary>
         /// <returns>An enumerator that can be used to iterate through the queue.</returns>
         public abstract IEnumerator<T> GetEnumerator();
 
         /// <summary>
-        /// Peeks at the topmost element in the queue, without removing it.
+        ///     Peeks at the topmost element in the queue, without removing it.
         /// </summary>
         /// <returns>The item peeked at, if any.</returns>
         public abstract T Peek();
 
         /// <summary>
-        /// Copies all elements of the queue into a new array.
+        ///     Copies all elements of the queue into a new array.
         /// </summary>
         /// <returns>The created array with all element of the queue.</returns>
         public abstract T[] ToArray();
 
         /// <summary>
-        /// Trims the excess free space from within the queue, reducing the capacity to the actual number of elements.
+        ///     Trims the excess free space from within the queue, reducing the capacity to the actual number of elements.
         /// </summary>
         public virtual void TrimExcess()
         {
         }
-
 #pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Yeah, we know
         /// <summary>
-        /// Returns an enumerator that iterates through the queue.
+        ///     Returns an enumerator that iterates through the queue.
         /// </summary>
         /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the queue.</returns>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 #pragma warning restore HAA0401 // Possible allocation of reference type enumerator
 
         /// <summary>
-        /// Loads the topmost item from the folder, ensuring its deletion afterwards.
+        ///     Loads the topmost item from the folder, ensuring its deletion afterwards.
         /// </summary>
         /// <returns>An item, if one exists and can be loaded, a default value otherwise.</returns>
         /// <exception cref="InvalidOperationException">There are no more valid items in the folder.</exception>
         protected T LoadTopmostItem()
         {
-            this.ThrowIfCurrentObjectDisposed();
+            this.RequiresNotDisposed();
 
             using (this.WriteLock())
             {
-                var files = this.GetPossibleDataFiles();
+                string[] files = this.GetPossibleDataFiles();
                 var i = 0;
                 string possibleFilePath;
                 T obj;
@@ -307,24 +342,26 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
-        /// Tries the load topmost item and execute an action on it, deleting the topmost object data if the operation is successful.
+        ///     Tries the load topmost item and execute an action on it, deleting the topmost object data if the operation is
+        ///     successful.
         /// </summary>
         /// <typeparam name="TState">The type of the state object to send to the action.</typeparam>
         /// <param name="actionToInvoke">The action to invoke.</param>
         /// <param name="state">The state object to pass to the invoked action.</param>
-        /// <returns><see langword="true"/> if de-queuing and executing is successful, <see langword="false"/> otherwise.</returns>
-        protected bool TryLoadTopmostItemWithAction<TState>([NotNull] Action<TState, T> actionToInvoke, TState state)
+        /// <returns><see langword="true" /> if de-queuing and executing is successful, <see langword="false" /> otherwise.</returns>
+        protected bool TryLoadTopmostItemWithAction<TState>(
+            [NotNull] Action<TState, T> actionToInvoke,
+            TState state)
         {
-            if (actionToInvoke == null)
-            {
-                throw new ArgumentNullException(nameof(actionToInvoke));
-            }
+            Contract.RequiresNotNull(
+                actionToInvoke,
+                nameof(actionToInvoke));
 
-            this.ThrowIfCurrentObjectDisposed();
+            this.RequiresNotDisposed();
 
             using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
             {
-                var files = this.GetPossibleDataFiles();
+                string[] files = this.GetPossibleDataFiles();
                 var i = 0;
 
                 T obj;
@@ -367,7 +404,9 @@ namespace IX.Guaranteed.Collections
 
                 try
                 {
-                    actionToInvoke(state, obj);
+                    actionToInvoke(
+                        state,
+                        obj);
                 }
                 catch (Exception)
                 {
@@ -400,7 +439,109 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
-        /// Tries the load topmost item and execute an action on it, deleting the topmost object data if the operation is successful.
+        ///     Asynchronously tries the load topmost item and execute an action on it, deleting the topmost object data if the
+        ///     operation is successful.
+        /// </summary>
+        /// <typeparam name="TState">The type of the state object to send to the action.</typeparam>
+        /// <param name="actionToInvoke">The action to invoke.</param>
+        /// <param name="state">The state object to pass to the invoked action.</param>
+        /// <param name="cancellationToken">The cancellation token for this operation.</param>
+        /// <returns><see langword="true" /> if de-queuing and executing is successful, <see langword="false" /> otherwise.</returns>
+        protected async Task<bool> TryLoadTopmostItemWithActionAsync<TState>(
+            [NotNull] Func<TState, T, Task> actionToInvoke,
+            TState state,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(
+                actionToInvoke,
+                nameof(actionToInvoke));
+
+            this.RequiresNotDisposed();
+
+            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            {
+                string[] files = this.GetPossibleDataFiles();
+                var i = 0;
+
+                T obj;
+                string possibleFilePath;
+
+                while (true)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    if (i >= files.Length)
+                    {
+                        return false;
+                    }
+
+                    possibleFilePath = files[i];
+
+                    try
+                    {
+                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                        {
+                            obj = (T)this.Serializer.ReadObject(stream);
+                        }
+
+                        break;
+                    }
+                    catch (IOException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                    }
+                    catch (SerializationException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                    }
+                }
+
+                try
+                {
+                    await actionToInvoke(
+                        state,
+                        obj).ConfigureAwait(false);
+                }
+                catch (Exception)
+                {
+#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
+                    return false;
+#pragma warning restore ERP022 // Catching everything considered harmful.
+                }
+
+                locker.Upgrade();
+
+                try
+                {
+                    this.FileShim.Delete(possibleFilePath);
+                }
+                catch (IOException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                }
+                catch (SerializationException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                }
+
+                return true;
+            }
+        }
+
+        /// <summary>
+        ///     Tries to load the topmost item and execute an action on it, deleting the topmost object data if the operation is
+        ///     successful.
         /// </summary>
         /// <typeparam name="TState">The type of the state object to send to the action.</typeparam>
         /// <param name="predicate">The predicate.</param>
@@ -408,19 +549,29 @@ namespace IX.Guaranteed.Collections
         /// <param name="state">The state object to pass to the invoked action.</param>
         /// <returns>The number of items that have been de-queued.</returns>
         /// <remarks>
-        /// <para>Warning! This method has the potential of overrunning its read/write lock timeouts. Please ensure that the <paramref name="predicate"/> method
-        /// filters out items in a way that limits the amount of data passing through.</para>
+        ///     <para>
+        ///         Warning! This method has the potential of overrunning its read/write lock timeouts. Please ensure that the
+        ///         <paramref name="predicate" /> method
+        ///         filters out items in a way that limits the amount of data passing through.
+        ///     </para>
         /// </remarks>
-        protected int TryLoadWhilePredicateWithAction<TState>([NotNull] Func<TState, T, bool> predicate, [NotNull] Action<TState, IEnumerable<T>> actionToInvoke, [CanBeNull] TState state)
+        protected int TryLoadWhilePredicateWithAction<TState>(
+            [NotNull] Func<TState, T, bool> predicate,
+            [NotNull] Action<TState, IEnumerable<T>> actionToInvoke,
+            [CanBeNull] TState state)
         {
-            Contract.RequiresNotNullPrivate(predicate, nameof(predicate));
-            Contract.RequiresNotNullPrivate(actionToInvoke, nameof(actionToInvoke));
+            Contract.RequiresNotNull(
+                predicate,
+                nameof(predicate));
+            Contract.RequiresNotNull(
+                actionToInvoke,
+                nameof(actionToInvoke));
 
-            this.ThrowIfCurrentObjectDisposed();
+            this.RequiresNotDisposed();
 
             using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
             {
-                var files = this.GetPossibleDataFiles();
+                string[] files = this.GetPossibleDataFiles();
                 var i = 0;
 
                 var accumulatedObjects = new List<T>();
@@ -439,7 +590,9 @@ namespace IX.Guaranteed.Collections
                             obj = (T)this.Serializer.ReadObject(stream);
                         }
 
-                        if (!predicate(state, obj))
+                        if (!predicate(
+                            state,
+                            obj))
                         {
                             break;
                         }
@@ -473,7 +626,9 @@ namespace IX.Guaranteed.Collections
 
                 try
                 {
-                    actionToInvoke(state, accumulatedObjects);
+                    actionToInvoke(
+                        state,
+                        accumulatedObjects);
                 }
                 catch (Exception)
                 {
@@ -509,17 +664,419 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
-        /// Peeks at the topmost item in the folder.
+        ///     Asynchronouly tries to load the topmost item and execute an action on it, deleting the topmost object data if the
+        ///     operation is successful.
+        /// </summary>
+        /// <typeparam name="TState">The type of the state object to send to the action.</typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="actionToInvoke">The action to invoke.</param>
+        /// <param name="state">The state object to pass to the invoked action.</param>
+        /// <param name="cancellationToken">The cancellation token for this operation.</param>
+        /// <returns>The number of items that have been de-queued.</returns>
+        /// <remarks>
+        ///     <para>
+        ///         Warning! This method has the potential of overrunning its read/write lock timeouts. Please ensure that the
+        ///         <paramref name="predicate" /> method
+        ///         filters out items in a way that limits the amount of data passing through.
+        ///     </para>
+        /// </remarks>
+        protected async Task<int> TryLoadWhilePredicateWithActionAsync<TState>(
+            [NotNull] Func<TState, T, Task<bool>> predicate,
+            [NotNull] Action<TState, IEnumerable<T>> actionToInvoke,
+            [CanBeNull] TState state,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(
+                predicate,
+                nameof(predicate));
+            Contract.RequiresNotNull(
+                actionToInvoke,
+                nameof(actionToInvoke));
+
+            this.RequiresNotDisposed();
+
+            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            {
+                string[] files = this.GetPossibleDataFiles();
+                var i = 0;
+
+                var accumulatedObjects = new List<T>();
+                var accumulatedPaths = new List<string>();
+
+                while (i < files.Length)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        break;
+                    }
+
+                    var possibleFilePath = files[i];
+
+                    try
+                    {
+                        T obj;
+
+                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                        {
+                            obj = (T)this.Serializer.ReadObject(stream);
+                        }
+
+                        if (!await predicate(
+                            state,
+                            obj).ConfigureAwait(false))
+                        {
+                            break;
+                        }
+
+                        accumulatedObjects.Add(obj);
+                        accumulatedPaths.Add(possibleFilePath);
+
+                        i++;
+                    }
+                    catch (IOException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                    }
+                    catch (SerializationException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                    }
+                }
+
+                if (accumulatedObjects.Count <= 0)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    return accumulatedPaths.Count;
+                }
+
+                try
+                {
+                    actionToInvoke(
+                        state,
+                        accumulatedObjects);
+                }
+                catch (Exception)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
+                    return 0;
+#pragma warning restore ERP022 // Catching everything considered harmful.
+                }
+
+                locker.Upgrade();
+
+                foreach (var possibleFilePath in accumulatedPaths)
+                {
+                    try
+                    {
+                        this.FileShim.Delete(possibleFilePath);
+                    }
+                    catch (IOException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                    }
+                    catch (SerializationException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                    }
+                }
+
+                cancellationToken.ThrowIfCancellationRequested();
+                return accumulatedPaths.Count;
+            }
+        }
+
+        /// <summary>
+        ///     Asynchronously tries to load the topmost item and execute an action on it, deleting the topmost object data if the
+        ///     operation is successful.
+        /// </summary>
+        /// <typeparam name="TState">The type of the state object to send to the action.</typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="actionToInvoke">The action to invoke.</param>
+        /// <param name="state">The state object to pass to the invoked action.</param>
+        /// <param name="cancellationToken">The cancellation token for this operation.</param>
+        /// <returns>The number of items that have been de-queued.</returns>
+        /// <remarks>
+        ///     <para>
+        ///         Warning! This method has the potential of overrunning its read/write lock timeouts. Please ensure that the
+        ///         <paramref name="predicate" /> method
+        ///         filters out items in a way that limits the amount of data passing through.
+        ///     </para>
+        /// </remarks>
+        protected async Task<int> TryLoadWhilePredicateWithActionAsync<TState>(
+            [NotNull] Func<TState, T, bool> predicate,
+            [NotNull] Func<TState, IEnumerable<T>, Task> actionToInvoke,
+            [CanBeNull] TState state,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(
+                predicate,
+                nameof(predicate));
+            Contract.RequiresNotNull(
+                actionToInvoke,
+                nameof(actionToInvoke));
+
+            this.RequiresNotDisposed();
+
+            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            {
+                string[] files = this.GetPossibleDataFiles();
+                var i = 0;
+
+                var accumulatedObjects = new List<T>();
+                var accumulatedPaths = new List<string>();
+
+                while (i < files.Length)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        break;
+                    }
+
+                    var possibleFilePath = files[i];
+
+                    try
+                    {
+                        T obj;
+
+                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                        {
+                            obj = (T)this.Serializer.ReadObject(stream);
+                        }
+
+                        if (!predicate(
+                            state,
+                            obj))
+                        {
+                            break;
+                        }
+
+                        accumulatedObjects.Add(obj);
+                        accumulatedPaths.Add(possibleFilePath);
+
+                        i++;
+                    }
+                    catch (IOException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                    }
+                    catch (SerializationException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                    }
+                }
+
+                if (accumulatedObjects.Count <= 0)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    return accumulatedPaths.Count;
+                }
+
+                try
+                {
+                    await actionToInvoke(
+                        state,
+                        accumulatedObjects).ConfigureAwait(false);
+                }
+                catch (Exception)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
+                    return 0;
+#pragma warning restore ERP022 // Catching everything considered harmful.
+                }
+
+                locker.Upgrade();
+
+                foreach (var possibleFilePath in accumulatedPaths)
+                {
+                    try
+                    {
+                        this.FileShim.Delete(possibleFilePath);
+                    }
+                    catch (IOException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                    }
+                    catch (SerializationException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                    }
+                }
+
+                cancellationToken.ThrowIfCancellationRequested();
+                return accumulatedPaths.Count;
+            }
+        }
+
+        /// <summary>
+        ///     Asynchronously tries to load the topmost item and execute an action on it, deleting the topmost object data if the
+        ///     operation is successful.
+        /// </summary>
+        /// <typeparam name="TState">The type of the state object to send to the action.</typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="actionToInvoke">The action to invoke.</param>
+        /// <param name="state">The state object to pass to the invoked action.</param>
+        /// <param name="cancellationToken">The cancellation token for this operation.</param>
+        /// <returns>The number of items that have been de-queued.</returns>
+        /// <remarks>
+        ///     <para>
+        ///         Warning! This method has the potential of overrunning its read/write lock timeouts. Please ensure that the
+        ///         <paramref name="predicate" /> method
+        ///         filters out items in a way that limits the amount of data passing through.
+        ///     </para>
+        /// </remarks>
+        protected async Task<int> TryLoadWhilePredicateWithActionAsync<TState>(
+            [NotNull] Func<TState, T, Task<bool>> predicate,
+            [NotNull] Func<TState, IEnumerable<T>, Task> actionToInvoke,
+            [CanBeNull] TState state,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNull(
+                predicate,
+                nameof(predicate));
+            Contract.RequiresNotNull(
+                actionToInvoke,
+                nameof(actionToInvoke));
+
+            this.RequiresNotDisposed();
+
+            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            {
+                string[] files = this.GetPossibleDataFiles();
+                var i = 0;
+
+                var accumulatedObjects = new List<T>();
+                var accumulatedPaths = new List<string>();
+
+                while (i < files.Length)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        break;
+                    }
+
+                    var possibleFilePath = files[i];
+
+                    try
+                    {
+                        T obj;
+
+                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                        {
+                            obj = (T)this.Serializer.ReadObject(stream);
+                        }
+
+                        if (!await predicate(
+                            state,
+                            obj).ConfigureAwait(false))
+                        {
+                            break;
+                        }
+
+                        accumulatedObjects.Add(obj);
+                        accumulatedPaths.Add(possibleFilePath);
+
+                        i++;
+                    }
+                    catch (IOException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                    }
+                    catch (SerializationException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                        i++;
+                    }
+                }
+
+                if (accumulatedObjects.Count <= 0)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    return accumulatedPaths.Count;
+                }
+
+                try
+                {
+                    await actionToInvoke(
+                        state,
+                        accumulatedObjects).ConfigureAwait(false);
+                }
+                catch (Exception)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
+                    return 0;
+#pragma warning restore ERP022 // Catching everything considered harmful.
+                }
+
+                locker.Upgrade();
+
+                foreach (var possibleFilePath in accumulatedPaths)
+                {
+                    try
+                    {
+                        this.FileShim.Delete(possibleFilePath);
+                    }
+                    catch (IOException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                    }
+                    catch (SerializationException)
+                    {
+                        this.HandleFileLoadProblem(possibleFilePath);
+                    }
+                }
+
+                cancellationToken.ThrowIfCancellationRequested();
+                return accumulatedPaths.Count;
+            }
+        }
+
+        /// <summary>
+        ///     Peeks at the topmost item in the folder.
         /// </summary>
         /// <returns>An item, if one exists and can be loaded, or an exception otherwise.</returns>
         /// <exception cref="InvalidOperationException">There are no more valid items in the folder.</exception>
         protected T PeekTopmostItem()
         {
-            this.ThrowIfCurrentObjectDisposed();
+            this.RequiresNotDisposed();
 
             using (this.ReadLock())
             {
-                var files = this.GetPossibleDataFiles();
+                string[] files = this.GetPossibleDataFiles();
                 var i = 0;
 
                 while (true)
@@ -558,14 +1115,18 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
-        /// Loads the items from the folder.
+        ///     Loads the items from the folder.
         /// </summary>
         /// <returns>An item, if one exists and can be loaded, a default value otherwise.</returns>
         /// <remarks>
-        /// <para>Warning! Not synchronized.</para>
-        /// <para>This method is not synchronized between threads. Please ensure that you only use this method in a guaranteed one-time-access manner (such as a constructor).</para>
+        ///     <para>Warning! Not synchronized.</para>
+        ///     <para>
+        ///         This method is not synchronized between threads. Please ensure that you only use this method in a guaranteed
+        ///         one-time-access manner (such as a constructor).
+        ///     </para>
         /// </remarks>
         /// <exception cref="InvalidOperationException">There are no more valid items in the folder.</exception>
+        [NotNull]
         protected IEnumerable<Tuple<T, string>> LoadValidItemObjectHandles()
         {
             foreach (var possibleFilePath in this.GetPossibleDataFiles())
@@ -594,19 +1155,25 @@ namespace IX.Guaranteed.Collections
                     continue;
                 }
 
-                yield return new Tuple<T, string>(obj, possibleFilePath);
+                yield return new Tuple<T, string>(
+                    obj,
+                    possibleFilePath);
             }
         }
 
         /// <summary>
-        /// Saves the new item to the disk.
+        ///     Saves the new item to the disk.
         /// </summary>
         /// <param name="item">The item to save.</param>
         /// <returns>The path of the newly-saved file.</returns>
-        /// <exception cref="InvalidOperationException">We have reached the maximum number of items saved in the same femtosecond. This is theoretically not possible.</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     We have reached the maximum number of items saved in the same femtosecond.
+        ///     This is theoretically not possible.
+        /// </exception>
+        [NotNull]
         protected string SaveNewItem(T item)
         {
-            this.ThrowIfCurrentObjectDisposed();
+            this.RequiresNotDisposed();
 
             using (this.WriteLock())
             {
@@ -617,7 +1184,11 @@ namespace IX.Guaranteed.Collections
 
                 do
                 {
-                    filePath = this.PathShim.Combine(this.DataFolderPath, $"{now:yyyy.MM.dd.HH.mm.ss.fffffff}.{i}.dat");
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is a false positive
+                    filePath = this.PathShim.Combine(
+                        this.DataFolderPath,
+                        $"{now:yyyy.MM.dd.HH.mm.ss.fffffff}.{i}.dat");
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
                     i++;
 
                     if (i == int.MaxValue)
@@ -630,7 +1201,9 @@ namespace IX.Guaranteed.Collections
                 using (Stream stream = this.FileShim.Create(filePath))
                 {
 #pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is unavoidable
-                    this.Serializer.WriteObject(stream, item);
+                    this.Serializer.WriteObject(
+                        stream,
+                        item);
 #pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
                 }
 
@@ -639,15 +1212,17 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
-        /// Clears the data.
+        ///     Clears the data.
         /// </summary>
         protected void ClearData()
         {
-            this.ThrowIfCurrentObjectDisposed();
+            this.RequiresNotDisposed();
 
             using (this.WriteLock())
             {
-                foreach (var possibleFilePath in this.DirectoryShim.EnumerateFiles(this.DataFolderPath, "*.dat").ToArray())
+                foreach (var possibleFilePath in this.DirectoryShim.EnumerateFiles(
+                    this.DataFolderPath,
+                    "*.dat").ToArray())
                 {
                     this.HandleImpossibleMoveToPoison(possibleFilePath);
                 }
@@ -657,18 +1232,27 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
-        /// Gets the possible data files.
+        ///     Gets the possible data files.
         /// </summary>
         /// <returns>An array of data file names.</returns>
-        protected string[] GetPossibleDataFiles() => this.DirectoryShim.EnumerateFiles(this.DataFolderPath, "*.dat").Except(this.poisonedUnremovableFiles).ToArray();
+        [NotNull]
+        protected string[] GetPossibleDataFiles() => this.DirectoryShim.EnumerateFiles(
+            this.DataFolderPath,
+            "*.dat").Except(this.poisonedUnremovableFiles).ToArray();
 
         /// <summary>
-        /// Handles the file load problem.
+        ///     Handles the file load problem.
         /// </summary>
         /// <param name="possibleFilePath">The possible file path.</param>
         private void HandleFileLoadProblem(string possibleFilePath)
         {
-            var newFilePath = this.PathShim.Combine(this.PoisonFolderPath, this.PathShim.GetFileName(possibleFilePath));
+            Contract.RequiresNotNullOrWhitespacePrivate(
+                possibleFilePath,
+                nameof(possibleFilePath));
+
+            var newFilePath = this.PathShim.Combine(
+                this.PoisonFolderPath,
+                this.PathShim.GetFileName(possibleFilePath));
 
             // Seemingly-redundant catch code below will be replaced at a later time with an opt-in-based logging solution
             // and a more try/finally general approach
@@ -695,7 +1279,9 @@ namespace IX.Guaranteed.Collections
             try
             {
                 // Move to poison queue
-                this.FileShim.Move(possibleFilePath, newFilePath);
+                this.FileShim.Move(
+                    possibleFilePath,
+                    newFilePath);
             }
             catch (IOException)
             {
@@ -708,11 +1294,15 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
-        /// Handles the situation where it is impossible to move a file to poison.
+        ///     Handles the situation where it is impossible to move a file to poison.
         /// </summary>
         /// <param name="possibleFilePath">The possible file path.</param>
         private void HandleImpossibleMoveToPoison(string possibleFilePath)
         {
+            Contract.RequiresNotNullOrWhitespacePrivate(
+                possibleFilePath,
+                nameof(possibleFilePath));
+
             try
             {
                 // If deletion was not possible, delete the offending item
@@ -729,7 +1319,7 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
-        /// Fixes the unmovable references.
+        ///     Fixes the unmovable references.
         /// </summary>
         private void FixUnmovableReferences()
         {
