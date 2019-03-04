@@ -4,20 +4,21 @@
 
 using IX.Observable;
 using Xunit;
+using EnvironmentSettings = IX.StandardExtensions.ComponentModel.EnvironmentSettings;
 
 namespace IX.UnitTests.IX.Observable
 {
     /// <summary>
-    /// ObservableMasterSlaveCollection tests.
+    ///     ObservableMasterSlaveCollection tests.
     /// </summary>
     public class ObservableMasterSlaveCollectionUnitTests
     {
         /// <summary>
-        /// Generates the test data.
+        ///     Generates the test data.
         /// </summary>
         /// <returns>The test data.</returns>
         public static object[][] GenerateData() =>
-            new object[][]
+            new[]
             {
                 new object[]
                 {
@@ -44,7 +45,7 @@ namespace IX.UnitTests.IX.Observable
             };
 
         /// <summary>
-        /// Observables the master slave collection undo at add.
+        ///     Observables the master slave collection undo at add.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection, Undo with Add")]
@@ -52,8 +53,8 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionUndoAtAdd(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             // ACT
             list.Add(6);
@@ -67,7 +68,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection redo at add.
+        ///     Observables the master slave collection redo at add.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection, Redo with undone Add")]
@@ -75,8 +76,8 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionRedoAtAdd(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Add(6);
             Assert.True(list.Contains(6));
@@ -91,7 +92,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection undo at clear.
+        ///     Observables the master slave collection undo at clear.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection, Undo with Clear")]
@@ -99,8 +100,8 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionUndoAtClear(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Clear();
 
@@ -122,7 +123,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection redo at clear.
+        ///     Observables the master slave collection redo at clear.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection, Redo with undone Clear")]
@@ -130,8 +131,8 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionRedoAtClear(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Clear();
 
@@ -155,7 +156,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection undo at insert.
+        ///     Observables the master slave collection undo at insert.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection, Undo with Insert")]
@@ -163,11 +164,13 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionUndoAtInsert(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             // ACT
-            list.Insert(2, 6);
+            list.Insert(
+                2,
+                6);
 
             Assert.True(list[2] == 6);
             Assert.True(list[3] == 19);
@@ -180,7 +183,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection redo at insert.
+        ///     Observables the master slave collection redo at insert.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection, Redo with undone Insert")]
@@ -188,10 +191,12 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionRedoAtInsert(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
-            list.Insert(2, 6);
+            list.Insert(
+                2,
+                6);
             Assert.True(list.Contains(6));
             list.Undo();
             Assert.False(list.Contains(6));
@@ -205,7 +210,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection undo at remove at.
+        ///     Observables the master slave collection undo at remove at.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection, Undo with RemoveAt")]
@@ -213,8 +218,8 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionUndoAtRemoveAt(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             // ACT
             list.RemoveAt(2);
@@ -230,7 +235,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection redo at remove at.
+        ///     Observables the master slave collection redo at remove at.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection, Redo with undone RemoveAt")]
@@ -238,8 +243,8 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionRedoAtRemoveAt(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.RemoveAt(2);
             Assert.True(list[2] == 23);
@@ -254,7 +259,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection undo multiple operations.
+        ///     Observables the master slave collection undo multiple operations.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection, Undo with multiple operations")]
@@ -262,12 +267,14 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionUndoMultipleOperations(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Add(18);
             list.RemoveAt(1);
-            list.Insert(3, 5);
+            list.Insert(
+                3,
+                5);
             list.Clear();
             list.Add(7);
 
@@ -308,7 +315,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection multiple undo operations.
+        ///     Observables the master slave collection multiple undo operations.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection, Undo with undo operations past the limit")]
@@ -316,8 +323,8 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionMultipleUndoOperations(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.HistoryLevels = 3;
 
@@ -343,7 +350,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection multiple redo cutoff.
+        ///     Observables the master slave collection multiple redo cutoff.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection, Redo cut-off")]
@@ -351,8 +358,8 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionMultipleRedoCutoff(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             list.Add(15);
             list.Add(89);
@@ -380,7 +387,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection undo at add with slave.
+        ///     Observables the master slave collection undo at add with slave.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with Add")]
@@ -388,8 +395,8 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionUndoAtAddWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             using (var slaveCollection = new ObservableList<int>
             {
@@ -415,7 +422,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection redo at add with slave.
+        ///     Observables the master slave collection redo at add with slave.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Redo with undone Add")]
@@ -423,8 +430,8 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionRedoAtAddWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             using (var slaveCollection = new ObservableList<int>
             {
@@ -451,7 +458,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection undo at clear with slave.
+        ///     Observables the master slave collection undo at clear with slave.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with Clear")]
@@ -459,8 +466,8 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionUndoAtClearWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             using (var slaveCollection = new ObservableList<int>
             {
@@ -494,7 +501,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection redo at clear with slave.
+        ///     Observables the master slave collection redo at clear with slave.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Redo with undone Clear")]
@@ -502,8 +509,8 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionRedoAtClearWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             using (var slaveCollection = new ObservableList<int>
             {
@@ -539,7 +546,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection undo at insert with slave.
+        ///     Observables the master slave collection undo at insert with slave.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with Insert")]
@@ -547,8 +554,8 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionUndoAtInsertWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             using (var slaveCollection = new ObservableList<int>
             {
@@ -560,7 +567,9 @@ namespace IX.UnitTests.IX.Observable
                 list.SetSlaveList(slaveCollection);
 
                 // ACT
-                list.Insert(2, 6);
+                list.Insert(
+                    2,
+                    6);
 
                 Assert.True(list[2] == 6);
                 Assert.True(list[3] == 19);
@@ -576,7 +585,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection redo at insert with slave.
+        ///     Observables the master slave collection redo at insert with slave.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Redo with undone Insert")]
@@ -584,10 +593,12 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionRedoAtInsertWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
-            list.Insert(2, 6);
+            list.Insert(
+                2,
+                6);
             Assert.True(list.Contains(6));
             list.Undo();
             Assert.False(list.Contains(6));
@@ -613,7 +624,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection undo at remove at with slave.
+        ///     Observables the master slave collection undo at remove at with slave.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with RemoveAt")]
@@ -621,8 +632,8 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionUndoAtRemoveAtWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             using (var slaveCollection = new ObservableList<int>
             {
@@ -650,7 +661,7 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection redo at remove at with slave.
+        ///     Observables the master slave collection redo at remove at with slave.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Redo with undone RemoveAt")]
@@ -658,8 +669,8 @@ namespace IX.UnitTests.IX.Observable
         public void ObservableMasterSlaveCollectionRedoAtRemoveAtWithSlave(ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             using (var slaveCollection = new ObservableList<int>
             {
@@ -686,16 +697,17 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection undo multiple operations with slave.
+        ///     Observables the master slave collection undo multiple operations with slave.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with multiple operations")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableMasterSlaveCollectionUndoMultipleOperationsWithSlave(ObservableMasterSlaveCollection<int> list)
+        public void ObservableMasterSlaveCollectionUndoMultipleOperationsWithSlave(
+            ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             using (var slaveCollection = new ObservableList<int>
             {
@@ -708,7 +720,9 @@ namespace IX.UnitTests.IX.Observable
 
                 list.Add(18);
                 list.RemoveAt(1);
-                list.Insert(3, 5);
+                list.Insert(
+                    3,
+                    5);
                 list.Clear();
                 list.Add(7);
 
@@ -752,16 +766,17 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection multiple undo operations with slave.
+        ///     Observables the master slave collection multiple undo operations with slave.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Undo with undo operations past the limit")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableMasterSlaveCollectionMultipleUndoOperationsWithSlave(ObservableMasterSlaveCollection<int> list)
+        public void ObservableMasterSlaveCollectionMultipleUndoOperationsWithSlave(
+            ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             using (var slaveCollection = new ObservableList<int>
             {
@@ -799,16 +814,17 @@ namespace IX.UnitTests.IX.Observable
         }
 
         /// <summary>
-        /// Observables the master slave collection multiple redo cutoff with slave.
+        ///     Observables the master slave collection multiple redo cutoff with slave.
         /// </summary>
         /// <param name="list">The list.</param>
         [Theory(DisplayName = "ObservableMasterSlaveCollection with a slave, Redo cut-off")]
         [MemberData(nameof(GenerateData))]
-        public void ObservableMasterSlaveCollectionMultipleRedoCutoffWithSlave(ObservableMasterSlaveCollection<int> list)
+        public void ObservableMasterSlaveCollectionMultipleRedoCutoffWithSlave(
+            ObservableMasterSlaveCollection<int> list)
         {
             // ARRANGE
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
-            global::IX.StandardExtensions.ComponentModel.EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
+            EnvironmentSettings.InvokeSynchronouslyOnCurrentThread = true;
+            EnvironmentSettings.AlwaysSuppressCurrentSynchronizationContext = true;
 
             using (var slaveCollection = new ObservableList<int>
             {

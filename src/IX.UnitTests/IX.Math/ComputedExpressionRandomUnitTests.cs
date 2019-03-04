@@ -9,15 +9,15 @@ using Xunit;
 namespace IX.UnitTests.IX.Math
 {
     /// <summary>
-    /// Class ComputedExpressionRandomTests.
+    ///     Class ComputedExpressionRandomTests.
     /// </summary>
     public class ComputedExpressionRandomUnitTests
     {
         /// <summary>
-        /// Computes the unary random function call expression, for testing.
+        ///     Computes the unary random function call expression, for testing.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated.
+        ///     No computed expression was generated.
         /// </exception>
         [Fact(DisplayName = "Tests the binary function \"random\".")]
         public void ComputedBinaryRandomFunctionCallExpression()
@@ -30,7 +30,9 @@ namespace IX.UnitTests.IX.Math
             }
             while (dingLimit <= 5);
 
-            var highLimit = r.Next(dingLimit, int.MaxValue);
+            var highLimit = r.Next(
+                dingLimit,
+                int.MaxValue);
             var lowLimit = r.Next(dingLimit);
 
             using (var service = new ExpressionParsingService())
@@ -46,27 +48,31 @@ namespace IX.UnitTests.IX.Math
                     try
                     {
 #pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Not consequential
-                        result = del.Compute(lowLimit, highLimit);
+                        result = del.Compute(
+                            lowLimit,
+                            highLimit);
 #pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
                     }
                     catch (Exception ex)
                     {
-                        throw new InvalidOperationException($"The method should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
+                        throw new InvalidOperationException(
+                            "The method should not have thrown an exception, but it did.",
+                            ex);
                     }
 
                     Assert.IsType<double>(result);
 
-                    Assert.True(((double)result) < highLimit);
-                    Assert.True(((double)result) >= lowLimit);
+                    Assert.True((double)result < highLimit);
+                    Assert.True((double)result >= lowLimit);
                 }
             }
         }
 
         /// <summary>
-        /// Computes the unary random function call expression, for testing.
+        ///     Computes the unary random function call expression, for testing.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated.
+        ///     No computed expression was generated.
         /// </exception>
         [Fact(DisplayName = "Tests the unary function \"random\".")]
         public void ComputedUnaryRandomFunctionCallExpression()
@@ -92,21 +98,23 @@ namespace IX.UnitTests.IX.Math
                     }
                     catch (Exception ex)
                     {
-                        throw new InvalidOperationException($"The method should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
+                        throw new InvalidOperationException(
+                            "The method should not have thrown an exception, but it did.",
+                            ex);
                     }
 
                     Assert.IsType<double>(result);
 
-                    Assert.True(((double)result) < limit);
+                    Assert.True((double)result < limit);
                 }
             }
         }
 
         /// <summary>
-        /// Computes the random nonary function call expression, for testing.
+        ///     Computes the random nonary function call expression, for testing.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated.
+        ///     No computed expression was generated.
         /// </exception>
         [Fact(DisplayName = "Tests the nonary function \"random\".")]
         public void ComputedRandomNonaryFunctionCallExpression()
@@ -127,7 +135,9 @@ namespace IX.UnitTests.IX.Math
                     }
                     catch (Exception ex)
                     {
-                        throw new InvalidOperationException($"The method should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
+                        throw new InvalidOperationException(
+                            "The method should not have thrown an exception, but it did.",
+                            ex);
                     }
 
                     Assert.IsType<double>(result);
@@ -136,10 +146,10 @@ namespace IX.UnitTests.IX.Math
         }
 
         /// <summary>
-        /// Computes the unary random function call expression, for testing.
+        ///     Computes the unary random function call expression, for testing.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated.
+        ///     No computed expression was generated.
         /// </exception>
         [Fact(DisplayName = "Tests the binary function \"randomint\".")]
         public void ComputedBinaryRandomIntFunctionCallExpression()
@@ -152,7 +162,9 @@ namespace IX.UnitTests.IX.Math
             }
             while (dingLimit <= 5);
 
-            var highLimit = r.Next(dingLimit, int.MaxValue);
+            var highLimit = r.Next(
+                dingLimit,
+                int.MaxValue);
             var lowLimit = r.Next(dingLimit);
 
             using (var service = new ExpressionParsingService())
@@ -168,27 +180,31 @@ namespace IX.UnitTests.IX.Math
                     try
                     {
 #pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Not consequential
-                        result = del.Compute(lowLimit, highLimit);
+                        result = del.Compute(
+                            lowLimit,
+                            highLimit);
 #pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
                     }
                     catch (Exception ex)
                     {
-                        throw new InvalidOperationException($"The method should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
+                        throw new InvalidOperationException(
+                            "The method should not have thrown an exception, but it did.",
+                            ex);
                     }
 
                     Assert.IsType<long>(result);
 
-                    Assert.True(((long)result) < highLimit);
-                    Assert.True(((long)result) >= lowLimit);
+                    Assert.True((long)result < highLimit);
+                    Assert.True((long)result >= lowLimit);
                 }
             }
         }
 
         /// <summary>
-        /// Computes the unary random function call expression, for testing.
+        ///     Computes the unary random function call expression, for testing.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated.
+        ///     No computed expression was generated.
         /// </exception>
         [Fact(DisplayName = "Tests the unary function \"randomint\".")]
         public void ComputedUnaryRandomIntFunctionCallExpression()
@@ -214,21 +230,23 @@ namespace IX.UnitTests.IX.Math
                     }
                     catch (Exception ex)
                     {
-                        throw new InvalidOperationException($"The method should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
+                        throw new InvalidOperationException(
+                            "The method should not have thrown an exception, but it did.",
+                            ex);
                     }
 
                     Assert.IsType<long>(result);
 
-                    Assert.True(((long)result) < limit);
+                    Assert.True((long)result < limit);
                 }
             }
         }
 
         /// <summary>
-        /// Computes the random nonary function call expression, for testing.
+        ///     Computes the random nonary function call expression, for testing.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// No computed expression was generated.
+        ///     No computed expression was generated.
         /// </exception>
         [Fact(DisplayName = "Tests the nonary function \"randomint\".")]
         public void ComputedRandomIntNonaryFunctionCallExpression()
@@ -249,7 +267,9 @@ namespace IX.UnitTests.IX.Math
                     }
                     catch (Exception ex)
                     {
-                        throw new InvalidOperationException($"The method should not have thrown an exception, but it threw {ex.GetType()} with message \"{ex.Message}\".");
+                        throw new InvalidOperationException(
+                            "The method should not have thrown an exception, but it did.",
+                            ex);
                     }
 
                     Assert.IsType<long>(result);
