@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using IX.StandardExtensions;
 using IX.System.IO;
+using JetBrains.Annotations;
 
 namespace IX.Guaranteed.Collections
 {
@@ -22,6 +23,7 @@ namespace IX.Guaranteed.Collections
     /// </remarks>
     /// <seealso cref="IX.StandardExtensions.ComponentModel.DisposableBase" />
     /// <seealso cref="IX.System.Collections.Generic.IQueue{T}" />
+    [PublicAPI]
     public class PersistedQueue<T> : PersistedQueueBase<T>, IPersistedQueue<T>
     {
         /// <summary>

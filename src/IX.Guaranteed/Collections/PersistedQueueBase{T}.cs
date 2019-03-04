@@ -25,6 +25,7 @@ namespace IX.Guaranteed.Collections
     /// <typeparam name="T">The type of object in the queue.</typeparam>
     /// <seealso cref="StandardExtensions.ComponentModel.DisposableBase" />
     /// <seealso cref="System.Collections.Generic.IQueue{T}" />
+    [PublicAPI]
     public abstract class PersistedQueueBase<T> : ReaderWriterSynchronizedBase, IQueue<T>
     {
         private readonly IDirectory directoryShim;

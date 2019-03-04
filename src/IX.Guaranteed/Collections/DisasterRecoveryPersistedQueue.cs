@@ -33,6 +33,7 @@ namespace IX.Guaranteed.Collections
     /// </remarks>
     /// <seealso cref="IX.StandardExtensions.Threading.ReaderWriterSynchronizedBase" />
     /// <seealso cref="IX.Guaranteed.Collections.IPersistedQueue{T}" />
+    [PublicAPI]
     public class DisasterRecoveryPersistedQueue<T> : ReaderWriterSynchronizedBase, IPersistedQueue<T>
     {
         private IDirectory directoryShim;
