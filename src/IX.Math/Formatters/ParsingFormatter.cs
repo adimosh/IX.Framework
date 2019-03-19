@@ -5,17 +5,19 @@
 using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using IX.StandardExtensions.Contracts;
 using IX.StandardExtensions.Globalization;
 
 namespace IX.Math.Formatters
 {
     internal static class ParsingFormatter
     {
-        private const NumberStyles IntegerNumberStyle =
-            NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowExponent | NumberStyles.AllowExponent;
+        private const NumberStyles IntegerNumberStyle = NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands |
+                                                        NumberStyles.AllowExponent | NumberStyles.AllowExponent;
 
-        private const NumberStyles FloatNumberStyle =
-            NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowExponent | NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint;
+        private const NumberStyles FloatNumberStyle = NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands |
+                                                      NumberStyles.AllowExponent | NumberStyles.AllowExponent |
+                                                      NumberStyles.AllowDecimalPoint;
 
         private const NumberStyles HexNumberStyle = NumberStyles.AllowHexSpecifier;
 
@@ -25,33 +27,40 @@ namespace IX.Math.Formatters
             string expression,
             out object result)
         {
-            if (string.IsNullOrWhiteSpace(expression))
+            Contract.RequiresNotNullPrivate(
+                expression,
+                nameof(expression));
+
+            if (!expression.StartsWith(
+                    "0x",
+                    StringComparison.CurrentCultureIgnoreCase) && !expression.StartsWith(
+                    "&h",
+                    StringComparison.CurrentCultureIgnoreCase))
             {
-                throw new ArgumentNullException(nameof(expression));
+                return ParseSpecific(
+                    expression,
+                    out result);
             }
 
-            if (expression.StartsWith("0x", StringComparison.CurrentCultureIgnoreCase) || expression.StartsWith("&h", StringComparison.CurrentCultureIgnoreCase))
+            if (expression.Length > 2)
             {
-                if (expression.Length > 2)
-                {
-                    return ParseHexSpecific(expression.Substring(2), out result);
-                }
-                else
-                {
-                    result = null;
-                    return false;
-                }
+                return ParseHexSpecific(
+                    expression.Substring(2),
+                    out result);
             }
-            else
-            {
-                return ParseSpecific(expression, out result);
-            }
+
+            result = null;
+            return false;
 
             bool ParseHexSpecific(
                 string hexExpression,
                 out object hexResult)
             {
-                if (long.TryParse(hexExpression, HexNumberStyle, CultureInfo.CurrentCulture, out var intVal))
+                if (long.TryParse(
+                    hexExpression,
+                    HexNumberStyle,
+                    CultureInfo.CurrentCulture,
+                    out var intVal))
                 {
                     hexResult = intVal;
                     return true;
@@ -65,14 +74,27 @@ namespace IX.Math.Formatters
                 string specificExpression,
                 out object specificResult)
             {
+                Contract.RequiresNotNullPrivate(
+                    specificExpression,
+                    nameof(specificExpression));
+
                 IFormatProvider formatProvider = CultureInfo.CurrentCulture;
 
-                if (long.TryParse(specificExpression, IntegerNumberStyle, formatProvider, out var intVal))
+                if (long.TryParse(
+                    specificExpression,
+                    IntegerNumberStyle,
+                    formatProvider,
+                    out var intVal))
                 {
                     specificResult = intVal;
                     return true;
                 }
-                else if (double.TryParse(specificExpression, FloatNumberStyle, formatProvider, out var doubleVal))
+
+                if (double.TryParse(
+                    specificExpression,
+                    FloatNumberStyle,
+                    formatProvider,
+                    out var doubleVal))
                 {
                     specificResult = doubleVal;
                     return true;
@@ -87,22 +109,21 @@ namespace IX.Math.Formatters
             string expression,
             out byte[] result)
         {
-            if (string.IsNullOrWhiteSpace(expression))
-            {
-                throw new ArgumentNullException(nameof(expression));
-            }
+            Contract.RequiresNotNullPrivate(
+                expression,
+                nameof(expression));
 
             if (expression.CurrentCultureStartsWithInsensitive("0b"))
             {
                 if (expression.Length > 2)
                 {
-                    return ParseByteArray(expression.Substring(2), out result);
+                    return ParseByteArray(
+                        expression.Substring(2),
+                        out result);
                 }
-                else
-                {
-                    result = null;
-                    return false;
-                }
+
+                result = null;
+                return false;
             }
 
             result = null;
@@ -112,7 +133,13 @@ namespace IX.Math.Formatters
                 string byteArrayExpression,
                 out byte[] byteArrayResult)
             {
-                byteArrayExpression = byteArrayExpression.Replace("_", string.Empty);
+                Contract.RequiresNotNullPrivate(
+                    byteArrayExpression,
+                    nameof(byteArrayExpression));
+
+                byteArrayExpression = byteArrayExpression.Replace(
+                    "_",
+                    string.Empty);
                 var stringLength = byteArrayExpression.Length;
                 var byteLength = stringLength / 8;
                 if (byteLength < (double)stringLength / 8)
@@ -123,16 +150,20 @@ namespace IX.Math.Formatters
                 stringLength = byteLength * 8;
                 if (byteArrayExpression.Length < stringLength)
                 {
-                    byteArrayExpression = byteArrayExpression.PadLeft(stringLength, '0');
+                    byteArrayExpression = byteArrayExpression.PadLeft(
+                        stringLength,
+                        '0');
                 }
 
                 var bytes = new byte[byteLength];
 
                 for (var i = byteLength - 1; i >= 0; i -= 1)
                 {
-                    var startingIndex = stringLength - ((byteLength - i) * 8);
+                    var startingIndex = stringLength - (byteLength - i) * 8;
 
-                    var currentByteExpression = byteArrayExpression.Substring(startingIndex, 8);
+                    var currentByteExpression = byteArrayExpression.Substring(
+                        startingIndex,
+                        8);
 
                     if (!BitRepresentationRegex.IsMatch(currentByteExpression))
                     {
@@ -140,7 +171,9 @@ namespace IX.Math.Formatters
                         return false;
                     }
 
-                    bytes[i] = Convert.ToByte(currentByteExpression, 2);
+                    bytes[i] = Convert.ToByte(
+                        currentByteExpression,
+                        2);
                 }
 
                 Array.Reverse(bytes);

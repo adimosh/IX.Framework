@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using IX.Math.ExpressionState;
 using IX.StandardExtensions;
+using IX.StandardExtensions.Contracts;
 
 namespace IX.Math.Generators
 {
@@ -20,6 +21,13 @@ namespace IX.Math.Generators
             Dictionary<string, ExpressionSymbol> symbolTable,
             Dictionary<string, string> reverseSymbolTable)
         {
+            Contract.RequiresNotNullOrWhitespacePrivate(openParenthesis, nameof(openParenthesis));
+            Contract.RequiresNotNullOrWhitespacePrivate(closeParenthesis, nameof(closeParenthesis));
+            Contract.RequiresNotNullOrWhitespacePrivate(parameterSeparator, nameof(parameterSeparator));
+            Contract.RequiresNotNullPrivate(allOperatorsInOrder, nameof(allOperatorsInOrder));
+            Contract.RequiresNotNullPrivate(symbolTable, nameof(symbolTable));
+            Contract.RequiresNotNullPrivate(reverseSymbolTable, nameof(reverseSymbolTable));
+
             FormatParenthesis(string.Empty, openParenthesis, closeParenthesis, parameterSeparator, allOperatorsInOrder, symbolTable, reverseSymbolTable);
 
             var itemsToProcess = new List<string>();
@@ -54,6 +62,14 @@ namespace IX.Math.Generators
                 Dictionary<string, ExpressionSymbol> symbolTableL1,
                 Dictionary<string, string> reverseSymbolTableL1)
             {
+                Contract.RequiresNotNullPrivate(key, nameof(key));
+                Contract.RequiresNotNullOrWhitespacePrivate(openParenthesisL1, nameof(openParenthesisL1));
+                Contract.RequiresNotNullOrWhitespacePrivate(closeParenthesisL1, nameof(closeParenthesisL1));
+                Contract.RequiresNotNullOrWhitespacePrivate(parameterSeparatorL1, nameof(parameterSeparatorL1));
+                Contract.RequiresNotNullPrivate(allOperatorsInOrderL1, nameof(allOperatorsInOrderL1));
+                Contract.RequiresNotNullPrivate(symbolTableL1, nameof(symbolTableL1));
+                Contract.RequiresNotNullPrivate(reverseSymbolTableL1, nameof(reverseSymbolTableL1));
+
                 ExpressionSymbol symbol = symbolTableL1[key];
                 if (symbol.IsFunctionCall)
                 {
@@ -78,15 +94,22 @@ namespace IX.Math.Generators
                     Dictionary<string, ExpressionSymbol> symbolTableL2,
                     Dictionary<string, string> reverseSymbolTableL2)
                 {
-                    var src = source;
+                    Contract.RequiresNotNullOrWhitespacePrivate(openParenthesisL2, nameof(openParenthesisL2));
+                    Contract.RequiresNotNullOrWhitespacePrivate(closeParenthesisL2, nameof(closeParenthesisL2));
+                    Contract.RequiresNotNullOrWhitespacePrivate(parameterSeparatorSymbolL2, nameof(parameterSeparatorSymbolL2));
+                    Contract.RequiresNotNullPrivate(allOperatorsInOrderSymbolsL2, nameof(allOperatorsInOrderSymbolsL2));
+                    Contract.RequiresNotNullPrivate(symbolTableL2, nameof(symbolTableL2));
+                    Contract.RequiresNotNullPrivate(reverseSymbolTableL2, nameof(reverseSymbolTableL2));
 
                     if (string.IsNullOrWhiteSpace(source))
                     {
                         return string.Empty;
                     }
 
-                    var openingParanthesisLocation = src.IndexOf(openParenthesisL2);
-                    var closingParanthesisLocation = src.IndexOf(closeParenthesisL2);
+                    var src = source;
+
+                    var openingParanthesisLocation = src.IndexOf(openParenthesisL2, StringComparison.Ordinal);
+                    var closingParanthesisLocation = src.IndexOf(closeParenthesisL2, StringComparison.Ordinal);
 
                     beginning:
                     if (openingParanthesisLocation != -1)
@@ -122,20 +145,13 @@ namespace IX.Math.Generators
                                         var op1 = allOperatorsInOrderSymbolsL2.OrderByDescending(p => p.Length).FirstOrDefault((p, expr5L1) => expr5L1.StartsWith(p), expr5);
                                         var expr6 = op1 == null ? expr5 : expr5.Substring(op1.Length);
 
-                                        var expr2 = SymbolExpressionGenerator.GenerateSymbolExpression(
+                                        var _ = SymbolExpressionGenerator.GenerateSymbolExpression(
                                             symbolTableL2,
                                             reverseSymbolTableL2,
                                             $"{expr6}{openParenthesisL2}item{(symbolTableL2.Count - 1).ToString()}{closeParenthesisL2}",
                                             false);
 
-                                        if (expr6 == expr4)
-                                        {
-                                            expr4 = string.Empty;
-                                        }
-                                        else
-                                        {
-                                            expr4 = expr4.Substring(0, expr4.Length - expr6.Length);
-                                        }
+                                        expr4 = expr6 == expr4 ? string.Empty : expr4.Substring(0, expr4.Length - expr6.Length);
 
                                         resultingSubExpression = resultingSubExpression.Replace($"item{(symbolTableL2.Count - 1).ToString()}", $"item{symbolTableL2.Count.ToString()}");
                                     }
@@ -143,8 +159,8 @@ namespace IX.Math.Generators
                                     src = $"{expr4}{resultingSubExpression}";
                                 }
 
-                                openingParanthesisLocation = src.IndexOf(openParenthesisL2);
-                                closingParanthesisLocation = src.IndexOf(closeParenthesisL2);
+                                openingParanthesisLocation = src.IndexOf(openParenthesisL2, StringComparison.Ordinal);
+                                closingParanthesisLocation = src.IndexOf(closeParenthesisL2, StringComparison.Ordinal);
 
                                 goto beginning;
                             }
@@ -162,23 +178,19 @@ namespace IX.Math.Generators
                             throw new InvalidOperationException();
                         }
                     }
-                    else
+
+                    if (closingParanthesisLocation == -1)
                     {
-                        if (closingParanthesisLocation == -1)
-                        {
-                            return src;
-                        }
-                        else
-                        {
-                            return ProcessSubExpression(
-                                closingParanthesisLocation,
-                                closeParenthesisL2,
-                                src,
-                                parameterSeparatorSymbolL2,
-                                symbolTableL2,
-                                reverseSymbolTableL2);
-                        }
+                        return src;
                     }
+
+                    return ProcessSubExpression(
+                        closingParanthesisLocation,
+                        closeParenthesisL2,
+                        src,
+                        parameterSeparatorSymbolL2,
+                        symbolTableL2,
+                        reverseSymbolTableL2);
 
                     string ProcessSubExpression(
                         int cp,
@@ -190,17 +202,16 @@ namespace IX.Math.Generators
                     {
                         var expr1 = sourceL3.Substring(0, cp);
 
-                        var parameters = expr1.Split(new string[] { parameterSeparatorL3 }, StringSplitOptions.None);
+                        var parameters = expr1.Split(new[] { parameterSeparatorL3 }, StringSplitOptions.None);
 
                         var parSymbols = new List<string>();
                         foreach (var s in parameters)
                         {
-                            var expr2 = SymbolExpressionGenerator.GenerateSymbolExpression(
+                            parSymbols.Add(SymbolExpressionGenerator.GenerateSymbolExpression(
                                 symbolTableL3,
                                 reverseSymbolTableL3,
                                 s,
-                                false);
-                            parSymbols.Add(expr2);
+                                false));
                         }
 
                         var k = cp + closeParenthesisL3.Length;

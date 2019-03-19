@@ -7,20 +7,13 @@ using System;
 namespace IX.Math.Extensibility
 {
     /// <summary>
-    /// An attribute that will signal a specific class as containing a constants extraction.
+    ///     An attribute that will signal a specific class as containing a constants extraction.
     /// </summary>
-    /// <seealso cref="global::System.Attribute" />
+    /// <seealso cref="Attribute" />
     public class ConstantsExtractorAttribute : Attribute
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConstantsExtractorAttribute" /> class.
-        /// </summary>
-        public ConstantsExtractorAttribute()
-        {
-        }
-
-        /// <summary>
-        /// Gets or sets the level.
+        ///     Gets or sets the level.
         /// </summary>
         /// <value>The level.</value>
         public int Level { get; set; }
