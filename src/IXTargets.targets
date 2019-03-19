@@ -1,10 +1,10 @@
 <Project>
 
   <!-- Versions -->
-  <!-- <PropertyGroup>
+  <PropertyGroup>
     <FileVersion>$(Version)</FileVersion>
     <AssemblyVersion>$([System.String]::Copy('$(Version)').Substring(0,$([System.String]::Copy('$(Version)').LastIndexOf('.')))).0</AssemblyVersion>
-  </PropertyGroup> -->
+  </PropertyGroup>
 
   <!-- Language version -->
   <PropertyGroup>
