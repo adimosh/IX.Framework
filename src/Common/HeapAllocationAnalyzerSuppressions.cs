@@ -11,4 +11,5 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Performance", "HAA0505:Initializer reference type allocation", Justification = "Explicit collection creation by initializer is usually an intended phenomenon, for now let's ignore.", Scope = "module")]
 [assembly: SuppressMessage("Performance", "HAA0503:Explicit new anonymous object allocation", Justification = "LINQ works that way, it is rare enough to be of little impact anyway.", Scope = "module")]
 
-[assembly: SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1413:UseTrailingCommasInMultiLineInitializers", Justification = "Reviewed.", Scope = "module")]
+[assembly: SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1413:UseTrailingCommasInMultiLineInitializers", Justification = "Not observed.", Scope = "module")]
+[assembly: SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1407:Arithmetic expressions should declare precedence", Justification = "Not observed.", Scope = "module")]
