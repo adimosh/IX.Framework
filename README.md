@@ -58,8 +58,8 @@ Targeted languages:
 
 | Build | Status |
 |:-----:|:------:|
-| Latest build | [![Build status](https://ci.appveyor.com/api/projects/status/vbemqye31fo3rj43?svg=true)](https://ci.appveyor.com/project/adimosh/ix-framework) |
-| Master branch | [![Build status](https://ci.appveyor.com/api/projects/status/vbemqye31fo3rj43/branch/master?svg=true)](https://ci.appveyor.com/project/adimosh/ix-framework/branch/master) |
+| Latest build | [![Build status](https://dev.azure.com/ixiancorp/IX.Framework/_apis/build/status/IX.Framework%20continuous%20integration)](https://dev.azure.com/ixiancorp/IX.Framework/_build/latest?definitionId=2) |
+| NuGet | [Deployment status](https://vsrm.dev.azure.com/ixiancorp/_apis/public/Release/badge/7cad7d65-5765-4ac0-97e7-7cd45511243c/1/2) |
 
 ### Developer guidelines
 
