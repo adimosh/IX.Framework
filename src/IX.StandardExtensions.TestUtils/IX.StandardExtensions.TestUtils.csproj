@@ -5,18 +5,16 @@
     <FailObsoleteTargetFrameworks>true</FailObsoleteTargetFrameworks>
   </PropertyGroup>
 
-  <Import Project="..\IXTargets.targets" />
-
   <PropertyGroup>
-    <Version>0.5.0.0</Version>
-    <FileVersion>0.5.0.0</FileVersion>
-    <AssemblyVersion>0.5.0.0</AssemblyVersion>
+    <Version>0.5.0.67</Version>
   </PropertyGroup>
 
   <PropertyGroup>
     <Title>IX Test Utilities</Title>
     <Description>A library containing several extensions and utilities for making unit testing less dreary.</Description>
   </PropertyGroup>
+
+  <Import Project="..\IXTargets.targets" />
 
   <Import Project="..\Branding.props" />
 
