@@ -12,11 +12,11 @@
   </PropertyGroup>
 
   <!-- Version bumper -->
-  <PropertyGroup Condition="'$(Configuration)'!='Release'">
+  <PropertyGroup Condition="$(Configuration)=='Debug'">
     <BumpRevision>True</BumpRevision>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(Configuration)'!='Release'">
+  <ItemGroup Condition="$(Configuration) == 'Debug'">
     <PackageReference Include="MSBump" Version="2.3.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
