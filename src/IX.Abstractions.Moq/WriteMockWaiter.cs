@@ -4,23 +4,25 @@
 
 using System;
 using System.Threading;
+using JetBrains.Annotations;
 
 namespace IX.Abstractions.Moq
 {
     /// <summary>
-    /// A mock waiter class that allows one to read a self-closing stream data after the stream has closed.
+    ///     A mock waiter class that allows one to read a self-closing stream data after the stream has closed.
     /// </summary>
     /// <remarks>
-    /// <para>Please do not attempt to use this class for high-capacity streams, as it is unsuitable for such a purpose.</para>
+    ///     <para>Please do not attempt to use this class for high-capacity streams, as it is unsuitable for such a purpose.</para>
     /// </remarks>
     /// <seealso cref="T:System.IDisposable" />
+    [PublicAPI]
     public class WriteMockWaiter : IDisposable
     {
-        private ManualResetEvent mre = new ManualResetEvent(false);
-        private bool isDisposed;
-        private bool isAwaited;
-
         private byte[] data;
+        private bool isAwaited;
+        private bool isDisposed;
+        private SaveWhenDisposingMemoryStream memoryStream;
+        private ManualResetEvent mre = new ManualResetEvent(false);
 
 #pragma warning disable HAA0302 // Display class allocation to capture closure - We'll let it slide
         internal WriteMockWaiter()
@@ -29,17 +31,18 @@ namespace IX.Abstractions.Moq
             this.mre.Reset();
 
 #pragma warning disable HAA0301 // Closure Allocation Source - We'll let it slide
-            this.MemoryStream = new SaveWhenDisposingMemoryStream((savedData) =>
+            this.memoryStream = new SaveWhenDisposingMemoryStream(
+                savedData =>
 #pragma warning restore HAA0301 // Closure Allocation Source
-            {
-                this.data = savedData;
-                this.isAwaited = true;
-                this.mre.Set();
-            });
+                {
+                    this.data = savedData;
+                    this.isAwaited = true;
+                    this.mre.Set();
+                });
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="WriteMockWaiter"/> class.
+        ///     Finalizes an instance of the <see cref="WriteMockWaiter" /> class.
         /// </summary>
         ~WriteMockWaiter()
         {
@@ -48,13 +51,19 @@ namespace IX.Abstractions.Moq
         }
 
         /// <summary>
-        /// Gets the data.
+        ///     Gets the data.
         /// </summary>
         /// <value>
-        /// The data.
+        ///     The data.
         /// </value>
-        /// <exception cref="T:System.ObjectDisposedException">Occurs when the object has already been disposed and should no longer be used.</exception>
-        /// <exception cref="T:System.InvalidOperationException">Occurs if anyone tries to load data before it has successfully read from the stream.</exception>
+        /// <exception cref="T:System.ObjectDisposedException">
+        ///     Occurs when the object has already been disposed and should no
+        ///     longer be used.
+        /// </exception>
+        /// <exception cref="T:System.InvalidOperationException">
+        ///     Occurs if anyone tries to load data before it has successfully
+        ///     read from the stream.
+        /// </exception>
         public byte[] Data
         {
             get
@@ -74,25 +83,34 @@ namespace IX.Abstractions.Moq
         }
 
         /// <summary>
-        /// Gets the memory stream.
+        ///     Gets the memory stream.
         /// </summary>
         /// <value>
-        /// The memory stream.
+        ///     The memory stream.
         /// </value>
-        public SaveWhenDisposingMemoryStream MemoryStream { get; private set; }
+        public SaveWhenDisposingMemoryStream MemoryStream => this.memoryStream;
 
         /// <summary>
-        /// Waits for the write operation to finish.
+        ///     Waits for the write operation to finish.
         /// </summary>
-        /// <exception cref="T:System.ObjectDisposedException">Occurs when the object has already been disposed and should no longer be used.</exception>
+        /// <exception cref="T:System.ObjectDisposedException">
+        ///     Occurs when the object has already been disposed and should no
+        ///     longer be used.
+        /// </exception>
         public void WaitForWriteFinished() => this.WaitForWriteFinished(Timeout.InfiniteTimeSpan);
 
         /// <summary>
-        /// Waits for the write operation to finish.
+        ///     Waits for the write operation to finish.
         /// </summary>
         /// <param name="timeToWait">The time to wait.</param>
-        /// <returns><see langword="true"/> if the wait was terminated successfully, <see langword="false"/> if there was a timeout.</returns>
-        /// <exception cref="T:System.ObjectDisposedException">Occurs when the object has already been disposed and should no longer be used.</exception>
+        /// <returns>
+        ///     <see langword="true" /> if the wait was terminated successfully, <see langword="false" /> if there was a
+        ///     timeout.
+        /// </returns>
+        /// <exception cref="T:System.ObjectDisposedException">
+        ///     Occurs when the object has already been disposed and should no
+        ///     longer be used.
+        /// </exception>
         public bool WaitForWriteFinished(TimeSpan timeToWait)
         {
             if (this.isDisposed)
@@ -104,7 +122,7 @@ namespace IX.Abstractions.Moq
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
         {
@@ -113,25 +131,32 @@ namespace IX.Abstractions.Moq
         }
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
+        ///     Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="disposing"><see langword="true"/> to release both managed and unmanaged resources; <see langword="false"/> to release only unmanaged resources.</param>
+        /// <param name="disposing">
+        ///     <see langword="true" /> to release both managed and unmanaged resources;
+        ///     <see langword="false" /> to release only unmanaged resources.
+        /// </param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.isDisposed)
+            if (this.isDisposed)
             {
-                if (disposing)
-                {
-                    this.MemoryStream.Dispose();
-                    this.mre.Dispose();
-                }
-
-                this.MemoryStream = null;
-                this.mre = null;
-                this.data = null;
-
-                this.isDisposed = true;
+                return;
             }
+
+            if (disposing)
+            {
+                Interlocked.Exchange(
+                    ref this.memoryStream,
+                    null)?.Dispose();
+                Interlocked.Exchange(
+                    ref this.mre,
+                    null)?.Dispose();
+            }
+
+            this.data = null;
+
+            this.isDisposed = true;
         }
     }
 }
