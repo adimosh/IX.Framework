@@ -21,6 +21,7 @@ namespace IX.System.IO
     /// </summary>
     /// <seealso cref="IX.System.IO.IDirectory" />
     /// <seealso cref="System.IO.Directory" />
+    [PublicAPI]
     public class Directory : IDirectory
     {
         /// <summary>
