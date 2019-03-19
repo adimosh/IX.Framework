@@ -138,6 +138,24 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
+        ///     Gets the number of elements contained in the <see cref="PersistedQueueBase{T}" />.
+        /// </summary>
+        /// <value>The count.</value>
+        public abstract int Count { get; }
+
+        /// <summary>
+        ///     Gets an object that can be used to synchronize access to the <see cref="PersistedQueueBase{T}" />.
+        /// </summary>
+        /// <value>The synchronize root.</value>
+        object ICollection.SyncRoot { get; } = new object();
+
+        /// <summary>
+        ///     Gets a value indicating whether access to the <see cref="PersistedQueueBase{T}" /> is synchronized (thread safe).
+        /// </summary>
+        /// <value>The is synchronized.</value>
+        bool ICollection.IsSynchronized => true;
+
+        /// <summary>
         ///     Gets the data folder path.
         /// </summary>
         /// <value>The data folder path.</value>
@@ -172,24 +190,6 @@ namespace IX.Guaranteed.Collections
         /// </summary>
         /// <value>The serializer.</value>
         protected DataContractSerializer Serializer => this.serializer;
-
-        /// <summary>
-        ///     Gets the number of elements contained in the <see cref="PersistedQueueBase{T}" />.
-        /// </summary>
-        /// <value>The count.</value>
-        public abstract int Count { get; }
-
-        /// <summary>
-        ///     Gets an object that can be used to synchronize access to the <see cref="PersistedQueueBase{T}" />.
-        /// </summary>
-        /// <value>The synchronize root.</value>
-        object ICollection.SyncRoot { get; } = new object();
-
-        /// <summary>
-        ///     Gets a value indicating whether access to the <see cref="PersistedQueueBase{T}" /> is synchronized (thread safe).
-        /// </summary>
-        /// <value>The is synchronized.</value>
-        bool ICollection.IsSynchronized => true;
 
         /// <summary>
         ///     Clears the queue of all elements.
