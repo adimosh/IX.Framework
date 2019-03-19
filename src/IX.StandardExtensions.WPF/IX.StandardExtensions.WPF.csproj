@@ -4,18 +4,16 @@
     <TargetFramework>net45</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="..\IXTargets.targets" />
-
   <PropertyGroup>
-    <Version>0.5.0.0</Version>
-    <FileVersion>0.5.0.0</FileVersion>
-    <AssemblyVersion>0.5.0.0</AssemblyVersion>
+    <Version>0.5.0.67</Version>
   </PropertyGroup>
 
   <PropertyGroup>
     <Title>IX Standard Extensions for WPF</Title>
     <Description>A library containing several extensions for WPF that provide useful classes and aim to standardize app implementations.</Description>
   </PropertyGroup>
+
+  <Import Project="..\IXTargets.targets" />
 
   <Import Project="..\Branding.props" />
 

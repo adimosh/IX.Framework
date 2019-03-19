@@ -1,9 +1,27 @@
 <Project>
 
+  <!-- Versions -->
+  <PropertyGroup>
+    <FileVersion>$(Version)</FileVersion>
+    <AssemblyVersion>$([System.String]::Copy('$(Version)').Substring(0,$([System.String]::Copy('$(Version)').LastIndexOf('.')))).0</AssemblyVersion>
+  </PropertyGroup>
+
   <!-- Language version -->
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
+
+  <!-- Version bumper -->
+  <PropertyGroup Condition="'$(Configuration)'!='Release'">
+    <BumpRevision>True</BumpRevision>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(Configuration)'!='Release'">
+    <PackageReference Include="MSBump" Version="2.3.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
   <!-- Documentation file -->
   <PropertyGroup>

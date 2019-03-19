@@ -11,487 +11,579 @@ using JetBrains.Annotations;
 namespace IX.System.IO
 {
     /// <summary>
-    /// Abstracts the <see cref="T:System.IO.Directory"/> class' static methods into a mock-able interface.
+    ///     Abstracts the <see cref="T:System.IO.Directory" /> class' static methods into a mock-able interface.
     /// </summary>
     [PublicAPI]
     public interface IDirectory
     {
         /// <summary>
-        /// Creates a new directory.
+        ///     Creates a new directory.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
-        void CreateDirectory([CanBeNull] string path);
+        void CreateDirectory([NotNull] string path);
 
         /// <summary>
-        /// Asynchronously creates a new directory.
+        ///     Asynchronously creates a new directory.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
-        /// A task.
+        ///     A task.
         /// </returns>
         [NotNull]
-        Task CreateDirectoryAsync([CanBeNull] string path, CancellationToken cancellationToken = default);
+        Task CreateDirectoryAsync(
+            [NotNull] string path,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Deletes a directory.
+        ///     Deletes a directory.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
-        /// <param name="recursive"><see langword="true"/> if deletion should be recursive to all subdirectories.</param>
-        void Delete([CanBeNull] string path, bool recursive = false);
+        /// <param name="recursive"><see langword="true" /> if deletion should be recursive to all subdirectories.</param>
+        void Delete(
+            [NotNull] string path,
+            bool recursive = false);
 
         /// <summary>
-        /// Asynchronously deletes a directory.
+        ///     Asynchronously deletes a directory.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="recursive"><see langword="true" /> if deletion should be recursive to all subdirectories.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A task.</returns>
         [NotNull]
-        Task DeleteAsync([CanBeNull] string path, bool recursive = false, CancellationToken cancellationToken = default);
+        Task DeleteAsync(
+            [NotNull] string path,
+            bool recursive = false,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Enumerates all the directories contained at a certain directory.
+        ///     Enumerates all the directories contained at a certain directory.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <returns>An enumerable of directory paths.</returns>
         [NotNull]
-        IEnumerable<string> EnumerateDirectories([CanBeNull] string path);
+        IEnumerable<string> EnumerateDirectories([NotNull] string path);
 
         /// <summary>
-        /// Asynchronously enumerates all the directories contained at a certain directory.
+        ///     Asynchronously enumerates all the directories contained at a certain directory.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
-        /// A task that has an enumerable of directory paths as result.
+        ///     A task that has an enumerable of directory paths as result.
         /// </returns>
         [NotNull]
-        Task<IEnumerable<string>> EnumerateDirectoriesAsync([CanBeNull] string path, CancellationToken cancellationToken = default);
+        Task<IEnumerable<string>> EnumerateDirectoriesAsync(
+            [NotNull] string path,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Enumerates the directories contained at a certain directory with a specific search pattern.
-        /// </summary>
-        /// <param name="path">The path of the directory.</param>
-        /// <param name="searchPattern">The search pattern to use.</param>
-        /// <returns>An enumerable of directory paths.</returns>
-        [NotNull]
-        IEnumerable<string> EnumerateDirectories([CanBeNull] string path, [CanBeNull] string searchPattern);
-
-        /// <summary>
-        /// Asynchronously enumerates the directories contained at a certain directory with a specific search pattern.
-        /// </summary>
-        /// <param name="path">The path of the directory.</param>
-        /// <param name="searchPattern">The search pattern to use.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>
-        /// A task that has an enumerable of directory paths as result.
-        /// </returns>
-        [NotNull]
-        Task<IEnumerable<string>> EnumerateDirectoriesAsync([CanBeNull] string path, [CanBeNull] string searchPattern, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Enumerates all the directories contained at a certain directory and all the subdirectories.
-        /// </summary>
-        /// <param name="path">The path of the directory.</param>
-        /// <returns>An enumerable of directory paths.</returns>
-        [NotNull]
-        IEnumerable<string> EnumerateDirectoriesRecursively([CanBeNull] string path);
-
-        /// <summary>
-        /// Enumerates all the directories contained at a certain directory and all the subdirectories.
-        /// </summary>
-        /// <param name="path">The path of the directory.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>
-        /// A task that has an enumerable of directory paths as result.
-        /// </returns>
-        [NotNull]
-        Task<IEnumerable<string>> EnumerateDirectoriesRecursivelyAsync([CanBeNull] string path, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Enumerates the directories contained at a certain directory and all the subdirectories with a specific search pattern.
+        ///     Enumerates the directories contained at a certain directory with a specific search pattern.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="searchPattern">The search pattern to use.</param>
         /// <returns>An enumerable of directory paths.</returns>
         [NotNull]
-        IEnumerable<string> EnumerateDirectoriesRecursively([CanBeNull] string path, [CanBeNull] string searchPattern);
+        IEnumerable<string> EnumerateDirectories(
+            [NotNull] string path,
+            [NotNull] string searchPattern);
 
         /// <summary>
-        /// Asynchronously enumerates the directories contained at a certain directory and all the subdirectories with a specific search pattern.
+        ///     Asynchronously enumerates the directories contained at a certain directory with a specific search pattern.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="searchPattern">The search pattern to use.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
-        /// A task that has an enumerable of directory paths as result.
+        ///     A task that has an enumerable of directory paths as result.
         /// </returns>
         [NotNull]
-        Task<IEnumerable<string>> EnumerateDirectoriesRecursivelyAsync([CanBeNull] string path, [CanBeNull] string searchPattern, CancellationToken cancellationToken = default);
+        Task<IEnumerable<string>> EnumerateDirectoriesAsync(
+            [NotNull] string path,
+            [NotNull] string searchPattern,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Enumerates all the files contained at a certain directory.
+        ///     Enumerates all the directories contained at a certain directory and all the subdirectories.
+        /// </summary>
+        /// <param name="path">The path of the directory.</param>
+        /// <returns>An enumerable of directory paths.</returns>
+        [NotNull]
+        IEnumerable<string> EnumerateDirectoriesRecursively([NotNull] string path);
+
+        /// <summary>
+        ///     Enumerates all the directories contained at a certain directory and all the subdirectories.
+        /// </summary>
+        /// <param name="path">The path of the directory.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>
+        ///     A task that has an enumerable of directory paths as result.
+        /// </returns>
+        [NotNull]
+        Task<IEnumerable<string>> EnumerateDirectoriesRecursivelyAsync(
+            [NotNull] string path,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Enumerates the directories contained at a certain directory and all the subdirectories with a specific search
+        ///     pattern.
+        /// </summary>
+        /// <param name="path">The path of the directory.</param>
+        /// <param name="searchPattern">The search pattern to use.</param>
+        /// <returns>An enumerable of directory paths.</returns>
+        [NotNull]
+        IEnumerable<string> EnumerateDirectoriesRecursively(
+            [NotNull] string path,
+            [NotNull] string searchPattern);
+
+        /// <summary>
+        ///     Asynchronously enumerates the directories contained at a certain directory and all the subdirectories with a
+        ///     specific search pattern.
+        /// </summary>
+        /// <param name="path">The path of the directory.</param>
+        /// <param name="searchPattern">The search pattern to use.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>
+        ///     A task that has an enumerable of directory paths as result.
+        /// </returns>
+        [NotNull]
+        Task<IEnumerable<string>> EnumerateDirectoriesRecursivelyAsync(
+            [NotNull] string path,
+            [NotNull] string searchPattern,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Enumerates all the files contained at a certain directory.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <returns>An enumerable of file paths.</returns>
         [NotNull]
-        IEnumerable<string> EnumerateFiles([CanBeNull] string path);
+        IEnumerable<string> EnumerateFiles([NotNull] string path);
 
         /// <summary>
-        /// Asynchronously enumerates all the files contained at a certain directory.
+        ///     Asynchronously enumerates all the files contained at a certain directory.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
-        /// A task that has an enumerable of file paths as result.
+        ///     A task that has an enumerable of file paths as result.
         /// </returns>
         [NotNull]
-        Task<IEnumerable<string>> EnumerateFilesAsync([CanBeNull] string path, CancellationToken cancellationToken = default);
+        Task<IEnumerable<string>> EnumerateFilesAsync(
+            [NotNull] string path,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Enumerates the files contained at a certain directory with a specific search pattern.
+        ///     Enumerates the files contained at a certain directory with a specific search pattern.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="searchPattern">The search pattern to use.</param>
         /// <returns>An enumerable of file paths.</returns>
         [NotNull]
-        IEnumerable<string> EnumerateFiles([CanBeNull] string path, [CanBeNull] string searchPattern);
+        IEnumerable<string> EnumerateFiles(
+            [NotNull] string path,
+            [NotNull] string searchPattern);
 
         /// <summary>
-        /// Asynchronously enumerates the files contained at a certain directory with a specific search pattern.
+        ///     Asynchronously enumerates the files contained at a certain directory with a specific search pattern.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="searchPattern">The search pattern to use.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
-        /// A task that has an enumerable of file paths as result.
+        ///     A task that has an enumerable of file paths as result.
         /// </returns>
         [NotNull]
-        Task<IEnumerable<string>> EnumerateFilesAsync([CanBeNull] string path, [CanBeNull] string searchPattern, CancellationToken cancellationToken = default);
+        Task<IEnumerable<string>> EnumerateFilesAsync(
+            [NotNull] string path,
+            [NotNull] string searchPattern,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Enumerates all the files contained at a certain directory and all the subdirectories.
+        ///     Enumerates all the files contained at a certain directory and all the subdirectories.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <returns>An enumerable of file paths.</returns>
         [NotNull]
-        IEnumerable<string> EnumerateFilesRecursively([CanBeNull] string path);
+        IEnumerable<string> EnumerateFilesRecursively([NotNull] string path);
 
         /// <summary>
-        /// Asynchronously enumerates all the files contained at a certain directory and all the subdirectories.
+        ///     Asynchronously enumerates all the files contained at a certain directory and all the subdirectories.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
-        /// A task that has an enumerable of file paths as result.
+        ///     A task that has an enumerable of file paths as result.
         /// </returns>
         [NotNull]
-        Task<IEnumerable<string>> EnumerateFilesRecursivelyAsync([CanBeNull] string path, CancellationToken cancellationToken = default);
+        Task<IEnumerable<string>> EnumerateFilesRecursivelyAsync(
+            [NotNull] string path,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Enumerates the files contained at a certain directory and all the subdirectories with a specific search pattern.
+        ///     Enumerates the files contained at a certain directory and all the subdirectories with a specific search pattern.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="searchPattern">The search pattern to use.</param>
         /// <returns>An enumerable of file paths.</returns>
         [NotNull]
-        IEnumerable<string> EnumerateFilesRecursively([CanBeNull] string path, [CanBeNull] string searchPattern);
+        IEnumerable<string> EnumerateFilesRecursively(
+            [NotNull] string path,
+            [NotNull] string searchPattern);
 
         /// <summary>
-        /// Asynchronously enumerates the files contained at a certain directory and all the subdirectories with a specific search pattern.
+        ///     Asynchronously enumerates the files contained at a certain directory and all the subdirectories with a specific
+        ///     search pattern.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="searchPattern">The search pattern to use.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
-        /// A task that has an enumerable of file paths as result.
+        ///     A task that has an enumerable of file paths as result.
         /// </returns>
         [NotNull]
-        Task<IEnumerable<string>> EnumerateFilesRecursivelyAsync([CanBeNull] string path, [CanBeNull] string searchPattern, CancellationToken cancellationToken = default);
+        Task<IEnumerable<string>> EnumerateFilesRecursivelyAsync(
+            [NotNull] string path,
+            [NotNull] string searchPattern,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Enumerates all the file system entries contained at a certain directory.
+        ///     Enumerates all the file system entries contained at a certain directory.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <returns>An enumerable of file system entry paths.</returns>
         [NotNull]
-        IEnumerable<string> EnumerateFileSystemEntries([CanBeNull] string path);
+        IEnumerable<string> EnumerateFileSystemEntries([NotNull] string path);
 
         /// <summary>
-        /// Asynchronously enumerates all the file system entries contained at a certain directory.
+        ///     Asynchronously enumerates all the file system entries contained at a certain directory.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
-        /// A task that has an enumerable of file system entry paths as result.
+        ///     A task that has an enumerable of file system entry paths as result.
         /// </returns>
         [NotNull]
-        Task<IEnumerable<string>> EnumerateFileSystemEntriesAsync([CanBeNull] string path, CancellationToken cancellationToken = default);
+        Task<IEnumerable<string>> EnumerateFileSystemEntriesAsync(
+            [NotNull] string path,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Enumerates the file system entries contained at a certain directory with a specific search pattern.
-        /// </summary>
-        /// <param name="path">The path of the directory.</param>
-        /// <param name="searchPattern">The search pattern to use.</param>
-        /// <returns>An enumerable of file system entry paths.</returns>
-        [NotNull]
-        IEnumerable<string> EnumerateFileSystemEntries([CanBeNull] string path, [CanBeNull] string searchPattern);
-
-        /// <summary>
-        /// Asynchronously enumerates the file system entries contained at a certain directory with a specific search pattern.
-        /// </summary>
-        /// <param name="path">The path of the directory.</param>
-        /// <param name="searchPattern">The search pattern to use.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>
-        /// A task that has an enumerable of file system entry paths as result.
-        /// </returns>
-        [NotNull]
-        Task<IEnumerable<string>> EnumerateFileSystemEntriesAsync([CanBeNull] string path, [CanBeNull] string searchPattern, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Enumerates all the file system entries contained at a certain directory and all the subdirectories.
-        /// </summary>
-        /// <param name="path">The path of the directory.</param>
-        /// <returns>An enumerable of file system entry paths.</returns>
-        [NotNull]
-        IEnumerable<string> EnumerateFileSystemEntriesRecursively([CanBeNull] string path);
-
-        /// <summary>
-        /// Asynchronously enumerates all the file system entries contained at a certain directory and all the subdirectories.
-        /// </summary>
-        /// <param name="path">The path of the directory.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>
-        /// A task that has an enumerable of file system entry paths as result.
-        /// </returns>
-        [NotNull]
-        Task<IEnumerable<string>> EnumerateFileSystemEntriesRecursivelyAsync([CanBeNull] string path, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Enumerates the file system entries contained at a certain directory and all the subdirectories with a specific search pattern.
+        ///     Enumerates the file system entries contained at a certain directory with a specific search pattern.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="searchPattern">The search pattern to use.</param>
         /// <returns>An enumerable of file system entry paths.</returns>
         [NotNull]
-        IEnumerable<string> EnumerateFileSystemEntriesRecursively([CanBeNull] string path, [CanBeNull] string searchPattern);
+        IEnumerable<string> EnumerateFileSystemEntries(
+            [NotNull] string path,
+            [NotNull] string searchPattern);
 
         /// <summary>
-        /// EAsynchronously enumerates the file system entries contained at a certain directory and all the subdirectories with a specific search pattern.
+        ///     Asynchronously enumerates the file system entries contained at a certain directory with a specific search pattern.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="searchPattern">The search pattern to use.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
-        /// A task that has an enumerable of file system entry paths as result.
+        ///     A task that has an enumerable of file system entry paths as result.
         /// </returns>
         [NotNull]
-        Task<IEnumerable<string>> EnumerateFileSystemEntriesRecursivelyAsync([CanBeNull] string path, [CanBeNull] string searchPattern, CancellationToken cancellationToken = default);
+        Task<IEnumerable<string>> EnumerateFileSystemEntriesAsync(
+            [NotNull] string path,
+            [NotNull] string searchPattern,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Checks whether a directory exists and is accessible.
+        ///     Enumerates all the file system entries contained at a certain directory and all the subdirectories.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
-        /// <returns>Returns <see langword="true"/> if the specified directory exists and is accessible, <see langword="false"/> otherwise.</returns>
-        bool Exists([CanBeNull] string path);
+        /// <returns>An enumerable of file system entry paths.</returns>
+        [NotNull]
+        IEnumerable<string> EnumerateFileSystemEntriesRecursively([NotNull] string path);
 
         /// <summary>
-        /// Asynchronously checks whether a directory exists and is accessible.
+        ///     Asynchronously enumerates all the file system entries contained at a certain directory and all the subdirectories.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
-        /// Returnsa task that has the result of a boolean of value <see langword="true" /> if the specified directory exists and is accessible, <see langword="false" /> otherwise.
+        ///     A task that has an enumerable of file system entry paths as result.
         /// </returns>
         [NotNull]
-        Task<bool> ExistsAsync([CanBeNull] string path, CancellationToken cancellationToken = default);
+        Task<IEnumerable<string>> EnumerateFileSystemEntriesRecursivelyAsync(
+            [NotNull] string path,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Gets a specific directory's creation time, in UTC.
+        ///     Enumerates the file system entries contained at a certain directory and all the subdirectories with a specific
+        ///     search pattern.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
-        /// <returns>A <see cref="T:System.DateTime"/> in UTC.</returns>
-        DateTime GetCreationTime([CanBeNull] string path);
+        /// <param name="searchPattern">The search pattern to use.</param>
+        /// <returns>An enumerable of file system entry paths.</returns>
+        [NotNull]
+        IEnumerable<string> EnumerateFileSystemEntriesRecursively(
+            [NotNull] string path,
+            [NotNull] string searchPattern);
 
         /// <summary>
-        /// Asynchronously gets a specific directory's creation time, in UTC.
+        ///     EAsynchronously enumerates the file system entries contained at a certain directory and all the subdirectories with
+        ///     a specific search pattern.
+        /// </summary>
+        /// <param name="path">The path of the directory.</param>
+        /// <param name="searchPattern">The search pattern to use.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>
+        ///     A task that has an enumerable of file system entry paths as result.
+        /// </returns>
+        [NotNull]
+        Task<IEnumerable<string>> EnumerateFileSystemEntriesRecursivelyAsync(
+            [NotNull] string path,
+            [NotNull] string searchPattern,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Checks whether a directory exists and is accessible.
+        /// </summary>
+        /// <param name="path">The path of the directory.</param>
+        /// <returns>
+        ///     Returns <see langword="true" /> if the specified directory exists and is accessible, <see langword="false" />
+        ///     otherwise.
+        /// </returns>
+        bool Exists([NotNull] string path);
+
+        /// <summary>
+        ///     Asynchronously checks whether a directory exists and is accessible.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
-        /// A task that has a <see cref="T:System.DateTime" /> in UTC.
+        ///     Returnsa task that has the result of a boolean of value <see langword="true" /> if the specified directory exists
+        ///     and is accessible, <see langword="false" /> otherwise.
         /// </returns>
         [NotNull]
-        Task<DateTime> GetCreationTimeAsync([CanBeNull] string path, CancellationToken cancellationToken = default);
+        Task<bool> ExistsAsync(
+            [NotNull] string path,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Gets the current directory.
+        ///     Gets a specific directory's creation time, in UTC.
+        /// </summary>
+        /// <param name="path">The path of the directory.</param>
+        /// <returns>A <see cref="T:System.DateTime" /> in UTC.</returns>
+        DateTime GetCreationTime([NotNull] string path);
+
+        /// <summary>
+        ///     Asynchronously gets a specific directory's creation time, in UTC.
+        /// </summary>
+        /// <param name="path">The path of the directory.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>
+        ///     A task that has a <see cref="T:System.DateTime" /> in UTC.
+        /// </returns>
+        [NotNull]
+        Task<DateTime> GetCreationTimeAsync(
+            [NotNull] string path,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Gets the current directory.
         /// </summary>
         /// <returns>The current directory.</returns>
         [NotNull]
         string GetCurrentDirectory();
 
         /// <summary>
-        /// Lists all the directories contained at a certain directory.
+        ///     Lists all the directories contained at a certain directory.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <returns>An array of directory paths.</returns>
         [Obsolete("This method is obsolete, please use the EnumerateDirectories instead.")]
         [NotNull]
-        string[] GetDirectories([CanBeNull] string path);
+        string[] GetDirectories([NotNull] string path);
 
         /// <summary>
-        /// Lists all the directories contained at a certain directory with a specific search pattern.
+        ///     Lists all the directories contained at a certain directory with a specific search pattern.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="searchPattern">The search pattern to use.</param>
         /// <returns>An array of directory paths.</returns>
         [Obsolete("This method is obsolete, please use the EnumerateDirectories instead.")]
         [NotNull]
-        string[] GetDirectories([CanBeNull] string path, [CanBeNull] string searchPattern);
+        string[] GetDirectories(
+            [NotNull] string path,
+            [NotNull] string searchPattern);
 
         /// <summary>
-        /// Lists all the files contained at a certain directory.
+        ///     Lists all the files contained at a certain directory.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <returns>An array of file paths.</returns>
         [Obsolete("This method is obsolete, please use the EnumerateFiles instead.")]
         [NotNull]
-        string[] GetFiles([CanBeNull] string path);
+        string[] GetFiles([NotNull] string path);
 
         /// <summary>
-        /// Lists all the files contained at a certain directory with a specific search pattern.
+        ///     Lists all the files contained at a certain directory with a specific search pattern.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="searchPattern">The search pattern to use.</param>
         /// <returns>An array of file paths.</returns>
         [Obsolete("This method is obsolete, please use the EnumerateFiles instead.")]
         [NotNull]
-        string[] GetFiles([CanBeNull] string path, [CanBeNull] string searchPattern);
+        string[] GetFiles(
+            [NotNull] string path,
+            [NotNull] string searchPattern);
 
         /// <summary>
-        /// Lists all the file system entries contained at a certain directory.
+        ///     Lists all the file system entries contained at a certain directory.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <returns>An array of file system entry paths.</returns>
         [Obsolete("This method is obsolete, please use the EnumerateFileSystemEntries instead.")]
         [NotNull]
-        string[] GetFileSystemEntries([CanBeNull] string path);
+        string[] GetFileSystemEntries([NotNull] string path);
 
         /// <summary>
-        /// Lists all the file system entries contained at a certain directory with a specific search pattern.
+        ///     Lists all the file system entries contained at a certain directory with a specific search pattern.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="searchPattern">The search pattern to use.</param>
         /// <returns>An array of file system entries paths.</returns>
         [Obsolete("This method is obsolete, please use the EnumerateFileSystemEntries instead.")]
         [NotNull]
-        string[] GetFileSystemEntries([CanBeNull] string path, [CanBeNull] string searchPattern);
+        string[] GetFileSystemEntries(
+            [NotNull] string path,
+            [NotNull] string searchPattern);
 
         /// <summary>
-        /// Gets a specific directory's last access time, in UTC.
+        ///     Gets a specific directory's last access time, in UTC.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
-        /// <returns>A <see cref="T:System.DateTime"/> in UTC.</returns>
-        DateTime GetLastAccessTime([CanBeNull] string path);
+        /// <returns>A <see cref="T:System.DateTime" /> in UTC.</returns>
+        DateTime GetLastAccessTime([NotNull] string path);
 
         /// <summary>
-        /// GAsynchronously gets a specific directory's last access time, in UTC.
-        /// </summary>
-        /// <param name="path">The path of the directory.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>
-        /// A task that has a <see cref="T:System.DateTime" /> in UTC.
-        /// </returns>
-        [NotNull]
-        Task<DateTime> GetLastAccessTimeAsync([CanBeNull] string path, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Gets a specific directory's last write time, in UTC.
-        /// </summary>
-        /// <param name="path">The path of the directory.</param>
-        /// <returns>A <see cref="T:System.DateTime"/> in UTC.</returns>
-        DateTime GetLastWriteTime([CanBeNull] string path);
-
-        /// <summary>
-        /// Asynchronously gets a specific directory's last write time, in UTC.
+        ///     GAsynchronously gets a specific directory's last access time, in UTC.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
-        /// A task that has a <see cref="T:System.DateTime" /> in UTC.
+        ///     A task that has a <see cref="T:System.DateTime" /> in UTC.
         /// </returns>
         [NotNull]
-        Task<DateTime> GetLastWriteTimeAsync([CanBeNull] string path, CancellationToken cancellationToken = default);
+        Task<DateTime> GetLastAccessTimeAsync(
+            [NotNull] string path,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Moves a directory to another location.
+        ///     Gets a specific directory's last write time, in UTC.
+        /// </summary>
+        /// <param name="path">The path of the directory.</param>
+        /// <returns>A <see cref="T:System.DateTime" /> in UTC.</returns>
+        DateTime GetLastWriteTime([NotNull] string path);
+
+        /// <summary>
+        ///     Asynchronously gets a specific directory's last write time, in UTC.
+        /// </summary>
+        /// <param name="path">The path of the directory.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>
+        ///     A task that has a <see cref="T:System.DateTime" /> in UTC.
+        /// </returns>
+        [NotNull]
+        Task<DateTime> GetLastWriteTimeAsync(
+            [NotNull] string path,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Moves a directory to another location.
         /// </summary>
         /// <param name="sourceDirectoryName">The source directory name.</param>
         /// <param name="destinationDirectoryName">The destination directory name.</param>
-        void Move([CanBeNull] string sourceDirectoryName, [CanBeNull] string destinationDirectoryName);
+        void Move(
+            [NotNull] string sourceDirectoryName,
+            [NotNull] string destinationDirectoryName);
 
         /// <summary>
-        /// Asynchronously moves a directory to another location.
+        ///     Asynchronously moves a directory to another location.
         /// </summary>
         /// <param name="sourceDirectoryName">The source directory name.</param>
         /// <param name="destinationDirectoryName">The destination directory name.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A task.</returns>
         [NotNull]
-        Task MoveAsync([CanBeNull] string sourceDirectoryName, [CanBeNull] string destinationDirectoryName, CancellationToken cancellationToken = default);
+        Task MoveAsync(
+            [NotNull] string sourceDirectoryName,
+            [NotNull] string destinationDirectoryName,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Sets the directory's creation time.
+        ///     Sets the directory's creation time.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
-        /// <param name="creationTime">A <see cref="DateTime"/> with the directory attribute to set.</param>
-        void SetCreationTime([CanBeNull] string path, DateTime creationTime);
+        /// <param name="creationTime">A <see cref="DateTime" /> with the directory attribute to set.</param>
+        void SetCreationTime(
+            [NotNull] string path,
+            DateTime creationTime);
 
         /// <summary>
-        /// Asynchronously sets the directory's creation time.
+        ///     Asynchronously sets the directory's creation time.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="creationTime">A <see cref="DateTime" /> with the directory attribute to set.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A task.</returns>
         [NotNull]
-        Task SetCreationTimeAsync([CanBeNull] string path, DateTime creationTime, CancellationToken cancellationToken = default);
+        Task SetCreationTimeAsync(
+            [NotNull] string path,
+            DateTime creationTime,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Sets the directory's last access time.
+        ///     Sets the directory's last access time.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
-        /// <param name="lastAccessTime">A <see cref="DateTime"/> with the directory attribute to set.</param>
-        void SetLastAccessTime([CanBeNull] string path, DateTime lastAccessTime);
+        /// <param name="lastAccessTime">A <see cref="DateTime" /> with the directory attribute to set.</param>
+        void SetLastAccessTime(
+            [NotNull] string path,
+            DateTime lastAccessTime);
 
         /// <summary>
-        /// Asynchronously sets the directory's last access time.
+        ///     Asynchronously sets the directory's last access time.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="lastAccessTime">A <see cref="DateTime" /> with the directory attribute to set.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A task.</returns>
         [NotNull]
-        Task SetLastAccessTimeAsync([CanBeNull] string path, DateTime lastAccessTime, CancellationToken cancellationToken = default);
+        Task SetLastAccessTimeAsync(
+            [NotNull] string path,
+            DateTime lastAccessTime,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Sets the directory's last write time.
+        ///     Sets the directory's last write time.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
-        /// <param name="lastWriteTime">A <see cref="DateTime"/> with the directory attribute to set.</param>
-        void SetLastWriteTime([CanBeNull] string path, DateTime lastWriteTime);
+        /// <param name="lastWriteTime">A <see cref="DateTime" /> with the directory attribute to set.</param>
+        void SetLastWriteTime(
+            [NotNull] string path,
+            DateTime lastWriteTime);
 
         /// <summary>
-        /// Asynchronously sets the directory's last write time.
+        ///     Asynchronously sets the directory's last write time.
         /// </summary>
         /// <param name="path">The path of the directory.</param>
         /// <param name="lastWriteTime">A <see cref="DateTime" /> with the directory attribute to set.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A task.</returns>
         [NotNull]
-        Task SetLastWriteTimeAsync([CanBeNull] string path, DateTime lastWriteTime, CancellationToken cancellationToken = default);
+        Task SetLastWriteTimeAsync(
+            [NotNull] string path,
+            DateTime lastWriteTime,
+            CancellationToken cancellationToken = default);
     }
 }

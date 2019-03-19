@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
 
   <PropertyGroup>
@@ -5,12 +6,8 @@
     <FailObsoleteTargetFrameworks>true</FailObsoleteTargetFrameworks>
   </PropertyGroup>
 
-  <Import Project="..\IXTargets.targets" />
-
   <PropertyGroup>
-    <Version>0.5.0.0</Version>
-    <FileVersion>0.5.0.0</FileVersion>
-    <AssemblyVersion>0.5.0.0</AssemblyVersion>
+    <Version>0.5.0.67</Version>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -18,6 +15,8 @@
     <Description>A library for abstracting away the common classes that have originally been implemented as static or non-abstractable classes in the .NET Framework.</Description>
     <RootNamespace>IX</RootNamespace>
   </PropertyGroup>
+
+  <Import Project="..\IXTargets.targets" />
 
   <Import Project="..\Branding.props" />
 
