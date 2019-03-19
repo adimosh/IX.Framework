@@ -72,7 +72,6 @@ namespace IX.Math
                 workingSet.ReverseSymbolTable,
                 workingSet.ParameterRegistry,
                 workingSet.Expression,
-                workingSet.AllOperatorsInOrder,
                 workingSet.AllSymbols);
 
             workingSet.CancellationToken.ThrowIfCancellationRequested();
