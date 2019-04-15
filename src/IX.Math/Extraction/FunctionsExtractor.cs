@@ -14,12 +14,12 @@ using IX.StandardExtensions;
 namespace IX.Math.Extraction
 {
     /// <summary>
-    /// A class to handle function extraction.
+    ///     A class to handle function extraction.
     /// </summary>
     internal static class FunctionsExtractor
     {
         /// <summary>
-        /// Replaces functions calls with expression placeholders.
+        ///     Replaces functions calls with expression placeholders.
         /// </summary>
         /// <param name="openParenthesis">The symbol of an open parenthesis.</param>
         /// <param name="closeParenthesis">The symbol of a closed parenthesis.</param>
@@ -30,7 +30,6 @@ namespace IX.Math.Extraction
         /// <param name="reverseSymbolTable">The reverse-lookup symbols table.</param>
         /// <param name="parametersTable">The parameters table.</param>
         /// <param name="expression">The expression before processing.</param>
-        /// <param name="allOperatorsInOrder">All operators, in order.</param>
         /// <param name="allSymbols">All symbols.</param>
         internal static void ReplaceFunctions(
             string openParenthesis,
@@ -42,7 +41,6 @@ namespace IX.Math.Extraction
             Dictionary<string, string> reverseSymbolTable,
             IParameterRegistry parametersTable,
             string expression,
-            string[] allOperatorsInOrder,
             string[] allSymbols)
         {
             ReplaceOneFunction(
@@ -56,7 +54,6 @@ namespace IX.Math.Extraction
                 reverseSymbolTable,
                 parametersTable,
                 expression,
-                allOperatorsInOrder,
                 allSymbols);
             for (var i = 1; i < symbolTable.Count; i++)
             {
@@ -71,7 +68,6 @@ namespace IX.Math.Extraction
                     reverseSymbolTable,
                     parametersTable,
                     expression,
-                    allOperatorsInOrder,
                     allSymbols);
             }
 
@@ -86,7 +82,6 @@ namespace IX.Math.Extraction
                 Dictionary<string, string> outerReverseSymbolTableRefeerence,
                 IParameterRegistry outerParametersTableReference,
                 string outerExpressionSymbol,
-                string[] outerAllOperatorsInOrderSymbols,
                 string[] outerAllSymbolsSymbols)
             {
                 ExpressionSymbol symbol = outerSymbolTableReference[key];
@@ -110,7 +105,6 @@ namespace IX.Math.Extraction
                         outerReverseSymbolTableRefeerence,
                         outerParametersTableReference,
                         outerExpressionSymbol,
-                        outerAllOperatorsInOrderSymbols,
                         outerAllSymbolsSymbols);
                 }
 
@@ -125,7 +119,6 @@ namespace IX.Math.Extraction
                     Dictionary<string, string> reverseSymbolTableReference,
                     IParameterRegistry parametersTableReference,
                     string expressionSymbol,
-                    string[] allOperatorsInOrderSymbols,
                     string[] allSymbolsSymbols)
                 {
                     var op = -1;
@@ -134,7 +127,10 @@ namespace IX.Math.Extraction
 
                     while (true)
                     {
-                        op = source.IndexOf(openParanthesisSymbol, op + opl);
+                        op = source.IndexOf(
+                            openParanthesisSymbol,
+                            op + opl,
+                            StringComparison.Ordinal);
 
                         if (op == -1)
                         {
@@ -146,22 +142,41 @@ namespace IX.Math.Extraction
                             continue;
                         }
 
-                        var functionHeaderCheck = source.Substring(0, op);
+                        var functionHeaderCheck = source.Substring(
+                            0,
+                            op);
 
-                        if (allSymbolsSymbols.Any((p, check) => check.EndsWith(p), functionHeaderCheck))
+                        if (allSymbolsSymbols.Any(
+                            (
+                                p,
+                                check) => check.EndsWith(p), functionHeaderCheck))
                         {
                             continue;
                         }
 
-                        var functionHeader = functionHeaderCheck.Split(allSymbolsSymbols, StringSplitOptions.None).Last();
+                        var functionHeader = functionHeaderCheck.Split(
+                            allSymbolsSymbols,
+                            StringSplitOptions.None).Last();
 
-                        var oop = source.IndexOf(openParanthesisSymbol, op + opl);
-                        var cp = source.IndexOf(closeParanthesisSymbol, op + cpl);
+                        var oop = source.IndexOf(
+                            openParanthesisSymbol,
+                            op + opl,
+                            StringComparison.Ordinal);
+                        var cp = source.IndexOf(
+                            closeParanthesisSymbol,
+                            op + cpl,
+                            StringComparison.Ordinal);
 
                         while (oop < cp && oop != -1 && cp != -1)
                         {
-                            oop = source.IndexOf(openParanthesisSymbol, oop + opl);
-                            cp = source.IndexOf(closeParanthesisSymbol, cp + cpl);
+                            oop = source.IndexOf(
+                                openParanthesisSymbol,
+                                oop + opl,
+                                StringComparison.Ordinal);
+                            cp = source.IndexOf(
+                                closeParanthesisSymbol,
+                                cp + cpl,
+                                StringComparison.Ordinal);
                         }
 
                         if (cp == -1)
@@ -169,7 +184,9 @@ namespace IX.Math.Extraction
                             continue;
                         }
 
-                        var arguments = source.Substring(op + opl, cp - op - opl);
+                        var arguments = source.Substring(
+                            op + opl,
+                            cp - op - opl);
                         var originalArguments = arguments;
 
                         var q = arguments;
@@ -187,12 +204,13 @@ namespace IX.Math.Extraction
                                 reverseSymbolTableReference,
                                 parametersTableReference,
                                 expressionSymbol,
-                                allOperatorsInOrderSymbols,
                                 allSymbolsSymbols);
                         }
 
                         var argPlaceholders = new List<string>();
-                        foreach (var s in arguments.Split(new[] { parameterSeparatorSymbol }, StringSplitOptions.RemoveEmptyEntries))
+                        foreach (var s in arguments.Split(
+                            new[] { parameterSeparatorSymbol },
+                            StringSplitOptions.RemoveEmptyEntries))
                         {
                             TablePopulationGenerator.PopulateTables(
                                 s,
@@ -206,27 +224,29 @@ namespace IX.Math.Extraction
                                 allSymbolsSymbols);
 
                             // We check whether or not this is actually a constant
-                            var sa = ConstantsGenerator.CheckAndAdd(constantsTableReference, reverseConstantsTableReference, expressionSymbol, s);
-                            if (sa == null)
-                            {
-                                // We check whether or not this is actually an already-recognized external parameter
-                                if (!parametersTableReference.Exists(s))
-                                {
-                                    // Not a constant, and also not an already-recognized external parameter, let's generate a symbol
-                                    sa = SymbolExpressionGenerator.GenerateSymbolExpression(symbolTableReference, reverseSymbolTableReference, s, isFunction: false);
-                                }
-                                else
-                                {
-                                    sa = s;
-                                }
-                            }
-
-                            argPlaceholders.Add(sa);
+                            argPlaceholders.Add(
+                                ConstantsGenerator.CheckAndAdd(
+                                    constantsTableReference,
+                                    reverseConstantsTableReference,
+                                    expressionSymbol,
+                                    s) ?? (!parametersTableReference.Exists(s)
+                                    ? SymbolExpressionGenerator.GenerateSymbolExpression(
+                                        symbolTableReference,
+                                        reverseSymbolTableReference,
+                                        s,
+                                        false)
+                                    : s));
                         }
 
-                        var functionCallBody = $"{functionHeader}{openParanthesisSymbol}{string.Join(parameterSeparatorSymbol, argPlaceholders)}{closeParanthesisSymbol}";
-                        var functionCallToReplace = $"{functionHeader}{openParanthesisSymbol}{originalArguments}{closeParanthesisSymbol}";
-                        var functionCallItem = SymbolExpressionGenerator.GenerateSymbolExpression(symbolTableReference, reverseSymbolTableReference, functionCallBody, isFunction: true);
+                        var functionCallBody =
+                            $"{functionHeader}{openParanthesisSymbol}{string.Join(parameterSeparatorSymbol, argPlaceholders)}{closeParanthesisSymbol}";
+                        var functionCallToReplace =
+                            $"{functionHeader}{openParanthesisSymbol}{originalArguments}{closeParanthesisSymbol}";
+                        var functionCallItem = SymbolExpressionGenerator.GenerateSymbolExpression(
+                            symbolTableReference,
+                            reverseSymbolTableReference,
+                            functionCallBody,
+                            true);
 
                         return source.Replace(
                             functionCallToReplace,

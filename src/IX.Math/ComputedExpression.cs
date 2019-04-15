@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -12,13 +13,15 @@ using IX.Math.Nodes;
 using IX.Math.Registration;
 using IX.StandardExtensions;
 using IX.StandardExtensions.ComponentModel;
+using JetBrains.Annotations;
 
 namespace IX.Math
 {
     /// <summary>
     /// A representation of a computed expression, resulting from a string expression.
     /// </summary>
-    public class ComputedExpression : DisposableBase, IDeepCloneable<ComputedExpression>, IDisposable
+    [PublicAPI]
+    public class ComputedExpression : DisposableBase, IDeepCloneable<ComputedExpression>
     {
         private readonly IParameterRegistry parametersRegistry;
 
@@ -274,7 +277,8 @@ namespace IX.Math
                             switch (paraContext.ReturnType)
                             {
                                 case SupportedValueType.Boolean:
-                                    paramValue = CreateValue(paraContext, convertedParam != 0);
+                                    // ReSharper disable once CompareOfFloatsByEqualityOperator - no better idea for now
+                                    paramValue = CreateValue(paraContext, convertedParam != 0D);
                                     break;
 
                                 case SupportedValueType.ByteArray:
@@ -304,7 +308,7 @@ namespace IX.Math
                                     {
                                         if (this.defaultStringFormat == null)
                                         {
-                                            paramValue = CreateValue(paraContext, convertedParam.ToString());
+                                            paramValue = CreateValue(paraContext, convertedParam.ToString(CultureInfo.CurrentCulture));
                                         }
                                         else
                                         {
@@ -476,14 +480,7 @@ namespace IX.Math
                                     break;
 
                                 case SupportedValueType.String:
-                                    if (this.defaultStringFormat == null)
-                                    {
-                                        paramValue = CreateValueFromFunc(paraContext, () => convertedParam().ToString());
-                                    }
-                                    else
-                                    {
-                                        paramValue = CreateValueFromFunc(paraContext, () => convertedParam().ToString(this.defaultStringFormat));
-                                    }
+                                    paramValue = this.defaultStringFormat == null ? CreateValueFromFunc(paraContext, () => convertedParam().ToString()) : CreateValueFromFunc(paraContext, () => convertedParam().ToString(this.defaultStringFormat));
 
                                     break;
 
@@ -500,7 +497,8 @@ namespace IX.Math
                             switch (paraContext.ReturnType)
                             {
                                 case SupportedValueType.Boolean:
-                                    paramValue = CreateValueFromFunc(paraContext, () => convertedParam() == 0);
+                                    // ReSharper disable once CompareOfFloatsByEqualityOperator - no better idea for now
+                                    paramValue = CreateValueFromFunc(paraContext, () => convertedParam() == 0D);
                                     break;
 
                                 case SupportedValueType.ByteArray:
@@ -742,18 +740,10 @@ namespace IX.Math
             Delegate del;
             try
             {
-                LambdaExpression lambda = Expression.Lambda(
-                    this.body.GenerateExpression(),
-                    this.parametersRegistry.Dump().Select(p => p.ParameterExpression));
 
-                if (lambda == null)
-                {
-                    del = null;
-                }
-                else
-                {
-                    del = lambda?.Compile();
-                }
+                del = Expression.Lambda(
+                    this.body.GenerateExpression(),
+                    this.parametersRegistry.Dump().Select(p => p.ParameterExpression)).Compile();
             }
             catch
             {

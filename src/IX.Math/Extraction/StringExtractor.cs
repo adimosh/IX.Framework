@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using IX.Math.Generators;
 using IX.Math.Nodes;
+using IX.StandardExtensions.Contracts;
 
 namespace IX.Math.Extraction
 {
@@ -32,20 +33,9 @@ namespace IX.Math.Extraction
         /// </exception>
         public string ExtractAllConstants(string originalExpression, IDictionary<string, ConstantNodeBase> constantsTable, IDictionary<string, string> reverseConstantsTable, MathDefinition mathDefinition)
         {
-            if (string.IsNullOrWhiteSpace(originalExpression))
-            {
-                throw new ArgumentNullException(nameof(originalExpression));
-            }
-
-            if (constantsTable == null)
-            {
-                throw new ArgumentNullException(nameof(constantsTable));
-            }
-
-            if (reverseConstantsTable == null)
-            {
-                throw new ArgumentNullException(nameof(reverseConstantsTable));
-            }
+            Contract.RequiresNotNullOrWhitespacePrivate(originalExpression, nameof(originalExpression));
+            Contract.RequiresNotNull(constantsTable, nameof(constantsTable));
+            Contract.RequiresNotNull(reverseConstantsTable, nameof(reverseConstantsTable));
 
             var stringIndicator = mathDefinition.StringIndicator;
 
@@ -53,14 +43,14 @@ namespace IX.Math.Extraction
 
             while (true)
             {
-                var op = process.IndexOf(stringIndicator);
+                var op = process.IndexOf(stringIndicator, StringComparison.Ordinal);
 
                 if (op == -1)
                 {
                     break;
                 }
 
-                var cp = process.IndexOf(stringIndicator, op + stringIndicator.Length);
+                var cp = process.IndexOf(stringIndicator, op + stringIndicator.Length, StringComparison.Ordinal);
 
                 escapeRoute:
                 if (cp == -1 || (cp + stringIndicator.Length) > process.Length)
@@ -70,7 +60,7 @@ namespace IX.Math.Extraction
 
                 if (process.Substring(cp + stringIndicator.Length).StartsWith(stringIndicator))
                 {
-                    cp = process.IndexOf(stringIndicator, cp + (stringIndicator.Length * 2));
+                    cp = process.IndexOf(stringIndicator, cp + stringIndicator.Length * 2, StringComparison.Ordinal);
                     goto escapeRoute;
                 }
 

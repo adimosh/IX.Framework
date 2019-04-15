@@ -11,7 +11,7 @@ using IX.Math.Nodes;
 namespace IX.Math.Extraction
 {
     /// <summary>
-    /// An extractor for scientific notation of numbers. This class cannot be inherited.
+    ///     An extractor for scientific notation of numbers. This class cannot be inherited.
     /// </summary>
     /// <seealso cref="IX.Math.Extraction.IConstantsExtractor" />
     public sealed class ScientificFormatNumberExtractor : IConstantsExtractor
@@ -19,7 +19,7 @@ namespace IX.Math.Extraction
         private readonly Regex exponentialNotationRegex = new Regex(@"[0-9.,]+(?:e\+|E\+|e\-|E\-|e|E)[0-9]+");
 
         /// <summary>
-        /// Extracts the scientific notations constants and replaces them with expression placeholders.
+        ///     Extracts the scientific notations constants and replaces them with expression placeholders.
         /// </summary>
         /// <param name="originalExpression">The original expression.</param>
         /// <param name="constantsTable">The constants table.</param>
@@ -27,16 +27,20 @@ namespace IX.Math.Extraction
         /// <param name="mathDefinition">The math definition.</param>
         /// <returns>The expression, after replacement.</returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="constantsTable"/>
-        /// or
-        /// <paramref name="mathDefinition"/>
-        /// or
-        /// <paramref name="originalExpression"/>
-        /// or
-        /// <paramref name="reverseConstantsTable"/>
-        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
+        ///     <paramref name="constantsTable" />
+        ///     or
+        ///     <paramref name="mathDefinition" />
+        ///     or
+        ///     <paramref name="originalExpression" />
+        ///     or
+        ///     <paramref name="reverseConstantsTable" />
+        ///     is <see langword="null" /> (<see langword="Nothing" /> in Visual Basic).
         /// </exception>
-        public string ExtractAllConstants(string originalExpression, IDictionary<string, ConstantNodeBase> constantsTable, IDictionary<string, string> reverseConstantsTable, MathDefinition mathDefinition)
+        public string ExtractAllConstants(
+            string originalExpression,
+            IDictionary<string, ConstantNodeBase> constantsTable,
+            IDictionary<string, string> reverseConstantsTable,
+            MathDefinition mathDefinition)
         {
             if (string.IsNullOrWhiteSpace(originalExpression))
             {
@@ -63,7 +67,9 @@ namespace IX.Math.Extraction
 
             while (process.Length > location)
             {
-                Match match = this.exponentialNotationRegex.Match(process, location);
+                Match match = this.exponentialNotationRegex.Match(
+                    process,
+                    location);
 
                 if (!match.Success)
                 {
@@ -78,7 +84,11 @@ namespace IX.Math.Extraction
 
                 if (!string.IsNullOrWhiteSpace(itemName))
                 {
-                    process = this.exponentialNotationRegex.Replace(process, itemName, 1, location);
+                    process = this.exponentialNotationRegex.Replace(
+                        process,
+                        itemName,
+                        1,
+                        location);
                 }
                 else
                 {

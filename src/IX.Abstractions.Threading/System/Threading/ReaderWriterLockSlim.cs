@@ -4,21 +4,23 @@
 
 using System;
 using IX.StandardExtensions.ComponentModel;
+using JetBrains.Annotations;
 
 namespace IX.System.Threading
 {
     /// <summary>
-    /// A wrapper over <see cref="global::System.Threading.ReaderWriterLockSlim"/>, compatible with <see cref="IReaderWriterLock"/>.
+    /// A wrapper over <see cref="T:System.Threading.ReaderWriterLockSlim"/>, compatible with <see cref="IReaderWriterLock"/>.
     /// </summary>
     /// <seealso cref="IX.System.Threading.IReaderWriterLock" />
-    public class ReaderWriterLockSlim : DisposableBase, IReaderWriterLock, IDisposable
+    [PublicAPI]
+    public class ReaderWriterLockSlim : DisposableBase, IReaderWriterLock
     {
         private readonly bool lockerLocal;
 
 #pragma warning disable IDISP002 // Dispose member. - It is disposed when neeed only
 #pragma warning disable IDISP008 // Don't assign member with injected and created disposables. - We're not, actually
 #pragma warning disable IDISP006 // Implement IDisposable. - It is
-        private global::System.Threading.ReaderWriterLockSlim locker;
+        private readonly global::System.Threading.ReaderWriterLockSlim locker;
 #pragma warning restore IDISP006 // Implement IDisposable.
 #pragma warning restore IDISP008 // Don't assign member with injected and created disposables.
 #pragma warning restore IDISP002 // Dispose member.
@@ -70,14 +72,14 @@ namespace IX.System.Threading
         public bool IsReadLockHeld => this.InvokeIfNotDisposed((lck) => lck.IsReadLockHeld, this.locker);
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="global::System.Threading.ReaderWriterLockSlim"/> to <see cref="ReaderWriterLockSlim"/>.
+        /// Performs an implicit conversion from <see cref="T:System.Threading.ReaderWriterLockSlim"/> to <see cref="ReaderWriterLockSlim"/>.
         /// </summary>
         /// <param name="lock">The locker.</param>
         /// <returns>The result of the conversion.</returns>
         public static implicit operator ReaderWriterLockSlim(global::System.Threading.ReaderWriterLockSlim @lock) => new ReaderWriterLockSlim(@lock);
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="ReaderWriterLockSlim"/> to <see cref="global::System.Threading.ReaderWriterLockSlim"/>.
+        /// Performs an implicit conversion from <see cref="ReaderWriterLockSlim"/> to <see cref="T:System.Threading.ReaderWriterLockSlim"/>.
         /// </summary>
         /// <param name="lock">The locker.</param>
         /// <returns>The result of the conversion.</returns>

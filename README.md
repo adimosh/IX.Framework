@@ -58,8 +58,8 @@ Targeted languages:
 
 | Build | Status |
 |:-----:|:------:|
-| Latest build | [![Build status](https://ci.appveyor.com/api/projects/status/vbemqye31fo3rj43?svg=true)](https://ci.appveyor.com/project/adimosh/ix-framework) |
-| Master branch | [![Build status](https://ci.appveyor.com/api/projects/status/vbemqye31fo3rj43/branch/master?svg=true)](https://ci.appveyor.com/project/adimosh/ix-framework/branch/master) |
+| Latest build | [![Build status](https://dev.azure.com/ixiancorp/IX.Framework/_apis/build/status/IX.Framework%20continuous%20integration)](https://dev.azure.com/ixiancorp/IX.Framework/_build/latest?definitionId=2) |
+| Latest release | ![Deployment status](https://vsrm.dev.azure.com/ixiancorp/_apis/public/Release/badge/7cad7d65-5765-4ac0-97e7-7cd45511243c/1/2) |
 
 ### Developer guidelines
 
@@ -99,4 +99,5 @@ There is also [EditorConfig](http://editorconfig.org/) support and an .editorcon
 included that works with Visual Studio 2017's baked-in support.
 
 The project is hosted by [GitHub](https://github.com) and its build server is powered by
-[AppVeyor](https://www.appveyor.com/).
+[Azure DevOps](https://dev.azure.com). We used to use [AppVeyor](https://www.appveyor.com/), however, it turned
+out that Azure DevOps was a better fit for what we were trying to achieve.

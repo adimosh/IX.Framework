@@ -72,7 +72,6 @@ namespace IX.Math
                 workingSet.ReverseSymbolTable,
                 workingSet.ParameterRegistry,
                 workingSet.Expression,
-                workingSet.AllOperatorsInOrder,
                 workingSet.AllSymbols);
 
             workingSet.CancellationToken.ThrowIfCancellationRequested();
@@ -310,7 +309,7 @@ namespace IX.Math
                         try
                         {
                             // TODO: Change Activator.CreateInstance to something offering higher performance and less TargetInvocationExceptions
-                            return ((BinaryOperationNodeBase) Activator.CreateInstance(
+                            return ((BinaryOperationNodeBase)Activator.CreateInstance(
                                 t,
                                 left,
                                 right)).Simplify();
@@ -376,7 +375,7 @@ namespace IX.Math
                         try
                         {
                             // TODO: Change Activator.CreateInstance to something offering higher performance and less TargetInvocationExceptions
-                            return ((UnaryOperatorNodeBase) Activator.CreateInstance(
+                            return ((UnaryOperatorNodeBase)Activator.CreateInstance(
                                 t,
                                 expr)).Simplify();
                         }
@@ -430,7 +429,7 @@ namespace IX.Math
                         {
                             parameterExpressions = match.Groups["expression"].Value
                                 .Split(
-                                    new[] {innerWorkingSet.Definition.ParameterSeparator},
+                                    new[] { innerWorkingSet.Definition.ParameterSeparator },
                                     StringSplitOptions.None).Select(p => string.IsNullOrWhiteSpace(p) ? null : p)
                                 .ToArray();
                         }
@@ -442,7 +441,7 @@ namespace IX.Math
                                     functionName,
                                     out Type t))
                                 {
-                                    return ((NonaryFunctionNodeBase) Activator.CreateInstance(t)).Simplify();
+                                    return ((NonaryFunctionNodeBase)Activator.CreateInstance(t)).Simplify();
                                 }
 
                                 return null;
@@ -451,7 +450,7 @@ namespace IX.Math
                                     functionName,
                                     out Type t1))
                                 {
-                                    return ((UnaryFunctionNodeBase) Activator.CreateInstance(
+                                    return ((UnaryFunctionNodeBase)Activator.CreateInstance(
                                         t1,
                                         GenerateExpression(
                                             parameterExpressions[0],
@@ -464,7 +463,7 @@ namespace IX.Math
                                     functionName,
                                     out Type t2))
                                 {
-                                    return ((BinaryFunctionNodeBase) Activator.CreateInstance(
+                                    return ((BinaryFunctionNodeBase)Activator.CreateInstance(
                                         t2,
                                         GenerateExpression(
                                             parameterExpressions[0],
@@ -479,7 +478,7 @@ namespace IX.Math
                                     functionName,
                                     out Type t3))
                                 {
-                                    return ((TernaryFunctionNodeBase) Activator.CreateInstance(
+                                    return ((TernaryFunctionNodeBase)Activator.CreateInstance(
                                         t3,
                                         GenerateExpression(
                                             parameterExpressions[0],

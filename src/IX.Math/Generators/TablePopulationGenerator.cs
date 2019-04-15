@@ -11,12 +11,12 @@ using IX.Math.Registration;
 namespace IX.Math.Generators
 {
     /// <summary>
-    /// A class to handle table population.
+    ///     A class to handle table population.
     /// </summary>
     internal static class TablePopulationGenerator
     {
         /// <summary>
-        /// Populates tables according to the currently-processed expression.
+        ///     Populates tables according to the currently-processed expression.
         /// </summary>
         /// <param name="processedExpression">The expression that is being processed.</param>
         /// <param name="constantsTable">The constants table.</param>
@@ -28,17 +28,19 @@ namespace IX.Math.Generators
         /// <param name="openParenthesis">The symbol of an open parenthesis.</param>
         /// <param name="allSymbols">All symbols on which to split, in order.</param>
         internal static void PopulateTables(
-            in string processedExpression,
-            in Dictionary<string, ConstantNodeBase> constantsTable,
-            in Dictionary<string, string> reverseConstantsTable,
-            in Dictionary<string, ExpressionSymbol> symbolTable,
-            in Dictionary<string, string> reverseSymbolTable,
-            in IParameterRegistry parameterRegistry,
-            in string expression,
-            in string openParenthesis,
-            in string[] allSymbols)
+            string processedExpression,
+            Dictionary<string, ConstantNodeBase> constantsTable,
+            Dictionary<string, string> reverseConstantsTable,
+            Dictionary<string, ExpressionSymbol> symbolTable,
+            Dictionary<string, string> reverseSymbolTable,
+            IParameterRegistry parameterRegistry,
+            string expression,
+            string openParenthesis,
+            string[] allSymbols)
         {
-            var expressions = processedExpression.Split(allSymbols, StringSplitOptions.RemoveEmptyEntries);
+            string[] expressions = processedExpression.Split(
+                allSymbols,
+                StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var exp in expressions)
             {
@@ -72,7 +74,11 @@ namespace IX.Math.Generators
                     continue;
                 }
 
-                if (ConstantsGenerator.CheckAndAdd(constantsTable, reverseConstantsTable, expression, exp) != null)
+                if (ConstantsGenerator.CheckAndAdd(
+                        constantsTable,
+                        reverseConstantsTable,
+                        expression,
+                        exp) != null)
                 {
                     continue;
                 }

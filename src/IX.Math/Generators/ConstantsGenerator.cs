@@ -4,10 +4,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using IX.Math.Formatters;
 using IX.Math.Nodes;
 using IX.Math.Nodes.Constants;
+using IX.StandardExtensions.Contracts;
 
 namespace IX.Math.Generators
 {
@@ -32,42 +34,21 @@ namespace IX.Math.Generators
             string stringIndicator,
             string content)
         {
-            if (string.IsNullOrWhiteSpace(originalExpression))
-            {
-                throw new ArgumentNullException(nameof(originalExpression));
-            }
-
-            if (constantsTable == null)
-            {
-                throw new ArgumentNullException(nameof(constantsTable));
-            }
-
-            if (reverseConstantsTable == null)
-            {
-                throw new ArgumentNullException(nameof(reverseConstantsTable));
-            }
-
-            if (string.IsNullOrWhiteSpace(stringIndicator))
-            {
-                throw new ArgumentNullException(nameof(stringIndicator));
-            }
-
-            if (string.IsNullOrWhiteSpace(content))
-            {
-                throw new ArgumentNullException(nameof(content));
-            }
+            Contract.RequiresNotNullOrWhitespace(originalExpression, nameof(originalExpression));
+            Contract.RequiresNotNull(constantsTable, nameof(constantsTable));
+            Contract.RequiresNotNull(reverseConstantsTable, nameof(reverseConstantsTable));
+            Contract.RequiresNotNullOrWhitespace(stringIndicator, nameof(stringIndicator));
+            Contract.RequiresNotNullOrWhitespace(content, nameof(content));
 
             if (reverseConstantsTable.TryGetValue(content, out var key))
             {
                 return key;
             }
-            else
-            {
-                var name = GenerateName(constantsTable.Keys, originalExpression);
-                constantsTable.Add(name, new StringNode(content.Substring(stringIndicator.Length, content.Length - stringIndicator.Length)));
-                reverseConstantsTable.Add(content, name);
-                return name;
-            }
+
+            var name = GenerateName(constantsTable.Keys, originalExpression);
+            constantsTable.Add(name, new StringNode(content.Substring(stringIndicator.Length, content.Length - stringIndicator.Length)));
+            reverseConstantsTable.Add(content, name);
+            return name;
         }
 
         /// <summary>
@@ -84,42 +65,25 @@ namespace IX.Math.Generators
             string originalExpression,
             string content)
         {
-            if (string.IsNullOrWhiteSpace(originalExpression))
-            {
-                throw new ArgumentNullException(nameof(originalExpression));
-            }
-
-            if (constantsTable == null)
-            {
-                throw new ArgumentNullException(nameof(constantsTable));
-            }
-
-            if (reverseConstantsTable == null)
-            {
-                throw new ArgumentNullException(nameof(reverseConstantsTable));
-            }
-
-            if (string.IsNullOrWhiteSpace(content))
-            {
-                throw new ArgumentNullException(nameof(content));
-            }
+            Contract.RequiresNotNullOrWhitespace(originalExpression, nameof(originalExpression));
+            Contract.RequiresNotNull(constantsTable, nameof(constantsTable));
+            Contract.RequiresNotNull(reverseConstantsTable, nameof(reverseConstantsTable));
+            Contract.RequiresNotNullOrWhitespace(content, nameof(content));
 
             if (reverseConstantsTable.TryGetValue(content, out var key))
             {
                 return key;
             }
-            else
-            {
-                if (!double.TryParse(content, out var result))
-                {
-                    return null;
-                }
 
-                var name = GenerateName(constantsTable.Keys, originalExpression);
-                constantsTable.Add(name, new NumericNode(result));
-                reverseConstantsTable.Add(content, name);
-                return name;
+            if (!double.TryParse(content, out var result))
+            {
+                return null;
             }
+
+            var name = GenerateName(constantsTable.Keys, originalExpression);
+            constantsTable.Add(name, new NumericNode(result));
+            reverseConstantsTable.Add(content, name);
+            return name;
         }
 
         /// <summary>
@@ -136,20 +100,9 @@ namespace IX.Math.Generators
             string originalExpression,
             string content)
         {
-            if (string.IsNullOrWhiteSpace(originalExpression))
-            {
-                throw new ArgumentNullException(nameof(originalExpression));
-            }
-
-            if (constantsTable == null)
-            {
-                throw new ArgumentNullException(nameof(constantsTable));
-            }
-
-            if (reverseConstantsTable == null)
-            {
-                throw new ArgumentNullException(nameof(reverseConstantsTable));
-            }
+            Contract.RequiresNotNullOrWhitespace(originalExpression, nameof(originalExpression));
+            Contract.RequiresNotNull(constantsTable, nameof(constantsTable));
+            Contract.RequiresNotNull(reverseConstantsTable, nameof(reverseConstantsTable));
 
             if (string.IsNullOrWhiteSpace(content))
             {
@@ -160,34 +113,32 @@ namespace IX.Math.Generators
             {
                 return key;
             }
-            else
+
+            if (ParsingFormatter.ParseNumeric(content, out var n))
             {
-                if (ParsingFormatter.ParseNumeric(content, out var n))
-                {
-                    var name = GenerateName(constantsTable.Keys, originalExpression);
-                    constantsTable.Add(name, new NumericNode(n));
-                    reverseConstantsTable.Add(content, name);
-                    return name;
-                }
-                else if (ParsingFormatter.ParseByteArray(content, out var ba))
-                {
-                    var name = GenerateName(constantsTable.Keys, originalExpression);
-                    constantsTable.Add(name, new ByteArrayNode(ba));
-                    reverseConstantsTable.Add(content, name);
-                    return name;
-                }
-                else if (bool.TryParse(content, out var b))
-                {
-                    var name = GenerateName(constantsTable.Keys, originalExpression);
-                    constantsTable.Add(name, new BoolNode(b));
-                    reverseConstantsTable.Add(content, name);
-                    return name;
-                }
-                else
-                {
-                    return null;
-                }
+                var name = GenerateName(constantsTable.Keys, originalExpression);
+                constantsTable.Add(name, new NumericNode(n));
+                reverseConstantsTable.Add(content, name);
+                return name;
             }
+
+            if (ParsingFormatter.ParseByteArray(content, out var ba))
+            {
+                var name = GenerateName(constantsTable.Keys, originalExpression);
+                constantsTable.Add(name, new ByteArrayNode(ba));
+                reverseConstantsTable.Add(content, name);
+                return name;
+            }
+
+            if (bool.TryParse(content, out var b))
+            {
+                var name = GenerateName(constantsTable.Keys, originalExpression);
+                constantsTable.Add(name, new BoolNode(b));
+                reverseConstantsTable.Add(content, name);
+                return name;
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -205,34 +156,29 @@ namespace IX.Math.Generators
             double value,
             params string[] alternateNames)
         {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
+            Contract.RequiresNotNullOrWhitespace(name, nameof(name));
+            Contract.RequiresNotNull(constantsTable, nameof(constantsTable));
+            Contract.RequiresNotNull(reverseConstantsTable, nameof(reverseConstantsTable));
 
-            if (constantsTable == null)
-            {
-                throw new ArgumentNullException(nameof(constantsTable));
-            }
-
-            if (reverseConstantsTable == null)
-            {
-                throw new ArgumentNullException(nameof(reverseConstantsTable));
-            }
-
-            if (reverseConstantsTable.TryGetValue(name, out var key))
+            if (reverseConstantsTable.TryGetValue(
+                name,
+                out _))
             {
                 return;
             }
-            else
-            {
-                constantsTable.Add(name, new NumericNode(value));
-                reverseConstantsTable.Add(value.ToString(), name);
 
-                foreach (var alternateName in alternateNames)
-                {
-                    reverseConstantsTable.Add(alternateName, name);
-                }
+            constantsTable.Add(
+                name,
+                new NumericNode(value));
+            reverseConstantsTable.Add(
+                value.ToString(CultureInfo.CurrentCulture),
+                name);
+
+            foreach (var alternateName in alternateNames)
+            {
+                reverseConstantsTable.Add(
+                    alternateName,
+                    name);
             }
         }
 
@@ -240,6 +186,10 @@ namespace IX.Math.Generators
             IEnumerable<string> keys,
             string originalExpression)
         {
+            Contract.RequiresNotNullPrivate(
+                keys,
+                nameof(keys));
+
             var index = int.Parse(keys.Where(p => p.StartsWith("Const") && p.Length > 5).LastOrDefault()?.Substring(5) ?? "0");
 
             do

@@ -8,33 +8,42 @@ using System.Reflection;
 using IX.Math.Extensibility;
 using IX.Math.Nodes;
 using IX.StandardExtensions;
+using IX.StandardExtensions.Contracts;
 
 namespace IX.Math.Generators
 {
     internal static class FunctionsDictionaryGenerator
     {
-        internal static Dictionary<string, Type> GenerateInternalNonaryFunctionsDictionary(in IEnumerable<Assembly> assemblies)
-            => GenerateTypeAssignableFrom<NonaryFunctionNodeBase>(assemblies);
+        internal static Dictionary<string, Type> GenerateInternalNonaryFunctionsDictionary(
+            in IEnumerable<Assembly> assemblies) => GenerateTypeAssignableFrom<NonaryFunctionNodeBase>(assemblies);
 
-        internal static Dictionary<string, Type> GenerateInternalUnaryFunctionsDictionary(in IEnumerable<Assembly> assemblies)
-            => GenerateTypeAssignableFrom<UnaryFunctionNodeBase>(assemblies);
+        internal static Dictionary<string, Type> GenerateInternalUnaryFunctionsDictionary(
+            in IEnumerable<Assembly> assemblies) => GenerateTypeAssignableFrom<UnaryFunctionNodeBase>(assemblies);
 
-        internal static Dictionary<string, Type> GenerateInternalBinaryFunctionsDictionary(in IEnumerable<Assembly> assemblies)
-            => GenerateTypeAssignableFrom<BinaryFunctionNodeBase>(assemblies);
+        internal static Dictionary<string, Type> GenerateInternalBinaryFunctionsDictionary(
+            in IEnumerable<Assembly> assemblies) => GenerateTypeAssignableFrom<BinaryFunctionNodeBase>(assemblies);
 
-        internal static Dictionary<string, Type> GenerateInternalTernaryFunctionsDictionary(in IEnumerable<Assembly> assemblies)
-            => GenerateTypeAssignableFrom<TernaryFunctionNodeBase>(assemblies);
+        internal static Dictionary<string, Type> GenerateInternalTernaryFunctionsDictionary(
+            in IEnumerable<Assembly> assemblies) => GenerateTypeAssignableFrom<TernaryFunctionNodeBase>(assemblies);
 
-        private static Dictionary<string, Type> GenerateTypeAssignableFrom<T>(in IEnumerable<Assembly> assemblies)
+        private static Dictionary<string, Type> GenerateTypeAssignableFrom<T>(IEnumerable<Assembly> assemblies)
             where T : FunctionNodeBase
         {
+            Contract.RequiresNotNullPrivate(
+                assemblies,
+                nameof(assemblies));
+
             var typeDictionary = new Dictionary<string, Type>();
 
 #pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
-            assemblies.GetTypesAssignableFrom<T>().ForEach(AddToTypeDictionary, typeDictionary);
+            assemblies.GetTypesAssignableFrom<T>().ForEach(
+                AddToTypeDictionary,
+                typeDictionary);
 #pragma warning restore HAA0603 // Delegate allocation from a method group
 
-            void AddToTypeDictionary(TypeInfo p, Dictionary<string, Type> td)
+            void AddToTypeDictionary(
+                TypeInfo p,
+                Dictionary<string, Type> td)
             {
                 CallableMathematicsFunctionAttribute attr;
                 try
@@ -55,16 +64,20 @@ namespace IX.Math.Generators
                 }
 
                 attr.Names.ForEach(
-                    (q, p2, td2) =>
+                    (
+                        q,
+                        p2,
+                        td2) =>
                     {
                         if (td2.ContainsKey(q))
                         {
                             return;
                         }
 
-                        td2.Add(q, p2.AsType());
-                    },
-                    p,
+                        td2.Add(
+                            q,
+                            p2.AsType());
+                    }, p,
                     td);
             }
 

@@ -15,22 +15,28 @@ namespace IX.Math.Generators
             string expression,
             bool isFunction)
         {
-            if (!reverseSymbolTable.TryGetValue(expression, out var itemName))
+            if (reverseSymbolTable.TryGetValue(
+                expression,
+                out var itemName))
             {
-                itemName = $"item{symbolTable.Count.ToString().PadLeft(4, '0')}";
-                ExpressionSymbol symb;
-                if (isFunction)
-                {
-                    symb = ExpressionSymbol.GenerateFunctionCall(itemName, expression);
-                }
-                else
-                {
-                    symb = ExpressionSymbol.GenerateSymbol(itemName, expression);
-                }
-
-                symbolTable.Add(itemName, symb);
-                reverseSymbolTable.Add(symb.Expression, itemName);
+                return itemName;
             }
+
+            itemName = $"item{symbolTable.Count.ToString().PadLeft(4, '0')}";
+            ExpressionSymbol symb = isFunction
+                ? ExpressionSymbol.GenerateFunctionCall(
+                    itemName,
+                    expression)
+                : ExpressionSymbol.GenerateSymbol(
+                    itemName,
+                    expression);
+
+            symbolTable.Add(
+                itemName,
+                symb);
+            reverseSymbolTable.Add(
+                symb.Expression,
+                itemName);
 
             return itemName;
         }

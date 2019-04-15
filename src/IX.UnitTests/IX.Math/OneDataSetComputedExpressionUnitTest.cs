@@ -32,7 +32,7 @@ namespace IX.UnitTests.IX.Math
         /// Provides the data for theory.
         /// </summary>
         /// <returns>Theory data.</returns>
-        public static object[][] ProvideDataForTheory() => new object[][]
+        public static object[][] ProvideDataForTheory() => new []
             {
                 new object[]
                 {
@@ -64,7 +64,7 @@ namespace IX.UnitTests.IX.Math
                         throw new InvalidOperationException("No computed expression was generated!");
                     }
 
-                    var result = del.Compute(parameters?.Values?.ToArray() ?? new object[0]);
+                    var result = del.Compute(parameters?.Values.ToArray() ?? new object[0]);
 
                     Assert.Equal(expectedResult, result);
                 }
@@ -131,7 +131,7 @@ namespace IX.UnitTests.IX.Math
                 throw new InvalidOperationException("No computed expression was generated!");
             }
 
-            var result = del.Compute(parameters?.Values?.ToArray() ?? new object[0]);
+            var result = del.Compute(parameters?.Values.ToArray() ?? new object[0]);
 
             Assert.Equal(expectedResult, result);
         }
