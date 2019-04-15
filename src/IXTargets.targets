@@ -9,7 +9,7 @@
   <PropertyGroup>
     <VersionPrefix Condition="'$(IxVersionPrefix)' == ''">0.1.0.0</VersionPrefix>
     <VersionPrefix Condition="'$(IxVersionPrefix)' != ''">$(IxVersionPrefix)</VersionPrefix>
-    <VersionPrefix Condition="'$(IxVersionSuffix)' != ''">$(IxVersionSuffix)</VersionPrefix>
+    <VersionSuffix Condition="'$(IxVersionSuffix)' != ''">$(IxVersionSuffix)</VersionSuffix>
   </PropertyGroup>
 
   <!-- Documentation file -->
