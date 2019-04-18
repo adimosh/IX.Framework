@@ -26,14 +26,14 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">The action to start on a new thread.</param>
         /// <param name="cancellationToken">The cancellation token for this operation.</param>
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
-        public static Task StartOnNewThread(
+        public static Task StartOnDefaultTaskScheduler(
             this TaskFactory taskFactory,
             Action action,
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            return StartWithStateOnNewThread(
+            return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
                 rawState => ((Action)rawState)(),
                 action,
@@ -48,14 +48,14 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">The action to start on a new thread.</param>
         /// <param name="cancellationToken">The cancellation token for this operation.</param>
         /// <returns>A <see cref="Task"/> that represents the started long-running task.</returns>
-        public static Task StartLongRunning(
+        public static Task StartLongRunningOnDefaultTaskScheduler(
             this TaskFactory taskFactory,
             Action action,
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            return StartWithStateOnNewThread(
+            return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
                 rawState => ((Action)rawState)(),
                 action,
@@ -71,14 +71,14 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">The action to start on a new thread.</param>
         /// <param name="cancellationToken">The cancellation token for this operation.</param>
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
-        public static Task<TResult> StartOnNewThread<TResult>(
+        public static Task<TResult> StartOnDefaultTaskScheduler<TResult>(
             this TaskFactory taskFactory,
             Func<TResult> action,
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            return StartWithStateOnNewThread(
+            return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
                 rawState => ((Func<TResult>)rawState)(),
                 action,
@@ -94,14 +94,14 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">The action to start on a new thread.</param>
         /// <param name="cancellationToken">The cancellation token for this operation.</param>
         /// <returns>A <see cref="Task"/> that represents the started long-running task.</returns>
-        public static Task<TResult> StartLongRunning<TResult>(
+        public static Task<TResult> StartLongRunningOnDefaultTaskScheduler<TResult>(
             this TaskFactory taskFactory,
             Func<TResult> action,
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            return StartWithStateOnNewThread(
+            return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
                 rawState => ((Func<TResult>)rawState)(),
                 action,
@@ -109,7 +109,7 @@ namespace IX.StandardExtensions.Threading
                 cancellationToken);
         }
 
-        internal static Task StartWithStateOnNewThread(
+        internal static Task StartWithStateOnDefaultTaskScheduler(
             TaskFactory taskFactory,
             Action<object> action,
             object state,
@@ -143,17 +143,22 @@ namespace IX.StandardExtensions.Threading
 
                 var innerState = (Tuple<Action<object>, CultureInfo, CultureInfo, object>)rawState;
 
+#if FRAMEWORK_GT_451 || STANDARD_GT_12
+                CultureInfo.CurrentCulture = innerState.Item2;
+                CultureInfo.CurrentUICulture = innerState.Item3;
+#elif FRAMEWORK
 #pragma warning disable DE0008 // API is deprecated - This is an acceptable use, since we're writing on what's guaranteed to be the current thread
                 Thread.CurrentThread.CurrentCulture = innerState.Item2;
                 Thread.CurrentThread.CurrentUICulture = innerState.Item3;
 #pragma warning restore DE0008 // API is deprecated
+#endif
 
                 innerState.Item1(innerState.Item4);
             }
 #endif
         }
 
-        internal static Task<TResult> StartWithStateOnNewThread<TResult>(
+        internal static Task<TResult> StartWithStateOnDefaultTaskScheduler<TResult>(
             TaskFactory taskFactory,
             Func<object, TResult> action,
             object state,
@@ -187,10 +192,15 @@ namespace IX.StandardExtensions.Threading
 
                 var innerState = (Tuple<Func<object, TResult>, CultureInfo, CultureInfo, object>)rawState;
 
+#if FRAMEWORK_GT_451 || STANDARD_GT_12
+                CultureInfo.CurrentCulture = innerState.Item2;
+                CultureInfo.CurrentUICulture = innerState.Item3;
+#elif FRAMEWORK
 #pragma warning disable DE0008 // API is deprecated - This is an acceptable use, since we're writing on what's guaranteed to be the current thread
                 Thread.CurrentThread.CurrentCulture = innerState.Item2;
                 Thread.CurrentThread.CurrentUICulture = innerState.Item3;
 #pragma warning restore DE0008 // API is deprecated
+#endif
 
                 return innerState.Item1(innerState.Item4);
             }

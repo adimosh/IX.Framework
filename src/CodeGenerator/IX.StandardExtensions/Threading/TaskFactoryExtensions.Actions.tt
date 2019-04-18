@@ -67,11 +67,11 @@ for (int i = 1; i <= 8; i++)
 #>
         /// <param name="cancellationToken">The cancellation token for this operation.</param>
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
-        public static Task StartOnNewThread<<#= paramTypes #>>(this TaskFactory taskFactory, Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        public static Task StartOnDefaultTaskScheduler<<#= paramTypes #>>(this TaskFactory taskFactory, Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            return StartWithStateOnNewThread(
+            return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
                 rawState =>
                 {
@@ -125,11 +125,11 @@ for (int i = 1; i <= 8; i++)
 #>
         /// <param name="cancellationToken">The cancellation token for this operation.</param>
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
-        public static Task StartLongRunning<<#= paramTypes #>>(this TaskFactory taskFactory, Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        public static Task StartLongRunningOnDefaultTaskScheduler<<#= paramTypes #>>(this TaskFactory taskFactory, Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            return StartWithStateOnNewThread(
+            return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
                 rawState =>
                 {
@@ -184,11 +184,11 @@ for (int i = 1; i <= 8; i++)
 #>
         /// <param name="cancellationToken">The cancellation token for this operation.</param>
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
-        public static Task<TResult> StartOnNewThread<<#= paramTypes #>, TResult>(this TaskFactory taskFactory, Func<<#= paramTypes #>, TResult> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        public static Task<TResult> StartOnDefaultTaskScheduler<<#= paramTypes #>, TResult>(this TaskFactory taskFactory, Func<<#= paramTypes #>, TResult> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            return StartWithStateOnNewThread(
+            return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
                 rawState =>
                 {
@@ -243,11 +243,11 @@ for (int i = 1; i <= 8; i++)
 #>
         /// <param name="cancellationToken">The cancellation token for this operation.</param>
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
-        public static Task<TResult> StartLongRunning<<#= paramTypes #>, TResult>(this TaskFactory taskFactory, Func<<#= paramTypes #>, TResult> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
+        public static Task<TResult> StartLongRunningOnDefaultTaskScheduler<<#= paramTypes #>, TResult>(this TaskFactory taskFactory, Func<<#= paramTypes #>, TResult> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            return StartWithStateOnNewThread(
+            return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
                 rawState =>
                 {
