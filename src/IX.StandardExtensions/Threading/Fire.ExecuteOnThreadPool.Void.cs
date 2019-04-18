@@ -273,8 +273,7 @@ namespace IX.StandardExtensions.Threading
                 action,
                 nameof(action));
 
-            var taskCompletionSource = new TaskCompletionSource<TResult>(
-                TaskCreationOptions.HideScheduler | TaskCreationOptions.PreferFairness);
+            var taskCompletionSource = new TaskCompletionSource<TResult>();
 
             if (cancellationToken.IsCancellationRequested)
             {

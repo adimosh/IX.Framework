@@ -108,11 +108,7 @@ namespace IX.StandardExtensions.Threading
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
-                (actionL1, cancellationTokenL1) =>
-                {
-                    var innerTask = ((Func<Task>)actionL1).Invoke();
-                    innerTask.Wait(cancellationTokenL1);
-                },
+                (actionL1, cancellationTokenL1) => ((Func<Task>)actionL1).Invoke(),
                 action,
                 cancellationToken);
 
