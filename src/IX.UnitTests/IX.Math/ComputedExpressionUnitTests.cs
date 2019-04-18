@@ -1374,6 +1374,70 @@ namespace IX.UnitTests.IX.Math
                 null,
                 8.394D,
             },
+            new object[]
+            {
+                "trim(\"   a   \")",
+                null,
+                "a",
+            },
+            new object[]
+            {
+                "trim(x)",
+                new Dictionary<string, object>
+                {
+                    ["x"] = "   a   ",
+                },
+                "a",
+            },
+            new object[]
+            {
+                "trim(\"abcde\", \"ade\")",
+                null,
+                "bc",
+            },
+            new object[]
+            {
+                "trim(x, y)",
+                new Dictionary<string, object>
+                {
+                    ["x"] = "abcde",
+                    ["y"] = "ade",
+                },
+                "bc",
+            },
+            new object[]
+            {
+                "trimbody(\"abcde\", \"c\")",
+                null,
+                "abde",
+            },
+            new object[]
+            {
+                "trimbody(x, y)",
+                new Dictionary<string, object>
+                {
+                    ["x"] = "abcde",
+                    ["y"] = "bc",
+                },
+                "ade",
+            },
+            new object[]
+            {
+                "replace(\"abcde\", \"c\", \"x\")",
+                null,
+                "abxde",
+            },
+            new object[]
+            {
+                "replace(x, y, z)",
+                new Dictionary<string, object>
+                {
+                    ["x"] = "abcde",
+                    ["y"] = "bc",
+                    ["z"] = "q",
+                },
+                "aqde",
+            },
         };
 
         private static object GenerateFuncOutOfParameterValue(object tempParameter)

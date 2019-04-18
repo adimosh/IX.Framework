@@ -36,9 +36,9 @@ namespace IX.UnitTests.IX.Math
             {
                 new object[]
                 {
-                    "abs((1-17)+3) + abs(14-(1*4))",
+                    "trimbody(\"abcde\", \"c\")",
                     null,
-                    23L,
+                    "abde",
                 },
             };
 
