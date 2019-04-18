@@ -58,5 +58,27 @@ namespace IX.UnitTests.IX.Math
                 }
             }
         }
+
+        /// <summary>
+        ///     Tests extractors from external libraries.
+        /// </summary>
+        [Fact(DisplayName = "Test pass-through extractors from external libraries")]
+        public void Test3()
+        {
+            using (var eps = new ExpressionParsingService())
+            {
+                eps.RegisterFunctionsAssembly(typeof(ExternalExtractorUnitTests).GetTypeInfo().Assembly);
+
+                using (ComputedExpression interpreted = eps.Interpret("1+2"))
+                {
+                    Assert.NotNull(interpreted);
+                    Assert.True(interpreted.RecognizedCorrectly);
+                    Assert.True(interpreted.IsConstant);
+                    Assert.Equal(
+                        "1+2",
+                        interpreted.Compute());
+                }
+            }
+        }
     }
 }

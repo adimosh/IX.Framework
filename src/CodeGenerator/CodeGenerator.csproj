@@ -341,6 +341,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ImmutableValueTuple.cs</LastGenOutput>
     </Content>
+    <Content Include="IX.StandardExtensions\Threading\Fire.OnThreadPool.Parameters.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Fire.OnThreadPool.Parameters.cs</LastGenOutput>
+    </Content>
     <Content Include="IX.StandardExtensions\Threading\TaskFactoryExtensions.Actions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TaskFactoryExtensions.Actions.cs</LastGenOutput>
@@ -351,6 +355,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ImmutableValueTuple.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IX.StandardExtensions\Threading\Fire.OnThreadPool.Parameters.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Fire.OnThreadPool.Parameters.tt</DependentUpon>
     </Compile>
     <Compile Include="IX.StandardExtensions\Threading\TaskFactoryExtensions.Actions.cs">
       <AutoGen>True</AutoGen>

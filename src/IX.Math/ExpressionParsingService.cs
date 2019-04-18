@@ -5,13 +5,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using IX.Math.Extensibility;
 using IX.Math.Extraction;
 using IX.Math.Generators;
+using IX.Math.Nodes.Constants;
+using IX.Math.Registration;
 using IX.StandardExtensions;
 using IX.StandardExtensions.ComponentModel;
+using IX.StandardExtensions.Contracts;
 using IX.System.Collections.Generic;
 
 namespace IX.Math
@@ -33,6 +37,7 @@ namespace IX.Math
 #pragma warning disable IDISP002 // Dispose member. - It is
 #pragma warning disable IDISP006 // Implement IDisposable. - It is
         private LevelDictionary<Type, IConstantsExtractor> constantExtractors;
+        private LevelDictionary<Type, IConstantPassThroughExtractor> constantPassThroughExtractors;
 #pragma warning restore IDISP006 // Implement IDisposable.
 #pragma warning restore IDISP002 // Dispose member.
 
@@ -91,12 +96,28 @@ namespace IX.Math
         /// <exception cref="ArgumentNullException"><paramref name="expression"/> is either null, empty or whitespace-only.</exception>
         public ComputedExpression Interpret(string expression, CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(expression))
-            {
-                throw new ArgumentNullException(nameof(expression));
-            }
+            Contract.RequiresNotNullOrWhitespace(expression, nameof(expression));
 
             this.ThrowIfCurrentObjectDisposed();
+
+            if (this.constantPassThroughExtractors == null)
+            {
+                this.InitializePassThroughExtractorsDictionary();
+            }
+
+            foreach (var cpteKey in this.constantPassThroughExtractors.KeysByLevel.SelectMany(p => p.Value))
+            {
+                if (this.constantPassThroughExtractors[cpteKey].Evaluate(expression))
+                {
+                    return new ComputedExpression(
+                        expression,
+                        new StringNode(
+                            expression
+                            ), true,
+                        new StandardParameterRegistry(),
+                        this.workingDefinition.AutoConvertStringFormatSpecifier);
+                }
+            }
 
             if (this.nonaryFunctions == null ||
                 this.unaryFunctions == null ||
@@ -115,15 +136,15 @@ namespace IX.Math
             using (var workingSet = new WorkingExpressionSet(
                 expression,
                 this.workingDefinition.DeepClone(),
-                this.assembliesToRegister,
                 this.nonaryFunctions,
                 this.unaryFunctions,
                 this.binaryFunctions,
                 this.ternaryFunctions,
                 this.constantExtractors,
+                this.constantPassThroughExtractors,
                 cancellationToken))
             {
-                Tuple<Nodes.NodeBase, Registration.IParameterRegistry> body = ExpressionGenerator.CreateBody(workingSet);
+                Tuple<Nodes.NodeBase, IParameterRegistry> body = ExpressionGenerator.CreateBody(workingSet);
 
                 if (!workingSet.Success)
                 {
@@ -336,6 +357,34 @@ namespace IX.Math
                         else
                         {
                             thisL1.constantExtractors.Add(p, (IConstantsExtractor)p.Instantiate(), Interlocked.Increment(ref i));
+                        }
+                    },
+                    ref incrementer,
+                    this);
+        }
+
+        private void InitializePassThroughExtractorsDictionary()
+        {
+#pragma warning disable IDISP003 // Dispose previous before re-assigning. - Not necessary, as the initializer checks beforehand
+            this.constantPassThroughExtractors = new LevelDictionary<Type, IConstantPassThroughExtractor>();
+#pragma warning restore IDISP003 // Dispose previous before re-assigning.
+
+            var incrementer = 2001;
+            this.assembliesToRegister
+                .GetTypesAssignableFrom<IConstantPassThroughExtractor>()
+                .Where(p => p.IsClass && !p.IsAbstract && !p.IsGenericTypeDefinition && p.HasPublicParameterlessConstructor())
+                .Select(p => p.AsType())
+                .Where((p, thisL1) => !thisL1.constantPassThroughExtractors.ContainsKey(p), this)
+                .ForEach(
+                    (Type p, ref int i, ExpressionParsingService thisL1) =>
+                    {
+                        if (p.GetAttributeDataByTypeWithoutVersionBinding<ConstantsPassThroughExtractorAttribute, int>(out var explicitLevel))
+                        {
+                            thisL1.constantPassThroughExtractors.Add(p, (IConstantPassThroughExtractor)p.Instantiate(), explicitLevel);
+                        }
+                        else
+                        {
+                            thisL1.constantPassThroughExtractors.Add(p, (IConstantPassThroughExtractor)p.Instantiate(), Interlocked.Increment(ref i));
                         }
                     },
                     ref incrementer,

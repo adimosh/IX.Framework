@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using IX.Math.ExpressionState;
@@ -21,8 +20,6 @@ namespace IX.Math
 {
     internal class WorkingExpressionSet : DisposableBase
     {
-        private readonly IEnumerable<Assembly> assembliesForFunctions;
-
         // Definition
 #pragma warning disable SA1401 // Fields must be private
         internal MathDefinition Definition;
@@ -50,6 +47,7 @@ namespace IX.Math
         internal LevelDictionary<string, Type> UnaryOperators;
         internal LevelDictionary<string, Type> BinaryOperators;
         internal LevelDictionary<Type, IConstantsExtractor> Extractors;
+        internal LevelDictionary<Type, IConstantPassThroughExtractor> PassThroughExtractors;
 #pragma warning restore IDISP008 // Don't assign member with injected and created disposables.
 #pragma warning restore IDISP006 // Implement IDisposable.
 #pragma warning restore IDISP002 // Dispose member.
@@ -72,12 +70,12 @@ namespace IX.Math
         internal WorkingExpressionSet(
             string expression,
             MathDefinition mathDefinition,
-            IEnumerable<Assembly> assembliesForFunctions,
             Dictionary<string, Type> nonaryFunctions,
             Dictionary<string, Type> unaryFunctions,
             Dictionary<string, Type> binaryFunctions,
             Dictionary<string, Type> ternaryFunctions,
             LevelDictionary<Type, IConstantsExtractor> extractors,
+            LevelDictionary<Type, IConstantPassThroughExtractor> passThroughExtractors,
             CancellationToken cancellationToken)
         {
             this.ParameterRegistry = new StandardParameterRegistry();
@@ -90,8 +88,6 @@ namespace IX.Math
             this.CancellationToken = cancellationToken;
             this.Expression = expression;
             this.Definition = mathDefinition;
-
-            this.assembliesForFunctions = assembliesForFunctions;
 
             this.AllOperatorsInOrder = new[]
             {
@@ -120,6 +116,7 @@ namespace IX.Math
             this.TernaryFunctions = ternaryFunctions;
 
             this.Extractors = extractors;
+            this.PassThroughExtractors = passThroughExtractors;
 
             this.FunctionRegex = new Regex($@"(?'functionName'.*?){Regex.Escape(this.Definition.Parentheses.Item1)}(?'expression'.*?){Regex.Escape(this.Definition.Parentheses.Item2)}");
         }

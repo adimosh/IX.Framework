@@ -36,7 +36,7 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = Task.Factory.StartOnNewThread(
+            var runningTask = ExecuteOnThreadPool(
                 action,
                 cancellationToken);
 
@@ -45,8 +45,8 @@ namespace IX.StandardExtensions.Threading
                 // No sense in running the continuation if there's nobody listening
 #pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
                 runningTask.ContinueWith(
-                    continuationAction: StandardContinuation,
-                    state: exceptionHandler,
+                    StandardContinuation,
+                    exceptionHandler,
                     continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
                     scheduler: GetCurrentTaskScheduler(),
                     cancellationToken: cancellationToken);
@@ -71,9 +71,8 @@ namespace IX.StandardExtensions.Threading
         {
             Contract.RequiresNotNull(action, nameof(action));
 
-            var runningTask = Task.Factory.StartOnNewThread(
+            var runningTask = ExecuteOnThreadPool(
                 action,
-                cancellationToken,
                 cancellationToken);
 
             if (exceptionHandler != null)
@@ -81,8 +80,8 @@ namespace IX.StandardExtensions.Threading
                 // No sense in running the continuation if there's nobody listening
 #pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
                 runningTask.ContinueWith(
-                    continuationAction: StandardContinuation,
-                    state: exceptionHandler,
+                    StandardContinuation,
+                    exceptionHandler,
                     continuationOptions: TaskContinuationOptions.OnlyOnFaulted,
                     scheduler: GetCurrentTaskScheduler(),
                     cancellationToken: cancellationToken);
@@ -108,14 +107,9 @@ namespace IX.StandardExtensions.Threading
             Contract.RequiresNotNull(action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
-            var runningTask = Task.Factory.StartOnNewThread(
-                (actionL1, cancellationTokenL1) =>
-                {
-                    var innerTask = actionL1.Invoke();
-                    innerTask.Wait(cancellationTokenL1);
-                },
+            var runningTask = ExecuteOnThreadPool(
+                (actionL1, cancellationTokenL1) => ((Func<Task>)actionL1).Invoke(),
                 action,
-                cancellationToken,
                 cancellationToken);
 
             if (exceptionHandler != null)
@@ -150,14 +144,8 @@ namespace IX.StandardExtensions.Threading
             Contract.RequiresNotNull(action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
-            var runningTask = Task.Factory.StartOnNewThread(
-                (actionL1, cancellationTokenL1) =>
-                {
-                    var innerTask = actionL1.Invoke(cancellationTokenL1);
-                    innerTask.Wait(cancellationTokenL1);
-                },
+            var runningTask = ExecuteOnThreadPool(
                 action,
-                cancellationToken,
                 cancellationToken);
 
             if (exceptionHandler != null)

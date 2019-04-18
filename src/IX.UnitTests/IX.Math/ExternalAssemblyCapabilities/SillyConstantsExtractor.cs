@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using IX.Math;
 using IX.Math.Extraction;
 using IX.Math.Nodes;
+using JetBrains.Annotations;
 
 namespace IX.UnitTests.IX.Math.ExternalAssemblyCapabilities
 {
@@ -14,6 +15,7 @@ namespace IX.UnitTests.IX.Math.ExternalAssemblyCapabilities
     /// A constants extractor used for testing purposes.
     /// </summary>
     /// <seealso cref="IX.Math.Extraction.IConstantsExtractor" />
+    [UsedImplicitly]
     public class SillyConstantsExtractor : IConstantsExtractor
     {
         private readonly Regex exponentialNotationRegex = new Regex(@"silly");

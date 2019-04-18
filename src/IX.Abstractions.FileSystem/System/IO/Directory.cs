@@ -63,7 +63,7 @@ namespace IX.System.IO
                 path,
                 nameof(path));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 FSDir.CreateDirectory,
                 path,
                 cancellationToken);
@@ -119,14 +119,14 @@ namespace IX.System.IO
 
             if (recursive)
             {
-                return Task.Factory.StartOnNewThread(
+                return Fire.OnThreadPool(
                     FSDir.Delete,
                     path,
                     true,
                     cancellationToken);
             }
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 FSDir.Delete,
                 path,
                 cancellationToken);
@@ -171,7 +171,7 @@ namespace IX.System.IO
                 path,
                 nameof(path));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 this.EnumerateDirectoriesInternal,
                 path,
                 AllFilePattern,
@@ -231,7 +231,7 @@ namespace IX.System.IO
                 searchPattern,
                 nameof(searchPattern));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 this.EnumerateDirectoriesInternal,
                 path,
                 searchPattern,
@@ -276,7 +276,7 @@ namespace IX.System.IO
                 path,
                 nameof(path));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 this.EnumerateDirectoriesInternal,
                 path,
                 AllFilePattern,
@@ -336,7 +336,7 @@ namespace IX.System.IO
                 searchPattern,
                 nameof(searchPattern));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 this.EnumerateDirectoriesInternal,
                 path,
                 searchPattern,
@@ -383,7 +383,7 @@ namespace IX.System.IO
                 path,
                 nameof(path));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 this.EnumerateFilesInternal,
                 path,
                 AllFilePattern,
@@ -441,7 +441,7 @@ namespace IX.System.IO
                 searchPattern,
                 nameof(searchPattern));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 this.EnumerateFilesInternal,
                 path,
                 searchPattern,
@@ -486,7 +486,7 @@ namespace IX.System.IO
                 path,
                 nameof(path));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 this.EnumerateFilesInternal,
                 path,
                 AllFilePattern,
@@ -543,7 +543,7 @@ namespace IX.System.IO
                 searchPattern,
                 nameof(searchPattern));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 this.EnumerateFilesInternal,
                 path,
                 searchPattern,
@@ -590,7 +590,7 @@ namespace IX.System.IO
                 path,
                 nameof(path));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 this.EnumerateFileSystemEntriesInternal,
                 path,
                 AllFilePattern,
@@ -648,7 +648,7 @@ namespace IX.System.IO
                 searchPattern,
                 nameof(searchPattern));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 this.EnumerateFileSystemEntriesInternal,
                 path,
                 searchPattern,
@@ -693,7 +693,7 @@ namespace IX.System.IO
                 path,
                 nameof(path));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 this.EnumerateFileSystemEntriesInternal,
                 path,
                 AllFilePattern,
@@ -751,7 +751,7 @@ namespace IX.System.IO
                 searchPattern,
                 nameof(searchPattern));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 this.EnumerateFileSystemEntriesInternal,
                 path,
                 searchPattern,
@@ -796,7 +796,7 @@ namespace IX.System.IO
                 path,
                 nameof(path));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 FSDir.Exists,
                 path,
                 cancellationToken);
@@ -838,7 +838,7 @@ namespace IX.System.IO
                 path,
                 nameof(path));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 FSDir.GetCreationTimeUtc,
                 path,
                 cancellationToken);
@@ -1030,7 +1030,7 @@ namespace IX.System.IO
                 path,
                 nameof(path));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 FSDir.GetLastAccessTimeUtc,
                 path,
                 cancellationToken);
@@ -1072,7 +1072,7 @@ namespace IX.System.IO
                 path,
                 nameof(path));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 FSDir.GetLastWriteTimeUtc,
                 path,
                 cancellationToken);
@@ -1122,7 +1122,7 @@ namespace IX.System.IO
                 destinationDirectoryName,
                 nameof(destinationDirectoryName));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 FSDir.Move,
                 sourceDirectoryName,
                 destinationDirectoryName,
@@ -1167,7 +1167,7 @@ namespace IX.System.IO
                 path,
                 nameof(path));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 FSDir.SetCreationTime,
                 path,
                 creationTime,
@@ -1212,7 +1212,7 @@ namespace IX.System.IO
                 path,
                 nameof(path));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 FSDir.SetLastAccessTime,
                 path,
                 lastAccessTime,
@@ -1257,7 +1257,7 @@ namespace IX.System.IO
                 path,
                 nameof(path));
 
-            return Task.Factory.StartOnNewThread(
+            return Fire.OnThreadPool(
                 FSDir.SetLastWriteTime,
                 path,
                 lastWriteTime,
