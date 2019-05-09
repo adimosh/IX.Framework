@@ -677,7 +677,7 @@ for (int i = 1; i <= 8; i++)
             }
         }
 
-        private static void Run<<#= paramTypes #>>(in Action<<#= paramTypes #>> action, <#= paramNameTypes #>, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static void Run<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(action, nameof(action));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -705,7 +705,7 @@ for (int i = 1; i <= 8; i++)
             }
         }
 
-        private static TReturn Run<<#= paramTypes #>, TReturn>(in Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static TReturn Run<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(func, nameof(func));
             Contract.RequiresNotNullPrivate(options, nameof(options));

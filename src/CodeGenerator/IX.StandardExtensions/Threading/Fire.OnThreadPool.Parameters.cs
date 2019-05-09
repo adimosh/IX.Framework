@@ -17,6 +17,7 @@ namespace IX.StandardExtensions.Threading
     /// </summary>
     public static partial class Fire
     {
+#pragma warning disable SA1117 // Parameters should be on same line or separate lines - This is auto-generated code, so we don't really care
 #pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - The lambdas themselves rely on generics
         /// <summary>
         /// Starts an action on a thread in the thread pool.
@@ -406,7 +407,6 @@ namespace IX.StandardExtensions.Threading
         /// Starts an action on a thread in the thread pool.
         /// </summary>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
         /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <param name="action">The action to execute.</param>
@@ -683,9 +683,7 @@ namespace IX.StandardExtensions.Threading
         /// Starts an action on a thread in the thread pool.
         /// </summary>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
         /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <param name="action">The action to execute.</param>
@@ -977,11 +975,8 @@ namespace IX.StandardExtensions.Threading
         /// Starts an action on a thread in the thread pool.
         /// </summary>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam4">The type of parameter to be passed to the invoked method at index 3.</typeparam>
         /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <param name="action">The action to execute.</param>
@@ -1288,13 +1283,9 @@ namespace IX.StandardExtensions.Threading
         /// Starts an action on a thread in the thread pool.
         /// </summary>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam4">The type of parameter to be passed to the invoked method at index 3.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam5">The type of parameter to be passed to the invoked method at index 4.</typeparam>
         /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <param name="action">The action to execute.</param>
@@ -1616,15 +1607,10 @@ namespace IX.StandardExtensions.Threading
         /// Starts an action on a thread in the thread pool.
         /// </summary>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam4">The type of parameter to be passed to the invoked method at index 3.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam5">The type of parameter to be passed to the invoked method at index 4.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam6">The type of parameter to be passed to the invoked method at index 5.</typeparam>
         /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <param name="action">The action to execute.</param>
@@ -1961,17 +1947,11 @@ namespace IX.StandardExtensions.Threading
         /// Starts an action on a thread in the thread pool.
         /// </summary>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam4">The type of parameter to be passed to the invoked method at index 3.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam5">The type of parameter to be passed to the invoked method at index 4.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam6">The type of parameter to be passed to the invoked method at index 5.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam7">The type of parameter to be passed to the invoked method at index 6.</typeparam>
         /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <param name="action">The action to execute.</param>
@@ -2323,19 +2303,12 @@ namespace IX.StandardExtensions.Threading
         /// Starts an action on a thread in the thread pool.
         /// </summary>
         /// <typeparam name="TParam1">The type of parameter to be passed to the invoked method at index 0.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam2">The type of parameter to be passed to the invoked method at index 1.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam3">The type of parameter to be passed to the invoked method at index 2.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam4">The type of parameter to be passed to the invoked method at index 3.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam5">The type of parameter to be passed to the invoked method at index 4.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam6">The type of parameter to be passed to the invoked method at index 5.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam7">The type of parameter to be passed to the invoked method at index 6.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <typeparam name="TParam8">The type of parameter to be passed to the invoked method at index 7.</typeparam>
         /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <param name="action">The action to execute.</param>
@@ -2510,6 +2483,7 @@ namespace IX.StandardExtensions.Threading
                 new Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(param1, param2, param3, param4, param5, param6, param7, param8)),
                 cancellationToken);
 #pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning restore SA1117 // Parameters should be on same line or separate lines
 
     }
 }

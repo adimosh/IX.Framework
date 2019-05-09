@@ -3824,7 +3824,7 @@ namespace IX.Retry
             }
         }
 
-        private static void Run<TParam1>(in Action<TParam1> action, TParam1 param1, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static void Run<TParam1>(Action<TParam1> action, TParam1 param1, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(action, nameof(action));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -3852,7 +3852,7 @@ namespace IX.Retry
             }
         }
 
-        private static TReturn Run<TParam1, TReturn>(in Func<TParam1, TReturn> func, TParam1 param1, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static TReturn Run<TParam1, TReturn>(Func<TParam1, TReturn> func, TParam1 param1, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(func, nameof(func));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -3880,7 +3880,7 @@ namespace IX.Retry
             }
         }
 
-        private static void Run<TParam1, TParam2>(in Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static void Run<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(action, nameof(action));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -3908,7 +3908,7 @@ namespace IX.Retry
             }
         }
 
-        private static TReturn Run<TParam1, TParam2, TReturn>(in Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static TReturn Run<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(func, nameof(func));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -3936,7 +3936,7 @@ namespace IX.Retry
             }
         }
 
-        private static void Run<TParam1, TParam2, TParam3>(in Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static void Run<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(action, nameof(action));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -3964,7 +3964,7 @@ namespace IX.Retry
             }
         }
 
-        private static TReturn Run<TParam1, TParam2, TParam3, TReturn>(in Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static TReturn Run<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(func, nameof(func));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -3992,7 +3992,7 @@ namespace IX.Retry
             }
         }
 
-        private static void Run<TParam1, TParam2, TParam3, TParam4>(in Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static void Run<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(action, nameof(action));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -4020,7 +4020,7 @@ namespace IX.Retry
             }
         }
 
-        private static TReturn Run<TParam1, TParam2, TParam3, TParam4, TReturn>(in Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static TReturn Run<TParam1, TParam2, TParam3, TParam4, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(func, nameof(func));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -4048,7 +4048,7 @@ namespace IX.Retry
             }
         }
 
-        private static void Run<TParam1, TParam2, TParam3, TParam4, TParam5>(in Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static void Run<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(action, nameof(action));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -4076,7 +4076,7 @@ namespace IX.Retry
             }
         }
 
-        private static TReturn Run<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(in Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static TReturn Run<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(func, nameof(func));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -4104,7 +4104,7 @@ namespace IX.Retry
             }
         }
 
-        private static void Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(in Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static void Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(action, nameof(action));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -4132,7 +4132,7 @@ namespace IX.Retry
             }
         }
 
-        private static TReturn Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(in Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static TReturn Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(func, nameof(func));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -4160,7 +4160,7 @@ namespace IX.Retry
             }
         }
 
-        private static void Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(in Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static void Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(action, nameof(action));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -4188,7 +4188,7 @@ namespace IX.Retry
             }
         }
 
-        private static TReturn Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(in Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static TReturn Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(func, nameof(func));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -4216,7 +4216,7 @@ namespace IX.Retry
             }
         }
 
-        private static void Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(in Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static void Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(action, nameof(action));
             Contract.RequiresNotNullPrivate(options, nameof(options));
@@ -4244,7 +4244,7 @@ namespace IX.Retry
             }
         }
 
-        private static TReturn Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(in Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, in RetryOptions options, CancellationToken cancellationToken = default)
+        private static TReturn Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, RetryOptions options, CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(func, nameof(func));
             Contract.RequiresNotNullPrivate(options, nameof(options));

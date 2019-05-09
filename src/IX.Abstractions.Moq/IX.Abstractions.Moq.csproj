@@ -32,6 +32,4 @@
     <ProjectReference Include="..\IX.Abstractions\IX.Abstractions.csproj" />
   </ItemGroup>
 
-  <Import Project="..\CliToolsReference.Normal.targets" />
-
 </Project>

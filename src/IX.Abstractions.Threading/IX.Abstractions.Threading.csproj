@@ -36,6 +36,4 @@
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
   </ItemGroup>
 
-  <Import Project="..\CliToolsReference.Normal.targets" />
-
 </Project>

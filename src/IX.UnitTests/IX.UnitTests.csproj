@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net452;net46;net461;net462;net47;net471;net472;netcoreapp1.0;netcoreapp1.1;netcoreapp2.0;netcoreapp2.1</TargetFrameworks>
@@ -9,16 +9,9 @@
     <PackageReference Include="Microsoft.CodeCoverage" Version="16.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="xunit.runner.console" Version="2.4.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.console" Version="2.4.1" />
     <PackageReference Include="Moq" Version="4.10.1" />
-    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp1.0' Or '$(TargetFramework)'=='netcoreapp1.1'">
@@ -33,8 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IX.Abstractions.Collections\IX.Abstractions.Collections.csproj" />
-    <ProjectReference Include="..\IX.Math\IX.Math.csproj" />
-    <ProjectReference Include="..\IX.Observable\IX.Observable.csproj" />
     <ProjectReference Include="..\IX.Retry\IX.Retry.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions.Threading\IX.StandardExtensions.Threading.csproj" />

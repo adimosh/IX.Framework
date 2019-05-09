@@ -23,6 +23,7 @@ namespace IX.StandardExtensions.Threading
     /// </summary>
     public static partial class Fire
     {
+#pragma warning disable SA1117 // Parameters should be on same line or separate lines - This is auto-generated code, so we don't really care
 #pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - The lambdas themselves rely on generics<#
 for (int i = 1; i <= 8; i++)
 {
@@ -49,7 +50,7 @@ for (int i = 1; i <= 8; i++)
 
     string paramTypes = string.Join(", ", types);
     string paramNames = string.Join(", ", names);
-    string paramNameTypes = string.Join(", ", nameTypes);
+    string paramNameTypes = string.Join($", ", nameTypes);
     string paramParameters = string.Join(", ", parameters);
 #>
 
@@ -241,10 +242,10 @@ for (int i = 1; i <= 8; i++)
     {
 #>
         /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
 <#
     }
 #>
+        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <param name="action">The action to execute.</param>
 <#
     for (int j = 1; j <= i; j++)
@@ -420,6 +421,7 @@ for (int i = 1; i <= 8; i++)
 }
 #>
 #pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning restore SA1117 // Parameters should be on same line or separate lines
 
     }
 }

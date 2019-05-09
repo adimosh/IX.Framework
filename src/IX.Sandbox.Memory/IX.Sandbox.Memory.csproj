@@ -33,7 +33,6 @@
     <ProjectReference Include="..\IX.Abstractions\IX.Abstractions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions.ComponentModel\IX.StandardExtensions.ComponentModel.csproj" />
-    <ProjectReference Include="..\IX.Observable\IX.Observable.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -77,7 +76,5 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-
-  <Import Project="..\CliToolsReference.Normal.targets" />
 
 </Project>

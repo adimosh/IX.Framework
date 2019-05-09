@@ -42,6 +42,4 @@
     <Compile Include="..\CodeGenerator\RetryContext.ActionsAndFuncs.cs" Link="Contexts\RetryContext.ActionsAndFuncs.cs" />
   </ItemGroup>
 
-  <Import Project="..\CliToolsReference.Normal.targets" />
-
 </Project>

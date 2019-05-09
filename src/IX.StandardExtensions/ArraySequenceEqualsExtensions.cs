@@ -85,7 +85,7 @@ namespace IX.StandardExtensions
                 => comparer.Equals(c1, c2);
         }
 
-        private static bool SequenceEqualsInternal<T>(in T[] left, in T[] right, in Func<T, T, bool> comparer)
+        private static bool SequenceEqualsInternal<T>(T[] left, T[] right, Func<T, T, bool> comparer)
         {
             if (!CheckForNulls(left, right))
             {

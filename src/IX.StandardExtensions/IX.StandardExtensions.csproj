@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net45;net461;netstandard1.2;netstandard1.3;netstandard2.0</TargetFrameworks>
@@ -111,7 +111,5 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-
-  <Import Project="..\CliToolsReference.Normal.targets" />
 
 </Project>
