@@ -119,6 +119,11 @@
     <DefineConstants>$(DefineConstants);NET472;FRAMEWORK_GT_45;FRAMEWORK_GT_451;FRAMEWORK_GT_452;FRAMEWORK_GT_46;FRAMEWORK_GT_461;FRAMEWORK_GT_462;FRAMEWORK_GT_47;FRAMEWORK_GT_471</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(TargetFramework)'=='net48'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>$(DefineConstants);NET472;FRAMEWORK_GT_45;FRAMEWORK_GT_451;FRAMEWORK_GT_452;FRAMEWORK_GT_46;FRAMEWORK_GT_461;FRAMEWORK_GT_462;FRAMEWORK_GT_47;FRAMEWORK_GT_471;FRAMEWORK_GT_472</DefineConstants>
+  </PropertyGroup>
+
   <!-- .NET Standard -->
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.0'">
     <TargetFrameworkIsStandard>true</TargetFrameworkIsStandard>
