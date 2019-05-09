@@ -59,7 +59,7 @@ Targeted languages:
 | Build | Status |
 |:-----:|:------:|
 | Master branch | [![Build Status](https://ixiancorp.visualstudio.com/IX.Framework/_apis/build/status/IX.Framework%20master%20CI?branchName=master)](https://ixiancorp.visualstudio.com/IX.Framework/_build/latest?definitionId=4&branchName=master) |
-| Continuous integration | [![Build Status](https://ixiancorp.visualstudio.com/IX.Framework/_apis/build/status/IX.Framework%20continuous%20integration?branchName=master)](https://ixiancorp.visualstudio.com/IX.Framework/_build/latest?definitionId=2&branchName=master) |
+| Continuous integration | [![Build Status](https://ixiancorp.visualstudio.com/IX.Framework/_apis/build/status/IX.Framework%20continuous%20integration?branchName=dev)](https://ixiancorp.visualstudio.com/IX.Framework/_build/latest?definitionId=2&branchName=dev) |
 
 ### Developer guidelines
 
