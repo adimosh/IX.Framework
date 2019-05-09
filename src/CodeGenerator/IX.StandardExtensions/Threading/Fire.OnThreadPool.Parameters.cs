@@ -17,6 +17,7 @@ namespace IX.StandardExtensions.Threading
     /// </summary>
     public static partial class Fire
     {
+#pragma warning disable SA1117 // Parameters should be on same line or separate lines - This is auto-generated code, so we don't really care
 #pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - The lambdas themselves rely on generics
         /// <summary>
         /// Starts an action on a thread in the thread pool.
@@ -2482,6 +2483,7 @@ namespace IX.StandardExtensions.Threading
                 new Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>(action, new Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(param1, param2, param3, param4, param5, param6, param7, param8)),
                 cancellationToken);
 #pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
+#pragma warning restore SA1117 // Parameters should be on same line or separate lines
 
     }
 }

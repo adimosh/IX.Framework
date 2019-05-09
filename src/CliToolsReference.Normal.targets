@@ -1,7 +1,0 @@
-<Project>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-csprojVersioning" Version="1.0.0.14" />
-  </ItemGroup>
-
-</Project>

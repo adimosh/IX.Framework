@@ -48,7 +48,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{6AE6F3F7-FE0A-4CC0-AD3A-948D6764E9C1}"
 	ProjectSection(SolutionItems) = preProject
 		Branding.props = Branding.props
-		CliToolsReference.Normal.targets = CliToolsReference.Normal.targets
 		IXTargets.targets = IXTargets.targets
 		StyleCop.targets = StyleCop.targets
 	EndProjectSection
