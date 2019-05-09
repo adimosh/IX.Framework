@@ -33,7 +33,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IX.Abstractions.Collections\IX.Abstractions.Collections.csproj" />
-    <ProjectReference Include="..\IX.Math\IX.Math.csproj" />
     <ProjectReference Include="..\IX.Observable\IX.Observable.csproj" />
     <ProjectReference Include="..\IX.Retry\IX.Retry.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />

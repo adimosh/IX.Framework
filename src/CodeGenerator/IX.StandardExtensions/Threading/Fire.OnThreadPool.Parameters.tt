@@ -49,7 +49,7 @@ for (int i = 1; i <= 8; i++)
 
     string paramTypes = string.Join(", ", types);
     string paramNames = string.Join(", ", names);
-    string paramNameTypes = string.Join(", ", nameTypes);
+    string paramNameTypes = string.Join($", ", nameTypes);
     string paramParameters = string.Join(", ", parameters);
 #>
 
@@ -241,10 +241,10 @@ for (int i = 1; i <= 8; i++)
     {
 #>
         /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
-        /// <typeparam name="TResult">The expected result type.</typeparam>
 <#
     }
 #>
+        /// <typeparam name="TResult">The expected result type.</typeparam>
         /// <param name="action">The action to execute.</param>
 <#
     for (int j = 1; j <= i; j++)
