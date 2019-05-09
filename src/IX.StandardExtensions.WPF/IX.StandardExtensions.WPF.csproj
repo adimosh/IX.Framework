@@ -74,6 +74,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <Import Project="..\CliToolsReference.Normal.targets" />
-
 </Project>

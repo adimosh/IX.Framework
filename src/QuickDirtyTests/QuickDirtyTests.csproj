@@ -33,8 +33,37 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IX.Abstractions, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.Abstractions.0.5.0.71\lib\net461\IX.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="IX.Abstractions.Collections, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.Abstractions.Collections.0.5.0.71\lib\net461\IX.Abstractions.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="IX.Abstractions.Threading, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.Abstractions.Threading.0.5.0.71\lib\net461\IX.Abstractions.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="IX.Observable, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.Observable.0.5.0.71\lib\net461\IX.Observable.dll</HintPath>
+    </Reference>
+    <Reference Include="IX.StandardExtensions, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.StandardExtensions.0.5.0.71\lib\net461\IX.StandardExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="IX.StandardExtensions.ComponentModel, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.StandardExtensions.ComponentModel.0.5.0.71\lib\net461\IX.StandardExtensions.ComponentModel.dll</HintPath>
+    </Reference>
+    <Reference Include="IX.StandardExtensions.Threading, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.StandardExtensions.Threading.0.5.0.71\lib\net461\IX.StandardExtensions.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="IX.Undoable, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.Undoable.0.5.0.71\lib\net461\IX.Undoable.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,27 +78,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IX.Observable\IX.Observable.csproj">
-      <Project>{a4f3fdd5-cc81-4fe8-aebe-4e6bf1d77ec0}</Project>
-      <Name>IX.Observable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IX.StandardExtensions.ComponentModel\IX.StandardExtensions.ComponentModel.csproj">
-      <Project>{B68675D0-0D50-4E02-A673-0A0837DFBDE3}</Project>
-      <Name>IX.StandardExtensions.ComponentModel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IX.StandardExtensions.TestUtils\IX.StandardExtensions.TestUtils.csproj">
       <Project>{1f5ece36-cbe7-43f3-bd0b-d0e00fe11c34}</Project>
       <Name>IX.StandardExtensions.TestUtils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj">
-      <Project>{a3d15d3a-bd82-4d19-bc32-56148d879ff4}</Project>
-      <Name>IX.StandardExtensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IX.Undoable\IX.Undoable.csproj">
-      <Project>{b1b35f4a-031f-477e-8061-290c5c6f55d2}</Project>
-      <Name>IX.Undoable</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

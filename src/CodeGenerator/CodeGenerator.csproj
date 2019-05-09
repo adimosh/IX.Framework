@@ -191,32 +191,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ObservableBase.ActionsAndFuncs.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ObservableBase.ActionsAndFuncs.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ObservableBase.ActionsAndFuncs.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ObservableBase.ActionsAndFuncs.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.Observable\ConcurrentObservableDictionary{TKey,TValue}.ActionsAndFuncs.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ConcurrentObservableDictionary{TKey,TValue}.ActionsAndFuncs.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.Observable\ConcurrentObservableDictionary{TKey,TValue}.ActionsAndFuncs.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ConcurrentObservableDictionary{TKey,TValue}.ActionsAndFuncs.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="IX.StandardExtensions\Threading\ReaderWriterSynchronizedBase.ActionsAndFuncs.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ReaderWriterSynchronizedBase.ActionsAndFuncs.cs</LastGenOutput>

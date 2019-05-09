@@ -54,6 +54,4 @@
     <ProjectReference Include="..\IX.StandardExtensions.Threading\IX.StandardExtensions.Threading.csproj" />
   </ItemGroup>
 
-  <Import Project="..\CliToolsReference.Normal.targets" />
-
 </Project>

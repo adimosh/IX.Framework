@@ -20,11 +20,11 @@ Until further notice, all versions of this repository will be distributed under 
 |:-------:|:-----------:|:--------:|
 | IX.StandardExtensions | Extensions aiming at standardizing various operations in the .NET Framework. | [Project page](doc/IX.StandardExtensions.md) |
 | IX.Abstractions | A set of libraries for abstracting away things that are not abstracted by default (e.g. file storage) | - |
-| IX.Math | A library that interprets mathematical expressions into executable .NET code | [Project page](doc/IX.Math.md) |
+| IX.Math | A library that interprets mathematical expressions into executable .NET code | [Project page](https://github.com/adimosh/IX.Math) (separate project) |
 | IX.Retry | A library that allows error recovery by retrying a method call according to set rules | [Project page](doc/IX.Retry.md) |
 | IX.Guaranteed | A library dealing with operations that are guaranteed to have completed when successful | - |
-| IX.Undoable | A library providing a framework for general undo and redo operations | [Project page](doc/IX.Undoable.md) |
-| IX.Observable | A library providing various collection types in a manner that is observable and that can be databound to various controls or simply to provide a way to observe changes. | [Project page](doc/IX.Observable.md) |
+| IX.Undoable | A library providing a framework for general undo and redo operations | (part of IX.IObservable below) |
+| IX.Observable | A library providing various collection types in a manner that is observable and that can be databound to various controls or simply to provide a way to observe changes. | [Project page](https://github.com/adimosh/IX.Observable) (separate project) |
 | IX.Sandbox | A set of libraries for providing a sandbox environment. | - |
 
 ## Contributing
@@ -58,8 +58,8 @@ Targeted languages:
 
 | Build | Status |
 |:-----:|:------:|
-| Latest build | [![Build status](https://dev.azure.com/ixiancorp/IX.Framework/_apis/build/status/IX.Framework%20continuous%20integration)](https://dev.azure.com/ixiancorp/IX.Framework/_build/latest?definitionId=2) |
-| Latest release | ![Deployment status](https://vsrm.dev.azure.com/ixiancorp/_apis/public/Release/badge/7cad7d65-5765-4ac0-97e7-7cd45511243c/1/2) |
+| Master branch | [![Build Status](https://ixiancorp.visualstudio.com/IX.Framework/_apis/build/status/IX.Framework%20master%20CI?branchName=master)](https://ixiancorp.visualstudio.com/IX.Framework/_build/latest?definitionId=4&branchName=master) |
+| Continuous integration | [![Build Status](https://ixiancorp.visualstudio.com/IX.Framework/_apis/build/status/IX.Framework%20continuous%20integration?branchName=master)](https://ixiancorp.visualstudio.com/IX.Framework/_build/latest?definitionId=2&branchName=master) |
 
 ### Developer guidelines
 
@@ -90,10 +90,12 @@ This project uses the following libraries:
 
 This project uses the following tools:
 
-- [Visual Studio](https://www.visualstudio.com/) Community Edition [2017 RC](https://www.visualstudio.com/vs/visual-studio-2017-rc/)
-- GhostDoc, available at [SubMain's website](http://submain.com/products/ghostdoc.aspx)
+- [Visual Studio](https://visualstudio.microsoft.com/) Community Edition [2019](https://visualstudio.microsoft.com/vs/), from [Microsoft](https://www.microsoft.com)
+- [GhostDoc](http://submain.com/products/ghostdoc.aspx), from [SubMain](http://submain.com)
+- [ReSharper](https://www.jetbrains.com/resharper/), from [JetBrains](https://www.jetbrains.com)
 - Mads Kristensen's fabulous and numerous tools and extensions, which are too many to name and are available at
 [his GitHub page](https://github.com/madskristensen/)
+- [ErrorProne.NET](https://github.com/SergeyTeplyakov/ErrorProne.NET), by [Sergey Teplyakov](https://blogs.msdn.microsoft.com/seteplia/)
 
 There is also [EditorConfig](http://editorconfig.org/) support and an .editorconfig file
 included that works with Visual Studio 2017's baked-in support.
