@@ -8,7 +8,7 @@ using System.Threading;
 namespace IX.StandardExtensions.ComponentModel
 {
     /// <summary>
-    /// A scope of operations that can be marked as busy or idle.
+    ///     A scope of operations that can be marked as busy or idle.
     /// </summary>
     public class BusyScope : SynchronizationContextInvokerBase
     {
@@ -18,27 +18,27 @@ namespace IX.StandardExtensions.ComponentModel
         private string description;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BusyScope"/> class.
+        ///     Initializes a new instance of the <see cref="BusyScope" /> class.
         /// </summary>
         public BusyScope()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BusyScope"/> class.
+        ///     Initializes a new instance of the <see cref="BusyScope" /> class.
         /// </summary>
         /// <param name="description">The scope description.</param>
-        /// <exception cref="global::System.ArgumentNullException"><paramref name="description"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="description" /> is <see langword="null" />.</exception>
         public BusyScope(string description)
         {
             this.initialDescription = description ?? throw new ArgumentNullException(nameof(description));
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BusyScope"/> class.
+        ///     Initializes a new instance of the <see cref="BusyScope" /> class.
         /// </summary>
         /// <param name="initialBusyCount">The initial busy count.</param>
-        /// <exception cref="global::System.ArgumentOutOfRangeException"><paramref name="initialBusyCount"/> is an integer value less than 0.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="initialBusyCount" /> is an integer value less than 0.</exception>
         public BusyScope(int initialBusyCount)
         {
             if (initialBusyCount < 0)
@@ -50,13 +50,15 @@ namespace IX.StandardExtensions.ComponentModel
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BusyScope"/> class.
+        ///     Initializes a new instance of the <see cref="BusyScope" /> class.
         /// </summary>
         /// <param name="initialBusyCount">The initial busy count.</param>
         /// <param name="description">The scope description.</param>
-        /// <exception cref="global::System.ArgumentOutOfRangeException"><paramref name="initialBusyCount"/> is an integer value less than 0.</exception>
-        /// <exception cref="global::System.ArgumentNullException"><paramref name="description"/> is <see langword="null"/>.</exception>
-        public BusyScope(int initialBusyCount, string description)
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="initialBusyCount" /> is an integer value less than 0.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="description" /> is <see langword="null" />.</exception>
+        public BusyScope(
+            int initialBusyCount,
+            string description)
         {
             if (initialBusyCount < 0)
             {
@@ -68,26 +70,27 @@ namespace IX.StandardExtensions.ComponentModel
         }
 
         /// <summary>
-        /// Occurs when the busy status of the scope has changed.
+        ///     Occurs when the busy status of the scope has changed.
         /// </summary>
-        public event Action BusyScopeChanged;
+        public event EventHandler BusyScopeChanged;
 
         /// <summary>
-        /// Gets the busy count.
+        ///     Gets the busy count.
         /// </summary>
         /// <value>The busy count.</value>
         public int BusyCount => this.busyCount;
 
         /// <summary>
-        /// Gets the description.
+        ///     Gets the description.
         /// </summary>
         /// <value>The description.</value>
         public string Description => this.description ?? this.initialDescription ?? string.Empty;
 
         /// <summary>
-        /// Increments the busy scope.
+        ///     Increments the busy scope.
         /// </summary>
         /// <param name="description">The description for the topmost busy operation.</param>
+        // ReSharper disable once ParameterHidesMember - We know, that is the point
         public void IncrementBusyScope(string description = null)
         {
             Interlocked.Increment(ref this.busyCount);
@@ -95,14 +98,16 @@ namespace IX.StandardExtensions.ComponentModel
 
             if (this.BusyScopeChanged != null)
             {
-                this.Invoke((thisL1) => thisL1.BusyScopeChanged.Invoke(), this);
+                this.Invoke(
+                    thisL1 => thisL1.BusyScopeChanged.Invoke(thisL1, EventArgs.Empty),
+                    this);
             }
         }
 
         /// <summary>
-        /// Decrements the busy scope.
+        ///     Decrements the busy scope.
         /// </summary>
-        /// <exception cref="global::System.InvalidOperationException">The scope is idle.</exception>
+        /// <exception cref="InvalidOperationException">The scope is idle.</exception>
         public void DecrementBusyScope()
         {
             if (this.BusyCount == 0)
@@ -114,7 +119,9 @@ namespace IX.StandardExtensions.ComponentModel
 
             if (this.BusyScopeChanged != null)
             {
-                this.Invoke((thisL1) => thisL1.BusyScopeChanged.Invoke(), this);
+                this.Invoke(
+                    thisL1 => thisL1.BusyScopeChanged.Invoke(thisL1, EventArgs.Empty),
+                    this);
             }
         }
     }

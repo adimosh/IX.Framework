@@ -178,13 +178,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SynchronizationContextInvokerBase.InvokeActionsAndFuncs.tt">
+    <None Include="IX.StandardExtensions\ComponentModel\SynchronizationContextInvokerBase.InvokeActionsAndFuncs.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs">
+    <None Include="IX.StandardExtensions\ComponentModel\SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SynchronizationContextInvokerBase.InvokeActionsAndFuncs.tt</DependentUpon>

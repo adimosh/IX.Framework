@@ -4,22 +4,23 @@
 
 using System;
 using System.Threading;
+using IX.StandardExtensions.Contracts;
 using IX.StandardExtensions.Threading;
-
 using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.ComponentModel
 {
     /// <summary>
-    /// An abstract base class for a synchronization context invoker.
+    ///     An abstract base class for a synchronization context invoker.
     /// </summary>
     /// <seealso cref="IX.StandardExtensions.ComponentModel.DisposableBase" />
+    [PublicAPI]
     public abstract partial class SynchronizationContextInvokerBase : DisposableBase, INotifyThreadException
     {
         private SynchronizationContext synchronizationContext;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SynchronizationContextInvokerBase"/> class.
+        ///     Initializes a new instance of the <see cref="SynchronizationContextInvokerBase" /> class.
         /// </summary>
         protected SynchronizationContextInvokerBase()
             : this(null)
@@ -27,7 +28,7 @@ namespace IX.StandardExtensions.ComponentModel
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SynchronizationContextInvokerBase"/> class.
+        ///     Initializes a new instance of the <see cref="SynchronizationContextInvokerBase" /> class.
         /// </summary>
         /// <param name="synchronizationContext">The specific synchronization context to use.</param>
         protected SynchronizationContextInvokerBase([CanBeNull] SynchronizationContext synchronizationContext)
@@ -36,78 +37,87 @@ namespace IX.StandardExtensions.ComponentModel
         }
 
         /// <summary>
-        /// Triggered when an exception has occurred on a different thread.
+        ///     Triggered when an exception has occurred on a different thread.
         /// </summary>
         public event EventHandler<ExceptionOccurredEventArgs> ExceptionOccurredOnSeparateThread;
 
         /// <summary>
-        /// Gets the synchronization context used by this object, if any.
+        ///     Gets the synchronization context used by this object, if any.
         /// </summary>
         /// <value>The synchronization context.</value>
         public SynchronizationContext SynchronizationContext => this.synchronizationContext;
 
         /// <summary>
-        /// Invokes the specified action using the synchronization context asynchronously, or synchronously on this thread if there is no synchronization context available.
+        ///     Invokes the specified action using the synchronization context asynchronously, or synchronously on this thread if
+        ///     there is no synchronization context available.
         /// </summary>
         /// <param name="action">The action to invoke.</param>
-        protected void Invoke(Action action)
+        protected void Invoke(Action action) => this.Invoke(
+            p => ((Action)p)(),
+            (object)action);
+
+        /// <summary>
+        ///     Invokes the specified action using the synchronization context asynchronously, or synchronously on this thread if
+        ///     there is no synchronization context available.
+        /// </summary>
+        /// <param name="action">The action to invoke.</param>
+        /// <param name="state">The state object to pass on to the action.</param>
+        protected void Invoke(
+            Action<object> action,
+            object state)
         {
             this.ThrowIfCurrentObjectDisposed();
 
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            Contract.RequiresNotNull(
+                action,
+                nameof(action));
 
-            if (EnvironmentSettings.InvokeSynchronouslyOnCurrentThread)
-            {
-                action();
-                return;
-            }
-
-            SynchronizationContext currentSynchronizationContext = this.synchronizationContext ?? EnvironmentSettings.GetUsableSynchronizationContext();
+            SynchronizationContext currentSynchronizationContext =
+                this.synchronizationContext ?? EnvironmentSettings.GetUsableSynchronizationContext();
 
             if (currentSynchronizationContext == null)
             {
-                if (EnvironmentSettings.InvokeSynchronously)
+                if (EnvironmentSettings.InvokeAsynchronously)
                 {
-                    action();
+                    Fire.AndForget(
+                        action,
+                        state);
                 }
                 else
                 {
-                    this.FireAndForget(action);
+                    action(state);
                 }
             }
             else
             {
-                if (EnvironmentSettings.InvokeSynchronously)
-                {
-                    currentSynchronizationContext.Send(
-#pragma warning disable HAA0603 // Delegate allocation from a method group - This is unavoidable
-                        SendOrPost,
-#pragma warning restore HAA0603 // Delegate allocation from a method group
-#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is acceptable
-                        (this, action));
-#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
-                }
-                else
+                var outerState = new Tuple<SynchronizationContextInvokerBase, Action<object>, object>(
+                    this,
+                    action,
+                    state);
+                if (EnvironmentSettings.InvokeAsynchronously)
                 {
                     currentSynchronizationContext.Post(
 #pragma warning disable HAA0603 // Delegate allocation from a method group - This is unavoidable
                         SendOrPost,
 #pragma warning restore HAA0603 // Delegate allocation from a method group
-#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is acceptable
-                        (this, action));
-#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
+                        outerState);
+                }
+                else
+                {
+                    currentSynchronizationContext.Send(
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is unavoidable
+                        SendOrPost,
+#pragma warning restore HAA0603 // Delegate allocation from a method group
+                        outerState);
                 }
 
                 void SendOrPost(object innerState)
                 {
-                    var arguments = ((SynchronizationContextInvokerBase, Action))innerState;
+                    var arguments = (Tuple<SynchronizationContextInvokerBase, Action<object>, object>)innerState;
 
                     try
                     {
-                        arguments.Item2();
+                        arguments.Item2(arguments.Item3);
                     }
                     catch (Exception ex)
                     {
@@ -117,28 +127,26 @@ namespace IX.StandardExtensions.ComponentModel
             }
         }
 
-#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable
         /// <summary>
-        /// Invokes an action and forgets about it, allowing it to run uninterrupted in the background.
-        /// </summary>
-        /// <param name="action">The action to invoke.</param>
-        protected void FireAndForget(Action action) => Fire.AndForget(action, this.InvokeExceptionOccurredOnSeparateThread);
-#pragma warning restore HAA0603 // Delegate allocation from a method group
-
-        /// <summary>
-        /// Disposes in the general (managed and unmanaged) context.
+        ///     Disposes in the general (managed and unmanaged) context.
         /// </summary>
         protected override void DisposeGeneralContext()
         {
-            Interlocked.Exchange(ref this.synchronizationContext, null);
+            Interlocked.Exchange(
+                ref this.synchronizationContext,
+                null);
 
             base.DisposeGeneralContext();
         }
 
         /// <summary>
-        /// Invokes the <see cref="ExceptionOccurredOnSeparateThread"/> event in a safe manner, while ignoring any processing exceptions.
+        ///     Invokes the <see cref="ExceptionOccurredOnSeparateThread" /> event in a safe manner, while ignoring any processing
+        ///     exceptions.
         /// </summary>
         /// <param name="ex">The ex.</param>
-        protected void InvokeExceptionOccurredOnSeparateThread(Exception ex) => this.ExceptionOccurredOnSeparateThread?.Invoke(this, new ExceptionOccurredEventArgs(ex));
+        protected void InvokeExceptionOccurredOnSeparateThread(Exception ex) =>
+            this.ExceptionOccurredOnSeparateThread?.Invoke(
+                this,
+                new ExceptionOccurredEventArgs(ex));
     }
 }
