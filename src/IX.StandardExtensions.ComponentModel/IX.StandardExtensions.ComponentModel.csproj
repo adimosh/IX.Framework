@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\CodeGenerator\SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs" Link="SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ComponentModel\SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs" Link="SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs" />
   </ItemGroup>
 
   <ItemGroup>
