@@ -1,3 +1,4 @@
+<!--EXTERNAL_PROPERTIES: TargetFrameworkIsStandard-->
 <Project>
 
   <!-- StyleCop -->
@@ -20,13 +21,7 @@
     <PackageReference Include="ClrHeapAllocationAnalyzer" Version="1.0.0.9" PrivateAssets="all" />
   </ItemGroup>
 
-  <!-- Resharper -->
-  <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2019.1.1" PrivateAssets="all" />
-  </ItemGroup>
-
   <!-- Support -->
-  <!-- ReSharper disable once UnknownProperty - this will show up at the right time -->
   <ItemGroup Condition="'$(TargetFrameworkIsStandard)'=='true' And '$(Configuration)'=='Debug'">
     <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />
   </ItemGroup>
