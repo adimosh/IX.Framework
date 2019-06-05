@@ -19,6 +19,7 @@ namespace IX.StandardExtensions.Contracts
     [PublicAPI]
     public static partial class Contract
     {
+#pragma warning disable EPS02 // Non-readonly struct used as in-parameter - These are primitive types that the compiler can handle
         /// <summary>
         /// Called when a contract requires that an argument is not null.
         /// </summary>
@@ -35,7 +36,7 @@ namespace IX.StandardExtensions.Contracts
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
         [AssertionMethod]
-        public static void RequiresNotNull<T>([CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] T argument, [NotNull] string argumentName)
+        public static void RequiresNotNull<T>([CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] in T argument, [NotNull] string argumentName)
             where T : class
         {
             if (argument == null)
@@ -61,7 +62,7 @@ namespace IX.StandardExtensions.Contracts
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
         [AssertionMethod]
-        public static void RequiresNotNullPrivate<T>([CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] T argument, [NotNull] string argumentName)
+        public static void RequiresNotNullPrivate<T>([CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] in T argument, [NotNull] string argumentName)
             where T : class
         {
             if (argument == null)
@@ -305,7 +306,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositivePrivate(sbyte argument, [NotNull] string argumentName)
+        public static void RequiresPositivePrivate(in sbyte argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -326,7 +327,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(byte argument, [NotNull] string argumentName)
+        public static void RequiresPositive(in byte argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
@@ -348,7 +349,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositivePrivate(byte argument, [NotNull] string argumentName)
+        public static void RequiresPositivePrivate(in byte argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
@@ -369,93 +370,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(short argument, [NotNull] string argumentName)
-        {
-            if (argument <= 0)
-            {
-                throw new ArgumentNotPositiveIntegerException(argumentName);
-            }
-        }
-
-        /// <summary>
-        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
-        /// </summary>
-        /// <param name="argument">
-        /// The byte array argument.
-        /// </param>
-        /// <param name="argumentName">
-        /// The argument name.
-        /// </param>
-        /// <exception cref="ArgumentNotPositiveIntegerException">
-        /// The argument is negative or 0.
-        /// </exception>
-        [Conditional(Constants.ContractsNonPublicSymbol)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositivePrivate(short argument, [NotNull] string argumentName)
-        {
-            if (argument <= 0)
-            {
-                throw new ArgumentNotPositiveIntegerException(argumentName);
-            }
-        }
-
-        /// <summary>
-        /// Called when a contract requires that a numeric argument is positive.
-        /// </summary>
-        /// <param name="argument">
-        /// The numeric argument.
-        /// </param>
-        /// <param name="argumentName">
-        /// The argument name.
-        /// </param>
-        /// <exception cref="ArgumentNotPositiveIntegerException">
-        /// The argument is 0.
-        /// </exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(ushort argument, [NotNull] string argumentName)
-        {
-            if (argument == 0)
-            {
-                throw new ArgumentNotPositiveIntegerException(argumentName);
-            }
-        }
-
-        /// <summary>
-        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
-        /// </summary>
-        /// <param name="argument">
-        /// The byte array argument.
-        /// </param>
-        /// <param name="argumentName">
-        /// The argument name.
-        /// </param>
-        /// <exception cref="ArgumentNotPositiveIntegerException">
-        /// The argument is 0.
-        /// </exception>
-        [Conditional(Constants.ContractsNonPublicSymbol)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositivePrivate(ushort argument, [NotNull] string argumentName)
-        {
-            if (argument == 0)
-            {
-                throw new ArgumentNotPositiveIntegerException(argumentName);
-            }
-        }
-
-        /// <summary>
-        /// Called when a contract requires that a numeric argument is positive.
-        /// </summary>
-        /// <param name="argument">
-        /// The numeric argument.
-        /// </param>
-        /// <param name="argumentName">
-        /// The argument name.
-        /// </param>
-        /// <exception cref="ArgumentNotPositiveIntegerException">
-        /// The argument is negative or 0.
-        /// </exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(int argument, [NotNull] string argumentName)
+        public static void RequiresPositive(in short argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -477,7 +392,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositivePrivate(int argument, [NotNull] string argumentName)
+        public static void RequiresPositivePrivate(in short argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -498,7 +413,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(uint argument, [NotNull] string argumentName)
+        public static void RequiresPositive(in ushort argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
@@ -520,7 +435,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositivePrivate(uint argument, [NotNull] string argumentName)
+        public static void RequiresPositivePrivate(in ushort argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
@@ -541,7 +456,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(long argument, [NotNull] string argumentName)
+        public static void RequiresPositive(in int argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -563,7 +478,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositivePrivate(long argument, [NotNull] string argumentName)
+        public static void RequiresPositivePrivate(in int argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -584,7 +499,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(ulong argument, [NotNull] string argumentName)
+        public static void RequiresPositive(in uint argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
@@ -606,7 +521,93 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositivePrivate(ulong argument, [NotNull] string argumentName)
+        public static void RequiresPositivePrivate(in uint argument, [NotNull] string argumentName)
+        {
+            if (argument == 0)
+            {
+                throw new ArgumentNotPositiveIntegerException(argumentName);
+            }
+        }
+
+        /// <summary>
+        /// Called when a contract requires that a numeric argument is positive.
+        /// </summary>
+        /// <param name="argument">
+        /// The numeric argument.
+        /// </param>
+        /// <param name="argumentName">
+        /// The argument name.
+        /// </param>
+        /// <exception cref="ArgumentNotPositiveIntegerException">
+        /// The argument is negative or 0.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RequiresPositive(in long argument, [NotNull] string argumentName)
+        {
+            if (argument <= 0)
+            {
+                throw new ArgumentNotPositiveIntegerException(argumentName);
+            }
+        }
+
+        /// <summary>
+        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
+        /// </summary>
+        /// <param name="argument">
+        /// The byte array argument.
+        /// </param>
+        /// <param name="argumentName">
+        /// The argument name.
+        /// </param>
+        /// <exception cref="ArgumentNotPositiveIntegerException">
+        /// The argument is negative or 0.
+        /// </exception>
+        [Conditional(Constants.ContractsNonPublicSymbol)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RequiresPositivePrivate(in long argument, [NotNull] string argumentName)
+        {
+            if (argument <= 0)
+            {
+                throw new ArgumentNotPositiveIntegerException(argumentName);
+            }
+        }
+
+        /// <summary>
+        /// Called when a contract requires that a numeric argument is positive.
+        /// </summary>
+        /// <param name="argument">
+        /// The numeric argument.
+        /// </param>
+        /// <param name="argumentName">
+        /// The argument name.
+        /// </param>
+        /// <exception cref="ArgumentNotPositiveIntegerException">
+        /// The argument is 0.
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RequiresPositive(in ulong argument, [NotNull] string argumentName)
+        {
+            if (argument == 0)
+            {
+                throw new ArgumentNotPositiveIntegerException(argumentName);
+            }
+        }
+
+        /// <summary>
+        /// Called when a contract requires that a numeric argument is positive. Use this method for non-public contracts.
+        /// </summary>
+        /// <param name="argument">
+        /// The byte array argument.
+        /// </param>
+        /// <param name="argumentName">
+        /// The argument name.
+        /// </param>
+        /// <exception cref="ArgumentNotPositiveIntegerException">
+        /// The argument is 0.
+        /// </exception>
+        [Conditional(Constants.ContractsNonPublicSymbol)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RequiresPositivePrivate(in ulong argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
@@ -627,7 +628,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(float argument, [NotNull] string argumentName)
+        public static void RequiresPositive(in float argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -649,7 +650,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositivePrivate(float argument, [NotNull] string argumentName)
+        public static void RequiresPositivePrivate(in float argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -670,7 +671,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(double argument, [NotNull] string argumentName)
+        public static void RequiresPositive(in double argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -692,7 +693,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositivePrivate(double argument, [NotNull] string argumentName)
+        public static void RequiresPositivePrivate(in double argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -713,7 +714,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(decimal argument, [NotNull] string argumentName)
+        public static void RequiresPositive(in decimal argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -735,7 +736,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositivePrivate(decimal argument, [NotNull] string argumentName)
+        public static void RequiresPositivePrivate(in decimal argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -756,7 +757,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(TimeSpan argument, [NotNull] string argumentName)
+        public static void RequiresPositive(in TimeSpan argument, [NotNull] string argumentName)
         {
             if (argument <= TimeSpan.Zero)
             {
@@ -778,7 +779,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositivePrivate(TimeSpan argument, [NotNull] string argumentName)
+        public static void RequiresPositivePrivate(in TimeSpan argument, [NotNull] string argumentName)
         {
             if (argument <= TimeSpan.Zero)
             {
@@ -799,7 +800,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(sbyte argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(in sbyte argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -821,7 +822,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegativePrivate(sbyte argument, [NotNull] string argumentName)
+        public static void RequiresNonNegativePrivate(in sbyte argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -842,7 +843,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(short argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(in short argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -864,7 +865,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegativePrivate(short argument, [NotNull] string argumentName)
+        public static void RequiresNonNegativePrivate(in short argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -885,7 +886,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(int argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(in int argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -907,7 +908,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegativePrivate(int argument, [NotNull] string argumentName)
+        public static void RequiresNonNegativePrivate(in int argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -928,7 +929,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(long argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(in long argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -950,7 +951,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegativePrivate(long argument, [NotNull] string argumentName)
+        public static void RequiresNonNegativePrivate(in long argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -971,7 +972,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(float argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(in float argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -993,7 +994,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegativePrivate(float argument, [NotNull] string argumentName)
+        public static void RequiresNonNegativePrivate(in float argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -1014,7 +1015,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(double argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(in double argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -1036,7 +1037,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegativePrivate(double argument, [NotNull] string argumentName)
+        public static void RequiresNonNegativePrivate(in double argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -1057,7 +1058,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(decimal argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(in decimal argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -1079,7 +1080,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegativePrivate(decimal argument, [NotNull] string argumentName)
+        public static void RequiresNonNegativePrivate(in decimal argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -1100,7 +1101,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(TimeSpan argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(in TimeSpan argument, [NotNull] string argumentName)
         {
             if (argument < TimeSpan.Zero)
             {
@@ -1122,7 +1123,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegativePrivate(TimeSpan argument, [NotNull] string argumentName)
+        public static void RequiresNonNegativePrivate(in TimeSpan argument, [NotNull] string argumentName)
         {
             if (argument < TimeSpan.Zero)
             {
@@ -1244,5 +1245,6 @@ namespace IX.StandardExtensions.Contracts
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void RequiresNotDisposedPrivate([NotNull] this DisposableBase reference) => reference.ThrowIfCurrentObjectDisposed();
+#pragma warning restore EPS02 // Non-readonly struct used as in-parameter
     }
 }
