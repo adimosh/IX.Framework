@@ -182,7 +182,7 @@ namespace IX.StandardExtensions.Contracts
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
         [AssertionMethod]
-        public static void RequiresNotNullOrEmptyCollection<T>([CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] ICollection<T> argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmpty<T>([CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] ICollection<T> argument, [NotNull] string argumentName)
         {
             if ((argument?.Count ?? 0) == 0)
             {
@@ -209,7 +209,7 @@ namespace IX.StandardExtensions.Contracts
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
         [AssertionMethod]
-        public static void RequiresNotNullOrEmptyCollectionPrivate<T>([CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] ICollection<T> argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmptyPrivate<T>([CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] ICollection<T> argument, [NotNull] string argumentName)
         {
             if ((argument?.Count ?? 0) == 0)
             {
@@ -218,10 +218,13 @@ namespace IX.StandardExtensions.Contracts
         }
 
         /// <summary>
-        /// Called when a contract requires that a collection argument is not null or empty.
+        /// Called when a contract requires that an array argument is not null or empty.
         /// </summary>
+        /// <typeparam name="T">
+        /// The type of the array.
+        /// </typeparam>
         /// <param name="argument">
-        /// The byte array argument.
+        /// The array argument.
         /// </param>
         /// <param name="argumentName">
         /// The argument name.
@@ -232,7 +235,7 @@ namespace IX.StandardExtensions.Contracts
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
         [AssertionMethod]
-        public static void RequiresNotNullOrEmptyBinary([CanBeNull, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] byte[] argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmpty<T>([CanBeNull, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] T[] argument, [NotNull] string argumentName)
         {
             if ((argument?.Length ?? 0) == 0)
             {
@@ -241,8 +244,11 @@ namespace IX.StandardExtensions.Contracts
         }
 
         /// <summary>
-        /// Called when a contract requires that a collection argument is not null or empty. Use this method for non-public contracts.
+        /// Called when a contract requires that an array argument is not null or empty. Use this method for non-public contracts.
         /// </summary>
+        /// <typeparam name="T">
+        /// The type of the array.
+        /// </typeparam>
         /// <param name="argument">
         /// The byte array argument.
         /// </param>
@@ -256,7 +262,7 @@ namespace IX.StandardExtensions.Contracts
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
         [AssertionMethod]
-        public static void RequiresNotNullOrEmptyBinaryPrivate([CanBeNull, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] byte[] argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmptyPrivate<T>([CanBeNull, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] T[] argument, [NotNull] string argumentName)
         {
             if ((argument?.Length ?? 0) == 0)
             {

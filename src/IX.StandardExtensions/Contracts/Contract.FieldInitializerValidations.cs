@@ -115,7 +115,7 @@ namespace IX.StandardExtensions.Contracts
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
         [AssertionMethod]
-        public static void RequiresNotNullOrEmptyCollection<T>(ref ICollection<T> field, [CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] ICollection<T> argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmpty<T>(ref ICollection<T> field, [CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] ICollection<T> argument, [NotNull] string argumentName)
         {
             if ((argument?.Count ?? 0) == 0)
             {
@@ -126,13 +126,16 @@ namespace IX.StandardExtensions.Contracts
         }
 
         /// <summary>
-        /// Called when a contract requires that a collection argument initializing a field is not null or empty.
+        /// Called when a contract requires that an array argument initializing a field is not null or empty.
         /// </summary>
+        /// <typeparam name="T">
+        /// The type of the collection.
+        /// </typeparam>
         /// <param name="field">
         /// The field that this argument is initializing.
         /// </param>
         /// <param name="argument">
-        /// The byte array argument.
+        /// The array argument.
         /// </param>
         /// <param name="argumentName">
         /// The argument name.
@@ -143,7 +146,7 @@ namespace IX.StandardExtensions.Contracts
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
         [AssertionMethod]
-        public static void RequiresNotNullOrEmptyBinary(ref byte[] field, [CanBeNull, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] byte[] argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmpty<T>(ref T[] field, [CanBeNull, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] T[] argument, [NotNull] string argumentName)
         {
             if ((argument?.Length ?? 0) == 0)
             {
