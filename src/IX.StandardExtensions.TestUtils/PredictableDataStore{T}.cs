@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.TestUtils
 {
@@ -13,7 +14,8 @@ namespace IX.StandardExtensions.TestUtils
     /// A data store for storing items in a predictable way, such as any iteration through the store will produce the same output. This class is thread-safe, and its internal items container is immutable.
     /// </summary>
     /// <typeparam name="T">The type of items in the store.</typeparam>
-    public class PredictableDataStore<T> : IEnumerable<T>
+    [PublicAPI]
+    public class PredictableDataStore<T> : IReadOnlyList<T>
     {
         private readonly T[] items;
 
@@ -112,6 +114,11 @@ namespace IX.StandardExtensions.TestUtils
         /// </summary>
         /// <value>The count.</value>
         public int Count => this.items.Length;
+
+        /// <summary>Gets the element at the specified index in the read-only list.</summary>
+        /// <param name="index">The zero-based index of the element to get. </param>
+        /// <returns>The element at the specified index in the read-only list.</returns>
+        public T this[int index] => this.items[index];
 
         /// <summary>
         /// Takes an item from the predictable data store.
