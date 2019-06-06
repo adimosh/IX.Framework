@@ -19,7 +19,7 @@ namespace IX.Retry.Contexts
         internal RetryContext(RetryOptions options)
         {
             Contract.RequiresNotNullPrivate(
-                options,
+                in options,
                 nameof(options));
 
             this.options = options;
@@ -132,7 +132,7 @@ namespace IX.Retry.Contexts
             ref int retries)
         {
             Contract.RequiresNotNullPrivate(
-                exceptions,
+                in exceptions,
                 nameof(exceptions));
 
             var shouldRetry = true;

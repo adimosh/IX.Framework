@@ -27,7 +27,7 @@ namespace IX.StandardExtensions.Threading
 #pragma warning restore HAA0301 // Closure Allocation Source
                 {
                     Contract.RequiresNotNullPrivate(
-                        st,
+                        in st,
                         nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Func<Task>>(
                         st,
@@ -73,7 +73,7 @@ namespace IX.StandardExtensions.Threading
 #pragma warning restore HAA0301 // Closure Allocation Source
                 {
                     Contract.RequiresNotNullPrivate(
-                        st,
+                        in st,
                         nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Func<CancellationToken, Task>>(
                         st,
@@ -115,7 +115,7 @@ namespace IX.StandardExtensions.Threading
                     ct) =>
                 {
                     Contract.RequiresNotNullPrivate(
-                        st,
+                        in st,
                         nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Func<Task<TResult>>>(
                         st,
@@ -136,7 +136,7 @@ namespace IX.StandardExtensions.Threading
                     ct) =>
                 {
                     Contract.RequiresNotNullPrivate(
-                        st,
+                        in st,
                         nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Func<CancellationToken, Task<TResult>>>(
                         st,
@@ -157,7 +157,7 @@ namespace IX.StandardExtensions.Threading
 #pragma warning restore HAA0301 // Closure Allocation Source
             {
                 Contract.RequiresNotNullPrivate(
-                    st,
+                    in st,
                     nameof(st));
                 Contract.RequiresArgumentOfTypePrivate<Tuple<Func<object, Task>, object>>(
                     st,
@@ -203,7 +203,7 @@ namespace IX.StandardExtensions.Threading
 #pragma warning restore HAA0301 // Closure Allocation Source
             {
                 Contract.RequiresNotNullPrivate(
-                    st,
+                    in st,
                     nameof(st));
                 Contract.RequiresArgumentOfTypePrivate<Tuple<Func<object, CancellationToken, Task>, object>>(
                     st,
@@ -249,7 +249,7 @@ namespace IX.StandardExtensions.Threading
                 ct) =>
             {
                 Contract.RequiresNotNullPrivate(
-                    st,
+                    in st,
                     nameof(st));
                 Contract.RequiresArgumentOfTypePrivate<Tuple<Func<object, Task<TResult>>, object>>(
                     st,
@@ -270,7 +270,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(
-                action,
+                in action,
                 nameof(action));
 
             var taskCompletionSource = new TaskCompletionSource<TResult>();
@@ -325,7 +325,7 @@ namespace IX.StandardExtensions.Threading
             void WorkItem(object rawState)
             {
                 Contract.RequiresNotNullPrivate(
-                    rawState,
+                    in rawState,
                     nameof(rawState));
 #if NETSTANDARD1_2
                 Contract.RequiresArgumentOfTypePrivate<Tuple<Func<object, CancellationToken, Task<TResult>>, TaskCompletionSource<TResult>, object, CancellationToken>>(

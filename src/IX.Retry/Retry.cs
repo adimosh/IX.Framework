@@ -27,7 +27,7 @@ namespace IX.Retry
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(
-                action,
+                in action,
                 nameof(action));
 
             Run(
@@ -47,7 +47,7 @@ namespace IX.Retry
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(
-                action,
+                in action,
                 nameof(action));
 
             return RunAsync(
@@ -68,10 +68,10 @@ namespace IX.Retry
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(
-                action,
+                in action,
                 nameof(action));
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
 
             Run(
@@ -93,10 +93,10 @@ namespace IX.Retry
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(
-                action,
+                in action,
                 nameof(action));
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
 
             return RunAsync(
@@ -117,10 +117,10 @@ namespace IX.Retry
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(
-                action,
+                in action,
                 nameof(action));
             Contract.RequiresNotNull(
-                optionsSetter,
+                in optionsSetter,
                 nameof(optionsSetter));
 
             var options = new RetryOptions();
@@ -145,10 +145,10 @@ namespace IX.Retry
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(
-                action,
+                in action,
                 nameof(action));
             Contract.RequiresNotNull(
-                optionsSetter,
+                in optionsSetter,
                 nameof(optionsSetter));
 
             var options = new RetryOptions();
@@ -173,7 +173,7 @@ namespace IX.Retry
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(
-                action,
+                in action,
                 nameof(action));
 
             return () => Run(
@@ -195,10 +195,10 @@ namespace IX.Retry
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(
-                action,
+                in action,
                 nameof(action));
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
 
             return () => Run(
@@ -220,10 +220,10 @@ namespace IX.Retry
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(
-                action,
+                in action,
                 nameof(action));
             Contract.RequiresNotNull(
-                optionsSetter,
+                in optionsSetter,
                 nameof(optionsSetter));
 
             var options = new RetryOptions();
@@ -246,7 +246,7 @@ namespace IX.Retry
         public static RetryOptions Times(int times)
         {
             Contract.RequiresPositive(
-                times,
+                in times,
                 nameof(times));
 
             return new RetryOptions
@@ -304,7 +304,7 @@ namespace IX.Retry
         public static RetryOptions For(TimeSpan timeSpan)
         {
             Contract.RequiresPositive(
-                timeSpan,
+                in timeSpan,
                 nameof(timeSpan));
 
             return new RetryOptions
@@ -322,7 +322,7 @@ namespace IX.Retry
         public static RetryOptions For(int milliseconds)
         {
             Contract.RequiresNonNegative(
-                milliseconds,
+                in milliseconds,
                 nameof(milliseconds));
 
             return new RetryOptions
@@ -347,7 +347,7 @@ namespace IX.Retry
         public static RetryOptions Until([CanBeNull] RetryConditionDelegate conditionMethod)
         {
             Contract.RequiresNotNull(
-                conditionMethod,
+                in conditionMethod,
                 nameof(conditionMethod));
 
             return new RetryOptions
@@ -386,7 +386,7 @@ namespace IX.Retry
             where T : Exception
         {
             Contract.RequiresNotNull(
-                testExceptionFunc,
+                in testExceptionFunc,
                 nameof(testExceptionFunc));
 
             var options = new RetryOptions();
@@ -414,7 +414,7 @@ namespace IX.Retry
         public static RetryOptions WaitFor(int milliseconds)
         {
             Contract.RequiresPositive(
-                milliseconds,
+                in milliseconds,
                 nameof(milliseconds));
 
             return new RetryOptions
@@ -432,7 +432,7 @@ namespace IX.Retry
         public static RetryOptions WaitFor(TimeSpan timeSpan)
         {
             Contract.RequiresPositive(
-                timeSpan,
+                in timeSpan,
                 nameof(timeSpan));
 
             return new RetryOptions
@@ -450,7 +450,7 @@ namespace IX.Retry
         public static RetryOptions WaitUntil([CanBeNull] RetryWaitDelegate waitMethod)
         {
             Contract.RequiresNotNull(
-                waitMethod,
+                in waitMethod,
                 nameof(waitMethod));
 
             return new RetryOptions
@@ -466,10 +466,10 @@ namespace IX.Retry
             CancellationToken cancellationToken)
         {
             Contract.RequiresNotNullPrivate(
-                action,
+                in action,
                 nameof(action));
             Contract.RequiresNotNullPrivate(
-                options,
+                in options,
                 nameof(options));
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -487,10 +487,10 @@ namespace IX.Retry
             CancellationToken cancellationToken)
         {
             Contract.RequiresNotNullPrivate(
-                action,
+                in action,
                 nameof(action));
             Contract.RequiresNotNullPrivate(
-                options,
+                in options,
                 nameof(options));
             cancellationToken.ThrowIfCancellationRequested();
 

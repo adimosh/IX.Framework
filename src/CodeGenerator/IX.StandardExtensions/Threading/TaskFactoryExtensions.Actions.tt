@@ -69,7 +69,7 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartOnDefaultTaskScheduler<<#= paramTypes #>>(this TaskFactory taskFactory, Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -127,7 +127,7 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartLongRunningOnDefaultTaskScheduler<<#= paramTypes #>>(this TaskFactory taskFactory, Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -186,7 +186,7 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartOnDefaultTaskScheduler<<#= paramTypes #>, TResult>(this TaskFactory taskFactory, Func<<#= paramTypes #>, TResult> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -245,7 +245,7 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartLongRunningOnDefaultTaskScheduler<<#= paramTypes #>, TResult>(this TaskFactory taskFactory, Func<<#= paramTypes #>, TResult> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,

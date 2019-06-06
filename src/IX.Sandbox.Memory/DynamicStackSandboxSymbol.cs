@@ -70,18 +70,18 @@ namespace IX.Sandbox.Memory
                     switch (value)
                     {
                         case IEnumerable enumerable:
-                        {
-                            foreach (object p in enumerable)
                             {
-                                newValue.Push(h.CreateSandboxValue(p));
+                                foreach (object p in enumerable)
+                                {
+                                    newValue.Push(h.CreateSandboxValue(p));
+                                }
                             }
-                        }
 
                             break;
                         default:
-                        {
-                            newValue.Push(h.CreateSandboxValue(value));
-                        }
+                            {
+                                newValue.Push(h.CreateSandboxValue(value));
+                            }
 
                             break;
                     }
@@ -91,30 +91,30 @@ namespace IX.Sandbox.Memory
                     switch (value)
                     {
                         case byte[] ba:
-                        {
-                            newValue.Push(h.CreateSandboxValue(ba));
-                        }
+                            {
+                                newValue.Push(h.CreateSandboxValue(ba));
+                            }
 
                             break;
                         case char[] ca:
-                        {
-                            newValue.Push(h.CreateSandboxValue(ca));
-                        }
+                            {
+                                newValue.Push(h.CreateSandboxValue(ca));
+                            }
 
                             break;
                         case IEnumerable enumerable:
-                        {
-                            foreach (object p in enumerable)
                             {
-                                newValue.Push(h.CreateSandboxValue(p));
+                                foreach (object p in enumerable)
+                                {
+                                    newValue.Push(h.CreateSandboxValue(p));
+                                }
                             }
-                        }
 
                             break;
                         default:
-                        {
-                            newValue.Push(h.CreateSandboxValue(value));
-                        }
+                            {
+                                newValue.Push(h.CreateSandboxValue(value));
+                            }
 
                             break;
                     }

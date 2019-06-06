@@ -49,7 +49,7 @@ for (int i = 1; i <= 8; i++)
         internal ActionWith<#= i #>ParamRetryContext(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
 
             this.action = action;
 <#
@@ -81,7 +81,7 @@ for (int i = 1; i <= 8; i++)
         internal FuncWith<#= i #>ParamRetryContext(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
 
             this.func = func;
 <#

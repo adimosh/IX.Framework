@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using IX.StandardExtensions.Contracts;
 
 namespace IX.StandardExtensions
 {
@@ -21,10 +22,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, byte> DeepClone<TKey>(this Dictionary<TKey, byte> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, byte>();
 
@@ -45,10 +43,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, sbyte> DeepClone<TKey>(this Dictionary<TKey, sbyte> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, sbyte>();
 
@@ -69,10 +64,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, short> DeepClone<TKey>(this Dictionary<TKey, short> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, short>();
 
@@ -93,10 +85,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, ushort> DeepClone<TKey>(this Dictionary<TKey, ushort> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, ushort>();
 
@@ -117,10 +106,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, char> DeepClone<TKey>(this Dictionary<TKey, char> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, char>();
 
@@ -141,10 +127,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, int> DeepClone<TKey>(this Dictionary<TKey, int> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, int>();
 
@@ -165,10 +148,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, uint> DeepClone<TKey>(this Dictionary<TKey, uint> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, uint>();
 
@@ -189,10 +169,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, long> DeepClone<TKey>(this Dictionary<TKey, long> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, long>();
 
@@ -213,10 +190,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, ulong> DeepClone<TKey>(this Dictionary<TKey, ulong> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, ulong>();
 
@@ -237,10 +211,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, float> DeepClone<TKey>(this Dictionary<TKey, float> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, float>();
 
@@ -261,10 +232,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, double> DeepClone<TKey>(this Dictionary<TKey, double> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, double>();
 
@@ -285,10 +253,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, decimal> DeepClone<TKey>(this Dictionary<TKey, decimal> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, decimal>();
 
@@ -309,10 +274,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, DateTime> DeepClone<TKey>(this Dictionary<TKey, DateTime> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, DateTime>();
 
@@ -333,10 +295,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, bool> DeepClone<TKey>(this Dictionary<TKey, bool> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, bool>();
 
@@ -357,10 +316,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, TimeSpan> DeepClone<TKey>(this Dictionary<TKey, TimeSpan> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, TimeSpan>();
 
@@ -381,10 +337,7 @@ namespace IX.StandardExtensions
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, string> DeepClone<TKey>(this Dictionary<TKey, string> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, string>();
 

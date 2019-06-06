@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using IX.StandardExtensions.Contracts;
 using IX.StandardExtensions.Efficiency;
 
 namespace IX.StandardExtensions
@@ -96,15 +97,12 @@ for (int i = 1; i <= 8; i++)
         }
 #>
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
 
             foreach (TItem item in source)
             {

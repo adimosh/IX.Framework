@@ -1,4 +1,4 @@
-// <copyright file="Fire.ExecuteOnThreadPool.Void.cs" company="Adrian Mos">
+// <copyright file="Fire.ExecuteOnThreadPool.Task.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -24,7 +24,7 @@ namespace IX.StandardExtensions.Threading
                     ct) =>
                 {
                     Contract.RequiresNotNullPrivate(
-                        st,
+                        in st,
                         nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Action>(
                         st,
@@ -47,7 +47,7 @@ namespace IX.StandardExtensions.Threading
                     ct) =>
                 {
                     Contract.RequiresNotNullPrivate(
-                        st,
+                        in st,
                         nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Action<CancellationToken>>(
                         st,
@@ -68,7 +68,7 @@ namespace IX.StandardExtensions.Threading
                     ct) =>
                 {
                     Contract.RequiresNotNullPrivate(
-                        st,
+                        in st,
                         nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Func<TResult>>(
                         st,
@@ -89,7 +89,7 @@ namespace IX.StandardExtensions.Threading
                     ct) =>
                 {
                     Contract.RequiresNotNullPrivate(
-                        st,
+                        in st,
                         nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Func<CancellationToken, TResult>>(
                         st,
@@ -108,7 +108,7 @@ namespace IX.StandardExtensions.Threading
                 ct) =>
             {
                 Contract.RequiresNotNullPrivate(
-                    st,
+                    in st,
                     nameof(st));
                 Contract.RequiresArgumentOfTypePrivate<Tuple<Action<object>, object>>(
                     st,
@@ -130,7 +130,7 @@ namespace IX.StandardExtensions.Threading
                 ct) =>
             {
                 Contract.RequiresNotNullPrivate(
-                    st,
+                    in st,
                     nameof(st));
                 Contract.RequiresArgumentOfTypePrivate<Tuple<Action<object, CancellationToken>, object>>(
                     st,
@@ -154,7 +154,7 @@ namespace IX.StandardExtensions.Threading
                 ct) =>
             {
                 Contract.RequiresNotNullPrivate(
-                    st,
+                    in st,
                     nameof(st));
                 Contract.RequiresArgumentOfTypePrivate<Tuple<Func<object, TResult>, object>>(
                     st,
@@ -175,7 +175,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNullPrivate(
-                action,
+                in action,
                 nameof(action));
 
             var taskCompletionSource = new TaskCompletionSource<TResult>();
@@ -224,7 +224,7 @@ namespace IX.StandardExtensions.Threading
             void WorkItem(object rawState)
             {
                 Contract.RequiresNotNullPrivate(
-                    rawState,
+                    in rawState,
                     nameof(rawState));
 #if NETSTANDARD1_2
                 Contract.RequiresArgumentOfTypePrivate<Tuple<Func<object, CancellationToken, TResult>, TaskCompletionSource<TResult>, object, CancellationToken>>(

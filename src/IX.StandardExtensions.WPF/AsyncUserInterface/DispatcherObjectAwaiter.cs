@@ -18,7 +18,7 @@ namespace IX.StandardExtensions.WPF.AsyncUserInterface
         public DispatcherObjectAwaiter([NotNull] DispatcherObject sourceObject)
         {
             Contract.RequiresNotNullPrivate(
-                sourceObject,
+                in sourceObject,
                 nameof(sourceObject));
 
             this.sourceObject = sourceObject;
@@ -41,7 +41,7 @@ namespace IX.StandardExtensions.WPF.AsyncUserInterface
         public void OnCompleted(Action continuation)
         {
             Contract.RequiresNotNullPrivate(
-                continuation,
+                in continuation,
                 nameof(continuation));
 
             this.sourceObject.Dispatcher.Invoke(continuation);

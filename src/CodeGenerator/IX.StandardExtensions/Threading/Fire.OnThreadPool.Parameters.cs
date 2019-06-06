@@ -27,16 +27,14 @@ namespace IX.StandardExtensions.Threading
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0.</param>
         /// <param name="cancellationToken">The optional cancellation token for the operation.</param>
         /// <returns>The task representing the current asynchronous operation.</returns>
-#if NETSTANDARD1_2
-        /// <remarks><para>Due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
-#endif
+        /// <remarks><para>On .NET Standard 1.2, due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
         public static Task OnThreadPool<TParam1>(
             Action<TParam1> action,
             TParam1 param1,
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1>, Tuple<TParam1>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1>, Tuple<TParam1>>)st;
@@ -67,7 +65,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, CancellationToken>, Tuple<TParam1>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, CancellationToken>, Tuple<TParam1>>)st;
@@ -98,7 +96,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, Task>, Tuple<TParam1>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, Task>, Tuple<TParam1>>)st;
@@ -129,7 +127,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, CancellationToken, Task>, Tuple<TParam1>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, CancellationToken, Task>, Tuple<TParam1>>)st;
@@ -161,7 +159,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TResult>, Tuple<TParam1>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TResult>, Tuple<TParam1>>)st;
@@ -193,7 +191,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, CancellationToken, TResult>, Tuple<TParam1>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, CancellationToken, TResult>, Tuple<TParam1>>)st;
@@ -225,7 +223,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, Task<TResult>>, Tuple<TParam1>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, Task<TResult>>, Tuple<TParam1>>)st;
@@ -257,7 +255,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, CancellationToken, Task<TResult>>, Tuple<TParam1>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, CancellationToken, Task<TResult>>, Tuple<TParam1>>)st;
@@ -281,16 +279,14 @@ namespace IX.StandardExtensions.Threading
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1.</param>
         /// <param name="cancellationToken">The optional cancellation token for the operation.</param>
         /// <returns>The task representing the current asynchronous operation.</returns>
-#if NETSTANDARD1_2
-        /// <remarks><para>Due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
-#endif
+        /// <remarks><para>On .NET Standard 1.2, due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
         public static Task OnThreadPool<TParam1, TParam2>(
             Action<TParam1, TParam2> action,
             TParam1 param1, TParam2 param2,
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2>, Tuple<TParam1, TParam2>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2>, Tuple<TParam1, TParam2>>)st;
@@ -323,7 +319,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, CancellationToken>, Tuple<TParam1, TParam2>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, CancellationToken>, Tuple<TParam1, TParam2>>)st;
@@ -356,7 +352,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, Task>, Tuple<TParam1, TParam2>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, Task>, Tuple<TParam1, TParam2>>)st;
@@ -389,7 +385,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, CancellationToken, Task>, Tuple<TParam1, TParam2>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, CancellationToken, Task>, Tuple<TParam1, TParam2>>)st;
@@ -423,7 +419,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TResult>, Tuple<TParam1, TParam2>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TResult>, Tuple<TParam1, TParam2>>)st;
@@ -457,7 +453,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, CancellationToken, TResult>, Tuple<TParam1, TParam2>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, CancellationToken, TResult>, Tuple<TParam1, TParam2>>)st;
@@ -491,7 +487,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, Task<TResult>>, Tuple<TParam1, TParam2>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, Task<TResult>>, Tuple<TParam1, TParam2>>)st;
@@ -525,7 +521,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2>>)st;
@@ -551,16 +547,14 @@ namespace IX.StandardExtensions.Threading
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2.</param>
         /// <param name="cancellationToken">The optional cancellation token for the operation.</param>
         /// <returns>The task representing the current asynchronous operation.</returns>
-#if NETSTANDARD1_2
-        /// <remarks><para>Due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
-#endif
+        /// <remarks><para>On .NET Standard 1.2, due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
         public static Task OnThreadPool<TParam1, TParam2, TParam3>(
             Action<TParam1, TParam2, TParam3> action,
             TParam1 param1, TParam2 param2, TParam3 param3,
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3>, Tuple<TParam1, TParam2, TParam3>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3>, Tuple<TParam1, TParam2, TParam3>>)st;
@@ -595,7 +589,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, CancellationToken>, Tuple<TParam1, TParam2, TParam3>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, CancellationToken>, Tuple<TParam1, TParam2, TParam3>>)st;
@@ -630,7 +624,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, Task>, Tuple<TParam1, TParam2, TParam3>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, Task>, Tuple<TParam1, TParam2, TParam3>>)st;
@@ -665,7 +659,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3>>)st;
@@ -701,7 +695,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TResult>, Tuple<TParam1, TParam2, TParam3>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TResult>, Tuple<TParam1, TParam2, TParam3>>)st;
@@ -737,7 +731,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, CancellationToken, TResult>, Tuple<TParam1, TParam2, TParam3>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, CancellationToken, TResult>, Tuple<TParam1, TParam2, TParam3>>)st;
@@ -773,7 +767,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, Task<TResult>>, Tuple<TParam1, TParam2, TParam3>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, Task<TResult>>, Tuple<TParam1, TParam2, TParam3>>)st;
@@ -809,7 +803,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2, TParam3>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2, TParam3>>)st;
@@ -837,16 +831,14 @@ namespace IX.StandardExtensions.Threading
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3.</param>
         /// <param name="cancellationToken">The optional cancellation token for the operation.</param>
         /// <returns>The task representing the current asynchronous operation.</returns>
-#if NETSTANDARD1_2
-        /// <remarks><para>Due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
-#endif
+        /// <remarks><para>On .NET Standard 1.2, due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
         public static Task OnThreadPool<TParam1, TParam2, TParam3, TParam4>(
             Action<TParam1, TParam2, TParam3, TParam4> action,
             TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4,
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4>, Tuple<TParam1, TParam2, TParam3, TParam4>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4>, Tuple<TParam1, TParam2, TParam3, TParam4>>)st;
@@ -883,7 +875,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4>>)st;
@@ -920,7 +912,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, Task>, Tuple<TParam1, TParam2, TParam3, TParam4>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, Task>, Tuple<TParam1, TParam2, TParam3, TParam4>>)st;
@@ -957,7 +949,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4>>)st;
@@ -995,7 +987,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4>>)st;
@@ -1033,7 +1025,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, CancellationToken, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, CancellationToken, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4>>)st;
@@ -1071,7 +1063,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4>>)st;
@@ -1109,7 +1101,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4>>)st;
@@ -1139,16 +1131,14 @@ namespace IX.StandardExtensions.Threading
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4.</param>
         /// <param name="cancellationToken">The optional cancellation token for the operation.</param>
         /// <returns>The task representing the current asynchronous operation.</returns>
-#if NETSTANDARD1_2
-        /// <remarks><para>Due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
-#endif
+        /// <remarks><para>On .NET Standard 1.2, due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
         public static Task OnThreadPool<TParam1, TParam2, TParam3, TParam4, TParam5>(
             Action<TParam1, TParam2, TParam3, TParam4, TParam5> action,
             TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5,
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>)st;
@@ -1187,7 +1177,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>)st;
@@ -1226,7 +1216,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>)st;
@@ -1265,7 +1255,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>)st;
@@ -1305,7 +1295,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>)st;
@@ -1345,7 +1335,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>)st;
@@ -1385,7 +1375,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>)st;
@@ -1425,7 +1415,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>)st;
@@ -1457,16 +1447,14 @@ namespace IX.StandardExtensions.Threading
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
         /// <param name="cancellationToken">The optional cancellation token for the operation.</param>
         /// <returns>The task representing the current asynchronous operation.</returns>
-#if NETSTANDARD1_2
-        /// <remarks><para>Due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
-#endif
+        /// <remarks><para>On .NET Standard 1.2, due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
         public static Task OnThreadPool<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(
             Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action,
             TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6,
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>)st;
@@ -1507,7 +1495,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>)st;
@@ -1548,7 +1536,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>)st;
@@ -1589,7 +1577,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>)st;
@@ -1631,7 +1619,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>)st;
@@ -1673,7 +1661,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>)st;
@@ -1715,7 +1703,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>)st;
@@ -1757,7 +1745,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>)st;
@@ -1791,16 +1779,14 @@ namespace IX.StandardExtensions.Threading
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
         /// <param name="cancellationToken">The optional cancellation token for the operation.</param>
         /// <returns>The task representing the current asynchronous operation.</returns>
-#if NETSTANDARD1_2
-        /// <remarks><para>Due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
-#endif
+        /// <remarks><para>On .NET Standard 1.2, due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
         public static Task OnThreadPool<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(
             Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action,
             TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7,
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>)st;
@@ -1843,7 +1829,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>)st;
@@ -1886,7 +1872,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>)st;
@@ -1929,7 +1915,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>)st;
@@ -1973,7 +1959,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>)st;
@@ -2017,7 +2003,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>)st;
@@ -2061,7 +2047,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>)st;
@@ -2105,7 +2091,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>)st;
@@ -2141,16 +2127,14 @@ namespace IX.StandardExtensions.Threading
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked method at index 7.</param>
         /// <param name="cancellationToken">The optional cancellation token for the operation.</param>
         /// <returns>The task representing the current asynchronous operation.</returns>
-#if NETSTANDARD1_2
-        /// <remarks><para>Due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
-#endif
+        /// <remarks><para>On .NET Standard 1.2, due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
         public static Task OnThreadPool<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(
             Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action,
             TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8,
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>)st;
@@ -2195,7 +2179,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>)st;
@@ -2240,7 +2224,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>)st;
@@ -2285,7 +2269,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>)st;
@@ -2331,7 +2315,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>)st;
@@ -2377,7 +2361,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken, TResult>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>)st;
@@ -2423,7 +2407,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>)st;
@@ -2469,7 +2453,7 @@ namespace IX.StandardExtensions.Threading
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
                 (st, ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken, Task<TResult>>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>)st;

@@ -67,7 +67,7 @@ for (int i = 1; i <= 8; i++)
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             Run(action, <#= paramNames #>, new RetryOptions(), cancellationToken);
         }
@@ -96,7 +96,7 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return RunAsync(action, <#= paramNames #>, new RetryOptions(), cancellationToken);
         }
@@ -125,8 +125,8 @@ for (int i = 1; i <= 8; i++)
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             Run(action, <#= paramNames #>, options, cancellationToken);
         }
@@ -156,8 +156,8 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(action, <#= paramNames #>, options, cancellationToken);
         }
@@ -186,8 +186,8 @@ for (int i = 1; i <= 8; i++)
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -220,8 +220,8 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -258,7 +258,7 @@ for (int i = 1; i <= 8; i++)
         /// </remarks>
         public static Action Later<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return () => Run(action, <#= paramNames #>, new RetryOptions(), cancellationToken);
         }
@@ -293,8 +293,8 @@ for (int i = 1; i <= 8; i++)
         /// </remarks>
         public static Action Later<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(action, <#= paramNames #>, options, cancellationToken);
         }
@@ -329,8 +329,8 @@ for (int i = 1; i <= 8; i++)
         /// </remarks>
         public static Action Later<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -363,7 +363,7 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return Run(func, <#= paramNames #>, new RetryOptions(), cancellationToken);
         }
@@ -393,7 +393,7 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return RunAsync(func, <#= paramNames #>, new RetryOptions(), cancellationToken);
         }
@@ -424,8 +424,8 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return Run(func, <#= paramNames #>, options, cancellationToken);
         }
@@ -456,8 +456,8 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(func, <#= paramNames #>, options, cancellationToken);
         }
@@ -488,8 +488,8 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -523,8 +523,8 @@ for (int i = 1; i <= 8; i++)
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -562,7 +562,7 @@ for (int i = 1; i <= 8; i++)
         /// </remarks>
         public static Func<TReturn> Later<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return () => Run(func, <#= paramNames #>, new RetryOptions(), cancellationToken);
         }
@@ -598,8 +598,8 @@ for (int i = 1; i <= 8; i++)
         /// </remarks>
         public static Func<TReturn> Later<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(func, <#= paramNames #>, options, cancellationToken);
         }
@@ -635,8 +635,8 @@ for (int i = 1; i <= 8; i++)
         /// </remarks>
         public static Func<TReturn> Later<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -666,8 +666,8 @@ for (int i = 1; i <= 8; i++)
 
         private static async Task RunAsync<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -679,8 +679,8 @@ for (int i = 1; i <= 8; i++)
 
         private static void Run<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -692,8 +692,8 @@ for (int i = 1; i <= 8; i++)
 
         private static async Task<TReturn> RunAsync<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -707,8 +707,8 @@ for (int i = 1; i <= 8; i++)
 
         private static TReturn Run<<#= paramTypes #>, TReturn>(Func<<#= paramTypes #>, TReturn> func, <#= paramNameTypes #>, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 

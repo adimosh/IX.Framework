@@ -19,9 +19,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">The action to execute.</param>
         /// <param name="cancellationToken">The optional cancellation token for the operation.</param>
         /// <returns>The task representing the current asynchronous operation.</returns>
-#if NETSTANDARD1_2
-        /// <remarks><para>Due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
-#endif
+        /// <remarks><para>On .NET Standard 1.2, due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
         public static Task OnThreadPool(
             Action action,
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
@@ -34,9 +32,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">The action to execute.</param>
         /// <param name="cancellationToken">The optional cancellation token for the operation.</param>
         /// <returns>The task representing the current asynchronous operation.</returns>
-#if NETSTANDARD1_2
-        /// <remarks><para>Due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
-#endif
+        /// <remarks><para>On .NET Standard 1.2, due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
         public static Task OnThreadPool(
             Action<CancellationToken> action,
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
@@ -50,9 +46,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">The action to execute.</param>
         /// <param name="cancellationToken">The optional cancellation token for the operation.</param>
         /// <returns>The task representing the current asynchronous operation.</returns>
-#if NETSTANDARD1_2
-        /// <remarks><para>Due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
-#endif
+        /// <remarks><para>On .NET Standard 1.2, due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
         public static Task<TResult> OnThreadPool<TResult>(
             Func<TResult> action,
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(
@@ -66,9 +60,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">The action to execute.</param>
         /// <param name="cancellationToken">The optional cancellation token for the operation.</param>
         /// <returns>The task representing the current asynchronous operation.</returns>
-#if NETSTANDARD1_2
-        /// <remarks><para>Due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
-#endif
+        /// <remarks><para>On .NET Standard 1.2, due to the way the task scheduler works, it is not a guarantee that the method will run on a separate thread.</para></remarks>
         public static Task<TResult> OnThreadPool<TResult>(
             Func<CancellationToken, TResult> action,
             CancellationToken cancellationToken = default) => ExecuteOnThreadPool(

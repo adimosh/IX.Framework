@@ -9,6 +9,7 @@
 // </copyright>
 
 using System;
+using IX.StandardExtensions.Contracts;
 using IX.StandardExtensions.Efficiency;
 
 namespace IX.StandardExtensions
@@ -62,15 +63,12 @@ for (int i = 1; i <= 8; i++)
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static void ForEach<TItem, <#= paramTypes #>>(this TItem[] source, RefIteratorAction<TItem, <#= paramTypes #>> action, <#= paramNameTypes #>)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
 
             for (var i = 0; i < source.Length; i++)
             {

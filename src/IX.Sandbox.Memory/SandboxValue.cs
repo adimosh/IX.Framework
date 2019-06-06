@@ -40,12 +40,6 @@ namespace IX.Sandbox.Memory
         /// <value>The identifier.</value>
         public Guid Id { get; }
 
-        internal int TimesCaptured => this.timesCaptured;
-
-        internal bool CertainForCollection { get; set; }
-
-        internal bool MarkedForCollection { get; set; }
-
         /// <summary>
         ///     Gets or sets the raw object that is represented by this value.
         /// </summary>
@@ -57,6 +51,12 @@ namespace IX.Sandbox.Memory
         /// </summary>
         /// <value>The string representation.</value>
         public abstract string StringRepresentation { get; protected set; }
+
+        internal int TimesCaptured => this.timesCaptured;
+
+        internal bool CertainForCollection { get; set; }
+
+        internal bool MarkedForCollection { get; set; }
 
         /// <summary>
         ///     Returns a <see cref="string" /> that represents this instance.

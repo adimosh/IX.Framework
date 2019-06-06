@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using IX.Retry;
+using JetBrains.Annotations;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -32,8 +33,9 @@ namespace IX.UnitTests.IX.Retry
         /// Generates the failure the test data.
         /// </summary>
         /// <returns>A set of objects that represent the data.</returns>
-        public static IEnumerable<object[]> FailureTestData() => new object[][]
-            {
+        [UsedImplicitly]
+        public static IEnumerable<object[]> FailureTestData() => new[]
+        {
             new object[]
             {
                 global::IX.Retry.Retry.Once(),
@@ -42,7 +44,7 @@ namespace IX.UnitTests.IX.Retry
                     new InvalidOperationException(),
                 },
                 new Func<ReadOnlyCollection<Exception>, bool>(
-                    (ReadOnlyCollection<Exception> exes) =>
+                    exes =>
                         exes.Count == 1 && exes[0] is InvalidOperationException),
             },
             new object[]
@@ -54,7 +56,7 @@ namespace IX.UnitTests.IX.Retry
                     new FormatException(),
                 },
                 new Func<ReadOnlyCollection<Exception>, bool>(
-                    (ReadOnlyCollection<Exception> exes) =>
+                    exes =>
                         exes.Count == 2 && exes[0] is InvalidOperationException
                         && exes[1] is FormatException),
             },
@@ -67,12 +69,12 @@ namespace IX.UnitTests.IX.Retry
                     new FormatException(),
                 },
                 new Func<ReadOnlyCollection<Exception>, bool>(
-                    (ReadOnlyCollection<Exception> exes) =>
+                    exes =>
                         exes.Count == 3 && exes[0].GetType() == typeof(InvalidOperationException)
                         && exes[1].GetType() == typeof(FormatException)
                         && exes[2].GetType() == typeof(InvalidOperationException)),
             },
-            };
+        };
 
         /// <summary>
         /// Tests failure and retry with specific options.
@@ -109,22 +111,27 @@ namespace IX.UnitTests.IX.Retry
             {
                 this.output.WriteLine("AggregateException has been caught.");
 
-                if (ex.InnerExceptions != null && ex.InnerExceptions.Count == 1)
+                if (ex.InnerExceptions != null && ex.InnerExceptions.Count == 1 && ex.InnerExceptions[0] is AggregateException exception)
                 {
-                    Exception exe = ex.InnerExceptions[0];
-                    if (exe is AggregateException)
-                    {
-                        ex = exe as AggregateException;
-                    }
+                    ex = exception;
                 }
 
-                this.output.WriteLine($"Inner exceptions: {ex.InnerExceptions.Count}.");
-                this.output.WriteLine(string.Join(", ", ex.InnerExceptions.Select(p => p.GetType().Name)));
+                if (ex.InnerExceptions != null)
+                {
+                    this.output.WriteLine($"Inner exceptions: {ex.InnerExceptions.Count}.");
+                    this.output.WriteLine(
+                        string.Join(
+                            ", ",
+                            ex.InnerExceptions?.Select(p => p.GetType().Name)));
+                }
+
                 exes = ex.InnerExceptions;
             }
             catch (Exception ex)
             {
+#pragma warning disable EPC12 // Suspicious exception handling: only Message property is observed in exception block. - This is an analyzer error
                 this.output.WriteLine($"Exception has been caught: {ex.GetType()}, with message {ex.Message}.");
+#pragma warning restore EPC12 // Suspicious exception handling: only Message property is observed in exception block.
                 throw;
             }
 

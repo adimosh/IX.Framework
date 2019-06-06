@@ -17,7 +17,7 @@ namespace IX.Retry.Contexts
         internal ActionWith1ParamRetryContext(Action<TParam1> action, TParam1 param1, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
 
             this.action = action;
             this.param1 = param1;
@@ -35,7 +35,7 @@ namespace IX.Retry.Contexts
         internal FuncWith1ParamRetryContext(Func<TParam1, TReturn> func, TParam1 param1, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
 
             this.func = func;
             this.param1 = param1;
@@ -55,7 +55,7 @@ namespace IX.Retry.Contexts
         internal ActionWith2ParamRetryContext(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
 
             this.action = action;
             this.param1 = param1;
@@ -75,7 +75,7 @@ namespace IX.Retry.Contexts
         internal FuncWith2ParamRetryContext(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
 
             this.func = func;
             this.param1 = param1;
@@ -97,7 +97,7 @@ namespace IX.Retry.Contexts
         internal ActionWith3ParamRetryContext(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
 
             this.action = action;
             this.param1 = param1;
@@ -119,7 +119,7 @@ namespace IX.Retry.Contexts
         internal FuncWith3ParamRetryContext(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
 
             this.func = func;
             this.param1 = param1;
@@ -143,7 +143,7 @@ namespace IX.Retry.Contexts
         internal ActionWith4ParamRetryContext(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
 
             this.action = action;
             this.param1 = param1;
@@ -167,7 +167,7 @@ namespace IX.Retry.Contexts
         internal FuncWith4ParamRetryContext(Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
 
             this.func = func;
             this.param1 = param1;
@@ -193,7 +193,7 @@ namespace IX.Retry.Contexts
         internal ActionWith5ParamRetryContext(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
 
             this.action = action;
             this.param1 = param1;
@@ -219,7 +219,7 @@ namespace IX.Retry.Contexts
         internal FuncWith5ParamRetryContext(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
 
             this.func = func;
             this.param1 = param1;
@@ -247,7 +247,7 @@ namespace IX.Retry.Contexts
         internal ActionWith6ParamRetryContext(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
 
             this.action = action;
             this.param1 = param1;
@@ -275,7 +275,7 @@ namespace IX.Retry.Contexts
         internal FuncWith6ParamRetryContext(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
 
             this.func = func;
             this.param1 = param1;
@@ -305,7 +305,7 @@ namespace IX.Retry.Contexts
         internal ActionWith7ParamRetryContext(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
 
             this.action = action;
             this.param1 = param1;
@@ -335,7 +335,7 @@ namespace IX.Retry.Contexts
         internal FuncWith7ParamRetryContext(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
 
             this.func = func;
             this.param1 = param1;
@@ -367,7 +367,7 @@ namespace IX.Retry.Contexts
         internal ActionWith8ParamRetryContext(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
 
             this.action = action;
             this.param1 = param1;
@@ -399,7 +399,7 @@ namespace IX.Retry.Contexts
         internal FuncWith8ParamRetryContext(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, RetryOptions retryOptions)
             : base(retryOptions)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
 
             this.func = func;
             this.param1 = param1;

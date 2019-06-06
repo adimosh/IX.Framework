@@ -355,7 +355,7 @@ namespace IX.Guaranteed.Collections
             TState state)
         {
             Contract.RequiresNotNull(
-                actionToInvoke,
+                in actionToInvoke,
                 nameof(actionToInvoke));
 
             this.RequiresNotDisposed();
@@ -454,7 +454,7 @@ namespace IX.Guaranteed.Collections
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(
-                actionToInvoke,
+                in actionToInvoke,
                 nameof(actionToInvoke));
 
             this.RequiresNotDisposed();
@@ -562,10 +562,10 @@ namespace IX.Guaranteed.Collections
             [CanBeNull] TState state)
         {
             Contract.RequiresNotNull(
-                predicate,
+                in predicate,
                 nameof(predicate));
             Contract.RequiresNotNull(
-                actionToInvoke,
+                in actionToInvoke,
                 nameof(actionToInvoke));
 
             this.RequiresNotDisposed();
@@ -688,10 +688,10 @@ namespace IX.Guaranteed.Collections
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(
-                predicate,
+                in predicate,
                 nameof(predicate));
             Contract.RequiresNotNull(
-                actionToInvoke,
+                in actionToInvoke,
                 nameof(actionToInvoke));
 
             this.RequiresNotDisposed();
@@ -822,10 +822,10 @@ namespace IX.Guaranteed.Collections
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(
-                predicate,
+                in predicate,
                 nameof(predicate));
             Contract.RequiresNotNull(
-                actionToInvoke,
+                in actionToInvoke,
                 nameof(actionToInvoke));
 
             this.RequiresNotDisposed();
@@ -956,10 +956,10 @@ namespace IX.Guaranteed.Collections
             CancellationToken cancellationToken = default)
         {
             Contract.RequiresNotNull(
-                predicate,
+                in predicate,
                 nameof(predicate));
             Contract.RequiresNotNull(
-                actionToInvoke,
+                in actionToInvoke,
                 nameof(actionToInvoke));
 
             this.RequiresNotDisposed();
