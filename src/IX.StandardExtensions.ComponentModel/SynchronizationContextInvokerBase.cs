@@ -69,7 +69,7 @@ namespace IX.StandardExtensions.ComponentModel
             this.ThrowIfCurrentObjectDisposed();
 
             Contract.RequiresNotNull(
-                action,
+                in action,
                 nameof(action));
 
             SynchronizationContext currentSynchronizationContext =

@@ -1,7 +1,9 @@
+﻿<!--EXTERNAL_PROPERTIES: TargetFrameworkIsFramework-->
+<!--EXTERNAL_PROPERTIES: TargetFrameworkIsStandard-->
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;net461;netstandard1.2;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net45;net46;net461;netstandard1.2;netstandard1.3;netstandard2.0</TargetFrameworks>
     <FailObsoleteTargetFrameworks>true</FailObsoleteTargetFrameworks>
   </PropertyGroup>
 

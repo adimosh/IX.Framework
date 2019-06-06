@@ -39,15 +39,34 @@ namespace IX.StandardExtensions.ComponentModel
         ///     Occurs when the collection changes.
         /// </summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
-#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is the way event arguments work
+
+        /// <summary>Sends a notification to all the viewers of an observable collection inheriting this base class that their view should be refreshed.</summary>
+        /// <remarks>
+        /// This method is not affected by a notification suppression context, which means that it will send notifications even if there currently is an ambient notification suppression context.
+        /// </remarks>
+        public void RefreshViewers() =>
+            this.Invoke(
+                invoker => invoker.CollectionChanged?.Invoke(
+                    invoker,
+                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)), this);
+
         /// <summary>
         ///     Triggers the <see cref="CollectionChanged" /> event as a collection reset event.
         /// </summary>
-        protected void RaiseCollectionReset() => this.Invoke(
-            invoker => invoker.CollectionChanged?.Invoke(
-                invoker,
-                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)), this);
+        protected void RaiseCollectionReset()
+        {
+            if (SuppressNotificationsContext.AmbientSuppressionActive.Value)
+            {
+                return;
+            }
 
+            this.Invoke(
+                invoker => invoker.CollectionChanged?.Invoke(
+                    invoker,
+                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)), this);
+        }
+
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is the way event arguments work
         /// <summary>
         ///     Triggers the <see cref="CollectionChanged" /> event as a collection addition event of one element.
         /// </summary>
@@ -56,34 +75,42 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="item">The item that was added.</param>
         protected void RaiseCollectionAdd<T>(
             int index,
-            T item) => this.Invoke(
-#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
-            (
-                    invoker,
-                    internalIndex,
-                    internalItem) =>
-#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
+            T item)
+        {
+            if (SuppressNotificationsContext.AmbientSuppressionActive.Value)
             {
-                try
-                {
-                    invoker.CollectionChanged?.Invoke(
+                return;
+            }
+
+            this.Invoke(
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+                (
                         invoker,
-                        new NotifyCollectionChangedEventArgs(
-                            NotifyCollectionChangedAction.Add,
-                            internalItem,
-                            internalIndex));
-                }
-                catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                        internalIndex,
+                        internalItem) =>
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
-                    invoker.CollectionChanged?.Invoke(
-                        invoker,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    try
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(
+                                NotifyCollectionChangedAction.Add,
+                                internalItem,
+                                internalIndex));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 #pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
-                }
+                    }
 #pragma warning restore ERP022 // Catching everything considered harmful.
-            }, this,
-            index,
-            item);
+                }, this,
+                index,
+                item);
+        }
 
         /// <summary>
         ///     Triggers the <see cref="CollectionChanged" /> event as a collection addition event of multiple elements.
@@ -93,34 +120,42 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="items">The items that were added.</param>
         protected void RaiseCollectionAdd<T>(
             int index,
-            IEnumerable<T> items) => this.Invoke(
-#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
-            (
-                    invoker,
-                    internalIndex,
-                    internalItems) =>
-#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
+            IEnumerable<T> items)
+        {
+            if (SuppressNotificationsContext.AmbientSuppressionActive.Value)
             {
-                try
-                {
-                    invoker.CollectionChanged?.Invoke(
+                return;
+            }
+
+            this.Invoke(
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+                (
                         invoker,
-                        new NotifyCollectionChangedEventArgs(
-                            NotifyCollectionChangedAction.Add,
-                            internalItems.ToList(),
-                            internalIndex));
-                }
-                catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                        internalIndex,
+                        internalItems) =>
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
-                    invoker.CollectionChanged?.Invoke(
-                        invoker,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    try
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(
+                                NotifyCollectionChangedAction.Add,
+                                internalItems.ToList(),
+                                internalIndex));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 #pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
-                }
+                    }
 #pragma warning restore ERP022 // Catching everything considered harmful.
-            }, this,
-            index,
-            items);
+                }, this,
+                index,
+                items);
+        }
 
         /// <summary>
         ///     Triggers the <see cref="CollectionChanged" /> event as a collection removal event of one element.
@@ -130,34 +165,42 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="item">The item that was added.</param>
         protected void RaiseCollectionRemove<T>(
             int index,
-            T item) => this.Invoke(
-#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
-            (
-                    invoker,
-                    internalIndex,
-                    internalItem) =>
-#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
+            T item)
+        {
+            if (SuppressNotificationsContext.AmbientSuppressionActive.Value)
             {
-                try
-                {
-                    invoker.CollectionChanged?.Invoke(
+                return;
+            }
+
+            this.Invoke(
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+                (
                         invoker,
-                        new NotifyCollectionChangedEventArgs(
-                            NotifyCollectionChangedAction.Remove,
-                            internalItem,
-                            internalIndex));
-                }
-                catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                        internalIndex,
+                        internalItem) =>
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
-                    invoker.CollectionChanged?.Invoke(
-                        invoker,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    try
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(
+                                NotifyCollectionChangedAction.Remove,
+                                internalItem,
+                                internalIndex));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 #pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
-                }
+                    }
 #pragma warning restore ERP022 // Catching everything considered harmful.
-            }, this,
-            index,
-            item);
+                }, this,
+                index,
+                item);
+        }
 
         /// <summary>
         ///     Triggers the <see cref="CollectionChanged" /> event as a collection removal event of multiple elements.
@@ -167,34 +210,42 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="items">The items that were removed.</param>
         protected void RaiseCollectionRemove<T>(
             int index,
-            IEnumerable<T> items) => this.Invoke(
-#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
-            (
-                    invoker,
-                    internalIndex,
-                    internalItems) =>
-#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
+            IEnumerable<T> items)
+        {
+            if (SuppressNotificationsContext.AmbientSuppressionActive.Value)
             {
-                try
-                {
-                    invoker.CollectionChanged?.Invoke(
+                return;
+            }
+
+            this.Invoke(
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+                (
                         invoker,
-                        new NotifyCollectionChangedEventArgs(
-                            NotifyCollectionChangedAction.Remove,
-                            internalItems.ToList(),
-                            internalIndex));
-                }
-                catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                        internalIndex,
+                        internalItems) =>
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
-                    invoker.CollectionChanged?.Invoke(
-                        invoker,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    try
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(
+                                NotifyCollectionChangedAction.Remove,
+                                internalItems.ToList(),
+                                internalIndex));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 #pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
-                }
+                    }
 #pragma warning restore ERP022 // Catching everything considered harmful.
-            }, this,
-            index,
-            items);
+                }, this,
+                index,
+                items);
+        }
 
         /// <summary>
         ///     Triggers the <see cref="CollectionChanged" /> event as a collection move event of one element.
@@ -206,37 +257,45 @@ namespace IX.StandardExtensions.ComponentModel
         protected void RaiseCollectionMove<T>(
             int oldIndex,
             int newIndex,
-            T item) => this.Invoke(
-#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
-            (
-                    invoker,
-                    internalOldIndex,
-                    internalNewIndex,
-                    internalItem) =>
-#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
+            T item)
+        {
+            if (SuppressNotificationsContext.AmbientSuppressionActive.Value)
             {
-                try
-                {
-                    invoker.CollectionChanged?.Invoke(
+                return;
+            }
+
+            this.Invoke(
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+                (
                         invoker,
-                        new NotifyCollectionChangedEventArgs(
-                            NotifyCollectionChangedAction.Move,
-                            internalItem,
-                            internalNewIndex,
-                            internalOldIndex));
-                }
-                catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                        internalOldIndex,
+                        internalNewIndex,
+                        internalItem) =>
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
-                    invoker.CollectionChanged?.Invoke(
-                        invoker,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    try
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(
+                                NotifyCollectionChangedAction.Move,
+                                internalItem,
+                                internalNewIndex,
+                                internalOldIndex));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 #pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
-                }
+                    }
 #pragma warning restore ERP022 // Catching everything considered harmful.
-            }, this,
-            oldIndex,
-            newIndex,
-            item);
+                }, this,
+                oldIndex,
+                newIndex,
+                item);
+        }
 
         /// <summary>
         ///     Triggers the <see cref="CollectionChanged" /> event as a collection move event of multiple elements.
@@ -248,37 +307,45 @@ namespace IX.StandardExtensions.ComponentModel
         protected void RaiseCollectionMove<T>(
             int oldIndex,
             int newIndex,
-            IEnumerable<T> items) => this.Invoke(
-#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
-            (
-                    invoker,
-                    internalOldIndex,
-                    internalNewIndex,
-                    internalItems) =>
-#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
+            IEnumerable<T> items)
+        {
+            if (SuppressNotificationsContext.AmbientSuppressionActive.Value)
             {
-                try
-                {
-                    invoker.CollectionChanged?.Invoke(
+                return;
+            }
+
+            this.Invoke(
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+                (
                         invoker,
-                        new NotifyCollectionChangedEventArgs(
-                            NotifyCollectionChangedAction.Move,
-                            internalItems.ToList(),
-                            internalNewIndex,
-                            internalOldIndex));
-                }
-                catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                        internalOldIndex,
+                        internalNewIndex,
+                        internalItems) =>
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
-                    invoker.CollectionChanged?.Invoke(
-                        invoker,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    try
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(
+                                NotifyCollectionChangedAction.Move,
+                                internalItems.ToList(),
+                                internalNewIndex,
+                                internalOldIndex));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 #pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
-                }
+                    }
 #pragma warning restore ERP022 // Catching everything considered harmful.
-            }, this,
-            oldIndex,
-            newIndex,
-            items);
+                }, this,
+                oldIndex,
+                newIndex,
+                items);
+        }
 
         /// <summary>
         ///     Triggers the <see cref="CollectionChanged" /> event as a collection replacement event of one element.
@@ -290,37 +357,45 @@ namespace IX.StandardExtensions.ComponentModel
         protected void RaiseCollectionReplace<T>(
             int index,
             T oldItem,
-            T newItem) => this.Invoke(
-#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
-            (
-                    invoker,
-                    internalIndex,
-                    internalOldItem,
-                    internalNewItem) =>
-#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
+            T newItem)
+        {
+            if (SuppressNotificationsContext.AmbientSuppressionActive.Value)
             {
-                try
-                {
-                    invoker.CollectionChanged?.Invoke(
+                return;
+            }
+
+            this.Invoke(
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+                (
                         invoker,
-                        new NotifyCollectionChangedEventArgs(
-                            NotifyCollectionChangedAction.Replace,
-                            internalNewItem,
-                            internalOldItem,
-                            internalIndex));
-                }
-                catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                        internalIndex,
+                        internalOldItem,
+                        internalNewItem) =>
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
-                    invoker.CollectionChanged?.Invoke(
-                        invoker,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    try
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(
+                                NotifyCollectionChangedAction.Replace,
+                                internalNewItem,
+                                internalOldItem,
+                                internalIndex));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 #pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
-                }
+                    }
 #pragma warning restore ERP022 // Catching everything considered harmful.
-            }, this,
-            index,
-            oldItem,
-            newItem);
+                }, this,
+                index,
+                oldItem,
+                newItem);
+        }
 
         /// <summary>
         ///     Triggers the <see cref="CollectionChanged" /> event as a collection replacement event of multiple elements.
@@ -332,37 +407,45 @@ namespace IX.StandardExtensions.ComponentModel
         protected void RaiseCollectionReplace<T>(
             int index,
             IEnumerable<T> oldItems,
-            IEnumerable<T> newItems) => this.Invoke(
-#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
-            (
-                    invoker,
-                    internalIndex,
-                    internalOldItems,
-                    internalNewItems) =>
-#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
+            IEnumerable<T> newItems)
+        {
+            if (SuppressNotificationsContext.AmbientSuppressionActive.Value)
             {
-                try
-                {
-                    invoker.CollectionChanged?.Invoke(
+                return;
+            }
+
+            this.Invoke(
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance - Acceptable, as the lambda itself would also translate into a generic
+                (
                         invoker,
-                        new NotifyCollectionChangedEventArgs(
-                            NotifyCollectionChangedAction.Replace,
-                            internalNewItems.ToList(),
-                            internalOldItems.ToList(),
-                            internalIndex));
-                }
-                catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                        internalIndex,
+                        internalOldItems,
+                        internalNewItems) =>
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
                 {
-                    invoker.CollectionChanged?.Invoke(
-                        invoker,
-                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    try
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(
+                                NotifyCollectionChangedAction.Replace,
+                                internalNewItems.ToList(),
+                                internalOldItems.ToList(),
+                                internalIndex));
+                    }
+                    catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
+                    {
+                        invoker.CollectionChanged?.Invoke(
+                            invoker,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 #pragma warning disable ERP022 // Catching everything considered harmful. - Catching this particular exception is used specifically in this scenario
-                }
+                    }
 #pragma warning restore ERP022 // Catching everything considered harmful.
-            }, this,
-            index,
-            oldItems,
-            newItems);
+                }, this,
+                index,
+                oldItems,
+                newItems);
+        }
 #pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
     }
 }
