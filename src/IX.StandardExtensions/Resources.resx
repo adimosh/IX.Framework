@@ -165,4 +165,13 @@
   <data name="AContractConditionIsNotBeingMet" xml:space="preserve">
     <value>A contract condition is not being met.</value>
   </data>
+  <data name="ErrorArgumentNotValidIndex" xml:space="preserve">
+    <value>The argument {0} cannot be considered a valid index.</value>
+  </data>
+  <data name="ErrorArgumentMustBeLessThan" xml:space="preserve">
+    <value>The argument {0} must be a value less than the argument {1}.</value>
+  </data>
+  <data name="ErrorArgumentNotValidLength" xml:space="preserve">
+    <value>The argument {0} cannot be considered a valid length, as it has to be a positive integer less than the length of the collection it is used for.</value>
+  </data>
 </root>

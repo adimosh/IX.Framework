@@ -10,11 +10,12 @@
 // </copyright>
 
 using System;
+using IX.StandardExtensions.Contracts;
 
 namespace IX.StandardExtensions
 {
     /// <summary>
-    /// Extensions for array types.
+    ///     Extensions for array types.
     /// </summary>
     public static partial class ArrayExtensions
     {<#
@@ -26,17 +27,18 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
 #>
 
         /// <summary>
-        /// Deep clones an array.
+        ///     Deep clones an array.
         /// </summary>
         /// <param name="source">The source array to deep clone.</param>
         /// <returns>An array of deeply-copied elements from the original array.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
+        /// </exception>
         public static <#= fullTypeName #>[] DeepClone(this <#= fullTypeName #>[] source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
 
             var length = source.Length;
 

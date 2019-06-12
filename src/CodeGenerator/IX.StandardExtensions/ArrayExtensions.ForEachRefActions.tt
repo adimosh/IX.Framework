@@ -15,7 +15,7 @@ using IX.StandardExtensions.Efficiency;
 namespace IX.StandardExtensions
 {
     /// <summary>
-    /// Extensions for array types.
+    ///     Extensions for array types.
     /// </summary>
     public static partial class ArrayExtensions
     {<#
@@ -35,11 +35,11 @@ for (int i = 1; i <= 8; i++)
 
     string paramTypes = string.Join(", ", types);
     string paramNames = string.Join(", ", names);
-    string paramNameTypes = string.Join(", ", nameTypes);
+    string paramNameTypes = string.Join($",{Environment.NewLine}            ", nameTypes);
 #>
 
         /// <summary>
-        /// Executes an action for each one of the elements of an array.
+        ///     Executes an action for each one of the elements of an array.
         /// </summary>
         /// <typeparam name="TItem">The array type.</typeparam>
 <#
@@ -60,8 +60,14 @@ for (int i = 1; i <= 8; i++)
 <#
     }
 #>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
-        public static void ForEach<TItem, <#= paramTypes #>>(this TItem[] source, RefIteratorAction<TItem, <#= paramTypes #>> action, <#= paramNameTypes #>)
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
+        ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
+        /// </exception>
+        public static void ForEach<TItem, <#= paramTypes #>>(
+            this TItem[] source,
+            RefIteratorAction<TItem, <#= paramTypes #>> action,
+            <#= paramNameTypes #>)
         {
             Contract.RequiresNotNull(
                 in source,

@@ -20,7 +20,7 @@ namespace IX.StandardExtensions
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources
@@ -92,6 +92,17 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to The argument {0} must be a value less than the argument {1}..
+        /// </summary>
+        internal static string ErrorArgumentMustBeLessThan
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorArgumentMustBeLessThan", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to The argument {0} is not a positive number..
         /// </summary>
         internal static string ErrorArgumentNotPositive
@@ -110,6 +121,28 @@ namespace IX.StandardExtensions
             get
             {
                 return ResourceManager.GetString("ErrorArgumentNotPositiveInteger", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The argument {0} cannot be considered a valid index..
+        /// </summary>
+        internal static string ErrorArgumentNotValidIndex
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorArgumentNotValidIndex", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The argument {0} cannot be considered a valid length, as it has to be a positive integer less than the length of the collection it is used for..
+        /// </summary>
+        internal static string ErrorArgumentNotValidLength
+        {
+            get
+            {
+                return ResourceManager.GetString("ErrorArgumentNotValidLength", resourceCulture);
             }
         }
 

@@ -30,7 +30,7 @@ for (int i = 1; i <= 8; i++)
 #>
 
     /// <summary>
-    /// A generic delegate for a method whose parameters are all marked as &quot;in&quot;, with a return type.
+    ///     A generic delegate for a method whose parameters are all marked as &quot;in&quot;, with a return type.
     /// </summary>
 <#
     for (int j = 1; j <= i; j++)
@@ -50,10 +50,10 @@ for (int i = 1; i <= 8; i++)
     }
 #>
     /// <returns>The result of the method.</returns>
-    public delegate TResult InFunc<<#= paramTypes #>, TResult>(<#= paramNameTypes #>);
+    public delegate TResult InFunc<<#= paramTypes #>, out TResult>(<#= paramNameTypes #>);
 
     /// <summary>
-    /// A generic delegate for a method whose parameters are all marked as &quot;in&quot;.
+    ///     A generic delegate for a method whose parameters are all marked as &quot;in&quot;.
     /// </summary>
 <#
     for (int j = 1; j <= i; j++)
