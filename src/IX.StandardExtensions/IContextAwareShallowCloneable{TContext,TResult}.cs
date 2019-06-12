@@ -2,6 +2,8 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using JetBrains.Annotations;
+
 namespace IX.StandardExtensions
 {
     /// <summary>
@@ -9,7 +11,8 @@ namespace IX.StandardExtensions
     /// </summary>
     /// <typeparam name="TContext">The type of the cloning context.</typeparam>
     /// <typeparam name="TResult">The type of object to clone.</typeparam>
-    public interface IContextAwareShallowCloneable<TContext, TResult>
+    [PublicAPI]
+    public interface IContextAwareShallowCloneable<in TContext, out TResult>
     {
         /// <summary>
         /// Creates a shallow clone of the source object based on an existing context.

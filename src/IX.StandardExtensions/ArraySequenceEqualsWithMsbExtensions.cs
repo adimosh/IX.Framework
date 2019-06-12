@@ -1,4 +1,4 @@
-﻿// <copyright file="ArraySequenceEqualsWithMsbExtensions.cs" company="Adrian Mos">
+// <copyright file="ArraySequenceEqualsWithMsbExtensions.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -19,18 +19,13 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null;
             }
 
             if (right == null)
             {
+                // Right is null, but not left
                 return false;
             }
 

@@ -2,36 +2,36 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using JetBrains.Annotations;
+
 namespace IX.StandardExtensions
 {
     /// <summary>
-    /// Extension methods for comparison in array with regard to the most significant byte.
+    ///     Extension methods for comparison in array with regard to the most significant byte.
     /// </summary>
-    public static partial class ArraySequenceCompareWithMsbExtensions
+    [PublicAPI]
+    public static class ArraySequenceCompareWithMsbExtensions
     {
         /// <summary>
-        /// Compares two arrays to one another sequentially with regard to the most significant byte.
+        ///     Compares two arrays to one another sequentially with regard to the most significant byte.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
         /// <returns>The result of the comparison.</returns>
-        public static int SequenceCompareWithMsb(this byte[] left, byte[] right)
+        public static int SequenceCompareWithMsb(
+            this byte[] left,
+            byte[] right)
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var length = left.Length > right.Length ? left.Length : right.Length;
@@ -39,14 +39,18 @@ namespace IX.StandardExtensions
             if (left.Length < length)
             {
                 var newLeft = new byte[length];
-                left.CopyTo(newLeft, 0);
+                left.CopyTo(
+                    newLeft,
+                    0);
                 left = newLeft;
             }
 
             if (right.Length < length)
             {
                 var newRight = new byte[length];
-                right.CopyTo(newRight, 0);
+                right.CopyTo(
+                    newRight,
+                    0);
                 right = newRight;
             }
 
