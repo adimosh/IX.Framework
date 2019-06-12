@@ -34,7 +34,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget([CanBeNull] Action action, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             var runningTask = ExecuteOnThreadPool(
                 action,
@@ -69,7 +69,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget([CanBeNull] Action<CancellationToken> action, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             var runningTask = ExecuteOnThreadPool(
                 action,
@@ -104,7 +104,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget([CanBeNull] Func<Task> action, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -141,7 +141,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget([CanBeNull] Func<CancellationToken, Task> action, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(

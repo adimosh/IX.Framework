@@ -230,26 +230,26 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.StandardExtensions\InDelegates.WithParameters.tt">
+    <None Include="IX.StandardExtensions\Efficiency\InDelegates.WithParameters.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InDelegates.WithParameters.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.StandardExtensions\InDelegates.WithParameters.cs">
+    <None Include="IX.StandardExtensions\Efficiency\InDelegates.WithParameters.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>InDelegates.WithParameters.tt</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.StandardExtensions\RefDelegates.WithParameters.tt">
+    <None Include="IX.StandardExtensions\Efficiency\RefDelegates.WithParameters.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RefDelegates.WithParameters.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.StandardExtensions\RefDelegates.WithParameters.cs">
+    <None Include="IX.StandardExtensions\Efficiency\RefDelegates.WithParameters.cs">
       <DependentUpon>RefDelegates.WithParameters.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -269,13 +269,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.StandardExtensions\RefIteratorDelegates.WithParameters.tt">
+    <None Include="IX.StandardExtensions\Efficiency\RefIteratorDelegates.WithParameters.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RefIteratorDelegates.WithParameters.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.StandardExtensions\RefIteratorDelegates.WithParameters.cs">
+    <None Include="IX.StandardExtensions\Efficiency\RefIteratorDelegates.WithParameters.cs">
       <DependentUpon>RefIteratorDelegates.WithParameters.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

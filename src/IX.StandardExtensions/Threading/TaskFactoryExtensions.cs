@@ -31,7 +31,7 @@ namespace IX.StandardExtensions.Threading
             Action action,
             CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -53,7 +53,7 @@ namespace IX.StandardExtensions.Threading
             Action action,
             CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -76,7 +76,7 @@ namespace IX.StandardExtensions.Threading
             Func<TResult> action,
             CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -99,7 +99,7 @@ namespace IX.StandardExtensions.Threading
             Func<TResult> action,
             CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -116,8 +116,8 @@ namespace IX.StandardExtensions.Threading
             bool longRunning,
             CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(taskFactory, nameof(taskFactory));
-            Contract.RequiresNotNullPrivate(action, nameof(action));
+            Contract.RequiresNotNullPrivate(in taskFactory, nameof(taskFactory));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
 
             var creationOptions = TaskCreationOptions.HideScheduler | (longRunning ? TaskCreationOptions.LongRunning : TaskCreationOptions.PreferFairness);
 
@@ -138,7 +138,7 @@ namespace IX.StandardExtensions.Threading
 #if !NETSTANDARD1_2
             void StartAction(object rawState)
             {
-                Contract.RequiresNotNullPrivate(rawState, nameof(rawState));
+                Contract.RequiresNotNullPrivate(in rawState, nameof(rawState));
                 Contract.RequiresArgumentOfTypePrivate<Tuple<Action<object>, CultureInfo, CultureInfo, object>>(rawState, nameof(rawState));
 
                 var innerState = (Tuple<Action<object>, CultureInfo, CultureInfo, object>)rawState;
@@ -165,8 +165,8 @@ namespace IX.StandardExtensions.Threading
             bool longRunning,
             CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(taskFactory, nameof(taskFactory));
-            Contract.RequiresNotNullPrivate(action, nameof(action));
+            Contract.RequiresNotNullPrivate(in taskFactory, nameof(taskFactory));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
 
             var creationOptions = TaskCreationOptions.HideScheduler | (longRunning ? TaskCreationOptions.LongRunning : TaskCreationOptions.PreferFairness);
 
@@ -187,7 +187,7 @@ namespace IX.StandardExtensions.Threading
 #if !NETSTANDARD1_2
             TResult StartAction(object rawState)
             {
-                Contract.RequiresNotNullPrivate(rawState, nameof(rawState));
+                Contract.RequiresNotNullPrivate(in rawState, nameof(rawState));
                 Contract.RequiresArgumentOfTypePrivate<Tuple<Func<object, TResult>, CultureInfo, CultureInfo, object>>(rawState, nameof(rawState));
 
                 var innerState = (Tuple<Func<object, TResult>, CultureInfo, CultureInfo, object>)rawState;

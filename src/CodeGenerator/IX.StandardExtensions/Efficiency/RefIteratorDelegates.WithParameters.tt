@@ -32,7 +32,7 @@ for (int i = 1; i <= 8; i++)
 #>
 
     /// <summary>
-    /// A generic delegate for a method whose parameters are all marked as &quot;ref&quot;, with a return type, usable with an iterator variable.
+    ///     A generic delegate for a method whose parameters are all marked as &quot;ref&quot;, with a return type, usable with an iterator variable.
     /// </summary>
     /// <typeparam name="TIteratorItem">The type of the iterator variable.</typeparam>
 <#
@@ -67,19 +67,19 @@ for (int i = 1; i <= 8; i++)
         if (z != i)
         {
 #>
-    public delegate TResult RefIteratorFunc<#= i - z #><TIteratorItem, <#= paramTypes #>, TResult>(TIteratorItem iteratorItem, <#= paramNameTypes #>);
+    public delegate TResult RefIteratorFunc<#= i - z #><TIteratorItem, <#= paramTypes #>, out TResult>(TIteratorItem iteratorItem, <#= paramNameTypes #>);
 <#
         }
         else
         {
 #>
-    public delegate TResult RefIteratorFunc<TIteratorItem, <#= paramTypes #>, TResult>(TIteratorItem iteratorItem, <#= paramNameTypes #>);
+    public delegate TResult RefIteratorFunc<TIteratorItem, <#= paramTypes #>, out TResult>(TIteratorItem iteratorItem, <#= paramNameTypes #>);
 <#
         }
 #>
 
     /// <summary>
-    /// A generic delegate for a method whose parameters are all marked as &quot;ref&quot;, usable with an iterator variable.
+    ///     A generic delegate for a method whose parameters are all marked as &quot;ref&quot;, usable with an iterator variable.
     /// </summary>
     /// <typeparam name="TIteratorItem">The type of the iterator variable.</typeparam>
 <#

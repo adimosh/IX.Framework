@@ -38,7 +38,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1>([CanBeNull] Action<TParam1> action, TParam1 param1, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -46,7 +46,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1>, Tuple<TParam1>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1>, Tuple<TParam1>>)st;
@@ -96,7 +96,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1>([CanBeNull] Action<TParam1, CancellationToken> action, TParam1 param1, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -104,7 +104,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, CancellationToken>, Tuple<TParam1>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, CancellationToken>, Tuple<TParam1>>)st;
@@ -152,7 +152,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1>([CanBeNull] Func<TParam1, Task> action, TParam1 param1, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -160,7 +160,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, Task>, Tuple<TParam1>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, Task>, Tuple<TParam1>>)st;
@@ -208,7 +208,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1>([CanBeNull] Func<TParam1, CancellationToken, Task> action, TParam1 param1, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -216,7 +216,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, CancellationToken, Task>, Tuple<TParam1>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, CancellationToken, Task>, Tuple<TParam1>>)st;
@@ -268,7 +268,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2>([CanBeNull] Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -276,7 +276,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2>, Tuple<TParam1, TParam2>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2>, Tuple<TParam1, TParam2>>)st;
@@ -330,7 +330,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2>([CanBeNull] Action<TParam1, TParam2, CancellationToken> action, TParam1 param1, TParam2 param2, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -338,7 +338,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, CancellationToken>, Tuple<TParam1, TParam2>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, CancellationToken>, Tuple<TParam1, TParam2>>)st;
@@ -390,7 +390,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2>([CanBeNull] Func<TParam1, TParam2, Task> action, TParam1 param1, TParam2 param2, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -398,7 +398,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, Task>, Tuple<TParam1, TParam2>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, Task>, Tuple<TParam1, TParam2>>)st;
@@ -450,7 +450,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2>([CanBeNull] Func<TParam1, TParam2, CancellationToken, Task> action, TParam1 param1, TParam2 param2, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -458,7 +458,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, CancellationToken, Task>, Tuple<TParam1, TParam2>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, CancellationToken, Task>, Tuple<TParam1, TParam2>>)st;
@@ -514,7 +514,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3>([CanBeNull] Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -522,7 +522,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3>, Tuple<TParam1, TParam2, TParam3>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3>, Tuple<TParam1, TParam2, TParam3>>)st;
@@ -580,7 +580,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3>([CanBeNull] Action<TParam1, TParam2, TParam3, CancellationToken> action, TParam1 param1, TParam2 param2, TParam3 param3, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -588,7 +588,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, CancellationToken>, Tuple<TParam1, TParam2, TParam3>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, CancellationToken>, Tuple<TParam1, TParam2, TParam3>>)st;
@@ -644,7 +644,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3>([CanBeNull] Func<TParam1, TParam2, TParam3, Task> action, TParam1 param1, TParam2 param2, TParam3 param3, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -652,7 +652,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, Task>, Tuple<TParam1, TParam2, TParam3>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, Task>, Tuple<TParam1, TParam2, TParam3>>)st;
@@ -708,7 +708,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3>([CanBeNull] Func<TParam1, TParam2, TParam3, CancellationToken, Task> action, TParam1 param1, TParam2 param2, TParam3 param3, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -716,7 +716,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3>>)st;
@@ -776,7 +776,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4>([CanBeNull] Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -784,7 +784,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4>, Tuple<TParam1, TParam2, TParam3, TParam4>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4>, Tuple<TParam1, TParam2, TParam3, TParam4>>)st;
@@ -846,7 +846,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4>([CanBeNull] Action<TParam1, TParam2, TParam3, TParam4, CancellationToken> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -854,7 +854,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4>>)st;
@@ -914,7 +914,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4>([CanBeNull] Func<TParam1, TParam2, TParam3, TParam4, Task> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -922,7 +922,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, Task>, Tuple<TParam1, TParam2, TParam3, TParam4>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, Task>, Tuple<TParam1, TParam2, TParam3, TParam4>>)st;
@@ -982,7 +982,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4>([CanBeNull] Func<TParam1, TParam2, TParam3, TParam4, CancellationToken, Task> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -990,7 +990,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4>>)st;
@@ -1054,7 +1054,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5>([CanBeNull] Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -1062,7 +1062,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>)st;
@@ -1128,7 +1128,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5>([CanBeNull] Action<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -1136,7 +1136,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>)st;
@@ -1200,7 +1200,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5>([CanBeNull] Func<TParam1, TParam2, TParam3, TParam4, TParam5, Task> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -1208,7 +1208,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>)st;
@@ -1272,7 +1272,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5>([CanBeNull] Func<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken, Task> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -1280,7 +1280,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5>>)st;
@@ -1348,7 +1348,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>([CanBeNull] Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -1356,7 +1356,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>)st;
@@ -1426,7 +1426,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>([CanBeNull] Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -1434,7 +1434,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>)st;
@@ -1502,7 +1502,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>([CanBeNull] Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, Task> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -1510,7 +1510,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>)st;
@@ -1578,7 +1578,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>([CanBeNull] Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken, Task> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -1586,7 +1586,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>>)st;
@@ -1658,7 +1658,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>([CanBeNull] Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -1666,7 +1666,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>)st;
@@ -1740,7 +1740,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>([CanBeNull] Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -1748,7 +1748,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>)st;
@@ -1820,7 +1820,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>([CanBeNull] Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, Task> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -1828,7 +1828,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>)st;
@@ -1900,7 +1900,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>([CanBeNull] Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken, Task> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -1908,7 +1908,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>>)st;
@@ -1984,7 +1984,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>([CanBeNull] Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -1992,7 +1992,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>)st;
@@ -2070,7 +2070,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>([CanBeNull] Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -2078,7 +2078,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>>(st, nameof(st));
 
                     var innerState = (Tuple<Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>)st;
@@ -2154,7 +2154,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>([CanBeNull] Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, Task> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -2162,7 +2162,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>)st;
@@ -2238,7 +2238,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="cancellationToken">The cancellation token.</param>
         public static void AndForget<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>([CanBeNull] Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken, Task> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, [CanBeNull] Action<Exception> exceptionHandler, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             // We invoke our task-yielding operation in a different thread, guaranteed
             var runningTask = ExecuteOnThreadPool(
@@ -2246,7 +2246,7 @@ namespace IX.StandardExtensions.Threading
                     st,
                     ct) =>
                 {
-                    Contract.RequiresNotNullPrivate(st, nameof(st));
+                    Contract.RequiresNotNullPrivate(in st, nameof(st));
                     Contract.RequiresArgumentOfTypePrivate<Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>>(st, nameof(st));
 
                     var innerState = (Tuple<Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, CancellationToken, Task>, Tuple<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>>)st;

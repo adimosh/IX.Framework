@@ -16,6 +16,7 @@ namespace IX.StandardExtensions.Contracts
     /// </summary>
     public static partial class Contract
     {
+#pragma warning disable EPS02 // Non-readonly struct used as in-parameter - These are primitive types that the compiler can handle
         /// <summary>
         /// Called when a contract requires that an argument initializing a field is not null.
         /// </summary>
@@ -115,7 +116,7 @@ namespace IX.StandardExtensions.Contracts
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
         [AssertionMethod]
-        public static void RequiresNotNullOrEmptyCollection<T>(ref ICollection<T> field, [CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] ICollection<T> argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmpty<T>(ref ICollection<T> field, [CanBeNull, NoEnumeration, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] ICollection<T> argument, [NotNull] string argumentName)
         {
             if ((argument?.Count ?? 0) == 0)
             {
@@ -126,13 +127,16 @@ namespace IX.StandardExtensions.Contracts
         }
 
         /// <summary>
-        /// Called when a contract requires that a collection argument initializing a field is not null or empty.
+        /// Called when a contract requires that an array argument initializing a field is not null or empty.
         /// </summary>
+        /// <typeparam name="T">
+        /// The type of the collection.
+        /// </typeparam>
         /// <param name="field">
         /// The field that this argument is initializing.
         /// </param>
         /// <param name="argument">
-        /// The byte array argument.
+        /// The array argument.
         /// </param>
         /// <param name="argumentName">
         /// The argument name.
@@ -143,7 +147,7 @@ namespace IX.StandardExtensions.Contracts
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [ContractAnnotation("argument:null => halt")]
         [AssertionMethod]
-        public static void RequiresNotNullOrEmptyBinary(ref byte[] field, [CanBeNull, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] byte[] argument, [NotNull] string argumentName)
+        public static void RequiresNotNullOrEmpty<T>(ref T[] field, [CanBeNull, AssertionCondition(AssertionConditionType.IS_NOT_NULL)] T[] argument, [NotNull] string argumentName)
         {
             if ((argument?.Length ?? 0) == 0)
             {
@@ -169,7 +173,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(ref sbyte field, sbyte argument, [NotNull] string argumentName)
+        public static void RequiresPositive(ref sbyte field, in sbyte argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -195,7 +199,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(ref byte field, byte argument, [NotNull] string argumentName)
+        public static void RequiresPositive(ref byte field, in byte argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
@@ -221,7 +225,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(ref short field, short argument, [NotNull] string argumentName)
+        public static void RequiresPositive(ref short field, in short argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -247,7 +251,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(ref ushort field, ushort argument, [NotNull] string argumentName)
+        public static void RequiresPositive(ref ushort field, in ushort argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
@@ -273,7 +277,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(ref int field, int argument, [NotNull] string argumentName)
+        public static void RequiresPositive(ref int field, in int argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -299,7 +303,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(ref uint field, uint argument, [NotNull] string argumentName)
+        public static void RequiresPositive(ref uint field, in uint argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
@@ -325,7 +329,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(ref long field, long argument, [NotNull] string argumentName)
+        public static void RequiresPositive(ref long field, in long argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -351,7 +355,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(ref ulong field, ulong argument, [NotNull] string argumentName)
+        public static void RequiresPositive(ref ulong field, in ulong argument, [NotNull] string argumentName)
         {
             if (argument == 0)
             {
@@ -377,7 +381,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(ref float field, float argument, [NotNull] string argumentName)
+        public static void RequiresPositive(ref float field, in float argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -403,7 +407,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(ref double field, double argument, [NotNull] string argumentName)
+        public static void RequiresPositive(ref double field, in double argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -429,7 +433,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(ref decimal field, decimal argument, [NotNull] string argumentName)
+        public static void RequiresPositive(ref decimal field, in decimal argument, [NotNull] string argumentName)
         {
             if (argument <= 0)
             {
@@ -455,7 +459,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresPositive(ref TimeSpan field, TimeSpan argument, [NotNull] string argumentName)
+        public static void RequiresPositive(ref TimeSpan field, in TimeSpan argument, [NotNull] string argumentName)
         {
             if (argument <= TimeSpan.Zero)
             {
@@ -481,7 +485,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(ref sbyte field, sbyte argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(ref sbyte field, in sbyte argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -507,7 +511,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(ref short field, short argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(ref short field, in short argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -533,7 +537,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(ref int field, int argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(ref int field, in int argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -559,7 +563,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(ref long field, long argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(ref long field, in long argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -585,7 +589,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(ref float field, float argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(ref float field, in float argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -611,7 +615,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(ref double field, double argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(ref double field, in double argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -637,7 +641,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is negative or 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(ref decimal field, decimal argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(ref decimal field, in decimal argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -664,7 +668,7 @@ namespace IX.StandardExtensions.Contracts
         /// </exception>
         [Conditional(Constants.ContractsNonPublicSymbol)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegativePrivate(ref decimal field, decimal argument, [NotNull] string argumentName)
+        public static void RequiresNonNegativePrivate(ref decimal field, in decimal argument, [NotNull] string argumentName)
         {
             if (argument < 0)
             {
@@ -690,7 +694,7 @@ namespace IX.StandardExtensions.Contracts
         /// The argument is 0.
         /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RequiresNonNegative(ref TimeSpan field, TimeSpan argument, [NotNull] string argumentName)
+        public static void RequiresNonNegative(ref TimeSpan field, in TimeSpan argument, [NotNull] string argumentName)
         {
             if (argument < TimeSpan.Zero)
             {
@@ -728,5 +732,6 @@ namespace IX.StandardExtensions.Contracts
 
             field = convertedArgument;
         }
+#pragma warning restore EPS02 // Non-readonly struct used as in-parameter
     }
 }

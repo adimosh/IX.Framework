@@ -6,14 +6,13 @@ using System;
 
 namespace IX.StandardExtensions
 {
-#pragma warning disable IDE0008 // Use explicit type - This is acceptable in this generated code in order to avoid DateTime and TimeSpan issues
     /// <summary>
     /// Extensions for array types.
     /// </summary>
     public static partial class ArraySequenceCompareExtensions
     {
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -22,19 +21,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -62,7 +56,7 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -71,19 +65,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -111,7 +100,7 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -120,19 +109,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -160,7 +144,7 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -169,19 +153,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -209,7 +188,7 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -218,19 +197,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -258,7 +232,7 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -267,19 +241,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -307,7 +276,7 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -316,19 +285,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -356,7 +320,7 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -365,19 +329,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -405,7 +364,7 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -414,19 +373,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -454,7 +408,7 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -463,19 +417,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -503,7 +452,7 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -512,19 +461,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -552,7 +496,7 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -561,19 +505,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -601,7 +540,7 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -610,19 +549,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -650,7 +584,7 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -659,19 +593,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -699,7 +628,7 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -708,19 +637,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -748,7 +672,7 @@ namespace IX.StandardExtensions
         }
 
         /// <summary>
-        /// Compares two arrays to one another sequentially.
+        ///     Compares two arrays to one another sequentially.
         /// </summary>
         /// <param name="left">The left operand array.</param>
         /// <param name="right">The right operand array.</param>
@@ -757,19 +681,14 @@ namespace IX.StandardExtensions
         {
             if (left == null)
             {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
+                // Left is null, we return based on whether or not right is null as well
+                return right == null ? 0 : int.MinValue;
             }
 
             if (right == null)
             {
-                return 1;
+                // Right is null, but not left
+                return int.MaxValue;
             }
 
             var i = 0;
@@ -796,5 +715,4 @@ namespace IX.StandardExtensions
             }
         }
     }
-#pragma warning restore IDE0008 // Use explicit type
 }

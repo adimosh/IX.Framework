@@ -19,7 +19,7 @@ namespace IX.Retry.Contexts
         internal RetryContext(RetryOptions options)
         {
             Contract.RequiresNotNullPrivate(
-                options,
+                in options,
                 nameof(options));
 
             this.options = options;
@@ -98,7 +98,11 @@ namespace IX.Retry.Contexts
                     retries,
                     now);
 #if NETSTANDARD1_2
+#pragma warning disable HAA0601 // Value type to reference type conversion causes boxing at call site (here), and unboxing at the callee-site. - We know, leave it as is, as that's the point
+
+                // ReSharper disable once MethodSupportsCancellation - We specifically do not want this t be passed with cancellation support
                 Task.Factory.StartNew(async state => await Task.Delay((int)state).ConfigureAwait(false), waitFor.TotalMilliseconds, cancellationToken, TaskCreationOptions.HideScheduler | TaskCreationOptions.DenyChildAttach, TaskScheduler.Default).ConfigureAwait(false);
+#pragma warning restore HAA0601
 #else
                 Thread.Sleep((int)waitFor.TotalMilliseconds);
 #endif
@@ -132,7 +136,7 @@ namespace IX.Retry.Contexts
             ref int retries)
         {
             Contract.RequiresNotNullPrivate(
-                exceptions,
+                in exceptions,
                 nameof(exceptions));
 
             var shouldRetry = true;

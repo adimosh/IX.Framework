@@ -1,3 +1,6 @@
+﻿<!--EXTERNAL_PROPERTIES: TargetFrameworkIsFramework-->
+<!--EXTERNAL_PROPERTIES: TargetFrameworkIsStandard-->
+<!--EXTERNAL_PROPERTIES: TargetFramework-->
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -35,10 +38,10 @@
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\IListCloneExtensions.StandardTypes.cs" Link="IListCloneExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArrayExtensions.ForEachActions.cs" Link="ArrayExtensions.ForEachActions.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableExtensions.ForEachActions.cs" Link="IEnumerableExtensions.ForEachActions.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\InDelegates.WithParameters.cs" Link="Efficiency\InDelegates.WithParameters.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Efficiency\InDelegates.WithParameters.cs" Link="Efficiency\InDelegates.WithParameters.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\LinqExtensions.ActionsAndFuncs.cs" Link="LinqExtensions.ActionsAndFuncs.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\RefDelegates.WithParameters.cs" Link="Efficiency\RefDelegates.WithParameters.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\RefIteratorDelegates.WithParameters.cs" Link="Efficiency\RefIteratorDelegates.WithParameters.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Efficiency\RefDelegates.WithParameters.cs" Link="Efficiency\RefDelegates.WithParameters.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Efficiency\RefIteratorDelegates.WithParameters.cs" Link="Efficiency\RefIteratorDelegates.WithParameters.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\Fire.AndForgetActionsAndFuncs.cs" Link="Threading\Fire.AndForgetActionsAndFuncs.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\Fire.OnThreadPool.Parameters.cs" Link="Threading\Fire.OnThreadPool.Parameters.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\TaskFactoryExtensions.Actions.cs" Link="Threading\TaskFactoryExtensions.Actions.cs" />

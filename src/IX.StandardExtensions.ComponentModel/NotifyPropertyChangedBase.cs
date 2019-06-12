@@ -38,12 +38,20 @@ namespace IX.StandardExtensions.ComponentModel
         ///     Triggers the <see cref="PropertyChanged" /> event.
         /// </summary>
         /// <param name="changedPropertyName">The name of the changed property.</param>
-        protected void RaisePropertyChanged(string changedPropertyName) => this.Invoke(
-            (
-                invoker,
-                propertyName) => invoker.PropertyChanged?.Invoke(
-                invoker,
-                new PropertyChangedEventArgs(propertyName)), this,
-            changedPropertyName);
+        protected void RaisePropertyChanged(string changedPropertyName)
+        {
+            if (SuppressNotificationsContext.AmbientSuppressionActive.Value)
+            {
+                return;
+            }
+
+            this.Invoke(
+                (
+                    invoker,
+                    propertyName) => invoker.PropertyChanged?.Invoke(
+                    invoker,
+                    new PropertyChangedEventArgs(propertyName)), this,
+                changedPropertyName);
+        }
     }
 }

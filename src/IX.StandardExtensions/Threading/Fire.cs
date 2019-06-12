@@ -70,11 +70,12 @@ namespace IX.StandardExtensions.Threading
             Task task,
             object innerState)
         {
-            Contract.RequiresNotNullPrivate(task, nameof(task));
-            Contract.RequiresNotNullPrivate(task.Exception, nameof(task));
+            Contract.RequiresNotNullPrivate(in task, nameof(task));
+            var exception = task.Exception;
+            Contract.RequiresNotNullPrivate(in exception, nameof(task));
             Contract.RequiresArgumentOfTypePrivate<Action<Exception>>(innerState, nameof(innerState));
 
-            (innerState as Action<Exception>)?.Invoke(task.Exception.GetBaseException());
+            (innerState as Action<Exception>)?.Invoke(exception.GetBaseException());
         }
     }
 }

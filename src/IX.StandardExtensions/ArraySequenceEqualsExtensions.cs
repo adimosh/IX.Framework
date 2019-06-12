@@ -87,7 +87,7 @@ namespace IX.StandardExtensions
 
         private static bool SequenceEqualsInternal<T>(T[] left, T[] right, Func<T, T, bool> comparer)
         {
-            if (!CheckForNulls(left, right))
+            if (!CheckForNulls(in left, in right))
             {
                 return false;
             }
@@ -107,7 +107,7 @@ namespace IX.StandardExtensions
 
             return true;
 
-            bool CheckForNulls(in T[] leftOperand, in T[] rightOperand) => (leftOperand == null) ? (rightOperand == null) : (rightOperand != null);
+            bool CheckForNulls(in T[] leftOperand, in T[] rightOperand) => leftOperand == null ? rightOperand == null : rightOperand != null;
         }
     }
 }

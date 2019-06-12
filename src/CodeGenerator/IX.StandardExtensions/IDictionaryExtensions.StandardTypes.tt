@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using IX.StandardExtensions.Contracts;
 
 namespace IX.StandardExtensions
 {
@@ -35,10 +36,7 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
         public static Dictionary<TKey, <#= fullTypeName #>> DeepClone<TKey>(this Dictionary<TKey, <#= fullTypeName #>> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            Contract.RequiresNotNull(in source, nameof(source));
 
             var destination = new Dictionary<TKey, <#= fullTypeName #>>();
 

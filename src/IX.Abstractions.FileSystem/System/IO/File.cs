@@ -8,7 +8,7 @@ using System.IO;
 using System.Text;
 
 using IX.StandardExtensions.Contracts;
-
+using JetBrains.Annotations;
 using FSFile = System.IO.File;
 
 // ReSharper disable once CheckNamespace
@@ -19,6 +19,7 @@ namespace IX.System.IO
     /// </summary>
     /// <seealso cref="IX.System.IO.IFile" />
     /// <seealso cref="System.IO.File" />
+    [PublicAPI]
     public class File : IFile
     {
         /// <summary>
@@ -37,7 +38,7 @@ namespace IX.System.IO
         public void AppendAllLines(string path, IEnumerable<string> contents, Encoding encoding = null)
         {
             Contract.RequiresNotNullOrWhitespace(path, nameof(path));
-            Contract.RequiresNotNull(contents, nameof(contents));
+            Contract.RequiresNotNull(in contents, nameof(contents));
 
             if (encoding == null)
             {
@@ -129,7 +130,7 @@ namespace IX.System.IO
         public Stream Create(string path, int bufferSize = 4096)
         {
             Contract.RequiresNotNullOrWhitespace(path, nameof(path));
-            Contract.RequiresPositive(bufferSize, nameof(bufferSize));
+            Contract.RequiresPositive(in bufferSize, nameof(bufferSize));
 
             return FSFile.Create(path, bufferSize);
         }
@@ -439,7 +440,7 @@ namespace IX.System.IO
         public void WriteAllBytes(string path, byte[] bytes)
         {
             Contract.RequiresNotNullOrWhitespace(path, nameof(path));
-            Contract.RequiresNotNullOrEmptyBinary(bytes, nameof(bytes));
+            Contract.RequiresNotNullOrEmpty(bytes, nameof(bytes));
 
             FSFile.WriteAllBytes(path, bytes);
         }
@@ -460,7 +461,7 @@ namespace IX.System.IO
         public void WriteAllLines(string path, IEnumerable<string> contents, Encoding encoding = null)
         {
             Contract.RequiresNotNullOrWhitespace(path, nameof(path));
-            Contract.RequiresNotNull(contents, nameof(contents));
+            Contract.RequiresNotNull(in contents, nameof(contents));
 
             if (encoding == null)
             {

@@ -27,7 +27,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartOnDefaultTaskScheduler<TParam1>(this TaskFactory taskFactory, Action<TParam1> action, TParam1 param1, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -55,7 +55,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartLongRunningOnDefaultTaskScheduler<TParam1>(this TaskFactory taskFactory, Action<TParam1> action, TParam1 param1, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -84,7 +84,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartOnDefaultTaskScheduler<TParam1, TResult>(this TaskFactory taskFactory, Func<TParam1, TResult> action, TParam1 param1, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -113,7 +113,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartLongRunningOnDefaultTaskScheduler<TParam1, TResult>(this TaskFactory taskFactory, Func<TParam1, TResult> action, TParam1 param1, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -143,7 +143,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartOnDefaultTaskScheduler<TParam1, TParam2>(this TaskFactory taskFactory, Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -174,7 +174,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartLongRunningOnDefaultTaskScheduler<TParam1, TParam2>(this TaskFactory taskFactory, Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -206,7 +206,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartOnDefaultTaskScheduler<TParam1, TParam2, TResult>(this TaskFactory taskFactory, Func<TParam1, TParam2, TResult> action, TParam1 param1, TParam2 param2, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -238,7 +238,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartLongRunningOnDefaultTaskScheduler<TParam1, TParam2, TResult>(this TaskFactory taskFactory, Func<TParam1, TParam2, TResult> action, TParam1 param1, TParam2 param2, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -271,7 +271,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartOnDefaultTaskScheduler<TParam1, TParam2, TParam3>(this TaskFactory taskFactory, Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -305,7 +305,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartLongRunningOnDefaultTaskScheduler<TParam1, TParam2, TParam3>(this TaskFactory taskFactory, Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -340,7 +340,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TResult>(this TaskFactory taskFactory, Func<TParam1, TParam2, TParam3, TResult> action, TParam1 param1, TParam2 param2, TParam3 param3, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -375,7 +375,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartLongRunningOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TResult>(this TaskFactory taskFactory, Func<TParam1, TParam2, TParam3, TResult> action, TParam1 param1, TParam2 param2, TParam3 param3, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -411,7 +411,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4>(this TaskFactory taskFactory, Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -448,7 +448,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartLongRunningOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4>(this TaskFactory taskFactory, Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -486,7 +486,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TResult>(this TaskFactory taskFactory, Func<TParam1, TParam2, TParam3, TParam4, TResult> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -524,7 +524,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartLongRunningOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TResult>(this TaskFactory taskFactory, Func<TParam1, TParam2, TParam3, TParam4, TResult> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -563,7 +563,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5>(this TaskFactory taskFactory, Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -603,7 +603,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartLongRunningOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5>(this TaskFactory taskFactory, Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -644,7 +644,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5, TResult>(this TaskFactory taskFactory, Func<TParam1, TParam2, TParam3, TParam4, TParam5, TResult> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -685,7 +685,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartLongRunningOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5, TResult>(this TaskFactory taskFactory, Func<TParam1, TParam2, TParam3, TParam4, TParam5, TResult> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -727,7 +727,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(this TaskFactory taskFactory, Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -770,7 +770,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartLongRunningOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(this TaskFactory taskFactory, Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -814,7 +814,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TResult>(this TaskFactory taskFactory, Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TResult> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -858,7 +858,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartLongRunningOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TResult>(this TaskFactory taskFactory, Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TResult> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -903,7 +903,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(this TaskFactory taskFactory, Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -949,7 +949,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartLongRunningOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(this TaskFactory taskFactory, Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -996,7 +996,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TResult>(this TaskFactory taskFactory, Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TResult> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -1043,7 +1043,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartLongRunningOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TResult>(this TaskFactory taskFactory, Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TResult> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -1091,7 +1091,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this TaskFactory taskFactory, Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -1140,7 +1140,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task StartLongRunningOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this TaskFactory taskFactory, Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -1190,7 +1190,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TResult>(this TaskFactory taskFactory, Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TResult> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
@@ -1240,7 +1240,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A <see cref="Task"/> that represents the started task.</returns>
         public static Task<TResult> StartLongRunningOnDefaultTaskScheduler<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TResult>(this TaskFactory taskFactory, Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TResult> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,

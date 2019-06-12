@@ -141,4 +141,34 @@
   <data name="SingleOrDefaultMultipleElements" xml:space="preserve">
     <value>The input sequence contains more than one element.</value>
   </data>
+  <data name="AnInvalidSetOfArgumentsWasSpecifiedArgumentNames" xml:space="preserve">
+    <value>An invalid set of arguments was specified. Argument names: {0}</value>
+  </data>
+  <data name="TheProvidedArgumentsDoNotFormAValidRangeOfValuesArguments" xml:space="preserve">
+    <value>The provided arguments do not form a valid range of values. Arguments: {0}</value>
+  </data>
+  <data name="ErrorArgumentNotPositive" xml:space="preserve">
+    <value>The argument {0} is not a positive number.</value>
+  </data>
+  <data name="ErrorArgumentNullOrEmpty" xml:space="preserve">
+    <value>The string argument {0} is null (Nothing in Visual Basic) or empty.</value>
+  </data>
+  <data name="ErrorArgumentNullOrWhitespace" xml:space="preserve">
+    <value>The string argument {0} is null (Nothing in Visual Basic), empty or whitespace-only.</value>
+  </data>
+  <data name="ErrorArgumentNullOrEmptyBinaryCollection" xml:space="preserve">
+    <value>The argument {0} is null (Nothing in Visual Basic) or an empty byte array.</value>
+  </data>
+  <data name="ErrorArgumentNullOrEmptyCollection" xml:space="preserve">
+    <value>The collection argument {0} is null (Nothing in Visual Basic) or empty.</value>
+  </data>
+  <data name="AContractConditionIsNotBeingMet" xml:space="preserve">
+    <value>A contract condition is not being met.</value>
+  </data>
+  <data name="ErrorArgumentNotValidIndex" xml:space="preserve">
+    <value>The argument {0} cannot be considered a valid index.</value>
+  </data>
+  <data name="ErrorArgumentMustBeLessThan" xml:space="preserve">
+    <value>The argument {0} must be a value less than the argument {1}.</value>
+  </data>
 </root>

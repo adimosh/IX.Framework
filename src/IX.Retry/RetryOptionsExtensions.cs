@@ -26,10 +26,10 @@ namespace IX.Retry
             int times)
         {
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
             Contract.RequiresPositive(
-                times,
+                in times,
                 nameof(times));
 
             options.Type |= RetryType.Times;
@@ -47,7 +47,7 @@ namespace IX.Retry
         public static RetryOptions Once([CanBeNull] this RetryOptions options)
         {
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
 
             options.Type |= RetryType.Times;
@@ -65,7 +65,7 @@ namespace IX.Retry
         public static RetryOptions Twice([CanBeNull] this RetryOptions options)
         {
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
 
             options.Type |= RetryType.Times;
@@ -83,7 +83,7 @@ namespace IX.Retry
         public static RetryOptions ThreeTimes([CanBeNull] this RetryOptions options)
         {
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
 
             options.Type |= RetryType.Times;
@@ -101,7 +101,7 @@ namespace IX.Retry
         public static RetryOptions FiveTimes([CanBeNull] this RetryOptions options)
         {
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
 
             options.Type |= RetryType.Times;
@@ -122,10 +122,10 @@ namespace IX.Retry
             TimeSpan timeSpan)
         {
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
             Contract.RequiresPositive(
-                timeSpan,
+                in timeSpan,
                 nameof(timeSpan));
 
             options.Type |= RetryType.For;
@@ -146,10 +146,10 @@ namespace IX.Retry
             int milliseconds)
         {
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
             Contract.RequiresPositive(
-                milliseconds,
+                in milliseconds,
                 nameof(milliseconds));
 
             options.Type |= RetryType.For;
@@ -177,10 +177,10 @@ namespace IX.Retry
             RetryConditionDelegate conditionMethod)
         {
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
             Contract.RequiresNotNull(
-                conditionMethod,
+                in conditionMethod,
                 nameof(conditionMethod));
 
             options.Type |= RetryType.Until;
@@ -200,7 +200,7 @@ namespace IX.Retry
             where T : Exception
         {
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
 
 #pragma warning disable HAA0603 // Delegate allocation from a method group - Unavoidable
@@ -229,10 +229,10 @@ namespace IX.Retry
             where T : Exception
         {
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
             Contract.RequiresNotNull(
-                testExceptionFunc,
+                in testExceptionFunc,
                 nameof(testExceptionFunc));
 
 #pragma warning disable HAA0603 // Delegate allocation from a method group - Unavoidable
@@ -255,7 +255,7 @@ namespace IX.Retry
         public static RetryOptions ThrowException([CanBeNull] this RetryOptions options)
         {
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
 
             options.ThrowExceptionOnLastRetry = true;
@@ -275,10 +275,10 @@ namespace IX.Retry
             int milliseconds)
         {
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
             Contract.RequiresPositive(
-                milliseconds,
+                in milliseconds,
                 nameof(milliseconds));
 
             options.WaitBetweenRetriesType = WaitType.For;
@@ -299,10 +299,10 @@ namespace IX.Retry
             TimeSpan timeSpan)
         {
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
             Contract.RequiresPositive(
-                timeSpan,
+                in timeSpan,
                 nameof(timeSpan));
 
             options.WaitBetweenRetriesType = WaitType.For;
@@ -323,10 +323,10 @@ namespace IX.Retry
             RetryWaitDelegate waitMethod)
         {
             Contract.RequiresNotNull(
-                options,
+                in options,
                 nameof(options));
             Contract.RequiresNotNull(
-                waitMethod,
+                in waitMethod,
                 nameof(waitMethod));
 
             options.WaitBetweenRetriesType = WaitType.Until;

@@ -28,7 +28,7 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1>(Action<TParam1> action, TParam1 param1, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             Run(action, param1, new RetryOptions(), cancellationToken);
         }
@@ -43,7 +43,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1>(Action<TParam1> action, TParam1 param1, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return RunAsync(action, param1, new RetryOptions(), cancellationToken);
         }
@@ -58,8 +58,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1>(Action<TParam1> action, TParam1 param1, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             Run(action, param1, options, cancellationToken);
         }
@@ -75,8 +75,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1>(Action<TParam1> action, TParam1 param1, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(action, param1, options, cancellationToken);
         }
@@ -91,8 +91,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1>(Action<TParam1> action, TParam1 param1, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -111,8 +111,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1>(Action<TParam1> action, TParam1 param1, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -135,7 +135,7 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1>(Action<TParam1> action, TParam1 param1, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return () => Run(action, param1, new RetryOptions(), cancellationToken);
         }
@@ -156,8 +156,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1>(Action<TParam1> action, TParam1 param1, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(action, param1, options, cancellationToken);
         }
@@ -178,8 +178,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1>(Action<TParam1> action, TParam1 param1, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -198,7 +198,7 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TReturn>(Func<TParam1, TReturn> func, TParam1 param1, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return Run(func, param1, new RetryOptions(), cancellationToken);
         }
@@ -214,7 +214,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TReturn>(Func<TParam1, TReturn> func, TParam1 param1, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return RunAsync(func, param1, new RetryOptions(), cancellationToken);
         }
@@ -231,8 +231,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TReturn>(Func<TParam1, TReturn> func, TParam1 param1, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return Run(func, param1, options, cancellationToken);
         }
@@ -249,8 +249,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TReturn>(Func<TParam1, TReturn> func, TParam1 param1, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(func, param1, options, cancellationToken);
         }
@@ -267,8 +267,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TReturn>(Func<TParam1, TReturn> func, TParam1 param1, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -288,8 +288,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TReturn>(Func<TParam1, TReturn> func, TParam1 param1, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -313,7 +313,7 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TReturn>(Func<TParam1, TReturn> func, TParam1 param1, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return () => Run(func, param1, new RetryOptions(), cancellationToken);
         }
@@ -335,8 +335,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TReturn>(Func<TParam1, TReturn> func, TParam1 param1, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(func, param1, options, cancellationToken);
         }
@@ -358,8 +358,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TReturn>(Func<TParam1, TReturn> func, TParam1 param1, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -378,7 +378,7 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             Run(action, param1, param2, new RetryOptions(), cancellationToken);
         }
@@ -395,7 +395,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return RunAsync(action, param1, param2, new RetryOptions(), cancellationToken);
         }
@@ -412,8 +412,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             Run(action, param1, param2, options, cancellationToken);
         }
@@ -431,8 +431,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(action, param1, param2, options, cancellationToken);
         }
@@ -449,8 +449,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -471,8 +471,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -497,7 +497,7 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return () => Run(action, param1, param2, new RetryOptions(), cancellationToken);
         }
@@ -520,8 +520,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(action, param1, param2, options, cancellationToken);
         }
@@ -544,8 +544,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -566,7 +566,7 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return Run(func, param1, param2, new RetryOptions(), cancellationToken);
         }
@@ -584,7 +584,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return RunAsync(func, param1, param2, new RetryOptions(), cancellationToken);
         }
@@ -603,8 +603,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return Run(func, param1, param2, options, cancellationToken);
         }
@@ -623,8 +623,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(func, param1, param2, options, cancellationToken);
         }
@@ -643,8 +643,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -666,8 +666,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -693,7 +693,7 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return () => Run(func, param1, param2, new RetryOptions(), cancellationToken);
         }
@@ -717,8 +717,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(func, param1, param2, options, cancellationToken);
         }
@@ -742,8 +742,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -764,7 +764,7 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             Run(action, param1, param2, param3, new RetryOptions(), cancellationToken);
         }
@@ -783,7 +783,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return RunAsync(action, param1, param2, param3, new RetryOptions(), cancellationToken);
         }
@@ -802,8 +802,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             Run(action, param1, param2, param3, options, cancellationToken);
         }
@@ -823,8 +823,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(action, param1, param2, param3, options, cancellationToken);
         }
@@ -843,8 +843,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -867,8 +867,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -895,7 +895,7 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return () => Run(action, param1, param2, param3, new RetryOptions(), cancellationToken);
         }
@@ -920,8 +920,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(action, param1, param2, param3, options, cancellationToken);
         }
@@ -946,8 +946,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -970,7 +970,7 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return Run(func, param1, param2, param3, new RetryOptions(), cancellationToken);
         }
@@ -990,7 +990,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return RunAsync(func, param1, param2, param3, new RetryOptions(), cancellationToken);
         }
@@ -1011,8 +1011,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return Run(func, param1, param2, param3, options, cancellationToken);
         }
@@ -1033,8 +1033,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(func, param1, param2, param3, options, cancellationToken);
         }
@@ -1055,8 +1055,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -1080,8 +1080,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -1109,7 +1109,7 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return () => Run(func, param1, param2, param3, new RetryOptions(), cancellationToken);
         }
@@ -1135,8 +1135,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(func, param1, param2, param3, options, cancellationToken);
         }
@@ -1162,8 +1162,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -1186,7 +1186,7 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             Run(action, param1, param2, param3, param4, new RetryOptions(), cancellationToken);
         }
@@ -1207,7 +1207,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return RunAsync(action, param1, param2, param3, param4, new RetryOptions(), cancellationToken);
         }
@@ -1228,8 +1228,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             Run(action, param1, param2, param3, param4, options, cancellationToken);
         }
@@ -1251,8 +1251,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(action, param1, param2, param3, param4, options, cancellationToken);
         }
@@ -1273,8 +1273,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -1299,8 +1299,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -1329,7 +1329,7 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return () => Run(action, param1, param2, param3, param4, new RetryOptions(), cancellationToken);
         }
@@ -1356,8 +1356,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(action, param1, param2, param3, param4, options, cancellationToken);
         }
@@ -1384,8 +1384,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -1410,7 +1410,7 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TParam4, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return Run(func, param1, param2, param3, param4, new RetryOptions(), cancellationToken);
         }
@@ -1432,7 +1432,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return RunAsync(func, param1, param2, param3, param4, new RetryOptions(), cancellationToken);
         }
@@ -1455,8 +1455,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TParam4, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return Run(func, param1, param2, param3, param4, options, cancellationToken);
         }
@@ -1479,8 +1479,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(func, param1, param2, param3, param4, options, cancellationToken);
         }
@@ -1503,8 +1503,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TParam4, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -1530,8 +1530,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -1561,7 +1561,7 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TParam4, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return () => Run(func, param1, param2, param3, param4, new RetryOptions(), cancellationToken);
         }
@@ -1589,8 +1589,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TParam4, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(func, param1, param2, param3, param4, options, cancellationToken);
         }
@@ -1618,8 +1618,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TParam4, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -1644,7 +1644,7 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             Run(action, param1, param2, param3, param4, param5, new RetryOptions(), cancellationToken);
         }
@@ -1667,7 +1667,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return RunAsync(action, param1, param2, param3, param4, param5, new RetryOptions(), cancellationToken);
         }
@@ -1690,8 +1690,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             Run(action, param1, param2, param3, param4, param5, options, cancellationToken);
         }
@@ -1715,8 +1715,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(action, param1, param2, param3, param4, param5, options, cancellationToken);
         }
@@ -1739,8 +1739,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -1767,8 +1767,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -1799,7 +1799,7 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return () => Run(action, param1, param2, param3, param4, param5, new RetryOptions(), cancellationToken);
         }
@@ -1828,8 +1828,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(action, param1, param2, param3, param4, param5, options, cancellationToken);
         }
@@ -1858,8 +1858,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -1886,7 +1886,7 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return Run(func, param1, param2, param3, param4, param5, new RetryOptions(), cancellationToken);
         }
@@ -1910,7 +1910,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return RunAsync(func, param1, param2, param3, param4, param5, new RetryOptions(), cancellationToken);
         }
@@ -1935,8 +1935,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return Run(func, param1, param2, param3, param4, param5, options, cancellationToken);
         }
@@ -1961,8 +1961,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(func, param1, param2, param3, param4, param5, options, cancellationToken);
         }
@@ -1987,8 +1987,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -2016,8 +2016,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -2049,7 +2049,7 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return () => Run(func, param1, param2, param3, param4, param5, new RetryOptions(), cancellationToken);
         }
@@ -2079,8 +2079,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(func, param1, param2, param3, param4, param5, options, cancellationToken);
         }
@@ -2110,8 +2110,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -2138,7 +2138,7 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             Run(action, param1, param2, param3, param4, param5, param6, new RetryOptions(), cancellationToken);
         }
@@ -2163,7 +2163,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return RunAsync(action, param1, param2, param3, param4, param5, param6, new RetryOptions(), cancellationToken);
         }
@@ -2188,8 +2188,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             Run(action, param1, param2, param3, param4, param5, param6, options, cancellationToken);
         }
@@ -2215,8 +2215,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(action, param1, param2, param3, param4, param5, param6, options, cancellationToken);
         }
@@ -2241,8 +2241,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -2271,8 +2271,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -2305,7 +2305,7 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return () => Run(action, param1, param2, param3, param4, param5, param6, new RetryOptions(), cancellationToken);
         }
@@ -2336,8 +2336,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(action, param1, param2, param3, param4, param5, param6, options, cancellationToken);
         }
@@ -2368,8 +2368,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -2398,7 +2398,7 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return Run(func, param1, param2, param3, param4, param5, param6, new RetryOptions(), cancellationToken);
         }
@@ -2424,7 +2424,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return RunAsync(func, param1, param2, param3, param4, param5, param6, new RetryOptions(), cancellationToken);
         }
@@ -2451,8 +2451,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return Run(func, param1, param2, param3, param4, param5, param6, options, cancellationToken);
         }
@@ -2479,8 +2479,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(func, param1, param2, param3, param4, param5, param6, options, cancellationToken);
         }
@@ -2507,8 +2507,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -2538,8 +2538,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -2573,7 +2573,7 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return () => Run(func, param1, param2, param3, param4, param5, param6, new RetryOptions(), cancellationToken);
         }
@@ -2605,8 +2605,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(func, param1, param2, param3, param4, param5, param6, options, cancellationToken);
         }
@@ -2638,8 +2638,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -2668,7 +2668,7 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             Run(action, param1, param2, param3, param4, param5, param6, param7, new RetryOptions(), cancellationToken);
         }
@@ -2695,7 +2695,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return RunAsync(action, param1, param2, param3, param4, param5, param6, param7, new RetryOptions(), cancellationToken);
         }
@@ -2722,8 +2722,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             Run(action, param1, param2, param3, param4, param5, param6, param7, options, cancellationToken);
         }
@@ -2751,8 +2751,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(action, param1, param2, param3, param4, param5, param6, param7, options, cancellationToken);
         }
@@ -2779,8 +2779,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -2811,8 +2811,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -2847,7 +2847,7 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return () => Run(action, param1, param2, param3, param4, param5, param6, param7, new RetryOptions(), cancellationToken);
         }
@@ -2880,8 +2880,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(action, param1, param2, param3, param4, param5, param6, param7, options, cancellationToken);
         }
@@ -2914,8 +2914,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -2946,7 +2946,7 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return Run(func, param1, param2, param3, param4, param5, param6, param7, new RetryOptions(), cancellationToken);
         }
@@ -2974,7 +2974,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return RunAsync(func, param1, param2, param3, param4, param5, param6, param7, new RetryOptions(), cancellationToken);
         }
@@ -3003,8 +3003,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return Run(func, param1, param2, param3, param4, param5, param6, param7, options, cancellationToken);
         }
@@ -3033,8 +3033,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(func, param1, param2, param3, param4, param5, param6, param7, options, cancellationToken);
         }
@@ -3063,8 +3063,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -3096,8 +3096,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -3133,7 +3133,7 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return () => Run(func, param1, param2, param3, param4, param5, param6, param7, new RetryOptions(), cancellationToken);
         }
@@ -3167,8 +3167,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(func, param1, param2, param3, param4, param5, param6, param7, options, cancellationToken);
         }
@@ -3202,8 +3202,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -3234,7 +3234,7 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             Run(action, param1, param2, param3, param4, param5, param6, param7, param8, new RetryOptions(), cancellationToken);
         }
@@ -3263,7 +3263,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return RunAsync(action, param1, param2, param3, param4, param5, param6, param7, param8, new RetryOptions(), cancellationToken);
         }
@@ -3292,8 +3292,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             Run(action, param1, param2, param3, param4, param5, param6, param7, param8, options, cancellationToken);
         }
@@ -3323,8 +3323,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(action, param1, param2, param3, param4, param5, param6, param7, param8, options, cancellationToken);
         }
@@ -3353,8 +3353,8 @@ namespace IX.Retry
         /// <param name="cancellationToken">The current operation's cancellation token.</param>
         public static void Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -3387,8 +3387,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task" /> that can be awaited on.</returns>
         public static Task NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -3425,7 +3425,7 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
+            Contract.RequiresNotNull(in action, nameof(action));
 
             return () => Run(action, param1, param2, param3, param4, param5, param6, param7, param8, new RetryOptions(), cancellationToken);
         }
@@ -3460,8 +3460,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(action, param1, param2, param3, param4, param5, param6, param7, param8, options, cancellationToken);
         }
@@ -3496,8 +3496,8 @@ namespace IX.Retry
         /// </remarks>
         public static Action Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(action, nameof(action));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in action, nameof(action));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -3530,7 +3530,7 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return Run(func, param1, param2, param3, param4, param5, param6, param7, param8, new RetryOptions(), cancellationToken);
         }
@@ -3560,7 +3560,7 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return RunAsync(func, param1, param2, param3, param4, param5, param6, param7, param8, new RetryOptions(), cancellationToken);
         }
@@ -3591,8 +3591,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return Run(func, param1, param2, param3, param4, param5, param6, param7, param8, options, cancellationToken);
         }
@@ -3623,8 +3623,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return RunAsync(func, param1, param2, param3, param4, param5, param6, param7, param8, options, cancellationToken);
         }
@@ -3655,8 +3655,8 @@ namespace IX.Retry
         /// <returns>A return value, as defined by the invoked method.</returns>
         public static TReturn Now<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -3690,8 +3690,8 @@ namespace IX.Retry
         /// <returns>A <see cref="System.Threading.Tasks.Task{TResult}" /> that can be awaited on, with a result as defined by the invoked method.</returns>
         public static Task<TReturn> NowAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -3729,7 +3729,7 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
+            Contract.RequiresNotNull(in func, nameof(func));
 
             return () => Run(func, param1, param2, param3, param4, param5, param6, param7, param8, new RetryOptions(), cancellationToken);
         }
@@ -3765,8 +3765,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(options, nameof(options));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in options, nameof(options));
 
             return () => Run(func, param1, param2, param3, param4, param5, param6, param7, param8, options, cancellationToken);
         }
@@ -3802,8 +3802,8 @@ namespace IX.Retry
         /// </remarks>
         public static Func<TReturn> Later<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, Action<RetryOptions> optionsSetter, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNull(func, nameof(func));
-            Contract.RequiresNotNull(optionsSetter, nameof(optionsSetter));
+            Contract.RequiresNotNull(in func, nameof(func));
+            Contract.RequiresNotNull(in optionsSetter, nameof(optionsSetter));
 
             var options = new RetryOptions();
             optionsSetter(options);
@@ -3813,8 +3813,8 @@ namespace IX.Retry
 
         private static async Task RunAsync<TParam1>(Action<TParam1> action, TParam1 param1, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -3826,8 +3826,8 @@ namespace IX.Retry
 
         private static void Run<TParam1>(Action<TParam1> action, TParam1 param1, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -3839,8 +3839,8 @@ namespace IX.Retry
 
         private static async Task<TReturn> RunAsync<TParam1, TReturn>(Func<TParam1, TReturn> func, TParam1 param1, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -3854,8 +3854,8 @@ namespace IX.Retry
 
         private static TReturn Run<TParam1, TReturn>(Func<TParam1, TReturn> func, TParam1 param1, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -3869,8 +3869,8 @@ namespace IX.Retry
 
         private static async Task RunAsync<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -3882,8 +3882,8 @@ namespace IX.Retry
 
         private static void Run<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 param1, TParam2 param2, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -3895,8 +3895,8 @@ namespace IX.Retry
 
         private static async Task<TReturn> RunAsync<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -3910,8 +3910,8 @@ namespace IX.Retry
 
         private static TReturn Run<TParam1, TParam2, TReturn>(Func<TParam1, TParam2, TReturn> func, TParam1 param1, TParam2 param2, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -3925,8 +3925,8 @@ namespace IX.Retry
 
         private static async Task RunAsync<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -3938,8 +3938,8 @@ namespace IX.Retry
 
         private static void Run<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 param1, TParam2 param2, TParam3 param3, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -3951,8 +3951,8 @@ namespace IX.Retry
 
         private static async Task<TReturn> RunAsync<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -3966,8 +3966,8 @@ namespace IX.Retry
 
         private static TReturn Run<TParam1, TParam2, TParam3, TReturn>(Func<TParam1, TParam2, TParam3, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -3981,8 +3981,8 @@ namespace IX.Retry
 
         private static async Task RunAsync<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -3994,8 +3994,8 @@ namespace IX.Retry
 
         private static void Run<TParam1, TParam2, TParam3, TParam4>(Action<TParam1, TParam2, TParam3, TParam4> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4007,8 +4007,8 @@ namespace IX.Retry
 
         private static async Task<TReturn> RunAsync<TParam1, TParam2, TParam3, TParam4, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4022,8 +4022,8 @@ namespace IX.Retry
 
         private static TReturn Run<TParam1, TParam2, TParam3, TParam4, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4037,8 +4037,8 @@ namespace IX.Retry
 
         private static async Task RunAsync<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4050,8 +4050,8 @@ namespace IX.Retry
 
         private static void Run<TParam1, TParam2, TParam3, TParam4, TParam5>(Action<TParam1, TParam2, TParam3, TParam4, TParam5> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4063,8 +4063,8 @@ namespace IX.Retry
 
         private static async Task<TReturn> RunAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4078,8 +4078,8 @@ namespace IX.Retry
 
         private static TReturn Run<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4093,8 +4093,8 @@ namespace IX.Retry
 
         private static async Task RunAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4106,8 +4106,8 @@ namespace IX.Retry
 
         private static void Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4119,8 +4119,8 @@ namespace IX.Retry
 
         private static async Task<TReturn> RunAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4134,8 +4134,8 @@ namespace IX.Retry
 
         private static TReturn Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4149,8 +4149,8 @@ namespace IX.Retry
 
         private static async Task RunAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4162,8 +4162,8 @@ namespace IX.Retry
 
         private static void Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4175,8 +4175,8 @@ namespace IX.Retry
 
         private static async Task<TReturn> RunAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4190,8 +4190,8 @@ namespace IX.Retry
 
         private static TReturn Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4205,8 +4205,8 @@ namespace IX.Retry
 
         private static async Task RunAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4218,8 +4218,8 @@ namespace IX.Retry
 
         private static void Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(Action<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(action, nameof(action));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in action, nameof(action));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4231,8 +4231,8 @@ namespace IX.Retry
 
         private static async Task<TReturn> RunAsync<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, RetryOptions options, CancellationToken cancellationToken)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -4246,8 +4246,8 @@ namespace IX.Retry
 
         private static TReturn Run<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn>(Func<TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, TReturn> func, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8, RetryOptions options, CancellationToken cancellationToken = default)
         {
-            Contract.RequiresNotNullPrivate(func, nameof(func));
-            Contract.RequiresNotNullPrivate(options, nameof(options));
+            Contract.RequiresNotNullPrivate(in func, nameof(func));
+            Contract.RequiresNotNullPrivate(in options, nameof(options));
 
             cancellationToken.ThrowIfCancellationRequested();
 
