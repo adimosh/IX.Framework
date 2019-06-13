@@ -37,7 +37,8 @@ namespace IX.StandardExtensions.Contracts
         public static void RequiresNotNull<T>(
             [CanBeNull] [NoEnumeration] [AssertionCondition(AssertionConditionType.IS_NOT_NULL)]
             in T argument,
-            [NotNull] string argumentName) where T : class
+            [NotNull] string argumentName)
+            where T : class
         {
             if (argument == null)
             {
@@ -65,7 +66,8 @@ namespace IX.StandardExtensions.Contracts
         public static void RequiresNotNullPrivate<T>(
             [CanBeNull] [NoEnumeration] [AssertionCondition(AssertionConditionType.IS_NOT_NULL)]
             in T argument,
-            [NotNull] string argumentName) where T : class
+            [NotNull] string argumentName)
+            where T : class
         {
             if (argument == null)
             {
