@@ -45,13 +45,16 @@ namespace IX.StandardExtensions.ComponentModel
                 return;
             }
 
-            this.Invoke(
-                (
-                    invoker,
-                    propertyName) => invoker.PropertyChanged?.Invoke(
-                    invoker,
-                    new PropertyChangedEventArgs(propertyName)), this,
-                changedPropertyName);
+            if (this.PropertyChanged != null)
+            {
+                this.Invoke(
+                    (
+                        invoker,
+                        propertyName) => invoker.PropertyChanged?.Invoke(
+                        invoker,
+                        new PropertyChangedEventArgs(propertyName)), this,
+                    changedPropertyName);
+            }
         }
     }
 }
