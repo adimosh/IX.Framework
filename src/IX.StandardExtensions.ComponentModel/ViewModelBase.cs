@@ -11,6 +11,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using IX.StandardExtensions.Threading;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.ComponentModel
 {
@@ -19,10 +20,11 @@ namespace IX.StandardExtensions.ComponentModel
     /// </summary>
     /// <seealso cref="NotifyPropertyChangedBase" />
     /// <seealso cref="IDisposable" />
+    [PublicAPI]
     public abstract class ViewModelBase : NotifyPropertyChangedBase, INotifyDataErrorInfo
     {
         private static readonly string[] EmptyStringArray = new string[0];
-        private readonly ConcurrentDictionary<string, List<string>> entityErrors;
+        private readonly Lazy<ConcurrentDictionary<string, List<string>>> entityErrors;
         private readonly object validatorLock;
 
         /// <summary>
@@ -30,7 +32,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// </summary>
         protected ViewModelBase()
         {
-            this.entityErrors = new ConcurrentDictionary<string, List<string>>();
+            this.entityErrors = new Lazy<ConcurrentDictionary<string, List<string>>>();
             this.validatorLock = new object();
         }
 
@@ -41,7 +43,7 @@ namespace IX.StandardExtensions.ComponentModel
         protected ViewModelBase(SynchronizationContext synchronizationContext)
             : base(synchronizationContext)
         {
-            this.entityErrors = new ConcurrentDictionary<string, List<string>>();
+            this.entityErrors = new Lazy<ConcurrentDictionary<string, List<string>>>();
             this.validatorLock = new object();
         }
 
@@ -54,7 +56,8 @@ namespace IX.StandardExtensions.ComponentModel
         ///     Gets a value indicating whether the entity has validation errors.
         /// </summary>
         /// <value><see langword="true" /> if this instance has errors; otherwise, <see langword="false" />.</value>
-        public bool HasErrors => this.entityErrors.Values.Any(p => p.Count > 0);
+        public bool HasErrors =>
+            this.entityErrors.IsValueCreated && this.entityErrors.Value.Values.Any(p => p.Count > 0);
 
         /// <summary>
         ///     Gets the validation errors for a specified property or for the entire view model.
@@ -66,7 +69,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// <returns>The validation errors for the property or entity.</returns>
         public IEnumerable GetErrors(string propertyName)
         {
-            if (this.entityErrors.TryGetValue(
+            if (this.entityErrors.Value.TryGetValue(
                 propertyName,
                 out List<string> propertyErrors))
             {
@@ -76,6 +79,8 @@ namespace IX.StandardExtensions.ComponentModel
             return EmptyStringArray;
         }
 
+#pragma warning disable IDE0008 // Use explicit type - heavy use of LINQ makes this impractical
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable
         /// <summary>
         ///     Validates this object.
         /// </summary>
@@ -94,66 +99,63 @@ namespace IX.StandardExtensions.ComponentModel
                         null), validationResults,
                     true))
                 {
-                    this.entityErrors.Clear();
+                    if (this.entityErrors.IsValueCreated)
+                    {
+                        this.entityErrors.Value.Clear();
+                    }
                 }
                 else
                 {
-#pragma warning disable IDE0008 // Use explicit type - heavy use of LINQ makes this impractical
-
                     // Remove those properties which pass validation
-                    foreach (KeyValuePair<string, List<string>> kv in this.entityErrors.ToArray())
+                    if (!this.entityErrors.IsValueCreated)
                     {
-                        if (AllDifferent(
-                            validationResults,
-                            kv.Key))
+                        foreach (KeyValuePair<string, List<string>> kv in this.entityErrors.Value.ToArray())
                         {
-                            this.entityErrors.TryRemove(
-                                kv.Key,
-                                out _);
-                            this.RaiseErrorsChanged(kv.Key);
-                        }
-
-                        bool AllDifferent(
-                            List<ValidationResult> source,
-                            string key)
-                        {
-                            foreach (ValidationResult r in source)
+                            if (AllDifferent(
+                                validationResults,
+                                kv.Key))
                             {
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable
-                                foreach (var m in r.MemberNames)
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
-                                {
-                                    if (m == key)
-                                    {
-                                        return false;
-                                    }
-                                }
+                                this.entityErrors.Value.TryRemove(
+                                    kv.Key,
+                                    out _);
+                                this.RaiseErrorsChanged(kv.Key);
                             }
 
-                            return true;
+                            bool AllDifferent(
+                                List<ValidationResult> source,
+                                string key)
+                            {
+                                foreach (ValidationResult r in source)
+                                {
+                                    foreach (var m in r.MemberNames)
+                                    {
+                                        if (m == key)
+                                        {
+                                            return false;
+                                        }
+                                    }
+                                }
+
+                                return true;
+                            }
                         }
                     }
-
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable
 
                     // Those properties that currently don't pass validation should have their validation results saved as messages.
                     foreach (IGrouping<string, ValidationResult> property in from r in validationResults
                         from m in r.MemberNames
-                        group r by m
-                        into g
+                        group r by m into g
                         select g)
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                     {
                         string[] messages = property.Select(r => r.ErrorMessage).ToArray();
 
-                        List<string> errorList = this.entityErrors.GetOrAdd(
+                        List<string> errorList = this.entityErrors.Value.GetOrAdd(
                             property.Key,
                             new List<string>(messages.Length));
                         errorList.Clear();
                         errorList.AddRange(messages);
                         this.RaiseErrorsChanged(property.Key);
                     }
-#pragma warning restore IDE0008 // Use explicit type
                 }
 
                 // Raise property changed for HasErrors, if necessary
@@ -163,7 +165,10 @@ namespace IX.StandardExtensions.ComponentModel
                 }
             }
         }
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+#pragma warning restore IDE0008 // Use explicit type
 
+#pragma warning disable HAA0603 // Delegate allocation from a method group - Expected
         /// <summary>
         ///     Raises the property changed event, followed by with validation.
         /// </summary>
@@ -172,10 +177,9 @@ namespace IX.StandardExtensions.ComponentModel
         {
             this.RaisePropertyChanged(propertyName);
 
-#pragma warning disable HAA0603 // Delegate allocation from a method group - Expected
             Fire.AndForget(this.Validate);
-#pragma warning restore HAA0603 // Delegate allocation from a method group
         }
+#pragma warning restore HAA0603 // Delegate allocation from a method group
 
         /// <summary>
         ///     Raises the errors changed event.

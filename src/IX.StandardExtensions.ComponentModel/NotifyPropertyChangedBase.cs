@@ -4,6 +4,7 @@
 
 using System.ComponentModel;
 using System.Threading;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.ComponentModel
 {
@@ -11,6 +12,7 @@ namespace IX.StandardExtensions.ComponentModel
     ///     A base class for advertising and notifying on changes of properties.
     /// </summary>
     /// <seealso cref="INotifyPropertyChanged" />
+    [PublicAPI]
     public abstract class NotifyPropertyChangedBase : SynchronizationContextInvokerBase, INotifyPropertyChanged
     {
         /// <summary>

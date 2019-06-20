@@ -13,7 +13,7 @@ namespace IX.StandardExtensions.ComponentModel
     /// <summary>
     ///     An abstract base class for a synchronization context invoker.
     /// </summary>
-    /// <seealso cref="IX.StandardExtensions.ComponentModel.DisposableBase" />
+    /// <seealso cref="DisposableBase" />
     [PublicAPI]
     public abstract partial class SynchronizationContextInvokerBase : DisposableBase, INotifyThreadException
     {
@@ -56,6 +56,7 @@ namespace IX.StandardExtensions.ComponentModel
             p => ((Action)p)(),
             (object)action);
 
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is unavoidable
         /// <summary>
         ///     Invokes the specified action using the synchronization context asynchronously, or synchronously on this thread if
         ///     there is no synchronization context available.
@@ -63,7 +64,7 @@ namespace IX.StandardExtensions.ComponentModel
         /// <param name="action">The action to invoke.</param>
         /// <param name="state">The state object to pass on to the action.</param>
         protected void Invoke(
-            Action<object> action,
+            [NotNull] Action<object> action,
             object state)
         {
             this.ThrowIfCurrentObjectDisposed();
@@ -97,17 +98,13 @@ namespace IX.StandardExtensions.ComponentModel
                 if (EnvironmentSettings.InvokeAsynchronously)
                 {
                     currentSynchronizationContext.Post(
-#pragma warning disable HAA0603 // Delegate allocation from a method group - This is unavoidable
                         SendOrPost,
-#pragma warning restore HAA0603 // Delegate allocation from a method group
                         outerState);
                 }
                 else
                 {
                     currentSynchronizationContext.Send(
-#pragma warning disable HAA0603 // Delegate allocation from a method group - This is unavoidable
                         SendOrPost,
-#pragma warning restore HAA0603 // Delegate allocation from a method group
                         outerState);
                 }
 
@@ -126,6 +123,7 @@ namespace IX.StandardExtensions.ComponentModel
                 }
             }
         }
+#pragma warning restore HAA0603 // Delegate allocation from a method group
 
         /// <summary>
         ///     Disposes in the general (managed and unmanaged) context.
