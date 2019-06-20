@@ -5,25 +5,25 @@
 using System;
 using System.Runtime.Serialization;
 using System.Threading;
-
 using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.ComponentModel
 {
     /// <summary>
-    /// An abstract base class for correctly implementing the disposable pattern.
+    ///     An abstract base class for correctly implementing the disposable pattern.
     /// </summary>
     /// <seealso cref="System.IDisposable" />
     [DataContract]
+    [PublicAPI]
     public abstract partial class DisposableBase
     {
         /// <summary>
-        /// The thread-safe dispose signal.
+        ///     The thread-safe dispose signal.
         /// </summary>
         private volatile int disposeSignaled;
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="DisposableBase"/> class.
+        ///     Finalizes an instance of the <see cref="DisposableBase" /> class.
         /// </summary>
         ~DisposableBase()
         {
@@ -31,19 +31,21 @@ namespace IX.StandardExtensions.ComponentModel
         }
 
         /// <summary>
-        /// Gets a value indicating whether this <see cref="DisposableBase"/> is disposed.
+        ///     Gets a value indicating whether this <see cref="DisposableBase" /> is disposed.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if disposed; otherwise, <c>false</c>.
+        ///     <c>true</c> if disposed; otherwise, <c>false</c>.
         /// </value>
         internal bool Disposed { get; private set; }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
         {
-            if (Interlocked.Exchange(ref this.disposeSignaled, 1) != 0)
+            if (Interlocked.Exchange(
+                    ref this.disposeSignaled,
+                    1) != 0)
             {
                 return;
             }
@@ -53,7 +55,7 @@ namespace IX.StandardExtensions.ComponentModel
         }
 
         /// <summary>
-        /// Throws if the current object is disposed.
+        ///     Throws if the current object is disposed.
         /// </summary>
         /// <exception cref="ObjectDisposedException">If the current object is disposed, this exception will be thrown.</exception>
         protected internal void ThrowIfCurrentObjectDisposed()
@@ -65,10 +67,13 @@ namespace IX.StandardExtensions.ComponentModel
         }
 
         /// <summary>
-        /// Invokes an action if the current instance is not disposed.
+        ///     Invokes an action if the current instance is not disposed.
         /// </summary>
         /// <param name="action">The action.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="action" /> is <see langword="null" /> (
+        ///     <see langword="Nothing" /> in Visual Basic).
+        /// </exception>
         protected void InvokeIfNotDisposed([NotNull] Action action)
         {
             this.ThrowIfCurrentObjectDisposed();
@@ -77,12 +82,15 @@ namespace IX.StandardExtensions.ComponentModel
         }
 
         /// <summary>
-        /// Invokes an action if the current instance is not disposed.
+        ///     Invokes an action if the current instance is not disposed.
         /// </summary>
         /// <typeparam name="TReturn">The return type.</typeparam>
         /// <param name="action">The action.</param>
         /// <returns>The object returned by the action.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="action" /> is <see langword="null" /> (
+        ///     <see langword="Nothing" /> in Visual Basic).
+        /// </exception>
         protected TReturn InvokeIfNotDisposed<TReturn>(Func<TReturn> action)
         {
             this.ThrowIfCurrentObjectDisposed();
@@ -91,23 +99,26 @@ namespace IX.StandardExtensions.ComponentModel
         }
 
         /// <summary>
-        /// Disposes in the managed context.
+        ///     Disposes in the managed context.
         /// </summary>
         protected virtual void DisposeManagedContext()
         {
         }
 
         /// <summary>
-        /// Disposes in the general (managed and unmanaged) context.
+        ///     Disposes in the general (managed and unmanaged) context.
         /// </summary>
         protected virtual void DisposeGeneralContext()
         {
         }
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
+        ///     Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        /// <param name="disposing">
+        ///     <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only
+        ///     unmanaged resources.
+        /// </param>
         private void Dispose(bool disposing)
         {
             if (this.Disposed)

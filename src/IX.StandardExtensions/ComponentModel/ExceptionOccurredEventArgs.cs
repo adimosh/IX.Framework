@@ -1,18 +1,20 @@
-﻿// <copyright file="ExceptionOccurredEventArgs.cs" company="Adrian Mos">
+// <copyright file="ExceptionOccurredEventArgs.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.ComponentModel
 {
     /// <summary>
-    /// Event arguments for an event handler detailing exceptions occurring in different threads.
+    ///     Event arguments for an event handler detailing exceptions occurring in different threads.
     /// </summary>
+    [PublicAPI]
     public class ExceptionOccurredEventArgs : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExceptionOccurredEventArgs"/> class.
+        ///     Initializes a new instance of the <see cref="ExceptionOccurredEventArgs" /> class.
         /// </summary>
         /// <param name="exception">The exception that has occurred.</param>
         public ExceptionOccurredEventArgs(Exception exception)
@@ -21,8 +23,8 @@ namespace IX.StandardExtensions.ComponentModel
         }
 
         /// <summary>
-        /// Gets the exception that has occurred.
+        ///     Gets the exception that has occurred.
         /// </summary>
-        public Exception Exception { get; private set; }
+        public Exception Exception { get; }
     }
 }
