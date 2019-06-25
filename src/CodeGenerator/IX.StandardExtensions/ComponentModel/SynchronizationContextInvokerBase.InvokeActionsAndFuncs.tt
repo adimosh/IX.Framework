@@ -49,7 +49,8 @@ for (int i = 1; i <= 8; i++)
 #>
 
         /// <summary>
-        /// Invokes the specified action using the synchronization context asynchronously, or as fire-and-forget if there is no synchronization context available.
+        ///     Invokes the specified action using the synchronization context, or on either this thread or a separate thread if
+        ///     there is no synchronization context available.
         /// </summary>
 <#
     for (int j = 1; j <= i; j++)
@@ -72,7 +73,73 @@ for (int i = 1; i <= 8; i++)
         {
             var outerState = new Tuple<Action<<#= paramTypes #>>, Tuple<<#= paramTypes #>>>(action, new Tuple<<#= paramTypes #>>(<#= paramNames #>));
 
-            this.Invoke((state) =>
+            this.Invoke(state =>
+            {
+                var unpackedState = (Tuple<Action<<#= paramTypes #>>, Tuple<<#= paramTypes #>>>)state;
+                Tuple<<#= paramTypes #>> unpackedParameters = unpackedState.Item2;
+                unpackedState.Item1(<#= paramParameters #>);
+            }, (object)outerState);
+        }
+
+        /// <summary>
+        ///     Invokes the specified action by posting on the synchronization context, or on a separate thread if
+        ///     there is no synchronization context available.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action to invoke.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        protected void InvokePost<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>)
+        {
+            var outerState = new Tuple<Action<<#= paramTypes #>>, Tuple<<#= paramTypes #>>>(action, new Tuple<<#= paramTypes #>>(<#= paramNames #>));
+
+            this.InvokePost(state =>
+            {
+                var unpackedState = (Tuple<Action<<#= paramTypes #>>, Tuple<<#= paramTypes #>>>)state;
+                Tuple<<#= paramTypes #>> unpackedParameters = unpackedState.Item2;
+                unpackedState.Item1(<#= paramParameters #>);
+            }, (object)outerState);
+        }
+
+        /// <summary>
+        ///     Invokes the specified action synchronously using the synchronization context, or on this thread if
+        ///     there is no synchronization context available.
+        /// </summary>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <typeparam name="TParam<#= j #>">The type of parameter to be passed to the invoked method at index <#= j - 1 #>.</typeparam>
+<#
+    }
+#>
+        /// <param name="action">The action to invoke.</param>
+<#
+    for (int j = 1; j <= i; j++)
+    {
+#>
+        /// <param name="param<#= j #>">A parameter of type <typeparamref name="TParam<#= j #>" /> to pass to the invoked method at index <#= j - 1 #>.</param>
+<#
+    }
+#>
+        protected void InvokeSend<<#= paramTypes #>>(Action<<#= paramTypes #>> action, <#= paramNameTypes #>)
+        {
+            var outerState = new Tuple<Action<<#= paramTypes #>>, Tuple<<#= paramTypes #>>>(action, new Tuple<<#= paramTypes #>>(<#= paramNames #>));
+
+            this.InvokeSend(state =>
             {
                 var unpackedState = (Tuple<Action<<#= paramTypes #>>, Tuple<<#= paramTypes #>>>)state;
                 Tuple<<#= paramTypes #>> unpackedParameters = unpackedState.Item2;

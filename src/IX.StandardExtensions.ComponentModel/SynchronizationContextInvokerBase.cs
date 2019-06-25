@@ -48,7 +48,7 @@ namespace IX.StandardExtensions.ComponentModel
         public SynchronizationContext SynchronizationContext => this.synchronizationContext;
 
         /// <summary>
-        ///     Invokes the specified action using the synchronization context asynchronously, or synchronously on this thread if
+        ///     Invokes the specified action using the synchronization context, or on either this thread or a separate thread if
         ///     there is no synchronization context available.
         /// </summary>
         /// <param name="action">The action to invoke.</param>
@@ -58,7 +58,7 @@ namespace IX.StandardExtensions.ComponentModel
 
 #pragma warning disable HAA0603 // Delegate allocation from a method group - This is unavoidable
         /// <summary>
-        ///     Invokes the specified action using the synchronization context asynchronously, or synchronously on this thread if
+        ///     Invokes the specified action using the synchronization context, or on either this thread or a separate thread if
         ///     there is no synchronization context available.
         /// </summary>
         /// <param name="action">The action to invoke.</param>
@@ -91,36 +91,115 @@ namespace IX.StandardExtensions.ComponentModel
             }
             else
             {
-                var outerState = new Tuple<SynchronizationContextInvokerBase, Action<object>, object>(
-                    this,
+                var outerState = new Tuple<Action<object>, object>(
                     action,
                     state);
                 if (EnvironmentSettings.InvokeAsynchronously)
                 {
                     currentSynchronizationContext.Post(
-                        SendOrPost,
+                        this.SendOrPost,
                         outerState);
                 }
                 else
                 {
                     currentSynchronizationContext.Send(
-                        SendOrPost,
+                        this.SendOrPost,
                         outerState);
                 }
+            }
+        }
+#pragma warning restore HAA0603 // Delegate allocation from a method group
 
-                void SendOrPost(object innerState)
-                {
-                    var arguments = (Tuple<SynchronizationContextInvokerBase, Action<object>, object>)innerState;
+        /// <summary>
+        ///     Invokes the specified action by posting on the synchronization context, or on a separate thread if
+        ///     there is no synchronization context available.
+        /// </summary>
+        /// <param name="action">The action to invoke.</param>
+        protected void InvokePost(Action action) => this.InvokePost(
+            p => ((Action)p)(),
+            (object)action);
 
-                    try
-                    {
-                        arguments.Item2(arguments.Item3);
-                    }
-                    catch (Exception ex)
-                    {
-                        arguments.Item1.InvokeExceptionOccurredOnSeparateThread(ex);
-                    }
-                }
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is unavoidable
+        /// <summary>
+        ///     Invokes the specified action by posting on the synchronization context, or on a separate thread if
+        ///     there is no synchronization context available.
+        /// </summary>
+        /// <param name="action">The action to invoke.</param>
+        /// <param name="state">The state object to pass on to the action.</param>
+        protected void InvokePost(
+            [NotNull] Action<object> action,
+            object state)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            SynchronizationContext currentSynchronizationContext =
+                this.synchronizationContext ?? EnvironmentSettings.GetUsableSynchronizationContext();
+
+            if (currentSynchronizationContext == null)
+            {
+                Fire.AndForget(
+                    action,
+                    state);
+            }
+            else
+            {
+                var outerState = new Tuple<Action<object>, object>(
+                    action,
+                    state);
+
+                currentSynchronizationContext.Post(
+                    this.SendOrPost,
+                    outerState);
+            }
+        }
+#pragma warning restore HAA0603 // Delegate allocation from a method group
+
+        /// <summary>
+        ///     Invokes the specified action synchronously using the synchronization context, or on this thread if
+        ///     there is no synchronization context available.
+        /// </summary>
+        /// <param name="action">The action to invoke.</param>
+        protected void InvokeSend(Action action) => this.InvokeSend(
+            p => ((Action)p)(),
+            (object)action);
+
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is unavoidable
+        /// <summary>
+        ///     Invokes the specified action synchronously using the synchronization context, or on this thread if
+        ///     there is no synchronization context available.
+        /// </summary>
+        /// <param name="action">The action to invoke.</param>
+        /// <param name="state">The state object to pass on to the action.</param>
+        protected void InvokeSend(
+            [NotNull] Action<object> action,
+            object state)
+        {
+            this.ThrowIfCurrentObjectDisposed();
+
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            SynchronizationContext currentSynchronizationContext =
+                this.synchronizationContext ?? EnvironmentSettings.GetUsableSynchronizationContext();
+
+            if (currentSynchronizationContext == null)
+            {
+                action(state);
+            }
+            else
+            {
+                var outerState = new Tuple<Action<object>, object>(
+                    action,
+                    state);
+
+                currentSynchronizationContext.Send(
+                        this.SendOrPost,
+                        outerState);
             }
         }
 #pragma warning restore HAA0603 // Delegate allocation from a method group
@@ -146,5 +225,19 @@ namespace IX.StandardExtensions.ComponentModel
             this.ExceptionOccurredOnSeparateThread?.Invoke(
                 this,
                 new ExceptionOccurredEventArgs(ex));
+
+        private void SendOrPost(object innerState)
+        {
+            (Action<object> actionL1, object stateL1) = (Tuple<Action<object>, object>)innerState;
+
+            try
+            {
+                actionL1(stateL1);
+            }
+            catch (Exception ex)
+            {
+                this.InvokeExceptionOccurredOnSeparateThread(ex);
+            }
+        }
     }
 }

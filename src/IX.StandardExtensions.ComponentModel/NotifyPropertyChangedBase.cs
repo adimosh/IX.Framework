@@ -58,5 +58,51 @@ namespace IX.StandardExtensions.ComponentModel
                     changedPropertyName);
             }
         }
+
+        /// <summary>
+        ///     Triggers the <see cref="PropertyChanged" /> event asynchronously.
+        /// </summary>
+        /// <param name="changedPropertyName">The name of the changed property.</param>
+        protected void PostPropertyChanged(string changedPropertyName)
+        {
+            if (SuppressNotificationsContext.AmbientSuppressionActive.Value)
+            {
+                return;
+            }
+
+            if (this.PropertyChanged != null)
+            {
+                this.InvokePost(
+                    (
+                        invoker,
+                        propertyName) => invoker.PropertyChanged?.Invoke(
+                        invoker,
+                        new PropertyChangedEventArgs(propertyName)), this,
+                    changedPropertyName);
+            }
+        }
+
+        /// <summary>
+        ///     Triggers the <see cref="PropertyChanged" /> event synchronously.
+        /// </summary>
+        /// <param name="changedPropertyName">The name of the changed property.</param>
+        protected void SendPropertyChanged(string changedPropertyName)
+        {
+            if (SuppressNotificationsContext.AmbientSuppressionActive.Value)
+            {
+                return;
+            }
+
+            if (this.PropertyChanged != null)
+            {
+                this.InvokeSend(
+                    (
+                        invoker,
+                        propertyName) => invoker.PropertyChanged?.Invoke(
+                        invoker,
+                        new PropertyChangedEventArgs(propertyName)), this,
+                    changedPropertyName);
+            }
+        }
     }
 }
