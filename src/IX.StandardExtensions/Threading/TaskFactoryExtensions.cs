@@ -80,7 +80,7 @@ namespace IX.StandardExtensions.Threading
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
-                rawState => ((Func<TResult>)rawState)(),
+                StateAsAction<TResult>,
                 action,
                 false,
                 cancellationToken);
@@ -103,12 +103,14 @@ namespace IX.StandardExtensions.Threading
 
             return StartWithStateOnDefaultTaskScheduler(
                 taskFactory,
-                rawState => ((Func<TResult>)rawState)(),
+                StateAsAction<TResult>,
                 action,
                 true,
                 cancellationToken);
         }
 
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is expected
+#pragma warning disable DE0008 // API is deprecated - This is an acceptable use, since we're writing on what's guaranteed to be the current thread
         internal static Task StartWithStateOnDefaultTaskScheduler(
             TaskFactory taskFactory,
             Action<object> action,
@@ -121,19 +123,21 @@ namespace IX.StandardExtensions.Threading
 
             var creationOptions = TaskCreationOptions.HideScheduler | (longRunning ? TaskCreationOptions.LongRunning : TaskCreationOptions.PreferFairness);
 
-            return taskFactory.StartNew(
 #if !NETSTANDARD1_2
-#pragma warning disable HAA0603 // Delegate allocation from a method group - This is expected
+            return taskFactory.StartNew(
                 StartAction,
-#pragma warning restore HAA0603 // Delegate allocation from a method group
                 new Tuple<Action<object>, CultureInfo, CultureInfo, object>(action, CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture, state),
-#else
-                action,
-                state,
-#endif
                 cancellationToken,
                 creationOptions,
                 TaskScheduler.Default);
+#else
+            return taskFactory.StartNew(
+                action,
+                state,
+                cancellationToken,
+                creationOptions,
+                TaskScheduler.Default);
+#endif
 
 #if !NETSTANDARD1_2
             void StartAction(object rawState)
@@ -147,10 +151,8 @@ namespace IX.StandardExtensions.Threading
                 CultureInfo.CurrentCulture = innerState.Item2;
                 CultureInfo.CurrentUICulture = innerState.Item3;
 #elif FRAMEWORK
-#pragma warning disable DE0008 // API is deprecated - This is an acceptable use, since we're writing on what's guaranteed to be the current thread
                 Thread.CurrentThread.CurrentCulture = innerState.Item2;
                 Thread.CurrentThread.CurrentUICulture = innerState.Item3;
-#pragma warning restore DE0008 // API is deprecated
 #endif
 
                 innerState.Item1(innerState.Item4);
@@ -170,19 +172,21 @@ namespace IX.StandardExtensions.Threading
 
             var creationOptions = TaskCreationOptions.HideScheduler | (longRunning ? TaskCreationOptions.LongRunning : TaskCreationOptions.PreferFairness);
 
-            return taskFactory.StartNew(
 #if !NETSTANDARD1_2
-#pragma warning disable HAA0603 // Delegate allocation from a method group - This is expected
+            return taskFactory.StartNew(
                 StartAction,
-#pragma warning restore HAA0603 // Delegate allocation from a method group
                 new Tuple<Func<object, TResult>, CultureInfo, CultureInfo, object>(action, CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture, state),
-#else
-                action,
-                state,
-#endif
                 cancellationToken,
                 creationOptions,
                 TaskScheduler.Default);
+#else
+            return taskFactory.StartNew(
+                action,
+                state,
+                cancellationToken,
+                creationOptions,
+                TaskScheduler.Default);
+#endif
 
 #if !NETSTANDARD1_2
             TResult StartAction(object rawState)
@@ -196,15 +200,17 @@ namespace IX.StandardExtensions.Threading
                 CultureInfo.CurrentCulture = innerState.Item2;
                 CultureInfo.CurrentUICulture = innerState.Item3;
 #elif FRAMEWORK
-#pragma warning disable DE0008 // API is deprecated - This is an acceptable use, since we're writing on what's guaranteed to be the current thread
                 Thread.CurrentThread.CurrentCulture = innerState.Item2;
                 Thread.CurrentThread.CurrentUICulture = innerState.Item3;
-#pragma warning restore DE0008 // API is deprecated
 #endif
 
                 return innerState.Item1(innerState.Item4);
             }
 #endif
         }
+#pragma warning restore DE0008 // API is deprecated
+#pragma warning restore HAA0603 // Delegate allocation from a method group
+
+        private static TResult StateAsAction<TResult>(object state) => ((Func<TResult>)state)();
     }
 }

@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.Threading
 {
@@ -10,6 +11,7 @@ namespace IX.StandardExtensions.Threading
     /// Interface IInterruptible.
     /// </summary>
     /// <seealso cref="IDisposable" />
+    [PublicAPI]
     public interface IInterruptible : IDisposable
     {
         /// <summary>

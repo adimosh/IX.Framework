@@ -41,45 +41,51 @@ namespace IX.StandardExtensions.ComponentModel
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
 #pragma warning disable HAA0603 // Delegate allocation from a method group - This is unavoidable here
-        /// <summary>Sends a notification to all the viewers of an observable collection inheriting this base class that their view should be refreshed.</summary>
+        /// <summary>
+        ///     Sends a notification to all the viewers of an observable collection inheriting this base class that their view
+        ///     should be refreshed.
+        /// </summary>
         /// <remarks>
-        /// This method is not affected by a notification suppression context, which means that it will send notifications even if there currently is an ambient notification suppression context.
+        ///     This method is not affected by a notification suppression context, which means that it will send notifications even
+        ///     if there currently is an ambient notification suppression context.
         /// </remarks>
         public void RefreshViewers()
         {
             if (this.CollectionChanged != null)
             {
-                this.Invoke(
-                    this.CollectionResetInvocationMethod,
-                    this);
+                this.Invoke(this.CollectionResetInvocationMethod);
             }
         }
 
-        /// <summary>Asynchronously sends a notification to all the viewers of an observable collection inheriting this base class that their view should be refreshed.</summary>
+        /// <summary>
+        ///     Asynchronously sends a notification to all the viewers of an observable collection inheriting this base class
+        ///     that their view should be refreshed.
+        /// </summary>
         /// <remarks>
-        /// This method is not affected by a notification suppression context, which means that it will send notifications even if there currently is an ambient notification suppression context.
+        ///     This method is not affected by a notification suppression context, which means that it will send notifications even
+        ///     if there currently is an ambient notification suppression context.
         /// </remarks>
         public void RefreshViewersAsynchronously()
         {
             if (this.CollectionChanged != null)
             {
-                this.InvokePost(
-                    this.CollectionResetInvocationMethod,
-                    this);
+                this.InvokePost(this.CollectionResetInvocationMethod);
             }
         }
 
-        /// <summary>Synchronously sends a notification to all the viewers of an observable collection inheriting this base class that their view should be refreshed.</summary>
+        /// <summary>
+        ///     Synchronously sends a notification to all the viewers of an observable collection inheriting this base class
+        ///     that their view should be refreshed.
+        /// </summary>
         /// <remarks>
-        /// This method is not affected by a notification suppression context, which means that it will send notifications even if there currently is an ambient notification suppression context.
+        ///     This method is not affected by a notification suppression context, which means that it will send notifications even
+        ///     if there currently is an ambient notification suppression context.
         /// </remarks>
         public void RefreshViewersSynchronously()
         {
             if (this.CollectionChanged != null)
             {
-                this.InvokeSend(
-                    this.CollectionResetInvocationMethod,
-                    this);
+                this.InvokeSend(this.CollectionResetInvocationMethod);
             }
         }
 
@@ -95,9 +101,7 @@ namespace IX.StandardExtensions.ComponentModel
 
             if (this.CollectionChanged != null)
             {
-                this.Invoke(
-                    this.CollectionResetInvocationMethod,
-                    this);
+                this.Invoke(this.CollectionResetInvocationMethod);
             }
         }
 
@@ -113,9 +117,7 @@ namespace IX.StandardExtensions.ComponentModel
 
             if (this.CollectionChanged != null)
             {
-                this.InvokePost(
-                    this.CollectionResetInvocationMethod,
-                    this);
+                this.InvokePost(this.CollectionResetInvocationMethod);
             }
         }
 
@@ -131,9 +133,7 @@ namespace IX.StandardExtensions.ComponentModel
 
             if (this.CollectionChanged != null)
             {
-                this.InvokeSend(
-                    this.CollectionResetInvocationMethod,
-                    this);
+                this.InvokeSend(this.CollectionResetInvocationMethod);
             }
         }
 
@@ -156,7 +156,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.Invoke(
                     this.CollectionAddItemInvocationMethod,
-                    this,
                     index,
                     item);
             }
@@ -181,7 +180,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokePost(
                     this.CollectionAddItemInvocationMethod,
-                    this,
                     index,
                     item);
             }
@@ -206,7 +204,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokeSend(
                     this.CollectionAddItemInvocationMethod,
-                    this,
                     index,
                     item);
             }
@@ -231,14 +228,14 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.Invoke(
                     this.CollectionAddItemsInvocationMethod,
-                    this,
                     index,
                     items);
             }
         }
 
         /// <summary>
-        ///     Triggers the <see cref="CollectionChanged" /> event as a collection addition event of multiple elements asynchronously.
+        ///     Triggers the <see cref="CollectionChanged" /> event as a collection addition event of multiple elements
+        ///     asynchronously.
         /// </summary>
         /// <typeparam name="T">The type of the item of the collection.</typeparam>
         /// <param name="index">The index at which the items were added.</param>
@@ -256,14 +253,14 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokePost(
                     this.CollectionAddItemsInvocationMethod,
-                    this,
                     index,
                     items);
             }
         }
 
         /// <summary>
-        ///     Triggers the <see cref="CollectionChanged" /> event as a collection addition event of multiple elements synchronously.
+        ///     Triggers the <see cref="CollectionChanged" /> event as a collection addition event of multiple elements
+        ///     synchronously.
         /// </summary>
         /// <typeparam name="T">The type of the item of the collection.</typeparam>
         /// <param name="index">The index at which the items were added.</param>
@@ -281,7 +278,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokeSend(
                     this.CollectionAddItemsInvocationMethod,
-                    this,
                     index,
                     items);
             }
@@ -306,7 +302,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.Invoke(
                     this.CollectionRemoveItemInvocationMethod,
-                    this,
                     index,
                     item);
             }
@@ -331,7 +326,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokePost(
                     this.CollectionRemoveItemInvocationMethod,
-                    this,
                     index,
                     item);
             }
@@ -356,7 +350,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokeSend(
                     this.CollectionRemoveItemInvocationMethod,
-                    this,
                     index,
                     item);
             }
@@ -381,14 +374,14 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.Invoke(
                     this.CollectionRemoveItemsInvocationMethod,
-                    this,
                     index,
                     items);
             }
         }
 
         /// <summary>
-        ///     Triggers the <see cref="CollectionChanged" /> event as a collection removal event of multiple elements asynchronously.
+        ///     Triggers the <see cref="CollectionChanged" /> event as a collection removal event of multiple elements
+        ///     asynchronously.
         /// </summary>
         /// <typeparam name="T">The type of the item of the collection.</typeparam>
         /// <param name="index">The index at which the items were removed.</param>
@@ -406,14 +399,14 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokePost(
                     this.CollectionRemoveItemsInvocationMethod,
-                    this,
                     index,
                     items);
             }
         }
 
         /// <summary>
-        ///     Triggers the <see cref="CollectionChanged" /> event as a collection removal event of multiple elements synchronously.
+        ///     Triggers the <see cref="CollectionChanged" /> event as a collection removal event of multiple elements
+        ///     synchronously.
         /// </summary>
         /// <typeparam name="T">The type of the item of the collection.</typeparam>
         /// <param name="index">The index at which the items were removed.</param>
@@ -431,7 +424,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokeSend(
                     this.CollectionRemoveItemsInvocationMethod,
-                    this,
                     index,
                     items);
             }
@@ -458,7 +450,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.Invoke(
                     this.CollectionMoveItemInvocationMethod,
-                    this,
                     oldIndex,
                     newIndex,
                     item);
@@ -486,7 +477,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokePost(
                     this.CollectionMoveItemInvocationMethod,
-                    this,
                     oldIndex,
                     newIndex,
                     item);
@@ -514,7 +504,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokeSend(
                     this.CollectionMoveItemInvocationMethod,
-                    this,
                     oldIndex,
                     newIndex,
                     item);
@@ -542,7 +531,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.Invoke(
                     this.CollectionMoveItemsInvocationMethod,
-                    this,
                     oldIndex,
                     newIndex,
                     items);
@@ -570,7 +558,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokePost(
                     this.CollectionMoveItemsInvocationMethod,
-                    this,
                     oldIndex,
                     newIndex,
                     items);
@@ -598,7 +585,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokeSend(
                     this.CollectionMoveItemsInvocationMethod,
-                    this,
                     oldIndex,
                     newIndex,
                     items);
@@ -626,7 +612,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.Invoke(
                     this.CollectionReplaceItemInvocationMethod,
-                    this,
                     index,
                     oldItem,
                     newItem);
@@ -634,7 +619,8 @@ namespace IX.StandardExtensions.ComponentModel
         }
 
         /// <summary>
-        ///     Triggers the <see cref="CollectionChanged" /> event as a collection replacement event of one element asynchronously.
+        ///     Triggers the <see cref="CollectionChanged" /> event as a collection replacement event of one element
+        ///     asynchronously.
         /// </summary>
         /// <typeparam name="T">The type of the item of the collection.</typeparam>
         /// <param name="index">The index at which the item was added.</param>
@@ -654,7 +640,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokePost(
                     this.CollectionReplaceItemInvocationMethod,
-                    this,
                     index,
                     oldItem,
                     newItem);
@@ -682,7 +667,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokeSend(
                     this.CollectionReplaceItemInvocationMethod,
-                    this,
                     index,
                     oldItem,
                     newItem);
@@ -710,7 +694,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.Invoke(
                     this.CollectionReplaceItemsInvocationMethod,
-                    this,
                     index,
                     oldItems,
                     newItems);
@@ -718,7 +701,8 @@ namespace IX.StandardExtensions.ComponentModel
         }
 
         /// <summary>
-        ///     Triggers the <see cref="CollectionChanged" /> event as a collection replacement event of multiple elements asynchronously.
+        ///     Triggers the <see cref="CollectionChanged" /> event as a collection replacement event of multiple elements
+        ///     asynchronously.
         /// </summary>
         /// <typeparam name="T">The type of the item of the collection.</typeparam>
         /// <param name="index">The index at which the items were added.</param>
@@ -738,7 +722,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokePost(
                     this.CollectionReplaceItemsInvocationMethod,
-                    this,
                     index,
                     oldItems,
                     newItems);
@@ -746,7 +729,8 @@ namespace IX.StandardExtensions.ComponentModel
         }
 
         /// <summary>
-        ///     Triggers the <see cref="CollectionChanged" /> event as a collection replacement event of multiple elements synchronously.
+        ///     Triggers the <see cref="CollectionChanged" /> event as a collection replacement event of multiple elements
+        ///     synchronously.
         /// </summary>
         /// <typeparam name="T">The type of the item of the collection.</typeparam>
         /// <param name="index">The index at which the items were added.</param>
@@ -766,7 +750,6 @@ namespace IX.StandardExtensions.ComponentModel
             {
                 this.InvokeSend(
                     this.CollectionReplaceItemsInvocationMethod,
-                    this,
                     index,
                     oldItems,
                     newItems);
@@ -774,21 +757,20 @@ namespace IX.StandardExtensions.ComponentModel
         }
 #pragma warning restore HAA0603 // Delegate allocation from a method group
 
-        private void CollectionResetInvocationMethod(NotifyCollectionChangedInvokerBase invoker) =>
-            invoker.CollectionChanged?.Invoke(
-                invoker,
+        private void CollectionResetInvocationMethod() =>
+            this.CollectionChanged?.Invoke(
+                this,
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
 #pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - This is the way event arguments work
         private void CollectionAddItemInvocationMethod<T>(
-            NotifyCollectionChangedInvokerBase invoker,
             int internalIndex,
             T internalItem)
         {
             try
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(
                         NotifyCollectionChangedAction.Add,
                         internalItem,
@@ -796,21 +778,20 @@ namespace IX.StandardExtensions.ComponentModel
             }
             catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
         }
 
         private void CollectionAddItemsInvocationMethod<T>(
-            NotifyCollectionChangedInvokerBase invoker,
             int internalIndex,
             IEnumerable<T> internalItems)
         {
             try
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(
                         NotifyCollectionChangedAction.Add,
                         internalItems.ToList(),
@@ -818,21 +799,20 @@ namespace IX.StandardExtensions.ComponentModel
             }
             catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
         }
 
         private void CollectionRemoveItemInvocationMethod<T>(
-            NotifyCollectionChangedInvokerBase invoker,
             int internalIndex,
             T internalItem)
         {
             try
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(
                         NotifyCollectionChangedAction.Remove,
                         internalItem,
@@ -840,21 +820,20 @@ namespace IX.StandardExtensions.ComponentModel
             }
             catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
         }
 
         private void CollectionRemoveItemsInvocationMethod<T>(
-            NotifyCollectionChangedInvokerBase invoker,
             int internalIndex,
             IEnumerable<T> internalItems)
         {
             try
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(
                         NotifyCollectionChangedAction.Remove,
                         internalItems.ToList(),
@@ -862,22 +841,21 @@ namespace IX.StandardExtensions.ComponentModel
             }
             catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
         }
 
         private void CollectionMoveItemInvocationMethod<T>(
-            NotifyCollectionChangedInvokerBase invoker,
             int internalOldIndex,
             int internalNewIndex,
             T internalItem)
         {
             try
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(
                         NotifyCollectionChangedAction.Move,
                         internalItem,
@@ -886,22 +864,21 @@ namespace IX.StandardExtensions.ComponentModel
             }
             catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
         }
 
         private void CollectionMoveItemsInvocationMethod<T>(
-            NotifyCollectionChangedInvokerBase invoker,
             int internalOldIndex,
             int internalNewIndex,
             IEnumerable<T> internalItems)
         {
             try
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(
                         NotifyCollectionChangedAction.Move,
                         internalItems.ToList(),
@@ -910,22 +887,21 @@ namespace IX.StandardExtensions.ComponentModel
             }
             catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
         }
 
         private void CollectionReplaceItemInvocationMethod<T>(
-            NotifyCollectionChangedInvokerBase invoker,
             int internalIndex,
             T internalOldItem,
             T internalNewItem)
         {
             try
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(
                         NotifyCollectionChangedAction.Replace,
                         internalNewItem,
@@ -934,22 +910,21 @@ namespace IX.StandardExtensions.ComponentModel
             }
             catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
         }
 
         private void CollectionReplaceItemsInvocationMethod<T>(
-            NotifyCollectionChangedInvokerBase invoker,
             int internalIndex,
             IEnumerable<T> internalOldItems,
             IEnumerable<T> internalNewItems)
         {
             try
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(
                         NotifyCollectionChangedAction.Replace,
                         internalNewItems.ToList(),
@@ -958,8 +933,8 @@ namespace IX.StandardExtensions.ComponentModel
             }
             catch (Exception) when (EnvironmentSettings.ResetOnCollectionChangeNotificationException)
             {
-                invoker.CollectionChanged?.Invoke(
-                    invoker,
+                this.CollectionChanged?.Invoke(
+                    this,
                     new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
         }
