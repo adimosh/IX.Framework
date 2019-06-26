@@ -11,6 +11,7 @@ namespace IX.StandardExtensions.ComponentModel
     /// <summary>
     ///     Global settings on how the synchronization context should work.
     /// </summary>
+    [PublicAPI]
     public static class EnvironmentSettings
     {
         /// <summary>
@@ -110,17 +111,7 @@ namespace IX.StandardExtensions.ComponentModel
 
             SynchronizationContext currentSyncContext = SynchronizationContext.Current;
 
-            if (currentSyncContext != null)
-            {
-                return currentSyncContext;
-            }
-
-            if (BackupSynchronizationContext != null)
-            {
-                return BackupSynchronizationContext;
-            }
-
-            return null;
+            return currentSyncContext ?? BackupSynchronizationContext;
         }
     }
 }

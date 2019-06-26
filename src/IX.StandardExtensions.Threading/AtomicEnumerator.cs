@@ -5,37 +5,40 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.Threading
 {
     /// <summary>
-    /// An atomic enumerator that can enumerate items one at a time, atomically.
+    ///     An atomic enumerator that can enumerate items one at a time, atomically.
     /// </summary>
     /// <typeparam name="TItem">The type of the items to enumerate.</typeparam>
     /// <typeparam name="TEnumerator">The type of the enumerator from which this atomic enumerator is derived.</typeparam>
-    /// <seealso cref="global::System.Collections.Generic.IEnumerator{T}" />
+    /// <seealso cref="IEnumerator{T}" />
+    [PublicAPI]
     public sealed class AtomicEnumerator<TItem, TEnumerator> : IEnumerator<TItem>
         where TEnumerator : IEnumerator<TItem>
     {
-        private TEnumerator existingEnumerator;
-        private Func<ReadOnlySynchronizationLocker> readLock;
-        private bool disposedValue;
-        private bool movedNext;
-
         private TItem current;
+        private bool disposedValue;
+        private TEnumerator existingEnumerator;
+        private bool movedNext;
+        private Func<ReadOnlySynchronizationLocker> readLock;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AtomicEnumerator{TItem, TEnumerator}"/> class.
+        ///     Initializes a new instance of the <see cref="AtomicEnumerator{TItem, TEnumerator}" /> class.
         /// </summary>
         /// <param name="existingEnumerator">The existing enumerator. This argument is passed by reference.</param>
         /// <param name="readLock">The read lock.</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="existingEnumerator"/>
-        /// or
-        /// <paramref name="readLock"/>
-        /// is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
+        ///     <paramref name="existingEnumerator" />
+        ///     or
+        ///     <paramref name="readLock" />
+        ///     is <see langword="null" /> (<see langword="Nothing" /> in Visual Basic).
         /// </exception>
-        public AtomicEnumerator(TEnumerator existingEnumerator, Func<ReadOnlySynchronizationLocker> readLock)
+        public AtomicEnumerator(
+            TEnumerator existingEnumerator,
+            Func<ReadOnlySynchronizationLocker> readLock)
         {
             if (existingEnumerator == null)
             {
@@ -47,7 +50,7 @@ namespace IX.StandardExtensions.Threading
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="AtomicEnumerator{TItem, TEnumerator}"/> class.
+        ///     Finalizes an instance of the <see cref="AtomicEnumerator{TItem, TEnumerator}" /> class.
         /// </summary>
         ~AtomicEnumerator()
         {
@@ -56,7 +59,7 @@ namespace IX.StandardExtensions.Threading
         }
 
         /// <summary>
-        /// Gets the element in the collection at the current position of the enumerator.
+        ///     Gets the element in the collection at the current position of the enumerator.
         /// </summary>
         /// <value>The current element.</value>
         public TItem Current
@@ -79,16 +82,19 @@ namespace IX.StandardExtensions.Threading
 
 #pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - We cannot do anything about this at this time
         /// <summary>
-        /// Gets the element in the collection at the current position of the enumerator.
+        ///     Gets the element in the collection at the current position of the enumerator.
         /// </summary>
         /// <value>The current element.</value>
         object IEnumerator.Current => this.Current;
 #pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
 
         /// <summary>
-        /// Advances the enumerator to the next element of the collection.
+        ///     Advances the enumerator to the next element of the collection.
         /// </summary>
-        /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the collection.</returns>
+        /// <returns>
+        ///     <see langword="true" /> if the enumerator was successfully advanced to the next element;
+        ///     <see langword="false" /> if the enumerator has passed the end of the collection.
+        /// </returns>
         public bool MoveNext()
         {
             if (this.disposedValue)
@@ -114,7 +120,7 @@ namespace IX.StandardExtensions.Threading
         }
 
         /// <summary>
-        /// Sets the enumerator to its initial position, which is before the first element in the collection.
+        ///     Sets the enumerator to its initial position, which is before the first element in the collection.
         /// </summary>
         public void Reset()
         {
@@ -131,7 +137,7 @@ namespace IX.StandardExtensions.Threading
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
         {

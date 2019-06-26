@@ -11,7 +11,8 @@ using JetBrains.Annotations;
 namespace IX.StandardExtensions.TestUtils
 {
     /// <summary>
-    /// A data store for storing items in a predictable way, such as any iteration through the store will produce the same output. This class is thread-safe, and its internal items container is immutable.
+    ///     A data store for storing items in a predictable way, such as any iteration through the store will produce the same
+    ///     output. This class is thread-safe, and its internal items container is immutable.
     /// </summary>
     /// <typeparam name="T">The type of items in the store.</typeparam>
     [PublicAPI]
@@ -22,35 +23,50 @@ namespace IX.StandardExtensions.TestUtils
         private int index;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PredictableDataStore{T}"/> class.
+        ///     Initializes a new instance of the <see cref="PredictableDataStore{T}" /> class.
         /// </summary>
         /// <param name="capacity">The capacity.</param>
         /// <param name="generator">The generator.</param>
-        public PredictableDataStore(int capacity, Func<T> generator)
-            : this(capacity, generator, false)
+        public PredictableDataStore(
+            int capacity,
+            Func<T> generator)
+            : this(
+                capacity,
+                generator,
+                false)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PredictableDataStore{T}" /> class.
+        ///     Initializes a new instance of the <see cref="PredictableDataStore{T}" /> class.
         /// </summary>
         /// <param name="capacity">The capacity.</param>
         /// <param name="generator">The sateful generator.</param>
         /// <param name="state">The state.</param>
-        public PredictableDataStore(int capacity, Func<object, T> generator, object state)
-            : this(capacity, generator, state, false)
+        public PredictableDataStore(
+            int capacity,
+            Func<object, T> generator,
+            object state)
+            : this(
+                capacity,
+                generator,
+                state,
+                false)
         {
         }
 
 #pragma warning disable HAA0302 // Display class allocation to capture closure - The closures here are acceptable
 #pragma warning disable HAA0301 // Closure Allocation Source
         /// <summary>
-        /// Initializes a new instance of the <see cref="PredictableDataStore{T}"/> class.
+        ///     Initializes a new instance of the <see cref="PredictableDataStore{T}" /> class.
         /// </summary>
         /// <param name="capacity">The capacity.</param>
         /// <param name="generator">The generator.</param>
-        /// <param name="parallelGenerate">if set to <see langword="true"/>, run generation of items in parallel.</param>
-        public PredictableDataStore(int capacity, Func<T> generator, bool parallelGenerate)
+        /// <param name="parallelGenerate">if set to <see langword="true" />, run generation of items in parallel.</param>
+        public PredictableDataStore(
+            int capacity,
+            Func<T> generator,
+            bool parallelGenerate)
         {
             this.items = new T[capacity];
 
@@ -76,13 +92,17 @@ namespace IX.StandardExtensions.TestUtils
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PredictableDataStore{T}" /> class.
+        ///     Initializes a new instance of the <see cref="PredictableDataStore{T}" /> class.
         /// </summary>
         /// <param name="capacity">The capacity.</param>
         /// <param name="generator">The generator.</param>
         /// <param name="state">The state.</param>
-        /// <param name="parallelGenerate">if set to <see langword="true"/>, run generation of items in parallel.</param>
-        public PredictableDataStore(int capacity, Func<object, T> generator, object state, bool parallelGenerate)
+        /// <param name="parallelGenerate">if set to <see langword="true" />, run generation of items in parallel.</param>
+        public PredictableDataStore(
+            int capacity,
+            Func<object, T> generator,
+            object state,
+            bool parallelGenerate)
         {
             this.items = new T[capacity];
 
@@ -110,7 +130,7 @@ namespace IX.StandardExtensions.TestUtils
 #pragma warning restore HAA0302 // Display class allocation to capture closure
 
         /// <summary>
-        /// Gets the count.
+        ///     Gets the count.
         /// </summary>
         /// <value>The count.</value>
         public int Count => this.items.Length;
@@ -121,7 +141,7 @@ namespace IX.StandardExtensions.TestUtils
         public T this[int index] => this.items[index];
 
         /// <summary>
-        /// Takes an item from the predictable data store.
+        ///     Takes an item from the predictable data store.
         /// </summary>
         /// <returns>T.</returns>
         public T Take()
@@ -138,7 +158,7 @@ namespace IX.StandardExtensions.TestUtils
         }
 
         /// <summary>
-        /// Resets this instance.
+        ///     Resets this instance.
         /// </summary>
         public void Reset()
         {
@@ -149,7 +169,8 @@ namespace IX.StandardExtensions.TestUtils
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the collection, from the point in which it currently stands, to the end.
+        ///     Returns an enumerator that iterates through the collection, from the point in which it currently stands, to the
+        ///     end.
         /// </summary>
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<T> GetEnumerator()
@@ -174,7 +195,7 @@ namespace IX.StandardExtensions.TestUtils
 
 #pragma warning disable HAA0401 // Possible allocation of reference type enumerator
         /// <summary>
-        /// Returns an enumerator that iterates through a collection, from the point in which it currently stands, to the end.
+        ///     Returns an enumerator that iterates through a collection, from the point in which it currently stands, to the end.
         /// </summary>
         /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

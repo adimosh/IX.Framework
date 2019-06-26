@@ -4,12 +4,15 @@
 
 using System;
 using System.Threading;
+using IX.StandardExtensions.Contracts;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.ComponentModel
 {
     /// <summary>
     ///     A scope of operations that can be marked as busy or idle.
     /// </summary>
+    [PublicAPI]
     public class BusyScope : SynchronizationContextInvokerBase
     {
         private readonly string initialDescription;
@@ -31,7 +34,10 @@ namespace IX.StandardExtensions.ComponentModel
         /// <exception cref="ArgumentNullException"><paramref name="description" /> is <see langword="null" />.</exception>
         public BusyScope(string description)
         {
-            this.initialDescription = description ?? throw new ArgumentNullException(nameof(description));
+            Contract.RequiresNotNull(
+                ref this.initialDescription,
+                description,
+                nameof(description));
         }
 
         /// <summary>
@@ -41,12 +47,10 @@ namespace IX.StandardExtensions.ComponentModel
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="initialBusyCount" /> is an integer value less than 0.</exception>
         public BusyScope(int initialBusyCount)
         {
-            if (initialBusyCount < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(initialBusyCount));
-            }
-
-            this.busyCount = initialBusyCount;
+            Contract.RequiresNonNegative(
+                ref this.busyCount,
+                in initialBusyCount,
+                nameof(initialBusyCount));
         }
 
         /// <summary>
@@ -60,13 +64,14 @@ namespace IX.StandardExtensions.ComponentModel
             int initialBusyCount,
             string description)
         {
-            if (initialBusyCount < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(initialBusyCount));
-            }
-
-            this.initialDescription = description ?? throw new ArgumentNullException(nameof(description));
-            this.busyCount = initialBusyCount;
+            Contract.RequiresNonNegative(
+                ref this.busyCount,
+                in initialBusyCount,
+                nameof(initialBusyCount));
+            Contract.RequiresNotNull(
+                ref this.initialDescription,
+                description,
+                nameof(description));
         }
 
         /// <summary>
@@ -99,8 +104,9 @@ namespace IX.StandardExtensions.ComponentModel
             if (this.BusyScopeChanged != null)
             {
                 this.Invoke(
-                    thisL1 => thisL1.BusyScopeChanged.Invoke(thisL1, EventArgs.Empty),
-                    this);
+                    thisL1 => thisL1.BusyScopeChanged.Invoke(
+                        thisL1,
+                        EventArgs.Empty), this);
             }
         }
 
@@ -120,8 +126,9 @@ namespace IX.StandardExtensions.ComponentModel
             if (this.BusyScopeChanged != null)
             {
                 this.Invoke(
-                    thisL1 => thisL1.BusyScopeChanged.Invoke(thisL1, EventArgs.Empty),
-                    this);
+                    thisL1 => thisL1.BusyScopeChanged.Invoke(
+                        thisL1,
+                        EventArgs.Empty), this);
             }
         }
     }

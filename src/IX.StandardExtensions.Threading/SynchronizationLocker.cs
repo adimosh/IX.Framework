@@ -1,20 +1,22 @@
-﻿// <copyright file="SynchronizationLocker.cs" company="Adrian Mos">
+// <copyright file="SynchronizationLocker.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
 using IX.System.Threading;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.Threading
 {
     /// <summary>
-    /// A synchronization locker base class.
+    ///     A synchronization locker base class.
     /// </summary>
     /// <seealso cref="IDisposable" />
+    [PublicAPI]
     public abstract class SynchronizationLocker : IDisposable
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SynchronizationLocker"/> class.
+        ///     Initializes a new instance of the <see cref="SynchronizationLocker" /> class.
         /// </summary>
         /// <param name="locker">The locker.</param>
         internal SynchronizationLocker(IReaderWriterLock locker)
@@ -23,12 +25,13 @@ namespace IX.StandardExtensions.Threading
         }
 
         /// <summary>
-        /// Gets the reader/writer lock to use. This property can be <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
+        ///     Gets the reader/writer lock to use. This property can be <see langword="null" /> (<see langword="Nothing" /> in
+        ///     Visual Basic).
         /// </summary>
-        protected IReaderWriterLock Locker { get; private set; }
+        protected IReaderWriterLock Locker { get; }
 
         /// <summary>
-        /// Releases the currently-held lock.
+        ///     Releases the currently-held lock.
         /// </summary>
         public abstract void Dispose();
     }

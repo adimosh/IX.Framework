@@ -8,12 +8,14 @@ using System.Globalization;
 using System.Reflection;
 using System.Resources;
 using IX.StandardExtensions.ComponentModel;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.WPF.Localization
 {
     /// <summary>
     /// A string resource reader.
     /// </summary>
+    [PublicAPI]
     public class BindingAssemblyResourceReader : NotifyPropertyChangedBase
     {
         /// <summary>
@@ -44,12 +46,14 @@ namespace IX.StandardExtensions.WPF.Localization
 
             set
             {
-                if (this.culture != value)
+                if (this.culture == value)
                 {
-                    this.culture = value;
-
-                    this.RaisePropertyChanged(nameof(this.Localization));
+                    return;
                 }
+
+                this.culture = value;
+
+                this.RaisePropertyChanged(nameof(this.Localization));
             }
         }
 
@@ -64,7 +68,7 @@ namespace IX.StandardExtensions.WPF.Localization
         /// </summary>
         /// <param name="assembly">The assembly.</param>
         /// <param name="resourcePath">The resource path.</param>
-        /// <exception cref="global::System.InvalidOperationException">
+        /// <exception cref="InvalidOperationException">
         /// Could not crete resource manager, or registration already exists.
         /// </exception>
         public void RegisterUsedResources(Assembly assembly, string resourcePath)
