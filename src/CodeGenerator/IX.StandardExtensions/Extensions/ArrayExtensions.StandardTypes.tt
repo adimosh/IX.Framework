@@ -3,15 +3,16 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ include file="..\StandardTypes.tt" #><#@ include file="..\Fixture.tt" #>
+<#@ include file="..\..\StandardTypes.tt" #><#@ include file="..\..\Fixture.tt" #>
 <#@ output extension=".cs" #>
 // <copyright file="ArrayExtensions.StandardTypes.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
+using IX.StandardExtensions.Contracts;
 
-namespace IX.StandardExtensions
+namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
     ///     Extensions for array types.
@@ -33,9 +34,23 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static <#= fullTypeName #>[] DeepClone(this <#= fullTypeName #>[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static <#= fullTypeName #>[] DeepClone(this <#= fullTypeName #>[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new <#= fullTypeName #>[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 <#
 }
 #>

@@ -3,8 +3,9 @@
 // </copyright>
 
 using System;
+using IX.StandardExtensions.Contracts;
 
-namespace IX.StandardExtensions
+namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
     ///     Extensions for array types.
@@ -19,9 +20,23 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static byte[] DeepClone(this byte[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static byte[] DeepClone(this byte[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new byte[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Deep clones an array.
@@ -31,9 +46,23 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static sbyte[] DeepClone(this sbyte[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static sbyte[] DeepClone(this sbyte[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new sbyte[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Deep clones an array.
@@ -43,9 +72,23 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static short[] DeepClone(this short[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static short[] DeepClone(this short[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new short[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Deep clones an array.
@@ -55,9 +98,23 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static ushort[] DeepClone(this ushort[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static ushort[] DeepClone(this ushort[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new ushort[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Deep clones an array.
@@ -67,9 +124,23 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static char[] DeepClone(this char[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static char[] DeepClone(this char[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new char[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Deep clones an array.
@@ -79,9 +150,23 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static int[] DeepClone(this int[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static int[] DeepClone(this int[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new int[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Deep clones an array.
@@ -91,9 +176,23 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static uint[] DeepClone(this uint[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static uint[] DeepClone(this uint[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new uint[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Deep clones an array.
@@ -103,9 +202,23 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static long[] DeepClone(this long[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static long[] DeepClone(this long[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new long[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Deep clones an array.
@@ -115,9 +228,23 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static ulong[] DeepClone(this ulong[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static ulong[] DeepClone(this ulong[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new ulong[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Deep clones an array.
@@ -127,9 +254,23 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static float[] DeepClone(this float[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static float[] DeepClone(this float[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new float[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Deep clones an array.
@@ -139,9 +280,23 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static double[] DeepClone(this double[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static double[] DeepClone(this double[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new double[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Deep clones an array.
@@ -151,9 +306,23 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static decimal[] DeepClone(this decimal[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static decimal[] DeepClone(this decimal[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new decimal[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Deep clones an array.
@@ -163,9 +332,23 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static DateTime[] DeepClone(this DateTime[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static DateTime[] DeepClone(this DateTime[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new DateTime[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Deep clones an array.
@@ -175,9 +358,23 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static bool[] DeepClone(this bool[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static bool[] DeepClone(this bool[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new bool[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Deep clones an array.
@@ -187,9 +384,23 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static TimeSpan[] DeepClone(this TimeSpan[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static TimeSpan[] DeepClone(this TimeSpan[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new TimeSpan[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Deep clones an array.
@@ -199,8 +410,22 @@ namespace IX.StandardExtensions
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static string[] DeepClone(this string[] source) => Extensions.ArrayExtensions.DeepClone(source);
+        public static string[] DeepClone(this string[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new string[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i];
+            }
+
+            return destination;
+        }
     }
 }

@@ -3,8 +3,9 @@
 // </copyright>
 
 using System;
+using IX.StandardExtensions.Contracts;
 
-namespace IX.StandardExtensions
+namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
     ///     Extensions for array types.
@@ -23,13 +24,23 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1>(
             this TItem[] source,
             Action<TItem, TParam1> action,
-            TParam1 param1) =>
-            Extensions.ArrayExtensions.ForEach(source, action, param1);
+            TParam1 param1)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], param1);
+            }
+        }
 
         /// <summary>
         ///     Executes an action for each one of the elements of an array.
@@ -45,14 +56,24 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2>(
             this TItem[] source,
             Action<TItem, TParam1, TParam2> action,
             TParam1 param1,
-            TParam2 param2) =>
-            Extensions.ArrayExtensions.ForEach(source, action, param1, param2);
+            TParam2 param2)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], param1, param2);
+            }
+        }
 
         /// <summary>
         ///     Executes an action for each one of the elements of an array.
@@ -70,15 +91,25 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3>(
             this TItem[] source,
             Action<TItem, TParam1, TParam2, TParam3> action,
             TParam1 param1,
             TParam2 param2,
-            TParam3 param3) =>
-            Extensions.ArrayExtensions.ForEach(source, action, param1, param2, param3);
+            TParam3 param3)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], param1, param2, param3);
+            }
+        }
 
         /// <summary>
         ///     Executes an action for each one of the elements of an array.
@@ -98,16 +129,26 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4>(
             this TItem[] source,
             Action<TItem, TParam1, TParam2, TParam3, TParam4> action,
             TParam1 param1,
             TParam2 param2,
             TParam3 param3,
-            TParam4 param4) =>
-            Extensions.ArrayExtensions.ForEach(source, action, param1, param2, param3, param4);
+            TParam4 param4)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], param1, param2, param3, param4);
+            }
+        }
 
         /// <summary>
         ///     Executes an action for each one of the elements of an array.
@@ -129,8 +170,6 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5>(
             this TItem[] source,
             Action<TItem, TParam1, TParam2, TParam3, TParam4, TParam5> action,
@@ -138,8 +177,20 @@ namespace IX.StandardExtensions
             TParam2 param2,
             TParam3 param3,
             TParam4 param4,
-            TParam5 param5) =>
-            Extensions.ArrayExtensions.ForEach(source, action, param1, param2, param3, param4, param5);
+            TParam5 param5)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], param1, param2, param3, param4, param5);
+            }
+        }
 
         /// <summary>
         ///     Executes an action for each one of the elements of an array.
@@ -163,8 +214,6 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(
             this TItem[] source,
             Action<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action,
@@ -173,8 +222,20 @@ namespace IX.StandardExtensions
             TParam3 param3,
             TParam4 param4,
             TParam5 param5,
-            TParam6 param6) =>
-            Extensions.ArrayExtensions.ForEach(source, action, param1, param2, param3, param4, param5, param6);
+            TParam6 param6)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], param1, param2, param3, param4, param5, param6);
+            }
+        }
 
         /// <summary>
         ///     Executes an action for each one of the elements of an array.
@@ -200,8 +261,6 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(
             this TItem[] source,
             Action<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action,
@@ -211,8 +270,20 @@ namespace IX.StandardExtensions
             TParam4 param4,
             TParam5 param5,
             TParam6 param6,
-            TParam7 param7) =>
-            Extensions.ArrayExtensions.ForEach(source, action, param1, param2, param3, param4, param5, param6, param7);
+            TParam7 param7)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], param1, param2, param3, param4, param5, param6, param7);
+            }
+        }
 
         /// <summary>
         ///     Executes an action for each one of the elements of an array.
@@ -240,8 +311,6 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(
             this TItem[] source,
             Action<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action,
@@ -252,7 +321,19 @@ namespace IX.StandardExtensions
             TParam5 param5,
             TParam6 param6,
             TParam7 param7,
-            TParam8 param8) =>
-            Extensions.ArrayExtensions.ForEach(source, action, param1, param2, param3, param4, param5, param6, param7, param8);
+            TParam8 param8)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], param1, param2, param3, param4, param5, param6, param7, param8);
+            }
+        }
     }
 }

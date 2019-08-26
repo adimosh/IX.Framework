@@ -3,9 +3,10 @@
 // </copyright>
 
 using System;
+using IX.StandardExtensions.Contracts;
 using JetBrains.Annotations;
 
-namespace IX.StandardExtensions
+namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
     ///     Extensions for array types.
@@ -23,10 +24,24 @@ namespace IX.StandardExtensions
         ///     <paramref name="source" /> is <see langword="null" /> (
         ///     <see langword="Nothing" /> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static T[] DeepClone<T>(this T[] source)
-            where T : IDeepCloneable<T> => Extensions.ArrayExtensions.DeepClone(source);
+            where T : IDeepCloneable<T>
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new T[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i].DeepClone();
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Copies an array with shallow clones of its items.
@@ -38,10 +53,24 @@ namespace IX.StandardExtensions
         ///     <paramref name="source" /> is <see langword="null" /> (
         ///     <see langword="Nothing" /> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static T[] CopyWithShallowClones<T>(this T[] source)
-            where T : IShallowCloneable<T> => Extensions.ArrayExtensions.CopyWithShallowClones(source);
+            where T : IShallowCloneable<T>
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new T[length];
+
+            for (var i = 0; i < length; i++)
+            {
+                destination[i] = source[i].ShallowClone();
+            }
+
+            return destination;
+        }
 
         /// <summary>
         ///     Copies all items in the specified source array to a new array.
@@ -61,9 +90,23 @@ namespace IX.StandardExtensions
         ///     <paramref name="source" /> is <see langword="null" /> (
         ///     <see langword="Nothing" /> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static T[] Copy<T>(this T[] source) => Extensions.ArrayExtensions.Copy(source);
+        public static T[] Copy<T>(this T[] source)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+
+            var length = source.Length;
+
+            var destination = new T[length];
+
+            Array.Copy(
+                source,
+                destination,
+                length);
+
+            return destination;
+        }
 
         /// <summary>
         ///     Copies all items in the specified source array to a new array.
@@ -89,13 +132,27 @@ namespace IX.StandardExtensions
         ///     <para>If deep cloning is required, please use the <see cref="DeepClone{T}(T[])" /> instead of this method.</para>
         ///     <para>Value types are value-copied.</para>
         /// </remarks>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static T[] Copy<T>(
             this T[] source,
-            int length) => Extensions.ArrayExtensions.Copy(
-            source,
-            length);
+            int length)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresValidArrayLength(
+                in length,
+                in source,
+                nameof(length));
+
+            var destination = new T[length];
+
+            Array.Copy(
+                source,
+                destination,
+                length);
+
+            return destination;
+        }
 
         /// <summary>
         ///     Copies all items in the specified source array to a new array.
@@ -124,15 +181,31 @@ namespace IX.StandardExtensions
         ///     <para>If deep cloning is required, please use the <see cref="DeepClone{T}(T[])" /> instead of this method.</para>
         ///     <para>Value types are value-copied.</para>
         /// </remarks>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static T[] Copy<T>(
             this T[] source,
             int sourceIndex,
-            int length) => Extensions.ArrayExtensions.Copy(
-            source,
-            sourceIndex,
-            length);
+            int length)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresValidArrayRange(
+                in sourceIndex,
+                in length,
+                in source,
+                nameof(length));
+
+            var destination = new T[length];
+
+            Array.Copy(
+                source,
+                sourceIndex,
+                destination,
+                0,
+                length);
+
+            return destination;
+        }
 
         /// <summary>
         ///     Executes an action for each one of the elements of an array.
@@ -144,12 +217,21 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null" /> (<see langword="Nothing" /> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<T>(
             this T[] source,
-            Action<T> action) => Extensions.ArrayExtensions.ForEach(
-            source,
-            action);
+            Action<T> action)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i]);
+            }
+        }
     }
 }

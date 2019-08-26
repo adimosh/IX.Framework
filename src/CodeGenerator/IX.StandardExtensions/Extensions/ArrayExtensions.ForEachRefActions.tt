@@ -9,9 +9,10 @@
 // </copyright>
 
 using System;
+using IX.StandardExtensions.Contracts;
 using IX.StandardExtensions.Efficiency;
 
-namespace IX.StandardExtensions
+namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
     ///     Extensions for array types.
@@ -63,13 +64,23 @@ for (int i = 1; i <= 8; i++)
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, <#= paramTypes #>>(
             this TItem[] source,
             RefIteratorAction<TItem, <#= paramTypes #>> action,
-            <#= paramNameTypes #>) =>
-            Extensions.ArrayExtensions.ForEach(source, action, <#= paramNames #>);
+            <#= paramNameTypes #>)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], <#= paramNames #>);
+            }
+        }
 <#
 }
 #>

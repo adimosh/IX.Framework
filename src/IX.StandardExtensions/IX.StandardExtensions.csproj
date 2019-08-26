@@ -24,12 +24,44 @@
   <Import Project="..\StyleCop.targets" />
 
   <ItemGroup>
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ComponentModel\DisposableBase.InvokeIfNotDisposed.cs" Link="ComponentModel\DisposableBase.InvokeIfNotDisposed.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Efficiency\ImmutableValueTuple.cs" Link="Efficiency\ImmutableValueTuple.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Efficiency\RefDelegates.WithParameters.cs" Link="Efficiency\RefDelegates.WithParameters.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Efficiency\RefIteratorDelegates.WithParameters.cs" Link="Efficiency\RefIteratorDelegates.WithParameters.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Efficiency\InDelegates.WithParameters.cs" Link="Efficiency\InDelegates.WithParameters.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\Fire.AndForgetActionsAndFuncs.cs" Link="Threading\Fire.AndForgetActionsAndFuncs.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\Fire.OnThreadPool.Parameters.cs" Link="Threading\Fire.OnThreadPool.Parameters.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\TaskFactoryExtensions.Actions.cs" Link="Threading\TaskFactoryExtensions.Actions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\ArrayExtensions.ForEachRefActions.cs" Link="Extensions\ArrayExtensions.ForEachRefActions.cs">
+      <DependentUpon>Extensions\ArrayExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\ArrayExtensions.StandardTypes.cs" Link="Extensions\ArrayExtensions.StandardTypes.cs">
+      <DependentUpon>Extensions\ArrayExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\ArraySequenceCompareExtensions.StandardTypes.cs" Link="Extensions\ArraySequenceCompareExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\ArraySequenceEqualsExtensions.StandardTypes.cs" Link="Extensions\ArraySequenceEqualsExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IDictionaryExtensions.StandardTypes.cs" Link="Extensions\IDictionaryExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IEnumerableExtensions.ForEachRefActions.cs" Link="Extensions\IEnumerableExtensions.ForEachRefActions.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IEnumerableSequenceCompareExtensions.StandardTypes.cs" Link="Extensions\IEnumerableSequenceCompareExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IEnumerableSequenceEqualsExtensions.StandardTypes.cs" Link="Extensions\IEnumerableSequenceEqualsExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" Link="Extensions\IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IListCloneExtensions.StandardTypes.cs" Link="Extensions\IListCloneExtensions.StandardTypes.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\ArrayExtensions.ForEachActions.cs" Link="Extensions\ArrayExtensions.ForEachActions.cs">
+      <DependentUpon>Extensions\ArrayExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IEnumerableExtensions.ForEachActions.cs" Link="Extensions\IEnumerableExtensions.ForEachActions.cs" />
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\LinqExtensions.ActionsAndFuncs.cs" Link="Extensions\LinqExtensions.ActionsAndFuncs.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- This group is obsolete and will be removed in subsequent releases -->
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArrayExtensions.ForEachRefActions.cs" Link="ArrayExtensions.ForEachRefActions.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArrayExtensions.StandardTypes.cs" Link="ArrayExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArraySequenceCompareExtensions.StandardTypes.cs" Link="ArraySequenceCompareExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArraySequenceEqualsExtensions.StandardTypes.cs" Link="ArraySequenceEqualsExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\DisposableBase.InvokeIfNotDisposed.cs" Link="ComponentModel\DisposableBase.InvokeIfNotDisposed.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Efficiency\ImmutableValueTuple.cs" Link="Efficiency\ImmutableValueTuple.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\IDictionaryExtensions.StandardTypes.cs" Link="IDictionaryExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableExtensions.ForEachRefActions.cs" Link="IEnumerableExtensions.ForEachRefActions.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableSequenceCompareExtensions.StandardTypes.cs" Link="IEnumerableSequenceCompareExtensions.StandardTypes.cs" />
@@ -38,13 +70,7 @@
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\IListCloneExtensions.StandardTypes.cs" Link="IListCloneExtensions.StandardTypes.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArrayExtensions.ForEachActions.cs" Link="ArrayExtensions.ForEachActions.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableExtensions.ForEachActions.cs" Link="IEnumerableExtensions.ForEachActions.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Efficiency\InDelegates.WithParameters.cs" Link="Efficiency\InDelegates.WithParameters.cs" />
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\LinqExtensions.ActionsAndFuncs.cs" Link="LinqExtensions.ActionsAndFuncs.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Efficiency\RefDelegates.WithParameters.cs" Link="Efficiency\RefDelegates.WithParameters.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Efficiency\RefIteratorDelegates.WithParameters.cs" Link="Efficiency\RefIteratorDelegates.WithParameters.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\Fire.AndForgetActionsAndFuncs.cs" Link="Threading\Fire.AndForgetActionsAndFuncs.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\Fire.OnThreadPool.Parameters.cs" Link="Threading\Fire.OnThreadPool.Parameters.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Threading\TaskFactoryExtensions.Actions.cs" Link="Threading\TaskFactoryExtensions.Actions.cs" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">

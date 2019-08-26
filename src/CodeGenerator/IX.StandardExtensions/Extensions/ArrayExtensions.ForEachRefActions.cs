@@ -3,9 +3,10 @@
 // </copyright>
 
 using System;
+using IX.StandardExtensions.Contracts;
 using IX.StandardExtensions.Efficiency;
 
-namespace IX.StandardExtensions
+namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
     ///     Extensions for array types.
@@ -24,13 +25,23 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1>(
             this TItem[] source,
             RefIteratorAction<TItem, TParam1> action,
-            ref TParam1 param1) =>
-            Extensions.ArrayExtensions.ForEach(source, action, ref param1);
+            ref TParam1 param1)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], ref param1);
+            }
+        }
 
         /// <summary>
         ///     Executes an action for each one of the elements of an array.
@@ -46,14 +57,24 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2>(
             this TItem[] source,
             RefIteratorAction<TItem, TParam1, TParam2> action,
             ref TParam1 param1,
-            ref TParam2 param2) =>
-            Extensions.ArrayExtensions.ForEach(source, action, ref param1, ref param2);
+            ref TParam2 param2)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], ref param1, ref param2);
+            }
+        }
 
         /// <summary>
         ///     Executes an action for each one of the elements of an array.
@@ -71,15 +92,25 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3>(
             this TItem[] source,
             RefIteratorAction<TItem, TParam1, TParam2, TParam3> action,
             ref TParam1 param1,
             ref TParam2 param2,
-            ref TParam3 param3) =>
-            Extensions.ArrayExtensions.ForEach(source, action, ref param1, ref param2, ref param3);
+            ref TParam3 param3)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], ref param1, ref param2, ref param3);
+            }
+        }
 
         /// <summary>
         ///     Executes an action for each one of the elements of an array.
@@ -99,16 +130,26 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4>(
             this TItem[] source,
             RefIteratorAction<TItem, TParam1, TParam2, TParam3, TParam4> action,
             ref TParam1 param1,
             ref TParam2 param2,
             ref TParam3 param3,
-            ref TParam4 param4) =>
-            Extensions.ArrayExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4);
+            ref TParam4 param4)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], ref param1, ref param2, ref param3, ref param4);
+            }
+        }
 
         /// <summary>
         ///     Executes an action for each one of the elements of an array.
@@ -130,8 +171,6 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5>(
             this TItem[] source,
             RefIteratorAction<TItem, TParam1, TParam2, TParam3, TParam4, TParam5> action,
@@ -139,8 +178,20 @@ namespace IX.StandardExtensions
             ref TParam2 param2,
             ref TParam3 param3,
             ref TParam4 param4,
-            ref TParam5 param5) =>
-            Extensions.ArrayExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, ref param5);
+            ref TParam5 param5)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], ref param1, ref param2, ref param3, ref param4, ref param5);
+            }
+        }
 
         /// <summary>
         ///     Executes an action for each one of the elements of an array.
@@ -164,8 +215,6 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(
             this TItem[] source,
             RefIteratorAction<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action,
@@ -174,8 +223,20 @@ namespace IX.StandardExtensions
             ref TParam3 param3,
             ref TParam4 param4,
             ref TParam5 param5,
-            ref TParam6 param6) =>
-            Extensions.ArrayExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, ref param5, ref param6);
+            ref TParam6 param6)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], ref param1, ref param2, ref param3, ref param4, ref param5, ref param6);
+            }
+        }
 
         /// <summary>
         ///     Executes an action for each one of the elements of an array.
@@ -201,8 +262,6 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(
             this TItem[] source,
             RefIteratorAction<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action,
@@ -212,8 +271,20 @@ namespace IX.StandardExtensions
             ref TParam4 param4,
             ref TParam5 param5,
             ref TParam6 param6,
-            ref TParam7 param7) =>
-            Extensions.ArrayExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, ref param5, ref param6, ref param7);
+            ref TParam7 param7)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], ref param1, ref param2, ref param3, ref param4, ref param5, ref param6, ref param7);
+            }
+        }
 
         /// <summary>
         ///     Executes an action for each one of the elements of an array.
@@ -241,8 +312,6 @@ namespace IX.StandardExtensions
         ///     Thrown when <paramref name="source" /> or <paramref name="action" /> is
         ///     <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).
         /// </exception>
-        [Obsolete(
-            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(
             this TItem[] source,
             RefIteratorAction<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action,
@@ -253,7 +322,19 @@ namespace IX.StandardExtensions
             ref TParam5 param5,
             ref TParam6 param6,
             ref TParam7 param7,
-            ref TParam8 param8) =>
-            Extensions.ArrayExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, ref param5, ref param6, ref param7, ref param8);
+            ref TParam8 param8)
+        {
+            Contract.RequiresNotNull(
+                in source,
+                nameof(source));
+            Contract.RequiresNotNull(
+                in action,
+                nameof(action));
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                action(source[i], ref param1, ref param2, ref param3, ref param4, ref param5, ref param6, ref param7, ref param8);
+            }
+        }
     }
 }
