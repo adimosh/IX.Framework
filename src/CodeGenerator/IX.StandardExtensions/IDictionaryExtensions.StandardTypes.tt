@@ -34,19 +34,10 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
         /// <param name="source">The source.</param>
         /// <returns>A deeply-cloned dictionary.</returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="source"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static Dictionary<TKey, <#= fullTypeName #>> DeepClone<TKey>(this Dictionary<TKey, <#= fullTypeName #>> source)
-        {
-            Contract.RequiresNotNull(in source, nameof(source));
-
-            var destination = new Dictionary<TKey, <#= fullTypeName #>>();
-
-            foreach (KeyValuePair<TKey, <#= fullTypeName #>> p in source)
-            {
-                destination.Add(p.Key, p.Value);
-            }
-
-            return destination;
-        }
+            => Extensions.IDictionaryExtensions.DeepClone(source);
 <#
 }
 #>

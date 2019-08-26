@@ -24,9 +24,11 @@ namespace IX.StandardExtensions
         /// <param name="array">The array to convert.</param>
         /// <param name="converter">The individual items converter.</param>
         /// <returns>The converted array.</returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static TOutput[] ConvertAll<TInput, TOutput>(
             this TInput[] array,
-            Converter<TInput, TOutput> converter) => Array.ConvertAll(
+            Converter<TInput, TOutput> converter) => Extensions.ArrayStaticMethodExtensions.ConvertAll(
             array,
             converter);
 #endif
@@ -52,12 +54,14 @@ namespace IX.StandardExtensions
         ///     the elements in array, a negative number which is the bitwise complement of (the
         ///     index of the last element plus 1).
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int BinarySearch<T>(
             this T[] array,
             int index,
             int length,
             T value,
-            IComparer<T> comparer) => Array.BinarySearch(
+            IComparer<T> comparer) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
             array,
             index,
             length,
@@ -82,11 +86,13 @@ namespace IX.StandardExtensions
         ///     the elements in array, a negative number which is the bitwise complement of (the
         ///     index of the last element plus 1).
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int BinarySearch<T>(
             this T[] array,
             int index,
             int length,
-            T value) => Array.BinarySearch(
+            T value) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
             array,
             index,
             length,
@@ -111,10 +117,12 @@ namespace IX.StandardExtensions
         ///     the elements in array, a negative number which is the bitwise complement of (the
         ///     index of the last element plus 1).
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int BinarySearch<T>(
             this T[] array,
             T value,
-            IComparer<T> comparer) => Array.BinarySearch(
+            IComparer<T> comparer) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
             array,
             value,
             comparer);
@@ -136,11 +144,13 @@ namespace IX.StandardExtensions
         ///     the elements in array, a negative number which is the bitwise complement of (the
         ///     index of the last element plus 1).
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int BinarySearch(
             this Array array,
             int index,
             int length,
-            object value) => Array.BinarySearch(
+            object value) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
             array,
             index,
             length,
@@ -164,10 +174,12 @@ namespace IX.StandardExtensions
         ///     the elements in array, a negative number which is the bitwise complement of (the
         ///     index of the last element plus 1).
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int BinarySearch(
             this Array array,
             object value,
-            IComparer comparer) => Array.BinarySearch(
+            IComparer comparer) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
             array,
             value,
             comparer);
@@ -187,9 +199,11 @@ namespace IX.StandardExtensions
         ///     the elements in array, a negative number which is the bitwise complement of (the
         ///     index of the last element plus 1).
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int BinarySearch(
             this Array array,
-            object value) => Array.BinarySearch(
+            object value) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
             array,
             value);
 
@@ -213,12 +227,14 @@ namespace IX.StandardExtensions
         ///     the elements in array, a negative number which is the bitwise complement of (the
         ///     index of the last element plus 1).
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int BinarySearch(
             this Array array,
             int index,
             int length,
             object value,
-            IComparer comparer) => Array.BinarySearch(
+            IComparer comparer) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
             array,
             index,
             length,
@@ -241,9 +257,11 @@ namespace IX.StandardExtensions
         ///     the elements in array, a negative number which is the bitwise complement of (the
         ///     index of the last element plus 1).
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int BinarySearch<T>(
             this T[] array,
-            T value) => Array.BinarySearch(
+            T value) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
             array,
             value);
 
@@ -253,10 +271,12 @@ namespace IX.StandardExtensions
         /// <param name="array">The array whose elements need to be cleared.</param>
         /// <param name="index">The starting index of the range of elements to clear.</param>
         /// <param name="length">The number of elements to clear.</param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Clear(
             this Array array,
             int index,
-            int length) => Array.Clear(
+            int length) => Extensions.ArrayStaticMethodExtensions.Clear(
             array,
             index,
             length);
@@ -277,12 +297,14 @@ namespace IX.StandardExtensions
         ///     at which storing begins.
         /// </param>
         /// <param name="length">A 32-bit integer that represents the number of elements to copy.</param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ConstrainedCopy(
             this Array sourceArray,
             int sourceIndex,
             Array destinationArray,
             int destinationIndex,
-            int length) => Array.ConstrainedCopy(
+            int length) => Extensions.ArrayStaticMethodExtensions.ConstrainedCopy(
             sourceArray,
             sourceIndex,
             destinationArray,
@@ -297,10 +319,12 @@ namespace IX.StandardExtensions
         /// <param name="sourceArray">The <see cref="Array" /> that contains the data to copy.</param>
         /// <param name="destinationArray">The <see cref="Array" /> that receives the data.</param>
         /// <param name="length">A 32-bit integer that represents the number of elements to copy.</param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Copy(
             this Array sourceArray,
             Array destinationArray,
-            int length) => Array.Copy(
+            int length) => Extensions.ArrayStaticMethodExtensions.Copy(
             sourceArray,
             destinationArray,
             length);
@@ -321,12 +345,14 @@ namespace IX.StandardExtensions
         ///     at which storing begins.
         /// </param>
         /// <param name="length">A 32-bit integer that represents the number of elements to copy.</param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Copy(
             this Array sourceArray,
             int sourceIndex,
             Array destinationArray,
             int destinationIndex,
-            int length) => Array.Copy(
+            int length) => Extensions.ArrayStaticMethodExtensions.Copy(
             sourceArray,
             sourceIndex,
             destinationArray,
@@ -344,9 +370,11 @@ namespace IX.StandardExtensions
         ///     <see langword="true" /> if array contains one or more elements that match the conditions defined
         ///     by the specified predicate; otherwise, <see langword="false" />.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool Exists<T>(
             this T[] array,
-            Predicate<T> match) => Array.Exists(
+            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.Exists(
             array,
             match);
 
@@ -361,9 +389,11 @@ namespace IX.StandardExtensions
         ///     The first element that matches the conditions defined by the specified predicate,
         ///     if found; otherwise, the default value for type <typeparamref name="T" />.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static T Find<T>(
             this T[] array,
-            Predicate<T> match) => Array.Find(
+            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.Find(
             array,
             match);
 
@@ -377,9 +407,11 @@ namespace IX.StandardExtensions
         ///     An <see cref="Array" /> containing all the elements that match the conditions defined
         ///     by the specified predicate, if found; otherwise, an empty <see cref="Array" />.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static T[] FindAll<T>(
             this T[] array,
-            Predicate<T> match) => Array.FindAll(
+            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindAll(
             array,
             match);
 
@@ -398,11 +430,13 @@ namespace IX.StandardExtensions
         ///     The zero-based index of the first occurrence of an element that matches the conditions
         ///     defined by match, if found; otherwise, –1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int FindIndex<T>(
             this T[] array,
             int startIndex,
             int count,
-            Predicate<T> match) => Array.FindIndex(
+            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindIndex(
             array,
             startIndex,
             count,
@@ -422,10 +456,12 @@ namespace IX.StandardExtensions
         ///     The zero-based index of the first occurrence of an element that matches the conditions
         ///     defined by match, if found; otherwise, –1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int FindIndex<T>(
             this T[] array,
             int startIndex,
-            Predicate<T> match) => Array.FindIndex(
+            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindIndex(
             array,
             startIndex,
             match);
@@ -442,9 +478,11 @@ namespace IX.StandardExtensions
         ///     The zero-based index of the first occurrence of an element that matches the conditions
         ///     defined by match, if found; otherwise, –1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int FindIndex<T>(
             this T[] array,
-            Predicate<T> match) => Array.FindIndex(
+            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindIndex(
             array,
             match);
 
@@ -459,9 +497,11 @@ namespace IX.StandardExtensions
         ///     The last element that matches the conditions defined by the specified predicate,
         ///     if found; otherwise, the default value for type <typeparamref name="T" />.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static T FindLast<T>(
             this T[] array,
-            Predicate<T> match) => Array.FindLast(
+            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindLast(
             array,
             match);
 
@@ -480,12 +520,15 @@ namespace IX.StandardExtensions
         ///     The zero-based index of the last occurrence of an element that matches the conditions
         ///     defined by match, if found; otherwise, –1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int FindLastIndex<T>(
             this T[] array,
             int startIndex,
             int count,
-            Predicate<T> match) => Array.FindLastIndex(
+            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindLastIndex(
             array,
+            startIndex,
             count,
             match);
 
@@ -503,10 +546,12 @@ namespace IX.StandardExtensions
         ///     The zero-based index of the last occurrence of an element that matches the conditions
         ///     defined by match, if found; otherwise, –1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int FindLastIndex<T>(
             this T[] array,
             int startIndex,
-            Predicate<T> match) => Array.FindLastIndex(
+            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindLastIndex(
             array,
             startIndex,
             match);
@@ -523,9 +568,11 @@ namespace IX.StandardExtensions
         ///     The zero-based index of the last occurrence of an element that matches the conditions
         ///     defined by match, if found; otherwise, –1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int FindLastIndex<T>(
             this T[] array,
-            Predicate<T> match) => Array.FindLastIndex(
+            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindLastIndex(
             array,
             match);
 
@@ -537,9 +584,11 @@ namespace IX.StandardExtensions
         /// <param name="array">The one-dimensional, zero-based <see cref="Array" /> to search.</param>
         /// <param name="value">The object to locate in array.</param>
         /// <returns>The zero-based index of the first occurrence of value in the entire array, if found; otherwise, –1.</returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int IndexOf<T>(
             this T[] array,
-            T value) => Array.IndexOf(
+            T value) => Extensions.ArrayStaticMethodExtensions.IndexOf(
             array,
             value);
 
@@ -557,11 +606,13 @@ namespace IX.StandardExtensions
         ///     index startIndex to startIndex + count - 1; otherwise, the lower bound of the
         ///     array minus 1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int IndexOf(
             this Array array,
             object value,
             int startIndex,
-            int count) => Array.IndexOf(
+            int count) => Extensions.ArrayStaticMethodExtensions.IndexOf(
             array,
             value,
             startIndex,
@@ -582,11 +633,13 @@ namespace IX.StandardExtensions
         ///     in array that starts at startIndex and contains the number of elements specified
         ///     in count, if found; otherwise, –1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int IndexOf<T>(
             this T[] array,
             T value,
             int startIndex,
-            int count) => Array.IndexOf(
+            int count) => Extensions.ArrayStaticMethodExtensions.IndexOf(
             array,
             value,
             startIndex,
@@ -602,9 +655,11 @@ namespace IX.StandardExtensions
         ///     The index of the first occurrence of value in array, if found; otherwise, the
         ///     lower bound of the array minus 1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int IndexOf(
             this Array array,
-            object value) => Array.IndexOf(
+            object value) => Extensions.ArrayStaticMethodExtensions.IndexOf(
             array,
             value);
 
@@ -622,10 +677,12 @@ namespace IX.StandardExtensions
         ///     in array that extends from startIndex to the last element, if found; otherwise,
         ///     –1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int IndexOf<T>(
             this T[] array,
             T value,
-            int startIndex) => Array.IndexOf(
+            int startIndex) => Extensions.ArrayStaticMethodExtensions.IndexOf(
             array,
             value,
             startIndex);
@@ -643,10 +700,12 @@ namespace IX.StandardExtensions
         ///     elements in array that extends from startIndex to the last element; otherwise,
         ///     the lower bound of the array minus 1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int IndexOf(
             this Array array,
             object value,
-            int startIndex) => Array.IndexOf(
+            int startIndex) => Extensions.ArrayStaticMethodExtensions.IndexOf(
             array,
             value,
             startIndex);
@@ -666,11 +725,13 @@ namespace IX.StandardExtensions
         ///     in array that contains the number of elements specified in count and ends at
         ///     startIndex, if found; otherwise, –1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int LastIndexOf<T>(
             this T[] array,
             T value,
             int startIndex,
-            int count) => Array.LastIndexOf(
+            int count) => Extensions.ArrayStaticMethodExtensions.LastIndexOf(
             array,
             value,
             startIndex,
@@ -690,10 +751,12 @@ namespace IX.StandardExtensions
         ///     in array that extends from the first element to startIndex, if found; otherwise,
         ///     –1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int LastIndexOf<T>(
             this T[] array,
             T value,
-            int startIndex) => Array.LastIndexOf(
+            int startIndex) => Extensions.ArrayStaticMethodExtensions.LastIndexOf(
             array,
             value,
             startIndex);
@@ -712,11 +775,13 @@ namespace IX.StandardExtensions
         ///     that contains the number of elements specified in count and ends at startIndex,
         ///     if found; otherwise, the lower bound of the array minus 1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int LastIndexOf(
             this Array array,
             object value,
             int startIndex,
-            int count) => Array.LastIndexOf(
+            int count) => Extensions.ArrayStaticMethodExtensions.LastIndexOf(
             array,
             value,
             startIndex,
@@ -735,10 +800,12 @@ namespace IX.StandardExtensions
         ///     that extends from the first element to startIndex, if found; otherwise, the lower
         ///     bound of the array minus 1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int LastIndexOf(
             this Array array,
             object value,
-            int startIndex) => Array.LastIndexOf(
+            int startIndex) => Extensions.ArrayStaticMethodExtensions.LastIndexOf(
             array,
             value,
             startIndex);
@@ -753,9 +820,11 @@ namespace IX.StandardExtensions
         ///     The index of the last occurrence of value within the entire array, if found;
         ///     otherwise, the lower bound of the array minus 1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int LastIndexOf(
             this Array array,
-            object value) => Array.LastIndexOf(
+            object value) => Extensions.ArrayStaticMethodExtensions.LastIndexOf(
             array,
             value);
 
@@ -770,9 +839,11 @@ namespace IX.StandardExtensions
         ///     The zero-based index of the last occurrence of value within the entire array,
         ///     if found; otherwise, –1.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int LastIndexOf<T>(
             this T[] array,
-            T value) => Array.LastIndexOf(
+            T value) => Extensions.ArrayStaticMethodExtensions.LastIndexOf(
             array,
             value);
 
@@ -780,7 +851,9 @@ namespace IX.StandardExtensions
         ///     Reverses the sequence of the elements in the entire one-dimensional <see cref="Array" />.
         /// </summary>
         /// <param name="array">The one-dimensional <see cref="Array" /> to reverse.</param>
-        public static void Reverse(this Array array) => Array.Reverse(array);
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static void Reverse(this Array array) => Extensions.ArrayStaticMethodExtensions.Reverse(array);
 
         /// <summary>
         ///     Reverses the sequence of the elements in a range of elements in the one-dimensional <see cref="Array" />.
@@ -788,10 +861,12 @@ namespace IX.StandardExtensions
         /// <param name="array">The one-dimensional <see cref="Array" /> to reverse.</param>
         /// <param name="index">The starting index of the section to reverse.</param>
         /// <param name="length">The number of elements in the section to reverse.</param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Reverse(
             this Array array,
             int index,
-            int length) => Array.Reverse(
+            int length) => Extensions.ArrayStaticMethodExtensions.Reverse(
             array,
             index,
             length);
@@ -802,9 +877,11 @@ namespace IX.StandardExtensions
         /// <typeparam name="T">The type of the elements of the array.</typeparam>
         /// <param name="array">The one-dimensional <see cref="Array" /> to sort.</param>
         /// <param name="comparison">The <see cref="Comparison{T}" /> to use when comparing elements.</param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort<T>(
             this T[] array,
-            Comparison<T> comparison) => Array.Sort(
+            Comparison<T> comparison) => Extensions.ArrayStaticMethodExtensions.Sort(
             array,
             comparison);
 
@@ -820,11 +897,13 @@ namespace IX.StandardExtensions
         ///     The <see cref="IComparer{T}" /> implementation to use when comparing elements.-or-
         ///     <see langword="null" /> to use the <see cref="IComparable{T}" /> implementation of each element.
         /// </param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort<T>(
             this T[] array,
             int index,
             int length,
-            IComparer<T> comparer) => Array.Sort(
+            IComparer<T> comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
             array,
             index,
             length,
@@ -838,9 +917,11 @@ namespace IX.StandardExtensions
         ///     The <see cref="IComparer" /> implementation to use when comparing elements.-or-
         ///     <see langword="null" /> to use the <see cref="IComparable" /> implementation of each element.
         /// </param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort(
             this Array array,
-            IComparer comparer) => Array.Sort(
+            IComparer comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
             array,
             comparer);
 
@@ -854,9 +935,11 @@ namespace IX.StandardExtensions
         ///     The <see cref="IComparer{T}" /> implementation to use when comparing elements.-or-
         ///     <see langword="null" /> to use the <see cref="IComparable{T}" /> implementation of each element.
         /// </param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort<T>(
             this T[] array,
-            IComparer<T> comparer) => Array.Sort(
+            IComparer<T> comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
             array,
             comparer);
 
@@ -865,7 +948,9 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <typeparam name="T">The type of the elements of the array.</typeparam>
         /// <param name="array">The one-dimensional <see cref="Array" /> to sort.</param>
-        public static void Sort<T>(this T[] array) => Array.Sort(array);
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static void Sort<T>(this T[] array) => Extensions.ArrayStaticMethodExtensions.Sort(array);
 
         /// <summary>
         ///     Sorts the elements in a range of elements in a one-dimensional <see cref="Array" /> using
@@ -878,11 +963,13 @@ namespace IX.StandardExtensions
         ///     The <see cref="IComparer" /> implementation to use when comparing elements.-or-
         ///     <see langword="null" /> to use the <see cref="IComparable" /> implementation of each element.
         /// </param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort(
             this Array array,
             int index,
             int length,
-            IComparer comparer) => Array.Sort(
+            IComparer comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
             array,
             index,
             length,
@@ -895,10 +982,12 @@ namespace IX.StandardExtensions
         /// <param name="array">The one-dimensional <see cref="Array" /> to sort.</param>
         /// <param name="index">The starting index of the range to sort.</param>
         /// <param name="length">The number of elements in the range to sort.</param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort(
             this Array array,
             int index,
-            int length) => Array.Sort(
+            int length) => Extensions.ArrayStaticMethodExtensions.Sort(
             array,
             index,
             length);
@@ -911,10 +1000,12 @@ namespace IX.StandardExtensions
         /// <param name="array">The one-dimensional <see cref="Array" /> to sort.</param>
         /// <param name="index">The starting index of the range to sort.</param>
         /// <param name="length">The number of elements in the range to sort.</param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort<T>(
             this T[] array,
             int index,
-            int length) => Array.Sort(
+            int length) => Extensions.ArrayStaticMethodExtensions.Sort(
             array,
             index,
             length);
@@ -931,9 +1022,11 @@ namespace IX.StandardExtensions
         ///     predicate; otherwise, <see langword="false" />. If there are no elements in the array, the return
         ///     value is <see langword="true" />.
         /// </returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool TrueForAll<T>(
             this T[] array,
-            Predicate<T> match) => Array.TrueForAll(
+            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.TrueForAll(
             array,
             match);
 
@@ -950,9 +1043,11 @@ namespace IX.StandardExtensions
         ///     The one-dimensional, zero-based <see cref="Array" /> that contains the items that correspond to the
         ///     keys in keys, or null to sort only keys.
         /// </param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort<TKey, TValue>(
             this TKey[] keys,
-            TValue[] items) => Array.Sort(
+            TValue[] items) => Extensions.ArrayStaticMethodExtensions.Sort(
             keys,
             items);
 
@@ -972,16 +1067,16 @@ namespace IX.StandardExtensions
         ///     The <see cref="IComparer{T}" /> implementation to use when comparing elements.-or-
         ///     <see langword="null" /> to use the <see cref="IComparable{T}" /> implementation of each element.
         /// </param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort<TKey, TValue>(
             this TKey[] keys,
             TValue[] items,
-            IComparer<TKey> comparer) => Array.Sort(
+            IComparer<TKey> comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
             keys,
             items,
             comparer);
-#endif
 
-#if !STANDARD
         /// <summary>
         ///     Sorts a range of elements in a pair of <see cref="Array" /> objects (one contains the
         ///     keys and the other contains the corresponding items) based on the keys in the
@@ -997,11 +1092,13 @@ namespace IX.StandardExtensions
         /// </param>
         /// <param name="index">The starting index of the range to sort.</param>
         /// <param name="length">The number of elements in the range to sort.</param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort<TKey, TValue>(
             this TKey[] keys,
             TValue[] items,
             int index,
-            int length) => Array.Sort(
+            int length) => Extensions.ArrayStaticMethodExtensions.Sort(
             keys,
             items,
             index,
@@ -1026,20 +1123,20 @@ namespace IX.StandardExtensions
         ///     The <see cref="IComparer{T}" /> implementation to use when comparing elements.-or-
         ///     <see langword="null" /> to use the <see cref="IComparable{T}" /> implementation of each element.
         /// </param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort<TKey, TValue>(
             this TKey[] keys,
             TValue[] items,
             int index,
             int length,
-            IComparer<TKey> comparer) => Array.Sort(
+            IComparer<TKey> comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
             keys,
             items,
             index,
             length,
             comparer);
-#endif
 
-#if !STANDARD
         /// <summary>
         ///     Sorts a range of elements in a pair of one-dimensional <see cref="Array" /> objects (one
         ///     contains the keys and the other contains the corresponding items) based on the
@@ -1056,12 +1153,14 @@ namespace IX.StandardExtensions
         ///     The <see cref="IComparer" /> implementation to use when comparing elements.-or-
         ///     <see langword="null" /> to use the <see cref="IComparable" /> implementation of each element.
         /// </param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort(
             this Array keys,
             Array items,
             int index,
             int length,
-            IComparer comparer) => Array.Sort(
+            IComparer comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
             keys,
             items,
             index,
@@ -1073,7 +1172,9 @@ namespace IX.StandardExtensions
         ///     implementation of each element of the <see cref="Array" />.
         /// </summary>
         /// <param name="array">The one-dimensional <see cref="Array" /> to sort.</param>
-        public static void Sort(this Array array) => Array.Sort(array);
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static void Sort(this Array array) => Extensions.ArrayStaticMethodExtensions.Sort(array);
 
         /// <summary>
         ///     Sorts a pair of one-dimensional <see cref="Array" /> objects (one contains the keys and
@@ -1089,10 +1190,12 @@ namespace IX.StandardExtensions
         ///     The <see cref="IComparer" /> implementation to use when comparing elements.-or-
         ///     <see langword="null" /> to use the <see cref="IComparable" /> implementation of each element.
         /// </param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort(
             this Array keys,
             Array items,
-            IComparer comparer) => Array.Sort(
+            IComparer comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
             keys,
             items,
             comparer);
@@ -1107,9 +1210,11 @@ namespace IX.StandardExtensions
         ///     The one-dimensional, zero-based <see cref="Array" /> that contains the items that correspond to the
         ///     keys in keys, or null to sort only keys.
         /// </param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort(
             this Array keys,
-            Array items) => Array.Sort(
+            Array items) => Extensions.ArrayStaticMethodExtensions.Sort(
             keys,
             items);
 
@@ -1126,11 +1231,13 @@ namespace IX.StandardExtensions
         /// </param>
         /// <param name="index">The starting index of the range to sort.</param>
         /// <param name="length">The number of elements in the range to sort.</param>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort(
             this Array keys,
             Array items,
             int index,
-            int length) => Array.Sort(
+            int length) => Extensions.ArrayStaticMethodExtensions.Sort(
             keys,
             items,
             index,
