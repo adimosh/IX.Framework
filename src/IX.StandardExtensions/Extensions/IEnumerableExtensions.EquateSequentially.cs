@@ -1,9 +1,8 @@
-// <copyright file="IEnumerateEquateSequentiallyExtensions.cs" company="Adrian Mos">
+// <copyright file="IEnumerableExtensions.EquateSequentially.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -11,9 +10,10 @@ using System.Reflection;
 namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
-    /// Extensions for <see cref="IEnumerable{T}"/> and <see cref="IEnumerable"/> dealing with sequential equality.
+    /// Extensions for IEnumerable.
     /// </summary>
-    public static partial class IEnumerateEquateSequentiallyExtensions
+    // ReSharper disable once InconsistentNaming - We're doing extensions for IEnumerable
+    public static partial class IEnumerableExtensions
     {
         /// <summary>
         /// Equates two enumerable collections sequentially.

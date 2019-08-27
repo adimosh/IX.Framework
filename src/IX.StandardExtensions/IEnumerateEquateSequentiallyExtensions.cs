@@ -5,14 +5,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions
 {
     /// <summary>
     /// Extensions for <see cref="IEnumerable{T}"/> and <see cref="IEnumerable"/> dealing with sequential equality.
     /// </summary>
+    [PublicAPI]
     public static partial class IEnumerateEquateSequentiallyExtensions
     {
         /// <summary>
@@ -26,8 +26,13 @@ namespace IX.StandardExtensions
         /// <para>For a guide on how this method is used, please refer to <see cref="EquateSequentially{T}(IEnumerable{T}, IEnumerable{T}, Func{T, T, bool}, Func{T, bool})"/>
         /// and view its remarks section.</para>
         /// </remarks>
-        public static IEnumerable<bool> EquateSequentially<T>(this IEnumerable<T> left, IEnumerable<T> right)
-            => EquateSequentially(left, right, null, null);
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static IEnumerable<bool> EquateSequentially<T>(
+            this IEnumerable<T> left,
+            IEnumerable<T> right) => Extensions.IEnumerableExtensions.EquateSequentially(
+            left,
+            right);
 
         /// <summary>
         /// Equates two enumerable collections sequentially, skipping items defined as &quot;empty&quot;.
@@ -41,8 +46,15 @@ namespace IX.StandardExtensions
         /// and view its remarks section.</para>
         /// </remarks>
         /// <returns>An enumerable stating which item is equal to its correspondent.</returns>
-        public static IEnumerable<bool> EquateSequentially<T>(this IEnumerable<T> left, IEnumerable<T> right, Func<T, bool> determineEmpty)
-            => EquateSequentially(left, right, null, determineEmpty);
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static IEnumerable<bool> EquateSequentially<T>(
+            this IEnumerable<T> left,
+            IEnumerable<T> right,
+            Func<T, bool> determineEmpty) => Extensions.IEnumerableExtensions.EquateSequentially(
+            left,
+            right,
+            determineEmpty);
 
         /// <summary>
         /// Equates two enumerable collections sequentially with a custom comparer.
@@ -56,8 +68,15 @@ namespace IX.StandardExtensions
         /// <para>For a guide on how this method is used, please refer to <see cref="EquateSequentially{T}(IEnumerable{T}, IEnumerable{T}, Func{T, T, bool}, Func{T, bool})"/>
         /// and view its remarks section.</para>
         /// </remarks>
-        public static IEnumerable<bool> EquateSequentially<T>(this IEnumerable<T> left, IEnumerable<T> right, Func<T, T, bool> comparer)
-            => EquateSequentially(left, right, comparer, null);
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static IEnumerable<bool> EquateSequentially<T>(
+            this IEnumerable<T> left,
+            IEnumerable<T> right,
+            Func<T, T, bool> comparer) => Extensions.IEnumerableExtensions.EquateSequentially(
+            left,
+            right,
+            comparer);
 
         /// <summary>
         /// Equates two enumerable collections sequentially with a custom comparer, skipping items defined as &quot;empty&quot;.
@@ -82,108 +101,16 @@ namespace IX.StandardExtensions
         /// <para>If the <paramref name="determineEmpty"/> function is not <see langword="null"/> (<see langword="Nothing"/> in Visual Basic), then any item which is considered &quot;empty&quot;
         /// is going to be skipped over when comparing. The definition of &quot;empty&quot; depends on the implementation of the function.</para>
         /// </remarks>
-        public static IEnumerable<bool> EquateSequentially<T>(this IEnumerable<T> left, IEnumerable<T> right, Func<T, T, bool> comparer, Func<T, bool> determineEmpty)
-        {
-            if ((left == null || !left.Any()) && (right == null || !right.Any()))
-            {
-                yield return true;
-                yield break;
-            }
-
-            if (left == null || !left.Any())
-            {
-                yield return false;
-                yield break;
-            }
-
-            if (right == null || !right.Any())
-            {
-                yield return false;
-                yield break;
-            }
-
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Currently unavoidable, will do more later
-
-            // TODO: #68 - Eliminate boxing from IEnumerable implementations
-            using (IEnumerator<T> leftEnumerator = left.GetEnumerator())
-            {
-                using (IEnumerator<T> rightEnumerator = right.GetEnumerator())
-                {
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
-                    if (comparer == null)
-                    {
-                        if (typeof(IEquatable<T>).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
-                        {
-                            comparer = EquateUsingIEquatableOfT;
-
-                            bool EquateUsingIEquatableOfT(T l, T r)
-                                 => (l as IEquatable<T>)?.Equals(r) ?? (r as IEquatable<T>)?.Equals(l) ?? true;
-                        }
-                        else if (typeof(IComparable<T>).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
-                        {
-                            comparer = EquateSequentiallyUsingIComparerOfT;
-
-                            bool EquateSequentiallyUsingIComparerOfT(T l, T r)
-                                => ((l as IComparable<T>)?.CompareTo(r) ?? (r as IComparable<T>)?.CompareTo(l) ?? 0) == 0;
-                        }
-                        else if (typeof(IComparable).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo()))
-                        {
-                            comparer = EquateSequentiallyWithIComparable;
-
-                            bool EquateSequentiallyWithIComparable(T l, T r)
-#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Unavoidable here
-                                 => ((l as IComparable)?.CompareTo(r) ?? (r as IComparable)?.CompareTo(l) ?? 0) == 0;
-#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
-                        }
-                        else
-                        {
-                            comparer = EquateSequentiallyAsObjects;
-
-                            bool EquateSequentiallyAsObjects(T l, T r)
-#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Unavoidable here
-                                => l?.Equals(r) ?? r?.Equals(l) ?? true;
-#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
-                        }
-                    }
-
-                    var leftBool = EquateSequentiallyMoveNext(leftEnumerator);
-                    var rightBool = EquateSequentiallyMoveNext(rightEnumerator);
-
-                    while (leftBool || rightBool)
-                    {
-                        T leftCompare = leftBool ? leftEnumerator.Current : default;
-                        T rightCompare = rightBool ? rightEnumerator.Current : default;
-
-                        yield return comparer(leftCompare, rightCompare);
-
-                        leftBool = EquateSequentiallyMoveNext(leftEnumerator);
-                        rightBool = EquateSequentiallyMoveNext(rightEnumerator);
-                    }
-                }
-            }
-
-            bool EquateSequentiallyMoveNext(IEnumerator<T> source)
-            {
-                init:
-                var moved = source.MoveNext();
-
-                if (!moved)
-                {
-                    return false;
-                }
-
-                if (determineEmpty == null)
-                {
-                    return true;
-                }
-
-                if (determineEmpty(source.Current))
-                {
-                    goto init;
-                }
-
-                return true;
-            }
-        }
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static IEnumerable<bool> EquateSequentially<T>(
+            this IEnumerable<T> left,
+            IEnumerable<T> right,
+            Func<T, T, bool> comparer,
+            Func<T, bool> determineEmpty) => Extensions.IEnumerableExtensions.EquateSequentially(
+            left,
+            right,
+            comparer,
+            determineEmpty);
     }
 }

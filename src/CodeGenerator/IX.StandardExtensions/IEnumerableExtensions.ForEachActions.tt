@@ -10,7 +10,6 @@
 
 using System;
 using System.Collections.Generic;
-using IX.StandardExtensions.Contracts;
 
 namespace IX.StandardExtensions
 {
@@ -18,8 +17,7 @@ namespace IX.StandardExtensions
     /// SequenceEquals extensions for IEnumerable.
     /// </summary>
     public static partial class IEnumerableSequenceEqualsExtensions
-    {
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions<#
+    {<#
 for (int i = 1; i <= 8; i++)
 {
     string[] types = new string[i];
@@ -62,23 +60,12 @@ for (int i = 1; i <= 8; i++)
     }
 #>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, <#= paramTypes #>>(this IEnumerable<TItem> source, Action<TItem, <#= paramTypes #>> action, <#= paramNameTypes #>)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, <#= paramNames #>);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, <#= paramNames #>);
 <#
 }
 #>
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
     }
 }

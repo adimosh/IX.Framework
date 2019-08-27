@@ -5,7 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ include file="..\..\StandardTypes.tt" #><#@ include file="..\..\Fixture.tt" #>
 <#@ output extension=".cs" #>
-// <copyright file="IEnumerableSequenceEqualsExtensions.StandardTypes.cs" company="Adrian Mos">
+// <copyright file="IEnumerableExtensions.SequenceCompare.StandardTypes.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -15,9 +15,10 @@ using System.Collections.Generic;
 namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
-    /// SequenceEquals extensions for IEnumerable.
+    /// Extensions for IEnumerable.
     /// </summary>
-    public static partial class IEnumerableSequenceEqualsExtensions
+    // ReSharper disable once InconsistentNaming - We're doing extensions for IEnumerable
+    public static partial class IEnumerableExtensions
     {
 #pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions<#
 List<string> code = new List<string>();
@@ -28,17 +29,28 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
 #>
 
         /// <summary>
-        /// Determines whether two enumerable objects have all members in sequence equal to one another.
+        /// Compares two enumerable sequences to one another.
         /// </summary>
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
-        /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
-        /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
-        public static bool SequenceEquals(this IEnumerable<<#= fullTypeName #>> left, IEnumerable<<#= fullTypeName #>> right)
+        /// <returns>The result of the comparison.</returns>
+        public static int SequenceCompare(this IEnumerable<<#= fullTypeName #>> left, IEnumerable<<#= fullTypeName #>> right)
         {
-            if ((left == null) ? (right != null) : (right == null))
+            if (left == null)
             {
-                return false;
+                if (right == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            if (right == null)
+            {
+                return 1;
             }
 
             using (IEnumerator<<#= fullTypeName #>> e1 = left.GetEnumerator())
@@ -50,21 +62,18 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
                         var b1 = e1.MoveNext();
                         var b2 = e2.MoveNext();
 
-                        if (b1 != b2)
+                        if (!b1 && !b2)
                         {
-                            return false;
+                            return 0;
                         }
 
-                        if (b1)
+                        var c1 = b1 ? e1.Current : default;
+                        var c2 = b2 ? e2.Current : default;
+
+                        var cr = c1.CompareTo(c2);
+                        if (cr != 0)
                         {
-                            if (e1.Current != e2.Current)
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            return true;
+                            return cr;
                         }
                     }
                 }

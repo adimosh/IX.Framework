@@ -23,7 +23,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int SequenceCompareWithMsb(
             this byte[] left,
-            byte[] right) => Extensions.ArraySequenceCompareWithMsbExtensions.SequenceCompareWithMsb(
+            byte[] right) => Extensions.ArrayExtensions.SequenceCompareWithMsb(
             left,
             right);
     }

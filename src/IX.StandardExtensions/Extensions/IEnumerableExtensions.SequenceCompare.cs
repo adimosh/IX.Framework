@@ -1,20 +1,17 @@
-// <copyright file="IEnumerableSequenceCompareExtensions.cs" company="Adrian Mos">
+// <copyright file="IEnumerableExtensions.SequenceCompare.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
-    ///     SequenceEquals extensions for IEnumerable.
+    /// Extensions for IEnumerable.
     /// </summary>
-    [PublicAPI]
-
-    // ReSharper disable once InconsistentNaming - we're doing extension methods for IEnumerable
-    public static partial class IEnumerableSequenceCompareExtensions
+    // ReSharper disable once InconsistentNaming - We're doing extensions for IEnumerable
+    public static partial class IEnumerableExtensions
     {
 #pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions
         /// <summary>
@@ -57,7 +54,7 @@ namespace IX.StandardExtensions.Extensions
                         IComparable<T> c1 = b1 ? e1.Current : default;
                         T c2 = b2 ? e2.Current : default;
 
-                        var cr = c1.CompareTo(c2);
+                        var cr = c1?.CompareTo(c2) ?? (c2 == null ? 0 : 1);
                         if (cr != 0)
                         {
                             return cr;
@@ -106,7 +103,7 @@ namespace IX.StandardExtensions.Extensions
                         IComparable c1 = b1 ? e1.Current : default;
                         object c2 = b2 ? e2.Current : default;
 
-                        var cr = c1.CompareTo(c2);
+                        var cr = c1?.CompareTo(c2) ?? (c2 == null ? 0 : 1);
                         if (cr != 0)
                         {
                             return cr;
@@ -263,7 +260,8 @@ namespace IX.StandardExtensions.Extensions
                         object c1 = b1 ? e1.Current : default;
                         object c2 = b2 ? e2.Current : default;
 
-                        var cr = c1 == null && c2 != null ? -1 : c1 != null && c2 == null ? 1 : c1.Equals(c2) ? 0 : -1;
+                        // ReSharper disable once PossibleNullReferenceException
+                        var cr = c1 == null && c2 != null ? -1 : c1 != null && c2 == null ? 1 : c1?.Equals(c2) ?? true ? 0 : -1;
                         if (cr != 0)
                         {
                             return cr;

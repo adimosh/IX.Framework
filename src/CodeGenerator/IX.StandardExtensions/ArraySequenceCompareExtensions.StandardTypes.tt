@@ -34,7 +34,7 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int SequenceCompare(this <#= fullTypeName #>[] left, <#= fullTypeName #>[] right)
-            => Extensions.ArraySequenceCompareExtensions.SequenceCompare(left, right);
+            => Extensions.ArrayExtensions.SequenceCompare(left, right);
 <#
 }
 #>

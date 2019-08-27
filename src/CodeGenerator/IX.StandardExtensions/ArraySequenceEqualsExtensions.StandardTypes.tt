@@ -35,7 +35,7 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this <#= fullTypeName #>[] left, <#= fullTypeName #>[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 <#
 }
 #>

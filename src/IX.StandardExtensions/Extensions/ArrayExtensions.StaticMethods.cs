@@ -1,19 +1,17 @@
-// <copyright file="ArrayStaticMethodExtensions.cs" company="Adrian Mos">
+// <copyright file="ArrayExtensions.StaticMethods.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
-    ///     Extension methods for arrays that mirror the static <see cref="Array" /> methods.
+    ///     Extensions for array types.
     /// </summary>
-    [PublicAPI]
-    public static class ArrayStaticMethodExtensions
+    public static partial class ArrayExtensions
     {
 #if !STANDARD
         /// <summary>

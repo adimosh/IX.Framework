@@ -1,4 +1,4 @@
-// <copyright file="IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" company="Adrian Mos">
+// <copyright file="IEnumerableExtensions.EquateSequentially.StandardTypes.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -9,9 +9,10 @@ using System.Linq;
 namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
-    /// Extensions for <see cref="IEnumerable{T}"/> and <see cref="System.Collections.IEnumerable"/> dealing with sequential equality.
+    /// Extensions for IEnumerable.
     /// </summary>
-    public static partial class IEnumerateEquateSequentiallyExtensions
+    // ReSharper disable once InconsistentNaming - We're doing extensions for IEnumerable
+    public static partial class IEnumerableExtensions
     {
 #pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions
         /// <summary>

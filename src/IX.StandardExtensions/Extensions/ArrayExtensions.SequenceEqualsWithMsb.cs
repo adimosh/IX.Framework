@@ -1,13 +1,13 @@
-// <copyright file="ArraySequenceEqualsWithMsbExtensions.cs" company="Adrian Mos">
+// <copyright file="ArrayExtensions.SequenceEqualsWithMsb.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
-    /// Extension methods for equality in array with regard to the most significant byte.
+    ///     Extensions for array types.
     /// </summary>
-    public static partial class ArraySequenceEqualsWithMsbExtensions
+    public static partial class ArrayExtensions
     {
         /// <summary>
         /// Compares two arrays to one another sequentially with regard to the most significant byte.

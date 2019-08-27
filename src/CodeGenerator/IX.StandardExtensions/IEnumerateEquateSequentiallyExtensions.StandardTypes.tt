@@ -34,46 +34,10 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
         /// <param name="left">The left item of comparison.</param>
         /// <param name="right">The right item of comparison.</param>
         /// <returns>A sequence of comparison results.</returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static IEnumerable<bool> EquateSequentially(this IEnumerable<<#= fullTypeName #>> left, IEnumerable<<#= fullTypeName #>> right)
-        {
-            if ((left == null || !left.Any()) && (right == null || !right.Any()))
-            {
-                yield return true;
-                yield break;
-            }
-
-            if (left == null || !left.Any())
-            {
-                yield return false;
-                yield break;
-            }
-
-            if (right == null || !right.Any())
-            {
-                yield return false;
-                yield break;
-            }
-
-            using (IEnumerator<<#= fullTypeName #>> leftEnumerator = left.GetEnumerator())
-            {
-                using (IEnumerator<<#= fullTypeName #>> rightEnumerator = right.GetEnumerator())
-                {
-                    var leftBool = leftEnumerator.MoveNext();
-                    var rightBool = rightEnumerator.MoveNext();
-
-                    while (leftBool || rightBool)
-                    {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default;
-                        var rightCompare = rightBool ? rightEnumerator.Current : default;
-
-                        yield return leftCompare == rightCompare;
-
-                        leftBool = leftEnumerator.MoveNext();
-                        rightBool = rightEnumerator.MoveNext();
-                    }
-                }
-            }
-        }
+            => Extensions.IEnumerableExtensions.EquateSequentially(left, right);
 
         /// <summary>
         /// Equates two enumerable collections sequentially, skipping items defined as &quot;empty&quot;.
@@ -82,69 +46,10 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
         /// <param name="right">The right item of comparison.</param>
         /// <param name="determineEmpty">A function that determines whether an item is &quot;empty&quot; or not.</param>
         /// <returns>A sequence of comparison results.</returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static IEnumerable<bool> EquateSequentially(this IEnumerable<<#= fullTypeName #>> left, IEnumerable<<#= fullTypeName #>> right, Func<<#= fullTypeName #>, bool> determineEmpty)
-        {
-            if (determineEmpty == null)
-            {
-                throw new ArgumentNullException(nameof(determineEmpty));
-            }
-
-            if ((left == null || !left.Any()) && (right == null || !right.Any()))
-            {
-                yield return true;
-                yield break;
-            }
-
-            if (left == null || !left.Any())
-            {
-                yield return false;
-                yield break;
-            }
-
-            if (right == null || !right.Any())
-            {
-                yield return false;
-                yield break;
-            }
-
-            using (IEnumerator<<#= fullTypeName #>> leftEnumerator = left.GetEnumerator())
-            {
-                using (IEnumerator<<#= fullTypeName #>> rightEnumerator = right.GetEnumerator())
-                {
-                    var leftBool = EquateSequentiallyMoveNext(leftEnumerator);
-                    var rightBool = EquateSequentiallyMoveNext(rightEnumerator);
-
-                    while (leftBool || rightBool)
-                    {
-                        var leftCompare = leftBool ? leftEnumerator.Current : default;
-                        var rightCompare = rightBool ? rightEnumerator.Current : default;
-
-                        yield return leftCompare == rightCompare;
-
-                        leftBool = EquateSequentiallyMoveNext(leftEnumerator);
-                        rightBool = EquateSequentiallyMoveNext(rightEnumerator);
-                    }
-                }
-            }
-
-            bool EquateSequentiallyMoveNext(IEnumerator<<#= fullTypeName #>> source)
-            {
-                init:
-                var moved = source.MoveNext();
-
-                if (!moved)
-                {
-                    return false;
-                }
-
-                if (determineEmpty(source.Current))
-                {
-                    goto init;
-                }
-
-                return true;
-            }
-        }
+            => Extensions.IEnumerableExtensions.EquateSequentially(left, right, determineEmpty);
 <#
 }
 #>

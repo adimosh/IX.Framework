@@ -26,7 +26,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals<T>(
             this T[] left,
-            T[] right) => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(
+            T[] right) => Extensions.ArrayExtensions.SequenceEquals(
             left,
             right);
 
@@ -44,7 +44,7 @@ namespace IX.StandardExtensions
         public static bool SequenceEquals<T>(
             this T[] left,
             T[] right,
-            IEqualityComparer<T> comparer) => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(
+            IEqualityComparer<T> comparer) => Extensions.ArrayExtensions.SequenceEquals(
             left,
             right,
             comparer);

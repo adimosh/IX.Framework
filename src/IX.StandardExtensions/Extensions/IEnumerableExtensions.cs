@@ -17,7 +17,7 @@ namespace IX.StandardExtensions.Extensions
     [PublicAPI]
 
     // ReSharper disable once InconsistentNaming - We're doing extensions for IEnumerable
-    public static class IEnumerableExtensions
+    public static partial class IEnumerableExtensions
     {
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.

@@ -1,4 +1,4 @@
-// <copyright file="ArraySequenceCompareExtensions.StandardTypes.cs" company="Adrian Mos">
+// <copyright file="ArrayExtensions.SequenceCompare.StandardTypes.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -7,9 +7,9 @@ using System;
 namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
-    /// Extensions for array types.
+    ///     Extensions for array types.
     /// </summary>
-    public static partial class ArraySequenceCompareExtensions
+    public static partial class ArrayExtensions
     {
         /// <summary>
         ///     Compares two arrays to one another sequentially.

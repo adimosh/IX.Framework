@@ -307,9 +307,7 @@
       <DependentUpon>LinqExtensions.ActionsAndFuncs.tt</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="IX.Sandbox\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="IX.StandardExtensions\Efficiency\ImmutableValueTuple.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -327,13 +325,13 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ArrayExtensions.StandardTypes.cs</LastGenOutput>
     </None>
-    <None Include="IX.StandardExtensions\Extensions\ArraySequenceCompareExtensions.StandardTypes.tt">
+    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.SequenceCompare.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ArraySequenceCompareExtensions.StandardTypes.cs</LastGenOutput>
+      <LastGenOutput>ArrayExtensions.SequenceCompare.StandardTypes.cs</LastGenOutput>
     </None>
-    <None Include="IX.StandardExtensions\Extensions\ArraySequenceEqualsExtensions.StandardTypes.tt">
+    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.SequenceEquals.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ArraySequenceEqualsExtensions.StandardTypes.cs</LastGenOutput>
+      <LastGenOutput>ArrayExtensions.SequenceEquals.StandardTypes.cs</LastGenOutput>
     </None>
     <None Include="IX.StandardExtensions\Extensions\IDictionaryExtensions.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -347,17 +345,17 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IEnumerableExtensions.ForEachRefActions.cs</LastGenOutput>
     </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerableSequenceCompareExtensions.StandardTypes.tt">
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.SequenceCompare.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IEnumerableSequenceCompareExtensions.StandardTypes.cs</LastGenOutput>
+      <LastGenOutput>IEnumerableExtensions.SequenceCompare.StandardTypes.cs</LastGenOutput>
     </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerableSequenceEqualsExtensions.StandardTypes.tt">
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.SequenceEquals.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IEnumerableSequenceEqualsExtensions.StandardTypes.cs</LastGenOutput>
+      <LastGenOutput>IEnumerableExtensions.SequenceEquals.StandardTypes.cs</LastGenOutput>
     </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerateEquateSequentiallyExtensions.StandardTypes.tt">
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.EquateSequentially.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IEnumerateEquateSequentiallyExtensions.StandardTypes.cs</LastGenOutput>
+      <LastGenOutput>IEnumerableExtensions.EquateSequentially.StandardTypes.cs</LastGenOutput>
     </None>
     <None Include="IX.StandardExtensions\Extensions\IListCloneExtensions.StandardTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -397,13 +395,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </None>
-    <None Include="IX.StandardExtensions\Extensions\ArraySequenceCompareExtensions.StandardTypes.cs">
-      <DependentUpon>ArraySequenceCompareExtensions.StandardTypes.tt</DependentUpon>
+    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.SequenceCompare.StandardTypes.cs">
+      <DependentUpon>ArrayExtensions.SequenceCompare.StandardTypes.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </None>
-    <None Include="IX.StandardExtensions\Extensions\ArraySequenceEqualsExtensions.StandardTypes.cs">
-      <DependentUpon>ArraySequenceEqualsExtensions.StandardTypes.tt</DependentUpon>
+    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.SequenceEquals.StandardTypes.cs">
+      <DependentUpon>ArrayExtensions.SequenceEquals.StandardTypes.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </None>
@@ -422,18 +420,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerableSequenceCompareExtensions.StandardTypes.cs">
-      <DependentUpon>IEnumerableSequenceCompareExtensions.StandardTypes.tt</DependentUpon>
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.SequenceCompare.StandardTypes.cs">
+      <DependentUpon>IEnumerableExtensions.SequenceCompare.StandardTypes.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerableSequenceEqualsExtensions.StandardTypes.cs">
-      <DependentUpon>IEnumerableSequenceEqualsExtensions.StandardTypes.tt</DependentUpon>
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.SequenceEquals.StandardTypes.cs">
+      <DependentUpon>IEnumerableExtensions.SequenceEquals.StandardTypes.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerateEquateSequentiallyExtensions.StandardTypes.cs">
-      <DependentUpon>IEnumerateEquateSequentiallyExtensions.StandardTypes.tt</DependentUpon>
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.EquateSequentially.StandardTypes.cs">
+      <DependentUpon>IEnumerableExtensions.EquateSequentially.StandardTypes.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </None>

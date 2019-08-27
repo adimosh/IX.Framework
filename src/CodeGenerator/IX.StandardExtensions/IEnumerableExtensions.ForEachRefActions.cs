@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using IX.StandardExtensions.Contracts;
 using IX.StandardExtensions.Efficiency;
 
 namespace IX.StandardExtensions
@@ -14,7 +13,6 @@ namespace IX.StandardExtensions
     /// </summary>
     public static partial class IEnumerableSequenceEqualsExtensions
     {
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
         /// </summary>
@@ -24,20 +22,10 @@ namespace IX.StandardExtensions
         /// <param name="action">The action to execute.</param>
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0. This parameter is passed by reference.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1>(this IEnumerable<TItem> source, RefIteratorAction<TItem, TParam1> action, ref TParam1 param1)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -50,20 +38,10 @@ namespace IX.StandardExtensions
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0. This parameter is passed by reference.</param>
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2>(this IEnumerable<TItem> source, RefIteratorAction1<TItem, TParam1, TParam2> action, ref TParam1 param1, TParam2 param2)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, param2);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, param2);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -76,20 +54,10 @@ namespace IX.StandardExtensions
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked method at index 0. This parameter is passed by reference.</param>
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1. This parameter is passed by reference.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2>(this IEnumerable<TItem> source, RefIteratorAction<TItem, TParam1, TParam2> action, ref TParam1 param1, ref TParam2 param2)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -104,20 +72,10 @@ namespace IX.StandardExtensions
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1.</param>
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3>(this IEnumerable<TItem> source, RefIteratorAction2<TItem, TParam1, TParam2, TParam3> action, ref TParam1 param1, TParam2 param2, TParam3 param3)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, param2, param3);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, param2, param3);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -132,20 +90,10 @@ namespace IX.StandardExtensions
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1. This parameter is passed by reference.</param>
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3>(this IEnumerable<TItem> source, RefIteratorAction1<TItem, TParam1, TParam2, TParam3> action, ref TParam1 param1, ref TParam2 param2, TParam3 param3)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, param3);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, param3);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -160,20 +108,10 @@ namespace IX.StandardExtensions
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked method at index 1. This parameter is passed by reference.</param>
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2. This parameter is passed by reference.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3>(this IEnumerable<TItem> source, RefIteratorAction<TItem, TParam1, TParam2, TParam3> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -190,20 +128,10 @@ namespace IX.StandardExtensions
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2.</param>
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4>(this IEnumerable<TItem> source, RefIteratorAction3<TItem, TParam1, TParam2, TParam3, TParam4> action, ref TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, param2, param3, param4);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, param2, param3, param4);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -220,20 +148,10 @@ namespace IX.StandardExtensions
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2.</param>
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4>(this IEnumerable<TItem> source, RefIteratorAction2<TItem, TParam1, TParam2, TParam3, TParam4> action, ref TParam1 param1, ref TParam2 param2, TParam3 param3, TParam4 param4)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, param3, param4);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, param3, param4);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -250,20 +168,10 @@ namespace IX.StandardExtensions
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2. This parameter is passed by reference.</param>
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4>(this IEnumerable<TItem> source, RefIteratorAction1<TItem, TParam1, TParam2, TParam3, TParam4> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, TParam4 param4)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, param4);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, param4);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -280,20 +188,10 @@ namespace IX.StandardExtensions
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked method at index 2. This parameter is passed by reference.</param>
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3. This parameter is passed by reference.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4>(this IEnumerable<TItem> source, RefIteratorAction<TItem, TParam1, TParam2, TParam3, TParam4> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, ref TParam4 param4)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, ref param4);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -312,20 +210,10 @@ namespace IX.StandardExtensions
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3.</param>
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5>(this IEnumerable<TItem> source, RefIteratorAction4<TItem, TParam1, TParam2, TParam3, TParam4, TParam5> action, ref TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, param2, param3, param4, param5);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, param2, param3, param4, param5);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -344,20 +232,10 @@ namespace IX.StandardExtensions
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3.</param>
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5>(this IEnumerable<TItem> source, RefIteratorAction3<TItem, TParam1, TParam2, TParam3, TParam4, TParam5> action, ref TParam1 param1, ref TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, param3, param4, param5);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, param3, param4, param5);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -376,20 +254,10 @@ namespace IX.StandardExtensions
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3.</param>
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5>(this IEnumerable<TItem> source, RefIteratorAction2<TItem, TParam1, TParam2, TParam3, TParam4, TParam5> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, TParam4 param4, TParam5 param5)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, param4, param5);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, param4, param5);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -408,20 +276,10 @@ namespace IX.StandardExtensions
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3. This parameter is passed by reference.</param>
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5>(this IEnumerable<TItem> source, RefIteratorAction1<TItem, TParam1, TParam2, TParam3, TParam4, TParam5> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, ref TParam4 param4, TParam5 param5)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, ref param4, param5);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, param5);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -440,20 +298,10 @@ namespace IX.StandardExtensions
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked method at index 3. This parameter is passed by reference.</param>
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4. This parameter is passed by reference.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5>(this IEnumerable<TItem> source, RefIteratorAction<TItem, TParam1, TParam2, TParam3, TParam4, TParam5> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, ref TParam4 param4, ref TParam5 param5)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, ref param4, ref param5);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, ref param5);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -474,20 +322,10 @@ namespace IX.StandardExtensions
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4.</param>
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(this IEnumerable<TItem> source, RefIteratorAction5<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, ref TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, param2, param3, param4, param5, param6);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, param2, param3, param4, param5, param6);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -508,20 +346,10 @@ namespace IX.StandardExtensions
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4.</param>
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(this IEnumerable<TItem> source, RefIteratorAction4<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, ref TParam1 param1, ref TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, param3, param4, param5, param6);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, param3, param4, param5, param6);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -542,20 +370,10 @@ namespace IX.StandardExtensions
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4.</param>
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(this IEnumerable<TItem> source, RefIteratorAction3<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, param4, param5, param6);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, param4, param5, param6);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -576,20 +394,10 @@ namespace IX.StandardExtensions
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4.</param>
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(this IEnumerable<TItem> source, RefIteratorAction2<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, ref TParam4 param4, TParam5 param5, TParam6 param6)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, ref param4, param5, param6);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, param5, param6);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -610,20 +418,10 @@ namespace IX.StandardExtensions
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4. This parameter is passed by reference.</param>
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(this IEnumerable<TItem> source, RefIteratorAction1<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, ref TParam4 param4, ref TParam5 param5, TParam6 param6)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, ref param4, ref param5, param6);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, ref param5, param6);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -644,20 +442,10 @@ namespace IX.StandardExtensions
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked method at index 4. This parameter is passed by reference.</param>
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5. This parameter is passed by reference.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(this IEnumerable<TItem> source, RefIteratorAction<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, ref TParam4 param4, ref TParam5 param5, ref TParam6 param6)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, ref param4, ref param5, ref param6);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, ref param5, ref param6);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -680,20 +468,10 @@ namespace IX.StandardExtensions
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(this IEnumerable<TItem> source, RefIteratorAction6<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, ref TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, param2, param3, param4, param5, param6, param7);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, param2, param3, param4, param5, param6, param7);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -716,20 +494,10 @@ namespace IX.StandardExtensions
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(this IEnumerable<TItem> source, RefIteratorAction5<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, ref TParam1 param1, ref TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, param3, param4, param5, param6, param7);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, param3, param4, param5, param6, param7);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -752,20 +520,10 @@ namespace IX.StandardExtensions
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(this IEnumerable<TItem> source, RefIteratorAction4<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, param4, param5, param6, param7);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, param4, param5, param6, param7);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -788,20 +546,10 @@ namespace IX.StandardExtensions
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(this IEnumerable<TItem> source, RefIteratorAction3<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, ref TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, ref param4, param5, param6, param7);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, param5, param6, param7);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -824,20 +572,10 @@ namespace IX.StandardExtensions
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5.</param>
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(this IEnumerable<TItem> source, RefIteratorAction2<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, ref TParam4 param4, ref TParam5 param5, TParam6 param6, TParam7 param7)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, ref param4, ref param5, param6, param7);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, ref param5, param6, param7);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -860,20 +598,10 @@ namespace IX.StandardExtensions
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5. This parameter is passed by reference.</param>
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(this IEnumerable<TItem> source, RefIteratorAction1<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, ref TParam4 param4, ref TParam5 param5, ref TParam6 param6, TParam7 param7)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, ref param4, ref param5, ref param6, param7);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, ref param5, ref param6, param7);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -896,20 +624,10 @@ namespace IX.StandardExtensions
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked method at index 5. This parameter is passed by reference.</param>
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6. This parameter is passed by reference.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(this IEnumerable<TItem> source, RefIteratorAction<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, ref TParam4 param4, ref TParam5 param5, ref TParam6 param6, ref TParam7 param7)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, ref param4, ref param5, ref param6, ref param7);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, ref param5, ref param6, ref param7);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -934,20 +652,10 @@ namespace IX.StandardExtensions
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked method at index 7.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this IEnumerable<TItem> source, RefIteratorAction7<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, ref TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, param2, param3, param4, param5, param6, param7, param8);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, param2, param3, param4, param5, param6, param7, param8);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -972,20 +680,10 @@ namespace IX.StandardExtensions
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked method at index 7.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this IEnumerable<TItem> source, RefIteratorAction6<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, ref TParam1 param1, ref TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, param3, param4, param5, param6, param7, param8);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, param3, param4, param5, param6, param7, param8);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -1010,20 +708,10 @@ namespace IX.StandardExtensions
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked method at index 7.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this IEnumerable<TItem> source, RefIteratorAction5<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, param4, param5, param6, param7, param8);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, param4, param5, param6, param7, param8);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -1048,20 +736,10 @@ namespace IX.StandardExtensions
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked method at index 7.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this IEnumerable<TItem> source, RefIteratorAction4<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, ref TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, ref param4, param5, param6, param7, param8);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, param5, param6, param7, param8);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -1086,20 +764,10 @@ namespace IX.StandardExtensions
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked method at index 7.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this IEnumerable<TItem> source, RefIteratorAction3<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, ref TParam4 param4, ref TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, ref param4, ref param5, param6, param7, param8);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, ref param5, param6, param7, param8);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -1124,20 +792,10 @@ namespace IX.StandardExtensions
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6.</param>
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked method at index 7.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this IEnumerable<TItem> source, RefIteratorAction2<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, ref TParam4 param4, ref TParam5 param5, ref TParam6 param6, TParam7 param7, TParam8 param8)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, ref param4, ref param5, ref param6, param7, param8);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, ref param5, ref param6, param7, param8);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -1162,20 +820,10 @@ namespace IX.StandardExtensions
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6. This parameter is passed by reference.</param>
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked method at index 7.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this IEnumerable<TItem> source, RefIteratorAction1<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, ref TParam4 param4, ref TParam5 param5, ref TParam6 param6, ref TParam7 param7, TParam8 param8)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, ref param4, ref param5, ref param6, ref param7, param8);
-            }
-        }
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, ref param5, ref param6, ref param7, param8);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -1200,20 +848,9 @@ namespace IX.StandardExtensions
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked method at index 6. This parameter is passed by reference.</param>
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked method at index 7. This parameter is passed by reference.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void ForEach<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this IEnumerable<TItem> source, RefIteratorAction<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8> action, ref TParam1 param1, ref TParam2 param2, ref TParam3 param3, ref TParam4 param4, ref TParam5 param5, ref TParam6 param6, ref TParam7 param7, ref TParam8 param8)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                action(item, ref param1, ref param2, ref param3, ref param4, ref param5, ref param6, ref param7, ref param8);
-            }
-        }
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+            => Extensions.IEnumerableExtensions.ForEach(source, action, ref param1, ref param2, ref param3, ref param4, ref param5, ref param6, ref param7, ref param8);
     }
 }

@@ -5,8 +5,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using IX.StandardExtensions.Contracts;
 using JetBrains.Annotations;
 
 namespace IX.StandardExtensions
@@ -26,22 +24,13 @@ namespace IX.StandardExtensions
         /// <param name="source">The enumerable source.</param>
         /// <param name="action">The action to execute.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
-        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Makes sense, as this is IEnumerable extensions
-            foreach (T item in source)
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
-            {
-                action(item);
-            }
-        }
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static void ForEach<T>(
+            this IEnumerable<T> source,
+            Action<T> action) => Extensions.IEnumerableExtensions.ForEach(
+            source,
+            action);
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -49,20 +38,13 @@ namespace IX.StandardExtensions
         /// <param name="source">The enumerable source.</param>
         /// <param name="action">The action to execute.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
-        public static void ForEach(this IEnumerable source, Action<object> action)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (var item in source)
-            {
-                action(item);
-            }
-        }
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static void ForEach(
+            this IEnumerable source,
+            Action<object> action) => Extensions.IEnumerableExtensions.ForEach(
+            source,
+            action);
 
 #if !STANDARD
         /// <summary>
@@ -72,17 +54,13 @@ namespace IX.StandardExtensions
         /// <param name="source">The enumerable source.</param>
         /// <param name="action">The action to execute.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
-        public static void ParallelForEach<T>(this IEnumerable<T> source, Action<T> action)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            Parallel.ForEach(source, action);
-        }
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static void ParallelForEach<T>(
+            this IEnumerable<T> source,
+            Action<T> action) => Extensions.IEnumerableExtensions.ParallelForEach(
+            source,
+            action);
 #endif
 
         /// <summary>
@@ -92,24 +70,13 @@ namespace IX.StandardExtensions
         /// <param name="source">The enumerable source.</param>
         /// <param name="action">The action to execute.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
-        public static void For<T>(this IEnumerable<T> source, Action<int, T> action)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            var i = 0;
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Makes sense, as this is IEnumerable extensions
-            foreach (T item in source)
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
-            {
-                action(i, item);
-                i++;
-            }
-        }
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static void For<T>(
+            this IEnumerable<T> source,
+            Action<int, T> action) => Extensions.IEnumerableExtensions.For(
+            source,
+            action);
 
         /// <summary>
         /// Executes an action in sequence with an iterator.
@@ -117,22 +84,13 @@ namespace IX.StandardExtensions
         /// <param name="source">The enumerable source.</param>
         /// <param name="action">The action to execute.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
-        public static void For(this IEnumerable source, Action<int, object> action)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            var i = 0;
-            foreach (var item in source)
-            {
-                action(i, item);
-                i++;
-            }
-        }
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static void For(
+            this IEnumerable source,
+            Action<int, object> action) => Extensions.IEnumerableExtensions.For(
+            source,
+            action);
 
 #if !STANDARD
         /// <summary>
@@ -142,33 +100,13 @@ namespace IX.StandardExtensions
         /// <param name="source">The enumerable source.</param>
         /// <param name="action">The action to execute.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
-        public static void ParallelFor<T>(this IEnumerable<T> source, Action<int, T> action)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-#pragma warning disable HAA0603 // Delegate allocation from a method group - Unavoidable
-            Parallel.ForEach(EnumerateWithIndex(source, action), PerformParallelAction);
-#pragma warning restore HAA0603 // Delegate allocation from a method group
-
-            IEnumerable<Tuple<int, T, Action<int, T>>> EnumerateWithIndex(IEnumerable<T> sourceEnumerable, Action<int, T> actionToPerform)
-            {
-                var i = 0;
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This makes sense as it is IEnumerable extensions
-                foreach (T item in sourceEnumerable)
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
-                {
-                    yield return new Tuple<int, T, Action<int, T>>(i, item, actionToPerform);
-                    i++;
-                }
-            }
-
-            void PerformParallelAction(Tuple<int, T, Action<int, T>> state) => state.Item3(state.Item1, state.Item2);
-        }
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static void ParallelFor<T>(
+            this IEnumerable<T> source,
+            Action<int, T> action) => Extensions.IEnumerableExtensions.ParallelFor(
+            source,
+            action);
 #endif
     }
 }

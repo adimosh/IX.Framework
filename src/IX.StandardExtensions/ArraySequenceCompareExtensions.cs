@@ -26,7 +26,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int SequenceCompare<T>(
             this T[] left,
-            T[] right) => Extensions.ArraySequenceCompareExtensions.SequenceCompare(
+            T[] right) => Extensions.ArrayExtensions.SequenceCompare(
             left,
             right);
 
@@ -43,7 +43,7 @@ namespace IX.StandardExtensions
         public static int SequenceCompare<T>(
             this T[] left,
             T[] right,
-            IComparer<T> comparer) => Extensions.ArraySequenceCompareExtensions.SequenceCompare(
+            IComparer<T> comparer) => Extensions.ArrayExtensions.SequenceCompare(
             left,
             right,
             comparer);
@@ -61,7 +61,7 @@ namespace IX.StandardExtensions
         public static int SequenceCompare<T>(
             this T[] left,
             T[] right,
-            InFunc<T, T, int> comparer) => Extensions.ArraySequenceCompareExtensions.SequenceCompare(
+            InFunc<T, T, int> comparer) => Extensions.ArrayExtensions.SequenceCompare(
             left,
             right,
             comparer);

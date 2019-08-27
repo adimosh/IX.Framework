@@ -21,7 +21,7 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this byte[] left, byte[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
@@ -33,7 +33,7 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this sbyte[] left, sbyte[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
@@ -45,7 +45,7 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this short[] left, short[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
@@ -57,7 +57,7 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this ushort[] left, ushort[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
@@ -69,7 +69,7 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this char[] left, char[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
@@ -81,7 +81,7 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this int[] left, int[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
@@ -93,7 +93,7 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this uint[] left, uint[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
@@ -105,7 +105,7 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this long[] left, long[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
@@ -117,7 +117,7 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this ulong[] left, ulong[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
@@ -129,7 +129,7 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this float[] left, float[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
@@ -141,7 +141,7 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this double[] left, double[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
@@ -153,7 +153,7 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this decimal[] left, decimal[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
@@ -165,7 +165,7 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this DateTime[] left, DateTime[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
@@ -177,7 +177,7 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this bool[] left, bool[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
@@ -189,7 +189,7 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this TimeSpan[] left, TimeSpan[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
 
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
@@ -201,6 +201,6 @@ namespace IX.StandardExtensions
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this string[] left, string[] right)
-            => Extensions.ArraySequenceEqualsExtensions.SequenceEquals(left, right);
+            => Extensions.ArrayExtensions.SequenceEquals(left, right);
     }
 }

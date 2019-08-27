@@ -1,16 +1,13 @@
-// <copyright file="ArraySequenceCompareWithMsbExtensions.cs" company="Adrian Mos">
+// <copyright file="ArrayExtensions.SequenceCompareWithMsb.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
-
-using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
-    ///     Extension methods for comparison in array with regard to the most significant byte.
+    ///     Extensions for array types.
     /// </summary>
-    [PublicAPI]
-    public static class ArraySequenceCompareWithMsbExtensions
+    public static partial class ArrayExtensions
     {
         /// <summary>
         ///     Compares two arrays to one another sequentially with regard to the most significant byte.

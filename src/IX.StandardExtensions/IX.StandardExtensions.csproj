@@ -35,25 +35,86 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Array extensions -->
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\ArrayExtensions.ForEachRefActions.cs" Link="Extensions\ArrayExtensions.ForEachRefActions.cs">
       <DependentUpon>Extensions\ArrayExtensions.cs</DependentUpon>
     </Compile>
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\ArrayExtensions.StandardTypes.cs" Link="Extensions\ArrayExtensions.StandardTypes.cs">
       <DependentUpon>Extensions\ArrayExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\ArraySequenceCompareExtensions.StandardTypes.cs" Link="Extensions\ArraySequenceCompareExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\ArraySequenceEqualsExtensions.StandardTypes.cs" Link="Extensions\ArraySequenceEqualsExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IDictionaryExtensions.StandardTypes.cs" Link="Extensions\IDictionaryExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IEnumerableExtensions.ForEachRefActions.cs" Link="Extensions\IEnumerableExtensions.ForEachRefActions.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IEnumerableSequenceCompareExtensions.StandardTypes.cs" Link="Extensions\IEnumerableSequenceCompareExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IEnumerableSequenceEqualsExtensions.StandardTypes.cs" Link="Extensions\IEnumerableSequenceEqualsExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" Link="Extensions\IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IListCloneExtensions.StandardTypes.cs" Link="Extensions\IListCloneExtensions.StandardTypes.cs" />
+    <Compile Remove="Extensions\ArrayExtensions.SequenceCompare.cs" />
+    <Compile Include="Extensions\ArrayExtensions.SequenceCompare.cs">
+      <DependentUpon>Extensions\ArrayExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Remove="Extensions\ArrayExtensions.SequenceCompareWithMsb.cs" />
+    <Compile Include="Extensions\ArrayExtensions.SequenceCompareWithMsb.cs">
+      <DependentUpon>Extensions\ArrayExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Remove="Extensions\ArrayExtensions.SequenceEquals.cs" />
+    <Compile Include="Extensions\ArrayExtensions.SequenceEquals.cs">
+      <DependentUpon>Extensions\ArrayExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Remove="Extensions\ArrayExtensions.SequenceEqualsWithMsb.cs" />
+    <Compile Include="Extensions\ArrayExtensions.SequenceEqualsWithMsb.cs">
+      <DependentUpon>Extensions\ArrayExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Remove="Extensions\ArrayExtensions.StaticMethods.cs" />
+    <Compile Include="Extensions\ArrayExtensions.StaticMethods.cs">
+      <DependentUpon>Extensions\ArrayExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\ArrayExtensions.SequenceCompare.StandardTypes.cs" Link="Extensions\ArrayExtensions.SequenceCompare.StandardTypes.cs">
+      <DependentUpon>Extensions\ArrayExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\ArrayExtensions.SequenceEquals.StandardTypes.cs" Link="Extensions\ArrayExtensions.SequenceEquals.StandardTypes.cs">
+      <DependentUpon>Extensions\ArrayExtensions.cs</DependentUpon>
+    </Compile>
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\ArrayExtensions.ForEachActions.cs" Link="Extensions\ArrayExtensions.ForEachActions.cs">
       <DependentUpon>Extensions\ArrayExtensions.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IEnumerableExtensions.ForEachActions.cs" Link="Extensions\IEnumerableExtensions.ForEachActions.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\LinqExtensions.ActionsAndFuncs.cs" Link="Extensions\LinqExtensions.ActionsAndFuncs.cs" />
+
+    <!-- IDictionary extensions -->
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IDictionaryExtensions.StandardTypes.cs" Link="Extensions\IDictionaryExtensions.StandardTypes.cs">
+      <DependentUpon>Extensions\IDictionaryExtensions.cs</DependentUpon>
+    </Compile>
+
+    <!-- IEnumerable extensions -->
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IEnumerableExtensions.ForEachRefActions.cs" Link="Extensions\IEnumerableExtensions.ForEachRefActions.cs">
+      <DependentUpon>Extensions\IEnumerableExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IEnumerableExtensions.SequenceCompare.StandardTypes.cs" Link="Extensions\IEnumerableExtensions.SequenceCompare.StandardTypes.cs">
+      <DependentUpon>Extensions\IEnumerableExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IEnumerableExtensions.SequenceEquals.StandardTypes.cs" Link="Extensions\IEnumerableExtensions.SequenceEquals.StandardTypes.cs">
+      <DependentUpon>Extensions\IEnumerableExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IEnumerableExtensions.EquateSequentially.StandardTypes.cs" Link="Extensions\IEnumerableExtensions.EquateSequentially.StandardTypes.cs">
+      <DependentUpon>Extensions\IEnumerableExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IEnumerableExtensions.ForEachActions.cs" Link="Extensions\IEnumerableExtensions.ForEachActions.cs">
+      <DependentUpon>Extensions\IEnumerableExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Remove="Extensions\IEnumerableExtensions.EquateSequentially.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.EquateSequentially.cs">
+      <DependentUpon>Extensions\IEnumerableExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Remove="Extensions\IEnumerableExtensions.SequenceCompare.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.SequenceCompare.cs">
+      <DependentUpon>Extensions\IEnumerableExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Remove="Extensions\IEnumerableExtensions.SequenceEquals.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.SequenceEquals.cs">
+      <DependentUpon>Extensions\IEnumerableExtensions.cs</DependentUpon>
+    </Compile>
+
+    <!-- IListClone extensions -->
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\IListCloneExtensions.StandardTypes.cs" Link="Extensions\IListCloneExtensions.StandardTypes.cs">
+      <DependentUpon>Extensions\IListCloneExtensions.cs</DependentUpon>
+    </Compile>
+
+    <!-- Linq extensions -->
+    <Compile Include="..\CodeGenerator\IX.StandardExtensions\Extensions\LinqExtensions.ActionsAndFuncs.cs" Link="Extensions\LinqExtensions.ActionsAndFuncs.cs">
+      <DependentUpon>Extensions\LinqExtensions.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

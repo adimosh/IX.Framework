@@ -33,51 +33,10 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
         /// <param name="left">The left operand enumerable.</param>
         /// <param name="right">The right operand enumerable.</param>
         /// <returns>The result of the comparison.</returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int SequenceCompare(this IEnumerable<<#= fullTypeName #>> left, IEnumerable<<#= fullTypeName #>> right)
-        {
-            if (left == null)
-            {
-                if (right == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-
-            if (right == null)
-            {
-                return 1;
-            }
-
-            using (IEnumerator<<#= fullTypeName #>> e1 = left.GetEnumerator())
-            {
-                using (IEnumerator<<#= fullTypeName #>> e2 = right.GetEnumerator())
-                {
-                    while (true)
-                    {
-                        var b1 = e1.MoveNext();
-                        var b2 = e2.MoveNext();
-
-                        if (!b1 && !b2)
-                        {
-                            return 0;
-                        }
-
-                        var c1 = b1 ? e1.Current : default;
-                        var c2 = b2 ? e2.Current : default;
-
-                        var cr = c1.CompareTo(c2);
-                        if (cr != 0)
-                        {
-                            return cr;
-                        }
-                    }
-                }
-            }
-        }
+            => Extensions.IEnumerableExtensions.SequenceCompare(left, right);
 <#
 }
 #>

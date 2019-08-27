@@ -1,4 +1,4 @@
-// <copyright file="IEnumerableSequenceCompareExtensions.StandardTypes.cs" company="Adrian Mos">
+// <copyright file="IEnumerableExtensions.SequenceCompare.StandardTypes.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -8,9 +8,10 @@ using System.Collections.Generic;
 namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
-    /// SequenceEquals extensions for IEnumerable.
+    /// Extensions for IEnumerable.
     /// </summary>
-    public static partial class IEnumerableSequenceCompareExtensions
+    // ReSharper disable once InconsistentNaming - We're doing extensions for IEnumerable
+    public static partial class IEnumerableExtensions
     {
 #pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions
         /// <summary>

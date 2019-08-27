@@ -28,7 +28,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static TOutput[] ConvertAll<TInput, TOutput>(
             this TInput[] array,
-            Converter<TInput, TOutput> converter) => Extensions.ArrayStaticMethodExtensions.ConvertAll(
+            Converter<TInput, TOutput> converter) => Extensions.ArrayExtensions.ConvertAll(
             array,
             converter);
 #endif
@@ -61,7 +61,7 @@ namespace IX.StandardExtensions
             int index,
             int length,
             T value,
-            IComparer<T> comparer) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
+            IComparer<T> comparer) => Extensions.ArrayExtensions.BinarySearch(
             array,
             index,
             length,
@@ -92,7 +92,7 @@ namespace IX.StandardExtensions
             this T[] array,
             int index,
             int length,
-            T value) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
+            T value) => Extensions.ArrayExtensions.BinarySearch(
             array,
             index,
             length,
@@ -122,7 +122,7 @@ namespace IX.StandardExtensions
         public static int BinarySearch<T>(
             this T[] array,
             T value,
-            IComparer<T> comparer) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
+            IComparer<T> comparer) => Extensions.ArrayExtensions.BinarySearch(
             array,
             value,
             comparer);
@@ -150,7 +150,7 @@ namespace IX.StandardExtensions
             this Array array,
             int index,
             int length,
-            object value) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
+            object value) => Extensions.ArrayExtensions.BinarySearch(
             array,
             index,
             length,
@@ -179,7 +179,7 @@ namespace IX.StandardExtensions
         public static int BinarySearch(
             this Array array,
             object value,
-            IComparer comparer) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
+            IComparer comparer) => Extensions.ArrayExtensions.BinarySearch(
             array,
             value,
             comparer);
@@ -203,7 +203,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int BinarySearch(
             this Array array,
-            object value) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
+            object value) => Extensions.ArrayExtensions.BinarySearch(
             array,
             value);
 
@@ -234,7 +234,7 @@ namespace IX.StandardExtensions
             int index,
             int length,
             object value,
-            IComparer comparer) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
+            IComparer comparer) => Extensions.ArrayExtensions.BinarySearch(
             array,
             index,
             length,
@@ -261,7 +261,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int BinarySearch<T>(
             this T[] array,
-            T value) => Extensions.ArrayStaticMethodExtensions.BinarySearch(
+            T value) => Extensions.ArrayExtensions.BinarySearch(
             array,
             value);
 
@@ -276,7 +276,7 @@ namespace IX.StandardExtensions
         public static void Clear(
             this Array array,
             int index,
-            int length) => Extensions.ArrayStaticMethodExtensions.Clear(
+            int length) => Extensions.ArrayExtensions.Clear(
             array,
             index,
             length);
@@ -304,7 +304,7 @@ namespace IX.StandardExtensions
             int sourceIndex,
             Array destinationArray,
             int destinationIndex,
-            int length) => Extensions.ArrayStaticMethodExtensions.ConstrainedCopy(
+            int length) => Extensions.ArrayExtensions.ConstrainedCopy(
             sourceArray,
             sourceIndex,
             destinationArray,
@@ -324,7 +324,7 @@ namespace IX.StandardExtensions
         public static void Copy(
             this Array sourceArray,
             Array destinationArray,
-            int length) => Extensions.ArrayStaticMethodExtensions.Copy(
+            int length) => Extensions.ArrayExtensions.Copy(
             sourceArray,
             destinationArray,
             length);
@@ -352,7 +352,7 @@ namespace IX.StandardExtensions
             int sourceIndex,
             Array destinationArray,
             int destinationIndex,
-            int length) => Extensions.ArrayStaticMethodExtensions.Copy(
+            int length) => Extensions.ArrayExtensions.Copy(
             sourceArray,
             sourceIndex,
             destinationArray,
@@ -374,7 +374,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool Exists<T>(
             this T[] array,
-            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.Exists(
+            Predicate<T> match) => Extensions.ArrayExtensions.Exists(
             array,
             match);
 
@@ -393,7 +393,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static T Find<T>(
             this T[] array,
-            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.Find(
+            Predicate<T> match) => Extensions.ArrayExtensions.Find(
             array,
             match);
 
@@ -411,7 +411,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static T[] FindAll<T>(
             this T[] array,
-            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindAll(
+            Predicate<T> match) => Extensions.ArrayExtensions.FindAll(
             array,
             match);
 
@@ -436,7 +436,7 @@ namespace IX.StandardExtensions
             this T[] array,
             int startIndex,
             int count,
-            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindIndex(
+            Predicate<T> match) => Extensions.ArrayExtensions.FindIndex(
             array,
             startIndex,
             count,
@@ -461,7 +461,7 @@ namespace IX.StandardExtensions
         public static int FindIndex<T>(
             this T[] array,
             int startIndex,
-            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindIndex(
+            Predicate<T> match) => Extensions.ArrayExtensions.FindIndex(
             array,
             startIndex,
             match);
@@ -482,7 +482,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int FindIndex<T>(
             this T[] array,
-            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindIndex(
+            Predicate<T> match) => Extensions.ArrayExtensions.FindIndex(
             array,
             match);
 
@@ -501,7 +501,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static T FindLast<T>(
             this T[] array,
-            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindLast(
+            Predicate<T> match) => Extensions.ArrayExtensions.FindLast(
             array,
             match);
 
@@ -526,7 +526,7 @@ namespace IX.StandardExtensions
             this T[] array,
             int startIndex,
             int count,
-            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindLastIndex(
+            Predicate<T> match) => Extensions.ArrayExtensions.FindLastIndex(
             array,
             startIndex,
             count,
@@ -551,7 +551,7 @@ namespace IX.StandardExtensions
         public static int FindLastIndex<T>(
             this T[] array,
             int startIndex,
-            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindLastIndex(
+            Predicate<T> match) => Extensions.ArrayExtensions.FindLastIndex(
             array,
             startIndex,
             match);
@@ -572,7 +572,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int FindLastIndex<T>(
             this T[] array,
-            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.FindLastIndex(
+            Predicate<T> match) => Extensions.ArrayExtensions.FindLastIndex(
             array,
             match);
 
@@ -588,7 +588,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int IndexOf<T>(
             this T[] array,
-            T value) => Extensions.ArrayStaticMethodExtensions.IndexOf(
+            T value) => Extensions.ArrayExtensions.IndexOf(
             array,
             value);
 
@@ -612,7 +612,7 @@ namespace IX.StandardExtensions
             this Array array,
             object value,
             int startIndex,
-            int count) => Extensions.ArrayStaticMethodExtensions.IndexOf(
+            int count) => Extensions.ArrayExtensions.IndexOf(
             array,
             value,
             startIndex,
@@ -639,7 +639,7 @@ namespace IX.StandardExtensions
             this T[] array,
             T value,
             int startIndex,
-            int count) => Extensions.ArrayStaticMethodExtensions.IndexOf(
+            int count) => Extensions.ArrayExtensions.IndexOf(
             array,
             value,
             startIndex,
@@ -659,7 +659,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int IndexOf(
             this Array array,
-            object value) => Extensions.ArrayStaticMethodExtensions.IndexOf(
+            object value) => Extensions.ArrayExtensions.IndexOf(
             array,
             value);
 
@@ -682,7 +682,7 @@ namespace IX.StandardExtensions
         public static int IndexOf<T>(
             this T[] array,
             T value,
-            int startIndex) => Extensions.ArrayStaticMethodExtensions.IndexOf(
+            int startIndex) => Extensions.ArrayExtensions.IndexOf(
             array,
             value,
             startIndex);
@@ -705,7 +705,7 @@ namespace IX.StandardExtensions
         public static int IndexOf(
             this Array array,
             object value,
-            int startIndex) => Extensions.ArrayStaticMethodExtensions.IndexOf(
+            int startIndex) => Extensions.ArrayExtensions.IndexOf(
             array,
             value,
             startIndex);
@@ -731,7 +731,7 @@ namespace IX.StandardExtensions
             this T[] array,
             T value,
             int startIndex,
-            int count) => Extensions.ArrayStaticMethodExtensions.LastIndexOf(
+            int count) => Extensions.ArrayExtensions.LastIndexOf(
             array,
             value,
             startIndex,
@@ -756,7 +756,7 @@ namespace IX.StandardExtensions
         public static int LastIndexOf<T>(
             this T[] array,
             T value,
-            int startIndex) => Extensions.ArrayStaticMethodExtensions.LastIndexOf(
+            int startIndex) => Extensions.ArrayExtensions.LastIndexOf(
             array,
             value,
             startIndex);
@@ -781,7 +781,7 @@ namespace IX.StandardExtensions
             this Array array,
             object value,
             int startIndex,
-            int count) => Extensions.ArrayStaticMethodExtensions.LastIndexOf(
+            int count) => Extensions.ArrayExtensions.LastIndexOf(
             array,
             value,
             startIndex,
@@ -805,7 +805,7 @@ namespace IX.StandardExtensions
         public static int LastIndexOf(
             this Array array,
             object value,
-            int startIndex) => Extensions.ArrayStaticMethodExtensions.LastIndexOf(
+            int startIndex) => Extensions.ArrayExtensions.LastIndexOf(
             array,
             value,
             startIndex);
@@ -824,7 +824,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int LastIndexOf(
             this Array array,
-            object value) => Extensions.ArrayStaticMethodExtensions.LastIndexOf(
+            object value) => Extensions.ArrayExtensions.LastIndexOf(
             array,
             value);
 
@@ -843,7 +843,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static int LastIndexOf<T>(
             this T[] array,
-            T value) => Extensions.ArrayStaticMethodExtensions.LastIndexOf(
+            T value) => Extensions.ArrayExtensions.LastIndexOf(
             array,
             value);
 
@@ -853,7 +853,7 @@ namespace IX.StandardExtensions
         /// <param name="array">The one-dimensional <see cref="Array" /> to reverse.</param>
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static void Reverse(this Array array) => Extensions.ArrayStaticMethodExtensions.Reverse(array);
+        public static void Reverse(this Array array) => Extensions.ArrayExtensions.Reverse(array);
 
         /// <summary>
         ///     Reverses the sequence of the elements in a range of elements in the one-dimensional <see cref="Array" />.
@@ -866,7 +866,7 @@ namespace IX.StandardExtensions
         public static void Reverse(
             this Array array,
             int index,
-            int length) => Extensions.ArrayStaticMethodExtensions.Reverse(
+            int length) => Extensions.ArrayExtensions.Reverse(
             array,
             index,
             length);
@@ -881,7 +881,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort<T>(
             this T[] array,
-            Comparison<T> comparison) => Extensions.ArrayStaticMethodExtensions.Sort(
+            Comparison<T> comparison) => Extensions.ArrayExtensions.Sort(
             array,
             comparison);
 
@@ -903,7 +903,7 @@ namespace IX.StandardExtensions
             this T[] array,
             int index,
             int length,
-            IComparer<T> comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
+            IComparer<T> comparer) => Extensions.ArrayExtensions.Sort(
             array,
             index,
             length,
@@ -921,7 +921,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort(
             this Array array,
-            IComparer comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
+            IComparer comparer) => Extensions.ArrayExtensions.Sort(
             array,
             comparer);
 
@@ -939,7 +939,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort<T>(
             this T[] array,
-            IComparer<T> comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
+            IComparer<T> comparer) => Extensions.ArrayExtensions.Sort(
             array,
             comparer);
 
@@ -950,7 +950,7 @@ namespace IX.StandardExtensions
         /// <param name="array">The one-dimensional <see cref="Array" /> to sort.</param>
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static void Sort<T>(this T[] array) => Extensions.ArrayStaticMethodExtensions.Sort(array);
+        public static void Sort<T>(this T[] array) => Extensions.ArrayExtensions.Sort(array);
 
         /// <summary>
         ///     Sorts the elements in a range of elements in a one-dimensional <see cref="Array" /> using
@@ -969,7 +969,7 @@ namespace IX.StandardExtensions
             this Array array,
             int index,
             int length,
-            IComparer comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
+            IComparer comparer) => Extensions.ArrayExtensions.Sort(
             array,
             index,
             length,
@@ -987,7 +987,7 @@ namespace IX.StandardExtensions
         public static void Sort(
             this Array array,
             int index,
-            int length) => Extensions.ArrayStaticMethodExtensions.Sort(
+            int length) => Extensions.ArrayExtensions.Sort(
             array,
             index,
             length);
@@ -1005,7 +1005,7 @@ namespace IX.StandardExtensions
         public static void Sort<T>(
             this T[] array,
             int index,
-            int length) => Extensions.ArrayStaticMethodExtensions.Sort(
+            int length) => Extensions.ArrayExtensions.Sort(
             array,
             index,
             length);
@@ -1026,7 +1026,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool TrueForAll<T>(
             this T[] array,
-            Predicate<T> match) => Extensions.ArrayStaticMethodExtensions.TrueForAll(
+            Predicate<T> match) => Extensions.ArrayExtensions.TrueForAll(
             array,
             match);
 
@@ -1047,7 +1047,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort<TKey, TValue>(
             this TKey[] keys,
-            TValue[] items) => Extensions.ArrayStaticMethodExtensions.Sort(
+            TValue[] items) => Extensions.ArrayExtensions.Sort(
             keys,
             items);
 
@@ -1072,7 +1072,7 @@ namespace IX.StandardExtensions
         public static void Sort<TKey, TValue>(
             this TKey[] keys,
             TValue[] items,
-            IComparer<TKey> comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
+            IComparer<TKey> comparer) => Extensions.ArrayExtensions.Sort(
             keys,
             items,
             comparer);
@@ -1098,7 +1098,7 @@ namespace IX.StandardExtensions
             this TKey[] keys,
             TValue[] items,
             int index,
-            int length) => Extensions.ArrayStaticMethodExtensions.Sort(
+            int length) => Extensions.ArrayExtensions.Sort(
             keys,
             items,
             index,
@@ -1130,7 +1130,7 @@ namespace IX.StandardExtensions
             TValue[] items,
             int index,
             int length,
-            IComparer<TKey> comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
+            IComparer<TKey> comparer) => Extensions.ArrayExtensions.Sort(
             keys,
             items,
             index,
@@ -1160,7 +1160,7 @@ namespace IX.StandardExtensions
             Array items,
             int index,
             int length,
-            IComparer comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
+            IComparer comparer) => Extensions.ArrayExtensions.Sort(
             keys,
             items,
             index,
@@ -1174,7 +1174,7 @@ namespace IX.StandardExtensions
         /// <param name="array">The one-dimensional <see cref="Array" /> to sort.</param>
         [Obsolete(
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
-        public static void Sort(this Array array) => Extensions.ArrayStaticMethodExtensions.Sort(array);
+        public static void Sort(this Array array) => Extensions.ArrayExtensions.Sort(array);
 
         /// <summary>
         ///     Sorts a pair of one-dimensional <see cref="Array" /> objects (one contains the keys and
@@ -1195,7 +1195,7 @@ namespace IX.StandardExtensions
         public static void Sort(
             this Array keys,
             Array items,
-            IComparer comparer) => Extensions.ArrayStaticMethodExtensions.Sort(
+            IComparer comparer) => Extensions.ArrayExtensions.Sort(
             keys,
             items,
             comparer);
@@ -1214,7 +1214,7 @@ namespace IX.StandardExtensions
             "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static void Sort(
             this Array keys,
-            Array items) => Extensions.ArrayStaticMethodExtensions.Sort(
+            Array items) => Extensions.ArrayExtensions.Sort(
             keys,
             items);
 
@@ -1237,7 +1237,7 @@ namespace IX.StandardExtensions
             this Array keys,
             Array items,
             int index,
-            int length) => Extensions.ArrayStaticMethodExtensions.Sort(
+            int length) => Extensions.ArrayExtensions.Sort(
             keys,
             items,
             index,

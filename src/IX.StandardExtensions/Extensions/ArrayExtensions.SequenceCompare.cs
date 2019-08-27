@@ -1,4 +1,4 @@
-// <copyright file="ArraySequenceCompareExtensions.cs" company="Adrian Mos">
+// <copyright file="ArrayExtensions.SequenceCompare.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -6,15 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using IX.StandardExtensions.Efficiency;
-using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
-    ///     Extension methods for comparison in array.
+    ///     Extensions for array types.
     /// </summary>
-    [PublicAPI]
-    public static partial class ArraySequenceCompareExtensions
+    public static partial class ArrayExtensions
     {
         /// <summary>
         ///     Compares two arrays to one another sequentially.
@@ -48,7 +46,9 @@ namespace IX.StandardExtensions.Extensions
                     in T c1,
                     in T c2)
                 {
+#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - IComparable - unavoidable
                     return ((IComparable)c1).CompareTo(c2);
+#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
                 }
             }
             else

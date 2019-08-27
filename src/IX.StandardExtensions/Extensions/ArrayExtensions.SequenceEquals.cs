@@ -1,4 +1,4 @@
-// <copyright file="ArraySequenceEqualsExtensions.cs" company="Adrian Mos">
+// <copyright file="ArrayExtensions.SequenceEquals.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -6,15 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using IX.StandardExtensions.Efficiency;
-using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
-    /// SequenceEquals extensions specific to arrays.
+    ///     Extensions for array types.
     /// </summary>
-    [PublicAPI]
-    public static partial class ArraySequenceEqualsExtensions
+    public static partial class ArrayExtensions
     {
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.

@@ -18,8 +18,7 @@ namespace IX.StandardExtensions
     /// SequenceEquals extensions for IEnumerable.
     /// </summary>
     public static partial class IEnumerableSequenceEqualsExtensions
-    {
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This is acceptable, as these are IEnumerable extensions<#
+    {<#
 List<string> code = new List<string>();
 
 foreach (var typ in types.Where(p => p != typeof(byte[])))
@@ -34,45 +33,12 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
         /// <param name="right">The right operand enumerable.</param>
         /// <returns><see langword="true"/> if the two enumerable objects have the same length and each element at each position
         /// in one enumerable is equal to the equivalent in the other, <see langword="false"/> otherwise.</returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool SequenceEquals(this IEnumerable<<#= fullTypeName #>> left, IEnumerable<<#= fullTypeName #>> right)
-        {
-            if ((left == null) ? (right != null) : (right == null))
-            {
-                return false;
-            }
-
-            using (IEnumerator<<#= fullTypeName #>> e1 = left.GetEnumerator())
-            {
-                using (IEnumerator<<#= fullTypeName #>> e2 = right.GetEnumerator())
-                {
-                    while (true)
-                    {
-                        var b1 = e1.MoveNext();
-                        var b2 = e2.MoveNext();
-
-                        if (b1 != b2)
-                        {
-                            return false;
-                        }
-
-                        if (b1)
-                        {
-                            if (e1.Current != e2.Current)
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
+            => Extensions.IEnumerableExtensions.SequenceEquals(left, right);
 <#
 }
 #>
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
     }
 }

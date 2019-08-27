@@ -1,4 +1,4 @@
-// <copyright file="IEnumerableSequenceEqualsExtensions.cs" company="Adrian Mos">
+// <copyright file="IEnumerableExtensions.SequenceEquals.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
@@ -8,9 +8,10 @@ using System.Collections.Generic;
 namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
-    /// SequenceEquals extensions for IEnumerable.
+    /// Extensions for IEnumerable.
     /// </summary>
-    public static partial class IEnumerableSequenceEqualsExtensions
+    // ReSharper disable once InconsistentNaming - We're doing extensions for IEnumerable
+    public static partial class IEnumerableExtensions
     {
         /// <summary>
         /// Determines whether two enumerable objects have all members in sequence equal to one another.
