@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using IX.StandardExtensions;
 using IX.StandardExtensions.ComponentModel;
 using IX.StandardExtensions.Contracts;
+using IX.StandardExtensions.Extensions;
 
 namespace IX.Retry.Contexts
 {
@@ -125,10 +125,12 @@ namespace IX.Retry.Contexts
             base.DisposeGeneralContext();
         }
 
+#pragma warning disable SA1207 // Protected should come before internal - TODO: Problem with analyzer
         /// <summary>
         ///     Invokes the method that needs retrying.
         /// </summary>
-        private protected abstract void Invoke();
+        protected private abstract void Invoke();
+#pragma warning restore SA1207 // Protected should come before internal
 
         private bool RunOnce(
             ICollection<Exception> exceptions,
@@ -147,7 +149,7 @@ namespace IX.Retry.Contexts
 
                 shouldRetry = false;
             }
-            catch (StopRetryingException)
+            catch (StandardExtensions.StopRetryingException)
             {
                 shouldRetry = false;
             }
