@@ -3,7 +3,7 @@
 // </copyright>
 
 using System.Collections.Generic;
-using IX.StandardExtensions;
+using IX.StandardExtensions.Extensions;
 using IX.StandardExtensions.Threading;
 using Xunit;
 
