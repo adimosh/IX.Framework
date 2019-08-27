@@ -10,6 +10,7 @@ namespace IX.StandardExtensions.Extensions
     /// <summary>
     /// Extensions for IList.
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public static partial class IListCloneExtensions
     {
         /// <summary>

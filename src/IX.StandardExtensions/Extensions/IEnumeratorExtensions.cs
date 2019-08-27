@@ -5,12 +5,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
     /// Extension methods for IEnumerator.
     /// </summary>
+    [PublicAPI]
+
+    // ReSharper disable once InconsistentNaming
     public static class IEnumeratorExtensions
     {
         /// <summary>

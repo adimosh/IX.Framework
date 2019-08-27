@@ -4,12 +4,16 @@
 
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.Extensions
 {
     /// <summary>
     /// Extensions for IList.
     /// </summary>
+    [PublicAPI]
+
+    // ReSharper disable once InconsistentNaming
     public static partial class IListCloneExtensions
     {
         /// <summary>
