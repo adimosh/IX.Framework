@@ -24,25 +24,10 @@ namespace IX.StandardExtensions
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked predicate at index 0.</param>
         /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool Any<TItem, TParam1>(this IEnumerable<TItem> source, Func<TItem, TParam1, bool> action, TParam1 param1)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
+            => Extensions.LinqExtensions.Any(source, action, param1);
 
         /// <summary>
         /// Filters a sequence of values based on a predicate.
@@ -54,25 +39,10 @@ namespace IX.StandardExtensions
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked predicate at index 0.</param>
         /// <returns>The filtered enumerable.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static IEnumerable<TItem> Where<TItem, TParam1>(this IEnumerable<TItem> source, Func<TItem, TParam1, bool> action, TParam1 param1)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1))
-                {
-                    yield return item;
-                }
-            }
-
-            yield break;
-        }
+            => Extensions.LinqExtensions.Where(source, action, param1);
 
         /// <summary>
         /// Returns the first element of the sequence that satisfies a condition or a default value if no such element is found.
@@ -84,25 +54,10 @@ namespace IX.StandardExtensions
         /// <param name="param1">A parameter of type <typeparamref name="TParam1" /> to pass to the invoked predicate at index 0.</param>
         /// <returns>The first filtered item, or a default value.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static TItem FirstOrDefault<TItem, TParam1>(this IEnumerable<TItem> source, Func<TItem, TParam1, bool> action, TParam1 param1)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1))
-                {
-                    return item;
-                }
-            }
-
-            return default;
-        }
+            => Extensions.LinqExtensions.FirstOrDefault(source, action, param1);
 
         /// <summary>
         /// Determines whether a sequence contains any elements that match a specific predicate.
@@ -116,25 +71,10 @@ namespace IX.StandardExtensions
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked predicate at index 1.</param>
         /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool Any<TItem, TParam1, TParam2>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, bool> action, TParam1 param1, TParam2 param2)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
+            => Extensions.LinqExtensions.Any(source, action, param1, param2);
 
         /// <summary>
         /// Filters a sequence of values based on a predicate.
@@ -148,25 +88,10 @@ namespace IX.StandardExtensions
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked predicate at index 1.</param>
         /// <returns>The filtered enumerable.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static IEnumerable<TItem> Where<TItem, TParam1, TParam2>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, bool> action, TParam1 param1, TParam2 param2)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2))
-                {
-                    yield return item;
-                }
-            }
-
-            yield break;
-        }
+            => Extensions.LinqExtensions.Where(source, action, param1, param2);
 
         /// <summary>
         /// Returns the first element of the sequence that satisfies a condition or a default value if no such element is found.
@@ -180,25 +105,10 @@ namespace IX.StandardExtensions
         /// <param name="param2">A parameter of type <typeparamref name="TParam2" /> to pass to the invoked predicate at index 1.</param>
         /// <returns>The first filtered item, or a default value.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static TItem FirstOrDefault<TItem, TParam1, TParam2>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, bool> action, TParam1 param1, TParam2 param2)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2))
-                {
-                    return item;
-                }
-            }
-
-            return default;
-        }
+            => Extensions.LinqExtensions.FirstOrDefault(source, action, param1, param2);
 
         /// <summary>
         /// Determines whether a sequence contains any elements that match a specific predicate.
@@ -214,25 +124,10 @@ namespace IX.StandardExtensions
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked predicate at index 2.</param>
         /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool Any<TItem, TParam1, TParam2, TParam3>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, bool> action, TParam1 param1, TParam2 param2, TParam3 param3)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
+            => Extensions.LinqExtensions.Any(source, action, param1, param2, param3);
 
         /// <summary>
         /// Filters a sequence of values based on a predicate.
@@ -248,25 +143,10 @@ namespace IX.StandardExtensions
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked predicate at index 2.</param>
         /// <returns>The filtered enumerable.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static IEnumerable<TItem> Where<TItem, TParam1, TParam2, TParam3>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, bool> action, TParam1 param1, TParam2 param2, TParam3 param3)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3))
-                {
-                    yield return item;
-                }
-            }
-
-            yield break;
-        }
+            => Extensions.LinqExtensions.Where(source, action, param1, param2, param3);
 
         /// <summary>
         /// Returns the first element of the sequence that satisfies a condition or a default value if no such element is found.
@@ -282,25 +162,10 @@ namespace IX.StandardExtensions
         /// <param name="param3">A parameter of type <typeparamref name="TParam3" /> to pass to the invoked predicate at index 2.</param>
         /// <returns>The first filtered item, or a default value.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static TItem FirstOrDefault<TItem, TParam1, TParam2, TParam3>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, bool> action, TParam1 param1, TParam2 param2, TParam3 param3)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3))
-                {
-                    return item;
-                }
-            }
-
-            return default;
-        }
+            => Extensions.LinqExtensions.FirstOrDefault(source, action, param1, param2, param3);
 
         /// <summary>
         /// Determines whether a sequence contains any elements that match a specific predicate.
@@ -318,25 +183,10 @@ namespace IX.StandardExtensions
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked predicate at index 3.</param>
         /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool Any<TItem, TParam1, TParam2, TParam3, TParam4>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3, param4))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
+            => Extensions.LinqExtensions.Any(source, action, param1, param2, param3, param4);
 
         /// <summary>
         /// Filters a sequence of values based on a predicate.
@@ -354,25 +204,10 @@ namespace IX.StandardExtensions
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked predicate at index 3.</param>
         /// <returns>The filtered enumerable.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static IEnumerable<TItem> Where<TItem, TParam1, TParam2, TParam3, TParam4>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3, param4))
-                {
-                    yield return item;
-                }
-            }
-
-            yield break;
-        }
+            => Extensions.LinqExtensions.Where(source, action, param1, param2, param3, param4);
 
         /// <summary>
         /// Returns the first element of the sequence that satisfies a condition or a default value if no such element is found.
@@ -390,25 +225,10 @@ namespace IX.StandardExtensions
         /// <param name="param4">A parameter of type <typeparamref name="TParam4" /> to pass to the invoked predicate at index 3.</param>
         /// <returns>The first filtered item, or a default value.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static TItem FirstOrDefault<TItem, TParam1, TParam2, TParam3, TParam4>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3, param4))
-                {
-                    return item;
-                }
-            }
-
-            return default;
-        }
+            => Extensions.LinqExtensions.FirstOrDefault(source, action, param1, param2, param3, param4);
 
         /// <summary>
         /// Determines whether a sequence contains any elements that match a specific predicate.
@@ -428,25 +248,10 @@ namespace IX.StandardExtensions
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked predicate at index 4.</param>
         /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool Any<TItem, TParam1, TParam2, TParam3, TParam4, TParam5>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3, param4, param5))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
+            => Extensions.LinqExtensions.Any(source, action, param1, param2, param3, param4, param5);
 
         /// <summary>
         /// Filters a sequence of values based on a predicate.
@@ -466,25 +271,10 @@ namespace IX.StandardExtensions
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked predicate at index 4.</param>
         /// <returns>The filtered enumerable.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static IEnumerable<TItem> Where<TItem, TParam1, TParam2, TParam3, TParam4, TParam5>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3, param4, param5))
-                {
-                    yield return item;
-                }
-            }
-
-            yield break;
-        }
+            => Extensions.LinqExtensions.Where(source, action, param1, param2, param3, param4, param5);
 
         /// <summary>
         /// Returns the first element of the sequence that satisfies a condition or a default value if no such element is found.
@@ -504,25 +294,10 @@ namespace IX.StandardExtensions
         /// <param name="param5">A parameter of type <typeparamref name="TParam5" /> to pass to the invoked predicate at index 4.</param>
         /// <returns>The first filtered item, or a default value.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static TItem FirstOrDefault<TItem, TParam1, TParam2, TParam3, TParam4, TParam5>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3, param4, param5))
-                {
-                    return item;
-                }
-            }
-
-            return default;
-        }
+            => Extensions.LinqExtensions.FirstOrDefault(source, action, param1, param2, param3, param4, param5);
 
         /// <summary>
         /// Determines whether a sequence contains any elements that match a specific predicate.
@@ -544,25 +319,10 @@ namespace IX.StandardExtensions
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked predicate at index 5.</param>
         /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool Any<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3, param4, param5, param6))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
+            => Extensions.LinqExtensions.Any(source, action, param1, param2, param3, param4, param5, param6);
 
         /// <summary>
         /// Filters a sequence of values based on a predicate.
@@ -584,25 +344,10 @@ namespace IX.StandardExtensions
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked predicate at index 5.</param>
         /// <returns>The filtered enumerable.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static IEnumerable<TItem> Where<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3, param4, param5, param6))
-                {
-                    yield return item;
-                }
-            }
-
-            yield break;
-        }
+            => Extensions.LinqExtensions.Where(source, action, param1, param2, param3, param4, param5, param6);
 
         /// <summary>
         /// Returns the first element of the sequence that satisfies a condition or a default value if no such element is found.
@@ -624,25 +369,10 @@ namespace IX.StandardExtensions
         /// <param name="param6">A parameter of type <typeparamref name="TParam6" /> to pass to the invoked predicate at index 5.</param>
         /// <returns>The first filtered item, or a default value.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static TItem FirstOrDefault<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3, param4, param5, param6))
-                {
-                    return item;
-                }
-            }
-
-            return default;
-        }
+            => Extensions.LinqExtensions.FirstOrDefault(source, action, param1, param2, param3, param4, param5, param6);
 
         /// <summary>
         /// Determines whether a sequence contains any elements that match a specific predicate.
@@ -666,25 +396,10 @@ namespace IX.StandardExtensions
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked predicate at index 6.</param>
         /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool Any<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3, param4, param5, param6, param7))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
+            => Extensions.LinqExtensions.Any(source, action, param1, param2, param3, param4, param5, param6, param7);
 
         /// <summary>
         /// Filters a sequence of values based on a predicate.
@@ -708,25 +423,10 @@ namespace IX.StandardExtensions
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked predicate at index 6.</param>
         /// <returns>The filtered enumerable.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static IEnumerable<TItem> Where<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3, param4, param5, param6, param7))
-                {
-                    yield return item;
-                }
-            }
-
-            yield break;
-        }
+            => Extensions.LinqExtensions.Where(source, action, param1, param2, param3, param4, param5, param6, param7);
 
         /// <summary>
         /// Returns the first element of the sequence that satisfies a condition or a default value if no such element is found.
@@ -750,25 +450,10 @@ namespace IX.StandardExtensions
         /// <param name="param7">A parameter of type <typeparamref name="TParam7" /> to pass to the invoked predicate at index 6.</param>
         /// <returns>The first filtered item, or a default value.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static TItem FirstOrDefault<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3, param4, param5, param6, param7))
-                {
-                    return item;
-                }
-            }
-
-            return default;
-        }
+            => Extensions.LinqExtensions.FirstOrDefault(source, action, param1, param2, param3, param4, param5, param6, param7);
 
         /// <summary>
         /// Determines whether a sequence contains any elements that match a specific predicate.
@@ -794,25 +479,10 @@ namespace IX.StandardExtensions
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked predicate at index 7.</param>
         /// <returns><see langword="true"/> if the source sequence contains any elements; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool Any<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3, param4, param5, param6, param7, param8))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
+            => Extensions.LinqExtensions.Any(source, action, param1, param2, param3, param4, param5, param6, param7, param8);
 
         /// <summary>
         /// Filters a sequence of values based on a predicate.
@@ -838,25 +508,10 @@ namespace IX.StandardExtensions
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked predicate at index 7.</param>
         /// <returns>The filtered enumerable.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static IEnumerable<TItem> Where<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3, param4, param5, param6, param7, param8))
-                {
-                    yield return item;
-                }
-            }
-
-            yield break;
-        }
+            => Extensions.LinqExtensions.Where(source, action, param1, param2, param3, param4, param5, param6, param7, param8);
 
         /// <summary>
         /// Returns the first element of the sequence that satisfies a condition or a default value if no such element is found.
@@ -882,25 +537,10 @@ namespace IX.StandardExtensions
         /// <param name="param8">A parameter of type <typeparamref name="TParam8" /> to pass to the invoked predicate at index 7.</param>
         /// <returns>The first filtered item, or a default value.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> are <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static TItem FirstOrDefault<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8>(this IEnumerable<TItem> source, Func<TItem, TParam1, TParam2, TParam3, TParam4, TParam5, TParam6, TParam7, TParam8, bool> action, TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8)
-        {
-            Contract.RequiresNotNull(
-                in source,
-                nameof(source));
-            Contract.RequiresNotNull(
-                in action,
-                nameof(action));
-
-            foreach (TItem item in source)
-            {
-                if (action(item, param1, param2, param3, param4, param5, param6, param7, param8))
-                {
-                    return item;
-                }
-            }
-
-            return default;
-        }
+            => Extensions.LinqExtensions.FirstOrDefault(source, action, param1, param2, param3, param4, param5, param6, param7, param8);
 #pragma warning restore HAA0401 // Possible allocation of reference type enumerator
     }
 }

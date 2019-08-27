@@ -34,15 +34,10 @@ foreach (var typ in types.Where(p => p != typeof(byte[])))
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<<#= fullTypeName #>> DeepClone(this List<<#= fullTypeName #>> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<<#= fullTypeName #>>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 <#
 }
 #>

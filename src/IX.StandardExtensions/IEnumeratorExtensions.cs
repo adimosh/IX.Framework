@@ -5,12 +5,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions
 {
     /// <summary>
     /// Extension methods for IEnumerator.
     /// </summary>
+    [PublicAPI]
     public static class IEnumeratorExtensions
     {
         /// <summary>
@@ -20,23 +22,13 @@ namespace IX.StandardExtensions
         /// <param name="source">The enumerator source.</param>
         /// <param name="action">The action to execute.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
-        public static void ForEach<T>(this IEnumerator<T> source, Action<T> action)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
-
-            while (source.MoveNext())
-            {
-                action(source.Current);
-            }
-        }
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static void ForEach<T>(
+            this IEnumerator<T> source,
+            Action<T> action) => Extensions.IEnumeratorExtensions.ForEach(
+            source,
+            action);
 
         /// <summary>
         /// Executes an action for each one of the elements of a non-generic enumerator.
@@ -44,22 +36,12 @@ namespace IX.StandardExtensions
         /// <param name="source">The enumerator source.</param>
         /// <param name="action">The action to execute.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source" /> or <paramref name="action" /> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
-        public static void ForEach(this IEnumerator source, Action<object> action)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
-
-            while (source.MoveNext())
-            {
-                action(source.Current);
-            }
-        }
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static void ForEach(
+            this IEnumerator source,
+            Action<object> action) => Extensions.IEnumeratorExtensions.ForEach(
+            source,
+            action);
     }
 }

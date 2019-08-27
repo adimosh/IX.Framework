@@ -4,12 +4,14 @@
 
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions
 {
     /// <summary>
     /// Extensions for IList.
     /// </summary>
+    [PublicAPI]
     public static partial class IListCloneExtensions
     {
         /// <summary>
@@ -21,23 +23,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<T> DeepClone<T>(this List<T> list)
-            where T : IDeepCloneable<T>
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            var clonedList = new List<T>();
-
-            foreach (T item in list)
-            {
-                clonedList.Add(item.DeepClone());
-            }
-
-            return clonedList;
-        }
+            where T : IDeepCloneable<T> => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Shallow clones all elements of a list into another list.
@@ -48,22 +37,9 @@ namespace IX.StandardExtensions
         /// A list .
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<T> CopyWithShallowClones<T>(this List<T> list)
-            where T : IShallowCloneable<T>
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            var clonedList = new List<T>();
-
-            foreach (T item in list)
-            {
-                clonedList.Add(item.ShallowClone());
-            }
-
-            return clonedList;
-        }
+            where T : IShallowCloneable<T> => Extensions.IListCloneExtensions.CopyWithShallowClones(list);
     }
 }

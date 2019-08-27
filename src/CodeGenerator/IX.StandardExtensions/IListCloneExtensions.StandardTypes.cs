@@ -20,15 +20,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<byte> DeepClone(this List<byte> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<byte>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Deep clones the list.
@@ -38,15 +33,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<sbyte> DeepClone(this List<sbyte> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<sbyte>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Deep clones the list.
@@ -56,15 +46,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<short> DeepClone(this List<short> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<short>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Deep clones the list.
@@ -74,15 +59,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<ushort> DeepClone(this List<ushort> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<ushort>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Deep clones the list.
@@ -92,15 +72,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<char> DeepClone(this List<char> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<char>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Deep clones the list.
@@ -110,15 +85,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<int> DeepClone(this List<int> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<int>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Deep clones the list.
@@ -128,15 +98,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<uint> DeepClone(this List<uint> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<uint>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Deep clones the list.
@@ -146,15 +111,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<long> DeepClone(this List<long> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<long>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Deep clones the list.
@@ -164,15 +124,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<ulong> DeepClone(this List<ulong> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<ulong>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Deep clones the list.
@@ -182,15 +137,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<float> DeepClone(this List<float> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<float>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Deep clones the list.
@@ -200,15 +150,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<double> DeepClone(this List<double> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<double>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Deep clones the list.
@@ -218,15 +163,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<decimal> DeepClone(this List<decimal> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<decimal>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Deep clones the list.
@@ -236,15 +176,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<DateTime> DeepClone(this List<DateTime> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<DateTime>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Deep clones the list.
@@ -254,15 +189,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<bool> DeepClone(this List<bool> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<bool>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Deep clones the list.
@@ -272,15 +202,10 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<TimeSpan> DeepClone(this List<TimeSpan> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<TimeSpan>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
 
         /// <summary>
         /// Deep clones the list.
@@ -290,14 +215,9 @@ namespace IX.StandardExtensions
         /// A cloned list.
         /// </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static List<string> DeepClone(this List<string> list)
-        {
-            if (list == null)
-            {
-                throw new ArgumentNullException(nameof(list));
-            }
-
-            return new List<string>(list);
-        }
+            => Extensions.IListCloneExtensions.DeepClone(list);
     }
 }

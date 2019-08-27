@@ -3,14 +3,15 @@
 // </copyright>
 
 using System;
-using System.Linq;
 using System.Reflection;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions
 {
     /// <summary>
     /// Extensions for <see cref="Type"/>.
     /// </summary>
+    [PublicAPI]
     public static class TypeExtensions
     {
         /// <summary>
@@ -18,14 +19,19 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns><see langword="true"/> if there is a parameterless constructor; otherwise, <see langword="false"/>.</returns>
-        public static bool HasPublicParameterlessConstructor(this Type type) => type.GetTypeInfo().HasPublicParameterlessConstructor();
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static bool HasPublicParameterlessConstructor(this Type type) =>
+            Extensions.TypeExtensions.HasPublicParameterlessConstructor(type);
 
         /// <summary>
         /// Instantiates an object of the specified type.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>An instance of the object to instantiate.</returns>
-        public static object Instantiate(this Type type) => Activator.CreateInstance(type);
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static object Instantiate(this Type type) => Extensions.TypeExtensions.Instantiate(type);
 
         /// <summary>
         /// Instantiates an object of the specified type.
@@ -33,7 +39,13 @@ namespace IX.StandardExtensions
         /// <param name="type">The type.</param>
         /// <param name="parameters">The parameters to pass through to the constructor.</param>
         /// <returns>An instance of the object to instantiate.</returns>
-        public static object Instantiate(this Type type, params object[] parameters) => Activator.CreateInstance(type, parameters);
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static object Instantiate(
+            this Type type,
+            params object[] parameters) => Extensions.TypeExtensions.Instantiate(
+            type,
+            parameters);
 
         /// <summary>
         /// Gets a method with exact parameters, if one exists.
@@ -43,39 +55,15 @@ namespace IX.StandardExtensions
         /// <param name="parameters">The parameters list, if any.</param>
         /// <returns>A <see cref="MethodInfo"/> object representing the found method, or <see langword="null"/> (<see langword="Nothing"/> in Visual Basic), if none is found.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="typeInfo"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
-        public static MethodInfo GetMethodWithExactParameters(this Type typeInfo, string name, params Type[] parameters)
-        {
-            MethodInfo mi = null;
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable
-            foreach (MethodInfo p in (typeInfo ?? throw new ArgumentNullException(nameof(typeInfo))).GetRuntimeMethods())
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
-            {
-                if (p.Name != name)
-                {
-                    continue;
-                }
-
-                ParameterInfo[] ps = p.GetParameters();
-                if ((parameters?.Length ?? 0) != ps.Length)
-                {
-                    continue;
-                }
-
-                if (parameters?.SequenceEqual(ps.Select(q => q.ParameterType)) ?? true)
-                {
-                    if (mi != null)
-                    {
-                        throw new InvalidOperationException(Resources.SingleOrDefaultMultipleElements);
-                    }
-                    else
-                    {
-                        mi = p;
-                    }
-                }
-            }
-
-            return mi;
-        }
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static MethodInfo GetMethodWithExactParameters(
+            this Type typeInfo,
+            string name,
+            params Type[] parameters) => Extensions.TypeExtensions.GetMethodWithExactParameters(
+            typeInfo,
+            name,
+            parameters);
 
         /// <summary>
         /// Gets a method with exact parameters, if one exists.
@@ -85,7 +73,15 @@ namespace IX.StandardExtensions
         /// <param name="parameters">The parameters list, if any.</param>
         /// <returns>A <see cref="MethodInfo"/> object representing the found method, or <see langword="null"/> (<see langword="Nothing"/> in Visual Basic), if none is found.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="typeInfo"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
-        public static MethodInfo GetMethodWithExactParameters(this Type typeInfo, string name, params TypeInfo[] parameters) => typeInfo.GetMethodWithExactParameters(name, parameters.Select(p => p.AsType()).ToArray());
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static MethodInfo GetMethodWithExactParameters(
+            this Type typeInfo,
+            string name,
+            params TypeInfo[] parameters) => Extensions.TypeExtensions.GetMethodWithExactParameters(
+            typeInfo,
+            name,
+            parameters);
 
         /// <summary>
         /// Gets the attribute data by type without version binding.
@@ -95,6 +91,13 @@ namespace IX.StandardExtensions
         /// <param name="typeInfo">The type information.</param>
         /// <param name="value">The value.</param>
         /// <returns>System.Boolean.</returns>
-        public static bool GetAttributeDataByTypeWithoutVersionBinding<TAttribute, TReturn>(this Type typeInfo, out TReturn value) => typeInfo.GetTypeInfo().GetAttributeDataByTypeWithoutVersionBinding<TAttribute, TReturn>(out value);
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
+        public static bool GetAttributeDataByTypeWithoutVersionBinding<TAttribute, TReturn>(
+            this Type typeInfo,
+            out TReturn value) =>
+            Extensions.TypeExtensions.GetAttributeDataByTypeWithoutVersionBinding<TAttribute, TReturn>(
+                typeInfo,
+                out value);
     }
 }
