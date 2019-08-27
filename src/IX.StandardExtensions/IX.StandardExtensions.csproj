@@ -117,23 +117,6 @@
     </Compile>
   </ItemGroup>
 
-  <ItemGroup>
-    <!-- This group is obsolete and will be removed in subsequent releases -->
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArrayExtensions.ForEachRefActions.cs" Link="ArrayExtensions.ForEachRefActions.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArrayExtensions.StandardTypes.cs" Link="ArrayExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArraySequenceCompareExtensions.StandardTypes.cs" Link="ArraySequenceCompareExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArraySequenceEqualsExtensions.StandardTypes.cs" Link="ArraySequenceEqualsExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IDictionaryExtensions.StandardTypes.cs" Link="IDictionaryExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableExtensions.ForEachRefActions.cs" Link="IEnumerableExtensions.ForEachRefActions.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableSequenceCompareExtensions.StandardTypes.cs" Link="IEnumerableSequenceCompareExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableSequenceEqualsExtensions.StandardTypes.cs" Link="IEnumerableSequenceEqualsExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" Link="IEnumerateEquateSequentiallyExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IListCloneExtensions.StandardTypes.cs" Link="IListCloneExtensions.StandardTypes.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\ArrayExtensions.ForEachActions.cs" Link="ArrayExtensions.ForEachActions.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\IEnumerableExtensions.ForEachActions.cs" Link="IEnumerableExtensions.ForEachActions.cs" />
-    <Compile Include="..\CodeGenerator\IX.StandardExtensions\LinqExtensions.ActionsAndFuncs.cs" Link="LinqExtensions.ActionsAndFuncs.cs" />
-  </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
     <Reference Include="System" />
     <Reference Include="System.Core" />

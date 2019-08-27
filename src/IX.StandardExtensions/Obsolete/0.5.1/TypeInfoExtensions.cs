@@ -19,6 +19,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="info">The type information.</param>
         /// <returns><see langword="true"/> if there is a parameterless constructor; otherwise, <see langword="false"/>.</returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool HasPublicParameterlessConstructor(this TypeInfo info) =>
             Extensions.TypeInfoExtensions.HasPublicParameterlessConstructor(info);
 
@@ -27,6 +29,8 @@ namespace IX.StandardExtensions
         /// </summary>
         /// <param name="info">The type information.</param>
         /// <returns>An instance of the object to instantiate.</returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static object Instantiate(this TypeInfo info) => Extensions.TypeInfoExtensions.Instantiate(info);
 
         /// <summary>
@@ -35,6 +39,8 @@ namespace IX.StandardExtensions
         /// <param name="info">The type information.</param>
         /// <param name="parameters">The parameters to pass through to the constructor.</param>
         /// <returns>An instance of the object to instantiate.</returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static object Instantiate(
             this TypeInfo info,
             params object[] parameters) => Extensions.TypeInfoExtensions.Instantiate(
@@ -49,6 +55,8 @@ namespace IX.StandardExtensions
         /// <param name="parameters">The parameters list, if any.</param>
         /// <returns>A <see cref="MethodInfo"/> object representing the found method, or <see langword="null"/> (<see langword="Nothing"/> in Visual Basic), if none is found.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="typeInfo"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static MethodInfo GetMethodWithExactParameters(
             this TypeInfo typeInfo,
             string name,
@@ -65,6 +73,8 @@ namespace IX.StandardExtensions
         /// <param name="parameters">The parameters list, if any.</param>
         /// <returns>A <see cref="MethodInfo"/> object representing the found method, or <see langword="null"/> (<see langword="Nothing"/> in Visual Basic), if none is found.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="typeInfo"/> is <see langword="null"/> (<see langword="Nothing"/> in Visual Basic).</exception>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static MethodInfo GetMethodWithExactParameters(
             this TypeInfo typeInfo,
             string name,
@@ -81,6 +91,8 @@ namespace IX.StandardExtensions
         /// <param name="typeInfo">The type information.</param>
         /// <param name="value">The value.</param>
         /// <returns>System.Boolean.</returns>
+        [Obsolete(
+            "This method is obsolete and will be removed. Please use the same method in the IX.StandardExtensions.Extensions namespace.")]
         public static bool GetAttributeDataByTypeWithoutVersionBinding<TAttribute, TReturn>(
             this TypeInfo typeInfo,
             out TReturn value) =>
