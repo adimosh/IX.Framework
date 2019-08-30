@@ -8,7 +8,13 @@ trigger:
     - master
   paths:
     exclude:
-    - doc
+    - doc/*
+    - src/*.yaml
+    - README.md
+    - LICENSE.md
+    - .gitignore
+    - src/.editorconfig
+    - IXLogo.png
 
 pr:
   autoCancel: true
@@ -17,7 +23,13 @@ pr:
     - master
   paths:
     exclude:
-    - doc
+    - doc/*
+    - src/*.yaml
+    - README.md
+    - LICENSE.md
+    - .gitignore
+    - src/.editorconfig
+    - IXLogo.png
 
 variables:
   IxDevOpsBuild: true

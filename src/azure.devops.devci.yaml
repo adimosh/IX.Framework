@@ -3,15 +3,33 @@ pool:
   demands: vstest
 
 trigger:
-  branches: dev
+  branches:
+    include:
+    - dev
   paths:
-    exclude: doc
+    exclude:
+    - doc/*
+    - src/*.yaml
+    - README.md
+    - LICENSE.md
+    - .gitignore
+    - src/.editorconfig
+    - IXLogo.png
 
 pr:
   autoCancel: true
-  branches: dev
+  branches:
+    include:
+    - dev
   paths:
-    exclude: doc
+    exclude:
+    - doc/*
+    - src/*.yaml
+    - README.md
+    - LICENSE.md
+    - .gitignore
+    - src/.editorconfig
+    - IXLogo.png
 
 steps:
 - task: DotNetCoreCLI@2
