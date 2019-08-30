@@ -15,6 +15,7 @@ trigger:
     - .gitignore
     - src/.editorconfig
     - IXLogo.png
+    - src/QuickDirtyTests/*
 
 pr:
   autoCancel: true
@@ -30,6 +31,7 @@ pr:
     - .gitignore
     - src/.editorconfig
     - IXLogo.png
+    - src/QuickDirtyTests/*
 
 variables:
   IxDevOpsBuild: true

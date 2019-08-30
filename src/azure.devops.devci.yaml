@@ -15,6 +15,7 @@ trigger:
     - .gitignore
     - src/.editorconfig
     - IXLogo.png
+    - src/QuickDirtyTests/*
 
 pr:
   autoCancel: true
@@ -30,6 +31,13 @@ pr:
     - .gitignore
     - src/.editorconfig
     - IXLogo.png
+    - src/QuickDirtyTests/*
+
+variables:
+  IxDevOpsBuild: true
+  IxVersionPrefix: 0.5.0
+  IxVersionSuffix:
+  system.debug: false
 
 steps:
 - task: DotNetCoreCLI@2
