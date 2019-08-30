@@ -2,6 +2,8 @@ pool:
   name: Hosted Windows 2019 with VS2019
   demands: vstest
 
+trigger: none
+
 steps:
 - task: DotNetCoreCLI@2
   displayName: 'Restore interdependencies'
