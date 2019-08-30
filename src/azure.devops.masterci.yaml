@@ -1,17 +1,30 @@
+name: IX Framework Master CI
+
 pool:
   name: Hosted Windows 2019 with VS2019
   demands: vstest
 
 trigger:
-  branches: master
+  branches:
+    include:
+    - master
   paths:
-    exclude: doc
+    exclude:
+    - doc
 
 pr:
   autoCancel: true
-  branches: master
+  branches:
+    include:
+    - master
   paths:
-    exclude: doc
+    exclude:
+    - doc
+
+variables:
+  IxDevOpsBuild: true
+  IxVersionSuffix:
+  system.debug: false
 
 steps:
 - task: DotNetCoreCLI@2
