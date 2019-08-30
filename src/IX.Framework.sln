@@ -74,6 +74,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{8688F7D5-D25
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Configurations", "Build Configurations", "{F7C7F358-C8BF-4126-AE44-F4CA067EB4CE}"
 	ProjectSection(SolutionItems) = preProject
+		azure.devops.devci.yaml = azure.devops.devci.yaml
+		azure.devops.masterci.yaml = azure.devops.masterci.yaml
 		azure.devops.releasebuild.yaml = azure.devops.releasebuild.yaml
 	EndProjectSection
 EndProject
