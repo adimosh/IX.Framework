@@ -1,0 +1,33 @@
+pool:
+  name: Hosted Windows 2019 with VS2019
+  demands: vstest
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: 'Restore interdependencies'
+  inputs:
+    command: restore
+    projects: src/IX.Framework.sln
+    verbosityRestore: Minimal
+- task: DotNetCoreCLI@2
+  displayName: 'Build in release'
+  inputs:
+    projects: src/IX.Framework.sln
+    arguments: '-c Release'
+- task: VSTest@2
+  displayName: 'Unit tests for release'
+- task: NubeOne.TFS-Changelog-Generator.TFS-Changelog-Generator-task.ChangelogGenerator@1
+  displayName: 'Generate changelog'
+  inputs:
+    workingDir: doc
+- task: CopyFiles@2
+  displayName: 'Copy artifacts'
+  inputs:
+    Contents: |
+     src/src/**/*.nupkg
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/nuget/'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish NuGet package artifacts'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/nuget'
+    ArtifactName: NuGet

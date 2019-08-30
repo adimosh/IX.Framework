@@ -28,10 +28,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IX.Sandbox.Memory", "IX.San
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5E05B9C5-6765-44FC-8A6E-BEE018BDEA9B}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		stylecop.json = stylecop.json
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base Framework", "Base Framework", "{F3C41F80-7727-43D0-80D1-7973A81E5C12}"
 EndProject
@@ -75,6 +71,17 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestUtils", "TestUtils", "{742AB56C-6EEE-4DDC-96E9-95E59612FBC1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{8688F7D5-D256-452F-A3A8-A7408DEBA85F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Configurations", "Build Configurations", "{F7C7F358-C8BF-4126-AE44-F4CA067EB4CE}"
+	ProjectSection(SolutionItems) = preProject
+		azure.devops.releasebuild.yaml = azure.devops.releasebuild.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IDE Configuration", "IDE Configuration", "{9ACF55FC-8537-4C24-8D87-54B21F95FD52}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		stylecop.json = stylecop.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -167,6 +174,8 @@ Global
 		{EE8BE730-7219-4FE1-B975-248FB6255DB1} = {B5529E7C-26C5-4A91-BA0E-EDEA9D367DA3}
 		{3F348EC4-7C52-46AA-B13D-67DAC513EE48} = {CF1DED9F-4975-4D48-91D3-0FA13BBC9EBD}
 		{BAA6E305-5617-4322-A709-BBE812A5F998} = {B5529E7C-26C5-4A91-BA0E-EDEA9D367DA3}
+		{F7C7F358-C8BF-4126-AE44-F4CA067EB4CE} = {5E05B9C5-6765-44FC-8A6E-BEE018BDEA9B}
+		{9ACF55FC-8537-4C24-8D87-54B21F95FD52} = {5E05B9C5-6765-44FC-8A6E-BEE018BDEA9B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E982D088-16DA-46BF-A043-B1326577DB77}
