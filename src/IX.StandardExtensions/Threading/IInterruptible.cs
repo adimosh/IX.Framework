@@ -3,22 +3,24 @@
 // </copyright>
 
 using System;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.Threading
 {
     /// <summary>
-    /// Interface IInterruptible.
+    ///     Interface IInterruptible.
     /// </summary>
     /// <seealso cref="IDisposable" />
+    [PublicAPI]
     public interface IInterruptible : IDisposable
     {
         /// <summary>
-        /// Interrupts this instance.
+        ///     Interrupts this instance.
         /// </summary>
         void Interrupt();
 
         /// <summary>
-        /// Resumes this instance.
+        ///     Resumes this instance.
         /// </summary>
         void Resume();
     }

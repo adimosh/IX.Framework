@@ -3,19 +3,22 @@
 // </copyright>
 
 using System.Windows.Threading;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.WPF.AsyncUserInterface
 {
     /// <summary>
-    /// Asynchronous support extensions for <see cref="DispatcherObject"/>.
+    ///     Asynchronous support extensions for <see cref="DispatcherObject" />.
     /// </summary>
+    [PublicAPI]
     public static class DispatcherObjectGetAwaiterExtensions
     {
         /// <summary>
-        /// Gets an awaiter for any <see cref="DispatcherObject"/> that invokes a continuation on the dispatcher thread.
+        ///     Gets an awaiter for any <see cref="DispatcherObject" /> that invokes a continuation on the dispatcher thread.
         /// </summary>
         /// <param name="dispatcherObject">The dispatcher object.</param>
-        public static void GetAwaiter(this DispatcherObject dispatcherObject) =>
+        /// <returns>A dispatcher-based awaiter.</returns>
+        public static DispatcherObjectAwaiter GetAwaiter(this DispatcherObject dispatcherObject) =>
             new DispatcherObjectAwaiter(dispatcherObject);
     }
 }

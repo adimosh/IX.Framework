@@ -240,6 +240,7 @@ namespace IX.StandardExtensions.Threading
                 action,
                 state), cancellationToken);
 
+#pragma warning disable HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
         private static Task<TResult> ExecuteOnThreadPool<TResult>(
             Func<object, Task<TResult>> action,
             object state,
@@ -263,7 +264,10 @@ namespace IX.StandardExtensions.Threading
             }, new Tuple<Func<object, Task<TResult>>, object>(
                 action,
                 state), cancellationToken);
+#pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
 
+#pragma warning disable HAA0603 // Delegate allocation from a method group
+#pragma warning disable SA1114 // Parameter list should follow declaration
         private static Task<TResult> ExecuteOnThreadPool<TResult>(
             Func<object, CancellationToken, Task<TResult>> action,
             object state,
@@ -290,9 +294,7 @@ namespace IX.StandardExtensions.Threading
                 new Tuple<Func<object, CancellationToken, Task<TResult>>, CultureInfo, CultureInfo,
                     TaskCompletionSource<TResult>, object, CancellationToken>(
 #endif
-#pragma warning disable SA1114 // Parameter list should follow declaration
                     action,
-#pragma warning restore SA1114 // Parameter list should follow declaration
 #if !NETSTANDARD1_2
                     CultureInfo.CurrentCulture,
                     CultureInfo.CurrentUICulture,
@@ -302,23 +304,17 @@ namespace IX.StandardExtensions.Threading
                     cancellationToken);
 
 #if NETSTANDARD1_2
-            Task.Factory.StartNew(
-#pragma warning disable HAA0603 // Delegate allocation from a method group - This is expected, and also acceptable
+            _ = Task.Factory.StartNew(
                 WorkItem,
-#pragma warning restore HAA0603 // Delegate allocation from a method group
                 outerState,
                 TaskCreationOptions.HideScheduler | TaskCreationOptions.LongRunning);
 #elif NETSTANDARD1_3
             ThreadPool.QueueUserWorkItem(
-#pragma warning disable HAA0603 // Delegate allocation from a method group - This is expected, and also acceptable
                 WorkItem,
-#pragma warning restore HAA0603 // Delegate allocation from a method group
                 outerState);
 #else
             ThreadPool.UnsafeQueueUserWorkItem(
-#pragma warning disable HAA0603 // Delegate allocation from a method group - This is expected, and also acceptable
                 WorkItem,
-#pragma warning restore HAA0603 // Delegate allocation from a method group
                 outerState);
 #endif
 
@@ -381,11 +377,9 @@ namespace IX.StandardExtensions.Threading
 
                 try
                 {
-#pragma warning disable HAA0603 // Delegate allocation from a method group
                     innerState.Item1(
                         payload,
                         ct).ContinueWith(Continuation, TaskContinuationOptions.ExecuteSynchronously);
-#pragma warning restore HAA0603 // Delegate allocation from a method group
 
                     void Continuation(Task<TResult> completedTask)
                     {
@@ -415,6 +409,8 @@ namespace IX.StandardExtensions.Threading
 
             return taskCompletionSource.Task;
         }
+#pragma warning restore SA1114 // Parameter list should follow declaration
+#pragma warning restore HAA0603 // Delegate allocation from a method group
 #pragma warning restore HAA0303 // Lambda or anonymous method in a generic method allocates a delegate instance
     }
 }

@@ -4,20 +4,24 @@
 
 using System;
 using System.Diagnostics;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.TestUtils
 {
     /// <summary>
-    /// Benchmark-related utilities.
+    ///     Benchmark-related utilities.
     /// </summary>
+    [PublicAPI]
     public static class Benchmark
     {
         /// <summary>
-        /// Benchmarks an operation.
+        ///     Benchmarks an operation.
         /// </summary>
         /// <param name="operation">The operation.</param>
         /// <param name="elapsedMilliseconds">The elapsed milliseconds, regardless of the result.</param>
-        public static void Operation(Action operation, out long elapsedMilliseconds)
+        public static void Operation(
+            Action operation,
+            out long elapsedMilliseconds)
         {
             var sw = new Stopwatch();
 

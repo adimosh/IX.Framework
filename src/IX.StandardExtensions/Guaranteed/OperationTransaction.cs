@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using IX.StandardExtensions.ComponentModel;
+using JetBrains.Annotations;
 
 namespace IX.Guaranteed
 {
@@ -16,6 +17,7 @@ namespace IX.Guaranteed
     /// <para>This class is in no way related to transactions or distributed transactions, and will not promote a transaction scope to a distributed transaction.</para>
     /// </remarks>
     /// <seealso cref="IX.StandardExtensions.ComponentModel.DisposableBase" />
+    [PublicAPI]
     public abstract class OperationTransaction : DisposableBase
     {
         private List<Tuple<Action<object>, object>> revertSteps;

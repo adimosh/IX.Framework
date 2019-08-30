@@ -10,11 +10,20 @@ using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.WPF.AsyncUserInterface
 {
-    internal class DispatcherObjectAwaiter : INotifyCompletion
+    /// <summary>
+    ///     An awaiter based on the dispatcher.
+    /// </summary>
+    /// <seealso cref="INotifyCompletion" />
+    [PublicAPI]
+    public class DispatcherObjectAwaiter : INotifyCompletion
     {
         [NotNull]
         private readonly DispatcherObject sourceObject;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DispatcherObjectAwaiter" /> class.
+        /// </summary>
+        /// <param name="sourceObject">The source object.</param>
         public DispatcherObjectAwaiter([NotNull] DispatcherObject sourceObject)
         {
             Contract.RequiresNotNullPrivate(

@@ -43,96 +43,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.StandardExtensions\ArraySequenceCompareExtensions.StandardTypes.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ArraySequenceCompareExtensions.StandardTypes.tt</DependentUpon>
-    </None>
-    <None Include="IX.StandardExtensions\IEnumerableSequenceCompareExtensions.StandardTypes.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IEnumerableSequenceCompareExtensions.StandardTypes.tt</DependentUpon>
-    </None>
-    <None Include="IX.StandardExtensions\IEnumerateEquateSequentiallyExtensions.StandardTypes.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IEnumerateEquateSequentiallyExtensions.StandardTypes.tt</DependentUpon>
-    </None>
-    <None Include="IX.StandardExtensions\ArraySequenceEqualsExtensions.StandardTypes.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ArraySequenceEqualsExtensions.StandardTypes.tt</DependentUpon>
-    </None>
-    <None Include="IX.StandardExtensions\IDictionaryExtensions.StandardTypes.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IDictionaryExtensions.StandardTypes.tt</DependentUpon>
-    </None>
-    <None Include="IX.StandardExtensions\IEnumerableSequenceEqualsExtensions.StandardTypes.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IEnumerableSequenceEqualsExtensions.StandardTypes.tt</DependentUpon>
-    </None>
-    <None Include="IX.StandardExtensions\IListCloneExtensions.StandardTypes.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IListCloneExtensions.StandardTypes.tt</DependentUpon>
-    </None>
-    <None Include="IX.StandardExtensions\ArrayExtensions.StandardTypes.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ArrayExtensions.StandardTypes.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\ArraySequenceEqualsExtensions.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ArraySequenceEqualsExtensions.StandardTypes.cs</LastGenOutput>
-    </None>
     <None Include="StandardTypes.tt" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.StandardExtensions\ArrayExtensions.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ArrayExtensions.StandardTypes.cs</LastGenOutput>
-    </None>
     <None Include="Fixture.tt" />
-    <None Include="IX.StandardExtensions\ArraySequenceCompareExtensions.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ArraySequenceCompareExtensions.StandardTypes.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\IDictionaryExtensions.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IDictionaryExtensions.StandardTypes.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\IEnumerableSequenceCompareExtensions.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IEnumerableSequenceCompareExtensions.StandardTypes.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\IEnumerableSequenceEqualsExtensions.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IEnumerableSequenceEqualsExtensions.StandardTypes.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\IEnumerateEquateSequentiallyExtensions.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IEnumerateEquateSequentiallyExtensions.StandardTypes.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\IListCloneExtensions.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IListCloneExtensions.StandardTypes.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.StandardExtensions\DisposableBase.InvokeIfNotDisposed.tt">
+    <None Include="IX.StandardExtensions\ComponentModel\DisposableBase.InvokeIfNotDisposed.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DisposableBase.InvokeIfNotDisposed.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.StandardExtensions\DisposableBase.InvokeIfNotDisposed.cs">
+    <None Include="IX.StandardExtensions\ComponentModel\DisposableBase.InvokeIfNotDisposed.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DisposableBase.InvokeIfNotDisposed.tt</DependentUpon>
@@ -204,32 +130,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.StandardExtensions\ArrayExtensions.ForEachActions.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ArrayExtensions.ForEachActions.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\ArrayExtensions.ForEachActions.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ArrayExtensions.ForEachActions.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\IEnumerableExtensions.ForEachActions.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IEnumerableExtensions.ForEachActions.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\IEnumerableExtensions.ForEachActions.cs">
-      <DependentUpon>IEnumerableExtensions.ForEachActions.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="IX.StandardExtensions\Efficiency\InDelegates.WithParameters.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InDelegates.WithParameters.cs</LastGenOutput>
@@ -256,19 +156,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.StandardExtensions\IEnumerableExtensions.ForEachRefActions.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IEnumerableExtensions.ForEachRefActions.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\IEnumerableExtensions.ForEachRefActions.cs">
-      <DependentUpon>IEnumerableExtensions.ForEachRefActions.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="IX.StandardExtensions\Efficiency\RefIteratorDelegates.WithParameters.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RefIteratorDelegates.WithParameters.cs</LastGenOutput>
@@ -281,40 +168,64 @@
       <DesignTime>True</DesignTime>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\ArrayExtensions.ForEachRefActions.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ArrayExtensions.ForEachRefActions.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\ArrayExtensions.ForEachRefActions.cs">
-      <DependentUpon>ArrayExtensions.ForEachRefActions.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\LinqExtensions.ActionsAndFuncs.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>LinqExtensions.ActionsAndFuncs.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\LinqExtensions.ActionsAndFuncs.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LinqExtensions.ActionsAndFuncs.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="IX.Sandbox\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="IX.StandardExtensions\Efficiency\ImmutableValueTuple.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ImmutableValueTuple.cs</LastGenOutput>
     </Content>
+    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.ForEachActions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ArrayExtensions.ForEachActions.cs</LastGenOutput>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.ForEachRefActions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ArrayExtensions.ForEachRefActions.cs</LastGenOutput>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.StandardTypes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ArrayExtensions.StandardTypes.cs</LastGenOutput>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.SequenceCompare.StandardTypes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ArrayExtensions.SequenceCompare.StandardTypes.cs</LastGenOutput>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.SequenceEquals.StandardTypes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ArrayExtensions.SequenceEquals.StandardTypes.cs</LastGenOutput>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\IDictionaryExtensions.StandardTypes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IDictionaryExtensions.StandardTypes.cs</LastGenOutput>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.ForEachActions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IEnumerableExtensions.ForEachActions.cs</LastGenOutput>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.ForEachRefActions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IEnumerableExtensions.ForEachRefActions.cs</LastGenOutput>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.SequenceCompare.StandardTypes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IEnumerableExtensions.SequenceCompare.StandardTypes.cs</LastGenOutput>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.SequenceEquals.StandardTypes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IEnumerableExtensions.SequenceEquals.StandardTypes.cs</LastGenOutput>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.EquateSequentially.StandardTypes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IEnumerableExtensions.EquateSequentially.StandardTypes.cs</LastGenOutput>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\IListCloneExtensions.StandardTypes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IListCloneExtensions.StandardTypes.cs</LastGenOutput>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\LinqExtensions.ActionsAndFuncs.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LinqExtensions.ActionsAndFuncs.cs</LastGenOutput>
+    </None>
     <Content Include="IX.StandardExtensions\Threading\Fire.OnThreadPool.Parameters.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Fire.OnThreadPool.Parameters.cs</LastGenOutput>
@@ -330,6 +241,71 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ImmutableValueTuple.tt</DependentUpon>
     </Compile>
+    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.ForEachActions.cs">
+      <DependentUpon>ArrayExtensions.ForEachActions.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.ForEachRefActions.cs">
+      <DependentUpon>ArrayExtensions.ForEachRefActions.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.StandardTypes.cs">
+      <DependentUpon>ArrayExtensions.StandardTypes.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.SequenceCompare.StandardTypes.cs">
+      <DependentUpon>ArrayExtensions.SequenceCompare.StandardTypes.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.SequenceEquals.StandardTypes.cs">
+      <DependentUpon>ArrayExtensions.SequenceEquals.StandardTypes.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\IDictionaryExtensions.StandardTypes.cs">
+      <DependentUpon>IDictionaryExtensions.StandardTypes.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.ForEachActions.cs">
+      <DependentUpon>IEnumerableExtensions.ForEachActions.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.ForEachRefActions.cs">
+      <DependentUpon>IEnumerableExtensions.ForEachRefActions.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.SequenceCompare.StandardTypes.cs">
+      <DependentUpon>IEnumerableExtensions.SequenceCompare.StandardTypes.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.SequenceEquals.StandardTypes.cs">
+      <DependentUpon>IEnumerableExtensions.SequenceEquals.StandardTypes.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.EquateSequentially.StandardTypes.cs">
+      <DependentUpon>IEnumerableExtensions.EquateSequentially.StandardTypes.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\IListCloneExtensions.StandardTypes.cs">
+      <DependentUpon>IListCloneExtensions.StandardTypes.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
+    <None Include="IX.StandardExtensions\Extensions\LinqExtensions.ActionsAndFuncs.cs">
+      <DependentUpon>LinqExtensions.ActionsAndFuncs.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </None>
     <Compile Include="IX.StandardExtensions\Threading\Fire.OnThreadPool.Parameters.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

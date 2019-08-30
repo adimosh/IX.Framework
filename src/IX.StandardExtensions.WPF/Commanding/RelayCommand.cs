@@ -5,6 +5,7 @@
 using System;
 using System.Windows.Input;
 using System.Windows.Threading;
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.WPF.Commanding
 {
@@ -12,6 +13,7 @@ namespace IX.StandardExtensions.WPF.Commanding
     /// A relayed command for the editor.
     /// </summary>
     /// <seealso cref="ICommand" />
+    [PublicAPI]
     public class RelayCommand : ICommand
     {
         /// <summary>
@@ -69,6 +71,7 @@ namespace IX.StandardExtensions.WPF.Commanding
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         public bool CanExecute(object parameter) => !this.isWaitingForAction && this.canExecuteAction(parameter);
 
+#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable in this case
         /// <summary>
         /// Defines the method to be called when the command is invoked.
         /// </summary>
@@ -87,11 +90,10 @@ namespace IX.StandardExtensions.WPF.Commanding
             {
                 this.isWaitingForAction = false;
 
-#pragma warning disable HAA0603 // Delegate allocation from a method group - This is acceptable in this case
                 (Dispatcher.CurrentDispatcher ?? global::System.Windows.Application.Current.Dispatcher).Invoke(this.TriggerCanExecuteChanged, DispatcherPriority.ApplicationIdle);
-#pragma warning restore HAA0603 // Delegate allocation from a method group
             }
         }
+#pragma warning restore HAA0603 // Delegate allocation from a method group
 
         /// <summary>
         /// Triggers the <see cref="CanExecuteChanged"/> event.

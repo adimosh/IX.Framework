@@ -2,7 +2,7 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
-using IX.StandardExtensions;
+using IX.StandardExtensions.Extensions;
 using Xunit;
 
 namespace IX.UnitTests.IX.StandardExtensions
@@ -16,7 +16,7 @@ namespace IX.UnitTests.IX.StandardExtensions
         /// Generates data for tests.
         /// </summary>
         /// <returns>The data, as a jagged array.</returns>
-        public static object[][] TestDataGenerator() => new object[][]
+        public static object[][] TestDataGenerator() => new[]
             {
                 new object[]
                 {
