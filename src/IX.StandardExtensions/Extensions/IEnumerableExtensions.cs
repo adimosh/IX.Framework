@@ -19,6 +19,7 @@ namespace IX.StandardExtensions.Extensions
     // ReSharper disable once InconsistentNaming - We're doing extensions for IEnumerable
     public static partial class IEnumerableExtensions
     {
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Makes sense, as this is IEnumerable extensions
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
         /// </summary>
@@ -35,13 +36,12 @@ namespace IX.StandardExtensions.Extensions
                 in action,
                 nameof(action));
 
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Makes sense, as this is IEnumerable extensions
             foreach (T item in source)
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
             {
                 action(item);
             }
         }
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
 
         /// <summary>
         /// Executes an action for each one of the elements of an enumerable.
@@ -85,6 +85,7 @@ namespace IX.StandardExtensions.Extensions
         }
 #endif
 
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Makes sense, as this is IEnumerable extensions
         /// <summary>
         /// Executes an action in sequence with an iterator.
         /// </summary>
@@ -102,14 +103,13 @@ namespace IX.StandardExtensions.Extensions
                 nameof(action));
 
             var i = 0;
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Makes sense, as this is IEnumerable extensions
             foreach (T item in source)
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
             {
                 action(i, item);
                 i++;
             }
         }
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
 
         /// <summary>
         /// Executes an action in sequence with an iterator.
@@ -135,6 +135,8 @@ namespace IX.StandardExtensions.Extensions
         }
 
 #if !STANDARD
+#pragma warning disable HAA0603 // Delegate allocation from a method group - Unavoidable
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This makes sense as it is IEnumerable extensions
         /// <summary>
         /// Executes an independent action in parallel, with an iterator that respects the original sequence.
         /// </summary>
@@ -151,16 +153,12 @@ namespace IX.StandardExtensions.Extensions
                 in action,
                 nameof(action));
 
-#pragma warning disable HAA0603 // Delegate allocation from a method group - Unavoidable
             Parallel.ForEach(EnumerateWithIndex(source, action), PerformParallelAction);
-#pragma warning restore HAA0603 // Delegate allocation from a method group
 
             IEnumerable<Tuple<int, T, Action<int, T>>> EnumerateWithIndex(IEnumerable<T> sourceEnumerable, Action<int, T> actionToPerform)
             {
                 var i = 0;
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - This makes sense as it is IEnumerable extensions
                 foreach (T item in sourceEnumerable)
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
                 {
                     yield return new Tuple<int, T, Action<int, T>>(i, item, actionToPerform);
                     i++;
@@ -169,6 +167,8 @@ namespace IX.StandardExtensions.Extensions
 
             void PerformParallelAction(Tuple<int, T, Action<int, T>> state) => state.Item3(state.Item1, state.Item2);
         }
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+#pragma warning restore HAA0603 // Delegate allocation from a method group
 #endif
     }
 }
