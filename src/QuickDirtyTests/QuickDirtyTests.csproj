@@ -33,29 +33,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IX.Abstractions, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IX.Abstractions.0.5.0.71\lib\net461\IX.Abstractions.dll</HintPath>
+    <Reference Include="IX.Abstractions, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.Abstractions.0.5.0.90\lib\net461\IX.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="IX.Abstractions.Collections, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IX.Abstractions.Collections.0.5.0.71\lib\net461\IX.Abstractions.Collections.dll</HintPath>
+    <Reference Include="IX.Abstractions.Collections, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.Abstractions.Collections.0.5.0.90\lib\net461\IX.Abstractions.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="IX.Abstractions.Threading, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IX.Abstractions.Threading.0.5.0.71\lib\net461\IX.Abstractions.Threading.dll</HintPath>
+    <Reference Include="IX.Abstractions.Threading, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.Abstractions.Threading.0.5.0.90\lib\net461\IX.Abstractions.Threading.dll</HintPath>
     </Reference>
-    <Reference Include="IX.Observable, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IX.Observable.0.5.0.71\lib\net461\IX.Observable.dll</HintPath>
+    <Reference Include="IX.Observable, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.Observable.0.5.0.90\lib\net461\IX.Observable.dll</HintPath>
     </Reference>
-    <Reference Include="IX.StandardExtensions, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IX.StandardExtensions.0.5.0.71\lib\net461\IX.StandardExtensions.dll</HintPath>
+    <Reference Include="IX.StandardExtensions, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.StandardExtensions.0.5.0.90\lib\net461\IX.StandardExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="IX.StandardExtensions.ComponentModel, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IX.StandardExtensions.ComponentModel.0.5.0.71\lib\net461\IX.StandardExtensions.ComponentModel.dll</HintPath>
+    <Reference Include="IX.StandardExtensions.ComponentModel, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.StandardExtensions.ComponentModel.0.5.0.90\lib\net461\IX.StandardExtensions.ComponentModel.dll</HintPath>
     </Reference>
-    <Reference Include="IX.StandardExtensions.Threading, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IX.StandardExtensions.Threading.0.5.0.71\lib\net461\IX.StandardExtensions.Threading.dll</HintPath>
+    <Reference Include="IX.StandardExtensions.Threading, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.StandardExtensions.Threading.0.5.0.90\lib\net461\IX.StandardExtensions.Threading.dll</HintPath>
     </Reference>
-    <Reference Include="IX.Undoable, Version=0.5.0.71, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IX.Undoable.0.5.0.71\lib\net461\IX.Undoable.dll</HintPath>
+    <Reference Include="IX.Undoable, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IX.Undoable.0.5.0.90\lib\net461\IX.Undoable.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=2019.1.3.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2019.1.3\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
