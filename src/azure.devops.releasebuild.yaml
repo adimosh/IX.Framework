@@ -22,6 +22,12 @@ steps:
   displayName: 'Generate changelog'
   inputs:
     workingDir: doc
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/*.csproj'
+    nobuild: true
+    versioningScheme: 'off'
 - task: CopyFiles@2
   displayName: 'Copy artifacts'
   inputs:
