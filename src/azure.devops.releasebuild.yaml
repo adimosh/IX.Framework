@@ -18,10 +18,11 @@ steps:
     arguments: '-c Release'
 - task: VSTest@2
   displayName: 'Unit tests for release'
-- task: NubeOne.TFS-Changelog-Generator.TFS-Changelog-Generator-task.ChangelogGenerator@1
-  displayName: 'Generate changelog'
+- task: ChangelogGenerator@1
   inputs:
-    workingDir: doc
+    workingDir: 'doc'
+    filename: 'Changelog.md'
+    commits: 'Up to last tag'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'pack'
