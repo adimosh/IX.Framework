@@ -4,6 +4,10 @@ pool:
 
 trigger: none
 
+variables:
+  IxDevOpsBuild: true
+  system.debug: false
+
 steps:
 - task: DotNetCoreCLI@2
   displayName: 'Restore interdependencies (project system)'
@@ -16,7 +20,7 @@ steps:
   displayName: 'Restore interdependencies (actual dependencies)'
   inputs:
     command: restore
-    projects: src/IX.Framework.sln
+    projects: 'src/**/*.csproj'
     verbosityRestore: Minimal
 
 - task: DotNetCoreCLI@2
