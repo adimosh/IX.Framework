@@ -52,7 +52,7 @@ steps:
   inputs:
     command: restore
     projects: 'src/**/*.csproj'
-    verbosityRestore: Minimal
+    arguments: '--force --verbosity minimal'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build in debug'
