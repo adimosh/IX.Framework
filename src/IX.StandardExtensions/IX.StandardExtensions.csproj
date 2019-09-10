@@ -1,4 +1,4 @@
-﻿<!--EXTERNAL_PROPERTIES: TargetFrameworkIsFramework-->
+<!--EXTERNAL_PROPERTIES: TargetFrameworkIsFramework-->
 <!--EXTERNAL_PROPERTIES: TargetFrameworkIsStandard-->
 <!--EXTERNAL_PROPERTIES: TargetFramework-->
 <Project Sdk="Microsoft.NET.Sdk">
@@ -9,19 +9,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    
-  </PropertyGroup>
-
-  <PropertyGroup>
     <Title>IX Standard Extensions</Title>
     <Description>A library containing several extensions that aim to standardize and extend the .NET Framework functionality.</Description>
   </PropertyGroup>
-
-  <Import Project="..\IXTargets.targets" />
-
-  <Import Project="..\Branding.props" />
-
-  <Import Project="..\StyleCop.targets" />
 
   <ItemGroup>
     <Compile Include="..\CodeGenerator\IX.StandardExtensions\ComponentModel\DisposableBase.InvokeIfNotDisposed.cs" Link="ComponentModel\DisposableBase.InvokeIfNotDisposed.cs" />
@@ -183,6 +173,17 @@
     <EmbeddedResource Update="Resources.se.resx">
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

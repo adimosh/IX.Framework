@@ -41,7 +41,14 @@ variables:
 
 steps:
 - task: DotNetCoreCLI@2
-  displayName: 'Restore interdependencies'
+  displayName: 'Restore interdependencies (project system)'
+  inputs:
+    command: restore
+    projects: src/IX.Framework.sln
+    verbosityRestore: Minimal
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore interdependencies (actual dependencies)'
   inputs:
     command: restore
     projects: src/IX.Framework.sln

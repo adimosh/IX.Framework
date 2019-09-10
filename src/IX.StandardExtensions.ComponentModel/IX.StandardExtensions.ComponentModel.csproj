@@ -1,4 +1,4 @@
-﻿<!--EXTERNAL_PROPERTIES: TargetFrameworkIsFramework-->
+<!--EXTERNAL_PROPERTIES: TargetFrameworkIsFramework-->
 <!--EXTERNAL_PROPERTIES: TargetFrameworkIsStandard-->
 <Project Sdk="Microsoft.NET.Sdk">
 
@@ -8,19 +8,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    
-  </PropertyGroup>
-
-  <PropertyGroup>
     <Title>IX Component Model Extensions</Title>
     <Description>A library containing several extensions that aim to standardize and extend the .NET Framework component model functionality.</Description>
   </PropertyGroup>
-
-  <Import Project="..\IXTargets.targets" />
-
-  <Import Project="..\Branding.props" />
-
-  <Import Project="..\StyleCop.targets" />
 
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
     <Reference Include="System" />
@@ -54,6 +44,17 @@
   <ItemGroup>
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions.Threading\IX.StandardExtensions.Threading.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

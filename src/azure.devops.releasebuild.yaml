@@ -6,35 +6,48 @@ trigger: none
 
 steps:
 - task: DotNetCoreCLI@2
-  displayName: 'Restore interdependencies'
+  displayName: 'Restore interdependencies (project system)'
   inputs:
     command: restore
     projects: src/IX.Framework.sln
     verbosityRestore: Minimal
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore interdependencies (actual dependencies)'
+  inputs:
+    command: restore
+    projects: src/IX.Framework.sln
+    verbosityRestore: Minimal
+
 - task: DotNetCoreCLI@2
   displayName: 'Build in release'
   inputs:
     projects: src/IX.Framework.sln
     arguments: '-c Release'
+
 - task: VSTest@2
   displayName: 'Unit tests for release'
+
 - task: ChangelogGenerator@1
   inputs:
     workingDir: 'doc'
     filename: 'Changelog.md'
     commits: 'Up to last tag'
+
 - task: DotNetCoreCLI@2
   inputs:
     command: 'pack'
     packagesToPack: '**/*.csproj'
     nobuild: true
     versioningScheme: 'off'
+
 - task: CopyFiles@2
   displayName: 'Copy artifacts'
   inputs:
     Contents: |
      src/src/**/*.nupkg
     TargetFolder: '$(Build.ArtifactStagingDirectory)/nuget/'
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish NuGet package artifacts'
   inputs:

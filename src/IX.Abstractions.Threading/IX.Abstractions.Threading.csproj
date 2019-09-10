@@ -7,20 +7,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    
-  </PropertyGroup>
-
-  <PropertyGroup>
     <Title>IX Threading Abstractions</Title>
     <Description>A library for abstracting away some threading and thread synchronization classes in the .NET Framework.</Description>
     <RootNamespace>IX</RootNamespace>
   </PropertyGroup>
-
-  <Import Project="..\IXTargets.targets" />
-
-  <Import Project="..\Branding.props" />
-
-  <Import Project="..\StyleCop.targets" />
 
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
     <Reference Include="System.Core" />
@@ -34,6 +24,17 @@
   <ItemGroup>
     <ProjectReference Include="..\IX.Abstractions\IX.Abstractions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

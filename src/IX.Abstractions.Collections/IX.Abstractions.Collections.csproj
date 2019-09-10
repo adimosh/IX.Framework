@@ -6,19 +6,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    
-  </PropertyGroup>
-
-  <PropertyGroup>
     <Title>IX Collection Abstractions</Title>
     <Description>A library for abstracting away the common collection classes in the .NET Framework.</Description>
   </PropertyGroup>
-
-  <Import Project="..\IXTargets.targets" />
-
-  <Import Project="..\Branding.props" />
-
-  <Import Project="..\StyleCop.targets" />
 
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
     <Reference Include="System" />
@@ -84,6 +74,17 @@
     <EmbeddedResource Update="Resources.se.resx">
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

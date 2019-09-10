@@ -6,19 +6,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    
-  </PropertyGroup>
-
-  <PropertyGroup>
     <Title>IX Test Utilities</Title>
     <Description>A library containing several extensions and utilities for making unit testing less dreary.</Description>
   </PropertyGroup>
-
-  <Import Project="..\IXTargets.targets" />
-
-  <Import Project="..\Branding.props" />
-
-  <Import Project="..\StyleCop.targets" />
 
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
     <Reference Include="System" />
@@ -34,6 +24,17 @@
     <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
     <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
