@@ -17,13 +17,6 @@ steps:
     verbosityRestore: Minimal
 
 - task: DotNetCoreCLI@2
-  displayName: 'Restore interdependencies (actual dependencies)'
-  inputs:
-    command: restore
-    projects: 'src/**/*.csproj'
-    arguments: '--force --verbosity minimal'
-
-- task: DotNetCoreCLI@2
   displayName: 'Build in release'
   inputs:
     projects: src/IX.Framework.sln

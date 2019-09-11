@@ -41,35 +41,11 @@ variables:
 
 steps:
 - task: DotNetCoreCLI@2
-  displayName: 'Initial clean-up (Debug)'
-  inputs:
-    command: 'custom'
-    projects: 'src/IX.Framework.sln'
-    custom: 'clean'
-    arguments: '--configuration Debug --verbosity minimal'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Initial clean-up (Release)'
-  inputs:
-    command: 'custom'
-    projects: 'src/IX.Framework.sln'
-    custom: 'clean'
-    arguments: '--configuration Release --verbosity minimal'
-
-- task: DotNetCoreCLI@2
   displayName: 'Restore interdependencies (project system)'
   inputs:
     command: restore
     projects: src/IX.Framework.sln
     verbosityRestore: Minimal
-
-- task: DotNetCoreCLI@2
-  displayName: 'Restore interdependencies (actual dependencies)'
-  inputs:
-    command: 'custom'
-    projects: 'src/**/*.csproj'
-    custom: 'restore'
-    arguments: '--force --verbosity minimal'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build in debug'
