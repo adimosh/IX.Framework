@@ -1,14 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <!-- Build configuration -->
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFrameworks>net45;net461</TargetFrameworks>
   </PropertyGroup>
 
+  <!-- Package metadata -->
   <PropertyGroup>
     <Title>IX Standard Extensions for WPF</Title>
     <Description>A library containing several extensions for WPF that provide useful classes and aim to standardize app implementations.</Description>
   </PropertyGroup>
 
+  <!-- References -->
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -22,6 +25,7 @@
     <ProjectReference Include="..\IX.StandardExtensions.ComponentModel\IX.StandardExtensions.ComponentModel.csproj" />
   </ItemGroup>
   
+  <!-- Resources -->
   <ItemGroup>
     <Compile Update="Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -66,15 +70,7 @@
 
   <!-- Project system and dependencies -->
   <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.0.5">
+    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
