@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using JetBrains.Annotations;
 
 namespace IX.Abstractions.Memory
 {
@@ -10,6 +11,7 @@ namespace IX.Abstractions.Memory
     /// A contract for a variable of a specific type and name.
     /// </summary>
     /// <typeparam name="T">The type of the variable.</typeparam>
+    [PublicAPI]
     public interface INamedVariable<T> : IVariable<T>, IComparable<INamedVariable<T>>, IEquatable<INamedVariable<T>>, INamedVariable
     {
     }

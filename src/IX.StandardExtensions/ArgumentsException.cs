@@ -6,7 +6,6 @@ using System;
 using JetBrains.Annotations;
 #if !STANDARD
 using System.Runtime.Serialization;
-
 #endif
 
 namespace IX.StandardExtensions

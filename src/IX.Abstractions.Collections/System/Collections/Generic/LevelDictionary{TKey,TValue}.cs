@@ -10,7 +10,9 @@ using System.Threading;
 using IX.Abstractions.Collections;
 using IX.StandardExtensions;
 using IX.StandardExtensions.ComponentModel;
+using JetBrains.Annotations;
 
+// ReSharper disable once CheckNamespace
 namespace IX.System.Collections.Generic
 {
     /// <summary>
@@ -18,6 +20,7 @@ namespace IX.System.Collections.Generic
     /// </summary>
     /// <typeparam name="TKey">The type of the key.</typeparam>
     /// <typeparam name="TValue">The type of the value.</typeparam>
+    [PublicAPI]
     public class LevelDictionary<TKey, TValue> : DisposableBase, IDictionary<TKey, TValue>
     {
         private Dictionary<TKey, TValue> internalDictionary;
@@ -217,17 +220,20 @@ namespace IX.System.Collections.Generic
         /// <summary>
         /// Gets the enumerator.
         /// </summary>
-        /// <returns>The dictionary enumerator.</returns>
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        /// <returns>The dictionary's enumerator.</returns>
+        public Dictionary<TKey, TValue>.Enumerator GetEnumerator()
         {
             this.ThrowIfCurrentObjectDisposed();
 
-#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - Unavoidable at this time
-
-            // TODO: #68 - Eliminate boxing from IEnumerable implementations
             return this.internalDictionary.GetEnumerator();
-#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
         }
+
+        /// <summary>
+        /// Gets the enumerator.
+        /// </summary>
+        /// <returns>The dictionary enumerator.</returns>
+        IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator() =>
+            this.GetEnumerator();
 
         /// <summary>
         /// Removes the specified key.
@@ -238,20 +244,22 @@ namespace IX.System.Collections.Generic
         {
             this.ThrowIfCurrentObjectDisposed();
 
-            var result = false;
-
-            if (this.levelKeys.TryGetValue(key, out var level))
+            if (!this.levelKeys.TryGetValue(
+                key,
+                out var level))
             {
-                if (this.internalDictionary.Remove(key))
-                {
-                    this.keyLevels[level].Remove(key);
-                    this.levelKeys.Remove(key);
-
-                    result = true;
-                }
+                return false;
             }
 
-            return result;
+            if (!this.internalDictionary.Remove(key))
+            {
+                return false;
+            }
+
+            this.keyLevels[level].Remove(key);
+            this.levelKeys.Remove(key);
+
+            return true;
         }
 
         /// <summary>
@@ -278,16 +286,7 @@ namespace IX.System.Collections.Generic
         /// Gets the enumerator.
         /// </summary>
         /// <returns>IEnumerator.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            this.ThrowIfCurrentObjectDisposed();
-
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - Unavoidable at this time
-
-            // TODO: #68 - Eliminate boxing from IEnumerable implementations
-            return this.GetEnumerator();
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
-        }
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         /// <summary>
         /// Disposes the managed context.

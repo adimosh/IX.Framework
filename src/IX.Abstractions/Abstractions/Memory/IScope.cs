@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using JetBrains.Annotations;
 
 namespace IX.Abstractions.Memory
 {
@@ -10,6 +11,7 @@ namespace IX.Abstractions.Memory
     /// A contract for a memory scope.
     /// </summary>
     /// <seealso cref="IDisposable" />
+    [PublicAPI]
     public interface IScope : IEquatable<IScope>, IDisposable
     {
         /// <summary>

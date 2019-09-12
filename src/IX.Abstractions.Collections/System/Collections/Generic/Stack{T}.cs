@@ -2,6 +2,7 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using JetBrains.Annotations;
 using GlobalCollectionsGeneric = System.Collections.Generic;
 
 // ReSharper disable once CheckNamespace
@@ -13,6 +14,7 @@ namespace IX.System.Collections.Generic
     /// <typeparam name="T">The type of elements in the stack.</typeparam>
     /// <seealso cref="GlobalCollectionsGeneric.Stack{T}" />
     /// <seealso cref="IStack{T}" />
+    [PublicAPI]
     public class Stack<T> : GlobalCollectionsGeneric.Stack<T>, IStack<T>
     {
         /// <summary>

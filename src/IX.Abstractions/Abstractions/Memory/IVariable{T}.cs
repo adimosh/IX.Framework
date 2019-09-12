@@ -1,8 +1,9 @@
-﻿// <copyright file="IVariable{T}.cs" company="Adrian Mos">
+// <copyright file="IVariable{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
+using JetBrains.Annotations;
 
 namespace IX.Abstractions.Memory
 {
@@ -10,6 +11,7 @@ namespace IX.Abstractions.Memory
     /// A contract for a variable of a specific type.
     /// </summary>
     /// <typeparam name="T">The type of the variable.</typeparam>
+    [PublicAPI]
     public interface IVariable<T> : IEquatable<IVariable<T>>, IComparable<IVariable<T>>, IVariable
     {
         /// <summary>

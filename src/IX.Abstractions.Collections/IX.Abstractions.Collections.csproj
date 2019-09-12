@@ -1,15 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <!-- Build configuration -->
   <PropertyGroup>
     <TargetFrameworks>net45;net461;netstandard1.2;netstandard2.0</TargetFrameworks>
     <FailObsoleteTargetFrameworks>true</FailObsoleteTargetFrameworks>
   </PropertyGroup>
 
+  <!-- Package metadata -->
   <PropertyGroup>
     <Title>IX Collection Abstractions</Title>
     <Description>A library for abstracting away the common collection classes in the .NET Framework.</Description>
   </PropertyGroup>
 
+  <!-- References -->
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -33,6 +36,7 @@
     <ProjectReference Include="..\IX.StandardExtensions.Threading\IX.StandardExtensions.Threading.csproj" />
   </ItemGroup>
 
+  <!-- Resources -->
   <ItemGroup>
     <Compile Update="Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -78,15 +82,7 @@
 
   <!-- Project system and dependencies -->
   <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.0.5">
+    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

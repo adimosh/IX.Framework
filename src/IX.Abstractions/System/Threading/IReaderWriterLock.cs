@@ -1,15 +1,17 @@
-﻿// <copyright file="IReaderWriterLock.cs" company="Adrian Mos">
+// <copyright file="IReaderWriterLock.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
+using JetBrains.Annotations;
 
 namespace IX.System.Threading
 {
     /// <summary>
     /// A service contract for a reader/writer lock.
     /// </summary>
-    /// <seealso cref="global::System.IDisposable" />
+    /// <seealso cref="IDisposable" />
+    [PublicAPI]
     public interface IReaderWriterLock : IDisposable
     {
         /// <summary>

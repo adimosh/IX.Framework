@@ -14,6 +14,7 @@ namespace IX.System.Collections.Generic
     /// <typeparam name="T">The type of elements in the queue.</typeparam>
     /// <seealso cref="GlobalCollectionsGeneric.Queue{T}" />
     /// <seealso cref="IQueue{T}" />
+    [PublicAPI]
     public class Queue<T> : GlobalCollectionsGeneric.Queue<T>, IQueue<T>
     {
         /// <summary>

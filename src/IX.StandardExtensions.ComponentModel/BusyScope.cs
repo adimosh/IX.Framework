@@ -99,7 +99,7 @@ namespace IX.StandardExtensions.ComponentModel
         public void IncrementBusyScope(string description = null)
         {
             Interlocked.Increment(ref this.busyCount);
-            this.description = description;
+            Interlocked.Exchange(ref this.description, description);
 
             if (this.BusyScopeChanged != null)
             {

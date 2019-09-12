@@ -2,11 +2,14 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using JetBrains.Annotations;
+
 namespace IX.Abstractions.Logging
 {
     /// <summary>
     /// The environment settings for logging.
     /// </summary>
+    [PublicAPI]
     public class EnvironmentSettings
     {
         /// <summary>

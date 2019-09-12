@@ -1,17 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <!-- Build configuration -->
   <PropertyGroup>
     <TargetFrameworks>net45;net461;netstandard1.2;netstandard2.0</TargetFrameworks>
     <FailObsoleteTargetFrameworks>true</FailObsoleteTargetFrameworks>
   </PropertyGroup>
 
+  <!-- Package metadata -->
   <PropertyGroup>
     <Title>IX Threading Abstractions</Title>
     <Description>A library for abstracting away some threading and thread synchronization classes in the .NET Framework.</Description>
     <RootNamespace>IX</RootNamespace>
   </PropertyGroup>
 
+  <!-- References -->
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -28,15 +31,7 @@
 
   <!-- Project system and dependencies -->
   <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.0.5">
+    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

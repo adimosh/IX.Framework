@@ -3,6 +3,7 @@
 // </copyright>
 
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace IX.Abstractions.Memory
 {
@@ -11,6 +12,7 @@ namespace IX.Abstractions.Memory
     /// </summary>
     /// <typeparam name="T">The type of item in the collection.</typeparam>
     /// <seealso cref="IX.Abstractions.Memory.INamedVariable{T}" />
+    [PublicAPI]
     public interface INamedCollectionVariable<T> : INamedVariable<IEnumerable<T>>, ICollection<T>, ICollection<IVariable<T>>
     {
     }

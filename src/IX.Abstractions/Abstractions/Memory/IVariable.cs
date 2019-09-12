@@ -3,12 +3,14 @@
 // </copyright>
 
 using System;
+using JetBrains.Annotations;
 
 namespace IX.Abstractions.Memory
 {
     /// <summary>
     /// A contract for a variable.
     /// </summary>
+    [PublicAPI]
     public interface IVariable : IDisposable
     {
         /// <summary>

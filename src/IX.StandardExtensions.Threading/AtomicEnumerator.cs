@@ -5,6 +5,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using IX.StandardExtensions.ComponentModel;
+using IX.StandardExtensions.Contracts;
 using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.Threading
@@ -16,11 +19,10 @@ namespace IX.StandardExtensions.Threading
     /// <typeparam name="TEnumerator">The type of the enumerator from which this atomic enumerator is derived.</typeparam>
     /// <seealso cref="IEnumerator{T}" />
     [PublicAPI]
-    public sealed class AtomicEnumerator<TItem, TEnumerator> : IEnumerator<TItem>
+    public sealed class AtomicEnumerator<TItem, TEnumerator> : DisposableBase, IEnumerator<TItem>
         where TEnumerator : IEnumerator<TItem>
     {
         private TItem current;
-        private bool disposedValue;
         private TEnumerator existingEnumerator;
         private bool movedNext;
         private Func<ReadOnlySynchronizationLocker> readLock;
@@ -37,8 +39,8 @@ namespace IX.StandardExtensions.Threading
         ///     is <see langword="null" /> (<see langword="Nothing" /> in Visual Basic).
         /// </exception>
         public AtomicEnumerator(
-            TEnumerator existingEnumerator,
-            Func<ReadOnlySynchronizationLocker> readLock)
+            [NotNull] TEnumerator existingEnumerator,
+            [NotNull] Func<ReadOnlySynchronizationLocker> readLock)
         {
             if (existingEnumerator == null)
             {
@@ -46,16 +48,8 @@ namespace IX.StandardExtensions.Threading
             }
 
             this.existingEnumerator = existingEnumerator;
-            this.readLock = readLock ?? throw new ArgumentNullException(nameof(readLock));
-        }
 
-        /// <summary>
-        ///     Finalizes an instance of the <see cref="AtomicEnumerator{TItem, TEnumerator}" /> class.
-        /// </summary>
-        ~AtomicEnumerator()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing).
-            this.Dispose(false);
+            Contract.RequiresNotNull(ref this.readLock, readLock, nameof(readLock));
         }
 
         /// <summary>
@@ -71,10 +65,7 @@ namespace IX.StandardExtensions.Threading
                     throw new InvalidOperationException(Resources.MoveNextNotInvoked);
                 }
 
-                if (this.disposedValue)
-                {
-                    throw new ObjectDisposedException(this.GetType().FullName);
-                }
+                this.ThrowIfCurrentObjectDisposed();
 
                 return this.current;
             }
@@ -97,10 +88,7 @@ namespace IX.StandardExtensions.Threading
         /// </returns>
         public bool MoveNext()
         {
-            if (this.disposedValue)
-            {
-                throw new ObjectDisposedException(this.GetType().FullName);
-            }
+            this.ThrowIfCurrentObjectDisposed();
 
             bool result;
             using (this.readLock())
@@ -127,40 +115,26 @@ namespace IX.StandardExtensions.Threading
             // DO NOT CHANGE the order of these operations!
             this.movedNext = false;
 
-            if (this.disposedValue)
-            {
-                throw new ObjectDisposedException(this.GetType().FullName);
-            }
+            this.ThrowIfCurrentObjectDisposed();
 
             this.existingEnumerator.Reset();
             this.current = default;
         }
 
         /// <summary>
-        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        ///     Disposes in the managed context.
         /// </summary>
-        public void Dispose()
+        protected override void DisposeManagedContext()
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing).
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+            base.DisposeManagedContext();
 
-        private void Dispose(bool disposing)
-        {
-            if (!this.disposedValue)
-            {
-                if (disposing)
-                {
-#pragma warning disable IDISP007 // Don't dispose injected. - This class owns the injected enumerator
-                    this.existingEnumerator.Dispose();
+#pragma warning disable IDISP007 // Don't dispose injected. - Ownership of the enumerator is required
+            this.existingEnumerator.Dispose();
 #pragma warning restore IDISP007 // Don't dispose injected.
-                }
 
-                this.readLock = null;
-
-                this.disposedValue = true;
-            }
+            Interlocked.Exchange(
+                ref this.readLock,
+                null);
         }
     }
 }

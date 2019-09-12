@@ -9,7 +9,9 @@ using System.Runtime.Serialization;
 using System.Threading;
 using IX.Abstractions.Collections;
 using IX.StandardExtensions.Threading;
+using JetBrains.Annotations;
 
+// ReSharper disable once CheckNamespace
 namespace IX.System.Collections.Generic
 {
     /// <summary>
@@ -18,9 +20,10 @@ namespace IX.System.Collections.Generic
     /// <typeparam name="T">The stack item type.</typeparam>
     /// <seealso cref="IX.StandardExtensions.Threading.ReaderWriterSynchronizedBase" />
     /// <seealso cref="IX.System.Collections.Generic.IStack{T}" />
-    /// <seealso cref="global::System.IDisposable" />
+    /// <seealso cref="IDisposable" />
     /// <seealso cref="IStack{T}" />
     [DataContract(Namespace = Constants.DataContractNamespace, Name = "PushDownStackOf{0}")]
+    [PublicAPI]
     public class PushDownStack<T> : ReaderWriterSynchronizedBase, IStack<T>, IDisposable
     {
         /// <summary>

@@ -1,6 +1,8 @@
-﻿// <copyright file="IShallowCloneable{T}.cs" company="Adrian Mos">
+// <copyright file="IShallowCloneable{T}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
+
+using JetBrains.Annotations;
 
 namespace IX.StandardExtensions
 {
@@ -8,7 +10,8 @@ namespace IX.StandardExtensions
     /// Interface for implementing shallow cloning for an object.
     /// </summary>
     /// <typeparam name="T">The type of object to clone.</typeparam>
-    public interface IShallowCloneable<T>
+    [PublicAPI]
+    public interface IShallowCloneable<out T>
     {
         /// <summary>
         /// Creates a shallow clone of the source object.
