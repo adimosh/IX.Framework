@@ -1,0 +1,142 @@
+<Project>
+
+  <!-- Targets and symbols -->
+  
+  <!-- .NET Framework -->
+  <PropertyGroup Condition="'$(TargetFramework)'=='net11'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <TargetFrameworkIsObsolete>true</TargetFrameworkIsObsolete>
+    <DefineConstants>$(DefineConstants);NET11</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net20'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <TargetFrameworkIsObsolete>true</TargetFrameworkIsObsolete>
+    <DefineConstants>$(DefineConstants);NET20</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net35'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <TargetFrameworkIsObsolete>true</TargetFrameworkIsObsolete>
+    <DefineConstants>$(DefineConstants);NET35</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net40'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <TargetFrameworkIsObsolete>true</TargetFrameworkIsObsolete>
+    <DefineConstants>$(DefineConstants);NET40</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net403'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <TargetFrameworkIsObsolete>true</TargetFrameworkIsObsolete>
+    <DefineConstants>$(DefineConstants);NET403</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net45'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>$(DefineConstants);NET45</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net451'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>$(DefineConstants);NET451;FRAMEWORK_GT_45</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net452'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>$(DefineConstants);NET452;FRAMEWORK_GT_45;FRAMEWORK_GT_451</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net46'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>$(DefineConstants);NET46;FRAMEWORK_GT_45;FRAMEWORK_GT_451;FRAMEWORK_GT_452</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net461'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>$(DefineConstants);NET461;FRAMEWORK_GT_45;FRAMEWORK_GT_451;FRAMEWORK_GT_452;FRAMEWORK_GT_46</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net462'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>$(DefineConstants);NET462;FRAMEWORK_GT_45;FRAMEWORK_GT_451;FRAMEWORK_GT_452;FRAMEWORK_GT_46;FRAMEWORK_GT_461</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net47'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>$(DefineConstants);NET47;FRAMEWORK_GT_45;FRAMEWORK_GT_451;FRAMEWORK_GT_452;FRAMEWORK_GT_46;FRAMEWORK_GT_461;FRAMEWORK_GT_462</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net471'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>$(DefineConstants);NET471;FRAMEWORK_GT_45;FRAMEWORK_GT_451;FRAMEWORK_GT_452;FRAMEWORK_GT_46;FRAMEWORK_GT_461;FRAMEWORK_GT_462;FRAMEWORK_GT_47</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net472'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>$(DefineConstants);NET472;FRAMEWORK_GT_45;FRAMEWORK_GT_451;FRAMEWORK_GT_452;FRAMEWORK_GT_46;FRAMEWORK_GT_461;FRAMEWORK_GT_462;FRAMEWORK_GT_47;FRAMEWORK_GT_471</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net48'">
+    <TargetFrameworkIsFramework>true</TargetFrameworkIsFramework>
+    <DefineConstants>$(DefineConstants);NET472;FRAMEWORK_GT_45;FRAMEWORK_GT_451;FRAMEWORK_GT_452;FRAMEWORK_GT_46;FRAMEWORK_GT_461;FRAMEWORK_GT_462;FRAMEWORK_GT_47;FRAMEWORK_GT_471;FRAMEWORK_GT_472</DefineConstants>
+  </PropertyGroup>
+
+  <!-- .NET Standard -->
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.0'">
+    <TargetFrameworkIsStandard>true</TargetFrameworkIsStandard>
+    <TargetFrameworkIsObsolete>true</TargetFrameworkIsObsolete>
+    <DefineConstants>$(DefineConstants);NETSTANDARD1_0</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.1'">
+    <TargetFrameworkIsStandard>true</TargetFrameworkIsStandard>
+    <TargetFrameworkIsObsolete>true</TargetFrameworkIsObsolete>
+    <DefineConstants>$(DefineConstants);NETSTANDARD1_1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.2'">
+    <TargetFrameworkIsStandard>true</TargetFrameworkIsStandard>
+    <DefineConstants>$(DefineConstants);NETSTANDARD1_2</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
+    <TargetFrameworkIsStandard>true</TargetFrameworkIsStandard>
+    <DefineConstants>$(DefineConstants);NETSTANDARD1_3;STANDARD_GT_12</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.4'">
+    <TargetFrameworkIsStandard>true</TargetFrameworkIsStandard>
+    <DefineConstants>$(DefineConstants);NETSTANDARD1_4;STANDARD_GT_12;STANDARD_GT_13</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.5'">
+    <TargetFrameworkIsStandard>true</TargetFrameworkIsStandard>
+    <DefineConstants>$(DefineConstants);NETSTANDARD1_5;STANDARD_GT_12;STANDARD_GT_13;STANDARD_GT_14</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
+    <TargetFrameworkIsStandard>true</TargetFrameworkIsStandard>
+    <DefineConstants>$(DefineConstants);NETSTANDARD1_6;STANDARD_GT_12;STANDARD_GT_13;STANDARD_GT_14;STANDARD_GT_15</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <TargetFrameworkIsStandard2>true</TargetFrameworkIsStandard2>
+    <DefineConstants>$(DefineConstants);NETSTANDARD2_0;STANDARD_GT_12;STANDARD_GT_13;STANDARD_GT_14;STANDARD_GT_15;STANDARD_GT_16</DefineConstants>
+  </PropertyGroup>
+  
+  <!-- Extra debug symbols for target framework type -->
+  <PropertyGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
+    <DefineConstants>$(DefineConstants);FRAMEWORK</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFrameworkIsStandard)'=='true'">
+    <DefineConstants>$(DefineConstants);STANDARD</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFrameworkIsStandard2)'=='true'">
+    <DefineConstants>$(DefineConstants);STANDARD2</DefineConstants>
+  </PropertyGroup>
+
+</Project>
