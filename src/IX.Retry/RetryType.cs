@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using JetBrains.Annotations;
 
 namespace IX.Retry
 {
@@ -10,6 +11,7 @@ namespace IX.Retry
     ///     The type of retry procedure.
     /// </summary>
     [Flags]
+    [PublicAPI]
     public enum RetryType
     {
         /// <summary>

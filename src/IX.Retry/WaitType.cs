@@ -2,11 +2,14 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using JetBrains.Annotations;
+
 namespace IX.Retry
 {
     /// <summary>
     /// The type of wait to use.
     /// </summary>
+    [PublicAPI]
     public enum WaitType
     {
         /// <summary>

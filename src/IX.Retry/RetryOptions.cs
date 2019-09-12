@@ -4,12 +4,14 @@
 
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace IX.Retry
 {
     /// <summary>
     ///     Options for the retrying process.
     /// </summary>
+    [PublicAPI]
     public class RetryOptions
     {
         /// <summary>

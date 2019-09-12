@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace IX.Retry
 {
@@ -15,6 +16,7 @@ namespace IX.Retry
     /// <param name="exceptions">The exceptions that have been thrown until now.</param>
     /// <param name="options">The retry options.</param>
     /// <returns><see langword="true" /> whether retrying should occur, <see langword="false" /> otherwise.</returns>
+    [PublicAPI]
     public delegate bool RetryConditionDelegate(
         int retriedTimes,
         DateTime retryingSince,
@@ -28,6 +30,7 @@ namespace IX.Retry
     /// <param name="retryingSince">The date and time (in UTC) when retrying started.</param>
     /// <param name="options">The retry options.</param>
     /// <returns>How much to wait, as a time span.</returns>
+    [PublicAPI]
     public delegate TimeSpan RetryWaitDelegate(
         int retriedTimes,
         DateTime retryingSince,
