@@ -17,7 +17,10 @@ namespace IX.System.Collections.Generic
     /// <seealso cref="ICollection" />
     /// <seealso cref="IReadOnlyCollection{T}" />
     [PublicAPI]
-    [SuppressMessage("ReSharper", "PossibleInterfaceMemberAmbiguity", Justification = "Member ambiguity is unavoidable when implementing ICollection")]
+    [SuppressMessage(
+        "ReSharper",
+        "PossibleInterfaceMemberAmbiguity",
+        Justification = "Member ambiguity is unavoidable when implementing ICollection")]
     public interface IQueue<T> : ICollection, IReadOnlyCollection<T>
     {
         /// <summary>
