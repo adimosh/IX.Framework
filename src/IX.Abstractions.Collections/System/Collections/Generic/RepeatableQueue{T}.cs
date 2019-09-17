@@ -7,16 +7,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using IX.StandardExtensions.Contracts;
-using IX.System.Collections.Generic;
 using JetBrains.Annotations;
 
-namespace IX.Abstractions.Collections.System.Collections.Generic
+// ReSharper disable once CheckNamespace
+namespace IX.System.Collections.Generic
 {
     /// <summary>
     ///     A queue that is able to accurately repeat the sequence of items that has been dequeued from it.
     /// </summary>
     /// <typeparam name="T">The type of items contained in this queue.</typeparam>
-    /// <seealso cref="IX.System.Collections.Generic.IQueue{T}" />
+    /// <seealso cref="IQueue{T}" />
     [PublicAPI]
     public class RepeatableQueue<T> : IQueue<T>
     {
@@ -28,8 +28,8 @@ namespace IX.Abstractions.Collections.System.Collections.Generic
         /// </summary>
         public RepeatableQueue()
         {
-            this.internalQueue = new IX.System.Collections.Generic.Queue<T>();
-            this.internalRepeatingQueue = new IX.System.Collections.Generic.Queue<T>();
+            this.internalQueue = new Queue<T>();
+            this.internalRepeatingQueue = new Queue<T>();
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace IX.Abstractions.Collections.System.Collections.Generic
                 ref this.internalQueue,
                 originalQueue,
                 nameof(originalQueue));
-            this.internalRepeatingQueue = new IX.System.Collections.Generic.Queue<T>();
+            this.internalRepeatingQueue = new Queue<T>();
         }
 
         /// <summary>
@@ -55,8 +55,8 @@ namespace IX.Abstractions.Collections.System.Collections.Generic
                 in originalData,
                 nameof(originalData));
 
-            this.internalQueue = new IX.System.Collections.Generic.Queue<T>(originalData);
-            this.internalRepeatingQueue = new IX.System.Collections.Generic.Queue<T>();
+            this.internalQueue = new Queue<T>(originalData);
+            this.internalRepeatingQueue = new Queue<T>();
         }
 
         /// <summary>Gets the number of elements in the collection.</summary>
@@ -150,7 +150,6 @@ namespace IX.Abstractions.Collections.System.Collections.Generic
         /// </summary>
         public void TrimExcess() => this.internalQueue.TrimExcess();
 
-
         /// <summary>Returns an enumerator that iterates through the collection.</summary>
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         [SuppressMessage(
@@ -195,6 +194,6 @@ namespace IX.Abstractions.Collections.System.Collections.Generic
         ///     Gets a repeat of the sequence of elements dequeued from this instance.
         /// </summary>
         /// <returns>A repeating queue.</returns>
-        public IQueue<T> Repeat() => new IX.System.Collections.Generic.Queue<T>(this.internalRepeatingQueue.ToArray());
+        public IQueue<T> Repeat() => new Queue<T>(this.internalRepeatingQueue.ToArray());
     }
 }
