@@ -34,8 +34,11 @@ steps:
 - task: CopyFiles@2
   displayName: 'Copy artifacts'
   inputs:
-    Contents: 'src/**/*.nupkg'
+    Contents: |
+      src/**/*.nupkg
+      src/**/*.snupkg
     TargetFolder: '$(Build.ArtifactStagingDirectory)/nuget/'
+    flattenFolders: true
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish NuGet package artifacts'
