@@ -29,22 +29,12 @@ steps:
   inputs:
     workingDir: 'doc'
     filename: 'Changelog.md'
-    commits: 'Up to last tag'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'pack'
-    packagesToPack: 'src/IX.Framework.sln'
-    configuration: 'Release'
-    nobuild: true
-    includesymbols: true
-    versioningScheme: 'off'
+    commits: 'false'
 
 - task: CopyFiles@2
   displayName: 'Copy artifacts'
   inputs:
-    Contents: |
-     src/src/**/*.nupkg
+    Contents: 'src/**/*.nupkg'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/nuget/'
 
 - task: PublishBuildArtifacts@1
