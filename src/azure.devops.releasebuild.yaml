@@ -34,8 +34,10 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'pack'
-    packagesToPack: '**/*.csproj'
+    packagesToPack: 'src/IX.Framework.sln'
+    configuration: 'Release'
     nobuild: true
+    includesymbols: true
     versioningScheme: 'off'
 
 - task: CopyFiles@2
