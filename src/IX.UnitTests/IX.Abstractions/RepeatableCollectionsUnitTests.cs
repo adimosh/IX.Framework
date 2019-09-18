@@ -2,10 +2,10 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
-using System.Collections.Generic;
 using IX.StandardExtensions.TestUtils;
 using IX.System.Collections.Generic;
 using Xunit;
+using GlobalCollectionsGeneric = System.Collections.Generic;
 
 namespace IX.UnitTests.IX.Abstractions
 {
@@ -69,7 +69,7 @@ namespace IX.UnitTests.IX.Abstractions
         public void Test2()
         {
             // ARRANGE
-            var seq = new List<int>();
+            var seq = new GlobalCollectionsGeneric.List<int>();
             int int1 = DataGenerator.RandomInteger();
             int int2 = DataGenerator.RandomInteger();
             int int3 = DataGenerator.RandomInteger();
@@ -118,7 +118,7 @@ namespace IX.UnitTests.IX.Abstractions
         public void Test3()
         {
             // ARRANGE
-            var seq = new global::System.Collections.Generic.Queue<int>();
+            var seq = new Queue<int>();
             int int1 = DataGenerator.RandomInteger();
             int int2 = DataGenerator.RandomInteger();
             int int3 = DataGenerator.RandomInteger();
@@ -220,7 +220,7 @@ namespace IX.UnitTests.IX.Abstractions
         public void Test5()
         {
             // ARRANGE
-            var seq = new List<int>();
+            var seq = new GlobalCollectionsGeneric.List<int>();
             int int1 = DataGenerator.RandomInteger();
             int int2 = DataGenerator.RandomInteger();
             int int3 = DataGenerator.RandomInteger();
@@ -269,7 +269,7 @@ namespace IX.UnitTests.IX.Abstractions
         public void Test6()
         {
             // ARRANGE
-            var seq = new global::System.Collections.Generic.Stack<int>();
+            var seq = new Stack<int>();
             int int1 = DataGenerator.RandomInteger();
             int int2 = DataGenerator.RandomInteger();
             int int3 = DataGenerator.RandomInteger();
