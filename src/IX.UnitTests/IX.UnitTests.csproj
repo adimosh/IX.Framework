@@ -1,4 +1,4 @@
-<!--EXTERNAL_PROPERTIES: IxDevOpsBuild-->
+﻿<!--EXTERNAL_PROPERTIES: IxDevOpsBuild-->
 <!--EXTERNAL_PROPERTIES: TargetFramework-->
 <Project Sdk="Microsoft.NET.Sdk">
 
@@ -13,8 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeCoverage" Version="16.2.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="Microsoft.CodeCoverage" Version="16.3.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
     <PackageReference Include="xunit.runner.console" Version="2.4.1" />
@@ -46,12 +46,12 @@
   </ItemGroup>
 
   <!-- Support -->
-  <ItemGroup Condition="'$(TargetFrameworkIsStandard)'=='true' And '$(Configuration)'=='Debug'">
+  <ItemGroup Condition="'$(TargetFrameworkIsStandard)'=='true'">
     <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />
   </ItemGroup>
 
   <!--Suppressions -->
-  <ItemGroup Condition="'$(Configuration)'=='Debug'">
+  <ItemGroup>
     <Compile Include="..\Common\HeapAllocationAnalyzerSuppressions.cs" Link="HeapAllocationAnalyzerSuppressions.cs" />
   </ItemGroup>
 

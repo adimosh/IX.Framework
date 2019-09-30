@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
   <!-- Build configuration -->
@@ -15,6 +15,10 @@
   </PropertyGroup>
 
   <!-- References -->
+  <ItemGroup>
+    <PackageReference Include="IX.Abstractions" Version="0.5.1.1" />
+  </ItemGroup>
+
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -25,13 +29,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IX.Abstractions\IX.Abstractions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
   </ItemGroup>
 
   <!-- Project system and dependencies -->
   <ItemGroup>
-    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.0.8">
+    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
