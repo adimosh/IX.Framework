@@ -1,47 +1,22 @@
 pool:
   name: Hosted Windows 2019 with VS2019
-  demands: vstest
+  vmImage: windows-latest
 
 trigger: none
+
+pr: none
 
 variables:
   IxDevOpsBuild: true
   system.debug: false
 
-steps:
-- task: DotNetCoreCLI@2
-  displayName: 'Restore interdependencies (project system)'
-  inputs:
-    command: restore
-    projects: src/IX.Framework.sln
-    verbosityRestore: Minimal
-
-- task: DotNetCoreCLI@2
-  displayName: 'Build in release'
-  inputs:
-    projects: src/IX.Framework.sln
-    arguments: '-c Release'
-
-- task: VSTest@2
-  displayName: 'Unit tests for release'
-
-- task: ChangelogGenerator@1
-  inputs:
-    workingDir: 'doc'
-    filename: 'Changelog.md'
-    commits: 'false'
-
-- task: CopyFiles@2
-  displayName: 'Copy artifacts'
-  inputs:
-    Contents: |
-      src/**/*.nupkg
-      src/**/*.snupkg
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/nuget/'
-    flattenFolders: true
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish NuGet package artifacts'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/nuget'
-    ArtifactName: NuGet
+jobs:
+- job:
+  timeoutInMinutes: 10
+  pool:
+    name: Azure Pipelines
+    vmImage: windows-latest
+  steps:
+  - template: ../opt/job-release-build.yml
+    parameters:
+      solutionName: 'IX.Framework'

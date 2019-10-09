@@ -52,19 +52,6 @@
     <None Include="Fixture.tt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.StandardExtensions\ComponentModel\DisposableBase.InvokeIfNotDisposed.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DisposableBase.InvokeIfNotDisposed.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\ComponentModel\DisposableBase.InvokeIfNotDisposed.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DisposableBase.InvokeIfNotDisposed.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Retry.NowAndLaterExtended.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Retry.NowAndLaterExtended.cs</LastGenOutput>
@@ -91,230 +78,21 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.StandardExtensions\Threading\Fire.AndForgetActionsAndFuncs.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Fire.AndForgetActionsAndFuncs.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\Threading\Fire.AndForgetActionsAndFuncs.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Fire.AndForgetActionsAndFuncs.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\ComponentModel\SynchronizationContextInvokerBase.InvokeActionsAndFuncs.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\ComponentModel\SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SynchronizationContextInvokerBase.InvokeActionsAndFuncs.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\Threading\ReaderWriterSynchronizedBase.ActionsAndFuncs.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ReaderWriterSynchronizedBase.ActionsAndFuncs.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="IX.StandardExtensions\Threading\ReaderWriterSynchronizedBase.ActionsAndFuncs.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>ReaderWriterSynchronizedBase.ActionsAndFuncs.tt</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IX.StandardExtensions\Efficiency\InDelegates.WithParameters.tt">
+    <Content Include="IX.StandardExtensions\Threading\ReaderWriterSynchronizedBase.ActionsAndFuncs.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>InDelegates.WithParameters.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\Efficiency\InDelegates.WithParameters.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>InDelegates.WithParameters.tt</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\Efficiency\RefDelegates.WithParameters.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>RefDelegates.WithParameters.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\Efficiency\RefDelegates.WithParameters.cs">
-      <DependentUpon>RefDelegates.WithParameters.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\Efficiency\RefIteratorDelegates.WithParameters.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>RefIteratorDelegates.WithParameters.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IX.StandardExtensions\Efficiency\RefIteratorDelegates.WithParameters.cs">
-      <DependentUpon>RefIteratorDelegates.WithParameters.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <Content Include="IX.StandardExtensions\Efficiency\ImmutableValueTuple.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ImmutableValueTuple.cs</LastGenOutput>
-    </Content>
-    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.ForEachActions.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ArrayExtensions.ForEachActions.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.ForEachRefActions.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ArrayExtensions.ForEachRefActions.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ArrayExtensions.StandardTypes.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.SequenceCompare.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ArrayExtensions.SequenceCompare.StandardTypes.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.SequenceEquals.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ArrayExtensions.SequenceEquals.StandardTypes.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\IDictionaryExtensions.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IDictionaryExtensions.StandardTypes.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.ForEachActions.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IEnumerableExtensions.ForEachActions.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.ForEachRefActions.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IEnumerableExtensions.ForEachRefActions.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.SequenceCompare.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IEnumerableExtensions.SequenceCompare.StandardTypes.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.SequenceEquals.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IEnumerableExtensions.SequenceEquals.StandardTypes.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.EquateSequentially.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IEnumerableExtensions.EquateSequentially.StandardTypes.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\IListCloneExtensions.StandardTypes.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IListCloneExtensions.StandardTypes.cs</LastGenOutput>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\LinqExtensions.ActionsAndFuncs.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>LinqExtensions.ActionsAndFuncs.cs</LastGenOutput>
-    </None>
-    <Content Include="IX.StandardExtensions\Threading\Fire.OnThreadPool.Parameters.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Fire.OnThreadPool.Parameters.cs</LastGenOutput>
-    </Content>
-    <Content Include="IX.StandardExtensions\Threading\TaskFactoryExtensions.Actions.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TaskFactoryExtensions.Actions.cs</LastGenOutput>
+      <LastGenOutput>ReaderWriterSynchronizedBase.ActionsAndFuncs1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IX.StandardExtensions\Efficiency\ImmutableValueTuple.cs">
+    <Compile Include="IX.StandardExtensions\Threading\ReaderWriterSynchronizedBase.ActionsAndFuncs1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ImmutableValueTuple.tt</DependentUpon>
-    </Compile>
-    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.ForEachActions.cs">
-      <DependentUpon>ArrayExtensions.ForEachActions.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.ForEachRefActions.cs">
-      <DependentUpon>ArrayExtensions.ForEachRefActions.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.StandardTypes.cs">
-      <DependentUpon>ArrayExtensions.StandardTypes.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.SequenceCompare.StandardTypes.cs">
-      <DependentUpon>ArrayExtensions.SequenceCompare.StandardTypes.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\ArrayExtensions.SequenceEquals.StandardTypes.cs">
-      <DependentUpon>ArrayExtensions.SequenceEquals.StandardTypes.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\IDictionaryExtensions.StandardTypes.cs">
-      <DependentUpon>IDictionaryExtensions.StandardTypes.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.ForEachActions.cs">
-      <DependentUpon>IEnumerableExtensions.ForEachActions.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.ForEachRefActions.cs">
-      <DependentUpon>IEnumerableExtensions.ForEachRefActions.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.SequenceCompare.StandardTypes.cs">
-      <DependentUpon>IEnumerableExtensions.SequenceCompare.StandardTypes.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.SequenceEquals.StandardTypes.cs">
-      <DependentUpon>IEnumerableExtensions.SequenceEquals.StandardTypes.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\IEnumerableExtensions.EquateSequentially.StandardTypes.cs">
-      <DependentUpon>IEnumerableExtensions.EquateSequentially.StandardTypes.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\IListCloneExtensions.StandardTypes.cs">
-      <DependentUpon>IListCloneExtensions.StandardTypes.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-    <None Include="IX.StandardExtensions\Extensions\LinqExtensions.ActionsAndFuncs.cs">
-      <DependentUpon>LinqExtensions.ActionsAndFuncs.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
-    <Compile Include="IX.StandardExtensions\Threading\Fire.OnThreadPool.Parameters.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Fire.OnThreadPool.Parameters.tt</DependentUpon>
-    </Compile>
-    <Compile Include="IX.StandardExtensions\Threading\TaskFactoryExtensions.Actions.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TaskFactoryExtensions.Actions.tt</DependentUpon>
+      <DependentUpon>ReaderWriterSynchronizedBase.ActionsAndFuncs.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
