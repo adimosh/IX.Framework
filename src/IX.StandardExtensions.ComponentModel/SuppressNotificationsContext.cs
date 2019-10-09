@@ -36,7 +36,7 @@ namespace IX.StandardExtensions.ComponentModel
     public class SuppressNotificationsContext : DisposableBase
     {
 #pragma warning disable SA1401 // Fields should be private - NO IT SHOULDN'T !!!
-#if FRAMEWORK_GT_452 || STANDARD_GT_12
+#if FRAMEWORK_GT_452
         internal static AsyncLocal<bool> AmbientSuppressionActive = new AsyncLocal<bool>();
 #else
         internal static ThreadLocal<bool> AmbientSuppressionActive = new ThreadLocal<bool>();

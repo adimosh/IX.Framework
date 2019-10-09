@@ -1,0 +1,17 @@
+# The standard process to copy and publish artifacts
+
+steps:
+- task: CopyFiles@2
+  displayName: 'Copy artifacts'
+  inputs:
+    Contents: |
+      src/**/*.nupkg
+      src/**/*.snupkg
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/nuget/'
+    flattenFolders: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish NuGet package artifacts'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/nuget'
+    ArtifactName: NuGet

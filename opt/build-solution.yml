@@ -1,0 +1,19 @@
+# The standard build process, in a given configuration
+
+parameters:
+  solutionName: ''
+  configurationName: 'Debug'
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: 'Restore interdependencies (project system)'
+  inputs:
+    command: restore
+    projects: src/${{ parameters.solutionName }}.sln
+    verbosityRestore: Minimal
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build in ${{ parameters.configurationName }}'
+  inputs:
+    projects: src/${{ parameters.solutionName }}.sln
+    arguments: '-c ${{ parameters.configurationName }}'

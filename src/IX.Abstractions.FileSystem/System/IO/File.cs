@@ -6,8 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
+using System.Threading;
+using System.Threading.Tasks;
 using IX.StandardExtensions.Contracts;
+using IX.StandardExtensions.Threading;
 using JetBrains.Annotations;
 using FSFile = System.IO.File;
 
@@ -50,6 +52,33 @@ namespace IX.System.IO
             }
         }
 
+        public Task AppendAllLinesAsync(
+            string path,
+            IEnumerable<string> contents,
+            Encoding encoding = null,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(
+                path,
+                nameof(path));
+            Contract.RequiresNotNull(
+                in contents,
+                nameof(contents));
+
+            return encoding == null
+                ? Fire.OnThreadPool(
+                    FSFile.AppendAllLines,
+                    path,
+                    contents,
+                    cancellationToken)
+                : Fire.OnThreadPool(
+                    FSFile.AppendAllLines,
+                    path,
+                    contents,
+                    encoding,
+                    cancellationToken);
+        }
+
         /// <summary>
         /// Appends text to a specified file path.
         /// </summary>
@@ -75,6 +104,25 @@ namespace IX.System.IO
             else
             {
                 FSFile.AppendAllText(path, contents, encoding);
+            }
+        }
+
+        public Task AppendAllTextAsync(
+            string path,
+            string contents,
+            Encoding encoding = null,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNullOrWhitespace(contents, nameof(contents));
+
+            if (encoding == null)
+            {
+                return Fire.OnThreadPool(FSFile.AppendAllText, path, contents, cancellationToken);
+            }
+            else
+            {
+                return Fire.OnThreadPool(FSFile.AppendAllText, path, contents, encoding, cancellationToken);
             }
         }
 
@@ -111,6 +159,18 @@ namespace IX.System.IO
             Contract.RequiresNotNullOrWhitespace(destFileName, nameof(destFileName));
 
             FSFile.Copy(sourceFileName, destFileName, overwrite);
+        }
+
+        public Task CopyAsync(
+            string sourceFileName,
+            string destinationFileName,
+            bool overwrite = false,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(sourceFileName, nameof(sourceFileName));
+            Contract.RequiresNotNullOrWhitespace(destinationFileName, nameof(destinationFileName));
+
+            return Fire.OnThreadPool(FSFile.Copy, sourceFileName, destinationFileName, overwrite, cancellationToken);
         }
 
         /// <summary>
@@ -166,6 +226,15 @@ namespace IX.System.IO
             FSFile.Delete(path);
         }
 
+        public Task DeleteAsync(
+            string path,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+
+            return Fire.OnThreadPool(FSFile.Delete, path, cancellationToken);
+        }
+
         /// <summary>
         /// Checks whether a file exists and is accessible.
         /// </summary>
@@ -181,6 +250,20 @@ namespace IX.System.IO
             Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSFile.Exists(path);
+        }
+
+        public Task<bool> ExistsAsync(
+            string path,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(
+                path,
+                nameof(path));
+
+            return Fire.OnThreadPool(
+                FSFile.Exists,
+                path,
+                cancellationToken);
         }
 
         /// <summary>
@@ -200,6 +283,18 @@ namespace IX.System.IO
             return FSFile.GetCreationTimeUtc(path);
         }
 
+        public Task<DateTime> GetCreationTimeAsync(
+            string path,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+
+            return Fire.OnThreadPool(
+                FSFile.GetCreationTimeUtc,
+                path,
+                cancellationToken);
+        }
+
         /// <summary>
         /// Gets a specific file's last access time, in UTC.
         /// </summary>
@@ -215,6 +310,20 @@ namespace IX.System.IO
             Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return FSFile.GetLastAccessTimeUtc(path);
+        }
+
+        public Task<DateTime> GetLastAccessTimeAsync(
+            string path,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(
+                path,
+                nameof(path));
+
+            return Fire.OnThreadPool(
+                FSFile.GetLastAccessTimeUtc,
+                path,
+                cancellationToken);
         }
 
         /// <summary>
@@ -234,6 +343,15 @@ namespace IX.System.IO
             return FSFile.GetLastWriteTimeUtc(path);
         }
 
+        public Task<DateTime> GetLastWriteTimeAsync(
+            string path,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+
+            return Fire.OnThreadPool(FSFile.GetLastWriteTimeUtc, path, cancellationToken);
+        }
+
         /// <summary>
         /// Move a file.
         /// </summary>
@@ -248,6 +366,25 @@ namespace IX.System.IO
             Contract.RequiresNotNullOrWhitespace(destFileName, nameof(destFileName));
 
             FSFile.Move(sourceFileName, destFileName);
+        }
+
+        public Task MoveAsync(
+            string sourceFileName,
+            string destinationFileName,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(
+                sourceFileName,
+                nameof(sourceFileName));
+            Contract.RequiresNotNullOrWhitespace(
+                destinationFileName,
+                nameof(destinationFileName));
+
+            return Fire.OnThreadPool(
+                FSFile.Move,
+                sourceFileName,
+                destinationFileName,
+                cancellationToken);
         }
 
         /// <summary>
@@ -318,6 +455,15 @@ namespace IX.System.IO
             return FSFile.ReadAllBytes(path);
         }
 
+        public Task<byte[]> ReadAllBytesAsync(
+            string path,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+
+            return Fire.OnThreadPool(FSFile.ReadAllBytes, path, cancellationToken);
+        }
+
         /// <summary>
         /// Reads the entire contents of a file and splits them by end-of-line markers.
         /// </summary>
@@ -340,6 +486,27 @@ namespace IX.System.IO
             return encoding == null ? FSFile.ReadAllLines(path) : FSFile.ReadAllLines(path, encoding);
         }
 
+        public Task<string[]> ReadAllLinesAsync(
+            string path,
+            Encoding encoding = null,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(
+                path,
+                nameof(path));
+
+            return encoding == null
+                ? Fire.OnThreadPool(
+                    FSFile.ReadAllLines,
+                    path,
+                    cancellationToken)
+                : Fire.OnThreadPool(
+                    FSFile.ReadAllLines,
+                    path,
+                    encoding,
+                    cancellationToken);
+        }
+
         /// <summary>
         /// Reads the entire contents of a file as text.
         /// </summary>
@@ -360,6 +527,27 @@ namespace IX.System.IO
             Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             return encoding == null ? FSFile.ReadAllText(path) : FSFile.ReadAllText(path, encoding);
+        }
+
+        public Task<string> ReadAllTextAsync(
+            string path,
+            Encoding encoding = null,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(
+                path,
+                nameof(path));
+
+            return encoding == null
+                ? Fire.OnThreadPool(
+                    FSFile.ReadAllText,
+                    path,
+                    cancellationToken)
+                : Fire.OnThreadPool(
+                    FSFile.ReadAllText,
+                    path,
+                    encoding,
+                    cancellationToken);
         }
 
         /// <summary>
@@ -399,6 +587,16 @@ namespace IX.System.IO
             FSFile.SetCreationTimeUtc(path, creationTime);
         }
 
+        public Task SetCreationTimeAsync(
+            string path,
+            DateTime creationTime,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+
+            return Fire.OnThreadPool(FSFile.SetCreationTimeUtc, path, creationTime, cancellationToken);
+        }
+
         /// <summary>
         /// Sets the file's last access time.
         /// </summary>
@@ -412,6 +610,22 @@ namespace IX.System.IO
             Contract.RequiresNotNullOrWhitespace(path, nameof(path));
 
             FSFile.SetLastAccessTimeUtc(path, lastAccessTime);
+        }
+
+        public Task SetLastAccessTimeAsync(
+            string path,
+            DateTime lastAccessTime,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(
+                path,
+                nameof(path));
+
+            return Fire.OnThreadPool(
+                FSFile.SetLastAccessTimeUtc,
+                path,
+                lastAccessTime,
+                cancellationToken);
         }
 
         /// <summary>
@@ -429,6 +643,22 @@ namespace IX.System.IO
             FSFile.SetLastWriteTimeUtc(path, lastWriteTime);
         }
 
+        public Task SetLastWriteTimeAsync(
+            string path,
+            DateTime lastWriteTime,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(
+                path,
+                nameof(path));
+
+            return Fire.OnThreadPool(
+                FSFile.SetLastWriteTimeUtc,
+                path,
+                lastWriteTime,
+                cancellationToken);
+        }
+
         /// <summary>
         /// Writes binary contents to a file.
         /// </summary>
@@ -443,6 +673,25 @@ namespace IX.System.IO
             Contract.RequiresNotNullOrEmpty(bytes, nameof(bytes));
 
             FSFile.WriteAllBytes(path, bytes);
+        }
+
+        public Task WriteAllBytesAsync(
+            string path,
+            byte[] bytes,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(
+                path,
+                nameof(path));
+            Contract.RequiresNotNullOrEmpty(
+                bytes,
+                nameof(bytes));
+
+            return Fire.OnThreadPool(
+                FSFile.WriteAllBytes,
+                path,
+                bytes,
+                cancellationToken);
         }
 
         /// <summary>
@@ -473,6 +722,18 @@ namespace IX.System.IO
             }
         }
 
+        public Task WriteAllLinesAsync(
+            string path,
+            IEnumerable<string> contents,
+            Encoding encoding = null,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(path, nameof(path));
+            Contract.RequiresNotNull(in contents, nameof(contents));
+
+            return encoding == null ? Fire.OnThreadPool(FSFile.WriteAllLines, path, contents, cancellationToken) : Fire.OnThreadPool(FSFile.WriteAllLines, path, contents, encoding, cancellationToken);
+        }
+
         /// <summary>
         /// Writes text to a file.
         /// </summary>
@@ -499,6 +760,33 @@ namespace IX.System.IO
             {
                 FSFile.WriteAllText(path, contents, encoding);
             }
+        }
+
+        public Task WriteAllTextAsync(
+            string path,
+            string contents,
+            Encoding encoding = null,
+            CancellationToken cancellationToken = default)
+        {
+            Contract.RequiresNotNullOrWhitespace(
+                path,
+                nameof(path));
+            Contract.RequiresNotNullOrWhitespace(
+                contents,
+                nameof(contents));
+
+            return encoding == null
+                ? Fire.OnThreadPool(
+                    FSFile.WriteAllText,
+                    path,
+                    contents,
+                    cancellationToken)
+                : Fire.OnThreadPool(
+                    FSFile.WriteAllText,
+                    path,
+                    contents,
+                    encoding,
+                    cancellationToken);
         }
     }
 }

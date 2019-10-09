@@ -3,8 +3,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <!-- Build configuration -->
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <TargetFrameworks>net452;net46;net461;netstandard1.3;netstandard2.0;netstandard2.1</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
+    <TargetFrameworks>netstandard1.3;netstandard2.0;netstandard2.1</TargetFrameworks>
+  </PropertyGroup>
+
   <PropertyGroup>
-    <TargetFrameworks>net45;net46;net461;netstandard1.2;netstandard1.3;netstandard2.0</TargetFrameworks>
     <FailObsoleteTargetFrameworks>true</FailObsoleteTargetFrameworks>
   </PropertyGroup>
 
@@ -27,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'!='true'">
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.6.0" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFrameworkIsStandard)'=='true'">
@@ -37,8 +44,12 @@
     <PackageReference Include="System.Threading" Version="4.3.0" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net452' OR '$(TargetFramework)'=='net46' OR '$(TargetFramework)'=='net461' OR '$(TargetFramework)'=='netstandard1.3'">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IX.StandardExtensions" Version="0.5.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,13 +57,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IX.StandardExtensions\IX.StandardExtensions.csproj" />
     <ProjectReference Include="..\IX.StandardExtensions.Threading\IX.StandardExtensions.Threading.csproj" />
   </ItemGroup>
 
   <!-- Project system and dependencies -->
   <ItemGroup>
-    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.0.8">
+    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
