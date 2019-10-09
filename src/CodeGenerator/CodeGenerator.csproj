@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -88,16 +88,16 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IX.StandardExtensions\ComponentModel\SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs">
+    <None Include="IX.StandardExtensions\ComponentModel\SynchronizationContextInvokerBase.InvokeActionsAndFuncs.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SynchronizationContextInvokerBase.InvokeActionsAndFuncs.tt</DependentUpon>
-    </Compile>
-    <Compile Include="IX.StandardExtensions\Threading\ReaderWriterSynchronizedBase.ActionsAndFuncs.cs">
+    </None>
+    <None Include="IX.StandardExtensions\Threading\ReaderWriterSynchronizedBase.ActionsAndFuncs.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ReaderWriterSynchronizedBase.ActionsAndFuncs.tt</DependentUpon>
-    </Compile>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
