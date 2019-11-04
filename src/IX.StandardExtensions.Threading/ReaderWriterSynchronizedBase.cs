@@ -4,9 +4,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using System.Threading;
 using IX.StandardExtensions.ComponentModel;
+using IX.StandardExtensions.Contracts;
 using IX.System.Threading;
 using JetBrains.Annotations;
 using ReaderWriterLockSlim = IX.System.Threading.ReaderWriterLockSlim;
@@ -23,13 +25,19 @@ namespace IX.StandardExtensions.Threading
     {
         private readonly bool lockInherited;
 
-#pragma warning disable IDISP008 // Don't assign member with injected and created disposables. - This is the specific working case of this class
-#pragma warning disable IDISP002 // Dispose member.
-#pragma warning disable IDISP006 // Implement IDisposable.
+        [SuppressMessage(
+            "IDisposableAnalyzers.Correctness",
+            "IDISP008:Don't assign member with injected and created disposables.",
+            Justification = "We can't do that here, as doing exactly that is the purpose of this class.")]
+        [SuppressMessage(
+            "IDisposableAnalyzers.Correctness",
+            "IDISP002:Dispose member.",
+            Justification = "It is.")]
+        [SuppressMessage(
+            "IDisposableAnalyzers.Correctness",
+            "IDISP006:Implement IDisposable.",
+            Justification = "It is.")]
         private IReaderWriterLock locker;
-#pragma warning restore IDISP006 // Implement IDisposable.
-#pragma warning restore IDISP002 // Dispose member.
-#pragma warning restore IDISP008 // Don't assign member with injected and created disposables.
 
         [DataMember]
         private TimeSpan lockerTimeout;
@@ -53,7 +61,7 @@ namespace IX.StandardExtensions.Threading
         /// </exception>
         protected ReaderWriterSynchronizedBase(IReaderWriterLock locker)
         {
-            this.locker = locker ?? throw new ArgumentNullException(nameof(locker));
+            Contract.RequiresNotNull(ref this.locker, locker, nameof(locker));
             this.lockInherited = true;
             this.lockerTimeout = EnvironmentSettings.LockAcquisitionTimeout;
         }
@@ -81,7 +89,7 @@ namespace IX.StandardExtensions.Threading
             IReaderWriterLock locker,
             TimeSpan timeout)
         {
-            this.locker = locker ?? throw new ArgumentNullException(nameof(locker));
+            Contract.RequiresNotNull(ref this.locker, locker, nameof(locker));
             this.lockInherited = true;
             this.lockerTimeout = timeout;
         }
@@ -202,7 +210,6 @@ namespace IX.StandardExtensions.Threading
                 this.lockerTimeout);
         }
 
-#pragma warning disable IDISP007 // Don't dispose injected. - Injection is checked in the line above.
         /// <summary>
         ///     Disposes in the managed context.
         /// </summary>
@@ -215,7 +222,6 @@ namespace IX.StandardExtensions.Threading
 
             base.DisposeManagedContext();
         }
-#pragma warning restore IDISP007 // Don't dispose injected.
 
         /// <summary>
         ///     Spawns an atomic enumerator tied to this instance's locking mechanisms.
