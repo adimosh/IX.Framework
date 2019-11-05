@@ -2,6 +2,7 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using IX.StandardExtensions.Contracts;
 using JetBrains.Annotations;
@@ -78,6 +79,8 @@ namespace IX.System.Collections.Generic
         /// <returns>
         /// <c>true</c> if the dequeue was successful, <c>false</c> otherwise.
         /// </returns>
+        [SuppressMessage("Performance", "HAA0302:Display class allocation to capture closure", Justification = "We want a closure here.")]
+        [SuppressMessage("Performance", "HAA0301:Closure Allocation Source", Justification = "We want a closure here.")]
         public bool TryDequeue(out T item)
         {
             this.RequiresNotDisposed();
