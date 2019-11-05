@@ -3,13 +3,8 @@
 // </copyright>
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
-using System.Threading;
 using IX.Abstractions.Collections;
-using IX.StandardExtensions.Threading;
 using JetBrains.Annotations;
 
 // ReSharper disable once CheckNamespace
@@ -27,19 +22,8 @@ namespace IX.System.Collections.Generic
         Namespace = Constants.DataContractNamespace,
         Name = "PushDownStackOf{0}")]
     [PublicAPI]
-    public class PushDownStack<T> : ReaderWriterSynchronizedBase, IStack<T>
+    public class PushDownStack<T> : PushingCollectionBase<T>, IStack<T>
     {
-        /// <summary>
-        ///     The internal container.
-        /// </summary>
-        [DataMember(Name = "Items")]
-        private List<T> internalContainer;
-
-        /// <summary>
-        ///     The limit.
-        /// </summary>
-        private int limit;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="PushDownStack{T}" /> class.
         /// </summary>
@@ -57,120 +41,9 @@ namespace IX.System.Collections.Generic
         ///     integer.
         /// </exception>
         public PushDownStack(int limit)
+        : base(limit)
         {
-            if (limit < 0)
-            {
-                throw new LimitArgumentNegativeException(nameof(limit));
-            }
-
-            this.limit = limit;
-
-            this.internalContainer = new List<T>();
         }
-
-        /// <summary>
-        ///     Gets the number of elements in the observable stack.
-        /// </summary>
-        /// <value>The current element count.</value>
-        public int Count => this.InvokeIfNotDisposed(
-            cThis => cThis.ReadLock(
-                c2This => c2This.internalContainer.Count,
-                cThis), this);
-
-        /// <summary>
-        ///     Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection" /> is synchronized
-        ///     (thread safe).
-        /// </summary>
-        /// <value><see langword="true" /> if this instance is synchronized; otherwise, <see langword="false" />.</value>
-        public bool IsSynchronized => ((ICollection)this.internalContainer).IsSynchronized;
-
-        /// <summary>
-        ///     Gets an object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection" />.
-        /// </summary>
-        /// <value>The synchronize root.</value>
-        public object SyncRoot => ((ICollection)this.internalContainer).SyncRoot;
-
-        /// <summary>
-        ///     Gets or sets the number of items in the push-down stack.
-        /// </summary>
-        [DataMember]
-        public int Limit
-        {
-            get => this.limit;
-            set
-            {
-                this.ThrowIfCurrentObjectDisposed();
-
-                if (value < 0)
-                {
-                    throw new LimitArgumentNegativeException();
-                }
-
-                this.WriteLock(
-                    (
-                        val,
-                        cThis) =>
-                    {
-                        cThis.limit = val;
-
-                        if (val != 0)
-                        {
-                            while (cThis.internalContainer.Count > val)
-                            {
-                                cThis.internalContainer.RemoveAt(0);
-                            }
-                        }
-                        else
-                        {
-                            cThis.internalContainer.Clear();
-                        }
-                    }, value,
-                    this);
-            }
-        }
-
-        /// <summary>
-        ///     Clears the observable stack.
-        /// </summary>
-        [SuppressMessage(
-            "Performance",
-            "HAA0603:Delegate allocation from a method group",
-            Justification = "We ned to get a reference to this method to the locker")]
-        public void Clear() =>
-            this.InvokeIfNotDisposed(
-                thisL1 => thisL1.WriteLock(thisL1.internalContainer.Clear),
-                this);
-
-        /// <summary>
-        ///     Checks whether or not a certain item is in the stack.
-        /// </summary>
-        /// <param name="item">The item to check for.</param>
-        /// <returns><see langword="true" /> if the item was found, <see langword="false" /> otherwise.</returns>
-        public bool Contains(T item) =>
-            this.InvokeIfNotDisposed(
-                (
-                    itemL2,
-                    thisL2) => thisL2.ReadLock(
-                    (
-                        itemL1,
-                        thisL1) => thisL1.internalContainer.Contains(itemL1), itemL2,
-                    thisL2), item,
-                this);
-
-        /// <summary>
-        ///     Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
-        [SuppressMessage(
-            "IDisposableAnalyzers.Correctness",
-            "IDISP004:Don't ignore return value of type IDisposable.",
-            Justification = "We're not.")]
-        [SuppressMessage(
-            "Performance",
-            "HAA0401:Possible allocation of reference type enumerator",
-            Justification = "That's expected for an atomic enumerator.")]
-        public IEnumerator<T> GetEnumerator() =>
-            this.SpawnAtomicEnumerator<T, List<T>.Enumerator>(this.internalContainer.GetEnumerator());
 
         /// <summary>
         ///     Peeks in the stack to view the topmost item, without removing it.
@@ -179,8 +52,8 @@ namespace IX.System.Collections.Generic
         public T Peek() =>
             this.InvokeIfNotDisposed(
                 reference => reference.ReadLock(
-                    referenceL2 => referenceL2.internalContainer.Count > 0
-                        ? referenceL2.internalContainer[referenceL2.internalContainer.Count - 1]
+                    referenceL2 => referenceL2.InternalContainer.Count > 0
+                        ? referenceL2.InternalContainer[referenceL2.InternalContainer.Count - 1]
                         : default, reference), this);
 
         /// <summary>
@@ -190,7 +63,7 @@ namespace IX.System.Collections.Generic
         public T Pop() => this.InvokeIfNotDisposed(
             reference =>
             {
-                if (reference.limit == 0)
+                if (reference.Limit == 0)
                 {
                     return default;
                 }
@@ -198,16 +71,16 @@ namespace IX.System.Collections.Generic
                 return reference.WriteLock(
                     referenceL2 =>
                     {
-                        var index = referenceL2.internalContainer.Count - 1;
+                        var index = referenceL2.InternalContainer.Count - 1;
 
                         if (index < 0)
                         {
                             return default;
                         }
 
-                        T item = referenceL2.internalContainer[index];
+                        T item = referenceL2.InternalContainer[index];
 
-                        referenceL2.internalContainer.RemoveAt(index);
+                        referenceL2.InternalContainer.RemoveAt(index);
 
                         return item;
                     }, reference);
@@ -223,7 +96,7 @@ namespace IX.System.Collections.Generic
                     itemL2,
                     cThis) =>
                 {
-                    if (cThis.limit == 0)
+                    if (cThis.Limit == 0)
                     {
                         return;
                     }
@@ -233,81 +106,22 @@ namespace IX.System.Collections.Generic
                             itemL1,
                             c2This) =>
                         {
-                            if (c2This.internalContainer.Count == c2This.limit)
+                            if (c2This.InternalContainer.Count == c2This.Limit)
                             {
-                                c2This.internalContainer.RemoveAt(0);
+                                c2This.InternalContainer.RemoveAt(0);
                             }
 
-                            c2This.internalContainer.Add(itemL1);
+                            c2This.InternalContainer.Add(itemL1);
                         }, itemL2,
                         cThis);
                 }, item,
                 this);
 
         /// <summary>
-        ///     Copies all elements of the stack to a new array.
+        ///     This method does nothing.
         /// </summary>
-        /// <returns>An array containing all items in the stack.</returns>
-        public T[] ToArray() => this.InvokeIfNotDisposed(
-            reference => reference.ReadLock(
-                ref2 => ref2.internalContainer.ToArray(),
-                reference), this);
-
-        /// <summary>
-        ///     Sets the capacity to the actual number of elements in the stack if that number is less than 90 percent of current
-        ///     capacity.
-        /// </summary>
-        public void TrimExcess()
+        void IStack<T>.TrimExcess()
         {
-        }
-
-        /// <summary>
-        ///     Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
-        [SuppressMessage(
-            "Performance", "HAA0401:Possible allocation of reference type enumerator", Justification = "Unavoidable.")]
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-
-        /// <summary>
-        ///     Copies the elements of the <see cref="T:System.Collections.ICollection" /> to an <see cref="T:System.Array" />,
-        ///     starting at a particular <see cref="T:System.Array" /> index.
-        /// </summary>
-        /// <param name="array">
-        ///     The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied
-        ///     from <see cref="T:System.Collections.ICollection" />. The <see cref="T:System.Array" /> must have zero-based
-        ///     indexing.
-        /// </param>
-        /// <param name="index">The zero-based index in <paramref name="array" /> at which copying begins.</param>
-        public void CopyTo(
-            Array array,
-            int index) =>
-            this.InvokeIfNotDisposed(
-                (
-                    arrayL2,
-                    indexL2,
-                    referenceL2) => referenceL2.ReadLock(
-                    (
-                        arrayL1,
-                        indexL1,
-                        referenceL1) => ((ICollection)referenceL1.internalContainer).CopyTo(
-                        arrayL1,
-                        indexL1), arrayL2,
-                    indexL2,
-                    referenceL2), array,
-                index,
-                this);
-
-        /// <summary>
-        ///     Disposes in the managed context.
-        /// </summary>
-        protected override void DisposeManagedContext()
-        {
-            base.DisposeManagedContext();
-
-            Interlocked.Exchange(
-                ref this.internalContainer,
-                null)?.Clear();
         }
     }
 }

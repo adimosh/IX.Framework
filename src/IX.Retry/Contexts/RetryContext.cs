@@ -120,7 +120,7 @@ namespace IX.Retry.Contexts
         /// <summary>
         ///     Invokes the method that needs retrying.
         /// </summary>
-        protected private abstract void Invoke();
+        private protected abstract void Invoke();
 
         private bool RunOnce(
             ICollection<Exception> exceptions,
@@ -187,22 +187,15 @@ namespace IX.Retry.Contexts
 
         private TimeSpan GetRetryTimeSpan(
             int retries,
-            DateTime now)
-        {
-            switch (this.options.WaitBetweenRetriesType)
+            DateTime now) =>
+            this.options.WaitBetweenRetriesType switch
             {
-                case WaitType.For when this.options.WaitForDuration.HasValue:
-                    return this.options.WaitForDuration.Value;
-
-                case WaitType.Until:
-                    return this.options.WaitUntilDelegate.Invoke(
-                        retries,
-                        now,
-                        this.options);
-
-                default:
-                    return TimeSpan.Zero;
-            }
-        }
+                WaitType.For when this.options.WaitForDuration.HasValue => this.options.WaitForDuration.Value,
+                WaitType.Until => this.options.WaitUntilDelegate.Invoke(
+                    retries,
+                    now,
+                    this.options),
+                _ => TimeSpan.Zero
+            };
     }
 }
