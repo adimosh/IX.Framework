@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using IX.Abstractions.Collections;
@@ -232,6 +233,7 @@ namespace IX.System.Collections.Generic
         /// Gets the enumerator.
         /// </summary>
         /// <returns>The dictionary enumerator.</returns>
+        [SuppressMessage("Performance", "HAA0601:Value type to reference type conversion causing boxing allocation", Justification = "Unavoidable here.")]
         IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator() =>
             this.GetEnumerator();
 
@@ -286,6 +288,7 @@ namespace IX.System.Collections.Generic
         /// Gets the enumerator.
         /// </summary>
         /// <returns>IEnumerator.</returns>
+        [SuppressMessage("Performance", "HAA0601:Value type to reference type conversion causing boxing allocation", Justification = "Unavoidable here.")]
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         /// <summary>
