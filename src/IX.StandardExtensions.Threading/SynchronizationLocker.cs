@@ -13,6 +13,10 @@ namespace IX.StandardExtensions.Threading
     /// </summary>
     /// <seealso cref="IDisposable" />
     [PublicAPI]
+    [global::System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "IDisposableAnalyzers.Correctness",
+        "IDISP025:Class with no virtual dispose method should be sealed.",
+        Justification = "This class has an abstract Dispose method and we want it that way.")]
     public abstract class SynchronizationLocker : IDisposable
     {
         /// <summary>

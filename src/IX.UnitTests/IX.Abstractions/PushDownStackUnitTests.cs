@@ -2,6 +2,7 @@
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
+using System;
 using IX.StandardExtensions.TestUtils;
 using IX.System.Collections.Generic;
 using Xunit;
@@ -78,7 +79,7 @@ namespace IX.UnitTests.IX.Abstractions
                 Assert.Equal(v4, pds.Pop());
                 Assert.Equal(v3, pds.Pop());
                 Assert.Equal(v2, pds.Pop());
-                Assert.Equal(default(int), pds.Pop());
+                Assert.Throws<InvalidOperationException>(() => pds.Pop());
             }
         }
 
@@ -112,7 +113,34 @@ namespace IX.UnitTests.IX.Abstractions
                 Assert.Equal(v4, pds.Pop());
                 Assert.Equal(v3, pds.Pop());
                 Assert.Equal(v2, pds.Pop());
-                Assert.Equal(default(int), pds.Pop());
+                Assert.Throws<InvalidOperationException>(() => pds.Pop());
+            }
+        }
+
+        /// <summary>
+        /// Tests <see cref="PushDownStack{T}"/> according to the <see cref="FactAttribute"/> on the method.
+        /// </summary>
+        [Fact(DisplayName = "PushDownStack with PushRange")]
+        public void Test5()
+        {
+            // Arrange
+            using (var pds = new PushDownStack<int>(12))
+            {
+                var items = new int[]
+                {
+                    DataGenerator.RandomInteger(),
+                    DataGenerator.RandomInteger(),
+                    DataGenerator.RandomInteger(),
+                    DataGenerator.RandomInteger(),
+                };
+
+                // Act
+                pds.PushRange(items, 1, 2);
+
+                // Assert
+                Assert.Equal(2, pds.Count);
+                Assert.Equal(items[2], pds.Pop());
+                Assert.Equal(items[1], pds.Pop());
             }
         }
     }

@@ -9,8 +9,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using System.Threading;
 using IX.Abstractions.Collections;
+using IX.StandardExtensions.Contracts;
 using IX.StandardExtensions.Threading;
 using JetBrains.Annotations;
+using Constants = IX.Abstractions.Collections.Constants;
 
 // ReSharper disable once CheckNamespace
 namespace IX.System.Collections.Generic
@@ -62,10 +64,26 @@ namespace IX.System.Collections.Generic
         ///     Gets the number of elements in the push-out queue.
         /// </summary>
         /// <value>The current element count.</value>
-        public int Count => this.InvokeIfNotDisposed(
-            cThis => cThis.ReadLock(
-                c2This => c2This.internalContainer.Count,
-                cThis), this);
+        public int Count
+        {
+            get
+            {
+                this.RequiresNotDisposed();
+
+                using (this.ReadLock())
+                {
+                    return this.internalContainer.Count;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this pushing bollection is empty.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this pushing collection is empty; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsEmpty => this.Count == 0;
 
         /// <summary>
         ///     Gets a value indicating whether access to the <see cref="T:System.Collections.ICollection" /> is synchronized
@@ -89,33 +107,29 @@ namespace IX.System.Collections.Generic
             get => this.limit;
             set
             {
-                this.ThrowIfCurrentObjectDisposed();
+                this.RequiresNotDisposed();
 
                 if (value < 0)
                 {
                     throw new LimitArgumentNegativeException();
                 }
 
-                this.WriteLock(
-                    (
-                        val,
-                        cThis) =>
-                    {
-                        cThis.limit = val;
+                using (this.WriteLock())
+                {
+                    this.limit = value;
 
-                        if (val != 0)
+                    if (value != 0)
+                    {
+                        while (this.internalContainer.Count > value)
                         {
-                            while (cThis.internalContainer.Count > val)
-                            {
-                                cThis.internalContainer.RemoveAt(0);
-                            }
+                            this.internalContainer.RemoveAt(0);
                         }
-                        else
-                        {
-                            cThis.internalContainer.Clear();
-                        }
-                    }, value,
-                    this);
+                    }
+                    else
+                    {
+                        this.internalContainer.Clear();
+                    }
+                }
             }
         }
 
@@ -125,50 +139,52 @@ namespace IX.System.Collections.Generic
         /// <value>
         /// The internal container.
         /// </value>
-        protected IList<T> InternalContainer => this.internalContainer;
+        protected List<T> InternalContainer => this.internalContainer;
 
         /// <summary>
         ///     Clears the observable stack.
         /// </summary>
-        [SuppressMessage(
-            "Performance",
-            "HAA0603:Delegate allocation from a method group",
-            Justification = "We ned to get a reference to this method to the locker")]
-        public void Clear() =>
-            this.InvokeIfNotDisposed(
-                thisL1 => thisL1.WriteLock(thisL1.internalContainer.Clear),
-                this);
+        public void Clear()
+        {
+            this.RequiresNotDisposed();
+
+            using (this.WriteLock())
+            {
+                this.internalContainer.Clear();
+            }
+        }
 
         /// <summary>
         ///     Checks whether or not a certain item is in the stack.
         /// </summary>
         /// <param name="item">The item to check for.</param>
         /// <returns><see langword="true" /> if the item was found, <see langword="false" /> otherwise.</returns>
-        public bool Contains(T item) =>
-            this.InvokeIfNotDisposed(
-                (
-                    itemL2,
-                    thisL2) => thisL2.ReadLock(
-                    (
-                        itemL1,
-                        thisL1) => thisL1.internalContainer.Contains(itemL1), itemL2,
-                    thisL2), item,
-                this);
+        public bool Contains(T item)
+        {
+            this.RequiresNotDisposed();
+
+            using (this.ReadLock())
+            {
+                return this.internalContainer.Contains(item);
+            }
+        }
 
         /// <summary>
         ///     Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         [SuppressMessage(
-            "IDisposableAnalyzers.Correctness",
-            "IDISP004:Don't ignore return value of type IDisposable.",
-            Justification = "We're not.")]
+            "Performance",
+            "HAA0603:Delegate allocation from a method group",
+            Justification = "We need this allocation here.")]
         [SuppressMessage(
             "Performance",
             "HAA0401:Possible allocation of reference type enumerator",
-            Justification = "That's expected for an atomic enumerator.")]
+            Justification = "We're returning a class enumerator, so we're expecting an allocation anyway.")]
         public IEnumerator<T> GetEnumerator() =>
-            this.SpawnAtomicEnumerator<T, List<T>.Enumerator>(this.internalContainer.GetEnumerator());
+            AtomicEnumerator<T>.FromCollection(
+                this.internalContainer,
+                this.ReadLock);
 
         /// <summary>
         ///     Returns an enumerator that iterates through a collection.
@@ -182,10 +198,15 @@ namespace IX.System.Collections.Generic
         ///     Copies all elements of the stack to a new array.
         /// </summary>
         /// <returns>An array containing all items in the stack.</returns>
-        public T[] ToArray() => this.InvokeIfNotDisposed(
-            reference => reference.ReadLock(
-                ref2 => ref2.internalContainer.ToArray(),
-                reference), this);
+        public T[] ToArray()
+        {
+            this.RequiresNotDisposed();
+
+            using (this.ReadLock())
+            {
+                return this.internalContainer.ToArray();
+            }
+        }
 
         /// <summary>
         ///     Copies the elements of the <see cref="PushingCollectionBase{T}" /> to an <see cref="T:System.Array" />,
@@ -199,22 +220,17 @@ namespace IX.System.Collections.Generic
         /// <param name="index">The zero-based index in <paramref name="array" /> at which copying begins.</param>
         public void CopyTo(
             Array array,
-            int index) =>
-            this.InvokeIfNotDisposed(
-                (
-                    arrayL2,
-                    indexL2,
-                    referenceL2) => referenceL2.ReadLock(
-                    (
-                        arrayL1,
-                        indexL1,
-                        referenceL1) => ((ICollection)referenceL1.internalContainer).CopyTo(
-                        arrayL1,
-                        indexL1), arrayL2,
-                    indexL2,
-                    referenceL2), array,
-                index,
-                this);
+            int index)
+        {
+            this.RequiresNotDisposed();
+
+            using (this.ReadLock())
+            {
+                ((ICollection)this.internalContainer).CopyTo(
+                    array,
+                    index);
+            }
+        }
 
         /// <summary>
         ///     Disposes in the managed context.
@@ -226,6 +242,103 @@ namespace IX.System.Collections.Generic
             Interlocked.Exchange(
                 ref this.internalContainer,
                 null)?.Clear();
+        }
+
+        /// <summary>
+        /// Appends the specified item to this pushing collection.
+        /// </summary>
+        /// <param name="item">The item to append.</param>
+        protected void Append(T item)
+        {
+            this.RequiresNotDisposed();
+
+            if (this.Limit == 0)
+            {
+                return;
+            }
+
+            using (this.WriteLock())
+            {
+                if (this.InternalContainer.Count == this.Limit)
+                {
+                    this.InternalContainer.RemoveAt(0);
+                }
+
+                this.InternalContainer.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Appends the specified items to this pushing collection.
+        /// </summary>
+        /// <param name="items">The items to append.</param>
+        protected void Append(T[] items)
+        {
+            // Validate input
+            this.RequiresNotDisposed();
+            Contract.RequiresNotNull(in items, nameof(items));
+
+            // Check disabled collection
+            if (this.Limit == 0)
+            {
+                return;
+            }
+
+            // Lock on write
+            using (this.WriteLock())
+            {
+                foreach (var item in items)
+                {
+                    this.InternalContainer.Add(item);
+
+                    if (this.InternalContainer.Count == this.Limit + 1)
+                    {
+                        this.InternalContainer.RemoveAt(0);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Appends the specified items to the pushing collection.
+        /// </summary>
+        /// <param name="items">The items to append.</param>
+        /// <param name="startIndex">The start index in the array to begin taking items from.</param>
+        /// <param name="count">The number of items to append.</param>
+        protected void Append(
+            T[] items,
+            int startIndex,
+            int count)
+        {
+            // Validate input
+            this.RequiresNotDisposed();
+            Contract.RequiresNotNull(in items, nameof(items));
+            Contract.RequiresValidArrayRange(in startIndex, in count, in items, nameof(items));
+
+            // Check disabled collection
+            int innerLimit = this.Limit;
+            if (innerLimit == 0)
+            {
+                return;
+            }
+
+            ReadOnlySpan<T> copiedItems = new ReadOnlySpan<T>(items, startIndex, count);
+
+            // Lock on write
+            using (this.WriteLock())
+            {
+                // Add all items
+                var innerInternalContainer = this.InternalContainer;
+                foreach (var item in copiedItems)
+                {
+                    innerInternalContainer.Add(item);
+
+                    if (innerInternalContainer.Count == innerLimit + 1)
+                    {
+                        innerInternalContainer.RemoveAt(0);
+                    }
+                }
+            }
         }
     }
 }

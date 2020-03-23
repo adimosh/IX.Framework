@@ -10,6 +10,13 @@ variables:
   IxDevOpsBuild: true
   system.debug: false
 
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: adimosh/IX.Framework.Operations
+      endpoint: adimosh
+
 jobs:
 - job:
   timeoutInMinutes: 10
@@ -17,6 +24,6 @@ jobs:
     name: Azure Pipelines
     vmImage: windows-latest
   steps:
-  - template: ../opt/job-release-build.yml
+  - template: yaml/job-release-build.yml@templates
     parameters:
       solutionName: 'IX.Framework'

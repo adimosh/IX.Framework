@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using System.Threading;
@@ -99,9 +98,18 @@ namespace IX.StandardExtensions.Threading
         /// </summary>
         /// <param name="context">The streaming context.</param>
         [OnDeserializing]
-        internal void OnDeserializingMethod(StreamingContext context) => Interlocked.Exchange(
-            ref this.locker,
-            new ReaderWriterLockSlim());
+        [SuppressMessage(
+            "IDisposableAnalyzers.Correctness",
+            "IDISP003:Dispose previous before re-assigning.",
+            Justification = "This method is the OnDeserializing method, so there is no instance to dispose of before reassigning.")]
+        [SuppressMessage(
+            "IDisposableAnalyzers.Correctness",
+            "IDISP004:Don't ignore created IDisposable.",
+            Justification = "We really aren't.")]
+        internal void OnDeserializingMethod(StreamingContext context) =>
+            Interlocked.Exchange(
+                ref this.locker,
+                new ReaderWriterLockSlim());
 
         /// <summary>
         ///     Produces a reader lock in concurrent collections.
@@ -109,7 +117,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A disposable object representing the lock.</returns>
         protected ReadOnlySynchronizationLocker ReadLock()
         {
-            this.ThrowIfCurrentObjectDisposed();
+            this.RequiresNotDisposed();
 
             return new ReadOnlySynchronizationLocker(
                 this.locker,
@@ -122,7 +130,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">An action that is called.</param>
         protected void ReadLock(Action action)
         {
-            this.ThrowIfCurrentObjectDisposed();
+            this.RequiresNotDisposed();
 
             using (new ReadOnlySynchronizationLocker(
                 this.locker,
@@ -140,7 +148,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A disposable object representing the lock.</returns>
         protected T ReadLock<T>(Func<T> action)
         {
-            this.ThrowIfCurrentObjectDisposed();
+            this.RequiresNotDisposed();
 
             using (new ReadOnlySynchronizationLocker(
                 this.locker,
@@ -156,7 +164,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A disposable object representing the lock.</returns>
         protected WriteOnlySynchronizationLocker WriteLock()
         {
-            this.ThrowIfCurrentObjectDisposed();
+            this.RequiresNotDisposed();
 
             return new WriteOnlySynchronizationLocker(
                 this.locker,
@@ -169,7 +177,7 @@ namespace IX.StandardExtensions.Threading
         /// <param name="action">An action that is called.</param>
         protected void WriteLock(Action action)
         {
-            this.ThrowIfCurrentObjectDisposed();
+            this.RequiresNotDisposed();
 
             using (new WriteOnlySynchronizationLocker(
                 this.locker,
@@ -187,7 +195,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>The generated item.</returns>
         protected T WriteLock<T>(Func<T> action)
         {
-            this.ThrowIfCurrentObjectDisposed();
+            this.RequiresNotDisposed();
 
             using (new WriteOnlySynchronizationLocker(
                 this.locker,
@@ -203,7 +211,7 @@ namespace IX.StandardExtensions.Threading
         /// <returns>A disposable object representing the lock.</returns>
         protected ReadWriteSynchronizationLocker ReadWriteLock()
         {
-            this.ThrowIfCurrentObjectDisposed();
+            this.RequiresNotDisposed();
 
             return new ReadWriteSynchronizationLocker(
                 this.locker,
@@ -221,24 +229,6 @@ namespace IX.StandardExtensions.Threading
             }
 
             base.DisposeManagedContext();
-        }
-
-        /// <summary>
-        ///     Spawns an atomic enumerator tied to this instance's locking mechanisms.
-        /// </summary>
-        /// <typeparam name="TItem">The type of the item within the atomic enumerator.</typeparam>
-        /// <typeparam name="TEnumerator">The type of the enumerator to spawn the atomic enumerator from.</typeparam>
-        /// <param name="sourceEnumerator">The source enumerator.</param>
-        /// <returns>An tied-in atomic enumerator.</returns>
-        protected AtomicEnumerator<TItem, TEnumerator> SpawnAtomicEnumerator<TItem, TEnumerator>(
-            in TEnumerator sourceEnumerator)
-            where TEnumerator : IEnumerator<TItem>
-        {
-            this.ThrowIfCurrentObjectDisposed();
-
-            return new AtomicEnumerator<TItem, TEnumerator>(
-                sourceEnumerator,
-                this.ReadLock);
         }
     }
 }

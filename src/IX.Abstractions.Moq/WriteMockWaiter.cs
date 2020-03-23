@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using JetBrains.Annotations;
 
@@ -24,21 +25,21 @@ namespace IX.Abstractions.Moq
         private SaveWhenDisposingMemoryStream memoryStream;
         private ManualResetEvent mre = new ManualResetEvent(false);
 
-#pragma warning disable HAA0302 // Display class allocation to capture closure - We'll let it slide
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="WriteMockWaiter" /> class.
+        /// </summary>
         internal WriteMockWaiter()
-#pragma warning restore HAA0302 // Display class allocation to capture closure
         {
             this.mre.Reset();
 
-#pragma warning disable HAA0301 // Closure Allocation Source - We'll let it slide
-            this.memoryStream = new SaveWhenDisposingMemoryStream(
-                savedData =>
-#pragma warning restore HAA0301 // Closure Allocation Source
-                {
-                    this.data = savedData;
-                    this.isAwaited = true;
-                    this.mre.Set();
-                });
+            this.memoryStream = new SaveWhenDisposingMemoryStream(ActOnSavedData);
+
+            void ActOnSavedData(byte[] savedData)
+            {
+                this.data = savedData;
+                this.isAwaited = true;
+                this.mre.Set();
+            }
         }
 
         /// <summary>
@@ -91,6 +92,15 @@ namespace IX.Abstractions.Moq
         public SaveWhenDisposingMemoryStream MemoryStream => this.memoryStream;
 
         /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
         ///     Waits for the write operation to finish.
         /// </summary>
         /// <exception cref="T:System.ObjectDisposedException">
@@ -122,21 +132,16 @@ namespace IX.Abstractions.Moq
         }
 
         /// <summary>
-        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
         ///     Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing">
         ///     <see langword="true" /> to release both managed and unmanaged resources;
         ///     <see langword="false" /> to release only unmanaged resources.
         /// </param>
+        [SuppressMessage(
+            "IDisposableAnalyzers.Correctness",
+            "IDISP003:Dispose previous before re-assigning.",
+            Justification = "We are doing exactly that, but the analyzer can't tell.")]
         protected virtual void Dispose(bool disposing)
         {
             if (this.isDisposed)
@@ -147,11 +152,13 @@ namespace IX.Abstractions.Moq
             if (disposing)
             {
                 Interlocked.Exchange(
-                    ref this.memoryStream,
-                    null)?.Dispose();
+                        ref this.memoryStream,
+                        null)
+                    ?.Dispose();
                 Interlocked.Exchange(
-                    ref this.mre,
-                    null)?.Dispose();
+                        ref this.mre,
+                        null)
+                    ?.Dispose();
             }
 
             this.data = null;

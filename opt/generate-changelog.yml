@@ -1,8 +1,0 @@
-# The standard process to generate the changelog
-
-steps:
-- task: ChangelogGenerator@1
-  inputs:
-    workingDir: 'doc'
-    filename: 'Changelog.md'
-    commits: 'false'

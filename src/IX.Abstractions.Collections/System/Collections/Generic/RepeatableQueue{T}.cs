@@ -82,6 +82,14 @@ namespace IX.System.Collections.Generic
         object ICollection.SyncRoot => this.internalQueue.SyncRoot;
 
         /// <summary>
+        /// Gets a value indicating whether this queue is empty.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this queue is empty; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsEmpty => this.Count == 0;
+
+        /// <summary>
         ///     Clears the queue of all elements.
         /// </summary>
         public void Clear()
@@ -195,5 +203,28 @@ namespace IX.System.Collections.Generic
         /// </summary>
         /// <returns>A repeating queue.</returns>
         public IQueue<T> Repeat() => new Queue<T>(this.internalRepeatingQueue.ToArray());
+
+        /// <summary>
+        /// Attempts to peek at the current queue and return the item that is next in line to be dequeued.
+        /// </summary>
+        /// <param name="item">The item, or default if unsuccessful.</param>
+        /// <returns>
+        ///   <see langword="true" /> if an item is found, <see langword="false" /> otherwise, or if the queue is empty.
+        /// </returns>
+        public bool TryPeek(out T item) => this.internalQueue.TryPeek(out item);
+
+        /// <summary>
+        /// Queues a range of elements, adding them to the queue.
+        /// </summary>
+        /// <param name="items">The item range to push.</param>
+        public void EnqueueRange(T[] items) => this.internalQueue.EnqueueRange(items);
+
+        /// <summary>
+        /// Queues a range of elements, adding them to the queue.
+        /// </summary>
+        /// <param name="items">The item range to enqueue.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="count">The number of items to enqueue.</param>
+        public void EnqueueRange(T[] items, int startIndex, int count) => this.internalQueue.EnqueueRange(items, startIndex, count);
     }
 }

@@ -144,6 +144,14 @@ namespace IX.Guaranteed.Collections
         public abstract int Count { get; }
 
         /// <summary>
+        /// Gets a value indicating whether this queue is empty.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this queue is empty; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsEmpty => this.Count == 0;
+
+        /// <summary>
         ///     Gets an object that can be used to synchronize access to the <see cref="PersistedQueueBase{T}" />.
         /// </summary>
         /// <value>The synchronize root.</value>
@@ -239,6 +247,47 @@ namespace IX.Guaranteed.Collections
         public abstract void Enqueue(T item);
 
         /// <summary>
+        /// Attempts to peek at the current queue and return the item that is next in line to be dequeued.
+        /// </summary>
+        /// <param name="item">The item, or default if unsuccessful.</param>
+        /// <returns>
+        ///   <see langword="true" /> if an item is found, <see langword="false" /> otherwise, or if the queue is empty.
+        /// </returns>
+        public abstract bool TryPeek(out T item);
+
+        /// <summary>
+        /// Queues a range of elements, adding them to the queue.
+        /// </summary>
+        /// <param name="items">The item range to push.</param>
+        public void EnqueueRange(T[] items)
+        {
+            Contract.RequiresNotNull(in items, nameof(items));
+
+            foreach (var item in items)
+            {
+                this.Enqueue(item);
+            }
+        }
+
+        /// <summary>
+        /// Queues a range of elements, adding them to the queue.
+        /// </summary>
+        /// <param name="items">The item range to enqueue.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="count">The number of items to enqueue.</param>
+        public void EnqueueRange(T[] items, int startIndex, int count)
+        {
+            Contract.RequiresNotNull(in items, nameof(items));
+            Contract.RequiresValidArrayRange(in startIndex, in count, in items, nameof(items));
+
+            ReadOnlySpan<T> itemsRange = new ReadOnlySpan<T>(items, startIndex, count);
+            foreach (var item in itemsRange)
+            {
+                this.Enqueue(item);
+            }
+        }
+
+        /// <summary>
         ///     Returns an enumerator that iterates through the queue.
         /// </summary>
         /// <returns>An enumerator that can be used to iterate through the queue.</returns>
@@ -297,10 +346,8 @@ namespace IX.Guaranteed.Collections
 
                     try
                     {
-                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
-                        {
-                            obj = (T)this.Serializer.ReadObject(stream);
-                        }
+                        using Stream stream = this.FileShim.OpenRead(possibleFilePath);
+                        obj = (T)this.Serializer.ReadObject(stream);
 
                         break;
                     }
@@ -360,83 +407,81 @@ namespace IX.Guaranteed.Collections
 
             this.RequiresNotDisposed();
 
-            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            using ReadWriteSynchronizationLocker locker = this.ReadWriteLock();
+
+            string[] files = this.GetPossibleDataFiles();
+            var i = 0;
+
+            T obj;
+            string possibleFilePath;
+
+            while (true)
             {
-                string[] files = this.GetPossibleDataFiles();
-                var i = 0;
-
-                T obj;
-                string possibleFilePath;
-
-                while (true)
+                if (i >= files.Length)
                 {
-                    if (i >= files.Length)
-                    {
-                        return false;
-                    }
-
-                    possibleFilePath = files[i];
-
-                    try
-                    {
-                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
-                        {
-                            obj = (T)this.Serializer.ReadObject(stream);
-                        }
-
-                        break;
-                    }
-                    catch (IOException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
-                    catch (SerializationException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
-                }
-
-                try
-                {
-                    actionToInvoke(
-                        state,
-                        obj);
-                }
-                catch (Exception)
-                {
-#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
                     return false;
-#pragma warning restore ERP022 // Catching everything considered harmful.
                 }
 
-                locker.Upgrade();
+                possibleFilePath = files[i];
 
                 try
                 {
-                    this.FileShim.Delete(possibleFilePath);
+                    using Stream stream = this.FileShim.OpenRead(possibleFilePath);
+
+                    obj = (T)this.Serializer.ReadObject(stream);
+
+                    break;
                 }
                 catch (IOException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
                 catch (UnauthorizedAccessException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
                 catch (SerializationException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
-
-                return true;
             }
+
+            try
+            {
+                actionToInvoke(
+                    state,
+                    obj);
+            }
+            catch (Exception)
+            {
+#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
+                return false;
+#pragma warning restore ERP022 // Catching everything considered harmful.
+            }
+
+            locker.Upgrade();
+
+            try
+            {
+                this.FileShim.Delete(possibleFilePath);
+            }
+            catch (IOException)
+            {
+                this.HandleFileLoadProblem(possibleFilePath);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                this.HandleFileLoadProblem(possibleFilePath);
+            }
+            catch (SerializationException)
+            {
+                this.HandleFileLoadProblem(possibleFilePath);
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -459,85 +504,83 @@ namespace IX.Guaranteed.Collections
 
             this.RequiresNotDisposed();
 
-            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            using ReadWriteSynchronizationLocker locker = this.ReadWriteLock();
+
+            string[] files = this.GetPossibleDataFiles();
+            var i = 0;
+
+            T obj;
+            string possibleFilePath;
+
+            while (true)
             {
-                string[] files = this.GetPossibleDataFiles();
-                var i = 0;
+                cancellationToken.ThrowIfCancellationRequested();
 
-                T obj;
-                string possibleFilePath;
-
-                while (true)
+                if (i >= files.Length)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    if (i >= files.Length)
-                    {
-                        return false;
-                    }
-
-                    possibleFilePath = files[i];
-
-                    try
-                    {
-                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
-                        {
-                            obj = (T)this.Serializer.ReadObject(stream);
-                        }
-
-                        break;
-                    }
-                    catch (IOException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
-                    catch (SerializationException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
-                }
-
-                try
-                {
-                    await actionToInvoke(
-                        state,
-                        obj).ConfigureAwait(false);
-                }
-                catch (Exception)
-                {
-#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
                     return false;
-#pragma warning restore ERP022 // Catching everything considered harmful.
                 }
 
-                locker.Upgrade();
+                possibleFilePath = files[i];
 
                 try
                 {
-                    this.FileShim.Delete(possibleFilePath);
+                    using Stream stream = this.FileShim.OpenRead(possibleFilePath);
+
+                    obj = (T)this.Serializer.ReadObject(stream);
+
+                    break;
                 }
                 catch (IOException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
                 catch (UnauthorizedAccessException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
                 catch (SerializationException)
                 {
                     this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
-
-                return true;
             }
+
+            try
+            {
+                await actionToInvoke(
+                    state,
+                    obj).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
+                return false;
+#pragma warning restore ERP022 // Catching everything considered harmful.
+            }
+
+            locker.Upgrade();
+
+            try
+            {
+                this.FileShim.Delete(possibleFilePath);
+            }
+            catch (IOException)
+            {
+                this.HandleFileLoadProblem(possibleFilePath);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                this.HandleFileLoadProblem(possibleFilePath);
+            }
+            catch (SerializationException)
+            {
+                this.HandleFileLoadProblem(possibleFilePath);
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -570,98 +613,97 @@ namespace IX.Guaranteed.Collections
 
             this.RequiresNotDisposed();
 
-            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            using ReadWriteSynchronizationLocker locker = this.ReadWriteLock();
+
+            string[] files = this.GetPossibleDataFiles();
+            var i = 0;
+
+            var accumulatedObjects = new List<T>();
+            var accumulatedPaths = new List<string>();
+
+            while (i < files.Length)
             {
-                string[] files = this.GetPossibleDataFiles();
-                var i = 0;
-
-                var accumulatedObjects = new List<T>();
-                var accumulatedPaths = new List<string>();
-
-                while (i < files.Length)
-                {
-                    var possibleFilePath = files[i];
-
-                    try
-                    {
-                        T obj;
-
-                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
-                        {
-                            obj = (T)this.Serializer.ReadObject(stream);
-                        }
-
-                        if (!predicate(
-                            state,
-                            obj))
-                        {
-                            break;
-                        }
-
-                        accumulatedObjects.Add(obj);
-                        accumulatedPaths.Add(possibleFilePath);
-
-                        i++;
-                    }
-                    catch (IOException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
-                    catch (SerializationException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
-                }
-
-                if (accumulatedObjects.Count <= 0)
-                {
-                    return accumulatedPaths.Count;
-                }
+                var possibleFilePath = files[i];
 
                 try
                 {
-                    actionToInvoke(
+                    T obj;
+
+                    using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                    {
+                        obj = (T)this.Serializer.ReadObject(stream);
+                    }
+
+                    if (!predicate(
                         state,
-                        accumulatedObjects);
+                        obj))
+                    {
+                        break;
+                    }
+
+                    accumulatedObjects.Add(obj);
+                    accumulatedPaths.Add(possibleFilePath);
+
+                    i++;
                 }
-                catch (Exception)
+                catch (IOException)
                 {
-#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
-                    return 0;
-#pragma warning restore ERP022 // Catching everything considered harmful.
+                    this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
-
-                locker.Upgrade();
-
-                foreach (var possibleFilePath in accumulatedPaths)
+                catch (UnauthorizedAccessException)
                 {
-                    try
-                    {
-                        this.FileShim.Delete(possibleFilePath);
-                    }
-                    catch (IOException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                    }
-                    catch (SerializationException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                    }
+                    this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
+                catch (SerializationException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
+                }
+            }
 
+            if (accumulatedObjects.Count <= 0)
+            {
                 return accumulatedPaths.Count;
             }
+
+            try
+            {
+                actionToInvoke(
+                    state,
+                    accumulatedObjects);
+            }
+            catch (Exception)
+            {
+#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
+                return 0;
+#pragma warning restore ERP022 // Catching everything considered harmful.
+            }
+
+            locker.Upgrade();
+
+            foreach (var possibleFilePath in accumulatedPaths)
+            {
+                try
+                {
+                    this.FileShim.Delete(possibleFilePath);
+                }
+                catch (IOException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                }
+                catch (SerializationException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                }
+            }
+
+            return accumulatedPaths.Count;
         }
 
         /// <summary>
@@ -696,106 +738,105 @@ namespace IX.Guaranteed.Collections
 
             this.RequiresNotDisposed();
 
-            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            using ReadWriteSynchronizationLocker locker = this.ReadWriteLock();
+
+            string[] files = this.GetPossibleDataFiles();
+            var i = 0;
+
+            var accumulatedObjects = new List<T>();
+            var accumulatedPaths = new List<string>();
+
+            while (i < files.Length)
             {
-                string[] files = this.GetPossibleDataFiles();
-                var i = 0;
-
-                var accumulatedObjects = new List<T>();
-                var accumulatedPaths = new List<string>();
-
-                while (i < files.Length)
+                if (cancellationToken.IsCancellationRequested)
                 {
-                    if (cancellationToken.IsCancellationRequested)
+                    break;
+                }
+
+                var possibleFilePath = files[i];
+
+                try
+                {
+                    T obj;
+
+                    using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                    {
+                        obj = (T)this.Serializer.ReadObject(stream);
+                    }
+
+                    if (!await predicate(
+                        state,
+                        obj).ConfigureAwait(false))
                     {
                         break;
                     }
 
-                    var possibleFilePath = files[i];
+                    accumulatedObjects.Add(obj);
+                    accumulatedPaths.Add(possibleFilePath);
 
-                    try
-                    {
-                        T obj;
-
-                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
-                        {
-                            obj = (T)this.Serializer.ReadObject(stream);
-                        }
-
-                        if (!await predicate(
-                            state,
-                            obj).ConfigureAwait(false))
-                        {
-                            break;
-                        }
-
-                        accumulatedObjects.Add(obj);
-                        accumulatedPaths.Add(possibleFilePath);
-
-                        i++;
-                    }
-                    catch (IOException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
-                    catch (SerializationException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
+                    i++;
                 }
-
-                if (accumulatedObjects.Count <= 0)
+                catch (IOException)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-                    return accumulatedPaths.Count;
+                    this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
-
-                try
+                catch (UnauthorizedAccessException)
                 {
-                    actionToInvoke(
-                        state,
-                        accumulatedObjects);
+                    this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
-                catch (Exception)
+                catch (SerializationException)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
-                    return 0;
-#pragma warning restore ERP022 // Catching everything considered harmful.
+                    this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
+            }
 
-                locker.Upgrade();
-
-                foreach (var possibleFilePath in accumulatedPaths)
-                {
-                    try
-                    {
-                        this.FileShim.Delete(possibleFilePath);
-                    }
-                    catch (IOException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                    }
-                    catch (SerializationException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                    }
-                }
-
+            if (accumulatedObjects.Count <= 0)
+            {
                 cancellationToken.ThrowIfCancellationRequested();
                 return accumulatedPaths.Count;
             }
+
+            try
+            {
+                actionToInvoke(
+                    state,
+                    accumulatedObjects);
+            }
+            catch (Exception)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
+                return 0;
+#pragma warning restore ERP022 // Catching everything considered harmful.
+            }
+
+            locker.Upgrade();
+
+            foreach (var possibleFilePath in accumulatedPaths)
+            {
+                try
+                {
+                    this.FileShim.Delete(possibleFilePath);
+                }
+                catch (IOException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                }
+                catch (SerializationException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                }
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            return accumulatedPaths.Count;
         }
 
         /// <summary>
@@ -830,106 +871,105 @@ namespace IX.Guaranteed.Collections
 
             this.RequiresNotDisposed();
 
-            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            using ReadWriteSynchronizationLocker locker = this.ReadWriteLock();
+
+            string[] files = this.GetPossibleDataFiles();
+            var i = 0;
+
+            var accumulatedObjects = new List<T>();
+            var accumulatedPaths = new List<string>();
+
+            while (i < files.Length)
             {
-                string[] files = this.GetPossibleDataFiles();
-                var i = 0;
-
-                var accumulatedObjects = new List<T>();
-                var accumulatedPaths = new List<string>();
-
-                while (i < files.Length)
+                if (cancellationToken.IsCancellationRequested)
                 {
-                    if (cancellationToken.IsCancellationRequested)
+                    break;
+                }
+
+                var possibleFilePath = files[i];
+
+                try
+                {
+                    T obj;
+
+                    using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                    {
+                        obj = (T)this.Serializer.ReadObject(stream);
+                    }
+
+                    if (!predicate(
+                        state,
+                        obj))
                     {
                         break;
                     }
 
-                    var possibleFilePath = files[i];
+                    accumulatedObjects.Add(obj);
+                    accumulatedPaths.Add(possibleFilePath);
 
-                    try
-                    {
-                        T obj;
-
-                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
-                        {
-                            obj = (T)this.Serializer.ReadObject(stream);
-                        }
-
-                        if (!predicate(
-                            state,
-                            obj))
-                        {
-                            break;
-                        }
-
-                        accumulatedObjects.Add(obj);
-                        accumulatedPaths.Add(possibleFilePath);
-
-                        i++;
-                    }
-                    catch (IOException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
-                    catch (SerializationException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
+                    i++;
                 }
-
-                if (accumulatedObjects.Count <= 0)
+                catch (IOException)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-                    return accumulatedPaths.Count;
+                    this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
-
-                try
+                catch (UnauthorizedAccessException)
                 {
-                    await actionToInvoke(
-                        state,
-                        accumulatedObjects).ConfigureAwait(false);
+                    this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
-                catch (Exception)
+                catch (SerializationException)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
-                    return 0;
-#pragma warning restore ERP022 // Catching everything considered harmful.
+                    this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
+            }
 
-                locker.Upgrade();
-
-                foreach (var possibleFilePath in accumulatedPaths)
-                {
-                    try
-                    {
-                        this.FileShim.Delete(possibleFilePath);
-                    }
-                    catch (IOException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                    }
-                    catch (SerializationException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                    }
-                }
-
+            if (accumulatedObjects.Count <= 0)
+            {
                 cancellationToken.ThrowIfCancellationRequested();
                 return accumulatedPaths.Count;
             }
+
+            try
+            {
+                await actionToInvoke(
+                    state,
+                    accumulatedObjects).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
+                return 0;
+#pragma warning restore ERP022 // Catching everything considered harmful.
+            }
+
+            locker.Upgrade();
+
+            foreach (var possibleFilePath in accumulatedPaths)
+            {
+                try
+                {
+                    this.FileShim.Delete(possibleFilePath);
+                }
+                catch (IOException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                }
+                catch (SerializationException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                }
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            return accumulatedPaths.Count;
         }
 
         /// <summary>
@@ -964,106 +1004,105 @@ namespace IX.Guaranteed.Collections
 
             this.RequiresNotDisposed();
 
-            using (ReadWriteSynchronizationLocker locker = this.ReadWriteLock())
+            using ReadWriteSynchronizationLocker locker = this.ReadWriteLock();
+
+            string[] files = this.GetPossibleDataFiles();
+            var i = 0;
+
+            var accumulatedObjects = new List<T>();
+            var accumulatedPaths = new List<string>();
+
+            while (i < files.Length)
             {
-                string[] files = this.GetPossibleDataFiles();
-                var i = 0;
-
-                var accumulatedObjects = new List<T>();
-                var accumulatedPaths = new List<string>();
-
-                while (i < files.Length)
+                if (cancellationToken.IsCancellationRequested)
                 {
-                    if (cancellationToken.IsCancellationRequested)
+                    break;
+                }
+
+                var possibleFilePath = files[i];
+
+                try
+                {
+                    T obj;
+
+                    using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
+                    {
+                        obj = (T)this.Serializer.ReadObject(stream);
+                    }
+
+                    if (!await predicate(
+                        state,
+                        obj).ConfigureAwait(false))
                     {
                         break;
                     }
 
-                    var possibleFilePath = files[i];
+                    accumulatedObjects.Add(obj);
+                    accumulatedPaths.Add(possibleFilePath);
 
-                    try
-                    {
-                        T obj;
-
-                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
-                        {
-                            obj = (T)this.Serializer.ReadObject(stream);
-                        }
-
-                        if (!await predicate(
-                            state,
-                            obj).ConfigureAwait(false))
-                        {
-                            break;
-                        }
-
-                        accumulatedObjects.Add(obj);
-                        accumulatedPaths.Add(possibleFilePath);
-
-                        i++;
-                    }
-                    catch (IOException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
-                    catch (SerializationException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                        i++;
-                    }
+                    i++;
                 }
-
-                if (accumulatedObjects.Count <= 0)
+                catch (IOException)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-                    return accumulatedPaths.Count;
+                    this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
-
-                try
+                catch (UnauthorizedAccessException)
                 {
-                    await actionToInvoke(
-                        state,
-                        accumulatedObjects).ConfigureAwait(false);
+                    this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
-                catch (Exception)
+                catch (SerializationException)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
-                    return 0;
-#pragma warning restore ERP022 // Catching everything considered harmful.
+                    this.HandleFileLoadProblem(possibleFilePath);
+                    i++;
                 }
+            }
 
-                locker.Upgrade();
-
-                foreach (var possibleFilePath in accumulatedPaths)
-                {
-                    try
-                    {
-                        this.FileShim.Delete(possibleFilePath);
-                    }
-                    catch (IOException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                    }
-                    catch (SerializationException)
-                    {
-                        this.HandleFileLoadProblem(possibleFilePath);
-                    }
-                }
-
+            if (accumulatedObjects.Count <= 0)
+            {
                 cancellationToken.ThrowIfCancellationRequested();
                 return accumulatedPaths.Count;
             }
+
+            try
+            {
+                await actionToInvoke(
+                    state,
+                    accumulatedObjects).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+#pragma warning disable ERP022 // Catching everything considered harmful. - We will mitigate shortly
+                return 0;
+#pragma warning restore ERP022 // Catching everything considered harmful.
+            }
+
+            locker.Upgrade();
+
+            foreach (var possibleFilePath in accumulatedPaths)
+            {
+                try
+                {
+                    this.FileShim.Delete(possibleFilePath);
+                }
+                catch (IOException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                }
+                catch (SerializationException)
+                {
+                    this.HandleFileLoadProblem(possibleFilePath);
+                }
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            return accumulatedPaths.Count;
         }
 
         /// <summary>
@@ -1072,6 +1111,23 @@ namespace IX.Guaranteed.Collections
         /// <returns>An item, if one exists and can be loaded, or an exception otherwise.</returns>
         /// <exception cref="InvalidOperationException">There are no more valid items in the folder.</exception>
         protected T PeekTopmostItem()
+        {
+            if (!this.TryPeekTopmostItem(out var item))
+            {
+                throw new InvalidOperationException();
+            }
+
+            return item;
+        }
+
+        /// <summary>
+        /// Peeks at the topmost item in the folder.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <returns>
+        ///   <see langword="true" /> if an item is found, <see langword="false" /> otherwise, or if the queue is empty.
+        /// </returns>
+        protected bool TryPeekTopmostItem(out T item)
         {
             this.RequiresNotDisposed();
 
@@ -1084,17 +1140,17 @@ namespace IX.Guaranteed.Collections
                 {
                     if (i >= files.Length)
                     {
-                        throw new InvalidOperationException();
+                        item = default;
+                        return false;
                     }
 
                     var possibleFilePath = files[i];
 
                     try
                     {
-                        using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
-                        {
-                            return (T)this.Serializer.ReadObject(stream);
-                        }
+                        using Stream stream = this.FileShim.OpenRead(possibleFilePath);
+                        item = (T)this.Serializer.ReadObject(stream);
+                        return true;
                     }
                     catch (IOException)
                     {
@@ -1135,10 +1191,8 @@ namespace IX.Guaranteed.Collections
                 T obj;
                 try
                 {
-                    using (Stream stream = this.FileShim.OpenRead(possibleFilePath))
-                    {
-                        obj = (T)this.Serializer.ReadObject(stream);
-                    }
+                    using Stream stream = this.FileShim.OpenRead(possibleFilePath);
+                    obj = (T)this.Serializer.ReadObject(stream);
                 }
                 catch (IOException)
                 {

@@ -129,4 +129,10 @@
   <data name="ErrorKeyFoundInDictionary" xml:space="preserve">
     <value>The given key was already present in the dictionary.</value>
   </data>
+  <data name="ErrorQueueIsEmpty" xml:space="preserve">
+    <value>The queue is currently empty.</value>
+  </data>
+  <data name="ErrorStackIsEmpty" xml:space="preserve">
+    <value>The stack is currently empty.</value>
+  </data>
 </root>
