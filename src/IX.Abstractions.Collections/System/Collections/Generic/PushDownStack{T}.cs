@@ -5,7 +5,9 @@
 using System;
 using System.Runtime.Serialization;
 using IX.Abstractions.Collections;
+using IX.StandardExtensions.Contracts;
 using JetBrains.Annotations;
+using Constants = IX.Abstractions.Collections.Constants;
 
 // ReSharper disable once CheckNamespace
 namespace IX.System.Collections.Generic
@@ -49,73 +51,125 @@ namespace IX.System.Collections.Generic
         ///     Peeks in the stack to view the topmost item, without removing it.
         /// </summary>
         /// <returns>The topmost element in the stack, if any.</returns>
-        public T Peek() =>
-            this.InvokeIfNotDisposed(
-                reference => reference.ReadLock(
-                    referenceL2 => referenceL2.InternalContainer.Count > 0
-                        ? referenceL2.InternalContainer[referenceL2.InternalContainer.Count - 1]
-                        : default, reference), this);
+        public T Peek()
+        {
+            if (!this.TryPeek(out var item))
+            {
+                throw new InvalidOperationException(Resources.ErrorStackIsEmpty);
+            }
+
+            return item;
+        }
 
         /// <summary>
         ///     Pops the topmost element from the stack, removing it.
         /// </summary>
         /// <returns>The topmost element in the stack, if any.</returns>
-        public T Pop() => this.InvokeIfNotDisposed(
-            reference =>
+        public T Pop()
+        {
+            if (!this.TryPop(out var item))
             {
-                if (reference.Limit == 0)
-                {
-                    return default;
-                }
+                throw new InvalidOperationException(Resources.ErrorStackIsEmpty);
+            }
 
-                return reference.WriteLock(
-                    referenceL2 =>
-                    {
-                        var index = referenceL2.InternalContainer.Count - 1;
-
-                        if (index < 0)
-                        {
-                            return default;
-                        }
-
-                        T item = referenceL2.InternalContainer[index];
-
-                        referenceL2.InternalContainer.RemoveAt(index);
-
-                        return item;
-                    }, reference);
-            }, this);
+            return item;
+        }
 
         /// <summary>
         ///     Pushes an element to the top of the stack.
         /// </summary>
         /// <param name="item">The item to push.</param>
-        public void Push(T item) =>
-            this.InvokeIfNotDisposed(
-                (
-                    itemL2,
-                    cThis) =>
+        public void Push(T item) => this.Append(item);
+
+        /// <summary>
+        /// Pushes a range of elements to the top of the stack.
+        /// </summary>
+        /// <param name="items">The item range to push.</param>
+        public void PushRange(T[] items) => this.Append(items);
+
+        /// <summary>
+        /// Pushes a range of elements to the top of the stack.
+        /// </summary>
+        /// <param name="items">The item range to push.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="count">The number of items to push.</param>
+        public void PushRange(
+            T[] items,
+            int startIndex,
+            int count) =>
+            this.Append(
+                items,
+                startIndex,
+                count);
+
+        /// <summary>
+        /// Attempts to peek at the topmost item from the stack, without removing it.
+        /// </summary>
+        /// <param name="item">The topmost element in the stack, default if unsuccessful.</param>
+        /// <returns>
+        /// <see langword="true" /> if an item is peeked at successfully, <see langword="false" /> otherwise, or if the
+        /// stack is empty.
+        /// </returns>
+        public bool TryPeek(out T item)
+        {
+            this.RequiresNotDisposed();
+
+            if (this.Limit == 0)
+            {
+                item = default;
+                return false;
+            }
+
+            using (this.ReadLock())
+            {
+                var index = this.InternalContainer.Count - 1;
+
+                if (index < 0)
                 {
-                    if (cThis.Limit == 0)
-                    {
-                        return;
-                    }
+                    item = default;
+                    return false;
+                }
 
-                    cThis.WriteLock(
-                        (
-                            itemL1,
-                            c2This) =>
-                        {
-                            if (c2This.InternalContainer.Count == c2This.Limit)
-                            {
-                                c2This.InternalContainer.RemoveAt(0);
-                            }
+                item = this.InternalContainer[index];
+                return true;
+            }
+        }
 
-                            c2This.InternalContainer.Add(itemL1);
-                        }, itemL2,
-                        cThis);
-                }, item,
-                this);
+        /// <summary>
+        /// Attempts to pop the topmost item from the stack, and remove it if successful.
+        /// </summary>
+        /// <param name="item">The topmost element in the stack, default if unsuccessful.</param>
+        /// <returns>
+        /// <see langword="true" /> if an item is popped successfully, <see langword="false" /> otherwise, or if the
+        /// stack is empty.
+        /// </returns>
+        public bool TryPop(out T item)
+        {
+            this.RequiresNotDisposed();
+
+            if (this.Limit == 0)
+            {
+                item = default;
+                return false;
+            }
+
+            using (this.WriteLock())
+            {
+                var index = this.InternalContainer.Count - 1;
+
+                if (index < 0)
+                {
+                    item = default;
+                    return false;
+                }
+
+                item = this.InternalContainer[index];
+
+                this.InternalContainer.RemoveAt(index);
+
+                return true;
+            }
+        }
 
         /// <summary>
         ///     This method does nothing.

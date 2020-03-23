@@ -91,7 +91,7 @@ dotnet_style_predefined_type_for_locals_parameters_members=true:warning
 dotnet_style_predefined_type_for_member_access=true:warning
 
 # Modifiers
-csharp_preferred_modifier_order=public, private, protected, internal, static, readonly, new, abstract, virtual, sealed, override, extern, unsafe, volatile, async:suggestion
+csharp_preferred_modifier_order=public, protected, internal, private, static, readonly, new, abstract, virtual, sealed, override, extern, unsafe, volatile, async:suggestion
 dotnet_style_require_accessibility_modifiers=always:silent
 dotnet_style_readonly_field=true:suggestion
 

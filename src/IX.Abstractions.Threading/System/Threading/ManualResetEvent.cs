@@ -53,6 +53,10 @@ namespace IX.System.Threading
         ///     <paramref name="manualResetEvent" /> is <see langword="null" /> (
         ///     <see langword="Nothing" /> in Visual Basic).
         /// </exception>
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "IDisposableAnalyzers.Correctness",
+            "IDISP003:Dispose previous before re-assigning.",
+            Justification = "This is the constructor, there's nothing to dispose.")]
         public ManualResetEvent(global::System.Threading.ManualResetEvent manualResetEvent)
         {
             Contract.RequiresNotNull(
@@ -143,13 +147,9 @@ namespace IX.System.Threading
         public bool WaitOne(
             int millisecondsTimeout,
             bool exitSynchronizationDomain) =>
-#if !STANDARD
             this.sre.WaitOne(
                 TimeSpan.FromMilliseconds(millisecondsTimeout),
                 exitSynchronizationDomain);
-#else
-            this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout));
-#endif
 
         /// <summary>
         ///     Enters a wait period and, should there be no signal set, blocks the thread calling.
@@ -166,13 +166,9 @@ namespace IX.System.Threading
         public bool WaitOne(
             double millisecondsTimeout,
             bool exitSynchronizationDomain) =>
-#if !STANDARD
             this.sre.WaitOne(
                 TimeSpan.FromMilliseconds(millisecondsTimeout),
                 exitSynchronizationDomain);
-#else
-            this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout));
-#endif
 
         /// <summary>
         ///     Enters a wait period and, should there be no signal set, blocks the thread calling.
@@ -189,13 +185,9 @@ namespace IX.System.Threading
         public bool WaitOne(
             TimeSpan timeout,
             bool exitSynchronizationDomain) =>
-#if !STANDARD
             this.sre.WaitOne(
                 timeout,
                 exitSynchronizationDomain);
-#else
-            this.sre.WaitOne(timeout);
-#endif
 
         /// <summary>
         ///     Disposes in the managed context.

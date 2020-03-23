@@ -396,6 +396,15 @@ namespace IX.Guaranteed.Collections
         public override T Peek() => this.PeekTopmostItem();
 
         /// <summary>
+        /// Attempts to peek at the current queue and return the item that is next in line to be dequeued.
+        /// </summary>
+        /// <param name="item">The item, or default if unsuccessful.</param>
+        /// <returns>
+        ///   <see langword="true" /> if an item is found, <see langword="false" /> otherwise, or if the queue is empty.
+        /// </returns>
+        public override bool TryPeek(out T item) => this.TryPeekTopmostItem(out item);
+
+        /// <summary>
         ///     This method should not be called, as it will always throw an <see cref="InvalidOperationException" />.
         /// </summary>
         /// <returns>

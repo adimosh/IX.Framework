@@ -36,12 +36,13 @@ namespace IX.Guaranteed.Collections
     [PublicAPI]
     public class DisasterRecoveryPersistedQueue<T> : ReaderWriterSynchronizedBase, IPersistedQueue<T>
     {
-        private IDirectory directoryShim;
-        private IFile fileShim;
+        private readonly IDirectory directoryShim;
+        private readonly IFile fileShim;
+        private readonly IPath pathShim;
+        private readonly string persistenceFolderPath;
+
         private int isInDisasterMode;
-        private IPath pathShim;
         private PersistedQueue<T> persistedQueue;
-        private string persistenceFolderPath;
         private System.Collections.Generic.Queue<T> queue;
 
         /// <summary>
@@ -86,25 +87,22 @@ namespace IX.Guaranteed.Collections
                 pathShim,
                 nameof(pathShim));
 
-#if !STANDARD
-            // Automatic disaster detection logic - Only for .NET Framework and .NET Standard 2.0
+            // Automatic disaster detection logic
             AppDomain.CurrentDomain.UnhandledException += this.CurrentDomainOnUnhandledException;
-#endif
 
             // Initialize queues
             this.queue = new System.Collections.Generic.Queue<T>();
 
-            using (var existingQueue = new PersistedQueue<T>(
+            using var existingQueue = new PersistedQueue<T>(
                 persistenceFolderPath,
                 Timeout.InfiniteTimeSpan,
                 fileShim,
                 directoryShim,
-                pathShim))
+                pathShim);
+
+            while (existingQueue.TryDequeue(out T transferItem))
             {
-                while (existingQueue.TryDequeue(out T transferItem))
-                {
-                    this.queue.Enqueue(transferItem);
-                }
+                this.queue.Enqueue(transferItem);
             }
         }
 
@@ -147,6 +145,14 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
+        /// Gets a value indicating whether this queue is empty.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this queue is empty; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsEmpty => this.Count == 0;
+
+        /// <summary>
         ///     Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>
@@ -156,6 +162,14 @@ namespace IX.Guaranteed.Collections
         ///     The queue is currently in disaster mode, enumeration operations are
         ///     disabled by design.
         /// </exception>
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Performance",
+            "HAA0401:Possible allocation of reference type enumerator",
+            Justification = "We know it's a reference type, because it's a class enumerator.")]
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Performance",
+            "HAA0603:Delegate allocation from a method group",
+            Justification = "Atomic enumerator expects a delegate instance.")]
         public IEnumerator<T> GetEnumerator()
         {
             using (this.ReadLock())
@@ -163,9 +177,9 @@ namespace IX.Guaranteed.Collections
                 if (this.isInDisasterMode == 0)
                 {
                     // Not in disaster mode - we can spawn an atomic enumerator
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - unavoidable at this point
-                    return this.SpawnAtomicEnumerator<T, Queue<T>.Enumerator>(this.queue.GetEnumerator());
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
+                    return AtomicEnumerator<T>.FromCollection(
+                        this.queue,
+                        this.ReadLock);
                 }
 
                 // Disaster mode - enumeration disabled
@@ -173,15 +187,17 @@ namespace IX.Guaranteed.Collections
             }
         }
 
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator - unavoidable at this point.
         /// <summary>
         ///     Returns an enumerator that iterates through a collection.
         /// </summary>
         /// <returns>
         ///     An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
         /// </returns>
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Performance",
+            "HAA0401:Possible allocation of reference type enumerator",
+            Justification = "Unavoidable.")]
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
 
         /// <summary>
         ///     Copies the elements of the <see cref="T:System.Collections.ICollection" /> to an <see cref="T:System.Array" />,
@@ -325,6 +341,50 @@ namespace IX.Guaranteed.Collections
         }
 
         /// <summary>
+        /// Queues a range of elements, adding them to the queue.
+        /// </summary>
+        /// <param name="items">The item range to push.</param>
+        public void EnqueueRange(T[] items)
+        {
+            using (this.WriteLock())
+            {
+                if (this.isInDisasterMode == 0)
+                {
+                    // Not in disaster mode
+                    this.queue.EnqueueRange(items);
+                }
+                else
+                {
+                    // Disaster mode
+                    this.persistedQueue.EnqueueRange(items);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Queues a range of elements, adding them to the queue.
+        /// </summary>
+        /// <param name="items">The item range to enqueue.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="count">The number of items to enqueue.</param>
+        public void EnqueueRange(T[] items, int startIndex, int count)
+        {
+            using (this.WriteLock())
+            {
+                if (this.isInDisasterMode == 0)
+                {
+                    // Not in disaster mode
+                    this.queue.EnqueueRange(items, startIndex, count);
+                }
+                else
+                {
+                    // Disaster mode
+                    this.persistedQueue.EnqueueRange(items, startIndex, count);
+                }
+            }
+        }
+
+        /// <summary>
         ///     Peeks at the topmost element in the queue, without removing it.
         /// </summary>
         /// <returns>
@@ -335,6 +395,21 @@ namespace IX.Guaranteed.Collections
             using (this.ReadLock())
             {
                 return this.isInDisasterMode == 0 ? this.queue.Peek() : this.persistedQueue.Peek();
+            }
+        }
+
+        /// <summary>
+        /// Attempts to peek at the current queue and return the item that is next in line to be dequeued.
+        /// </summary>
+        /// <param name="item">The item, or default if unsuccessful.</param>
+        /// <returns>
+        ///   <see langword="true" /> if an item is found, <see langword="false" /> otherwise, or if the queue is empty.
+        /// </returns>
+        public bool TryPeek(out T item)
+        {
+            using (this.ReadLock())
+            {
+                return this.isInDisasterMode == 0 ? this.queue.TryPeek(out item) : this.persistedQueue.TryPeek(out item);
             }
         }
 
@@ -393,8 +468,7 @@ namespace IX.Guaranteed.Collections
         /// </returns>
         /// <remarks>
         ///     Warning! This method has the potential of overrunning its read/write lock timeouts. Please ensure that the
-        ///     <paramref name="predicate" /> method
-        ///     filters out items in a way that limits the amount of data passing through.
+        ///     <paramref name="predicate" /> method filters out items in a way that limits the amount of data passing through.
         /// </remarks>
         public int DequeueWhilePredicateWithAction<TState>(
             Func<TState, T, bool> predicate,
@@ -1099,7 +1173,6 @@ namespace IX.Guaranteed.Collections
             }
         }
 
-#if !STANDARD
         /// <summary>
         ///     Invoked when there is an unhandled exception in the current application domain. Puts the queue in disaster mode.
         /// </summary>
@@ -1118,6 +1191,5 @@ namespace IX.Guaranteed.Collections
                 this.Disaster();
             }
         }
-#endif
     }
 }

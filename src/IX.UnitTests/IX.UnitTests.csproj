@@ -3,8 +3,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
-    <TargetFrameworks Condition="'$(IxDevOpsBuild)'=='true'">net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp3.0</TargetFrameworks>
-    <TargetFrameworks Condition="'$(IxDevOpsBuild)'!='true'">net48;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(IxDevOpsBuild)'=='true'">net452;net46;net461;net462;net47;net471;net472;net48;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks Condition="'$(IxDevOpsBuild)'!='true'">net452;net48;netcoreapp2.1;netcoreapp3.0</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
     <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
@@ -25,31 +25,6 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
     <PackageReference Include="xunit.runner.console" Version="2.4.1" />
     <PackageReference Include="Moq" Version="4.13.0" />
-  </ItemGroup>
-
-  <!-- StyleCop -->
-  <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha" PrivateAssets="all" />
-  </ItemGroup>
-
-  <!-- IDisposable analyzer -->
-  <ItemGroup>
-    <PackageReference Include="IDisposableAnalyzers" Version="2.1.2" PrivateAssets="all" />
-  </ItemGroup>
-
-  <!-- ErrorProne.Net - only in debug, as it tends to be rather heavy -->
-  <ItemGroup Condition="'$(Configuration)'=='Debug'">
-    <PackageReference Include="ErrorProne.NET.CoreAnalyzers" Version="0.2.0-beta.7" PrivateAssets="all" />
-    <PackageReference Include="ErrorProne.Net.Structs" Version="0.2.0-beta.7" PrivateAssets="all" />
-
-    <PackageReference Include="ClrHeapAllocationAnalyzer" Version="1.0.0.9" PrivateAssets="all" />
-  </ItemGroup>
-
-  <!-- Support -->
-  <ItemGroup Condition="'$(TargetFrameworkIsStandard)'=='true'">
-    <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />
   </ItemGroup>
 
   <!--Suppressions -->

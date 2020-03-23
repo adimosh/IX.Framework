@@ -9,8 +9,7 @@
 //------------------------------------------------------------------------------
 
 namespace IX.Abstractions.Collections {
-    using global::System;
-    using global::System.Reflection;
+    using System;
     
     
     /// <summary>
@@ -20,7 +19,7 @@ namespace IX.Abstractions.Collections {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -40,7 +39,7 @@ namespace IX.Abstractions.Collections {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IX.Resources", typeof(Resources).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IX.Abstractions.Collections.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -67,6 +66,24 @@ namespace IX.Abstractions.Collections {
         internal static string ErrorKeyFoundInDictionary {
             get {
                 return ResourceManager.GetString("ErrorKeyFoundInDictionary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The queue is currently empty..
+        /// </summary>
+        internal static string ErrorQueueIsEmpty {
+            get {
+                return ResourceManager.GetString("ErrorQueueIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The stack is currently empty..
+        /// </summary>
+        internal static string ErrorStackIsEmpty {
+            get {
+                return ResourceManager.GetString("ErrorStackIsEmpty", resourceCulture);
             }
         }
         

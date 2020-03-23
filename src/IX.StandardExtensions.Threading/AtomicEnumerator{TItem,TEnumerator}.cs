@@ -1,12 +1,10 @@
-// <copyright file="AtomicEnumerator.cs" company="Adrian Mos">
+// <copyright file="AtomicEnumerator{TItem,TEnumerator}.cs" company="Adrian Mos">
 // Copyright (c) Adrian Mos with all rights reserved. Part of the IX Framework.
 // </copyright>
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using IX.StandardExtensions.ComponentModel;
 using IX.StandardExtensions.Contracts;
 using JetBrains.Annotations;
 
@@ -17,9 +15,9 @@ namespace IX.StandardExtensions.Threading
     /// </summary>
     /// <typeparam name="TItem">The type of the items to enumerate.</typeparam>
     /// <typeparam name="TEnumerator">The type of the enumerator from which this atomic enumerator is derived.</typeparam>
-    /// <seealso cref="IEnumerator{T}" />
+    /// <seealso cref="AtomicEnumerator{TItem}" />
     [PublicAPI]
-    public sealed class AtomicEnumerator<TItem, TEnumerator> : DisposableBase, IEnumerator<TItem>
+    internal sealed class AtomicEnumerator<TItem, TEnumerator> : AtomicEnumerator<TItem>
         where TEnumerator : IEnumerator<TItem>
     {
         private TItem current;
@@ -56,7 +54,7 @@ namespace IX.StandardExtensions.Threading
         ///     Gets the element in the collection at the current position of the enumerator.
         /// </summary>
         /// <value>The current element.</value>
-        public TItem Current
+        public override TItem Current
         {
             get
             {
@@ -71,14 +69,6 @@ namespace IX.StandardExtensions.Threading
             }
         }
 
-#pragma warning disable HAA0601 // Value type to reference type conversion causing boxing allocation - We cannot do anything about this at this time
-        /// <summary>
-        ///     Gets the element in the collection at the current position of the enumerator.
-        /// </summary>
-        /// <value>The current element.</value>
-        object IEnumerator.Current => this.Current;
-#pragma warning restore HAA0601 // Value type to reference type conversion causing boxing allocation
-
         /// <summary>
         ///     Advances the enumerator to the next element of the collection.
         /// </summary>
@@ -86,7 +76,7 @@ namespace IX.StandardExtensions.Threading
         ///     <see langword="true" /> if the enumerator was successfully advanced to the next element;
         ///     <see langword="false" /> if the enumerator has passed the end of the collection.
         /// </returns>
-        public bool MoveNext()
+        public override bool MoveNext()
         {
             this.ThrowIfCurrentObjectDisposed();
 
@@ -110,7 +100,7 @@ namespace IX.StandardExtensions.Threading
         /// <summary>
         ///     Sets the enumerator to its initial position, which is before the first element in the collection.
         /// </summary>
-        public void Reset()
+        public override void Reset()
         {
             // DO NOT CHANGE the order of these operations!
             this.movedNext = false;
@@ -124,13 +114,15 @@ namespace IX.StandardExtensions.Threading
         /// <summary>
         ///     Disposes in the managed context.
         /// </summary>
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "IDisposableAnalyzers.Correctness",
+            "IDISP007:Don't dispose injected.",
+            Justification = "The atomic enumerator requires ownership of the source enumerator.")]
         protected override void DisposeManagedContext()
         {
             base.DisposeManagedContext();
 
-#pragma warning disable IDISP007 // Don't dispose injected. - Ownership of the enumerator is required
             this.existingEnumerator.Dispose();
-#pragma warning restore IDISP007 // Don't dispose injected.
 
             Interlocked.Exchange(
                 ref this.readLock,

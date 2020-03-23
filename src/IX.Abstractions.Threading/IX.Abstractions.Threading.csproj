@@ -23,8 +23,8 @@
 
   <!-- References -->
   <ItemGroup>
-    <PackageReference Include="IX.Abstractions" Version="[0.5.1.1,0.5.2)" />
-    <PackageReference Include="IX.StandardExtensions" Version="[0.5.1.2,0.5.2)" />
+    <PackageReference Include="IX.Abstractions" Version="[0.5.3,0.6)" />
+    <PackageReference Include="IX.StandardExtensions" Version="[0.5.3,0.6)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIsFramework)'=='true'">

@@ -2,4 +2,17 @@
 
   <Import Project="../opt/msbuild/Standard.Build.props" />
 
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageReleaseNotes>- Strong name.
+      - Reference solution updated.
+      - Implemented standard options as a submodule.</PackageReleaseNotes>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>../../opt/snk/ix.framework.strongname.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
 </Project>

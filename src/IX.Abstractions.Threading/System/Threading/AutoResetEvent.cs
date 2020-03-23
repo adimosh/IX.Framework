@@ -18,14 +18,14 @@ namespace IX.System.Threading
     {
         private readonly bool eventLocal;
 
-#pragma warning disable IDISP002 // Dispose member. - It is
-#pragma warning disable IDISP006 // Implement IDisposable.
         /// <summary>
         ///     The manual reset event.
         /// </summary>
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "IDisposableAnalyzers.Correctness",
+            "IDISP006:Implement IDisposable.",
+            Justification = "IDisposable is correctly implemented in base class.")]
         private readonly global::System.Threading.AutoResetEvent sre;
-#pragma warning restore IDISP006 // Implement IDisposable.
-#pragma warning restore IDISP002 // Dispose member.
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="AutoResetEvent" /> class.
@@ -53,6 +53,10 @@ namespace IX.System.Threading
         ///     <paramref name="autoResetEvent" /> is <see langword="null" /> (
         ///     <see langword="Nothing" /> in Visual Basic).
         /// </exception>
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "IDisposableAnalyzers.Correctness",
+            "IDISP003:Dispose previous before re-assigning.",
+            Justification = "This is a constructor, the analyzer is thrown off.")]
         public AutoResetEvent(global::System.Threading.AutoResetEvent autoResetEvent)
         {
             Contract.RequiresNotNull(
@@ -143,13 +147,9 @@ namespace IX.System.Threading
         public bool WaitOne(
             int millisecondsTimeout,
             bool exitSynchronizationDomain) =>
-#if !STANDARD
             this.sre.WaitOne(
                 TimeSpan.FromMilliseconds(millisecondsTimeout),
                 exitSynchronizationDomain);
-#else
-            this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout));
-#endif
 
         /// <summary>
         ///     Enters a wait period and, should there be no signal set, blocks the thread calling.
@@ -166,13 +166,9 @@ namespace IX.System.Threading
         public bool WaitOne(
             double millisecondsTimeout,
             bool exitSynchronizationDomain) =>
-#if !STANDARD
             this.sre.WaitOne(
                 TimeSpan.FromMilliseconds(millisecondsTimeout),
                 exitSynchronizationDomain);
-#else
-            this.sre.WaitOne(TimeSpan.FromMilliseconds(millisecondsTimeout));
-#endif
 
         /// <summary>
         ///     Enters a wait period and, should there be no signal set, blocks the thread calling.
@@ -189,13 +185,9 @@ namespace IX.System.Threading
         public bool WaitOne(
             TimeSpan timeout,
             bool exitSynchronizationDomain) =>
-#if !STANDARD
             this.sre.WaitOne(
                 timeout,
                 exitSynchronizationDomain);
-#else
-            this.sre.WaitOne(timeout);
-#endif
 
         /// <summary>
         ///     Disposes in the managed context.
