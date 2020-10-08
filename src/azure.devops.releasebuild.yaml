@@ -8,6 +8,7 @@ pr: none
 
 variables:
   IxDevOpsBuild: true
+  disable.coverage.autogenerate: true
   system.debug: false
 
 resources:

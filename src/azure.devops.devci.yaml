@@ -27,8 +27,9 @@ pr:
 
 variables:
   IxDevOpsBuild: true
-  IxVersionPrefix: 0.5.0
+  IxVersionPrefix: 0.6.0
   IxVersionSuffix:
+  disable.coverage.autogenerate: true
   system.debug: false
 
 # Jobs should run in parallel
@@ -42,6 +43,8 @@ resources:
 
 jobs:
 - job:
+  workspace:
+    clean: all
   timeoutInMinutes: 10
   pool:
     name: Azure Pipelines
@@ -51,6 +54,8 @@ jobs:
     parameters:
       solutionName: 'IX.Framework'
 - job:
+  workspace:
+    clean: all
   timeoutInMinutes: 10
   pool:
     name: Azure Pipelines
@@ -60,6 +65,8 @@ jobs:
     parameters:
       solutionName: 'IX.Framework'
 - job:
+  workspace:
+    clean: all
   timeoutInMinutes: 10
   pool:
     name: Azure Pipelines
