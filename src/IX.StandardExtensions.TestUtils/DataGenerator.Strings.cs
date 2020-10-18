@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using IX.StandardExtensions.Contracts;
 using JetBrains.Annotations;
 
 namespace IX.StandardExtensions.TestUtils
@@ -13,22 +14,26 @@ namespace IX.StandardExtensions.TestUtils
     public static partial class DataGenerator
     {
         // Character classes
-#pragma warning disable SA1134 // Attributes should not share line - R# attributes
-        [NotNull] private static readonly char[] LowerCaseAlphaCharacters;
+        [NotNull]
+        private static readonly char[] LowerCaseAlphaCharacters;
 
-        [NotNull] private static readonly char[] UpperCaseAlphaCharacters;
+        [NotNull]
+        private static readonly char[] UpperCaseAlphaCharacters;
 
-        [NotNull] private static readonly char[] NumericCharacters;
+        [NotNull]
+        private static readonly char[] NumericCharacters;
 
         [NotNull] private static readonly char[] BasicSymbolCharacters;
 
         // Complex character classes
-        [NotNull] private static readonly char[] AlphaCharacters;
+        [NotNull]
+        private static readonly char[] AlphaCharacters;
 
-        [NotNull] private static readonly char[] AlphaNumericCharacters;
+        [NotNull]
+        private static readonly char[] AlphaNumericCharacters;
 
-        [NotNull] private static readonly char[] AllCharacters;
-#pragma warning restore SA1134 // Attributes should not share line
+        [NotNull]
+        private static readonly char[] AllCharacters;
 
         /// <summary>
         ///     Generates a random string.
@@ -56,15 +61,18 @@ namespace IX.StandardExtensions.TestUtils
         /// <returns>A random string.</returns>
         public static string RandomLowercaseString(Random random)
         {
+            var localRandom = Requires.NotNull(
+                random,
+                nameof(random));
             int length;
 
-            lock (random)
+            lock (localRandom)
             {
-                length = random.Next();
+                length = localRandom.Next();
             }
 
             return RandomString(
-                random,
+                localRandom,
                 length,
                 LowerCaseAlphaCharacters);
         }
@@ -118,15 +126,18 @@ namespace IX.StandardExtensions.TestUtils
         /// <returns>A random string.</returns>
         public static string RandomUppercaseString(Random random)
         {
+            var localRandom = Requires.NotNull(
+                random,
+                nameof(random));
             int length;
 
-            lock (random)
+            lock (localRandom)
             {
-                length = random.Next();
+                length = localRandom.Next();
             }
 
             return RandomString(
-                random,
+                localRandom,
                 length,
                 UpperCaseAlphaCharacters);
         }
@@ -180,15 +191,18 @@ namespace IX.StandardExtensions.TestUtils
         /// <returns>A random string.</returns>
         public static string RandomNumericString(Random random)
         {
+            var localRandom = Requires.NotNull(
+                random,
+                nameof(random));
             int length;
 
-            lock (random)
+            lock (localRandom)
             {
-                length = random.Next();
+                length = localRandom.Next();
             }
 
             return RandomString(
-                random,
+                localRandom,
                 length,
                 NumericCharacters);
         }
@@ -242,15 +256,18 @@ namespace IX.StandardExtensions.TestUtils
         /// <returns>A random string.</returns>
         public static string RandomSymbolString(Random random)
         {
+            var localRandom = Requires.NotNull(
+                random,
+                nameof(random));
             int length;
 
-            lock (random)
+            lock (localRandom)
             {
-                length = random.Next();
+                length = localRandom.Next();
             }
 
             return RandomString(
-                random,
+                localRandom,
                 length,
                 BasicSymbolCharacters);
         }
@@ -304,15 +321,18 @@ namespace IX.StandardExtensions.TestUtils
         /// <returns>A random string.</returns>
         public static string RandomAlphaString(Random random)
         {
+            var localRandom = Requires.NotNull(
+                random,
+                nameof(random));
             int length;
 
-            lock (random)
+            lock (localRandom)
             {
-                length = random.Next();
+                length = localRandom.Next();
             }
 
             return RandomString(
-                random,
+                localRandom,
                 length,
                 AlphaCharacters);
         }
@@ -366,15 +386,18 @@ namespace IX.StandardExtensions.TestUtils
         /// <returns>A random string.</returns>
         public static string RandomAlphanumericString(Random random)
         {
+            var localRandom = Requires.NotNull(
+                random,
+                nameof(random));
             int length;
 
-            lock (random)
+            lock (localRandom)
             {
-                length = random.Next();
+                length = localRandom.Next();
             }
 
             return RandomString(
-                random,
+                localRandom,
                 length,
                 AlphaNumericCharacters);
         }
@@ -428,15 +451,18 @@ namespace IX.StandardExtensions.TestUtils
         /// <returns>A random string.</returns>
         public static string RandomString(Random random)
         {
+            var localRandom = Requires.NotNull(
+                random,
+                nameof(random));
             int length;
 
-            lock (random)
+            lock (localRandom)
             {
-                length = random.Next();
+                length = localRandom.Next();
             }
 
             return RandomString(
-                random,
+                localRandom,
                 length,
                 AllCharacters);
         }
@@ -474,15 +500,18 @@ namespace IX.StandardExtensions.TestUtils
             Random random,
             char[] fromCharacters)
         {
+            var localRandom = Requires.NotNull(
+                random,
+                nameof(random));
             int length;
 
-            lock (random)
+            lock (localRandom)
             {
-                length = random.Next();
+                length = localRandom.Next();
             }
 
             return RandomString(
-                random,
+                localRandom,
                 length,
                 fromCharacters);
         }
@@ -499,17 +528,23 @@ namespace IX.StandardExtensions.TestUtils
             int length,
             char[] fromCharacters)
         {
+            var localRandom = Requires.NotNull(
+                random,
+                nameof(random));
+            var localFromCharacters = Requires.NotNull(
+                fromCharacters,
+                nameof(fromCharacters));
             var randomString = new char[length];
-            int position;
 
             for (var i = 0; i < length; i++)
             {
-                lock (R)
+                int position;
+                lock (localRandom)
                 {
-                    position = random.Next(fromCharacters.Length);
+                    position = localRandom.Next(localFromCharacters.Length);
                 }
 
-                randomString[i] = fromCharacters[position];
+                randomString[i] = localFromCharacters[position];
             }
 
             return new string(randomString);

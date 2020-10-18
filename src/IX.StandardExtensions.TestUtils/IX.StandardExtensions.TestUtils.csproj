@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <Nullable>enable</Nullable>
     <FailObsoleteTargetFrameworks>true</FailObsoleteTargetFrameworks>
   </PropertyGroup>
 
@@ -25,9 +26,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="IX.StandardExtensions" Version="[0.7.0,0.8)" />
+  </ItemGroup>
+
   <!-- Project system and dependencies -->
   <ItemGroup>
-    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.1">
+    <PackageReference Include="IX.Framework.ProjectSystem" Version="1.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

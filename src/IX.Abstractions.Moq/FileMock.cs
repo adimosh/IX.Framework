@@ -4,6 +4,7 @@
 
 using System.IO;
 using System.Text;
+using IX.StandardExtensions.Contracts;
 using IX.System.IO;
 using JetBrains.Annotations;
 using Moq;
@@ -13,7 +14,7 @@ namespace IX.Abstractions.Moq
     /// <summary>
     ///     A mock of a file abstraction.
     /// </summary>
-    /// <seealso cref="T:Moq.Mock{T}" />
+    /// <seealso cref="Mock{T}" />
     [PublicAPI]
     public class FileMock : Mock<IFile>
     {
@@ -45,14 +46,13 @@ namespace IX.Abstractions.Moq
         public void SetupStandaloneOpenRead(
             string fileName,
             string fileContents,
-            Encoding encoding)
-        {
-            byte[] bytes = encoding.GetBytes(fileContents);
-
+            Encoding encoding) =>
             this.SetupStandaloneOpenRead(
                 fileName,
-                bytes);
-        }
+                Requires.NotNull(
+                        encoding,
+                        nameof(encoding))
+                    .GetBytes(fileContents));
 
         /// <summary>
         ///     Sets up a stand-alone reading operation for a self-closing and self-disposing stream.
@@ -91,14 +91,13 @@ namespace IX.Abstractions.Moq
         public void SetupStandaloneOpenText(
             string fileName,
             string fileContents,
-            Encoding encoding)
-        {
-            byte[] bytes = encoding.GetBytes(fileContents);
-
+            Encoding encoding) =>
             this.SetupStandaloneOpenText(
                 fileName,
-                bytes);
-        }
+                Requires.NotNull(
+                        encoding,
+                        nameof(encoding))
+                    .GetBytes(fileContents));
 
         /// <summary>
         ///     Sets up a stand-alone text reading operation for a self-closing and self-disposing stream.

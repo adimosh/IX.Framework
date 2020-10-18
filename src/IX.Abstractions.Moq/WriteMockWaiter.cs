@@ -15,14 +15,24 @@ namespace IX.Abstractions.Moq
     /// <remarks>
     ///     <para>Please do not attempt to use this class for high-capacity streams, as it is unsuitable for such a purpose.</para>
     /// </remarks>
-    /// <seealso cref="T:System.IDisposable" />
+    /// <seealso cref="IDisposable" />
     [PublicAPI]
     public class WriteMockWaiter : IDisposable
     {
         private byte[] data;
         private bool isAwaited;
         private bool isDisposed;
+
+        [SuppressMessage(
+            "Usage",
+            "CA2213:Disposable fields should be disposed",
+            Justification = "It is, but the analyzer can't tell.")]
         private SaveWhenDisposingMemoryStream memoryStream;
+
+        [SuppressMessage(
+            "Usage",
+            "CA2213:Disposable fields should be disposed",
+            Justification = "It is, but the analyzer can't tell.")]
         private ManualResetEvent mre = new ManualResetEvent(false);
 
         /// <summary>
@@ -57,11 +67,11 @@ namespace IX.Abstractions.Moq
         /// <value>
         ///     The data.
         /// </value>
-        /// <exception cref="T:System.ObjectDisposedException">
+        /// <exception cref="ObjectDisposedException">
         ///     Occurs when the object has already been disposed and should no
         ///     longer be used.
         /// </exception>
-        /// <exception cref="T:System.InvalidOperationException">
+        /// <exception cref="InvalidOperationException">
         ///     Occurs if anyone tries to load data before it has successfully
         ///     read from the stream.
         /// </exception>
@@ -103,7 +113,7 @@ namespace IX.Abstractions.Moq
         /// <summary>
         ///     Waits for the write operation to finish.
         /// </summary>
-        /// <exception cref="T:System.ObjectDisposedException">
+        /// <exception cref="ObjectDisposedException">
         ///     Occurs when the object has already been disposed and should no
         ///     longer be used.
         /// </exception>
@@ -117,7 +127,7 @@ namespace IX.Abstractions.Moq
         ///     <see langword="true" /> if the wait was terminated successfully, <see langword="false" /> if there was a
         ///     timeout.
         /// </returns>
-        /// <exception cref="T:System.ObjectDisposedException">
+        /// <exception cref="ObjectDisposedException">
         ///     Occurs when the object has already been disposed and should no
         ///     longer be used.
         /// </exception>
