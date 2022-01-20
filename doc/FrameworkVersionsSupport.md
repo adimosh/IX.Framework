@@ -70,14 +70,19 @@ standard in question may or may not have already lost traction, and shuld be aba
 | 1.0 | :x: | :x: (12th January, 2016) |
 | 1.1 | :x: | :x: (12th January, 2016) |
 | 1.2 | :x: | :x: (12th January, 2016) |
-| 1.3 | :x: | :warning: (26th April, 2022)_1_ |
-| 1.4 | :x: | :warning: (26th April, 2022)_1_ |
-| 1.5 | :x: | :warning: (26th April, 2022)_1_ |
-| 1.6 | :x: | :warning: (26th April, 2022)_1_ |
+| 1.3 | :x: | :heavy_exclamation_mark: (26th April, 2022)_1, 2_ |
+| 1.4 | :x: | :heavy_exclamation_mark: (26th April, 2022)_1, 2_ |
+| 1.5 | :x: | :heavy_exclamation_mark: (26th April, 2022)_1, 2_ |
+| 1.6 | :x: | :heavy_exclamation_mark: (26th April, 2022)_1, 2_ |
 | 2.0 | :warning: | :warning: (26th April, 2022)_1_ |
-| 2.1 | :warning: | :warning: (26th April, 2022)_1_ |
+| 2.1 | :heavy_check_mark: | :heavy_check_mark: (3rd December, 2022)_3_ |
 
-_1_ - Estimated date based on available information at the time of last references update
+_1_ - Estimated date based on available information on framework compatibility with .NET Standard
+
+_2_ - Official practice is to no longer target .NET Standard below 2.0 if avoidable
+([source here](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting))
+
+_3_ - .NET Standard 2.1 is still supported in .NET Core 3.1 LTS
 
 ### .NET Core
 
@@ -95,7 +100,7 @@ _1_ - Estimated date based on available information at the time of last referenc
 
 | Version | IX Support | MS Support |
 |:-------:|:----------:|:----------:|
-| 5 | :heavy_check_mark: | :heavy_check_mark: (8th May, 2022) |
+| 5 | :warning: | :warning: (8th May, 2022) |
 | 6 | :heavy_check_mark: | :heavy_check_mark: (8th November, 2024) |
 
 ## Source Windows OS lifecycle table
@@ -136,8 +141,8 @@ an official Microsoft support document.
 | Windows Server Version 1809 | :x: 2020.11.10 | - |
 | Windows Server Version 1903 | :x: 2020.12.08 | - |
 | Windows Server Version 1909 | :x: 2021.05.11 | - |
-| Windows Server Version 2004 | :heavy_exclamation_mark: 2021.12.14 | - |
-| Windows Server Version 20H2 | :heavy_check_mark: 2022.08.11 | - |
+| Windows Server Version 2004 | :x: 2021.12.14 | - |
+| Windows Server Version 20H2 | :warning: 2022.08.11 | - |
 | Windows Server 2022 | :heavy_check_mark: 2031.10.14 | - |
 | Windows 11 21H2 | :heavy_check_mark: 2024.10.08 | - |
 
@@ -165,3 +170,4 @@ Last update: 13th November, 2021
 - [Microsoft .NET Framework](https://docs.microsoft.com/en-us/lifecycle/products/microsoft-net-framework)
 - [.NET Standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
 - [.NET and .NET Core Support Policy](https://dotnet.microsoft.com/platform/support/policy/dotnet-core)
+- [Cross-platform targeting](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting)
