@@ -17,6 +17,42 @@ that is not marked obsolete, please let me know by opening an issue here.
 For every version of the below framework versions that become unsupported, the next release of
 any library in the framework will remove support for it.
 
+## IX deprecation notices
+
+### 2022, May 8th
+
+Starting the next version of any package after the date of May 8th, 2022, IX Framework will only
+support the following targets (with the ability to run an all supported frameworks):
+
+- .NET Framework 4.6.2
+- .NET Standard 2.0
+- .NET Standard 2.1
+- .NET 6
+
+### 2022, December 5th
+
+Starting the next version of any package after the date of December 5th, 2022, IX Framework will
+only support the following targets (with the ability to run an all supported frameworks):
+
+- .NET Framework 4.6.2
+- .NET Standard 2.0
+- .NET 6
+- .NET 7 (pending release, should .NET 6 dependency libraries be incompatible)
+
+### Next stages
+
+After the end of the year 2022, IX Framework will begin a transition towards .NET-only. As such,
+support for .NET Framework will slowly be dropped, wherever possible, and immediately based on
+any deprecation announcements made by Microsoft. No new targets, either general or platform-specific,
+will be added that target anything below .NET 6.
+
+Support for .NET Framework below .NET 4.7.2 (henceforth supported through the use of .NET Standard
+2.0) will slowly be dropped, and, at the first initiative from Microsoft, the .NET Framework 4.6.2
+target will be either updated or dropped entirely.
+
+I fully expect that, by the end of 2025, there will no longer be any reason to support anything
+below that year's LTS .NET release.
+
 ## .NET Version lifecycle
 
 ### Symbols legend
@@ -27,6 +63,7 @@ any library in the framework will remove support for it.
 | :heavy_exclamation_mark: | Still supported, but use is not advised |
 | :warning: | Still supported, but only for a short while |
 | :heavy_check_mark: | Supported |
+| :grey_question: | Currently unreleased, everything is estimated |
 
 ### .NET Framework
 
@@ -53,7 +90,7 @@ under a single lifecycle policy, and Microsoft stated that their components will
 for as long as .NET 3. SP1 remains in support; full statement can be found
 [on this page](https://docs.microsoft.com/en-us/lifecycle/faq/dotnet-framework).
 
-_2_ - Estimated date based on available information at the time of last references update
+_2_ - Estimated date based on available information at the time of last references update.
 
 _3_ - Support for .NET Framework 4.8 doesn't have a definitive ending date yet, so the ending date of
 Windows Server 2022, which is the farthest in time, is presumed.
@@ -63,7 +100,7 @@ Windows Server 2022, which is the farthest in time, is presumed.
 The .NET Standard, as a stepping stone for truly unifying the .NET platform, was intended as a way
 to standardize the common features guaranteed to be available on supported platforms. As such, the
 concept of "support" is not really applicable, but can be a good indicator to whether or not the
-standard in question may or may not have already lost traction, and shuld be abandoned.
+standard in question may or may not have already lost traction, and should be abandoned.
 
 | Version | IX Support | MS Support |
 |:-------:|:----------:|:----------:|
@@ -74,15 +111,18 @@ standard in question may or may not have already lost traction, and shuld be aba
 | 1.4 | :x: | :heavy_exclamation_mark: (26th April, 2022)_1, 2_ |
 | 1.5 | :x: | :heavy_exclamation_mark: (26th April, 2022)_1, 2_ |
 | 1.6 | :x: | :heavy_exclamation_mark: (26th April, 2022)_1, 2_ |
-| 2.0 | :warning: | :warning: (26th April, 2022)_1_ |
-| 2.1 | :heavy_check_mark: | :heavy_check_mark: (3rd December, 2022)_3_ |
+| 2.0 | :warning: | :warning: (26th April, 2022)_1, 3_ |
+| 2.1 | :heavy_check_mark: | :heavy_check_mark: (3rd December, 2022)_4_ |
 
-_1_ - Estimated date based on available information on framework compatibility with .NET Standard
+_1_ - Estimated date based on available information on framework compatibility with .NET Standard.
 
 _2_ - Official practice is to no longer target .NET Standard below 2.0 if avoidable
-([source here](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting))
+([source here](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting)).
 
-_3_ - .NET Standard 2.1 is still supported in .NET Core 3.1 LTS
+_3_ - Although the .NET Standard 2.0 is basically compatible with .NET Framework 4.6.1 and above, it has
+been IX Framework practice to 
+
+_4_ - .NET Standard 2.1 is still supported in .NET Core 3.1 LTS.
 
 ### .NET Core
 
@@ -102,6 +142,11 @@ _3_ - .NET Standard 2.1 is still supported in .NET Core 3.1 LTS
 |:-------:|:----------:|:----------:|
 | 5 | :warning: | :warning: (8th May, 2022) |
 | 6 | :heavy_check_mark: | :heavy_check_mark: (8th November, 2024) |
+| 7 | :grey_question: | :grey_question: (May 2024)_1_ |
+| 8 | :grey_question: | :grey_question: (May 2026)_1_ |
+
+_1_ - Unreleased yet, all dates presumed based on
+[the document here](https://devblogs.microsoft.com/dotnet/introducing-net-5/).
 
 ## Source Windows OS lifecycle table
 
@@ -148,7 +193,7 @@ an official Microsoft support document.
 
 ## References
 
-Last update: 13th November, 2021
+Last update: 20th January, 2022
 
 - [Lifecycle FAQ - .NET Framework](https://docs.microsoft.com/en-us/lifecycle/faq/dotnet-framework)
 - [Windows 11 Enterprise and Education (Version 21H2)](https://docs.microsoft.com/en-us/lifecycle/products/windows-11-enterprise-and-education-version-21h2)
@@ -171,3 +216,4 @@ Last update: 13th November, 2021
 - [.NET Standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
 - [.NET and .NET Core Support Policy](https://dotnet.microsoft.com/platform/support/policy/dotnet-core)
 - [Cross-platform targeting](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting)
+- [Introducing .NET 5](https://devblogs.microsoft.com/dotnet/introducing-net-5/)
